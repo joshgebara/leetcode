@@ -8,7 +8,26 @@ Worst - O(n^2)
 Space - O(1)
 
 ```swift
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func bubbleSort() {
+    guard count > 1 else { return }
+    
+    for endingIndex in indices.reversed() {
+      var noSwaps = true
+      for currentIndex in startIndex..<endingIndex {
+        let nextIndex = index(after: currentIndex)
+        if self[currentIndex] > self[nextIndex] {
+          swapAt(currentIndex, nextIndex)
+          noSwaps = false
+        }
+      }
+      if noSwaps { return }
+    }
+  }
+}
 
+var a = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
+a.bubbleSort()
 ```
 
 
@@ -192,3 +211,6 @@ if let result = mostFrequent(array: a) {
 
 
 ```
+
+
+## Shuffle Array in place
