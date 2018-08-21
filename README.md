@@ -64,7 +64,24 @@ Worst - O(n^2)
 Space - O(1)
 
 ```swift
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func selectionSort() {
+    guard count > 1 else { return }
+    
+    for currentIndex in startIndex..<index(before: endIndex) {
+      var lowestIndex = currentIndex
+      for swapIndex in index(after: currentIndex)..<endIndex {
+        if self[swapIndex] < self[lowestIndex] {
+          lowestIndex = swapIndex
+        }
+      }
+      swapAt(lowestIndex, currentIndex)
+    }
+  }
+}
 
+var c = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
+c.selectionSort()
 ```
 
 ## Merge Sort
@@ -73,7 +90,50 @@ Worst - O(n log n)
 Space - O(n log n)
 
 ```swift
+public func mergeSort<Element: Comparable>(_ array: [Element]) -> [Element] {
+  guard array.count > 1 else { return array }
+  let middleIndex = array.count / 2
+  let left = mergeSort(Array(array[..<middleIndex]))
+  let right = mergeSort(Array(array[middleIndex...]))
+  return merge(left, right)
+}
 
+private func merge<Element: Comparable>(_ left: [Element], _ right: [Element]) -> [Element] {
+  var result = [Element]()
+  var leftIndex = 0
+  var rightIndex = 0
+  
+  while left.count > leftIndex && right.count > rightIndex {
+    let leftElement = left[leftIndex]
+    let rightElement = right[rightIndex]
+    
+    if leftElement > rightElement {
+      result.append(rightElement)
+      rightIndex += 1
+    } else if leftElement < rightElement {
+      result.append(leftElement)
+      leftIndex += 1
+    } else {
+      result.append(leftElement)
+      result.append(rightElement)
+      leftIndex += 1
+      rightIndex += 1
+    }
+  }
+  
+  if left.count > leftIndex {
+    result.append(contentsOf: left[leftIndex...])
+  }
+  
+  if right.count > rightIndex {
+    result.append(contentsOf: right[rightIndex...])
+  }
+  
+  return result
+}
+
+var d = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
+mergeSort(d)
 ```
 
 ## Radix Sort
@@ -82,7 +142,36 @@ Worst - O(nk)
 Space - O(n + k)
 
 ```swift
+extension Array where Element == Int {
+  mutating func radixSort() {
+    guard count > 1 else { return }
+    
+    var done = false
+    var digits = 1
+    let radix = 10
+    
+    while !done {
+      done = true
+      var buckets: [[Int]] = .init(repeating: [], count: radix)
+      
+      for number in self {
+        let remainingPart = number / digits
+        let digit = remainingPart % radix
+        buckets[digit].append(number)
+        
+        if remainingPart > 0 {
+          done = false
+        }
+      }
+      
+      self = buckets.flatMap { $0 }
+      digits *= 10
+    }
+  }
+}
 
+var a = [1, 4, 3, 5, 6, 7, 8, 5, 4, 3, 2, 8, 7]
+a.radixSort()
 ```
 
 ## Quick Sort
