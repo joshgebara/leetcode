@@ -3,36 +3,77 @@
 
 
 ## Bubble Sort
+Best - O(n)
+Worst - O(n^2)
+Space - O(1)
 
+```swift
+
+```
 
 
 ## Insertion Sort
+Best - O(n)
+Worst - O(n^2)
+Space - O(1)
 
+```swift
 
+```
 
 ## Selection Sort
+Best - O(n^2)
+Worst - O(n^2)
+Space - O(1)
 
+```swift
 
+```
 
 ## Merge Sort
+Best - O(n log n)
+Worst - O(n log n)
+Space - O(n log n)
 
+```swift
 
+```
 
 ## Radix Sort
+Best - O(nk)
+Worst - O(nk)
+Space - O(n + k)
 
+```swift
 
+```
 
 ## Quick Sort
+Best - O(n log n)
+Worst - O(n^2)
+Space - O(1)
 
+```swift
 
+```
 
 ## Binary Search (Recursive)
+Best - O(log n)
+Worst - O(log n)
+Space - O(log n)
 
+```swift
 
+```
 
 ## Binary Search (Iterative)
+Best - O(log n)
+Worst - O(log n)
+Space - O(1)
 
+```swift
 
+```
 
 ## Two Sum (Sorted Array Guaranteed)
 
@@ -75,12 +116,79 @@ func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
 }
 ```
 
+## Two Sum - Input is a Binary Search Tree
+
 
 ## FizzBuzz
+```swift
+struct FizzBuzz: Sequence, IteratorProtocol {
+  var count = 1
+  
+  mutating func next() -> String? {
+    defer { count += 1 }
+    return value(for: count)
+  }
+  
+  private func value(for number: Int) -> String {
+    if number.divisible(by: 15) { return "FizzBuzz" }
+    if number.divisible(by: 3) { return "Fizz" }
+    if number.divisible(by: 5) { return "Buzz" }
+    return "\(number)"
+  }
+}
 
+extension Int {
+  func divisible(by denominator: Int) -> Bool {
+    return self % denominator == 0
+  }
+}
+
+for value in FizzBuzz().prefix(15) {
+  print(value)
+}
+
+```
 
 
 ## Fibonacci
+```swift
+struct Fibonacci: Sequence, IteratorProtocol {
+  var state = (0, 1)
+  
+  mutating func next() -> Int? {
+    let upcomingNumber = state.0
+    state = (state.1, state.0 + state.1)
+    return upcomingNumber
+  }
+}
 
+
+for num in Fibonacci().prefix(10) {
+  print(num)
+}
+```
 
 ## Most Common Element in an array
+
+```swift
+var a = [1, 1, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10, 2, 3, 4, 1, 2, 3, 3, 3, 4, 5]
+
+
+func mostFrequent<T: Hashable>(array: [T]) -> (value: T, count: Int)? {
+  
+  let counts = array.reduce(into: [:]) { $0[$1, default: 0] += 1 }
+  
+  if let (value, count) = counts.max(by: { $0.1 < $1.1 }) {
+    return (value, count)
+  }
+  
+  // array was empty
+  return nil
+}
+
+if let result = mostFrequent(array: a) {
+  print("\(result.value) occurs \(result.count) times")
+}
+
+
+```
