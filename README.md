@@ -37,7 +37,25 @@ Worst - O(n^2)
 Space - O(1)
 
 ```swift
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func insertionSort() {
+    guard count > 1 else { return }
+    
+    for currentIndex in index(after: startIndex)..<endIndex {
+      for shiftingIndex in (index(after: startIndex)...currentIndex).reversed() {
+        let previousIndex = index(before: shiftingIndex)
+        if self[previousIndex] > self[shiftingIndex] {
+          swapAt(previousIndex, shiftingIndex)
+        } else {
+          break
+        }
+      }
+    }
+  }
+}
 
+var b = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
+b.insertionSort()
 ```
 
 ## Selection Sort
