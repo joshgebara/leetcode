@@ -180,7 +180,44 @@ Worst - O(n^2)
 Space - O(1)
 
 ```swift
+import Foundation
 
+public func quickSort<Element: Comparable>(_ array: inout [Element]) {
+  quickSort(&array, array.startIndex, array.index(before: array.endIndex))
+}
+
+private func quickSort<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) {
+  guard low < high else { return }
+  
+  let randomIndex = random(low, high)
+  array.swapAt(randomIndex, high)
+  
+  let partitionIndex = partition(&array, low, high)
+  quickSort(&array, low, array.index(before: partitionIndex))
+  quickSort(&array, array.index(after: partitionIndex), high)
+}
+
+private func partition<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) -> Int {
+  let partitionElement = array[high]
+  var lowIndex = low
+  
+  for currentIndex in low..<high {
+    if array[currentIndex] <= partitionElement {
+      array.swapAt(currentIndex, lowIndex)
+      lowIndex += 1
+    }
+  }
+  
+  array.swapAt(lowIndex, high)
+  return lowIndex
+}
+
+private func random(_ min: Int, _ max: Int) -> Int {
+  return min + Int(arc4random_uniform(UInt32(max - min) + 1))
+}
+
+var a = [5, 3, 2, 7, 6, 8, 7, 3, 2, 1, 3, 4, 6, 8]
+quickSort(&a)
 ```
 
 ## Binary Search (Recursive)
