@@ -7,27 +7,81 @@
 
 
 ### Algorithms:
-Bubble Sort
-Selection Sort
-Insertion Sort
-Merge Sort
-Counting Sort
-Bucket Sort
-Radix Sort
-Quick Sort
-Shell Sort
-Heap Sort
-Binary Search Recursive
+Add Binary
+Best Time to Buy and Sell Stock
 Binary Search Iterative
-Two Sum - Sorted
-Two Sum - Unsorted
+Binary Search Recursive
+Bubble Sort
+Bucket Sort
+Count and Say
+Counting Sort
+Encode and Decode TinyURL
+Excel Sheet Column Title
 Fibonacci Iterative
 Fibonacci Recursive
 FizzBuzz
-Shuffle an Array
+Hamming Distance
+Heap Sort
 How to detect a common superview
+Implement strStr()
+Insertion Sort
+Integer to English Words
+LRU Cache
+Lowest Common Ancestor of a Binary Search Tree
+Merge Intervals
+Merge Sort
+Merge Sorted Array
+Merge k Sorted Lists
+Missing Number
+Move Zeroes
+Number of Islands
+Palindrome Linked List
+Palindromic Substrings
+Product of Array Except Self
+Quick Sort
+Radix Sort
+Remove Duplicates from Sorted Array
+Reverse Linked List
+Roman to Integer
+Selection Sort
+Shell Sort
+Shuffle an Array
+Sqrt(x)
+Two Sum - Sorted
+Two Sum - Unsorted
+Valid Palindrome
+Valid Parentheses 
 
 
+```swift
+
+let algorithms = ["Add Binary", "Best Time to Buy and Sell Stock", "Binary Search Iterative", "Binary Search Recursive", "Bubble Sort", "Bucket Sort", "Count and Say", "Counting Sort", "Encode and Decode TinyURL", "Excel Sheet Column Title", "Fibonacci Iterative","Fibonacci Recursive","FizzBuzz","Hamming Distance","Heap Sort","How to detect a common superview","Implement strStr()","Insertion Sort","Integer to English Words","LRU Cache","Lowest Common Ancestor of a Binary Search Tree","Merge Intervals","Merge Sort","Merge Sorted Array","Merge k Sorted Lists","Missing Number","Move Zeroes","Number of Islands","Palindrome Linked List","Palindromic Substrings","Product of Array Except Self","Quick Sort","Radix Sort","Remove Duplicates from Sorted Array","Reverse Linked List","Roman to Integer","Selection Sort","Shell Sort","Shuffle an Array","Sqrt(x)","Two Sum - Sorted","Two Sum - Unsorted","Valid Palindrome","Valid Parentheses"]
+
+import Darwin
+
+extension Collection where Index == Int {
+  func randomElements(to number: Int) -> [Element] {
+    var result: [Element] = []
+    var index: [Int: Int] = [:]
+    while result.count < number {
+      let randomIndex = Int(arc4random_uniform(UInt32(endIndex)))
+      if index[randomIndex] == nil {
+        let randomElement = self[randomIndex]
+        index[randomIndex] = randomIndex
+        result.append(randomElement)
+      }
+    }
+    return result
+  }
+}
+
+let problems = algorithms.randomElements(to: 10)
+print(problems)
+
+
+
+
+```
 
 
 
