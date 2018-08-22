@@ -7,6 +7,7 @@
 
 
 ### Algorithms:
+
 Add Binary
 Best Time to Buy and Sell Stock
 Binary Search Iterative
@@ -50,12 +51,15 @@ Sqrt(x)
 Two Sum - Sorted
 Two Sum - Unsorted
 Valid Palindrome
-Valid Parentheses 
+Valid Parentheses
+Largest Sum Contiguous Subarray 
+Perfect squares up to number
+
 
 
 ```swift
 
-let algorithms = ["Add Binary", "Best Time to Buy and Sell Stock", "Binary Search Iterative", "Binary Search Recursive", "Bubble Sort", "Bucket Sort", "Count and Say", "Counting Sort", "Encode and Decode TinyURL", "Excel Sheet Column Title", "Fibonacci Iterative","Fibonacci Recursive","FizzBuzz","Hamming Distance","Heap Sort","How to detect a common superview","Implement strStr()","Insertion Sort","Integer to English Words","LRU Cache","Lowest Common Ancestor of a Binary Search Tree","Merge Intervals","Merge Sort","Merge Sorted Array","Merge k Sorted Lists","Missing Number","Move Zeroes","Number of Islands","Palindrome Linked List","Palindromic Substrings","Product of Array Except Self","Quick Sort","Radix Sort","Remove Duplicates from Sorted Array","Reverse Linked List","Roman to Integer","Selection Sort","Shell Sort","Shuffle an Array","Sqrt(x)","Two Sum - Sorted","Two Sum - Unsorted","Valid Palindrome","Valid Parentheses"]
+let algorithms = ["Add Binary", "Best Time to Buy and Sell Stock", "Binary Search Iterative", "Binary Search Recursive", "Bubble Sort", "Bucket Sort", "Count and Say", "Counting Sort", "Encode and Decode TinyURL", "Excel Sheet Column Title", "Fibonacci Iterative","Fibonacci Recursive","FizzBuzz","Hamming Distance","Heap Sort","How to detect a common superview","Implement strStr()","Insertion Sort","Integer to English Words","LRU Cache","Lowest Common Ancestor of a Binary Search Tree","Merge Intervals","Merge Sort","Merge Sorted Array","Merge k Sorted Lists","Missing Number","Move Zeroes","Number of Islands","Palindrome Linked List","Palindromic Substrings","Product of Array Except Self","Quick Sort","Radix Sort","Remove Duplicates from Sorted Array","Reverse Linked List","Roman to Integer","Selection Sort","Shell Sort","Shuffle an Array","Sqrt(x)","Two Sum - Sorted","Two Sum - Unsorted","Valid Palindrome","Valid Parentheses", "Largest Sum Contiguous Subarray", "Perfect squares up to number"]
 
 import Darwin
 
@@ -100,6 +104,24 @@ https://medium.com/journey-of-one-thousand-apps/background-thread-and-main-dispa
 https://medium.com/journey-of-one-thousand-apps/testing-asynchronous-code-in-swift-2142901dbd4f
 https://medium.com/journey-of-one-thousand-apps/complexity-and-big-o-notation-in-swift-478a67ba20e7
 https://stackoverflow.com/questions/43230994/common-parent-view-in-swift
+
+
+
+
+https://www.youtube.com/user/tusharroy2525/videos
+
+
+
+
+## Implement strStr()
+
+Knuth–Morris–Pratt(KMP) Pattern Matching(Substring search)
+https://www.youtube.com/watch?v=GTJr8OvyEVQ
+// O(m + n)
+m = length of haystack
+n = length of needle
+
+
 
 
 
