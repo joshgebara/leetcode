@@ -2,6 +2,65 @@
 
 
 
+
+
+
+
+### Algorithms:
+Bubble Sort
+Selection Sort
+Insertion Sort
+Merge Sort
+Counting Sort
+Bucket Sort
+Radix Sort
+Quick Sort
+Shell Sort
+Heap Sort
+Binary Search Recursive
+Binary Search Iterative
+Two Sum - Sorted
+Two Sum - Unsorted
+Fibonacci Iterative
+Fibonacci Recursive
+FizzBuzz
+Shuffle an Array
+How to detect a common superview
+
+
+
+
+
+https://stackoverflow.com/questions/22666535/shared-ancestor-between-two-views
+
+
+https://medium.com/journey-of-one-thousand-apps/finding-the-first-common-superview-in-swift-4abac8a87d84
+https://medium.com/journey-of-one-thousand-apps/data-structures-35b968bcedf5
+https://medium.com/journey-of-one-thousand-apps/building-with-python-requests-d9260b26e7ab
+
+https://medium.com/journey-of-one-thousand-apps/building-a-hash-data-structure-in-swift-e9b2733d9e20
+
+https://medium.com/journey-of-one-thousand-apps/data-structures-in-the-real-world-508f5968545a
+
+https://medium.com/journey-of-one-thousand-apps/background-thread-and-main-dispatch-50f19b000d8
+https://medium.com/journey-of-one-thousand-apps/testing-asynchronous-code-in-swift-2142901dbd4f
+https://medium.com/journey-of-one-thousand-apps/complexity-and-big-o-notation-in-swift-478a67ba20e7
+https://stackoverflow.com/questions/43230994/common-parent-view-in-swift
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Bubble Sort
 Best - O(n)
 Worst - O(n^2)
