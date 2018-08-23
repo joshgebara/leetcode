@@ -110,9 +110,7 @@ Find the Celebrity
 Find the Duplicate Number
 First Bad Version
 First Missing Positive
-First Unique Character in a String
-Fizz Buzz
-FizzBuzz
+First Unique Character in a String - https://www.youtube.com/watch?v=RLag7LHrVqg
 Flatten Binary Tree to Linked List
 Flatten Nested List Iterator
 Flipping an Image
@@ -171,7 +169,7 @@ Longest Absolute File Path
 Longest Consecutive Sequence
 Longest Increasing Path in a Matrix
 Longest Increasing Subsequence
-Longest Palindromic Substring
+Longest Palindromic Substring - https://www.youtube.com/watch?v=onkdOAMS63U
 Longest Substring Without Repeating Characters
 Longest Substring with At Least K Repeating Characters
 Longest Substring with At Most K Distinct Characters
@@ -501,7 +499,7 @@ let unsolvedAlgorithms = ["3Sum",
                      "Friends Of Appropriate Ages",
                      "Frog Jump",
                      "Game of Life",
-                     "Gas Station  Generate Parentheses",
+                     "Gas Station  
                      "Generate Parentheses",
                      "Gray Code",
                      "Group Anagrams",
@@ -766,8 +764,10 @@ let unsolvedAlgorithms = ["3Sum",
                      "Word Ladder II",
                      "Word Ladder",
                      "Word Search II",
+                     "Shell Sort",
                      "Word Search",
-                     "Zigzag Iterator"]
+                     "Zigzag Iterator",
+                     "Fibonnaci - Recursive"]
 
 let solvedAlgorithms = ["Two Sum - Sorted",
                         "Two Sum - Unsorted",
@@ -828,12 +828,34 @@ print(problems())
 ```
 
 
+
+two sum sorted -- two pointer approach 
+time O(n)
+space - O(1) because it's always two pointers
+
+two sum unsorted -- hash approach
+time O(n)
+space - O(n) becasue of the hash table
+
+if we had an unsorted array and wanted to optimize for space and not speed then we would do an inplace sort then we would do the two pointer approach.
+
+
+
+
+
+while a true inplace sort is not possible in swift, making a new array could be a quick operation
+especially if we set reservecapacity so it didn't have to keep making new arrays assuming we know the input size. We don't need to rely on geometric growth here.
+
+
+
+
+
 # Completed
 
+https://www.youtube.com/watch?v=p3vVYNngyxs
 
 
-
-
+https://www.youtube.com/watch?v=pDyh9VOMWgI
 
 
 
@@ -875,6 +897,7 @@ n = length of needle
 
 
 
+https://www.youtube.com/watch?v=WIoZuhAC1p4
 
 
 
@@ -882,8 +905,36 @@ n = length of needle
 
 
 
+## Add Two Numbers
+// Time complexity : O(\max(m, n))O(max(m,n)). Assume that mm and nn represents the length of l1l1 and l2l2 respectively, the algorithm above iterates at most \max(m, n)max(m,n) times.
+// Space complexity : O(\max(m, n))O(max(m,n)). The length of the new list is at most \max(m,n) + 1max(m,n)+1.
+```swift
+func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+  var currentL1Node = l1
+  var currentL2Node = l2
+  
+  let head = ListNode(0)
+  var current = head
+  var carry = 0
+  
+  while currentL1Node != nil || currentL2Node != nil {
+    let l1NodeValue = currentL1Node?.val ?? 0
+    let l2NodeValue = currentL2Node?.val ?? 0
 
-
+    let total = l1NodeValue + l2NodeValue + carry
+    carry = total / 10
+    current.next = ListNode(total % 10)
+    current = current.next!
+    currentL1Node = currentL1Node?.next
+    currentL2Node = currentL2Node?.next
+  }
+  
+  if carry > 0 {
+    current.next = ListNode(carry)
+  }
+  return head.next
+}
+```
 
 
 ## Bubble Sort
