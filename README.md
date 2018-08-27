@@ -150,7 +150,6 @@ Intersection of Two Linked Lists
 Is Graph Bipartite?	Is Subsequence
 Island Perimeter
 Isomorphic Strings
-Jewels and Stones
 Judge Route Circle
 K Empty Slots
 Knight Probability in Chessboard
@@ -499,7 +498,7 @@ let unsolvedAlgorithms = ["3Sum",
                      "Friends Of Appropriate Ages",
                      "Frog Jump",
                      "Game of Life",
-                     "Gas Station  
+                     "Gas Station", 
                      "Generate Parentheses",
                      "Gray Code",
                      "Group Anagrams",
@@ -767,23 +766,27 @@ let unsolvedAlgorithms = ["3Sum",
                      "Shell Sort",
                      "Word Search",
                      "Zigzag Iterator",
-                     "Fibonnaci - Recursive"]
+                     "Add Two Numbers II"]
 
-let solvedAlgorithms = ["Two Sum - Sorted",
-                        "Two Sum - Unsorted",
-                        "FizzBuzz",
-                        "Fibonnaci - Iterative",
-                        "Binary Search - Recursive",
+let solvedAlgorithms = ["Add Two Numbers",
                         "Binary Search - Iterative",
-                        "Radix Sort",
+                        "Binary Search - Recursive",
+                        "Bubble Sort",
+                        "Fibonnaci - Iterative",
+                        "Fibonnaci - Recursive",
+                        "FizzBuzz",
+                        "Insertion Sort",
                         "Merge Sort",
                         "Quick Sort",
-                        "Insertion Sort",
+                        "Radix Sort",
                         "Selection Sort",
-                        "Bubble Sort",
                         "Shuffle Array",
-                        "Add Two Numbers",
-                        "Add Two Numbers II"]
+                        "Two Sum - Sorted",
+                        "Two Sum - Unsorted",
+                        "Jewels and Stones"
+                        
+                        
+                        ]
 
 import Darwin
 
@@ -823,6 +826,99 @@ func problems() -> [String] {
 print(problems())
 
 
+
+
+```
+
+## number of jewels
+```swift
+
+class Solution {
+  func numJewelsInStones(_ J: String, _ S: String) -> Int {
+    let jewels = S.filter { J.contains($0) }
+    return jewels.count
+  }
+}
+
+
+
+//why is unicode scalar solution faster?
+
+class Solution {
+    func numJewelsInStones(_ J: String, _ S: String) -> Int {
+        return S.unicodeScalars.filter { J.unicodeScalars.contains($0) }.count
+    }
+}
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    var count = 0
+    for element in self {
+      if predicate(element) {
+        count += 1
+      }
+    }
+    return count
+  }
+}
+
+class Solution {
+  func numJewelsInStones<T: Sequence>(_ J: T, _ S: T) -> Int where T.Iterator.Element: Equatable  {
+    return S.count(where: { J.contains($0) })
+  }
+}
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return filter { predicate($0) }.count
+  }
+}
+
+class Solution {
+  func numJewelsInStones<T: Sequence>(_ J: T, _ S: T) -> Int where T.Iterator.Element: Equatable  {
+    return S.count(where: { J.contains($0) })
+  }
+}
+
+Solution().numJewelsInStones("aA", "aAAbbbb")
+
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return filter { predicate($0) }.count
+  }
+}
+
+class Solution {
+  func numJewelsInStones<T: Sequence>(_ J: T, _ S: T) -> Int where T.Iterator.Element: Equatable  {
+    return S.count(where: J.contains)
+  }
+}
+
+Solution().numJewelsInStones("aA", "aAAbbbb")
+
+
+Time Complexity: O(J\text{.length} + S\text{.length}))O(J.length+S.length)). The O(J\text{.length})O(J.length) part comes from creating J. The O(S\text{.length})O(S.length) part comes from searching S.
+
+Space Complexity: O(J\text{.length})O(J.length).
+
+
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return filter { predicate($0) }.count
+  }
+}
+
+class Solution {
+  func numJewelsInStones(_ J: String, _ S: String) -> Int {
+    let jSet = Set(J)
+    return S.count(where: jSet.contains)
+  }
+}
+
+// using a set will be faster because the init is O(n) but subseqent contains calls will be O(1)
+// where using an array, each contains call will be O(n)
 
 
 ```
@@ -1192,6 +1288,28 @@ func twoSum(_ array: [Int], _ sum: Int) -> Bool {
   }
   return false
 }
+
+extension RandomAccessCollection where Element == Int {
+  func twoSum(for sum: Int) -> (Int, Int)? {
+    guard count > 1 else { return nil }
+    
+    var left = startIndex
+    var right = index(before: endIndex)
+    
+    while left < right {
+      let value = self[left] + self[right]
+      
+      if value == sum {
+        return (self[left], self[right])
+      } else if value > sum {
+        right = index(before: right)
+      } else {
+        left = index(after: left)
+      }
+    }
+    return nil
+  }
+}
 ```
 
 
@@ -1211,6 +1329,24 @@ func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
     dict[num] = index
   }
   return []
+}
+
+extension RandomAccessCollection where Element == Int {
+  func twoSum(for target: Int) -> (Int, Int)? {
+    guard count > 1 else { return nil }
+    var numbersSeen = Set<Int>()
+    
+    for num in self {
+      let complement = target - num
+      if numbersSeen.contains(complement) {
+        return (complement, num)
+      } else {
+        numbersSeen.insert(num)
+      }
+    }
+    
+    return nil
+  }
 }
 ```
 
