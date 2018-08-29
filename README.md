@@ -8,385 +8,6 @@
 
 ### Algorithms:
 
-3Sum
-Accounts Merge
-Add Binary
-Add Strings
-Add Two Numbers
-Add Two Numbers II
-Add and Search Word - Data structure design	Alien Dictionary
-Alien Dictionary
-Backspace String Compare
-Balanced Binary Tree
-Baseball Game
-Basic Calculator
-Basic Calculator II
-Basic Calculator III
-Battleships in a Board
-Best Time to Buy and Sell Stock
-Best Time to Buy and Sell Stock II
-Best Time to Buy and Sell Stock III
-Best Time to Buy and Sell Stock IV
-Binary Search Iterative
-Binary Search Recursive
-Binary Search Tree Iterator
-Binary Tree Level Order Traversal
-Binary Tree Longest Consecutive Sequence II
-Binary Tree Maximum Path Sum
-Binary Tree Paths
-Binary Tree Right Side View
-Binary Tree Right Side View	Binary Tree Vertical Order Traversal
-Binary Tree Upside Down
-Binary Tree Zigzag Level Order Traversal
-Binary Tree from Preorder and Inorder Traversal
-Bricks Falling When Hit	Bulls and Cows
-Bubble Sort
-Bucket Sort
-Burst Balloons
-Bus Routes
-Can I Win
-Can Place Flowers
-Candy
-Cheapest Flights Within K Stops
-Circular Array Loop
-Climbing Stairs
-Clone Graph
-Closest Leaf in a Binary Tree
-Coin Change 2
-Combination Sum	Construct
-Container With Most Water
-Continuous Subarray Sum
-Convert Binary Search Tree to Sorted Doubly Linked List
-Convert Sorted Array to Binary Search Tree
-Convert Sorted List to Binary Search Tree
-Copy List with Random Pointer
-Count Complete Tree Nodes
-Count Different Palindromic Subsequences
-Count Primes
-Count and Say
-Count of Smaller Numbers After Self
-Counting Sort
-Course Schedule
-Course Schedule II
-Cracking the Safe
-Custom Sort String
-Daily Temperatures
-Decode String
-Decode Ways	Decode Ways	Design Circular Queue
-Design Hit Counter
-Design Search Autocomplete System
-Design Snake Game
-Design Tic-Tac-Toe
-Diagonal Traverse
-Diameter of Binary Tree	Diameter of Binary Tree	Different Ways to Add Parentheses
-Distinct Subsequences
-Divide Two Integers
-Edit Distance
-Encode and Decode Strings
-Encode and Decode TinyURL
-Evaluate Division
-Evaluate Reverse Polish Notation
-Excel Sheet Column Number
-Excel Sheet Column Title
-Exclusive Time of Functions
-Exclusive Time of Functions	Expression Add Operators
-Expression Add Operators
-Fibonacci Iterative
-Fibonacci Recursive
-Find All Anagrams in a String
-Find All Numbers Disappeared in an Array
-Find Anagram Mappings
-Find And Replace in String
-Find Duplicate Subtrees
-Find First and Last Position of Element in Sorted Array
-Find K Closest Elements
-Find Largest Value in Each Tree Row
-Find Leaves of Binary Tree
-Find Median from Data Stream
-Find Minimum in Rotated Sorted Array
-Find Peak Element
-Find Pivot Index
-Find the Celebrity
-Find the Duplicate Number
-First Bad Version
-First Missing Positive
-First Unique Character in a String - https://www.youtube.com/watch?v=RLag7LHrVqg
-Flatten Binary Tree to Linked List
-Flatten Nested List Iterator
-Flipping an Image
-Flood Fill
-Fraction to Recurring Decimal
-Friends Of Appropriate Ages	Frog Jump
-Frog Jump
-Game of Life
-Gas Station	Generate Parentheses
-Generate Parentheses
-Gray Code
-Group Anagrams
-Group Shifted Strings
-Guess Number Higher or Lower
-Guess Number Higher or Lower II	Guess the Word
-H-Index	Hand of Straights
-Hamming Distance
-Heap Sort
-House Robber
-How to detect a common superview
-Image Overlap
-Implement Magic Dictionary
-Implement Trie (Prefix Tree)
-Implement strStr()
-Increasing Subsequences	Increasing Triplet Subsequence
-Insert Delete GetRandom O(1)
-Insert Delete GetRandom O(1) - Duplicates allowed
-Insert Interval
-Insert Interval	Insert Interval
-Insert into a Cyclic Sorted List
-Insertion Sort
-Integer to English Words
-Integer to Roman
-Intersection of Two Arrays
-Intersection of Two Arrays II
-Intersection of Two Linked Lists
-Is Graph Bipartite?	Is Subsequence
-Island Perimeter
-Isomorphic Strings
-Judge Route Circle
-K Empty Slots
-Knight Probability in Chessboard
-Kth Largest Element in an Array
-Kth Smallest Element in a Sorted Matrix	LRU Cache
-LRU Cache
-Largest Number
-Largest Rectangle in Histogram
-Largest Sum Contiguous Subarray
-Letter Combinations of a Phone Number
-License Key Formatting
-Linked List Components
-Linked List Cycle
-Logger Rate Limiter
-Longest Absolute File Path
-Longest Consecutive Sequence
-Longest Increasing Path in a Matrix
-Longest Increasing Subsequence
-Longest Palindromic Substring - https://www.youtube.com/watch?v=onkdOAMS63U
-Longest Substring Without Repeating Characters
-Longest Substring with At Least K Repeating Characters
-Longest Substring with At Most K Distinct Characters
-Longest Substring with At Most Two Distinct Characters
-Longest Univalue Path
-Longest Valid Parentheses
-Longest Word in Dictionary
-Longest Word in Dictionary through Deleting	Lowest Common Ancestor of a Binary Tree
-Lowest Common Ancestor of a Binary Search Tree
-Lowest Common Ancestor of a Binary Tree
-Majority Element
-Majority Element II	Max Chunks To Make Sorted
-Max Consecutive Ones II
-Max Increase to Keep City Skyline
-Max Points on a Line
-Max Stack
-Maximal Rectangle
-Maximal Square
-Maximize Distance to Closest Person	Maximum Product of Three Numbers
-Maximum Depth of Binary Tree
-Maximum Product Subarray
-Maximum Size Subarray Sum Equals k
-Maximum Subarray
-Maximum Sum of 3 Non-Overlapping Subarrays
-Maximum Vacation Days
-Maximum Width of Binary Tree
-Maximum XOR of Two Numbers in an Array
-Median of Two Sorted Arrays
-Median of Two Sorted Arrays	Median of Two Sorted Arrays
-Meeting Rooms
-Meeting Rooms II
-Merge Intervals
-Merge Intervals	Merge Intervals	Merge Sorted Array
-Merge Sort
-Merge Sorted Array
-Merge Two Binary Trees
-Merge Two Sorted Lists
-Merge k Sorted Lists
-Min Cost Climbing Stairs
-Min Stack
-Minesweeper	Minimize Max Distance to Gas Station
-Minimum Cost to Hire K Workers
-Minimum Depth of Binary Tree
-Minimum Height Trees
-Minimum Path Sum
-Minimum Size Subarray Sum
-Minimum Window Substring
-Mirror Reflection
-Missing Number
-Missing Ranges
-Most Common Word
-Move Zeroes
-Move Zeroes	Move Zeroes	Moving Average from Data Stream
-Moving Average from Data Stream
-Multiply Strings
-My Calendar I
-My Calendar II
-My Calendar III
-N-Queens
-N-Queens II
-Nested List Weight Sum
-Nested List Weight Sum II
-Next Closest Time
-Next Greater Element III
-Next Permutation
-Number of 1 Bits
-Number of Boomerangs
-Number of Islands
-Number of Islands II
-Number of Lines To Write String	One Edit Distance
-Optimal Account Balancing
-Paint House
-Palindrome Linked List
-Palindrome Number
-Palindrome Pairs
-Palindromic Substrings
-Parse Lisp Expression
-Partition to K Equal Sum Subsets
-Pascal's Triangle
-Pascal's Triangle II
-Path Sum II
-Path Sum III
-Peak Index in a Mountain Array
-Perfect Squares
-Perfect Squares	Permutation in String
-Perfect squares up to number
-Permutations
-Permutations II
-Permutations II	Plus One
-Plus One
-Plus One Linked List
-Populating Next Right Pointers in Each Node	Possible Bipartition
-Pow(x, n)
-Power of Three
-Power of Two
-Predict the Winner
-Prefix and Suffix Search
-Product of Array Except Self
-Queue Reconstruction by Height
-Quick Sort
-Race Car
-Radix Sort
-Random Pick Index
-Random Pick with Weight
-Range Module
-Range Sum Query - Mutable
-Range Sum Query 2D - Immutable
-Range Sum Query 2D - Mutable
-Read N Characters Given Read4
-Read N Characters Given Read4 II - Call multiple times
-Rearrange String k Distance Apart
-Recover Binary Search Tree
-Rectangle Area II
-Redundant Connection
-Redundant Connection II
-Regular Expression Matching
-Remove Comments
-Remove Duplicate Letters
-Remove Duplicates from Sorted Array
-Remove Invalid Parentheses
-Remove Nth Node From End of List
-Reorder List
-Reorganize String
-Repeated DNA Sequences
-Repeated String Match
-Repeated Substring Pattern
-Reverse Integer
-Reverse Linked List
-Reverse Nodes in k-Group
-Reverse Pairs
-Reverse Vowels of a String
-Robot Room Cleaner
-Roman to Integer
-Rotate Array
-Rotate Image
-Search Insert Position
-Search a 2D Matrix II
-Search in Rotated Sorted Array
-Search in Rotated Sorted Array II
-Second Highest Salary
-Second Minimum Node In a Binary Tree
-Selection Sort
-Sentence Screen Fitting
-Sentence Similarity
-Sentence Similarity II
-Serialize and Deserialize BST
-Serialize and Deserialize Binary Tree
-Serialize and Deserialize N-ary Tree
-Set Matrix Zeroes
-Shell Sort
-Shortest Distance from All Buildings
-Shortest Subarray with Sum at Least K
-Shortest Word Distance
-Shortest Word Distance II
-Shuffle an Array
-Single Element in a Sorted Array
-Single Number
-Sliding Window Maximum
-Sort Colors	Sort Transformed Array
-Sort Transformed Array
-Sparse Matrix Multiplication
-Spiral Matrix
-Split Array With Same Average
-Split BST
-Sqrt(x)
-String to Integer (atoi)
-Strobogrammatic Number
-Strobogrammatic Number II
-Subarray Sum Equals K
-Subsets
-Subsets	Subsets	Substring with Concatenation of All Words
-Subtree of Another Tree	Sudoku Solver
-Sum Root to Leaf Numbers
-Sum of Square Numbers
-Sum of Two Integers	Summary Ranges
-Summary Ranges
-Surrounded Regions
-Swap Nodes in Pairs	Symmetric Tree
-Symmetric Tree
-Task Scheduler
-Text Justification
-The Maze
-The Skyline Problem
-Toeplitz Matrix
-Top K Frequent Elements
-Top K Frequent Words
-Trapping Rain Water
-Trapping Rain Water	Triangle
-Two Sum
-Two Sum - Sorted
-Two Sum - Unsorted
-Two Sum II - Input array is sorted
-Two Sum III - Data structure design
-Two Sum IV - Input is a BST	UTF-8 Validation
-Ugly Number II
-Unique Morse Code Words
-Unique Paths
-Unique Word Abbreviation
-Valid Anagram
-Valid Number
-Valid Palindrome
-Valid Palindrome II
-Valid Parentheses
-Valid Perfect Square
-Valid Sudoku
-Validate Binary Search Tree
-Validate IP Address	Walls and Gates
-Wiggle Sort
-Wiggle Sort II
-Wildcard Matching
-Word Break
-Word Break II
-Word Ladder
-Word Ladder II
-Word Search
-Word Search II
-Zigzag Iterator
-
 
 
 ```swift
@@ -522,16 +143,14 @@ let unsolvedAlgorithms = ["3Sum",
                      "Insert Delete GetRandom O(1)",
                      "Insert Interval",
                      "Insert into a Cyclic Sorted List",
-                     "Integer to English Words",
-                     "Integer to Roman",
+                     
                      "Intersection of Two Arrays II",
-                     "Intersection of Two Arrays",
+                     
                      "Intersection of Two Linked Lists",
                      "Is Graph Bipartite?",
                      "Is Subsequence",
                      "Island Perimeter",
                      "Isomorphic Strings",
-                     "Jewels and Stones",
                      "Judge Route Circle",
                      "K Empty Slots",
                      "Knight Probability in Chessboard",
@@ -675,12 +294,10 @@ let unsolvedAlgorithms = ["3Sum",
                      "Repeated String Match",
                      "Repeated Substring Pattern",
                      "Reverse Integer",
-                     "Reverse Linked List",
                      "Reverse Nodes in k-Group",
                      "Reverse Pairs",
                      "Reverse Vowels of a String",
                      "Robot Room Cleaner",
-                     "Roman to Integer",
                      "Rotate Array",
                      "Rotate Image",
                      "Search Insert Position",
@@ -736,10 +353,6 @@ let unsolvedAlgorithms = ["3Sum",
                      "Top K Frequent Words",
                      "Trapping Rain Water",
                      "Triangle",
-                     "Two Sum II - Input array is sorted",
-                     "Two Sum III - Data structure design",
-                     "Two Sum IV - Input is a BST",
-                     "Two Sum",
                      "UTF-8 Validation",
                      "Ugly Number II",
                      "Unique Morse Code Words",
@@ -765,8 +378,21 @@ let unsolvedAlgorithms = ["3Sum",
                      "Word Search II",
                      "Shell Sort",
                      "Word Search",
-                     "Zigzag Iterator",
-                     "Add Two Numbers II"]
+                     "Zigzag Iterator"
+                     ]
+
+let y = ["Add Two Numbers II",
+"Integer to English Words",
+"Integer to Roman",
+"Intersection of Two Arrays",
+"Valid Parentheses",
+"Two Sum II - Input array is sorted",
+                     "Two Sum III - Data structure design",
+                     "Two Sum IV - Input is a BST",
+                     "Find of perfect squares between two numbers",
+                     "Reverse Linked List",
+                     "Two Sum"]
+
 
 let solvedAlgorithms = ["Add Two Numbers",
                         "Binary Search - Iterative",
@@ -783,9 +409,8 @@ let solvedAlgorithms = ["Add Two Numbers",
                         "Shuffle Array",
                         "Two Sum - Sorted",
                         "Two Sum - Unsorted",
-                        "Jewels and Stones"
-                        
-                        
+                        "Jewels and Stones",
+                        "Roman to Integer",
                         ]
 
 import Darwin
@@ -944,7 +569,41 @@ especially if we set reservecapacity so it didn't have to keep making new arrays
 
 
 
+## roman to int 
+```swift 
+class Solution {
+  func romanToInt(_ s: String) -> Int {
+    var accumulator = 0
 
+    for index in 0..<s.count {
+      var romanValue = value(for: s[index])
+
+      let nextIndex = index + 1
+      if nextIndex < s.count, value(for: s[nextIndex]) > value(for: s[index]) {
+        romanValue *= -1
+      }
+      accumulator += romanValue
+    }
+    return accumulator
+  }
+
+  private static let romanValues: [Character: Int] = ["I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000]
+
+  private func value(for character: Character) -> Int {
+    return Solution.romanValues[character] ?? 0
+  }
+}
+
+extension String {
+  subscript (offset: Int) -> Character {
+    return self[index(startIndex, offsetBy: offset)]
+  }
+}
+
+Solution().romanToInt("XXVIIIXDDM")
+
+// Switch statement is faster than a dictionary lookup
+```
 
 # Completed
 
@@ -996,7 +655,33 @@ n = length of needle
 https://www.youtube.com/watch?v=WIoZuhAC1p4
 
 
+##two sum
 
+extension Collection where Element == Int {
+  func twoSum(for target: Element) -> (Element, Element)? {
+    guard count > 1 else { return nil }
+    
+    var elementsSeen = Set<Int>()
+    elementsSeen.reserveCapacity(Int(count))
+    
+    for element in self {
+      print(elementsSeen)
+      let compliment = target - element
+      if elementsSeen.contains(compliment) {
+        return (compliment, element)
+      } else {
+        elementsSeen.insert(element)
+      }
+    }
+    
+    return nil
+  }
+}
+
+var a = [1, 5, 4, 8, 66, 4, 12, 3, 2, 1, 6, 7, 8, 99, 0]
+print(a.twoSum(for: 100))
+
+we can reserve capacity because we don't need a geometric growth strategy. we already know the maximum amount of numbers possible is equal to the count of the collection so we can just reserve capacity for the size of the collection
 
 
 
