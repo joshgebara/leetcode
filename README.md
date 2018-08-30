@@ -387,11 +387,11 @@ let y = ["Add Two Numbers II",
 "Intersection of Two Arrays",
 "Valid Parentheses",
 "Two Sum II - Input array is sorted",
-                     "Two Sum III - Data structure design",
-                     "Two Sum IV - Input is a BST",
-                     "Find of perfect squares between two numbers",
-                     "Reverse Linked List",
-                     "Two Sum"]
+"Two Sum III - Data structure design",
+"Two Sum IV - Input is a BST",
+"Find of perfect squares between two numbers",
+"Reverse Linked List",
+]
 
 
 let solvedAlgorithms = ["Add Two Numbers",
@@ -411,6 +411,7 @@ let solvedAlgorithms = ["Add Two Numbers",
                         "Two Sum - Unsorted",
                         "Jewels and Stones",
                         "Roman to Integer",
+                        "Lowest Common Ancestor of a Binary Search Tree"
                         ]
 
 import Darwin
@@ -569,6 +570,7 @@ especially if we set reservecapacity so it didn't have to keep making new arrays
 
 
 
+
 ## roman to int 
 ```swift 
 class Solution {
@@ -603,6 +605,7 @@ extension String {
 Solution().romanToInt("XXVIIIXDDM")
 
 // Switch statement is faster than a dictionary lookup
+// Switch is faster because of wrapping and unwrapping values from the dictionary slows it down
 ```
 
 # Completed
