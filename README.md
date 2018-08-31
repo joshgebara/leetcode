@@ -378,19 +378,19 @@ let unsolvedAlgorithms = ["3Sum",
                      "Word Search II",
                      "Shell Sort",
                      "Word Search",
-                     "Zigzag Iterator"
-                     ]
-
-let y = ["Add Two Numbers II",
-"Integer to English Words",
+                     "Zigzag Iterator",
+                     "Integer to English Words",
 "Integer to Roman",
 "Intersection of Two Arrays",
 "Valid Parentheses",
 "Two Sum II - Input array is sorted",
 "Two Sum III - Data structure design",
 "Two Sum IV - Input is a BST",
-"Find of perfect squares between two numbers",
-"Reverse Linked List",
+"Reverse Linked List"
+                     ]
+
+let y = ["Add Two Numbers II",
+
 ]
 
 
@@ -406,6 +406,7 @@ let solvedAlgorithms = ["Add Two Numbers",
                         "Quick Sort",
                         "Radix Sort",
                         "Selection Sort",
+                        "Find of perfect squares between two numbers",
                         "Shuffle Array",
                         "Two Sum - Sorted",
                         "Two Sum - Unsorted",
@@ -444,7 +445,7 @@ extension MutableCollection where Index == Int {
 }
 
 func problems() -> [String] {
-  var algorithms = unsolvedAlgorithms.randomElements(to: 1) + solvedAlgorithms.randomElements(to: 4)
+  var algorithms = unsolvedAlgorithms.randomElements(to: 1) + solvedAlgorithms.randomElements(to: 5)
   algorithms.shuffle()
   return algorithms
 }
@@ -1117,3 +1118,27 @@ if let result = mostFrequent(array: a) {
 
 
 ## Shuffle Array in place
+
+
+
+
+
+
+
+
+
+var a = [1, 2, 3, 4]
+withUnsafePointer(to: &a) { print("\($0)") }
+
+var b = [1...1000]
+withUnsafePointer(to: &b) { print("\($0)") }
+var c = [1...1000]
+var d = [1...1000]
+
+a.append(contentsOf: 5...500)
+withUnsafePointer(to: &b) { print("\($0)") }
+a.capacity
+withUnsafePointer(to: &a) { print("\($0)") }
+
+https://en.wikipedia.org/wiki/In-place_algorithm#In_functional_programming
+
