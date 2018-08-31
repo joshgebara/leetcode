@@ -390,7 +390,12 @@ let unsolvedAlgorithms = ["3Sum",
                      ]
 
 let y = ["Add Two Numbers II",
-
+"Merge k Sorted Lists",
+"Valid Parentheses",
+"LRU Cache",
+"Hamming Distance",
+"Move Zeroes",
+"Reverse Linked List"
 ]
 
 
