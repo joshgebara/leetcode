@@ -1147,3 +1147,35 @@ withUnsafePointer(to: &a) { print("\($0)") }
 
 https://en.wikipedia.org/wiki/In-place_algorithm#In_functional_programming
 
+
+### jewels in stones
+```swift 
+infix operator ===
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    var count = 0
+    
+    for element in self {
+      if predicate(element) {
+        count += 1
+      }
+    }
+    
+    return count
+  }
+}
+
+extension Sequence where Element: Hashable {
+  func occurrences(in other: Self) -> Int {
+    let elementSet = Set(self)
+    return other.count(where: elementSet.contains)
+  }
+  
+  static func === (lhs: Self, rhs: Self) -> Int {
+    return lhs.occurrences(in: rhs)
+  }
+}
+
+"Aa" === "AAAbbbbbaaaaBBB"
+```
