@@ -1179,3 +1179,130 @@ extension Sequence where Element: Hashable {
 
 "Aa" === "AAAbbbbbaaaaBBB"
 ```
+
+
+
+
+struct Alphabet: Collection {
+    var startIndex = 0
+    var endIndex = 26
+    
+    private let base = 65
+    
+    func index(after index: Int) -> Int {
+        guard index < endIndex else { fatalError() }
+        return index + 1
+    }
+    
+    subscript(offset: Int) -> String {
+        guard offset < endIndex,
+              let unicode = UnicodeScalar(base + offset) else { fatalError() }
+        return String(describing: unicode)
+    }
+}
+
+
+let alphabet = Alphabet()
+alphabet[25]
+
+
+
+
+
+postfix operator ~
+
+
+struct FizzBuzz: Sequence, IteratorProtocol {
+    var current = 1
+    
+    mutating func next() -> String? {
+        defer { current += 1 }
+        return FizzBuzz.value(for: current)
+    }
+    
+    static func value(for number: Int) -> String {
+        if number.divisible(by: 15) { return "FizzBuzz" }
+        if number.divisible(by: 3)  { return "Fizz" }
+        if number.divisible(by: 5)  { return "Buzz" }
+        return "\(number)"
+    }
+}
+
+extension Int {
+    func divisible(by number: Int) -> Bool {
+        return self % number == 0
+    }
+    
+    static postfix func ~ (number: Int) -> String {
+        return FizzBuzz.value(for: number)
+    }
+}
+
+for number in 1..<100 {
+    print(number~)
+}
+
+
+
+extension BidirectionalCollection where Element == Int {
+    func twoSum(for target: Element) -> (Element, Element)? {
+        guard count > 1 else { return nil }
+        
+        var left = startIndex
+        var right = index(before: endIndex)
+        
+        while left <= right {
+            let sum = self[left] + self[right]
+            
+            if sum == target {
+                return (self[left], self[right])
+            }
+            
+            if sum > target {
+                right = index(before: right)
+            }
+            
+            if sum < target {
+                left = index(after: left)
+            }
+        }
+        return nil
+    }
+}
+
+var a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+a.twoSum(for: 13)
+
+
+
+infix operator ~~
+
+extension Sequence {
+    func count(where predicate: (Element) -> Bool) -> Int {
+        var count = 0
+        for element in self where predicate(element)  {
+            count += 1
+        }
+        return count
+    }
+}
+
+extension Sequence where Element: Hashable {
+
+    static func ~~ (_ lhs: Self, rhs: Self) -> Int {
+        return lhs.occurrences(in: rhs)
+    }
+
+    func occurrences(in other: Self) -> Int {
+        let elementSet = Set(self)
+        return other.count(where: elementSet.contains)
+    }
+}
+
+class Solution {
+    func numJewelsInStones(_ J: String, _ S: String) -> Int {
+        return J.unicodeScalars ~~ S.unicodeScalars
+    }
+}
+
+"Aa" ~~ "AaaaaBBBBCCaaaa"
