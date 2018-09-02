@@ -1,6 +1,8 @@
 # swift-algorithms
 
 
+traverse a matrix
+reverse a utf8 string
 
 http://omarrr.com/underscores-in-apples-swift-numbers/
 https://www.raywenderlich.com/1220-swift-tutorial-initialization-in-depth-part-1-2
