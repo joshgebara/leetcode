@@ -8,6 +8,7 @@ http://omarrr.com/underscores-in-apples-swift-numbers/
 https://www.raywenderlich.com/1220-swift-tutorial-initialization-in-depth-part-1-2
 
 
+https://stackoverflow.com/questions/3255/big-o-how-do-you-calculate-approximate-it
 
 ### Algorithms:
 
@@ -47,6 +48,7 @@ let solvedAlgorithms = [
   "Radix Sort",
   "Remove Duplicates from Sorted Array",
   "Roman to Integer",
+  Rotate String,
   "Selection Sort",
   "Shuffle Array",
   "Two Sum - Sorted",
