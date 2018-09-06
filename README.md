@@ -10,25 +10,28 @@ https://www.raywenderlich.com/1220-swift-tutorial-initialization-in-depth-part-1
 
 https://stackoverflow.com/questions/3255/big-o-how-do-you-calculate-approximate-it
 
+https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algorithms/v/what-are-algorithms
+
 ### Algorithms:
 
 ```swift
 
 let unsolvedAlgorithms = [
-  "Valid Parentheses",
   "Lowest Common Ancestor of a Binary Search Tree",
+  "Hamming Distance",
   "Reverse Linked List",
+  "Missing Number",
   "Best Time to Buy and Sell Stock",
-  "Merge Sorted Array",
   "Count and Say",
+  "Add Binary",
+  "Valid Parentheses",
+  "Merge Sorted Array",
   "Palindrome Linked List",
   "Valid Palindrome",
-  "Add Binary",
-  "Hamming Distance",
-  "Sqrt(x)",
-  "Missing Number",
   "Implement strStr()",
-  "Excel Sheet Column Title"
+  "Sqrt(x)",
+  "Excel Sheet Column Title",
+  "Towers of Hanoi"
 ]
 
 let solvedAlgorithms = [
@@ -48,7 +51,7 @@ let solvedAlgorithms = [
   "Radix Sort",
   "Remove Duplicates from Sorted Array",
   "Roman to Integer",
-  Rotate String,
+  "Rotate String",
   "Selection Sort",
   "Shuffle Array",
   "Two Sum - Sorted",
@@ -783,34 +786,30 @@ https://en.wikipedia.org/wiki/In-place_algorithm#In_functional_programming
 
 ### jewels in stones
 ```swift 
-infix operator ===
+infix operator ~
 
 extension Sequence {
   func count(where predicate: (Element) -> Bool) -> Int {
-    var count = 0
-    
-    for element in self {
-      if predicate(element) {
-        count += 1
-      }
-    }
-    
-    return count
+    return filter(predicate).count
   }
 }
 
 extension Sequence where Element: Hashable {
-  func occurrences(in other: Self) -> Int {
+  static func ~ (lhs: Self, rhs: Self) -> Int {
+    return rhs.occurences(in: lhs)
+  }
+  
+  func occurences(in other: Self) -> Int {
     let elementSet = Set(self)
     return other.count(where: elementSet.contains)
   }
-  
-  static func === (lhs: Self, rhs: Self) -> Int {
-    return lhs.occurrences(in: rhs)
-  }
 }
 
-"Aa" === "AAAbbbbbaaaaBBB"
+class Solution {
+  func numJewelsInStones(_ J: String, _ S: String) -> Int {
+    return S ~ J
+  }
+}
 ```
 
 
