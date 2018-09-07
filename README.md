@@ -249,6 +249,7 @@ Solution().romanToInt("XXVIIIXDDM")
 
 // Switch statement is faster than a dictionary lookup
 // Switch is faster because of wrapping and unwrapping values from the dictionary slows it down
+// switches can also be faster based on how the compile treats it. For example, switches can be made with jump tables or even binary searchs or a long series of if statements. There are no gauratees. Switches can be faster than dictionaries, but dictionaries are always gaurantees a constant time lookup and they are easier to maintain therefore are the preferred choice
 ```
 
 # Completed
