@@ -19,7 +19,6 @@ https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algor
 let unsolvedAlgorithms = [
   "Lowest Common Ancestor of a Binary Search Tree",
   "Hamming Distance",
-  "Reverse Linked List",
   "Missing Number",
   "Best Time to Buy and Sell Stock",
   "Count and Say",
@@ -55,7 +54,9 @@ let solvedAlgorithms = [
   "Selection Sort",
   "Shuffle Array",
   "Two Sum - Sorted",
-  "Two Sum - Unsorted"
+  "Two Sum - Unsorted",
+  "Reverse Linked List - Iterative",
+  "Reverse Linked List - Recursive"
 ]
 
 import Darwin
@@ -978,3 +979,94 @@ class Solution {
             currentIndex += 1
         }
     }
+
+
+
+
+
+    extension Sequence {
+  func map<T>(while predicate: (Element) -> Bool, with transform: (Element) -> T) -> [T] {
+    var result = [T]()
+    
+    for element in self where predicate(element) {
+      result.append(transform(element))
+    }
+    
+    return result
+  }
+}
+
+func perfectSquares(in range: CountableRange<Int>) -> [Int] {
+  guard range.count > 0 else { return [] }
+  
+  return range.map(while: { $0 * $0 < range.upperBound }, with: { $0 * $0 })
+}
+
+perfectSquares(in: 1..<20)
+
+
+
+
+
+extension RandomAccessCollection where Element: Comparable {
+  mutating func binarySearch(for target: Element, in range: Range<Index>? = nil) -> Bool {
+    let range = range ?? startIndex..<endIndex
+    guard range.lowerBound < range.upperBound else { return false }
+    
+    let size = distance(from: range.lowerBound, to: range.upperBound)
+    let middleIndex = index(range.lowerBound, offsetBy: size / 2)
+    let middleValue = self[middleIndex]
+    
+    if target == middleValue {
+      return true
+    }
+    
+    if target > middleValue {
+      return binarySearch(for: target, in: index(after: middleIndex)..<range.upperBound)
+    }
+    
+    if target < middleValue {
+      return binarySearch(for: target, in: range.lowerBound..<middleIndex)
+    }
+    
+    return false
+  }
+}
+
+var a = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+a.binarySearch(for: 10)
+
+
+
+
+
+
+// array duplicates
+
+extension Sequence where Element: Hashable {
+  func unique() -> [Element] {
+    var seen: Set<Element> = []
+    return filter { element in
+      if seen.contains(element) {
+        return false
+      } else {
+        seen.insert(element)
+        return true
+      }
+    }
+  }
+}
+
+class Solution {
+  func removeDuplicates(_ nums: inout [Int]) -> Int {
+    nums = nums.unique()
+    return nums.count
+  }
+}
+
+var a = [0,0,1,1,1,2,2,3,3,4]
+Solution().removeDuplicates(&a)
+print(a)
+
+//Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. the above solution meets these critera in swift because even if you manipulate points you are still creating a new array as the swapAt function is mutating https://developer.apple.com/documentation/swift/array/2893281-swapat
+
