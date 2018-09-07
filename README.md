@@ -1069,4 +1069,4 @@ Solution().removeDuplicates(&a)
 print(a)
 
 //Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. the above solution meets these critera in swift because even if you manipulate points you are still creating a new array as the swapAt function is mutating https://developer.apple.com/documentation/swift/array/2893281-swapat
-
+// but the seen set is an auxiliary data structure therefore this solution would probably not be accepted and you would want to use the pointers instead
