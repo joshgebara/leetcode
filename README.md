@@ -16,25 +16,38 @@ https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algor
 
 ```swift
 
+
 let unsolvedAlgorithms = [
-  "Lowest Common Ancestor of a Binary Search Tree",
   "Hamming Distance",
   "Missing Number",
   "Best Time to Buy and Sell Stock",
   "Count and Say",
   "Add Binary",
+  "Lowest Common Ancestor of a Binary Search Tree",
   "Valid Parentheses",
   "Merge Sorted Array",
-  "Palindrome Linked List",
-  "Valid Palindrome",
   "Implement strStr()",
   "Sqrt(x)",
+  "Heap Sort",
   "Excel Sheet Column Title",
   "Towers of Hanoi"
 ]
 
+let implementedDataStructures = [
+  "LinkedList",
+  "Stack",
+  "Queue",
+  "Tree",
+  "Binary Tree",
+  "Binary Search Tree",
+  "Trie",
+  "Max Heap",
+  "Min Heap",
+  "Graph"
+]
+
 let solvedAlgorithms = [
-  "Add Two Numbers",
+  "Add Two Numbers - (Leetcode)",
   "Binary Search - Iterative",
   "Binary Search - Recursive",
   "Bubble Sort",
@@ -43,20 +56,22 @@ let solvedAlgorithms = [
   "Find of perfect squares between two numbers",
   "FizzBuzz",
   "Insertion Sort",
-  "Jewels and Stones",
+  "Jewels and Stones - (Leetcode)",
   "Merge Sort",
-  "Move Zeroes",
+  "Move Zeroes - (Leetcode)",
   "Quick Sort",
   "Radix Sort",
-  "Remove Duplicates from Sorted Array",
-  "Roman to Integer",
-  "Rotate String",
+  "Remove Duplicates from Sorted Array - (Leetcode)",
+  "Roman to Integer - (Leetcode)",
+  "Rotate String - (Leetcode)",
   "Selection Sort",
-  "Shuffle Array",
-  "Two Sum - Sorted",
-  "Two Sum - Unsorted",
+  "Shuffle Array - (Austin/Facebook)",
+  "Two Sum - Sorted - (Leetcode)",
+  "Two Sum - Unsorted - (Leetcode)",
   "Reverse Linked List - Iterative",
-  "Reverse Linked List - Recursive"
+  "Reverse Linked List - Recursive",
+  "Palindrome Linked List - (Leetcode)",
+  "Valid Palindrome - (Leetcode)"
 ]
 
 import Darwin
@@ -77,25 +92,23 @@ extension Collection where Index == Int {
   }
 }
 
-extension MutableCollection where Index == Int {
-  mutating func shuffle() {
-    guard count > 1 else { return }
-    
-    for index in indices {
-      let randomIndex = Int(arc4random_uniform(UInt32(endIndex)))
-      swapAt(index, randomIndex)
-    }
-  }
+func problems() {
+  print("-----Algorithms to Practice-----")
+  let algorithms = solvedAlgorithms.randomElements(to: 8)
+  algorithms.forEach { print($0) }
+  print("\n")
+  
+  print("-----Data Structure to Implement-----")
+  print(implementedDataStructures.randomElements(to: 1).first!)
+  print("\n")
+  
+  print("-----Algorithm to Learn-----")
+  print(unsolvedAlgorithms[0])
+  print("\n")
 }
 
-func problems() -> [String] {
-  var algorithms = solvedAlgorithms.randomElements(to: 6)
-  algorithms.shuffle()
-  algorithms.append(unsolvedAlgorithms[0])
-  return algorithms
-}
+problems()
 
-print(problems())
 
 ```
 
