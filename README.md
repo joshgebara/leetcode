@@ -25,12 +25,16 @@ let unsolvedAlgorithms = [
   "Add Binary",
   "Lowest Common Ancestor of a Binary Search Tree",
   "Valid Parentheses",
+  "Traverse a matrix",
+  "Reverse a utf 8 string"
   "Merge Sorted Array",
   "Implement strStr()",
   "Sqrt(x)",
   "Heap Sort",
   "Excel Sheet Column Title",
-  "Towers of Hanoi"
+  "Towers of Hanoi",
+    "Palindrome Linked List - (Leetcode)",
+  "Valid Palindrome - (Leetcode)"
 ]
 
 let implementedDataStructures = [
@@ -69,9 +73,7 @@ let solvedAlgorithms = [
   "Two Sum - Sorted - (Leetcode)",
   "Two Sum - Unsorted - (Leetcode)",
   "Reverse Linked List - Iterative",
-  "Reverse Linked List - Recursive",
-  "Palindrome Linked List - (Leetcode)",
-  "Valid Palindrome - (Leetcode)"
+  "Reverse Linked List - Recursive"
 ]
 
 import Darwin
@@ -111,6 +113,17 @@ problems()
 
 
 ```
+
+
+extension Int {
+  static func random(in range: Range<Int>) -> Int {
+    let offset = abs(range.lowerBound)
+    let min = UInt32(range.lowerBound + offset)
+    let max = UInt32(range.upperBound + offset)
+    return Int(min + arc4random_uniform(max - min)) - offset
+  }
+}
+
 
 ## number of jewels
 ```swift
@@ -1084,3 +1097,137 @@ print(a)
 
 //Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. the above solution meets these critera in swift because even if you manipulate points you are still creating a new array as the swapAt function is mutating https://developer.apple.com/documentation/swift/array/2893281-swapat
 // but the seen set is an auxiliary data structure therefore this solution would probably not be accepted and you would want to use the pointers instead
+
+
+
+
+# Linked List
+```swift
+
+class Node<Value> {
+  let value: Value
+  var next: Node?
+  
+  init(value: Value, next: Node? = nil) {
+    self.value = value
+    self.next = next
+  }
+}
+
+extension Node: CustomStringConvertible {
+  public var description: String {
+    guard let next = next else {
+      return "\(value)"
+    }
+    return "\(value) -> \(next)"
+  }
+}
+
+struct LinkedList<Value> {
+  var head: Node<Value>?
+  var tail: Node<Value>?
+  
+  init() {}
+  
+  var isEmpty: Bool {
+    return head == nil
+  }
+}
+
+extension LinkedList: CustomStringConvertible {
+  public var description: String {
+    guard let head = head else {
+      return ""
+    }
+    return "\(head)"
+  }
+}
+
+extension LinkedList {
+  mutating func push(_ value: Value) {
+    head = Node(value: value, next: head)
+    if tail == nil {
+      tail = head
+    }
+  }
+  
+  mutating func append(_ value: Value) {
+    guard !isEmpty else {
+      push(value)
+      return
+    }
+    tail?.next = Node(value: value)
+    tail = tail?.next
+  }
+  
+  @discardableResult
+  mutating func insert(_ value: Value, after node: Node<Value>) -> Node<Value>? {
+    guard tail !== node else {
+      append(value)
+      return tail
+    }
+    node.next = Node(value: value, next: node.next)
+    return node.next
+  }
+  
+  func node(at index: Int) -> Node<Value>? {
+    var currentNode = head
+    var currentIndex = 0
+    
+    while currentNode != nil && currentIndex < index {
+      currentNode = currentNode?.next
+      currentIndex += 1
+    }
+    return currentNode
+  }
+}
+
+extension LinkedList {
+  @discardableResult
+  mutating func pop() -> Value? {
+    defer {
+      head = head?.next
+      if isEmpty {
+        tail = nil
+      }
+    }
+    return head?.value
+  }
+  
+  @discardableResult
+  mutating func removeLast() -> Value? {
+    guard let head = head else {
+      return nil
+    }
+    
+    guard head.next != nil else {
+      return pop()
+    }
+    
+    var current = head
+    var previous = head
+    
+    while let next = current.next {
+      previous = current
+      current = next
+    }
+    
+    previous.next = nil
+    tail = previous
+    return current.value
+  }
+  
+  @discardableResult
+  mutating func remove(after node: Node<Value>) -> Value? {
+    defer {
+      if tail === node.next {
+        tail = node
+      }
+      node.next = node.next?.next
+    }
+    return node.next?.value
+  }
+}
+
+
+```
