@@ -26,7 +26,7 @@ let unsolvedAlgorithms = [
   "Lowest Common Ancestor of a Binary Search Tree",
   "Valid Parentheses",
   "Traverse a matrix",
-  "Reverse a utf 8 string"
+  "Reverse a utf 8 string",
   "Merge Sorted Array",
   "Implement strStr()",
   "Sqrt(x)",
@@ -1231,3 +1231,56 @@ extension LinkedList {
 
 
 ```
+
+
+
+```swift
+// reverse a linked list iterative
+
+func reverseList<Value>(_ head: Node<Value>?) -> Node<Value>? {
+  var currentNode = head
+  var previous: Node<Value>?
+  var next: Node<Value>?
+  
+  while currentNode != nil {
+    next = currentNode?.next
+    currentNode?.next = previous
+    previous = currentNode
+    currentNode = next
+  }
+  return previous
+}
+
+
+```
+
+
+
+## perfect squares
+
+//Find of perfect squares between two numbers
+// O(log n)
+// O(1)
+
+
+postfix operator **
+
+extension Int {
+  static postfix func **(number: Int) -> Int {
+    return number * number
+  }
+}
+
+extension CountableRange where Bound == Int {
+  func perfectSquares() -> [Bound] {
+    var result = [Bound]()
+    
+    for number in self where number** < upperBound {
+      result.append(number**)
+    }
+    
+    return result
+  }
+}
+
+(1..<100).perfectSquares()
