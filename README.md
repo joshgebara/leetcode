@@ -18,6 +18,13 @@ https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algor
 
 
 let unsolvedAlgorithms = [
+  "Maximum Subarray",
+  "Pow(x, n)",
+  "Permutations",
+  "Evaluate Reverse Polish Notation",
+  "Power of Four",
+  "Friend Circles",
+  "N-Queens",
   "Hamming Distance",
   "Missing Number",
   "Best Time to Buy and Sell Stock",
@@ -1284,3 +1291,9 @@ extension CountableRange where Bound == Int {
 }
 
 (1..<100).perfectSquares()
+
+
+
+https://www.youtube.com/watch?v=MRe3UsRadKw
+
+
