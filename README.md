@@ -12,15 +12,14 @@ https://stackoverflow.com/questions/3255/big-o-how-do-you-calculate-approximate-
 
 https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algorithms/v/what-are-algorithms
 
+https://www.youtube.com/watch?v=y2b94AxPlF8
+
 ### Algorithms:
 
 ```swift
 
 
 let unsolvedAlgorithms = [
-  "Maximum Subarray",
-  "Pow(x, n)",
-  "Permutations",
   "Evaluate Reverse Polish Notation",
   "Power of Four",
   "Friend Circles",
@@ -33,13 +32,17 @@ let unsolvedAlgorithms = [
   "Lowest Common Ancestor of a Binary Search Tree",
   "Valid Parentheses",
   "Traverse a matrix",
+  "Tic tac toe",
   "Reverse a utf 8 string",
   "Merge Sorted Array",
   "Implement strStr()",
   "Sqrt(x)",
   "Heap Sort",
+  "Rotate String - (Leetcode) - Knuth-Morris-Pratt",
   "Excel Sheet Column Title",
   "Towers of Hanoi",
+    "Pow(x, n)",
+  "Permutations",
     "Palindrome Linked List - (Leetcode)",
   "Valid Palindrome - (Leetcode)"
 ]
@@ -74,13 +77,13 @@ let solvedAlgorithms = [
   "Radix Sort",
   "Remove Duplicates from Sorted Array - (Leetcode)",
   "Roman to Integer - (Leetcode)",
-  "Rotate String - (Leetcode)",
   "Selection Sort",
   "Shuffle Array - (Austin/Facebook)",
   "Two Sum - Sorted - (Leetcode)",
   "Two Sum - Unsorted - (Leetcode)",
   "Reverse Linked List - Iterative",
-  "Reverse Linked List - Recursive"
+  "Reverse Linked List - Recursive",
+  "Maximum Subarray - Kadane's Algorithm"
 ]
 
 import Darwin
@@ -1295,5 +1298,210 @@ extension CountableRange where Bound == Int {
 
 
 https://www.youtube.com/watch?v=MRe3UsRadKw
+
+
+
+
+
+```swift
+//Two Sum - Sorted - (Leetcode)
+// Time O(n)
+// Space O(1)
+
+extension RandomAccessCollection where Element == Int {
+  func twoSum(for target: Element) -> (Index, Index)? {
+    guard count > 1 else { return nil }
+    
+    var left = startIndex
+    var right = index(before: endIndex)
+
+    while left < right {
+      let total = self[left] + self[right]
+      
+      if total == target {
+        return (left, right)
+      }
+      
+      if total > target {
+        right = index(before: right)
+      }
+      
+      if total < target {
+        left = index(after: left)
+      }
+    }
+    return nil
+  }
+}
+
+var a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+a.twoSum(for: 2)
+```
+
+
+
+
+
+
+//Reverse Linked List - Recursive
+// Time O(n)
+// Space O(n)
+
+class Node<Value> {
+  let value: Value
+  var next: Node<Value>?
+  
+  init(_ value: Value, next: Node<Value>? = nil) {
+    self.value = value
+    self.next = next
+  }
+}
+
+extension Node: CustomStringConvertible {
+  public var description: String {
+    guard let next = next else {
+      return "\(value)"
+    }
+    return "\(value) -> \(next)"
+  }
+}
+
+let node1 = Node(1)
+let node2 = Node(2)
+let node3 = Node(3)
+let node4 = Node(4)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+func reverseRecursive<Value>(_ node: Node<Value>?) -> Node<Value>? {
+  guard let node = node else { return nil }
+  guard node.next != nil else { return node }
+  let head = reverseRecursive(node.next)
+  node.next?.next = node
+  node.next = nil
+  return head
+}
+
+print(node1)
+//print(reverseRecursive(node1))
+
+
+//Reverse Linked List - Iter
+// Time O(n)
+// Space O(1)
+
+func reverseIterative<Value>(_ node: Node<Value>?) -> Node<Value>? {
+  var current = node
+  var previous: Node<Value>? = nil
+  var next: Node<Value>? = nil
+  
+  while current != nil {
+    next = current?.next
+    current?.next = previous
+    previous = current
+    current = next
+  }
+  return previous
+}
+
+print(reverseIterative(node1))
+
+
+
+
+
+
+
+//Roman to Integer - (Leetcode)
+// T O(n)
+// S O(1)
+
+let romanValues: [Character: Int] = ["I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000]
+
+class Solution {
+  func romanToInt(_ s: String) -> Int {
+    var accumulator = 0
+    
+    for index in s.indices {
+      var romanValue = value(for: s[index])
+      
+      let nextIndex = s.index(after: index)
+      if nextIndex < s.endIndex, value(for: s[nextIndex]) > romanValue {
+        romanValue *= -1
+      }
+
+      accumulator += romanValue
+    }
+    
+    return accumulator
+  }
+  
+  func value(for character: Character) -> Int {
+    return romanValues[character] ?? 0
+  }
+}
+
+Solution().romanToInt("XXIV")
+
+
+
+
+
+
+
+//Move Zeroes - (Leetcode)
+// T O(n)
+// S O(1)
+
+class Solution {
+  func moveZeroes(_ nums: inout [Int]) {
+    var i = 0
+    
+    for j in 1..<nums.count {
+      if nums[i] != nums[j] {
+        nums.swapAt(i, j)
+        i += 1
+      }
+    }
+  }
+}
+
+var a = [0,1,0,3,12]
+Solution().moveZeroes(&a)
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+  func maxSubArray(_ nums: [Int]) -> Int {
+    guard nums.count > 0 else { return 0 }
+    guard nums.count > 1 else { return nums[0] }
+    
+    var currentMax = Int.min
+    var globalMax = Int.min
+    
+    for num in nums {
+      currentMax = num + max(currentMax, 0)
+      globalMax = max(currentMax, globalMax)
+    }
+    return globalMax
+  }
+}
+
+
+Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
+
+
+
+
 
 
