@@ -41,15 +41,16 @@ let unsolvedAlgorithms = [
   "Rotate String - (Leetcode) - Knuth-Morris-Pratt",
   "Excel Sheet Column Title",
   "Towers of Hanoi",
-    "Pow(x, n)",
   "Permutations",
     "Palindrome Linked List - (Leetcode)",
-  "Valid Palindrome - (Leetcode)"
+  "Valid Palindrome - (Leetcode)",
+  "Merge Sort Linked List",
+  "Merge Sort - Iterative",
+  "Quick Sort - Iterative"
 ]
 
-let implementedDataStructures = [
-  "LinkedList",
-  "Stack",
+let unimplementedDataStructures = [
+    "Stack",
   "Queue",
   "Tree",
   "Binary Tree",
@@ -58,6 +59,10 @@ let implementedDataStructures = [
   "Max Heap",
   "Min Heap",
   "Graph"
+]
+
+let implementedDataStructures = [
+  "LinkedList"
 ]
 
 let solvedAlgorithms = [
@@ -83,7 +88,8 @@ let solvedAlgorithms = [
   "Two Sum - Unsorted - (Leetcode)",
   "Reverse Linked List - Iterative",
   "Reverse Linked List - Recursive",
-  "Maximum Subarray - Kadane's Algorithm"
+  "Maximum Subarray - Kadane's Algorithm",
+  "Pow(x, n)"
 ]
 
 import Darwin
@@ -1042,6 +1048,23 @@ func perfectSquares(in range: CountableRange<Int>) -> [Int] {
 perfectSquares(in: 1..<20)
 
 
+// Find of perfect squares between two numbers
+
+extension CountableRange where Bound == Int {
+  func perfectSquares() -> [Int] {
+    guard lowerBound < upperBound else { return [] }
+    
+    var squareRoot = lowerBound
+    
+    return reduce(into: [], { (result, element) in
+      let square = squareRoot * squareRoot
+      guard square < upperBound else { return }
+      result.append(square)
+      squareRoot += 1
+    })
+  }
+}
+
 
 
 
@@ -1502,6 +1525,30 @@ Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
 
 
 
+
+
+
+struct UnfoldingSequence<State, T>: Sequence, IteratorProtocol {
+  var state: State
+  let _next: (inout State) -> T?
+  
+  init(state: State, next: @escaping (inout State) -> T?) {
+    self.state = state
+    _next = next
+  }
+  
+  mutating func next() -> T? {
+    print(state)
+    return _next(&state)
+  }
+}
+
+let fibs = UnfoldingSequence(state: (0, 1)) { (state) -> Int? in
+  defer { state = (state.1, state.0 + state.1) }
+  return state.0
+}
+
+let r = AnySequence(fibs.prefix(10).map { $0 * 2 })
 
 
 
