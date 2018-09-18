@@ -41,7 +41,6 @@ let unsolvedAlgorithms = [
   "Rotate String - (Leetcode) - Knuth-Morris-Pratt",
   "Excel Sheet Column Title",
   "Towers of Hanoi",
-  "Permutations",
     "Palindrome Linked List - (Leetcode)",
   "Valid Palindrome - (Leetcode)",
   "Merge Sort Linked List",
@@ -89,7 +88,9 @@ let solvedAlgorithms = [
   "Reverse Linked List - Iterative",
   "Reverse Linked List - Recursive",
   "Maximum Subarray - Kadane's Algorithm",
-  "Pow(x, n)"
+  "Pow(x, n)",
+  "Factorial",
+  "Permutations"
 ]
 
 import Darwin
@@ -1098,7 +1099,7 @@ a.binarySearch(for: 10)
 
 
 
-
+http://www.mczarnik.com/2017/04/08/break-out-of-reduce.html
 
 
 // array duplicates
@@ -1551,4 +1552,16 @@ let fibs = UnfoldingSequence(state: (0, 1)) { (state) -> Int? in
 let r = AnySequence(fibs.prefix(10).map { $0 * 2 })
 
 
+https://github.com/raywenderlich/swift-algorithm-club/tree/master/Combinatorics
 
+func factorial(_ num: Int) -> Int {
+  var num = num
+  var result = 1
+  while num > 1 {
+    result *= num
+    num -= 1
+  }
+  return result
+}
+
+factorial(5)
