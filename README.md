@@ -29,7 +29,7 @@ let unsolvedAlgorithms = [
   "Best Time to Buy and Sell Stock",
   "Count and Say",
   "Add Binary",
-  "Lowest Common Ancestor of a Binary Search Tree",
+  "Lowest Common Ancestor of a Binary Search Tree - https://www.youtube.com/watch?v=GnliEfQo114",
   "Valid Parentheses",
   "Traverse a matrix",
   "Tic tac toe",
@@ -92,10 +92,10 @@ let solvedAlgorithms = [
   "Factorial",
   "Permutations",
   "Create a function that prints out the elements of a linked list in reverse order",
- "Create a function that returns the middle node of a linked list",
- "Create a function that reverses a linked list",
- "Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
- "Create a function that removes all occurrences of a specific element from a linked list"
+  "Create a function that returns the middle node of a linked list",
+  "Create a function that reverses a linked list",
+  "Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
+  "Create a function that removes all occurrences of a specific element from a linked list"
 ]
 
 import Darwin
@@ -1912,3 +1912,31 @@ ll.append(4)
 ll.append(3)
 ll.append(4)
 ll.middle().value
+
+
+
+
+extension LinkedList {
+  func reverseI() -> Node<Value>? {
+    var current = head
+    var previous: Node<Value>?
+    var next: Node<Value>?
+    
+    while current != nil {
+      next = current?.next
+      current?.next = previous
+      previous = current
+      current = next
+    }
+    return previous
+  }
+  
+  func reverseR(_ node: Node<Value>?) -> Node<Value>? {
+    guard let node = node else { return nil }
+    guard node.next != nil else { return node }
+    let head = reverseR(node.next)
+    node.next?.next = node
+    node.next = nil
+    return head
+  }
+}
