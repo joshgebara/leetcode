@@ -1570,3 +1570,253 @@ func factorial(_ num: Int) -> Int {
 }
 
 factorial(5)
+
+
+
+
+
+extension CountableRange where Bound == Int {
+  func perfectSquares() -> [Bound] {
+    var result = [Bound]()
+    
+    var current = lowerBound
+    
+    while current * current < upperBound {
+      result.append(current * current)
+      current += 1
+    }
+    
+    return result
+  }
+}
+
+(0..<100).perfectSquares()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Linked List
+
+class Node<Value> {
+  let value: Value
+  var next: Node<Value>?
+  
+  init(_ value: Value, next: Node<Value>? = nil) {
+    self.value = value
+    self.next = next
+  }
+}
+
+extension Node: CustomStringConvertible {
+  public var description: String {
+    guard let next = next else {
+      return "\(value)"
+    }
+    return "\(value) -> \(next)"
+  }
+}
+
+struct LinkedList<Value> {
+  var head: Node<Value>?
+  var tail: Node<Value>?
+  
+  init() {}
+  
+  var isEmpty: Bool {
+    return head == nil
+  }
+}
+
+extension LinkedList: CustomStringConvertible {
+  public var description: String {
+    guard let head = head else {
+      return ""
+    }
+    return "\(head)"
+  }
+}
+
+extension LinkedList {
+  mutating func push(_ value: Value) {
+    head = Node(value, next: head)
+    if tail == nil {
+      tail = head
+    }
+  }
+  
+  mutating func append(_ value: Value) {
+    guard !isEmpty else {
+      push(value)
+      return
+    }
+    tail?.next = Node(value)
+    tail = tail?.next
+  }
+  
+  mutating func insert(_ value: Value, after node: Node<Value>?) {
+    guard tail !== node else {
+      append(value)
+      return
+    }
+    
+    node?.next = Node(value, next: node?.next)
+    
+  }
+  
+  func node(at index: Int) -> Node<Value>? {
+    var currentNode = head
+    var currentIndex = 0
+    
+    while currentNode != nil && currentIndex < index {
+      currentNode = currentNode?.next
+      currentIndex += 1
+    }
+    
+    return currentNode
+  }
+}
+
+extension LinkedList {
+  @discardableResult
+  mutating func pop() -> Node<Value>? {
+    defer {
+      head = head?.next
+      if isEmpty {
+        tail = nil
+      }
+    }
+    return head
+  }
+  
+  @discardableResult
+  mutating func removeLast() -> Node<Value>? {
+    guard let head = head else { return nil }
+    guard head.next != nil else { return pop() }
+    
+    var current = head
+    var previous = head
+    
+    while let next = current.next {
+      previous = current
+      current = next
+    }
+    
+    previous.next = nil
+    tail = previous
+    return current
+  }
+  
+  @discardableResult
+  mutating func remove(after node: Node<Value>?) -> Node<Value>? {
+    defer {
+      if node?.next === tail {
+        tail = node
+      }
+      node?.next = node?.next?.next
+    }
+    return node?.next
+  }
+}
+
+extension LinkedList {
+  struct Index: Comparable {
+    var node: Node<Value>?
+    
+    static func <(lhs: Index, rhs: Index) -> Bool {
+      guard lhs != rhs else { return false }
+      
+      let seq = sequence(first: lhs.node?.next) { $0?.next }
+      return seq.contains { $0 === rhs.node }
+    }
+    
+    static func ==(lhs: Index, rhs: Index) -> Bool {
+      switch (lhs.node, rhs.node) {
+      case let (left?, right?):
+        return left === right
+      case (nil, nil):
+        return true
+      default:
+        return false
+      }
+    }
+  }
+}
+
+extension LinkedList: Collection {
+  var startIndex: Index {
+    return Index(node: head)
+  }
+  
+  var endIndex: Index {
+    return Index(node: tail?.next)
+  }
+  
+  func index(after i: Index) -> Index {
+    return Index(node: i.node?.next)
+  }
+  
+  subscript(_ index: Index) -> Value {
+    return index.node!.value
+  }
+}
+
+# Print Linked List in reverse
+
+extension LinkedList {
+  func printReverseR(_ node: Node<Value>?) {
+    guard node != nil else { return }
+    printReverseR(node?.next)
+    print(node!.value)
+  }
+  
+  func printReverseI() {
+    var stack = Stack<Value>()
+    
+    var current = head
+    while let next = current {
+      stack.push(next.value)
+      current = next.next
+    }
+    
+    while let node = stack.pop() {
+      print(node)
+    }
+  }
+  
+  func printReverseS() -> String {
+    var result = ""
+    var current = head
+    while let next = current {
+      current = current?.next
+      result = "\(next.value)" + result
+    }
+    return result
+  }
+}
+
+struct Stack<Element> {
+  private var elements: [Element] = []
+  
+  mutating func pop() -> Element? {
+    return elements.popLast()
+  }
+  
+  mutating func push(_ element: Element) {
+    return elements.append(element)
+  }
+  
+}
+
+# middle node of linked list
