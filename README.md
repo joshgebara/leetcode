@@ -1820,3 +1820,95 @@ struct Stack<Element> {
 }
 
 # middle node of linked list
+
+//"Create a function that returns the middle node of a linked list",
+
+import Darwin
+
+extension LinkedList {
+  func middle() -> Node<Value> {
+    var current = head
+    var counter = 0
+    
+    while current != nil {
+      current = current?.next
+      counter += 1
+    }
+    
+    let middleIndex = counter / 2
+    current = head
+    counter = 0
+    
+    while current != nil && counter < middleIndex {
+      current = current?.next
+      counter += 1
+    }
+    
+    return current!
+  }
+}
+
+
+//"Create a function that returns the middle node of a linked list",
+
+import Darwin
+
+extension LinkedList {
+  func middle() -> Node<Value> {
+    var slowPointer = head
+    var fastPointer = head
+    
+    while fastPointer?.next != nil {
+      slowPointer = slowPointer?.next
+      fastPointer = fastPointer?.next?.next
+    }
+    
+    return slowPointer!
+  }
+}
+
+
+//"Create a function that returns the middle node of a linked list",
+
+import Darwin
+
+extension LinkedList {
+  func middle() -> Node<Value> {
+    var counter = 0
+    var current = head
+    var mid = head
+    
+    while current != nil {
+      if counter % 2 != 0 {
+        mid = mid?.next
+      }
+      
+      current = current?.next
+      counter += 1
+    }
+    
+    return mid!
+  }
+}
+
+struct Stack<Element> {
+  private var elements: [Element] = []
+  
+  mutating func pop() -> Element? {
+    return elements.popLast()
+  }
+  
+  mutating func push(_ element: Element) {
+    return elements.append(element)
+  }
+  
+}
+
+var ll = LinkedList<Int>()
+ll.append(1)
+ll.append(2)
+ll.append(3)
+ll.append(4)
+ll.append(3)
+ll.append(4)
+ll.middle().value
