@@ -90,7 +90,12 @@ let solvedAlgorithms = [
   "Maximum Subarray - Kadane's Algorithm",
   "Pow(x, n)",
   "Factorial",
-  "Permutations"
+  "Permutations",
+  "Create a function that prints out the elements of a linked list in reverse order",
+ "Create a function that returns the middle node of a linked list",
+ "Create a function that reverses a linked list",
+ "Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
+ "Create a function that removes all occurrences of a specific element from a linked list"
 ]
 
 import Darwin
