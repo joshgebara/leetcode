@@ -45,7 +45,8 @@ let unsolvedAlgorithms = [
   "Valid Palindrome - (Leetcode)",
   "Merge Sort Linked List",
   "Merge Sort - Iterative",
-  "Quick Sort - Iterative"
+  "Quick Sort - Iterative",
+  "Permutations"
 ]
 
 let unimplementedDataStructures = [
@@ -90,12 +91,16 @@ let solvedAlgorithms = [
   "Maximum Subarray - Kadane's Algorithm",
   "Pow(x, n)",
   "Factorial",
-  "Permutations",
   "Create a function that prints out the elements of a linked list in reverse order",
   "Create a function that returns the middle node of a linked list",
   "Create a function that reverses a linked list",
   "Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
-  "Create a function that removes all occurrences of a specific element from a linked list"
+  "Create a function that removes all occurrences of a specific element from a linked list",
+  "Delete node in a linked list",
+  "Remove linked list elements",
+  "Intersection of two linked lists",
+  "Linked list cycle",
+  "Palindrome linked list"
 ]
 
 import Darwin
