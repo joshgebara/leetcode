@@ -1564,9 +1564,23 @@ let r = AnySequence(fibs.prefix(10).map { $0 * 2 })
 
 https://github.com/raywenderlich/swift-algorithm-club/tree/master/Combinatorics
 
-func factorial(_ num: Int) -> Int {
+Time - O(n)
+Space - O(n)
+
+func factorialR(_ num: Int) -> Int {
+  guard num > 1 else { return 1 }
+  return num * factorialR(num - 1)
+}
+
+Time - O(n)
+Space - O(1)
+
+func factorialI(_ num: Int) -> Int {
+  guard num > 1 else { return 1 }
+  
   var num = num
   var result = 1
+  
   while num > 1 {
     result *= num
     num -= 1
@@ -1574,8 +1588,7 @@ func factorial(_ num: Int) -> Int {
   return result
 }
 
-factorial(5)
-
+factorialR(3)
 
 
 
@@ -1945,3 +1958,118 @@ extension LinkedList {
     return head
   }
 }
+
+
+
+//Binary Search - Recursive
+// O(log n)
+// O(log n)
+
+extension RandomAccessCollection where Element: Comparable {
+  func binarySearch(for target: Element, in range: Range<Index>? = nil) -> Bool {
+    let range = range ?? startIndex..<endIndex
+    guard range.lowerBound < range.upperBound else { return false }
+    
+    let size = distance(from: range.lowerBound, to: range.upperBound)
+    let middleIndex = index(range.lowerBound, offsetBy: size / 2)
+    let middleValue = self[middleIndex]
+    
+    if middleValue == target {
+      return true
+    }
+    
+    if middleValue > target {
+      return binarySearch(for: target, in: range.lowerBound..<middleIndex)
+    }
+    
+    if middleValue < target {
+      return binarySearch(for: target, in: index(after: middleIndex)..<range.upperBound)
+    }
+    return false
+  }
+}
+
+var a = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+a.binarySearch(for: 10)
+
+
+
+// Jewels and Stones - custom operators
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return reduce(0) { predicate($1) ? $0 + 1 : $0 }
+  }
+}
+
+class Solution {
+  func numJewelsInStones(_ J: String, _ S: String) -> Int {
+    return S.count(where: J.contains)
+  }
+}
+
+
+
+// Jewels and Stones - custom operators
+
+infix operator ~
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return reduce(0) { predicate($1) ? $0 + 1 : $0 }
+  }
+}
+
+extension Sequence where Element: Hashable {
+  func occurences(in other: Self) -> Int {
+    let elementSet = Set(self)
+    return other.count(where: elementSet.contains)
+  }
+  
+  static func ~(lhs: Self, rhs: Self) -> Int {
+    return lhs.occurences(in: rhs)
+  }
+}
+
+class Solution {
+  func numJewelsInStones(_ J: String, _ S: String) -> Int {
+    return J ~ S
+  }
+}
+
+Solution().numJewelsInStones("aA", "aAAbbbb")
+
+
+
+
+
+
+extension Sequence where Element: Hashable {
+  var frequencies: [Element: Int] {
+    let frequencyPairs = self.map { ($0, 1) }
+    return Dictionary(frequencyPairs, uniquingKeysWith: +)
+  }
+}
+
+let frequencies = "hello".frequencies // ["e": 1, "o": 1, "l": 2, "h": 1] frequencies. lter { $0.value > 1 } // ["l": 2]
+
+
+
+
+
+
+extension Sequence where Element: Hashable {
+  func unique() -> [Element] {
+    var set = Set<Element>()
+    return filter { element in
+      if set.contains(element) {
+        return false
+      } else {
+        set.insert(element)
+        return true
+      }
+    }
+  }
+}
+
+[1, 1, 2, 3, 3, 4, 5, 6, 6, 6, 7, 8, 8].unique()
