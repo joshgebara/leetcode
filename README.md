@@ -25,6 +25,7 @@ let unsolvedAlgorithms = [
   "Friend Circles",
   "N-Queens",
   "Hamming Distance",
+  "Challenge 4: Does one string contain another? - KMP algo",
   "Missing Number",
   "Best Time to Buy and Sell Stock",
   "Count and Say",
@@ -100,7 +101,11 @@ let solvedAlgorithms = [
   "Intersection of two linked lists",
   "Linked list cycle",
   "Palindrome linked list",
-  "Add Two Numbers - (Leetcode) this is a linked list problem"
+  "Add Two Numbers - (Leetcode) this is a linked list problem",
+  "Challenge 1: Are the letters unique?",
+  "Challenge 2: Is a string a palindrome?",
+  "Challenge 3: Do two strings contain the same characters?",
+  "Challenge 5: Count the characters"
 ]
 
 import Darwin
@@ -2109,3 +2114,186 @@ extension Sequence where Element: Hashable {
 
 
 //"Palindrome linked list"
+
+
+
+
+
+// Challenge 1: Are the letters unique?
+func challenge1(input: String) -> Bool {
+  return input.count == Set(input).count
+}
+
+assert(challenge1(input: "No duplicates") == true, "Challenge 1 failed")
+assert(challenge1(input: "abcdefghijklmnopqrstuvwxyz") == true, "Challenge 1 failed")
+assert(challenge1(input: "AaBbCc") == true, "Challenge 1 failed")
+assert(challenge1(input: "Hello, world") == false, "Challenge 1 failed")
+
+
+
+// Challenge 2: Is a string a palindrome?
+
+extension String {
+  func palindrome() -> Bool {
+    let lowercased = self.lowercased()
+    return lowercased == String(lowercased.reversed())
+  }
+}
+
+
+
+
+
+
+
+
+
+
+// Challenge 2: Is a string a palindrome?
+
+
+extension String {
+  subscript(position: Int) -> Character {
+    return self[index(startIndex, offsetBy: position)]
+  }
+}
+
+"Hello"[1]
+
+extension String {
+
+  func palindrome1() -> Bool {
+    let lowercased = self.lowercased()
+    return lowercased == String(lowercased.reversed())
+  }
+
+  func palindrome2() -> Bool {
+    let lowercased = self.lowercased()
+    var reversedString = ""
+    for character in lowercased {
+      reversedString = "\(character)" + reversedString
+    }
+    return reversedString == lowercased
+  }
+
+  func palindrome3() -> Bool {
+    let lowercased = self.lowercased()
+    var reversedString = ""
+
+    var stack = Stack<Character>()
+    for character in self {
+      stack.push(character)
+    }
+
+    while let char = stack.pop() {
+      reversedString += "\(char)"
+    }
+    return reversedString == lowercased
+  }
+
+  func palindrome4() -> Bool {
+    let lengthHalf = count / 2
+    var lengthOne = count - 1
+
+    var i = 0
+    while i < lengthHalf {
+      if self[i] != self[lengthOne] {
+        return false
+      }
+      i += 1
+      lengthOne -= 1
+    }
+    return true
+  }
+
+  
+}
+
+extension String {
+  func palindrome4() -> Bool {
+    let size = distance(from: startIndex, to: endIndex)
+    let middleIndex = index(startIndex, offsetBy: size / 2)
+    
+    var leftIndex = startIndex
+    var rightIndex = index(before: endIndex)
+    
+    while leftIndex < middleIndex {
+      if self[leftIndex] != self[rightIndex] {
+        return false
+      }
+      leftIndex = index(after: leftIndex)
+      rightIndex = index(before: rightIndex)
+    }
+    return true
+  }
+}
+
+struct Stack<Value> {
+  var elements = [Value]()
+
+  mutating func push(_ value: Value) {
+    elements.append(value)
+  }
+
+  mutating func pop() -> Value? {
+    return elements.popLast()
+  }
+}
+
+"racecar".palindrome4()
+
+
+
+
+// Challenge 3: Do two strings contain the same characters?
+
+func sameCharacters(_ string1: String, _ string2: String) -> Bool {
+  let array1 = Array(string1)
+  let array2 = Array(string2)
+  return array1.sorted() == array2.sorted()
+}
+
+
+//For bonus interview points, you might be tempted to write something like this:
+//
+//return array1.count == array2.count && array1.sorted() ==
+//  array2.sorted()
+//
+//However, there’s no need – the == operator for arrays does that before doing its item-by-item comparison, so doing it yourself is just redundant.
+// conformance to the equatable protocol makes this check in a guard on the static == func
+
+
+
+// Challenge 5: Count the characters
+
+import Foundation
+
+extension String {
+  func count1(for character: Character) -> Int {
+    var count = 0
+    
+    for element in self {
+      if element == character {
+        count += 1
+      }
+    }
+    
+    return count
+  }
+  
+  func count2(for character: Character) -> Int {
+    let set = NSCountedSet(array: Array(self))
+    return set.count(for: character)
+  }
+
+  func count3(for character: Character) -> Int {
+    return reduce(0) { $1 == character ? $0 + 1 : $0 }
+  }
+
+  func count4(for character: String) -> Int {
+    let modified = replacingOccurrences(of: character, with: "")
+    return count - modified.count
+  }
+}
+
+"Hello".count4(for: "l")
