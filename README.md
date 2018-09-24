@@ -66,7 +66,6 @@ let implementedDataStructures = [
 ]
 
 let solvedAlgorithms = [
-  "Add Two Numbers - (Leetcode)",
   "Binary Search - Iterative",
   "Binary Search - Recursive",
   "Bubble Sort",
@@ -100,7 +99,8 @@ let solvedAlgorithms = [
   "Remove linked list elements",
   "Intersection of two linked lists",
   "Linked list cycle",
-  "Palindrome linked list"
+  "Palindrome linked list",
+  "Add Two Numbers - (Leetcode) this is a linked list problem"
 ]
 
 import Darwin
@@ -2073,3 +2073,39 @@ extension Sequence where Element: Hashable {
 }
 
 [1, 1, 2, 3, 3, 4, 5, 6, 6, 6, 7, 8, 8].unique()
+
+
+
+
+
+//LinkedList
+
+
+//"Create a function that prints out the elements of a linked list in reverse order",
+
+
+//"Create a function that returns the middle node of a linked list",
+
+
+//"Create a function that reverses a linked list",
+
+
+//"Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
+
+
+//"Create a function that removes all occurrences of a specific element from a linked list",
+
+
+//"Delete node in a linked list",
+
+
+//"Remove linked list elements",
+
+
+//"Intersection of two linked lists",
+
+
+//"Linked list cycle",
+
+
+//"Palindrome linked list"
