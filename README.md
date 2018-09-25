@@ -105,7 +105,8 @@ let solvedAlgorithms = [
   "Challenge 1: Are the letters unique?",
   "Challenge 2: Is a string a palindrome?",
   "Challenge 3: Do two strings contain the same characters?",
-  "Challenge 5: Count the characters"
+  "Challenge 5: Count the characters",
+  "Challenge 6: Remove duplicate letters from a string"
 ]
 
 import Darwin
@@ -1596,6 +1597,23 @@ func factorialI(_ num: Int) -> Int {
 factorialR(3)
 
 
+var fibonacciArray:[Int] = [0,1]
+
+var fibonacciTest = 6
+
+func fibonacci(_ n: Int) -> Int {
+  if (fibonacciArray.count > n) {
+    return fibonacciArray[n]
+  }
+  
+  let fibonacciNumber = fibonacci(n - 1) + fibonacci(n - 2)
+  fibonacciArray.append(fibonacciNumber)
+  return fibonacciNumber
+}
+
+fibonacci(fibonacciTest)
+
+
 
 
 extension CountableRange where Bound == Int {
@@ -2206,6 +2224,27 @@ extension String {
     return true
   }
 
+
+  //"Challenge 2: Is a string a palindrome?",
+
+extension String {
+  func pal1() -> Bool {
+    var left = startIndex
+    var right = index(before: endIndex)
+    
+    while left <= right {
+      if self[left] != self[right] {
+        return false
+      }
+      left = index(after: left)
+      right = index(before: right)
+    }
+    return true
+  }
+}
+
+"racecar".pal1()
+
   
 }
 
@@ -2262,7 +2301,18 @@ func sameCharacters(_ string1: String, _ string2: String) -> Bool {
 //However, there’s no need – the == operator for arrays does that before doing its item-by-item comparison, so doing it yourself is just redundant.
 // conformance to the equatable protocol makes this check in a guard on the static == func
 
+//"Challenge 5: Count the characters"
 
+
+import Foundation
+
+extension String {
+  func fuzzyContains(_ substring: String) -> Bool {
+    return range(of: substring, options: .caseInsensitive) != nil
+  }
+}
+
+"Hello, world".fuzzyContains("Hello")
 
 // Challenge 5: Count the characters
 
@@ -2297,3 +2347,68 @@ extension String {
 }
 
 "Hello".count4(for: "l")
+
+func challenge5d(input: String, count: String) -> Int {
+   let modified = input.replacingOccurrences(of: count, with:
+"")
+   return input.count - modified.count
+}
+
+
+struct UnfoldingSequence<State, T>: Sequence, IteratorProtocol {
+  let _next: (inout State) -> T?
+  var state: State
+  
+  init(state: State, next: @escaping (inout State) -> T?) {
+    _next = next
+    self.state = state
+  }
+  
+  mutating func next() -> T? {
+    return _next(&state)
+  }
+}
+
+let fibs = UnfoldingSequence(state: (0, 1)) { state -> Int? in
+  defer { state = (state.1, state.0 + state.1) }
+  return state.0
+}
+
+for f in fibs.prefix(10) {
+  print(f)
+}
+
+
+extension String {
+  func unique() -> String {
+    var seenElements = Set<Character>()
+    return filter { element in
+      if seenElements.contains(element) {
+        return false
+      } else {
+        seenElements.insert(element)
+        return true
+      }
+    }
+  }
+}
+
+"Mississippi".unique()
+
+
+
+extension String {
+  func unique() -> String {
+    var seenElements = Set<Character>()
+    return reduce("") { result, element in
+      if seenElements.contains(element) {
+        return result
+      } else {
+        seenElements.insert(element)
+        return result + "\(element)"
+      }
+    }
+  }
+}
+
+"Hello".unique()
