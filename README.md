@@ -97,6 +97,7 @@ let solvedAlgorithms = [
   "Intersection of two linked lists",
   "Linked list cycle",
   "Palindrome linked list",
+  "Remove Nth Node From End of List",
   "Add Two Numbers - (Leetcode) this is a linked list problem",
   "Challenge 1: Are the letters unique?",
   "Challenge 2: Is a string a palindrome?",
@@ -2554,3 +2555,22 @@ print(node1)
 delete(node1, 3)
 print(node1)
 
+
+
+//"Linked list cycle",
+
+func cycle(_ node: ListNode?) -> Bool {
+  var slow = node
+  var fast = node
+  
+  while slow !== fast {
+    if fast == nil || fast?.next == nil {
+      return false
+    }
+    fast = fast?.next?.next
+    slow = slow?.next
+  }
+  return true
+}
+
+cycle(node1)
