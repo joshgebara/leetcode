@@ -2412,3 +2412,51 @@ extension String {
 }
 
 "Hello".unique()
+
+
+
+//"Create a function that prints out the elements of a linked list in reverse order",
+
+struct Stack<Value> {
+  var elements: [Value] = []
+  
+  mutating func push(_ value: Value) {
+    elements.append(value)
+  }
+  
+  mutating func pop() -> Value? {
+    return elements.popLast()
+  }
+}
+
+//func r<Value>(_ node: Node<Value>?) {
+//  var stack = Stack<Value>()
+//  var current = node
+//
+//  while current != nil {
+//    stack.push(current!.value)
+//    current = current!.next
+//  }
+//
+//  while let value = stack.pop() {
+//    print(value)
+//  }
+//}
+
+//func r<Value>(_ node: Node<Value>?) -> String {
+//  var current = node
+//  var result = ""
+//  while current != nil {
+//    result = "\(current!.value)" + " " + result
+//    current = current!.next
+//  }
+//  return result
+//}
+
+func r<Value>(_ node: Node<Value>?) {
+  guard node != nil else { return }
+  r(node?.next)
+  print(node!.value)
+}
+
+r(node4)
