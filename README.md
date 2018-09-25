@@ -2534,5 +2534,23 @@ class Solution {
 Solution().removeElements(node1, 6)
 
 
+//"Delete node in a linked list",
 
+func delete(_ head: ListNode?, _ val: Int) {
+  var current = head
+  var previous = head
+  
+  while current != nil {
+    if current?.val == val {
+      previous?.next = current?.next
+      return
+    }
+    previous = current
+    current = current?.next
+  }
+}
+
+print(node1)
+delete(node1, 3)
+print(node1)
 
