@@ -20,9 +20,6 @@ https://www.youtube.com/watch?v=y2b94AxPlF8
 
 
 let unsolvedAlgorithms = [
-  "Evaluate Reverse Polish Notation",
-  "Power of Four",
-  "Friend Circles",
   "N-Queens",
   "Hamming Distance",
   "Challenge 4: Does one string contain another? - KMP algo",
@@ -42,12 +39,12 @@ let unsolvedAlgorithms = [
   "Rotate String - (Leetcode) - Knuth-Morris-Pratt",
   "Excel Sheet Column Title",
   "Towers of Hanoi",
-    "Palindrome Linked List - (Leetcode)",
   "Valid Palindrome - (Leetcode)",
   "Merge Sort Linked List",
   "Merge Sort - Iterative",
   "Quick Sort - Iterative",
-  "Permutations"
+  "Permutations",
+  "Sort a linked list"
 ]
 
 let unimplementedDataStructures = [
@@ -95,7 +92,6 @@ let solvedAlgorithms = [
   "Create a function that returns the middle node of a linked list",
   "Create a function that reverses a linked list",
   "Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
-  "Create a function that removes all occurrences of a specific element from a linked list",
   "Delete node in a linked list",
   "Remove linked list elements",
   "Intersection of two linked lists",
@@ -2460,3 +2456,83 @@ func r<Value>(_ node: Node<Value>?) {
 }
 
 r(node4)
+
+
+//"Create a function that returns the middle node of a linked list",
+
+func middle<Value>(_ node: Node<Value>?) -> Node<Value>? {
+  var current = node
+  var previous = node
+  
+  while current != nil {
+    current = current?.next?.next
+    previous = previous?.next
+  }
+  return previous?.next
+}
+
+middle(node4)
+
+
+
+func middle<Value>(_ node: Node<Value>?) -> Node<Value>? {
+  var current = node
+  var previous = node
+  var count = 0
+  
+  while current != nil {
+    count += 1
+    
+    if count % 2 != 0 {
+      previous = previous?.next
+    }
+    
+    current = current?.next
+    
+  }
+  return previous
+}
+
+middle(node4)
+
+
+
+
+
+
+
+
+
+//"Remove linked list elements",
+
+class Solution {
+  func removeElements(_ head: ListNode?, _ val: Int) -> ListNode? {
+    var current = head
+    var previous: ListNode?
+    
+    while current != nil {
+      if current?.val == val {
+        previous?.next = current?.next
+      }
+      previous = current
+      current = current?.next
+    }
+    return head
+  }
+  
+  func removeElementsR(_ head: ListNode?, _ val: Int) -> ListNode? {
+    if head == nil {
+      return nil
+    }
+    
+    head?.next = removeElementsR(head, val)
+    
+    return head?.val == val ? head?.next : head
+  }
+}
+
+Solution().removeElements(node1, 6)
+
+
+
+
