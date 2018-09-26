@@ -2121,6 +2121,22 @@ extension Sequence where Element: Hashable {
 
 //"Remove linked list elements",
 
+class Solution {
+  func removeElements(_ head: ListNode?, _ val: Int) -> ListNode? {
+    let fakeHead = ListNode(-1)
+    fakeHead.next = head
+    var previous = fakeHead
+    
+    while let current = previous.next {
+      if current.val == val {
+        previous.next = current.next
+      } else {
+        previous = current
+      }
+    }
+    return fakeHead.next
+  }
+}
 
 //"Intersection of two linked lists",
 
@@ -2609,3 +2625,98 @@ extension String {
   }
 }
 
+
+
+// merge linked lists
+class Solution {
+  func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+    var l1 = l1
+    var l2 = l2
+    
+      guard l1 != nil else { return l2 }
+      guard l2 != nil else { return l1 }
+      
+    var head: ListNode?
+
+    if l1!.val > l2!.val {
+    head = l2
+    l2 = l2?.next
+    } else {
+    head = l1
+    l1 = l1?.next
+    }
+
+    var current = head
+
+    while l1 != nil && l2 != nil {
+    if (l1?.val ?? 0) > (l2?.val ?? 0) {
+      current?.next = l2
+      l2 = l2?.next
+      current = current?.next
+    } else {
+      current?.next = l1
+      l1 = l1?.next
+      current = current?.next
+    }
+    }
+
+    current?.next = l1 != nil ? l1 : l2
+    return head
+  }
+}
+
+
+
+class ListNode {
+  let val: Int
+  var next: ListNode?
+  
+  init(_ val: Int, next: ListNode? = nil) {
+    self.val = val
+    self.next = next
+  }
+}
+
+extension ListNode: CustomStringConvertible {
+  var description: String {
+    guard let next = next else {
+      return "\(val)"
+    }
+    return "\(val) -> \(next)"
+  }
+}
+
+
+let node5 = ListNode(5)
+let node4 = ListNode(4, next: node5)
+let node3 = ListNode(3, next: node4)
+let node2 = ListNode(2, next: node3)
+let node1 = ListNode(1, next: node2)
+
+let node9 = ListNode(4)
+let node8 = ListNode(2, next: node9)
+let node7 = ListNode(2, next: node8)
+let node6 = ListNode(1, next: node7)
+
+func merge(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+  var l1 = l1
+  var l2 = l2
+  let preHead = ListNode(-1)
+  var previous: ListNode? = preHead
+  
+  while l1 != nil && l2 != nil {
+    if (l1?.val ?? 0) > (l2?.val ?? 0) {
+      previous?.next = l2
+      l2 = l2?.next
+    } else {
+      previous?.next = l1
+      l1 = l1?.next
+    }
+    previous = previous?.next
+  }
+  
+  previous?.next = l1 != nil ? l1 : l2
+  return preHead.next
+}
+
+merge(node1, node6)
