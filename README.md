@@ -2574,3 +2574,38 @@ func cycle(_ node: ListNode?) -> Bool {
 }
 
 cycle(node1)
+
+
+
+challenge 6
+extension String {
+  func unique1() -> String {
+    var seenElements = Set<Character>()
+    return filter { character in
+      if seenElements.contains(character) {
+        return false
+      } else {
+        seenElements.insert(character)
+        return true
+      }
+    }
+  }
+  
+  func unique2() -> String {
+    var seenElements = Set<Character>()
+    return reduce("") { result, character in
+      if seenElements.contains(character) {
+        return result
+      } else {
+        seenElements.insert(character)
+        return result + "\(character)"
+      }
+    }
+  }
+
+    func unique2() -> String {
+    var used = [Character: Bool]()
+    return filter { used.updateValue(true, forKey: $0) == nil }
+  }
+}
+
