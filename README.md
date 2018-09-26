@@ -2720,3 +2720,152 @@ func merge(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
 }
 
 merge(node1, node6)
+
+
+
+
+
+// intersection of two linked lists
+class ListNode {
+  let val: Int
+  var next: ListNode?
+  
+  init(_ val: Int, next: ListNode? = nil) {
+    self.val = val
+    self.next = next
+  }
+}
+
+extension ListNode: CustomStringConvertible {
+  var description: String {
+    guard let next = next else {
+      return "\(val)"
+    }
+    return "\(val) -> \(next)"
+  }
+}
+
+
+let node5 = ListNode(5)
+let node4 = ListNode(4, next: node5)
+let node3 = ListNode(3, next: node4)
+let node2 = ListNode(2, next: node3)
+let node1 = ListNode(1, next: node2)
+
+//let node9 = ListNode(4)
+//let node8 = ListNode(2, next: )
+let node7 = ListNode(2, next: node4)
+let node6 = ListNode(1, next: node7)
+
+
+func intersection(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+  var l1 = l1
+  var l2 = l2
+  
+  let l1Length = length(l1)
+  let l2Length = length(l2)
+  
+  if l1Length < l2Length {
+    swap(&l1, &l2)
+  }
+  
+  for _ in 0..<l1Length - l2Length {
+    l1 = l1?.next
+  }
+  
+  while l1 != nil && l2 != nil {
+    if l1 === l2 {
+      return l1
+    }
+    l1 = l1?.next
+    l2 = l2?.next
+  }
+  return nil
+}
+
+func length(_ node: ListNode?) -> Int {
+  var current = node
+  var counter = 0
+  
+  while current != nil {
+    counter += 1
+    current = current?.next
+  }
+  return counter
+}
+
+intersection(node1, node6)
+
+
+
+
+
+class ListNode {
+  let val: Int
+  var next: ListNode?
+  
+  init(_ val: Int, next: ListNode? = nil) {
+    self.val = val
+    self.next = next
+  }
+}
+
+extension ListNode: CustomStringConvertible {
+  var description: String {
+    guard let next = next else {
+      return "\(val)"
+    }
+    return "\(val) -> \(next)"
+  }
+}
+
+
+let node5 = ListNode(5)
+let node4 = ListNode(4, next: node5)
+let node3 = ListNode(3, next: node4)
+let node2 = ListNode(2, next: node3)
+let node1 = ListNode(1, next: node2)
+
+//let node9 = ListNode(4)
+//let node8 = ListNode(2, next: )
+let node7 = ListNode(2, next: node4)
+let node6 = ListNode(1, next: node7)
+
+
+func intersection(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+  var l1 = l1
+  var l2 = l2
+  
+  let l1Length = length(l1)
+  let l2Length = length(l2)
+
+  if l1Length < l2Length {
+    return intersection(l2, l1)
+  }
+
+  for _ in 0..<l1Length - l2Length {
+    l1 = l1?.next
+  }
+
+  while l1 != nil && l2 != nil {
+    if l1 === l2 {
+      return l1
+    }
+    l1 = l1?.next
+    l2 = l2?.next
+  }
+  return nil
+}
+
+func length(_ node: ListNode?) -> Int {
+  var current = node
+  var counter = 0
+  
+  while current != nil {
+    counter += 1
+    current = current?.next
+  }
+  return counter
+}
+
+intersection(node6, node1)
