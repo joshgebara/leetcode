@@ -94,6 +94,7 @@ let solvedAlgorithms = [
   "Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
   "Delete node in a linked list",
   "Remove linked list elements",
+  "Remove Duplicates from Sorted List",
   "Intersection of two linked lists",
   "Linked list cycle",
   "Palindrome linked list",
@@ -2919,5 +2920,46 @@ class Solution {
     }
     
     return dummy.next
+  }
+}
+
+
+//Remove Duplicates from Sorted Array - (Leetcode)
+
+class Solution {
+  func removeDuplicates(_ nums: inout [Int]) -> Int {
+    guard nums.count > 1 else { return nums.count }
+    
+    var i = 0
+    
+    for j in 1..<nums.count {
+      if nums[i] != nums[j] {
+        i += 1
+        nums.swapAt(i, j)
+      }
+    }
+    
+    return i + 1
+  }
+}
+
+
+
+
+
+ //Remove Duplicates from Sorted List
+
+class Solution {
+  func deleteDuplicates(_ head: ListNode?) -> ListNode? {
+    var current = head
+    
+    while current != nil && current?.next != nil {
+      if current?.val == current?.next?.val {
+        current?.next = current?.next?.next
+      } else {
+       current = current?.next
+      }
+    }
+    return head
   }
 }
