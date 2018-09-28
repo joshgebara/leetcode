@@ -2963,3 +2963,79 @@ class Solution {
     return head
   }
 }
+
+
+
+extension Int {
+  static postfix func ~! (number: Int) -> Int {
+    return factorial(number)
+  }
+  
+  static func factorial(_ number: Int) -> Int {
+    guard number > 1 else { return 1 }
+    
+    var current = number
+    var result = 1
+    
+    while current > 0 {
+      result *= current
+      current -= 1
+    }
+    
+    return result
+  }
+}
+
+3~!
+
+
+
+
+
+
+
+//Challenge 5: Count the characters
+
+import Foundation
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return reduce(0) {
+      predicate($1) ? $0 + 1 : $0
+    }
+  }
+}
+
+extension String {
+  func count1(for character: Character) -> Int {
+    let set = NSCountedSet(array: Array(self))
+    return set.count(for: character)
+  }
+  
+  func count2(for character: Character) -> Int {
+    var result = 0
+    for element in self where element == character {
+      result += 1
+    }
+    return result
+  }
+  
+  func count3(for character: Character) -> Int {
+    return reduce(0) { $1 == character ? $0 + 1 : $0 }
+  }
+  
+  func count4(for character: String) -> Int {
+    return count - replacingOccurrences(of: character, with: "").count
+  }
+  
+  func count5(for character: Character) -> Int {
+    let occurrences = filter { $0 == character }
+    return occurrences.count
+  }
+  
+  func count6(for character: Character) -> Int {
+    return count { $0 == character }
+  }
+}
+
+"Mississippi".count6(for: "i")
