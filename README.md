@@ -99,6 +99,7 @@ let solvedAlgorithms = [
   "Palindrome linked list",
   "Remove Nth Node From End of List",
   "Add Two Numbers - (Leetcode) this is a linked list problem",
+  "Remove Duplicates from Sorted List II",
   "Challenge 1: Are the letters unique?",
   "Challenge 2: Is a string a palindrome?",
   "Challenge 3: Do two strings contain the same characters?",
@@ -2138,6 +2139,28 @@ class Solution {
   }
 }
 
+class Solution:
+    def removeElements(self, head, val):
+        """
+        :type head: ListNode
+        :type val: int
+        :rtype: ListNode
+        """
+        if not head:
+            return []
+
+        o_head = ListNode(None)
+        o_head.next = head
+        head = o_head
+
+        while o_head and o_head.next:
+            if o_head.next.val == val:
+                o_head.next = o_head.next.next
+            else:
+                o_head = o_head.next
+
+        return head.next
+
 //"Intersection of two linked lists",
 
 
@@ -2869,3 +2892,32 @@ func length(_ node: ListNode?) -> Int {
 }
 
 intersection(node6, node1)
+
+
+
+
+
+
+class Solution {
+  func deleteDuplicates(_ head: ListNode?) -> ListNode? {
+    let dummy = ListNode(0)
+    dummy.next = head
+    var previous: ListNode? = dummy
+    var current = head
+    
+    while current != nil {
+      while current?.next != nil && previous?.next?.val == current?.next?.val {
+        current = current?.next
+      }
+      
+      if previous?.next === current {
+        previous = previous?.next
+      } else {
+        previous?.next = current?.next
+      }
+      current = current?.next
+    }
+    
+    return dummy.next
+  }
+}
