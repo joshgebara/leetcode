@@ -106,7 +106,9 @@ let solvedAlgorithms = [
   "Challenge 3: Do two strings contain the same characters?",
   "Challenge 5: Count the characters",
   "Challenge 6: Remove duplicate letters from a string",
-  "Challenge 7: Condense whitespace"
+  "Challenge 7: Condense whitespace",
+  "Challenge 8: String is rotated",
+
 ]
 
 import Darwin
@@ -3065,6 +3067,22 @@ extension String {
 }
 
 "     a   aa a a  a a".removeExtraSpaces()
+
+
+
+Challenge 8
+
+extension String {
+  func isRotation(of string: String) -> Bool {
+    guard count == string.count else { return false }
+    return (self + self).contains(string)
+  }
+}
+
+"ftswi".isRotation(of: "swift")
+
+Time Complexity: Time complexity of this problem depends on the implementation of strstr function.
+If implementation of strstr is done using KMP matcher then complexity of the above program is (-)(n1 + n2) where n1 and n2 are lengths of strings. KMP matcher takes (-)(n) time to find a substrng in a string of length n where length of substring is assumed to be smaller than the string.
 
 
 
