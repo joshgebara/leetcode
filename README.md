@@ -48,7 +48,7 @@ let unsolvedAlgorithms = [
 ]
 
 let unimplementedDataStructures = [
-    "Stack",
+  "Stack",
   "Queue",
   "Tree",
   "Binary Tree",
@@ -105,7 +105,8 @@ let solvedAlgorithms = [
   "Challenge 2: Is a string a palindrome?",
   "Challenge 3: Do two strings contain the same characters?",
   "Challenge 5: Count the characters",
-  "Challenge 6: Remove duplicate letters from a string"
+  "Challenge 6: Remove duplicate letters from a string",
+  "Challenge 7: Condense whitespace"
 ]
 
 import Darwin
@@ -3039,3 +3040,31 @@ extension String {
 }
 
 "Mississippi".count6(for: "i")
+
+
+
+
+
+
+
+extension String {
+  func removeExtraSpaces() -> String {
+    var seenSpace = false
+    return filter { element in
+      if element == " " {
+        if seenSpace {
+          return false
+        }
+        seenSpace = true
+      } else {
+        seenSpace = false
+      }
+      return true
+    }
+  }
+}
+
+"     a   aa a a  a a".removeExtraSpaces()
+
+
+
