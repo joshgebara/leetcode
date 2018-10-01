@@ -3121,3 +3121,30 @@ extension String {
 }
 
 "Mississippi".vowelsAndConsonants()
+
+
+
+
+// Challenge 11
+
+extension String {
+  func threeDifferentLetters(in string: String) -> Bool {
+    guard count == string.count else { return false }
+    let string1 = Array(self)
+    let string2 = Array(string)
+    
+    var differences = 0
+    
+    for index in 0..<string1.count {
+      if string1[index] != string2[index] {
+        differences += 1
+        if differences > 3 {
+          return false
+        }
+      }
+    }
+    return true
+  }
+}
+
+"clamp".threeDifferentLetters(in: "maple")
