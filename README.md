@@ -109,7 +109,7 @@ let solvedAlgorithms = [
   "Challenge 7: Condense whitespace",
   "Challenge 8: String is rotated",
   "Challenge 9: Find pangrams",
-  
+  "Challenge 10: Vowels and consonants"
 ]
 
 import Darwin
@@ -3097,3 +3097,27 @@ extension String {
 }
 
 "The quick brown fox jumps over the lazy dog".isPanagram()
+
+
+Challenge 10
+
+extension String {
+  func vowelsAndConsonants() -> (Int, Int) {
+    let vowelsSet: Set<Character> = Set(["a", "e", "i", "o", "u"])
+    let string = self.lowercased().replacingOccurrences(of: " ", with: "")
+    
+    var vowels = 0
+    var consonants = 0
+    
+    for letter in string {
+      if vowelsSet.contains(letter) {
+        vowels += 1
+      } else {
+        consonants += 1
+      }
+    }
+    return (vowels, consonants)
+  }
+}
+
+"Mississippi".vowelsAndConsonants()
