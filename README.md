@@ -108,7 +108,8 @@ let solvedAlgorithms = [
   "Challenge 6: Remove duplicate letters from a string",
   "Challenge 7: Condense whitespace",
   "Challenge 8: String is rotated",
-
+  "Challenge 9: Find pangrams",
+  
 ]
 
 import Darwin
@@ -3085,4 +3086,14 @@ Time Complexity: Time complexity of this problem depends on the implementation o
 If implementation of strstr is done using KMP matcher then complexity of the above program is (-)(n1 + n2) where n1 and n2 are lengths of strings. KMP matcher takes (-)(n) time to find a substrng in a string of length n where length of substring is assumed to be smaller than the string.
 
 
+Challenge 9
 
+extension String {
+  func isPanagram() -> Bool {
+    let set = Set(lowercased())
+    let letters = set.filter { $0 >= "a" && $0 <= "z" }
+    return letters.count == 26
+  }
+}
+
+"The quick brown fox jumps over the lazy dog".isPanagram()
