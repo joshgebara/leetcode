@@ -2786,25 +2786,29 @@ let node7 = ListNode(2, next: node4)
 let node6 = ListNode(1, next: node7)
 
 
-func intersection(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
-  var l1 = l1
-  var l2 = l2
+//Intersection of two linked lists
+
+func inter(_ node1: ListNode?, _ node2: ListNode?) -> ListNode? {
+  var l1 = node1
+  var l2 = node2
   
   let l1Length = length(l1)
   let l2Length = length(l2)
   
+  
   if l1Length < l2Length {
-    swap(&l1, &l2)
+    return inter(l2, l1)
   }
   
   for _ in 0..<l1Length - l2Length {
     l1 = l1?.next
   }
-  
+
   while l1 != nil && l2 != nil {
     if l1 === l2 {
       return l1
     }
+
     l1 = l1?.next
     l2 = l2?.next
   }
@@ -2813,16 +2817,19 @@ func intersection(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
 
 func length(_ node: ListNode?) -> Int {
   var current = node
-  var counter = 0
+  var count = 0
   
   while current != nil {
-    counter += 1
     current = current?.next
+    count += 1
   }
-  return counter
+  
+  return count
 }
 
-intersection(node1, node6)
+inter(node1, node6)
+
+
 
 
 
