@@ -3148,3 +3148,23 @@ extension String {
 }
 
 "clamp".threeDifferentLetters(in: "maple")
+
+
+
+//Remove linked list elements
+
+func remove(_ element: Int, in head: ListNode?) -> ListNode? {
+  let dummyHead = ListNode(-1)
+  dummyHead.next = head
+  var current: ListNode? = dummyHead
+  
+  while current != nil {
+    if current?.next?.val == element {
+      current?.next = current?.next?.next
+    }
+    current = current?.next
+  }
+  return dummyHead.next
+}
+
+print(remove(1, in: node1))
