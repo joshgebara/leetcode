@@ -132,7 +132,7 @@ extension Collection where Index == Int {
 
 func problems() {
   print("-----Algorithms to Practice-----")
-  let algorithms = solvedAlgorithms.randomElements(to: 8)
+  let algorithms = solvedAlgorithms.randomElements(to: 10)
   algorithms.forEach { print($0) }
   print("\n")
   
@@ -1643,8 +1643,28 @@ extension CountableRange where Bound == Int {
 
 
 
+challenge 6
+extension Sequence where Element: Hashable {
+  func unique() -> [Element] {
+    var seenElements = Set<Element>()
+    return filter { element in
+      if seenElements.contains(element) {
+        return false
+      } else {
+        seenElements.insert(element)
+        return true
+      }
+    }
+  }
+}
 
+extension String {
+  func removeDuplicates() -> String {
+    return String(unique())
+  }
+}
 
+"Hello".removeDuplicates()
 
 
 
@@ -2655,6 +2675,19 @@ extension String {
 
 
 
+extension String {
+  func removeDuplicates() -> String {
+    var seenCharacters = [Character: Bool]()
+    
+    let result = filter {
+      seenCharacters.updateValue(true, forKey: $0) == nil
+    }
+    
+    return String(result)
+  }
+}
+
+
 // merge linked lists
 class Solution {
   func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
@@ -3131,6 +3164,51 @@ extension String {
 
 
 
+//Challenge 10: Vowels and consonants
+# if you can garuntee that the input is only letters then you can just fins the voewls and subtract the counts to find the other letters that are not vowels
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return reduce(0) {
+      return predicate($1) ? $0 + 1 : $0
+    }
+  }
+}
+
+extension String {
+  func vowelsAndConsonants() -> (Int, Int) {
+    let vowels = Set<Character>(["a", "e", "i", "o", "u"])
+    let vowelCount = lowercased().count(where: vowels.contains)
+    let consonantCount = count - vowelCount
+    return (vowelCount, consonantCount)
+  }
+}
+
+"Hello".vowelsAndConsonants()
+
+
+
+
+extension String {
+  func vowelsAndConsonants() -> (Int, Int) {
+    let vowels = Set<Character>("aeiou")
+    let consonants = Set<Character>("bcdfghjklmnpqrstvwxyz")
+    
+    var vowelCount = 0
+    var consonantCount = 0
+    
+    for character in self.lowercased() {
+      if vowels.contains(character) {
+        vowelCount += 1
+      } else if consonants.contains(character) {
+        consonantCount += 1
+      }
+    }
+    
+    return (vowelCount, consonantCount)
+  }
+}
+
+"Hello".vowelsAndConsonants()
 
 // Challenge 11
 
@@ -3175,3 +3253,29 @@ func remove(_ element: Int, in head: ListNode?) -> ListNode? {
 }
 
 print(remove(1, in: node1))
+
+
+
+
+//Find of perfect squares between two numbers
+
+extension RandomAccessCollection where Element == Int {
+  func squares() -> [Element] {
+    var result = [Int]()
+
+    var current = self[startIndex]
+    var square = current * current
+    let last = self[index(before: endIndex)]
+
+    while square < last {
+      result.append(square)
+      current += 1
+      square = current * current
+    }
+    return result
+  }
+}
+
+
+(1...100).squares()
+(1..<100).squares()
