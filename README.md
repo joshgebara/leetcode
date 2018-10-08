@@ -3279,3 +3279,29 @@ extension RandomAccessCollection where Element == Int {
 
 (1...100).squares()
 (1..<100).squares()
+
+
+
+
+//Find of perfect squares between two numbers
+
+import Darwin
+
+extension RandomAccessCollection where Element == Int {
+  func perfectSquares() -> [Element] {
+    guard count > 1 else { return [] }
+    var result = [Int]()
+    var start = Int(sqrt(Double(self[startIndex])))
+    let end = self[index(before: endIndex)]
+    
+    while start * start < end {
+      result.append(start * start)
+      start += 1
+    }
+    return result
+  }
+}
+
+(1..<100).perfectSquares()
+(1...1000).perfectSquares()
+Array(50...100).perfectSquares()
