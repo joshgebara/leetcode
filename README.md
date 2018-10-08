@@ -112,6 +112,17 @@ let solvedAlgorithms = [
   "Challenge 10: Vowels and consonants"
 ]
 
+let haskellAlgorithms = [
+  "maximum",
+  "replicate",
+  "take",
+  "reverse",
+  "repeat",
+  "zip",
+  "elem",
+  "quicksort"
+]
+
 import Darwin
 
 extension Collection where Index == Int {
@@ -132,7 +143,7 @@ extension Collection where Index == Int {
 
 func problems() {
   print("-----Algorithms to Practice-----")
-  let algorithms = solvedAlgorithms.randomElements(to: 10)
+  let algorithms = solvedAlgorithms.randomElements(to: 8)
   algorithms.forEach { print($0) }
   print("\n")
   
@@ -143,9 +154,15 @@ func problems() {
   print("-----Algorithm to Learn-----")
   print(unsolvedAlgorithms[0])
   print("\n")
+  
+  print("-----Haskell Algorithms-----")
+  let halgorithms = haskellAlgorithms.randomElements(to: 3)
+  halgorithms.forEach { print($0) }
+  print("\n")
 }
 
 problems()
+
 
 
 ```
