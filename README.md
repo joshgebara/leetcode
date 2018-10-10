@@ -113,6 +113,13 @@ let solvedAlgorithms = [
 ]
 
 let haskellAlgorithms = [
+  "perfect squares between 1 and upper bound"
+  "factorial",
+  "fibonacci",
+  "head",
+  "length - list comprehension",
+  "length - recursive",
+  "sum",
   "maximum",
   "replicate",
   "take",
