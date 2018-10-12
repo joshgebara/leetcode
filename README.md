@@ -135,7 +135,9 @@ let haskellAlgorithms = [
   "map",
   "filter",
   "find the sum of all odd squares that are smaller than 10,000",
-  "takeWhile"
+  "takeWhile",
+  "collatz sequence",
+  "for all starting numbers between 1 and 100, how many Collatz Sequences have a length greater than 15?"
 ]
 
 import Darwin
