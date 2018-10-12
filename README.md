@@ -113,21 +113,26 @@ let solvedAlgorithms = [
 ]
 
 let haskellAlgorithms = [
-  "perfect squares between 1 and upper bound"
+  "perfect squares between 1 and upper bound",
   "factorial",
   "fibonacci",
   "head",
   "length - list comprehension",
   "length - recursive",
   "sum",
-  "maximum",
+  "maximum - recursive",
+  "maximum - with max function",
   "replicate",
   "take",
   "reverse",
   "repeat",
   "zip",
   "elem",
-  "quicksort"
+  "quicksort",
+  "zipWith",
+  "flip",
+  "map",
+  "filter"
 ]
 
 import Darwin
