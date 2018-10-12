@@ -128,11 +128,13 @@ let haskellAlgorithms = [
   "repeat",
   "zip",
   "elem",
-  "quicksort",
+  "quickSort - list comprehension",
+  "quickSort - filter"
   "zipWith",
   "flip",
   "map",
-  "filter"
+  "filter",
+  "find the sum of all odd squares that are smaller than 10,000"
 ]
 
 import Darwin
