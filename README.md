@@ -134,7 +134,8 @@ let haskellAlgorithms = [
   "flip",
   "map",
   "filter",
-  "find the sum of all odd squares that are smaller than 10,000"
+  "find the sum of all odd squares that are smaller than 10,000",
+  "takeWhile"
 ]
 
 import Darwin
