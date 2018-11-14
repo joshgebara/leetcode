@@ -18,52 +18,28 @@ https://www.youtube.com/watch?v=y2b94AxPlF8
 
 ```swift
 
-
-let unsolvedAlgorithms = [
-  "N-Queens",
-  "Hamming Distance",
-  "Challenge 4: Does one string contain another? - KMP algo",
-  "Missing Number",
-  "Best Time to Buy and Sell Stock",
-  "Count and Say",
-  "Add Binary",
-  "Lowest Common Ancestor of a Binary Search Tree - https://www.youtube.com/watch?v=GnliEfQo114",
-  "Valid Parentheses",
-  "Traverse a matrix",
-  "Tic tac toe",
-  "Reverse a utf 8 string",
-  "Merge Sorted Array",
-  "Implement strStr()",
-  "Sqrt(x)",
-  "Heap Sort",
-  "Rotate String - (Leetcode) - Knuth-Morris-Pratt",
-  "Excel Sheet Column Title",
-  "Towers of Hanoi",
-  "Valid Palindrome - (Leetcode)",
-  "Merge Sort Linked List",
-  "Merge Sort - Iterative",
-  "Quick Sort - Iterative",
-  "Permutations",
-  "Sort a linked list"
-]
-
-let unimplementedDataStructures = [
+let swiftDataStructures = [
+  "Array",
+  "Set",
+  "Dictionary",
+  "Range",
+  "Tuple",
+  "LinkedList",
   "Stack",
   "Queue",
   "Tree",
   "Binary Tree",
   "Binary Search Tree",
-  "Trie",
-  "Max Heap",
-  "Min Heap",
-  "Graph"
+  "AVL Tree"
 ]
 
-let implementedDataStructures = [
-  "LinkedList"
+let haskellDataStructures = [
+  "List",
+  "Association List",
+  "Map"
 ]
 
-let solvedAlgorithms = [
+let swiftAlgorithms = [
   "Binary Search - Iterative",
   "Binary Search - Recursive",
   "Bubble Sort",
@@ -129,7 +105,8 @@ let haskellAlgorithms = [
   "zip",
   "elem",
   "quickSort - list comprehension",
-  "quickSort - filter"
+  "quickSort - filter",
+  "quickSort - partition",
   "zipWith",
   "flip",
   "map",
@@ -159,27 +136,26 @@ extension Collection where Index == Int {
 }
 
 func problems() {
-  print("-----Algorithms to Practice-----")
-  let algorithms = solvedAlgorithms.randomElements(to: 8)
-  algorithms.forEach { print($0) }
+  print("-----Swift Data Structures to Implement-----")
+  print(swiftDataStructures.randomElements(to: 1).first!)
   print("\n")
   
-  print("-----Data Structure to Implement-----")
-  print(implementedDataStructures.randomElements(to: 1).first!)
+  print("-----Haskell Data Structures to Practice-----")
+  print(haskellDataStructures.randomElements(to: 1).first!)
   print("\n")
   
-  print("-----Algorithm to Learn-----")
-  print(unsolvedAlgorithms[0])
+  print("-----Swift Algorithms to Practice-----")
+  let swiftAlgorithmList = swiftAlgorithms.randomElements(to: 5)
+  swiftAlgorithmList.forEach { print($0) }
   print("\n")
   
-  print("-----Haskell Algorithms-----")
-  let halgorithms = haskellAlgorithms.randomElements(to: 3)
-  halgorithms.forEach { print($0) }
+  print("-----Haskell Algorithms to Practice-----")
+  let haskellAlgorithmList = haskellAlgorithms.randomElements(to: 5)
+  haskellAlgorithmList.forEach { print($0) }
   print("\n")
 }
 
 problems()
-
 
 
 ```
