@@ -1163,6 +1163,38 @@ print(a)
 
 
 
+//Binary Search - Iterative
+
+extension RandomAccessCollection where Element: Comparable {
+  func binarySearch(for key: Element) -> Bool {
+    var leftIndex = startIndex
+    var rightIndex = index(before: endIndex)
+    
+    while leftIndex <= rightIndex {
+      let size = distance(from: leftIndex, to: rightIndex)
+      let middleIndex = index(leftIndex, offsetBy: size / 2)
+      let middleValue = self[middleIndex]
+      
+      if middleValue == key {
+        return true
+      }
+      
+      if middleValue > key {
+        rightIndex = index(before: middleIndex)
+      }
+      
+      if middleValue < key {
+        leftIndex = index(after: middleIndex)
+      }
+    }
+    return false
+  }
+}
+
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].binarySearch(for: 0)
+
+
+
 
 # Linked List
 ```swift
@@ -1554,7 +1586,11 @@ class Solution {
 Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
 
 
-
+# Fib recursive
+func fib(_ num: Int) -> Int {
+  guard num > 1 else { return num }
+  return fib(num - 1) + fib(num - 2)
+}
 
 
 
@@ -1579,6 +1615,7 @@ let fibs = UnfoldingSequence(state: (0, 1)) { (state) -> Int? in
 }
 
 let r = AnySequence(fibs.prefix(10).map { $0 * 2 })
+
 
 
 https://github.com/raywenderlich/swift-algorithm-club/tree/master/Combinatorics
