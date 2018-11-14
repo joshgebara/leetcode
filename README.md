@@ -1594,6 +1594,8 @@ func fib(_ num: Int) -> Int {
 
 
 
+
+
 struct UnfoldingSequence<State, T>: Sequence, IteratorProtocol {
   var state: State
   let _next: (inout State) -> T?
@@ -1616,7 +1618,12 @@ let fibs = UnfoldingSequence(state: (0, 1)) { (state) -> Int? in
 
 let r = AnySequence(fibs.prefix(10).map { $0 * 2 })
 
+//Fibonnaci - Iterative
 
+let fibs = sequence(first: (0, 1)) { ($1, $0 + $1) }
+for fib in fibs.prefix(10) {
+  print(fib.0)
+}
 
 https://github.com/raywenderlich/swift-algorithm-club/tree/master/Combinatorics
 
