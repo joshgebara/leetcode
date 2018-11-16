@@ -3359,3 +3359,18 @@ extension RandomAccessCollection where Element == Int {
 (1..<100).perfectSquares()
 (1...1000).perfectSquares()
 Array(50...100).perfectSquares()
+
+# Infix pow operator
+
+```swift
+import Foundation
+
+infix operator ^^ : MultiplicationPrecedence
+
+func ^^(_ radix: Int, power: Int) -> Int {
+  return Int(pow(Double(radix), Double(power)))
+}
+
+5 ^^ 2
+
+```
