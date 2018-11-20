@@ -66,7 +66,6 @@ let swiftAlgorithms = [
   "Factorial",
   "Create a function that prints out the elements of a linked list in reverse order",
   "Create a function that returns the middle node of a linked list",
-  "Create a function that reverses a linked list",
   "Create a function that takes two sorted linked lists and merges them into a single sorted linked list",
   "Delete node in a linked list",
   "Remove linked list elements",
@@ -3373,4 +3372,43 @@ func ^^(_ radix: Int, power: Int) -> Int {
 
 5 ^^ 2
 
+```
+
+
+
+# quicksort with new static random method on Int
+
+```swift
+public func quickSort<Element: Comparable>(_ array: inout [Element]) {
+  return quickSort(&array, array.startIndex, array.index(before: array.endIndex))
+}
+
+private func quickSort<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) {
+  guard low < high else { return }
+  
+  let randomIndex = Int.random(in: low...high)
+  array.swapAt(randomIndex, high)
+  
+  let partitionIndex = partition(&array, low, high)
+  quickSort(&array, low, array.index(before: partitionIndex))
+  quickSort(&array, array.index(after: partitionIndex), high)
+}
+
+private func partition<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) -> Int {
+  let partitionElement = array[high]
+  var lowestIndex = low
+  
+  for currentIndex in low..<high {
+    if partitionElement >= array[currentIndex] {
+      array.swapAt(lowestIndex, currentIndex)
+      lowestIndex += 1
+    }
+  }
+  
+  array.swapAt(lowestIndex, high)
+  return lowestIndex
+}
+
+var a = [1, 3, 4, 5, 4, 3, 4, 3, 4, 3, 2, 3, 2, 2, 1]
+quickSort(&a)
 ```
