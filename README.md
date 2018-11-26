@@ -628,6 +628,52 @@ private func merge<Element: Comparable>(_ left: [Element], _ right: [Element]) -
 
 var d = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
 mergeSort(d)
+
+extension RandomAccessCollection where Element: Comparable {
+  public func mergeSort(by sort: (Element, Element) -> Bool = (<)) -> [Element] {
+    guard count > 1 else { return Array(self) }
+    let middleIndex = index(startIndex, offsetBy: count / 2)
+    let left = Array(self[..<middleIndex]).mergeSort()
+    let right = Array(self[middleIndex...]).mergeSort()
+    return merge(left, right, by: sort)
+  }
+  
+  private func merge(_ left: [Element], _ right: [Element], by sort: (Element, Element) -> Bool = (<)) -> [Element] {
+    var results: [Element] = []
+    var leftIndex = 0
+    var rightIndex = 0
+    
+    while left.count > leftIndex && right.count > rightIndex {
+      let leftElement = left[leftIndex]
+      let rightElement = right[rightIndex]
+      
+      if leftElement == rightElement {
+        results.append(leftElement)
+        results.append(rightElement)
+        leftIndex += 1
+        rightIndex += 1
+      } else if sort(leftElement, rightElement) {
+        results.append(leftElement)
+        leftIndex += 1
+      } else {
+        results.append(rightElement)
+        rightIndex += 1
+      }
+    }
+    
+    if left.count > leftIndex {
+      results.append(contentsOf: left[leftIndex...])
+    } else {
+      results.append(contentsOf: right[rightIndex...])
+    }
+    
+    return results
+  }
+}
+
+var a = [9, 8, 7, 8, 7, 6, 7, 6, 5, 6, 5, 4, 5, 4, 3, 2, 1]
+a.mergeSort(by: >)
+// need to fix the predicate for ordering greatest to least
 ```
 
 ## Radix Sort
