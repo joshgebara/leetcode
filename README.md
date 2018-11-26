@@ -511,6 +511,26 @@ extension MutableCollection where Self: BidirectionalCollection, Element: Compar
 
 var b = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
 b.insertionSort()
+
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func insertionSort(by sort: (Element, Element) -> Bool = (<)) {
+    guard count > 1 else { return }
+    
+    for currentIndex in index(after: startIndex)..<endIndex {
+      for shiftingIndex in (index(after: startIndex)...currentIndex).reversed() {
+        let previousIndex = index(before: shiftingIndex)
+        if sort(self[shiftingIndex], self[previousIndex]) {
+          swapAt(shiftingIndex, previousIndex)
+        } else {
+          break
+        }
+      }
+    }
+  }
+}
+
+var a = [5, 4, 6, 5, 4, 5, 4, 3, 4, 3, 2, 1]
+a.insertionSort()
 ```
 
 ## Selection Sort
