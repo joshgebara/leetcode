@@ -462,6 +462,27 @@ extension MutableCollection where Self: BidirectionalCollection, Element: Compar
 
 var a = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
 a.bubbleSort()
+
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func bubbleSort(by sort: (Element, Element) -> Bool = (<)) {
+    guard count > 1 else { return }
+    
+    for endingIndex in indices.reversed() {
+      var noSwaps = true
+      for currentIndex in startIndex..<endingIndex {
+        let nextIndex = index(after: currentIndex)
+        if sort(self[nextIndex], self[currentIndex]) {
+          swapAt(currentIndex, nextIndex)
+          noSwaps = false
+        }
+      }
+      if noSwaps { return }
+    }
+  }
+}
+
+var a = [5, 4, 5, 4, 5, 6, 5, 4, 3, 4, 3, 2, 3, 2, 1, 1]
+a.bubbleSort(by: <)
 ```
 
 
