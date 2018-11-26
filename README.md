@@ -719,6 +719,12 @@ Best - O(n log n)
 Worst - O(n^2)
 Space - O(1)
 
+https://stackoverflow.com/questions/41031106/which-general-purpose-sorting-algorithm-does-swift-use-it-does-not-perform-well
+
+https://stackoverflow.com/questions/27677026/swift-sorting-algorithm-implementation
+
+
+
 ```swift
 import Foundation
 
