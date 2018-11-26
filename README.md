@@ -516,6 +516,25 @@ extension MutableCollection where Self: BidirectionalCollection, Element: Compar
 
 var c = [6, 3, 8, 7, 5, 4, 2, 9, 8, 5, 4, 2]
 c.selectionSort()
+
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func selectionSort(_ sort: (Element, Element) -> Bool = (<)) {
+    guard count > 1 else { return }
+    
+    for currentIndex in startIndex..<index(before: endIndex) {
+      var lowestValueIndex = currentIndex
+      for swapIndex in index(after: currentIndex)..<endIndex {
+        if sort(self[swapIndex], self[lowestValueIndex]) {
+          lowestValueIndex = swapIndex
+        }
+      }
+      swapAt(lowestValueIndex, currentIndex)
+    }
+  }
+}
+
+var a = [9, 8, 7, 8, 7, 6, 7, 6, 5, 4, 4, 4, 3, 2, 1, 2, 3, 2]
+a.selectionSort()
 ```
 
 ## Merge Sort
