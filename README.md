@@ -714,6 +714,65 @@ var a = [1, 4, 3, 5, 6, 7, 8, 5, 4, 3, 2, 8, 7]
 a.radixSort()
 ```
 
+## Heap Sort
+Best - O(n log n)
+Worst - O(n log n)
+Space - O(1)
+
+```swift
+extension Array where Element: Comparable {
+  func leftChildIndex(ofParentAt index: Int) -> Int {
+    return 2 * index + 1
+  }
+  
+  func rightChildIndex(ofParentAt index: Int) -> Int {
+    return 2 * index + 2
+  }
+  
+  mutating func siftDown(from index: Int, upTo size: Int) {
+    var parent = index
+    while true {
+      let left = leftChildIndex(ofParentAt: parent)
+      let right = rightChildIndex(ofParentAt: parent)
+      var candidate = parent
+      
+      if left < size && (self[left] > self[candidate]) {
+        candidate = left
+      }
+      
+      if right < size && (self[right] > self[candidate]) {
+        candidate = right
+      }
+      
+      if parent == candidate {
+        return
+      }
+      
+      swapAt(parent, candidate)
+      parent = candidate
+      
+    }
+  }
+  
+  mutating func heapSort() {
+    guard count > 1 else { return }
+    
+    for i in stride(from: count / 2 - 1, through: 0, by: -1) {
+      siftDown(from: i, upTo: count)
+    }
+    
+    for index in indices.reversed() {
+      swapAt(0, index)
+      siftDown(from: 0, upTo: index)
+    }
+  }
+}
+
+var a = [8, 7, 8, 7, 6, 7, 6, 5, 3, 2, 4, 3, 1, 1]
+a.heapSort()
+```
+
+
 ## Quick Sort
 Best - O(n log n)
 Worst - O(n^2)
