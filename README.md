@@ -3583,3 +3583,53 @@ private func partition<Element: Comparable>(_ array: inout [Element], _ low: Int
 var a = [1, 3, 4, 5, 4, 3, 4, 3, 4, 3, 2, 3, 2, 2, 1]
 quickSort(&a)
 ```
+
+
+
+## Binary Tree
+```swift
+class Node<Value> {
+  let value: Value
+  var leftChild: Node<Value>?
+  var rightChild: Node<Value>?
+  
+  init(value: Value) {
+    self.value = value
+  }
+}
+
+var tree: Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+
+func inOrder<Value>(_ node: Node<Value>?) {
+  inOrder(node?.leftChild)
+  print(node?.value ?? "")
+  inOrder(node?.rightChild)
+}
+
+func preOrder<Value>(_ node: Node<Value>?) {
+  print(node?.value ?? "")
+  inOrder(node?.leftChild)
+  inOrder(node?.rightChild)
+}
+
+func postOrder<Value>(_ node: Node<Value>?) {
+  inOrder(node?.leftChild)
+  inOrder(node?.rightChild)
+  print(node?.value ?? "")
+}
+
+```
