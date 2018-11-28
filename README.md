@@ -1036,6 +1036,15 @@ extension Sequence {
   func count(where predicate: (Element) -> Bool) -> Int {
     return filter(predicate).count
   }
+
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return reduce(0) { predicate($1) ? $0 + 1 : $0 }
+  }
+  // https://github.com/apple/swift/pull/16099/commits
+  why to use reduce over for loop.
+  filter vs reduce here?
+  reduce is more declarative 
+  
 }
 
 extension Sequence where Element: Hashable {
