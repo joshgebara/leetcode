@@ -1044,7 +1044,7 @@ extension Sequence {
   why to use reduce over for loop.
   filter vs reduce here?
   reduce is more declarative 
-  
+
 }
 
 extension Sequence where Element: Hashable {
@@ -3650,6 +3650,8 @@ func levelOrder<Value>(_ node: Node<Value>) {
     }
   }
 }
+https://stackoverflow.com/questions/37488316/partial-application-of-mutating-method-is-not-allowed
+why you cant do node.child.forEach(queue.enqueue)
 ```
 
 
