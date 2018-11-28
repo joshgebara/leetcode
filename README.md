@@ -3584,6 +3584,64 @@ var a = [1, 3, 4, 5, 4, 3, 4, 3, 4, 3, 2, 3, 2, 2, 1]
 quickSort(&a)
 ```
 
+## Tree
+```swift
+class Node<Value> {
+  let value: Value
+  var children: [Node<Value>] = []
+  
+  init(_ value: Value) {
+    self.value = value
+  }
+}
+
+extension Node {
+  func add(_ node: Node<Value>) {
+    children.append(node)
+  }
+}
+
+struct Queue<Value> {
+  var elements: [Value] = []
+  
+  mutating func enqueue(_ value: Value) {
+    elements.append(value)
+  }
+  
+  mutating func dequeue() -> Value? {
+    if elements.count > 0 {
+      return elements.removeFirst()
+    } else {
+      return nil
+    }
+  }
+}
+
+func depthFirst<Value>(_ node: Node<Value>) {
+  print(node.value)
+  
+  for child in node.children {
+    depthFirst(child)
+  }
+}
+
+func levelOrder<Value>(_ node: Node<Value>) {
+  print(node.value)
+  
+  var queue = Queue<Node<Value>>()
+  
+  for child in node.children {
+    queue.enqueue(child)
+  }
+  
+  while let node = queue.dequeue() {
+    print(node.value)
+    for child in node.children {
+      queue.enqueue(child)
+    }
+  }
+}
+```
 
 
 ## Binary Tree
