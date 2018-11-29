@@ -1372,7 +1372,36 @@ extension RandomAccessCollection where Element: Comparable {
 
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].binarySearch(for: 0)
 
+## binary search recursive
+```swift
+//- Binary Search - Recursive
 
+extension RandomAccessCollection where Element: Comparable {
+  func binarySearch(for key: Element, in range: Range<Index>? = nil) -> Bool {
+    let range = range ?? startIndex..<endIndex
+    guard range.lowerBound < range.upperBound else { return false }
+    let size = distance(from: range.lowerBound, to: range.upperBound)
+    let middleIndex = index(range.lowerBound, offsetBy: size / 2)
+    let middleValue = self[middleIndex]
+    
+    if middleValue == key {
+      return true
+    }
+    
+    if middleValue > key {
+      return binarySearch(for: key, in: range.lowerBound..<middleIndex)
+    }
+    
+    if middleValue < key {
+      return binarySearch(for: key, in: index(after: middleIndex)..<range.upperBound)
+    }
+    return false
+  }
+}
+
+var a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+a.binarySearch(for: 1)
+```
 
 
 # Linked List
