@@ -3737,6 +3737,9 @@ func postOrder<Value>(_ node: Node<Value>?) {
 
 // Insertion
 
+https://developer.apple.com/documentation/swift/range
+Available when Bound conforms to Strideable and Bound.Stride conforms to SignedInteger.
+
 //Using a Range as a Collection of Consecutive Values
 //When a range uses integers as its lower and upper bounds, or any other type that conforms to the Strideable protocol with an integer stride, you can use that range in a for-in loop or with any sequence or collection method. The elements of the range are the consecutive values from its lower bound up to, but not including, its upper bound.
 
