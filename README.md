@@ -3798,3 +3798,44 @@ a.bubbleSort(by: <)
 
 [6, 5, 4, 5, 4, 3].sorted()
 ```
+
+
+The sorting algorithm is not stable. A nonstable sort may change the relative order of elements that compare equal.
+
+You can sort any mutable collection of elements that conform to the Comparable protocol by calling this method. Elements are sorted in ascending order.
+
+The sorting algorithm is not stable. A nonstable sort may change the relative order of elements that compare equal.
+
+Here’s an example of sorting a list of students’ names. Strings in Swift conform to the Comparable protocol, so the names are sorted in ascending order according to the less-than operator (<).
+
+To sort the elements of your collection in descending order, pass the greater-than operator (>) to the sort(by:) method.
+
+## Selection sort
+
+```swift 
+
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  
+  mutating func selectionSort() {
+    selectionSort(by: <)
+  }
+  
+  mutating func selectionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+    guard count > 1 else { return }
+    
+    for currentIndex in startIndex..<index(before: endIndex) {
+      var lowestValueIndex = currentIndex
+      for swapIndex in index(after: currentIndex)..<endIndex {
+        if try areInIncreasingOrder(self[swapIndex], self[lowestValueIndex]) {
+          lowestValueIndex = swapIndex
+        }
+      }
+      swapAt(lowestValueIndex, currentIndex)
+    }
+  }
+}
+
+var a = [9, 8, 9, 8, 7, 8, 7, 6, 7, 6, 5, 6, 5, 4, 3, 2, 1, 1]
+a.selectionSort()
+
+```
