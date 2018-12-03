@@ -3759,3 +3759,42 @@ extension MutableCollection where Self: BidirectionalCollection, Element: Compar
     }
   }
 }
+
+
+## Bubble Sort
+
+```swift
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  
+  /**
+   Sorts a collection using a Bubble Sorting strategy.
+   
+   - Parameter areInIncreasingOrder: A predicate that returns true if its first argument should be ordered before its second argument; otherwise, false. If areInIncreasingOrder throws an error during the sort, the elements may be in a different order, but none will be lost.
+
+   - Returns: A new sorted collection
+   
+   - Complexity: O(n^2), where n is the length of the collection. O(1) Space
+   */
+  mutating func bubbleSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+    guard count > 1 else { return }
+    
+    for endingIndex in indices.reversed() {
+      var noSwaps = true
+      for currentIndex in startIndex..<endingIndex {
+        let nextIndex = index(after: currentIndex)
+        if try areInIncreasingOrder(self[nextIndex], self[currentIndex]) {
+          swapAt(currentIndex, nextIndex)
+          noSwaps = false
+        }
+      }
+      if noSwaps { return }
+    }
+  }
+}
+
+var a = [7, 6, 8, 7, 6, 7, 6, 5, 6, 5, 4, 5, 4, 3, 4, 3, 2, 1]
+a.bubbleSort(by: <)
+
+
+[6, 5, 4, 5, 4, 3].sorted()
+```
