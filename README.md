@@ -3839,3 +3839,39 @@ var a = [9, 8, 9, 8, 7, 8, 7, 6, 7, 6, 5, 6, 5, 4, 3, 2, 1, 1]
 a.selectionSort()
 
 ```
+
+## insertion sort
+
+
+```swift
+// Insertion
+// Best - O(n)
+// Worst - O(n^2)
+// Space - O(1)
+
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func insertionSort() {
+    insertionSort(by: <)
+  }
+  
+  mutating func insertionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+    guard count > 1 else { return }
+    
+    for currentIndex in index(after: startIndex)..<endIndex {
+      for shiftingIndex in (index(after: startIndex)...currentIndex).reversed() {
+        let previousIndex = index(before: shiftingIndex)
+        if try areInIncreasingOrder(self[shiftingIndex], self[previousIndex]) {
+          swapAt(shiftingIndex, previousIndex)
+        } else {
+          break
+        }
+      }
+    }
+  }
+}
+
+var a = [9, 7, 8, 7, 6, 7, 6, 5, 6, 5, 4, 5, 4, 3, 4, 3, 2, 1]
+a.insertionSort()
+```
+
+
