@@ -3713,18 +3713,21 @@ var tree: Node<Int> {
 
 
 func inOrder<Value>(_ node: Node<Value>?) {
+  guard node != nil else { return }
   inOrder(node?.leftChild)
   print(node?.value ?? "")
   inOrder(node?.rightChild)
 }
 
 func preOrder<Value>(_ node: Node<Value>?) {
+  guard node != nil else { return }
   print(node?.value ?? "")
   inOrder(node?.leftChild)
   inOrder(node?.rightChild)
 }
 
 func postOrder<Value>(_ node: Node<Value>?) {
+  guard node != nil else { return }
   inOrder(node?.leftChild)
   inOrder(node?.rightChild)
   print(node?.value ?? "")
