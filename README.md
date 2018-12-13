@@ -3878,3 +3878,69 @@ a.insertionSort()
 ```
 
 
+
+
+https://stackoverflow.com/questions/32968133/what-is-the-practical-use-of-nested-functions-in-swift
+
+1
+down vote
+One use case is operations on recursive data structures.
+
+Consider, for instance, this code for searching in binary search trees:
+
+func get(_ key: Key) -> Value? {
+    func recursiveGet(cur: Node) -> Value? {
+        if cur.key == key {
+            return cur.val
+        } else if key < cur.key {
+            return cur.left != nil ? recursiveGet(cur: cur.left!) : nil
+        } else {
+            return cur.right != nil ? recursiveGet(cur: cur.right!) : nil
+        }
+    }
+
+    if let root = self.root {
+        return recursiveGet(cur: root)
+    } else {
+        return nil
+    }
+}
+Of course, you can transform the recursion into a loop, doing away with the nested function. I find recursive code often clearer than iterative variants, though. (Trade off vs. runtime cost!)
+
+You could also define recursiveGet as (private) member outside of get but that would be bad design (unless recursiveGet is used in multiple methods).
+
+
+
+
+
+enum SortOrder {
+  case ascending
+  case descending
+}
+
+extension MutableCollection
+where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+  mutating func selectionSort(in order: SortOrder) {
+    switch order {
+    case .ascending:   selectionSort(by: <)
+    case .descending:  selectionSort(by: >)
+    }
+  }
+  
+  mutating func selectionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+    guard count > 1 else { return }
+    
+    for currentIndex in startIndex..<index(before: endIndex) {
+      var lowestValueIndex = currentIndex
+      for swapIndex in index(after: currentIndex)..<endIndex {
+        if try areInIncreasingOrder(self[swapIndex], self[lowestValueIndex]) {
+          lowestValueIndex = swapIndex
+        }
+      }
+      swapAt(currentIndex, lowestValueIndex)
+    }
+  }
+}
+
+var a = [7, 6, 7, 6, 5, 6, 5, 4, 5, 4, 3, 4, 3, 2, 1]
+a.selectionSort(in: .ascending)
