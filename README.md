@@ -3944,3 +3944,21 @@ where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Ind
 
 var a = [7, 6, 7, 6, 5, 6, 5, 4, 5, 4, 3, 4, 3, 2, 1]
 a.selectionSort(in: .ascending)
+
+
+fibs with anysequence and anyiterator
+
+let fibs = AnySequence { () -> AnyIterator<Int> in
+  var state = (0, 1)
+  
+  return AnyIterator {
+    defer {
+      state = (state.1, state.0 + state.1)
+    }
+    return state.0
+  }
+}
+
+for fib in fibs.prefix(10) {
+  print(fib)
+}
