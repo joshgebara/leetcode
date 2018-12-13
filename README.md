@@ -3962,3 +3962,83 @@ let fibs = AnySequence { () -> AnyIterator<Int> in
 for fib in fibs.prefix(10) {
   print(fib)
 }
+
+
+
+
+
+
+
+
+
+https://medium.com/retailmenot-engineering/down-the-swift-associated-type-rabbit-hole-1f41ee6ceaf4
+
+Take in two Arrays (or ArraySlices), base and newElems as parameters, and return a new array
+The output array should be made by adding each element of newElems to base, but only if it wasn’t already in base
+All input and output array should be the same type T
+
+
+
+https://www.objc.io/blog/2018/03/20/lazy-infinite-sequences/
+
+
+
+
+
+
+## implementing map
+
+https://stackoverflow.com/questions/40152826/swift-collection-underestimatecount-usage
+
+extension Sequence {
+  func mapped<T>(_ transform: (Element) throws -> T) rethrows -> [T] {
+    let initialCapacity = underestimatedCount
+    var result = ContiguousArray<T>()
+    result.reserveCapacity(initialCapacity)
+    
+    var iterator = makeIterator()
+    
+    for _ in 0..<initialCapacity {
+      result.append(try transform(iterator.next()!))
+    }
+    
+    while let element = iterator.next() {
+      result.append(try transform(element))
+    }
+    return Array(result)
+  }
+
+
+
+
+
+
+
+
+https://medium.com/retailmenot-engineering/down-the-swift-associated-type-rabbit-hole-1f41ee6ceaf4
+
+extension Sequence where Element: Hashable {
+  func unique() -> [Element] {
+    var elementSet = Set<Element>()
+    return filter {
+      if elementSet.contains($0) {
+        return false
+      } else {
+        elementSet.insert($0)
+        return true
+      }
+    }
+  }
+  
+  func notContains(_ element: Element) -> Bool {
+    return !contains(element)
+  }
+}
+
+func merge<T: Collection, U: Collection>(_ base: T, withNewElems newElems: U) -> [T.Element]
+  where T.Element: Hashable, T.Element == U.Element {
+    let uniqueElems = newElems.filter(base.notContains)
+    return Array(base) + uniqueElems
+}
+
+merge([1, 2, 3, 4, 4, 4, 4], withNewElems: [6, 5, 4, 5, 4, 5, 3])
