@@ -699,6 +699,188 @@ extension BinarySearchTree {
 }
 ```
 
+## Binary Search Tree
+
+```swift
+class BinaryNode<Value> {
+    var value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+    var height = 0
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode {
+    var balanceFactor: Int {
+        return leftHeight - rightHeight
+    }
+
+    var leftHeight: Int {
+        return leftChild?.height ?? -1
+    }
+
+    var rightHeight: Int {
+        return rightChild?.height ?? -1
+    }
+}
+
+extension BinaryNode {
+    var min: BinaryNode {
+        return leftChild?.min ?? self
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+struct BinarySearchTree<Value: Comparable> {
+    var root: BinaryNode<Value>?
+}
+
+extension BinarySearchTree {
+    mutating func insert(_ value: Value) {
+        root = insert(from: root, value: value)
+    }
+    
+    mutating func insert(from node: BinaryNode<Value>?, value: Value) -> BinaryNode<Value>? {
+        guard let node = node else {
+            return BinaryNode(value: value)
+        }
+        
+        if value < node.value {
+            node.leftChild = insert(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = insert(from: node.rightChild, value: value)
+        }
+        let balancedNode = balanced(node)
+        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
+        return balancedNode
+    }
+}
+
+extension BinarySearchTree {
+    mutating func remove(_ value: Value) {
+        root = remove(from: root, value: value)
+    }
+    
+    mutating func remove(from node: BinaryNode<Value>?, value: Value) -> BinaryNode<Value>? {
+        guard let node = node else {
+            return nil
+        }
+        
+        if value == node.value {
+            if node.leftChild == nil && node.rightChild == nil {
+                return nil
+            }
+            
+            if node.leftChild == nil {
+                return node.rightChild
+            }
+            
+            if node.rightChild == nil {
+                return node.leftChild
+            }
+            
+            node.value = node.rightChild!.min.value
+            node.rightChild = remove(from: node.rightChild, value: node.value)
+        } else if value < node.value {
+            node.leftChild = remove(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = remove(from: node.rightChild, value: value)
+        }
+        let balancedNode = balanced(node)
+        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
+        return balancedNode
+    }
+}
+
+extension BinarySearchTree {
+    func contains(_ value: Value) -> Bool {
+        var current = root
+        
+        while let node = current {
+            if value == node.value {
+                return true
+            }
+            
+            if value < node.value {
+                current = node.leftChild
+            } else {
+                current = node.rightChild
+            }
+        }
+        return false
+    }
+}
+
+extension BinarySearchTree {
+    func balanced(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+        switch node.balanceFactor {
+            case 2:
+                if let leftChild = node.leftChild, leftChild.balanceFactor == -1 {
+                    return leftRightRotate(node)
+                } else {
+                    return rightRotate(node)
+                }
+            case -2:
+                if let rightChild = node.rightChild, rightChild.balanceFactor == 1  {
+                    return rightLeftRotate(node)
+                } else {
+                    return leftRotate(node)
+                }
+            default:
+                return node
+        }
+    }
+}
+
+extension BinarySearchTree {
+    func leftRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+        let pivot = node.rightChild!
+        node.rightChild = pivot.leftChild
+        pivot.leftChild = node
+        
+        node.height = max(node.leftHeight, node.rightHeight) + 1
+        pivot.height = max(pivot.leftHeight, pivot.rightHeight) + 1
+        
+        return pivot
+    }
+    
+    func rightRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+        let pivot = node.leftChild!
+        node.leftChild = pivot.rightChild
+        pivot.rightChild = node
+        
+        node.height = max(node.leftHeight, node.rightHeight) + 1
+        pivot.height = max(pivot.leftHeight, pivot.rightHeight) + 1
+        
+        return pivot
+    }
+    
+    func rightLeftRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+        guard let rightChild = node.rightChild else {
+            return node
+        }
+        node.rightChild = rightRotate(rightChild)
+        return leftRotate(node)
+    }
+    
+    func leftRightRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+        guard let leftChild = node.leftChild else {
+            return node
+        }
+        node.leftChild = leftRotate(leftChild)
+        return rightRotate(node)
+    }
+}
+```
+
 
 ### Algorithms:
 
