@@ -699,77 +699,48 @@ extension BinarySearchTree {
 }
 ```
 
-## Binary Search Tree
+## AVL Tree
 
 ```swift
-class BinaryNode<Value> {
+class AVLNode<Value> {
     var value: Value
-    var leftChild: BinaryNode?
-    var rightChild: BinaryNode?
+    var leftChild: AVLNode<Value>?
+    var rightChild: AVLNode<Value>?
     var height = 0
     
-    init(value: Value) {
+    init(_ value: Value) {
         self.value = value
     }
 }
 
-extension BinaryNode {
+extension AVLNode {
     var balanceFactor: Int {
         return leftHeight - rightHeight
     }
-
+    
     var leftHeight: Int {
         return leftChild?.height ?? -1
     }
-
+    
     var rightHeight: Int {
         return rightChild?.height ?? -1
     }
-}
-
-extension BinaryNode {
-    var min: BinaryNode {
+    
+    var min: AVLNode<Value> {
         return leftChild?.min ?? self
     }
 }
 
-extension BinaryNode: CustomStringConvertible {
-    var description: String {
-        return "\(value)"
-    }
+struct AVLTree<Value: Comparable> {
+    var root: AVLNode<Value>?
 }
 
-struct BinarySearchTree<Value: Comparable> {
-    var root: BinaryNode<Value>?
-}
-
-extension BinarySearchTree {
-    mutating func insert(_ value: Value) {
-        root = insert(from: root, value: value)
-    }
-    
-    mutating func insert(from node: BinaryNode<Value>?, value: Value) -> BinaryNode<Value>? {
-        guard let node = node else {
-            return BinaryNode(value: value)
-        }
-        
-        if value < node.value {
-            node.leftChild = insert(from: node.leftChild, value: value)
-        } else {
-            node.rightChild = insert(from: node.rightChild, value: value)
-        }
-        let balancedNode = balanced(node)
-        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
-        return balancedNode
-    }
-}
-
-extension BinarySearchTree {
+extension AVLTree {
     mutating func remove(_ value: Value) {
         root = remove(from: root, value: value)
     }
     
-    mutating func remove(from node: BinaryNode<Value>?, value: Value) -> BinaryNode<Value>? {
+    mutating func remove(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value>? {
         guard let node = node else {
             return nil
         }
@@ -794,33 +765,36 @@ extension BinarySearchTree {
         } else {
             node.rightChild = remove(from: node.rightChild, value: value)
         }
+        
         let balancedNode = balanced(node)
         balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
         return balancedNode
     }
 }
 
-extension BinarySearchTree {
-    func contains(_ value: Value) -> Bool {
-        var current = root
-        
-        while let node = current {
-            if value == node.value {
-                return true
-            }
-            
-            if value < node.value {
-                current = node.leftChild
-            } else {
-                current = node.rightChild
-            }
+extension AVLTree {
+    mutating func insert(_ value: Value) {
+        root = insert(from: root, value: value)
+    }
+    
+    mutating func insert(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value>? {
+        guard let node = node else {
+            return AVLNode(value)
         }
-        return false
+        
+        if value < node.value {
+            node.leftChild = insert(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = insert(from: node.rightChild, value: value)
+        }
+        let balancedNode = balanced(node)
+        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
+        return balancedNode
     }
 }
 
-extension BinarySearchTree {
-    func balanced(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+extension AVLTree {
+    mutating func balanced(_ node: AVLNode<Value>) -> AVLNode<Value> {
         switch node.balanceFactor {
             case 2:
                 if let leftChild = node.leftChild, leftChild.balanceFactor == -1 {
@@ -829,7 +803,7 @@ extension BinarySearchTree {
                     return rightRotate(node)
                 }
             case -2:
-                if let rightChild = node.rightChild, rightChild.balanceFactor == 1  {
+                if let rightChild = node.rightChild, rightChild.balanceFactor == 1 {
                     return rightLeftRotate(node)
                 } else {
                     return leftRotate(node)
@@ -840,8 +814,8 @@ extension BinarySearchTree {
     }
 }
 
-extension BinarySearchTree {
-    func leftRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+extension AVLTree {
+    mutating func leftRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
         let pivot = node.rightChild!
         node.rightChild = pivot.leftChild
         pivot.leftChild = node
@@ -852,7 +826,7 @@ extension BinarySearchTree {
         return pivot
     }
     
-    func rightRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+    mutating func rightRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
         let pivot = node.leftChild!
         node.leftChild = pivot.rightChild
         pivot.rightChild = node
@@ -863,22 +837,23 @@ extension BinarySearchTree {
         return pivot
     }
     
-    func rightLeftRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
-        guard let rightChild = node.rightChild else {
-            return node
-        }
-        node.rightChild = rightRotate(rightChild)
-        return leftRotate(node)
-    }
-    
-    func leftRightRotate(_ node: BinaryNode<Value>) -> BinaryNode<Value> {
+    mutating func leftRightRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
         guard let leftChild = node.leftChild else {
             return node
         }
         node.leftChild = leftRotate(leftChild)
         return rightRotate(node)
     }
+    
+    mutating func rightLeftRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
+        guard let rightChild = node.rightChild else {
+            return node
+        }
+        node.rightChild = rightRotate(rightChild)
+        return leftRotate(node)
+    }
 }
+
 ```
 
 ## Trie
@@ -980,7 +955,37 @@ extension Trie where CollectionType: RangeReplaceableCollection {
 }
 ```
 
+## Binary Search Iterative
 
+```swift
+extension RandomAccessCollection where Element: Comparable {
+    func binarySearchIterative(for key: Element) -> Bool {
+        guard count > 0 else { return false }
+        
+        var leftIndex = startIndex
+        var rightIndex = index(before: endIndex)
+        
+        while leftIndex <= rightIndex {
+            let size = distance(from: leftIndex, to: rightIndex)
+            let middleIndex = index(leftIndex, offsetBy: size / 2)
+            let middleValue = self[middleIndex]
+            
+            if middleValue == key {
+                return true
+            }
+            
+            if middleValue < key {
+                leftIndex = index(after: middleIndex)
+            }
+            
+            if middleValue > key {
+                rightIndex = index(before: middleIndex)
+            }
+        }
+        return false
+    }
+}
+```
 
 
 
