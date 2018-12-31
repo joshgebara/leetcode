@@ -987,6 +987,32 @@ extension RandomAccessCollection where Element: Comparable {
 }
 ```
 
+## Binary Search Recursive
+```swift
+extension RandomAccessCollection where Element: Comparable {
+    func binarySearchRecursive(for key: Element, in range: Range<Index>? = nil) -> Bool {
+        let range = range ?? startIndex..<endIndex
+        guard range.lowerBound < range.upperBound else { return false }
+        let size = distance(from: range.lowerBound, to: range.upperBound)
+        let middleIndex = index(range.lowerBound, offsetBy: size / 2)
+        let middleValue = self[middleIndex]
+        
+        if middleValue == key {
+            return true
+        }
+        
+        if middleValue < key {
+            return binarySearchRecursive(for: key, in: index(after: middleIndex)..<range.upperBound)
+        }
+        
+        if middleValue > key {
+            return binarySearchRecursive(for: key, in: range.lowerBound..<middleIndex)
+        }
+        
+        return false
+    }
+}
+```
 
 
 ### Algorithms:
