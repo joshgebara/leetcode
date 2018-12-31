@@ -1,6 +1,38 @@
 # swift-algorithms
 
+### Base
 
+```swift
+// Linked List
+// Stack - Array
+// Stack - LinkedList
+// Queue - Array
+// Queue - Linked List
+// Queue - Ring Buffer
+// Queue - Two Stacks
+// Tree
+// Binary Tree
+// Binary Search Tree
+// AVL Tree
+// Trie
+// Binary Search - Iterative
+// Binary Search - Recursive
+// Heap
+// Priority Queue
+// Bubble Sort
+// Selection Sort
+// Insertion Sort
+// Merge Sort
+// Radix Sort
+// Counting Sort
+// Heap Sort
+// Quick Sort
+// Graphs
+// Graphs - Breadth-First Search
+// Graphs - Depth-First Search
+// Graphs - Dijkstra's Algorithms
+// Graphs - Prim's Algorithm
+```
 
 ### Algorithms:
 
