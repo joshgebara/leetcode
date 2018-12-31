@@ -6,7 +6,6 @@
 // Linked List
 // Stack - Array
 // Stack - LinkedList
-// Stack - Which is better for the underlying data structure? Linked List or Array?
 // Queue - Array
 // Queue - Linked List
 // Queue - Ring Buffer
@@ -266,7 +265,73 @@ struct Queue<Element> {
 }
 ```
 
+## Queue - Linked List
 
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node<Value>?
+    
+    init(_ value: Value, next: Node<Value>? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+struct LinkedList<Value> {
+    var head: Node<Value>?
+    var tail: Node<Value>?
+    
+    var isEmpty: Bool {
+        return head == nil
+    }
+}
+
+extension LinkedList {
+    mutating func pop() -> Value? {
+        defer {
+            head = head?.next
+            if isEmpty {
+                tail = nil
+            }
+        }
+        return head?.value ?? nil
+    }
+    
+    mutating func append(_ value: Value) {
+        guard !isEmpty else {
+            head = Node(value, next: head?.next)
+            if tail == nil {
+                tail = head
+            }
+            return
+        }
+        tail?.next = Node(value)
+        tail = tail?.next
+    }
+}
+
+struct Queue<Element> {
+    var elements = LinkedList<Element>()
+    
+    mutating func enqueue(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return elements.pop()
+    }
+}
+```
 
 
 
