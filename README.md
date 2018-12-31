@@ -333,6 +333,43 @@ struct Queue<Element> {
 }
 ```
 
+## Queue - Two Stacks
+
+```swift 
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+}
+
+struct Queue<Element> {
+    var leftStack = Stack<Element>()
+    var rightStack = Stack<Element>()
+    
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        if rightStack.isEmpty {
+            while let element = leftStack.pop() {
+                rightStack.push(element)
+            }
+        }
+        return rightStack.pop()
+    }
+}
+```
 
 
 
