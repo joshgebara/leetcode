@@ -6,6 +6,7 @@
 // Linked List
 // Stack - Array
 // Stack - LinkedList
+// Stack - Which is better for the underlying data structure? Linked List or Array?
 // Queue - Array
 // Queue - Linked List
 // Queue - Ring Buffer
@@ -27,12 +28,89 @@
 // Counting Sort
 // Heap Sort
 // Quick Sort
-// Graphs
-// Graphs - Breadth-First Search
-// Graphs - Depth-First Search
-// Graphs - Dijkstra's Algorithms
-// Graphs - Prim's Algorithm
+// Graph - AdjacencyList
+// Graph - AdjacencyMatrix
+// Graph - Breadth-First Search
+// Graph - Depth-First Search
+// Graph - Dijkstra's Algorithms
+// Graph - Prim's Algorithm
 ```
+
+
+## Stack - LinkedList
+
+```swift 
+class Node<Value> {
+    let value: Value
+    var next: Node<Value>?
+    
+    init(_ value: Value, next: Node<Value>? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+struct LinkedList<Value> {
+    var head: Node<Value>?
+    var tail: Node<Value>?
+}
+
+extension LinkedList {
+    mutating func push(_ value: Value) {
+        head = Node(value, next: head)
+        if tail == nil {
+            tail = head
+        }
+    }
+    
+    @discardableResult
+    mutating func pop() -> Value? {
+        defer {
+            head = head?.next
+            if head == nil {
+                tail = nil
+            }
+        }
+        return head?.value
+    }
+}
+
+extension LinkedList: CustomStringConvertible {
+    var description: String {
+        guard let head = head else {
+            return ""
+        }
+        return "\(head)"
+    }
+}
+
+struct Stack<Element> {
+    var elements = LinkedList<Element>()
+    
+    mutating func push(_ element: Element) {
+        elements.push(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.pop()
+    }
+}
+```
+
+
+
+
+
+
 
 ### Algorithms:
 
