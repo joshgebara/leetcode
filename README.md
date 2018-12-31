@@ -600,7 +600,103 @@ extension BinaryNode {
 
 ## Binary Search Tree
 ```swift
+class BinaryNode<Value> {
+    var value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
 
+extension BinaryNode {
+    var min: BinaryNode {
+        return leftChild?.min ?? self
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+struct BinarySearchTree<Value: Comparable> {
+    var root: BinaryNode<Value>?
+}
+
+extension BinarySearchTree {
+    mutating func insert(_ value: Value) {
+        root = insert(from: root, value: value)
+    }
+    
+    mutating func insert(from node: BinaryNode<Value>?, value: Value) -> BinaryNode<Value>? {
+        guard let node = node else {
+            return BinaryNode(value: value)
+        }
+        
+        if value < node.value {
+            node.leftChild = insert(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = insert(from: node.rightChild, value: value)
+        }
+        return node
+    }
+}
+
+extension BinarySearchTree {
+    mutating func remove(_ value: Value) {
+        root = remove(from: root, value: value)
+    }
+    
+    mutating func remove(from node: BinaryNode<Value>?, value: Value) -> BinaryNode<Value>? {
+        guard let node = node else {
+            return nil
+        }
+        
+        if value == node.value {
+            if node.leftChild == nil && node.rightChild == nil {
+                return nil
+            }
+            
+            if node.leftChild == nil {
+                return node.rightChild
+            }
+            
+            if node.rightChild == nil {
+                return node.leftChild
+            }
+            
+            node.value = node.rightChild!.min.value
+            node.rightChild = remove(from: node.rightChild, value: node.value)
+        } else if value < node.value {
+            node.leftChild = remove(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = remove(from: node.rightChild, value: value)
+        }
+        return node
+    }
+}
+
+extension BinarySearchTree {
+    func contains(_ value: Value) -> Bool {
+        var current = root
+        
+        while let node = current {
+            if value == node.value {
+                return true
+            }
+            
+            if value < node.value {
+                current = node.leftChild
+            } else {
+                current = node.rightChild
+            }
+        }
+        return false
+    }
+}
 ```
 
 
