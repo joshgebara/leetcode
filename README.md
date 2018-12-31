@@ -36,6 +36,135 @@
 // Graph - Prim's Algorithm
 ```
 
+## Linked List
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node<Value>?
+    
+    init(_ value: Value, next: Node<Value>? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+struct LinkedList<Value> {
+    var head: Node<Value>?
+    var tail: Node<Value>?
+}
+
+extension LinkedList: CustomStringConvertible {
+    var description: String {
+        guard let head = head else {
+            return ""
+        }
+        return "\(head)"
+    }
+}
+
+extension LinkedList {
+    var isEmpty: Bool {
+        return head == nil
+    }
+}
+
+extension LinkedList {
+    mutating func push(_ value: Value) {
+        head = Node(value, next: head)
+        if tail == nil {
+            tail = head
+        }
+    }
+    
+    mutating func append(_ value: Value) {
+        guard !isEmpty else {
+            push(value)
+            return
+        }
+        tail?.next = Node(value)
+        tail = tail?.next
+    }
+    
+    mutating func insert(_ value: Value, after node: Node<Value>) {
+        guard node !== tail else {
+            append(value)
+            return
+        }
+        node.next = Node(value, next: node.next)
+    }
+}
+
+extension LinkedList {
+    func node(at index: Int) -> Node<Value>? {
+        var currentIndex = 0
+        var currentNode = head
+        
+        while currentNode != nil && currentIndex < index {
+            currentNode = currentNode?.next
+            currentIndex += 1
+        }
+        return currentNode
+    }
+}
+
+extension LinkedList {
+    @discardableResult
+    mutating func pop() -> Node<Value>? {
+        defer {
+            head = head?.next
+            if isEmpty {
+                tail = nil
+            }
+        }
+        return head
+    }
+    
+    @discardableResult
+    mutating func removeLast() -> Node<Value>? {
+        guard let head = head else {
+            return nil
+        }
+        
+        guard head.next != nil else {
+            return pop()
+        }
+        
+        var current = head
+        var previous = head
+        
+        while let next = current.next {
+            previous = current
+            current = next
+        }
+        
+        previous.next = nil
+        tail = previous
+        return current
+    }
+    
+    @discardableResult
+    mutating func remove(after node: Node<Value>) -> Node<Value>? {
+        defer {
+            if node.next === tail {
+                tail = node
+            }
+            node.next = node.next?.next
+        }
+        return node.next
+    }
+}
+```
+
 ## Stack - Array
 
 ```swift
