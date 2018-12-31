@@ -250,6 +250,21 @@ struct Stack<Element> {
 }
 ```
 
+## Queue - Array
+
+```swift
+struct Queue<Element> {
+    var elements: [Element] = []
+    
+    mutating func enqueue(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return elements.isEmpty ? nil : elements.removeFirst()
+    }
+}
+```
 
 
 
