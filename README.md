@@ -10,6 +10,7 @@
 // Queue - Linked List
 // Queue - Ring Buffer
 // Queue - Two Stacks
+// Ring Buffer
 // Tree
 // Binary Tree
 // Binary Search Tree
@@ -333,6 +334,76 @@ struct Queue<Element> {
 }
 ```
 
+## Queue - Ring Buffer
+
+```swift
+struct RingBuffer<T> {
+    var array: [T?] = []
+    var writeIndex = 0
+    var readIndex = 0
+    
+    init(count: Int) {
+        array = [T?](repeating: nil, count: count)
+    }
+}
+
+extension RingBuffer {
+    mutating func write(_ element: T) -> Bool {
+        if !isFull {
+            array[writeIndex % array.count] = element
+            writeIndex += 1
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    mutating func read() -> T? {
+        if !isEmpty {
+            let element = array[readIndex % array.count]
+            readIndex += 1
+            return element
+        } else {
+            return nil
+        }
+    }
+}
+
+extension RingBuffer {
+    var isEmpty: Bool {
+        return avaliableSpaceForReading == 0
+    }
+    
+    var isFull: Bool {
+        return avaliableSpaceForWriting == 0
+    }
+    
+    var avaliableSpaceForWriting: Int {
+        return array.count - avaliableSpaceForReading
+    }
+    
+    var avaliableSpaceForReading: Int {
+        return writeIndex - readIndex
+    }
+}
+
+struct Queue<Element> {
+    var ringBuffer: RingBuffer<Element>
+    
+    init(count: Int) {
+        ringBuffer = RingBuffer<Element>(count: count)
+    }
+    
+    mutating func enqueue(_ element: Element) -> Bool {
+        return ringBuffer.write(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return ringBuffer.read()
+    }
+}
+```
+
 ## Queue - Two Stacks
 
 ```swift 
@@ -367,6 +438,122 @@ struct Queue<Element> {
             }
         }
         return rightStack.pop()
+    }
+}
+```
+
+## Ring Buffer
+
+```swift
+struct RingBuffer<T> {
+    var array: [T?] = []
+    var writeIndex = 0
+    var readIndex = 0
+    
+    init(count: Int) {
+        array = [T?](repeating: nil, count: count)
+    }
+}
+
+extension RingBuffer {
+    mutating func write(_ element: T) -> Bool {
+        if !isFull {
+            array[writeIndex % array.count] = element
+            writeIndex += 1
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    mutating func read() -> T? {
+        if !isEmpty {
+            let element = array[readIndex % array.count]
+            readIndex += 1
+            return element
+        } else {
+            return nil
+        }
+    }
+}
+
+extension RingBuffer {
+    var isEmpty: Bool {
+        return avaliableSpaceForReading == 0
+    }
+    
+    var isFull: Bool {
+        return avaliableSpaceForWriting == 0
+    }
+    
+    var avaliableSpaceForWriting: Int {
+        return array.count - avaliableSpaceForReading
+    }
+    
+    var avaliableSpaceForReading: Int {
+        return writeIndex - readIndex
+    }
+}
+```
+
+## Tree
+
+```swift
+class TreeNode<Value> {
+    let value: Value
+    var children: [TreeNode<Value>] = []
+    
+    init(_ value: Value) {
+        self.value = value
+    }
+}
+
+extension TreeNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension TreeNode {
+    func add(_ child: TreeNode<Value>) {
+        children.append(child)
+    }
+}
+
+extension TreeNode {
+    func depthFirst() {
+        print(self)
+        for child in children {
+            child.depthFirst()
+        }
+    }
+    
+    func levelOrder() {
+        print(self)
+        var queue = Queue<TreeNode<Value>>()
+        
+        for child in children {
+            queue.enqueue(child)
+        }
+        
+        while let node = queue.dequeue() {
+            print(node)
+            for child in node.children {
+                queue.enqueue(child)
+            }
+        }
+    }
+}
+
+struct Queue<Element> {
+    var elements: [Element] = []
+    
+    mutating func enqueue(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return elements.isEmpty ? nil : elements.removeFirst()
     }
 }
 ```
