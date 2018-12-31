@@ -1,18 +1,6 @@
 # swift-algorithms
 
 
-traverse a matrix
-reverse a utf8 string
-
-http://omarrr.com/underscores-in-apples-swift-numbers/
-https://www.raywenderlich.com/1220-swift-tutorial-initialization-in-depth-part-1-2
-
-
-https://stackoverflow.com/questions/3255/big-o-how-do-you-calculate-approximate-it
-
-https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algorithms/v/what-are-algorithms
-
-https://www.youtube.com/watch?v=y2b94AxPlF8
 
 ### Algorithms:
 
@@ -4042,3 +4030,18 @@ func merge<T: Collection, U: Collection>(_ base: T, withNewElems newElems: U) ->
 }
 
 merge([1, 2, 3, 4, 4, 4, 4], withNewElems: [6, 5, 4, 5, 4, 5, 3])
+
+
+
+traverse a matrix
+reverse a utf8 string
+
+http://omarrr.com/underscores-in-apples-swift-numbers/
+https://www.raywenderlich.com/1220-swift-tutorial-initialization-in-depth-part-1-2
+
+
+https://stackoverflow.com/questions/3255/big-o-how-do-you-calculate-approximate-it
+
+https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algorithms/v/what-are-algorithms
+
+https://www.youtube.com/watch?v=y2b94AxPlF8
