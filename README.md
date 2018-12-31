@@ -558,7 +558,50 @@ struct Queue<Element> {
 }
 ```
 
+## BinaryTree
 
+```swift
+class BinaryNode<Value> {
+    let value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension BinaryNode {
+    func preOrder() {
+        print(self)
+        leftChild?.preOrder()
+        rightChild?.preOrder()
+    }
+    
+    func inOrder() {
+        leftChild?.inOrder()
+        print(self)
+        rightChild?.postOrder()
+    }
+    
+    func postOrder() {
+        leftChild?.postOrder()
+        rightChild?.postOrder()
+        print(self)
+    }
+}
+```
+
+## Binary Search Tree
+```swift
+
+```
 
 
 ### Algorithms:
