@@ -1137,6 +1137,132 @@ extension Heap {
 }
 ```
 
+## PriorityQueue
+
+```swift
+struct Heap<Element: Comparable> {
+    let sort: (Element, Element) -> Bool
+    var elements: [Element]
+    
+    init(sort: @escaping (Element, Element) -> Bool, elements: [Element]) {
+        self.sort = sort
+        self.elements = elements
+        
+        if !elements.isEmpty {
+            for index in stride(from: count / 2 - 1, through: 0, by: -1) {
+                siftDown(from: index)
+            }
+        }
+    }
+}
+
+extension Heap {
+    var count: Int {
+        return elements.count
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+}
+
+extension Heap {
+    func leftChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 1
+    }
+    
+    func rightChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 2
+    }
+    
+    func parentIndex(ofChildAt index: Int) -> Int {
+        return (index - 1) / 2
+    }
+}
+
+extension Heap {
+    mutating func remove() -> Element? {
+        guard !isEmpty else {
+            return nil
+        }
+        
+        elements.swapAt(0, count - 1)
+        
+        defer {
+            siftDown(from: 0)
+        }
+        
+        return elements.removeLast()
+    }
+    
+    mutating func insert(_ element: Element) {
+        elements.append(element)
+        siftUp(from: count - 1)
+    }
+}
+
+extension Heap {
+    mutating func siftDown(from index: Int) {
+        var parent = index
+        while true {
+            let left = leftChildIndex(ofParentAt: parent)
+            let right = rightChildIndex(ofParentAt: parent)
+            var candidate = parent
+            
+            if left < count && sort(elements[left], elements[candidate]) {
+                candidate = left
+            }
+            
+            if right < count && sort(elements[right], elements[candidate]) {
+                candidate = right
+            }
+            
+            if candidate == parent {
+                return
+            }
+            
+            elements.swapAt(candidate, parent)
+            parent = candidate
+        }
+    }
+    
+    mutating func siftUp(from index: Int) {
+        var child = index
+        var parent = parentIndex(ofChildAt: child)
+        
+        while child > 0 && sort(elements[parent], elements[child]) {
+            elements.swapAt(parent, child)
+            child = parent
+            parent = parentIndex(ofChildAt: child)
+        }
+    }
+}
+
+struct PriorityQueue<Element: Comparable> {
+    var heap: Heap<Element>
+    init(sort: @escaping (Element, Element) -> Bool,
+        elements: [Element] = []) {
+        heap = Heap(sort: sort, elements: elements)
+    }
+}
+
+extension PriorityQueue {
+    var isEmpty: Bool {
+        return heap.isEmpty
+    }
+}
+
+extension PriorityQueue {
+    mutating func enqueue(_ element: Element) {
+        heap.insert(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return heap.remove()
+    }
+}
+```
+
 
 ### Algorithms:
 
