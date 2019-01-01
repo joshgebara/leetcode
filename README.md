@@ -1330,6 +1330,40 @@ extension MutableCollection where Self: BidirectionalCollection, Element: Compar
 }
 ```
 
+## Selection Sort
+```swift
+// Selection Sort
+// Best - O(n^2)
+// Worst - O(n^2)
+// Space - O(1)
+
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+    mutating func selectionSort() {
+        selectionSort(by: <)
+    }
+    
+    mutating func selectionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+        guard count > 1 else {
+            return
+        }
+        
+        for currentIndex in startIndex..<index(before: endIndex) {
+            var lowestValueIndex = currentIndex
+            for swapIndex in index(after: currentIndex)..<endIndex {
+                if try areInIncreasingOrder(self[swapIndex], self[lowestValueIndex]) {
+                    lowestValueIndex = swapIndex
+                }
+            }
+            swapAt(lowestValueIndex, currentIndex)
+        }
+    }
+}
+
+var a = [7, 6, 5, 6, 5, 4, 5, 4, 3, 4, 3, 2, 3, 2, 1]
+a.selectionSort()
+
+```
+
 
 ### Algorithms:
 
