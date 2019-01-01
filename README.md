@@ -1449,6 +1449,61 @@ extension Array where Element == Int {
 }
 ```
 
+## Heap Sort
+```swift
+// Heap Sort
+// Best - O(n log n)
+// Worst - O(n log n)
+// Space - O(1)
+
+extension Array where Element: Comparable {
+    func leftChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 1
+    }
+    
+    func rightChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 2
+    }
+    
+    mutating func siftDown(from index: Int, upTo size: Int) {
+        var parent = index
+        while true {
+            let left = leftChildIndex(ofParentAt: parent)
+            let right = rightChildIndex(ofParentAt: parent)
+            var candidate = parent
+            
+            if left < size && (self[left] > self[candidate]) {
+                candidate = left
+            }
+            
+            if right < size && (self[right] > self[candidate]) {
+                candidate = right
+            }
+            
+            if candidate == parent {
+                return
+            }
+            
+            swapAt(parent, candidate)
+            parent = candidate
+        }
+    }
+    
+    mutating func heapSort() {
+        guard count > 1 else { return }
+        
+        for index in stride(from: count / 2 - 1, through: 0, by: -1) {
+            siftDown(from: index, upTo: count)
+        }
+        
+        for i in indices.reversed() {
+            swapAt(0, i)
+            siftDown(from: 0, upTo: i)
+        }
+    }   
+}
+```
+
 ### Algorithms:
 
 ```swift
