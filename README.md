@@ -1263,6 +1263,41 @@ extension PriorityQueue {
 }
 ```
 
+## Bubble Sort
+
+```swift
+// Bubble Sort
+// Best - O(n)
+// Worst - O(n^2)
+// Space - O(1)
+
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+    mutating func bubbleSort() {
+        bubbleSort(by: <)
+    }
+    
+    mutating func bubbleSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+        guard count > 1 else {
+            return
+        }
+        
+        for endingIndex in indices.reversed() {
+            var noSwaps = true
+            for currentIndex in startIndex..<endingIndex {
+                let nextIndex = index(after: currentIndex)
+                if try areInIncreasingOrder(self[nextIndex], self[currentIndex]) {
+                    swapAt(nextIndex, currentIndex)
+                    noSwaps = false
+                }
+            }
+            if noSwaps {
+                return
+            }
+        }
+    }
+}
+```
+
 
 ### Algorithms:
 
