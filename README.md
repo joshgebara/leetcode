@@ -1416,6 +1416,39 @@ func merge<Element: Comparable>(_ left: [Element], _ right: [Element]) -> [Eleme
 }
 ```
 
+## Counting Sort
+
+```swift
+// Counting Sort
+// Best - O(n + k)
+// Worst - O(n + k)
+// Space - O(k)
+
+extension Array where Element == Int {
+    func countingSort() -> [Element] {
+        guard count > 1 else { return self }
+        
+        let maxElement = self.max() ?? 0
+        var countArray = [Element](repeating: 0, count: maxElement + 1)
+        for element in self {
+            countArray[element] += 1
+        }
+        
+        for index in 1..<countArray.count {
+            let sum = countArray[index] + countArray[index - 1]
+            countArray[index] = sum
+        }
+        
+        var sortedArray = [Element](repeating: 0, count: count)
+        for element in self {
+            countArray[element] -= 1
+            sortedArray[countArray[element]] = element
+        }
+        return sortedArray
+    }
+}
+```
+
 ### Algorithms:
 
 ```swift
