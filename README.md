@@ -1364,6 +1364,57 @@ a.selectionSort()
 
 ```
 
+## Merge Sort
+
+```swift
+// Merge Sort
+// Best - O(n log n)
+// Worst - O(n log n)
+// Space - O(n)
+
+func mergeSort<Element: Comparable>(_ array: [Element]) -> [Element] {
+    guard array.count > 1 else {
+        return array
+    }
+    
+    let middleIndex = array.count / 2
+    let left = mergeSort(Array(array[..<middleIndex]))
+    let right = mergeSort(Array(array[middleIndex...]))
+    return merge(left, right)
+}
+
+func merge<Element: Comparable>(_ left: [Element], _ right: [Element]) -> [Element] {
+    var results = [Element]()
+    var leftIndex = 0
+    var rightIndex = 0
+    
+    while left.count > leftIndex && right.count > rightIndex {
+        let leftElement = left[leftIndex]
+        let rightElement = right[rightIndex]
+        
+        if leftElement > rightElement {
+            results.append(rightElement)
+            rightIndex += 1
+        } else if leftElement < rightElement {
+            results.append(leftElement)
+            leftIndex += 1
+        } else {
+            results.append(leftElement)
+            results.append(rightElement)
+            leftIndex += 1
+            rightIndex += 1
+        }
+    }
+    
+    if left.count > leftIndex {
+        results.append(contentsOf: left[leftIndex...])
+    } else {
+        results.append(contentsOf: right[rightIndex...])
+    }
+    
+    return results
+}
+```
 
 ### Algorithms:
 
