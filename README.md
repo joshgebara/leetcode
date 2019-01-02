@@ -1504,6 +1504,43 @@ extension Array where Element: Comparable {
 }
 ```
 
+```swift
+// Quick Sort
+// Best - O(n log n)
+// Worst - O(n^2)
+// Space - O(1)
+
+func quickSort<Element: Comparable>(_ array: inout [Element]) {
+    quickSort(&array, 0, array.count - 1)
+}
+
+func quickSort<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) {
+    guard low < high else { return }
+    
+    let randomIndex = Int.random(in: low...high)
+    array.swapAt(randomIndex, high)
+    
+    let partitionIndex = partition(&array, low, high)
+    quickSort(&array, low, partitionIndex - 1)
+    quickSort(&array, partitionIndex + 1, high)
+}
+
+func partition<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) -> Int {
+  let partitionElement = array[high]
+  var lowIndex = low
+  
+  for currentIndex in low..<high {
+    if array[currentIndex] <= partitionElement {
+      array.swapAt(currentIndex, lowIndex)
+      lowIndex += 1
+    }
+  }
+  
+  array.swapAt(lowIndex, high)
+  return lowIndex
+}
+```
+
 ### Algorithms:
 
 ```swift
