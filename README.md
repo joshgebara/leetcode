@@ -1541,6 +1541,88 @@ func partition<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high
 }
 ```
 
+## Graph - AdjacencyList
+
+```swift
+
+enum EdgeType {
+    case directed
+    case undirected
+}
+
+protocol Graph {
+    associatedtype Element
+    func createVertex(data: Element) -> Vertex<Element>
+    func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?)
+    func addUndirectedEdge(between source: Vertex<Element>, and destination: Vertex<Element>, weight: Double?)
+    func add(_ edge: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?)
+    func edges(from source: Vertex<Element>) -> [Edge<Element>]
+    func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double?
+}
+
+extension Graph {
+    func addUndirectedEdge(between source: Vertex<Element>, and destination: Vertex<Element>, weight: Double?) {
+        addDirectedEdge(from: source, to: destination, weight: weight)
+        addDirectedEdge(from: destination, to: source, weight: weight)
+    }
+    
+    func add(_ edge: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
+        switch edge {
+            case .directed:
+                addDirectedEdge(from: source, to: destination, weight: weight)
+            case .undirected:
+                addUndirectedEdge(between: source, and: destination, weight: weight)
+        }
+    }
+}
+
+struct Vertex<Element> {
+    let index: Int
+    let data: Element
+}
+
+extension Vertex: Hashable where Element: Hashable {}
+extension Vertex: Equatable where Element: Equatable {}
+
+extension Vertex: CustomStringConvertible {
+    var description: String {
+        return "\(index) - \(data)"
+    }
+}
+
+struct Edge<Element> {
+    let source: Vertex<Element>
+    let destination: Vertex<Element>
+    let weight: Double?
+}
+
+class AdjacencyList<Element: Hashable>: Graph {
+    
+    var adjacencies: [Vertex<Element>: [Edge<Element>]] = [:]
+
+    func createVertex(data: Element) -> Vertex<Element> {
+        let vertex = Vertex(index: adjacencies.count, data: data)
+        adjacencies[vertex] = []
+        return vertex
+    }
+    
+    func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
+        let edge = Edge(source: source, destination: destination, weight: weight)
+        adjacencies[source]?.append(edge)
+    }
+    
+    func edges(from source: Vertex<Element>) -> [Edge<Element>] {
+        return adjacencies[source] ?? []
+    }
+    
+     func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double? {
+        return edges(from: source)
+                .first { $0.destination == destination }?
+                .weight
+    }
+}
+```
+
 ### Algorithms:
 
 ```swift
