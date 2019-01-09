@@ -1054,7 +1054,7 @@ extension Heap {
     }
 
     func rightChildIndex(ofParentAt index: Int) -> Int {
-        return 2 * index + 1
+        return 2 * index + 2
     }
 
     func parentIndex(ofChildAt index: Int) -> Int {
@@ -1095,7 +1095,6 @@ extension Heap {
             
             return elements.removeLast()
         }
-        
     }
 }
 
@@ -1422,7 +1421,7 @@ func merge<Element: Comparable>(_ left: [Element], _ right: [Element]) -> [Eleme
 // Counting Sort
 // Best - O(n + k)
 // Worst - O(n + k)
-// Space - O(k)
+// Space - O(n + k)
 
 extension Array where Element == Int {
     func countingSort() -> [Element] {
@@ -1619,6 +1618,218 @@ class AdjacencyList<Element: Hashable>: Graph {
         return edges(from: source)
                 .first { $0.destination == destination }?
                 .weight
+    }
+}
+```
+
+## Priority Queue with AVL Tree
+
+```swift
+class AVLNode<Value> {
+    var value: Value
+    var leftChild: AVLNode<Value>?
+    var rightChild: AVLNode<Value>?
+    var height = 0
+ 
+    init(_ value: Value) {
+        self.value = value
+    }
+}
+
+extension AVLNode {
+    var min: AVLNode<Value> {
+        return leftChild?.min ?? self
+    }
+    
+    var max: AVLNode<Value> {
+        return rightChild?.max ?? self
+    }
+}
+
+extension AVLNode {
+    var balanceFactor: Int {
+        return leftHeight - rightHeight
+    }
+    
+    var leftHeight: Int {
+        return leftChild?.height ?? -1
+    }
+    
+    var rightHeight: Int {
+        return rightChild?.height ?? -1
+    }
+}
+
+extension AVLNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+struct AVLTree<Value: Comparable> {
+    var root: AVLNode<Value>?
+    
+    var priorityNode: AVLNode<Value>? {
+        return root?.max ?? nil
+    }
+}
+
+extension AVLTree {
+    mutating func insert(_ value: Value) {
+        root = insert(from: root, value: value)
+    }
+    
+    mutating func insert(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value>? {
+        guard let node = node else {
+            return AVLNode(value)
+        }
+        
+        if value < node.value {
+            node.leftChild = insert(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = insert(from: node.rightChild, value: value)
+        }
+        
+        let balancedNode = balanced(node)
+        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
+        return balancedNode
+    }
+}
+
+extension AVLTree {
+    mutating func remove(_ value: Value) {
+        root = remove(from: root, value: value)
+    }
+    
+    mutating func remove(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value>? {
+        guard let node = node else {
+            return nil
+        }
+        
+        if value == node.value {
+            if node.leftChild == nil && node.rightChild == nil {
+                return nil
+            }
+            
+            if node.leftChild == nil {
+                return node.rightChild
+            }
+            
+            if node.rightChild == nil {
+                return node.leftChild
+            }
+            
+            node.value = node.rightChild!.min.value
+            node.rightChild = remove(from: node.rightChild, value: node.value)
+        } else if value < node.value {
+            node.leftChild = remove(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = remove(from: node.rightChild, value: value)
+        }
+        
+        let balancedNode = balanced(node)
+        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
+        return balancedNode
+    }
+}
+
+extension AVLTree {
+    func contains(_ value: Value) -> Bool {
+        var current = root
+        
+        while let node = current {
+            if value == node.value {
+                return true
+            }
+            
+            if value < node.value {
+                current = node.leftChild
+            } else {
+                current = node.rightChild
+            }
+        }
+        return false
+    }
+}
+
+extension AVLTree {
+    mutating func balanced(_ node: AVLNode<Value>) -> AVLNode<Value> {
+        switch node.balanceFactor {
+        case 2:
+            if let leftChild = node.leftChild, leftChild.balanceFactor == -1 {
+                return leftRightRotate(node)
+            } else {
+                return rightRotate(node)
+            }
+        case -2:
+            if let rightChild = node.rightChild, rightChild.balanceFactor == 1 {
+                return rightLeftRotate(node)
+            } else {
+                return leftRotate(node)
+            }
+        default:
+            return node
+        }
+    }
+}
+
+extension AVLTree {
+    mutating func leftRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
+        let pivot = node.rightChild!
+        node.rightChild = pivot.leftChild
+        pivot.leftChild = node
+    
+        node.height = max(node.leftHeight, node.rightHeight) + 1
+        pivot.height = max(pivot.leftHeight, node.rightHeight) + 1
+    
+        return pivot
+    }
+    
+    mutating func rightRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
+        let pivot = node.leftChild!
+        node.leftChild = pivot.rightChild
+        pivot.rightChild = node
+    
+        node.height = max(node.leftHeight, node.rightHeight) + 1
+        pivot.height = max(pivot.leftHeight, pivot.rightHeight) + 1
+    
+        return pivot
+    }
+    
+    mutating func leftRightRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
+        guard let leftChild = node.leftChild else {
+            return node
+        }
+        node.leftChild = leftRotate(leftChild)
+        return rightRotate(node)
+    }
+    
+    mutating func rightLeftRotate(_ node: AVLNode<Value>) -> AVLNode<Value> {
+        guard let rightChild = node.rightChild else {
+            return node
+        }
+        node.rightChild = rightRotate(rightChild)
+        return leftRotate(node)
+    }
+}
+
+struct PriorityQueue<Element: Comparable> {
+    var elements = AVLTree<Element>()
+    
+    mutating func enqueue(_ element: Element) {
+        elements.insert(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        guard let element = elements.priorityNode else {
+            return nil
+        }
+        
+        defer {
+            elements.remove(element.value)
+        }
+        
+        return element.value
     }
 }
 ```
