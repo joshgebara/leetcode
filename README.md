@@ -26,10 +26,12 @@
 // Merge Sort
 // Radix Sort
 // Counting Sort
+// Bucket Sort
 // Heap Sort
 // Quick Sort
 // Graph - AdjacencyList
 // Graph - AdjacencyMatrix
+// Graph - AdjacencySet
 // Graph - Breadth-First Search
 // Graph - Depth-First Search
 // Graph - Dijkstra's Algorithms
@@ -1914,20 +1916,30 @@ class AdjacencyList<Element: Hashable>: Graph {
 }
 ```
 
-## Graph AdjacencyMatrix
+## Graph - AdjacencyMatrix
 
 ```swift
 
 ```
 
-## Graph -AdjacencySet
+## Graph - AdjacencySet
+
+```swift
+
+```
+
+## Graph - Breadth First Traversal
 
 ```swift
 
 ```
 
 
+## Bucket Sort
 
+```swift
+
+```
 
 
 
