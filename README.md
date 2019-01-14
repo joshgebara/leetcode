@@ -2067,6 +2067,153 @@ class AdjacencyList<Element: Hashable>: Graph {
 }
 ```
 
+## Graph - Depth First
+
+```swift
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    func peek() -> Element? {
+        return elements.last
+    }
+}
+
+struct Queue<Element> {
+    var leftStack = Stack<Element>()
+    var rightStack = Stack<Element>()
+    
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        if rightStack.isEmpty {
+            while let value = leftStack.pop() {
+                rightStack.push(value)
+            }
+        }
+        return rightStack.pop()
+    }
+}
+
+enum EdgeType {
+    case directed
+    case undirected
+}
+
+protocol Graph {
+    associatedtype Element
+    func createVertex(data: Element) -> Vertex<Element>
+    func add(_ edge: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?)
+    func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?)
+    func addUndirectedEdge(between source: Vertex<Element>, and destination: Vertex<Element>, weight: Double?)
+    func edges(from source: Vertex<Element>) -> [Edge<Element>]
+    func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double?
+}
+
+extension Graph {
+    func add(_ edge: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
+        switch edge {
+            case .directed:
+                addDirectedEdge(from: source, to: destination, weight: weight)
+            case .undirected:
+                addUndirectedEdge(between: source, and: destination, weight: weight)
+        }
+    }
+    
+    func addUndirectedEdge(between source: Vertex<Element>, and destination: Vertex<Element>, weight: Double?) {
+        addDirectedEdge(from: source, to: destination, weight: weight)
+        addDirectedEdge(from: destination, to: source, weight: weight)
+    }
+}
+
+extension Graph where Element: Hashable {    
+    func depthFirstSearch(from source: Vertex<Element>) -> [Vertex<Element>] {
+        var stack = Stack<Vertex<Element>>()
+        var pushed = Set<Vertex<Element>>()
+        var visited = [Vertex<Element>]()
+        
+        stack.push(source)
+        pushed.insert(source)
+        visited.append(source)
+        
+        outer: while let vertex = stack.peek() {
+            let neighbors = edges(from: vertex)
+            guard !neighbors.isEmpty else {
+                stack.pop()
+                continue
+            }
+            
+            for edge in neighbors {
+                if !pushed.contains(edge.destination) {
+                    stack.push(edge.destination)
+                    pushed.insert(edge.destination)
+                    visited.append(edge.destination)
+                    continue outer
+                }
+            }
+            
+            stack.pop()
+        }
+        return visited
+    }
+}
+
+struct Vertex<Element> {
+    let index: Int
+    let data: Element
+}
+
+extension Vertex: Equatable where Element: Equatable {}
+extension Vertex: Hashable where Element: Hashable {}
+
+extension Vertex: CustomStringConvertible {
+    var description: String {
+        return "\(index) - \(data)"
+    }
+}
+
+struct Edge<Element> {
+    let source: Vertex<Element>
+    let destination: Vertex<Element>
+    let weight: Double?
+}
+
+class AdjacencyList<Element: Hashable>: Graph {
+    var adjacencies: [Vertex<Element>: [Edge<Element>]] = [:]
+    
+    func createVertex(data: Element) -> Vertex<Element> {
+        let vertex = Vertex(index: adjacencies.count, data: data)
+        adjacencies[vertex] = []
+        return vertex
+    }
+    
+    func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
+        let edge = Edge(source: source, destination: destination, weight: weight)
+        adjacencies[source]?.append(edge)
+    }
+    
+    func edges(from source: Vertex<Element>) -> [Edge<Element>] {
+        return adjacencies[source] ?? []
+    }
+    
+    func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double? {
+        return edges(from: source).first { $0.destination == destination }?.weight
+    }
+}
+```
 
 ## Bucket Sort
 
