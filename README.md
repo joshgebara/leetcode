@@ -2304,6 +2304,21 @@ class AdjacencyList<Element: Hashable>: Graph {
 }
 ```
 
+## Dijkstra's Algorithm
+
+```swift
+
+```
+
+
+## Prim's Algorithm
+
+```swift
+
+```
+
+
+
 ## Bucket Sort
 
 ```swift
