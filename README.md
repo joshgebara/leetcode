@@ -1783,7 +1783,7 @@ extension AVLTree {
         pivot.leftChild = node
     
         node.height = max(node.leftHeight, node.rightHeight) + 1
-        pivot.height = max(pivot.leftHeight, node.rightHeight) + 1
+        pivot.height = max(pivot.leftHeight, pivot.rightHeight) + 1
     
         return pivot
     }
@@ -1971,7 +1971,7 @@ struct Edge<Element> {
     let weight: Double?
 }
 
-class AdjacencyGraph<Element>: Graph {
+class AdjacencyMatrix<Element>: Graph {
     var vertices: [Vertex<Element>] = []
     var weights: [[Double?]] = []
     
@@ -2090,7 +2090,7 @@ extension Graph {
 }
 
 extension Graph where Element: Hashable {
-    func breadthFirstSearch(from source: Vertex<Element>) -> [Vertex<Element>] {
+    func breadthFirst(from source: Vertex<Element>) -> [Vertex<Element>] {
         var queue = Queue<Vertex<Element>>()
         var enqueued = Set<Vertex<Element>>()
         var visited = [Vertex<Element>]()
@@ -2101,6 +2101,7 @@ extension Graph where Element: Hashable {
         while let vertex = queue.dequeue() {
             visited.append(vertex)
             let neighborEdges = edges(from: vertex)
+            
             for edge in neighborEdges {
                 if !enqueued.contains(edge.destination) {
                     queue.enqueue(edge.destination)
@@ -2229,7 +2230,7 @@ extension Graph {
 }
 
 extension Graph where Element: Hashable {    
-    func depthFirstSearch(from source: Vertex<Element>) -> [Vertex<Element>] {
+    func depthFirst(from source: Vertex<Element>) -> [Vertex<Element>] {
         var stack = Stack<Vertex<Element>>()
         var pushed = Set<Vertex<Element>>()
         var visited = [Vertex<Element>]()
@@ -2239,13 +2240,13 @@ extension Graph where Element: Hashable {
         visited.append(source)
         
         outer: while let vertex = stack.peek() {
-            let neighbors = edges(from: vertex)
-            guard !neighbors.isEmpty else {
+            let neighborEdges = edges(from: vertex)
+            guard !neighborEdges.isEmpty else {
                 stack.pop()
                 continue
             }
             
-            for edge in neighbors {
+            for edge in neighborEdges {
                 if !pushed.contains(edge.destination) {
                     stack.push(edge.destination)
                     pushed.insert(edge.destination)
