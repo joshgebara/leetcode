@@ -2430,7 +2430,45 @@ class AdjacencyList<Element: Hashable>: Graph {
 
 
 
+## Flood Fill
 
+```swift
+class Solution {
+    func floodFill(_ image: [[Int]], _ sr: Int, _ sc: Int, _ newColor: Int) -> [[Int]] {
+        let color = image[sr][sc]
+        guard color != newColor else {
+            return image
+        }
+        
+        var result = image
+        depthFirstSearch(&result, sr, sc, newColor, color)
+        return result
+    }
+    
+    func depthFirstSearch(_ image: inout [[Int]], _ r: Int, _ c: Int, _ newColor: Int, _ oldColor: Int) {
+        guard image[r][c] == oldColor else {
+            return
+        }
+        
+        image[r][c] = newColor
+        if r + 1 < image.count {
+            depthFirstSearch(&image, r + 1, c, newColor, oldColor)
+        }
+        
+        if r - 1 >= 0 {
+            depthFirstSearch(&image, r - 1, c, newColor, oldColor)
+        }
+        
+        if c + 1 < image[0].count {
+            depthFirstSearch(&image, r, c + 1, newColor, oldColor)
+        }
+        
+        if c - 1 >= 0 {
+            depthFirstSearch(&image, r, c - 1, newColor, oldColor)
+        }
+    }
+}
+```
 
 
 
