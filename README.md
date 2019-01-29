@@ -2393,6 +2393,312 @@ class AdjacencyList<Element: Hashable>: Graph {
 ## Prim's Algorithm
 
 ```swift
+struct Heap<Element> {
+    let sort: (Element, Element) -> Bool
+    var elements: [Element]
+    
+    init(sort: @escaping (Element, Element) -> Bool, elements: [Element] = []) {
+        self.sort = sort
+        self.elements = elements
+        
+        if !isEmpty {
+            for index in stride(from: count / 2 - 1, through: 0, by: -1) {
+                siftDown(from: index)
+            }
+        }
+    }
+}
+
+extension Heap {
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+}
+
+extension Heap {
+    mutating func siftDown(from index: Int) {
+        var parent = index
+        while true {
+            let left = leftChildIndex(ofParentAt: parent)
+            let right = rightChildIndex(ofParentAt: parent)
+            var candidate = parent
+            
+            if left < count && sort(elements[left], elements[candidate]) {
+                candidate = left
+            }
+            
+            if right < count && sort(elements[right], elements[candidate]) {
+                candidate = right
+            }
+            
+            if candidate == parent {
+                return
+            }
+            
+            elements.swapAt(parent, candidate)
+            parent = candidate
+        }
+    }
+    
+    mutating func siftUp(from index: Int) {
+        var child = index
+        var parent = parentIndex(ofChildAt: child)
+        
+        while child > 0 && sort(elements[child], elements[parent]) {
+            elements.swapAt(child, parent)
+            child = parent
+            parent = parentIndex(ofChildAt: child)
+        }
+    }
+}
+
+extension Heap {
+    func leftChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 1
+    }
+    
+    func rightChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 2
+    }
+    
+    func parentIndex(ofChildAt index: Int) -> Int {
+        return (index - 1) / 2
+    }
+}
+
+extension Heap {
+    mutating func insert(_ element: Element) {
+        elements.append(element)
+        siftUp(from: count - 1)
+    }
+    
+    mutating func remove() -> Element? {
+        guard !isEmpty else {
+            return nil
+        }
+        
+        elements.swapAt(0, count - 1)
+        
+        defer {
+            siftDown(from: 0)
+        }
+        
+        return elements.removeLast()
+    }
+    
+    mutating func remove(at index: Int) -> Element? {
+        guard index < count else {
+            return nil
+        }
+        
+        if index == count - 1 {
+            return elements.removeLast()
+        } else {
+            elements.swapAt(index, count - 1)
+            
+            defer {
+                siftUp(from: index)
+                siftDown(from: index)
+            }
+            
+            return elements.removeLast()
+        }
+    }
+}
+
+struct PriorityQueue<Element> {
+
+    var elements: Heap<Element>
+    
+    init(sort: @escaping (Element, Element) -> Bool, elements: [Element] = []) {
+        self.elements = Heap<Element>(sort: sort, elements: elements)
+    }
+
+    mutating func enqueue(_ element: Element) {
+        elements.insert(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return elements.remove()
+    }
+}
+
+
+enum EdgeType {
+    case directed
+    case undirected
+}
+
+protocol Graph {
+    associatedtype Element
+    func createVertex(data: Element) -> Vertex<Element>
+    func add(_ edge: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?)
+    func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?)
+    func addUndirectedEdge(between source: Vertex<Element>, and destination: Vertex<Element>, weight: Double?)
+    func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double?
+    func edges(from source: Vertex<Element>) -> [Edge<Element>]
+}
+
+extension Graph {
+    func add(_ edge: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
+        switch edge {
+        case .directed:
+            addDirectedEdge(from: source, to: destination, weight: weight)
+        case .undirected:
+            addUndirectedEdge(between: source, and: destination, weight: weight)
+        }
+    }
+    
+    func addUndirectedEdge(between source: Vertex<Element>, and destination: Vertex<Element>, weight: Double?) {
+        addDirectedEdge(from: source, to: destination, weight: weight)
+        addDirectedEdge(from: destination, to: source, weight: weight)
+    }
+}
+
+struct Vertex<Element> {
+    let index: Int
+    let data: Element
+}
+
+extension Vertex: Equatable where Element: Equatable {}
+extension Vertex: Hashable where Element: Hashable {}
+
+extension Vertex: CustomStringConvertible {
+    var description: String {
+        return "\(data)"
+    }
+}
+
+struct Edge<Element> {
+    let source: Vertex<Element>
+    let destination: Vertex<Element>
+    let weight: Double?
+}
+
+class AdjacencyList<Element: Hashable>: Graph {
+    var adjacencies: [Vertex<Element>: [Edge<Element>]] = [:]
+    
+    func createVertex(data: Element) -> Vertex<Element> {
+        let vertex = Vertex(index: adjacencies.count, data: data)
+        adjacencies[vertex] = []
+        return vertex
+    }
+    
+    func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
+        let edge = Edge(source: source, destination: destination, weight: weight)
+        adjacencies[source]?.append(edge)
+    }
+    
+    func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double? {
+        return edges(from: source).first { $0.destination == destination }?.weight
+    }
+    
+    func edges(from source: Vertex<Element>) -> [Edge<Element>] {
+        return adjacencies[source] ?? []
+    }
+    
+    var vertices: [Vertex<Element>] {
+        return Array(adjacencies.keys)
+    }
+    
+    func copyVertices(from graph: AdjacencyList) {
+        for vertex in graph.vertices {
+            adjacencies[vertex] = []
+        }
+    }
+}
+
+extension AdjacencyList: CustomStringConvertible {
+  public var description: String {
+    var result = ""
+    for (vertex, edges) in adjacencies { // 1
+      var edgeString = ""
+      for (index, edge) in edges.enumerated() { // 2
+        if index != edges.count - 1 {
+          edgeString.append("\(edge.destination), ")
+} else {
+          edgeString.append("\(edge.destination)")
+        }
+}
+      result.append("\(vertex) ---> [ \(edgeString) ]\n") // 3
+    }
+    return result
+  }
+}
+
+class Prim<T: Hashable> {
+    typealias Graph = AdjacencyList<T>
+}
+
+extension Prim {
+    func addAvailableEdges(from vertex: Vertex<T>, in graph: Graph, check visited: Set<Vertex<T>>, to priorityQueue: inout PriorityQueue<Edge<T>>) {
+        for edge in graph.edges(from: vertex) {
+            if !visited.contains(edge.destination) {
+                priorityQueue.enqueue(edge)
+            }
+        }
+    }
+    
+    func produceMinimumSpanningTree(for graph: Graph) -> (cost: Double, mst: Graph) {
+        var cost = 0.0
+        let mst = Graph()
+        var visited: Set<Vertex<T>> = []
+        var priorityQueue = PriorityQueue<Edge<T>>(sort: {
+            $0.weight ?? 0.0 < $1.weight ?? 0.0
+        })
+        
+        mst.copyVertices(from: graph)
+        
+        guard let start = graph.vertices.first else {
+            return (cost: cost, mst: mst)
+        }
+        
+        visited.insert(start)
+        addAvailableEdges(from: start, in: graph, check: visited, to: &priorityQueue)
+        
+        while let edge = priorityQueue.dequeue() {
+            let vertex = edge.destination
+            guard !visited.contains(vertex) else {
+                continue
+            }
+            
+            cost += edge.weight ?? 0.0
+            visited.insert(vertex)
+            
+            mst.add(.undirected, from: edge.source, to: edge.destination, weight: edge.weight)
+            addAvailableEdges(from: vertex, in: graph, check: visited, to: &priorityQueue)
+        }
+        return (cost: cost, mst: mst)
+    }
+}
+
+var graph = AdjacencyList<Int>()
+let one = graph.createVertex(data: 1)
+let two = graph.createVertex(data: 2)
+let three = graph.createVertex(data: 3)
+let four = graph.createVertex(data: 4)
+let five = graph.createVertex(data: 5)
+let six = graph.createVertex(data: 6)
+
+graph.add(.undirected, from: one, to: two, weight: 6)
+graph.add(.undirected, from: one, to: three, weight: 1)
+graph.add(.undirected, from: one, to: four, weight: 5)
+graph.add(.undirected, from: two, to: three, weight: 5)
+graph.add(.undirected, from: two, to: five, weight: 3)
+graph.add(.undirected, from: three, to: four, weight: 5)
+graph.add(.undirected, from: three, to: five, weight: 6)
+graph.add(.undirected, from: three, to: six, weight: 4)
+graph.add(.undirected, from: four, to: six, weight: 2)
+graph.add(.undirected, from: five, to: six, weight: 6)
+
+let (cost,mst) = Prim().produceMinimumSpanningTree(for: graph)
+print("cost: \(cost)")
+print("mst:")
+print(mst)
 
 ```
 
