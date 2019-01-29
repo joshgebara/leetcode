@@ -2707,9 +2707,75 @@ print(mst)
 ## Bucket Sort
 
 ```swift
+extension Array where Element == Int {
+    func bucketSort() -> [Element] {
+        guard count > 0 else { return self }
+        guard let maxElement = self.max() else { return self }
+
+        var buckets = [[Element]](repeating: [], count: maxElement / 10 + 1)
+        var sortedArray = [Element]()
+
+        for num in self {
+            buckets[num / 10].append(num)
+        }
+
+        sortedArray = buckets.flatMap { $0.sorted() }
+        return sortedArray
+    }
+}
+
+var a = [1, 1, 5, 5, 5, 6, 10, 5, 7, 12, 32]
+a.bucketSort()
 
 ```
 
+A common optimization is to put the unsorted elements of the buckets back in the original array first, then run insertion sort over the complete array; because insertion sort's runtime is based on how far each element is from its final position, the number of comparisons remains relatively small, and the memory hierarchy is better exploited by storing the list contiguously in memory.
+
+```swift
+extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
+    mutating func insertionSort() {
+        insertionSort(by: <)
+    }
+    
+    mutating func insertionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+        guard count > 1 else { return }
+        
+        for currentIndex in index(after: startIndex)..<endIndex {
+            for shiftingIndex in (index(after: startIndex)...currentIndex).reversed() {
+                let previousIndex = index(before: shiftingIndex)
+                if try areInIncreasingOrder(self[shiftingIndex], self[previousIndex]) {
+                    swapAt(shiftingIndex, previousIndex)
+                } else {
+                    break
+                }
+            }
+        }
+    }
+}
+
+var a = [1, 4, 7, 8, 7, 6, 4, 3, 9, 8, 4, 3, 2, 6, 5, 4]
+a.insertionSort()
+
+extension Array where Element == Int {
+    mutating func bucketSort() {
+        guard count > 0 else { return }
+        guard let maxElement = self.max() else { return }
+
+        var buckets = [[Element]](repeating: [], count: maxElement / 10 + 1)
+
+        for num in self {
+            buckets[num / 10].append(num)
+        }
+
+        self = buckets.flatMap { $0 }
+
+        self.insertionSort(by: <)
+    }
+}
+
+var b = [100, 400, 10, 2]
+b.bucketSort()
+```
 
 
 
