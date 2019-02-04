@@ -2386,6 +2386,66 @@ class AdjacencyList<Element: Hashable>: Graph {
 ## Dijkstra's Algorithm
 
 ```swift
+enum Visit<T: Hashable> {
+    case start
+    case edge(Edge<T>)
+}
+
+class Dijkstra<T: Hashable> {
+    typealias Graph = AdjacencyList<T>
+    let graph: Graph
+    
+    init(_ graph: Graph) {
+        self.graph = graph
+    }
+}
+
+extension Dijkstra {
+    func route(to destination: Vertex<T>, with paths: [Vertex<T>: Visit<T>]) -> [Edge<T>] {
+        var vertex = destination
+        var path: [Edge<T>] = []
+        
+        while let visit = vertex, case .edge(let edge) = visit {
+            path = [edge] + path
+            vertex = edge.source
+        }
+        
+        return path
+    }
+    
+    func distance(to destination: Vertex<T>, with paths: [Vertex<T>: Visit<T>]) -> Double {
+        let path = route(to: destination, with: paths)
+        let distances = path.compactMap { $0.weight }
+        return distances.reduce(0.0, +)
+    }
+    
+    func shortestPath(from start: Vertex<T>) -> [Vertex<T>: Visit<T>] {
+        var paths: [Vertex<T>: Visit<T>] = [start: .start]
+        var priorityQueue = PriorityQueue<Vertex<T>>(sort: {
+            distance(to: $0, with: paths) < distance(to: $1, with: paths)
+        })
+        priorityQueue.enqueue(start)
+        
+        while let vertex = priorityQueue.dequeue() {
+            for edge in graph.edges(from: vertex) {
+                guard let weight = edge.weight else {
+                    continue
+                }
+                
+                if paths[edge.destination] == nil ||
+                distance(to: vertex, with: paths) + weight < distance(to: edge.destination, with: paths) {
+                    paths[edge.destination] = .edge(edge)
+                    priorityQueue.enqueue(edge.destination)
+                }
+            }
+        }
+        return paths
+    }
+    
+    func shortestPath(to destination: Vertex<T>, with paths: [Vertex<T>: Visit<T>]) -> [Edge<T>] {
+        return route(to: destination, with: paths)
+    }
+}
 
 ```
 
@@ -2719,7 +2779,7 @@ extension Array where Element == Int {
             buckets[num / 10].append(num)
         }
 
-        sortedArray = buckets.flatMap { $0.sorted() }
+        sortedArray = buckets.flatMap { $0.sorted() } // typically insertion sort is used with bucket sort. the sort in the standard library is intra sort which uses insertion sort when the input size is small.
         return sortedArray
     }
 }
