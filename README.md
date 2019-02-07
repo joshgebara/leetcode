@@ -5675,6 +5675,13 @@ extension Sequence where Element: Hashable {
     }
 }
 
+extension String {
+    func count4(of element: Element) -> Int {
+        let modifiedCount = self.replacingOccurrences(of: "\(element)", with: "").count
+        return self.count - modifiedCount
+    }
+}
+
 "Hello".count4(for: "l")
 
 func challenge5d(input: String, count: String) -> Int {
@@ -5682,6 +5689,95 @@ func challenge5d(input: String, count: String) -> Int {
 "")
    return input.count - modified.count
 }
+
+
+## Challenge 6 - Remove duplicate letters from a string
+
+import Foundation
+
+extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var elements = Set<Element>()
+        return filter {
+            if elements.contains($0) {
+                return false
+            } else {
+                elements.insert($0)
+                return true
+            }
+        }
+    }
+}
+
+extension String {
+    func removeDuplicates() -> String {
+        var elements = Set<Element>()
+        return filter {
+            if elements.contains($0) {
+                return false
+            } else {
+                elements.insert($0)
+                return true
+            }
+        }
+    }
+    
+    func removeDuplicates2() -> String {
+        let array = self.map { String($0) }
+        let set = NSOrderedSet(array: array)
+        let letters = Array(set) as! Array<String>
+        return letters.joined()
+    }
+    
+    func removeDuplicates3() -> String {
+        var used: [Character: Bool] = [:]
+        
+        return filter {
+            used.updateValue(true, forKey: $0) == nil
+        }
+    }
+}
+
+let string = "hello".removeDuplicates2()
+
+
+var a: [Int: Int] = [:]
+a.updateValue(5, forKey: 1)
+a.updateValue(4, forKey: 1)
+a.updateValue(3, forKey: 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 struct UnfoldingSequence<State, T>: Sequence, IteratorProtocol {
