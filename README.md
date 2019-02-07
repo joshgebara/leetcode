@@ -5619,62 +5619,60 @@ extension String {
 
 ## Challenge 4: Does one string contain another?
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//"Challenge 5: Count the characters"
-
-
 import Foundation
 
 extension String {
-  func fuzzyContains(_ substring: String) -> Bool {
-    return range(of: substring, options: .caseInsensitive) != nil
-  }
+   func fuzzyContains(_ string: String) -> Bool {
+      return range(of: string, options: .caseInsensitive) != nil
+    }
 }
 
-"Hello, world".fuzzyContains("Hello")
+"Hello, world".fuzzyContains("WORLD")
+
+
+
 
 // Challenge 5: Count the characters
 
 import Foundation
 
 extension String {
-  func count1(for character: Character) -> Int {
-    var count = 0
-    
-    for element in self {
-      if element == character {
-        count += 1
-      }
-    }
-    
-    return count
-  }
-  
-  func count2(for character: Character) -> Int {
-    let set = NSCountedSet(array: Array(self))
-    return set.count(for: character)
-  }
-
-  func count3(for character: Character) -> Int {
-    return reduce(0) { $1 == character ? $0 + 1 : $0 }
-  }
-
   func count4(for character: String) -> Int {
     let modified = replacingOccurrences(of: character, with: "")
     return count - modified.count
   }
+}
+
+import Foundation
+
+extension Sequence where Element: Hashable {
+    func count(of element: Element) -> Int {
+        return reduce(0) {
+            $1 == element ? $0 + 1 : $0
+        }
+    }
+    
+    func count2(of element: Element) -> Int {
+        let countedSet = NSCountedSet(array: Array(self))
+        return countedSet.count(for: element)
+    }
+    
+    func count3(of element: Element) -> Int {
+        var counts: [Element: Int] = [:]
+        for element in self {
+            counts[element] = counts[element] ?? 0 + 1
+        }
+        return counts[element] ?? 0
+    }
+    
+    func count(where predicate: (Element) -> Bool) -> Int {
+        var count = 0
+        
+        for element in self where predicate(element) {
+            count += 1
+        }
+        return count
+    }
 }
 
 "Hello".count4(for: "l")
