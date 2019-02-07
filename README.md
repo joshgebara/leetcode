@@ -5412,7 +5412,41 @@ extension String {
   }
 }
 
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
 
+extension String {
+    var isPalindrome: Bool {
+        let lowercasedString = self.lowercased()
+        return lowercasedString == String(lowercasedString.reversed())
+    }
+    
+    var isPalindrome2: Bool {
+        let lowercasedString = self.lowercased()
+        var stack = Stack<Element>()
+        
+        for element in lowercasedString {
+            stack.push(element)
+        }
+        
+        var reversedString = ""
+        while let element = stack.pop() {
+            reversedString.append(element)
+        }
+        return lowercasedString == reversedString.lowercased()
+    }
+}
+
+"Hello, world".isPalindrome
 
 
 
@@ -5545,6 +5579,33 @@ func sameCharacters(_ string1: String, _ string2: String) -> Bool {
   let array2 = Array(string2)
   return array1.sorted() == array2.sorted()
 }
+
+extension String {
+    func sameCharacters(as string: String) -> Bool {
+        let sorted1 = self.sorted()
+        let sorted2 = string.sorted()
+        
+        return sorted1 == sorted2
+    }
+    
+    func sameCharacters2(as string: String) -> Bool {
+        var elementsDictionary: [Element: Int] = [:]
+        for element in self {
+            elementsDictionary[element] = elementsDictionary[element] ?? 0 + 1
+        }
+        
+        for element in string {
+            if let count = elementsDictionary[element], count > 0 {
+                elementsDictionary[element] = count - 1
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+}
+
+"abca".sameCharacters(as: "abca")
 
 
 //For bonus interview points, you might be tempted to write something like this:
