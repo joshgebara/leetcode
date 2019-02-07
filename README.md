@@ -5357,7 +5357,7 @@ class Solution:
 
 
 
-// Challenge 1: Are the letters unique?
+## Challenge 1: Are the letters unique?
 
 extension Sequence where Element: Hashable {
     func unique() -> [Element] {
@@ -5403,7 +5403,7 @@ assert(challenge1(input: "Hello, world") == false, "Challenge 1 failed")
 
 
 
-// Challenge 2: Is a string a palindrome?
+## Challenge 2: Is a string a palindrome?
 
 extension String {
   func palindrome() -> Bool {
@@ -5455,7 +5455,7 @@ extension String {
 
 
 
-// Challenge 2: Is a string a palindrome?
+## Challenge 2: Is a string a palindrome?
 
 
 extension String {
@@ -5513,7 +5513,7 @@ extension String {
   }
 
 
-  //"Challenge 2: Is a string a palindrome?",
+  ## "Challenge 2: Is a string a palindrome?",
 
 extension String {
   func pal1() -> Bool {
@@ -5572,7 +5572,7 @@ struct Stack<Value> {
 
 
 
-// Challenge 3: Do two strings contain the same characters?
+## Challenge 3: Do two strings contain the same characters?
 
 func sameCharacters(_ string1: String, _ string2: String) -> Bool {
   let array1 = Array(string1)
@@ -5607,7 +5607,6 @@ extension String {
 
 "abca".sameCharacters(as: "abca")
 
-
 //For bonus interview points, you might be tempted to write something like this:
 //
 //return array1.count == array2.count && array1.sorted() ==
@@ -5615,6 +5614,23 @@ extension String {
 //
 //However, there’s no need – the == operator for arrays does that before doing its item-by-item comparison, so doing it yourself is just redundant.
 // conformance to the equatable protocol makes this check in a guard on the static == func
+
+
+
+## Challenge 4: Does one string contain another?
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //"Challenge 5: Count the characters"
 
