@@ -5358,6 +5358,26 @@ class Solution:
 
 
 // Challenge 1: Are the letters unique?
+
+extension Sequence where Element: Hashable {
+    func unique() -> [Element] {
+        var uniqueElements = Set<Element>()
+        return filter {
+            if uniqueElements.contains($0) {
+                return false
+            } else {
+                uniqueElements.insert($0)
+                return true
+            }
+        }
+    }
+}
+
+func challenge1(input: String) -> Bool {
+    return input.count == input.unique().count
+}
+
+
 func challenge1(input: String) -> Bool {
   return input.count == Set(input).count
 }
@@ -5366,6 +5386,20 @@ assert(challenge1(input: "No duplicates") == true, "Challenge 1 failed")
 assert(challenge1(input: "abcdefghijklmnopqrstuvwxyz") == true, "Challenge 1 failed")
 assert(challenge1(input: "AaBbCc") == true, "Challenge 1 failed")
 assert(challenge1(input: "Hello, world") == false, "Challenge 1 failed")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
