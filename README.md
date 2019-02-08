@@ -5846,6 +5846,48 @@ extension String {
 
 
 
+## Challenge 7 - Remove duplicate letters from a string
+
+extension String {
+    func condenseWhitespace() -> String {
+        var seenSpace = false
+        return filter {
+            if $0 == " " {
+                if seenSpace {
+                    return false
+                }
+                seenSpace = true
+                return true
+            }
+            seenSpace = false
+            return true
+        }
+    }
+}
+
+import Foundation
+
+extension String {
+    func condenseWhitespace() -> String {
+        return replacingOccurrences(of: " +", with: " ", options: .regularExpression, range: nil)
+    }
+}
+
+"       a c".condenseWhitespace()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
