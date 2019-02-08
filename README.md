@@ -5970,6 +5970,37 @@ a.vowelsAndConsonants
 
 
 
+# Challenge 11: Three different letters
+
+extension String {
+    func check(against other: String) -> Bool {
+        guard self.count == other.count else {
+            return false
+        }
+        
+        let string1 = Array(self)
+        let string2 = Array(other)
+        
+        var differenceCount = 0
+        
+        for (index, value) in string1.enumerated() {
+            guard differenceCount < 3 else {
+                return false
+            }
+            
+            if value != string2[index] {
+                differenceCount += 1
+            }
+        }
+        return true
+    }
+}
+
+
+
+
+
+
 
 
 
