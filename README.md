@@ -6001,8 +6001,34 @@ extension String {
 
 
 
+# Challenge 12: Find longest prefix
 
+import Foundation
 
+extension String {
+    func longestPrefix() -> String {
+        guard count > 0 else { return "" }
+        
+        let strings = self.components(separatedBy: " ")
+        guard let first = strings.first else { return "" }
+        
+        var currentPrefix = ""
+        var bestPrefix = ""
+        
+        for letter in first {
+            currentPrefix.append(letter)
+            
+            for word in strings {
+                if !word.hasPrefix(currentPrefix) {
+                    return bestPrefix
+                }
+            }
+            
+            bestPrefix = currentPrefix
+        }
+        return bestPrefix
+    }
+}
 
 
 
