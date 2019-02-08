@@ -5908,7 +5908,61 @@ extension String {
     }
 }
 
+# Challenge 10: Vowels and consonants
 
+extension String {
+    var vowelsAndConsonants: (vowels: Int, consonants: Int) {
+
+        let vowels = Set(["A", "E", "I", "O", "U"])
+        let consonants = Set(["B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P",
+                              "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"])
+
+        var vowelCount = 0
+        var consonantCount = 0
+
+        for element in self {
+            let letter = "\(element)".uppercased()
+            if vowels.contains(letter) {
+                vowelCount += 1
+                continue
+            }
+
+            if consonants.contains(letter) {
+                consonantCount += 1
+                continue
+            }
+        }
+        return (vowels: vowelCount, consonants: consonantCount)
+    }
+}
+
+extension String {
+    var vowelsAndConsonants: (vowels: Int, consonants: Int) {
+
+        let vowels = Set<Character>(["A", "E", "I", "O", "U"])
+        let consonants = Set<Character>(["B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P",
+                              "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"])
+
+        var vowelCount = 0
+        var consonantCount = 0
+
+        for letter in self.uppercased() {
+            if vowels.contains(letter) {
+                vowelCount += 1
+                continue
+            }
+
+            if consonants.contains(letter) {
+                consonantCount += 1
+                continue
+            }
+        }
+        return (vowels: vowelCount, consonants: consonantCount)
+    }
+}
+
+var a = "Swift Coding Challenges"
+a.vowelsAndConsonants
 
 
 
