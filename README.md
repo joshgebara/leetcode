@@ -5878,12 +5878,22 @@ extension String {
 
 
 
+## Challenge 8: String is rotated
+
+import Foundation
+
+extension String {
+    func rotation(of string: String) -> Bool {
+        guard count == string.count else {
+            return false
+        }
+        let rotations = self + self
+        return rotations.contains(string)
+    }
+}
 
 
-
-
-
-
+"abcde".rotation(of: "abced")
 
 
 
