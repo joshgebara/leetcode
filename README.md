@@ -5455,15 +5455,6 @@ extension String {
 "Hello, world".isPalindrome
 
 
-
-
-
-
-
-
-## Challenge 2: Is a string a palindrome?
-
-
 extension String {
   subscript(position: Int) -> Character {
     return self[index(startIndex, offsetBy: position)]
@@ -5519,8 +5510,6 @@ extension String {
   }
 
 
-  ## "Challenge 2: Is a string a palindrome?",
-
 extension String {
   func pal1() -> Bool {
     var left = startIndex
@@ -5575,6 +5564,58 @@ struct Stack<Value> {
 
 "racecar".palindrome4()
 
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+extension String {
+    subscript(index: Int) -> String {
+        return String(self[self.index(startIndex, offsetBy: index)])
+    }
+}
+
+extension String {
+    var isPalindrome: Bool {
+        return self == String(self.reversed())
+    }
+    
+    var isPalindrome2: Bool {
+        var stack = Stack<String>()
+        
+        for element in self {
+            stack.push("\(element)")
+        }
+        
+        var reversedString = ""
+        while let character = stack.pop() {
+            reversedString.append(character)
+        }
+        
+        return self == reversedString
+    }
+    
+    var isPalindrome3: Bool {
+        var left = startIndex
+        var right = index(before: endIndex)
+        
+        while left <= right {
+            if self[left] != self[right] {
+                return false
+            }
+            left = index(after: left)
+            right = index(before: right)
+        }
+        return true
+    }
+}
 
 
 
@@ -5597,7 +5638,7 @@ extension String {
     func sameCharacters2(as string: String) -> Bool {
         var elementsDictionary: [Element: Int] = [:]
         for element in self {
-            elementsDictionary[element] = elementsDictionary[element] ?? 0 + 1
+            elementsDictionary[element] = (elementsDictionary[element] ?? 0) + 1
         }
         
         for element in string {
