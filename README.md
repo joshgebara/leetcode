@@ -5896,7 +5896,17 @@ extension String {
 "abcde".rotation(of: "abced")
 
 
+# Challenge 9: Find pangrams
 
+import Foundation
+
+extension String {
+    var isPangram: Bool {
+        let set = Set(lowercased())
+        let letters = set.filter { $0 >= "a" && $0 <= "z" }
+        return letters.count == 26
+    }
+}
 
 
 
