@@ -5373,6 +5373,12 @@ extension Sequence where Element: Hashable {
     }
 }
 
+extension Collection where Element: Hashable {
+    func unique() -> Bool {
+        return self.count == Set(self).count
+    }
+}
+
 func challenge1(input: String) -> Bool {
     return input.count == input.unique().count
 }
