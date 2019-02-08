@@ -5737,6 +5737,44 @@ func challenge5d(input: String, count: String) -> Int {
    return input.count - modified.count
 }
 
+import Foundation
+
+extension Sequence where Element: Hashable {
+    func count(for element: Element) -> Int {
+        return reduce(0) {
+            $1 == element ? $0 + 1 : $0
+        }
+    }
+    
+    func count2(for element: Element) -> Int {
+        let countedSet = NSCountedSet(array: Array(self))
+        return countedSet.count(for: element)
+    }
+    
+    func count3(for element: Element) -> Int {
+        var elementCount = [Element: Int]()
+        
+        for element in self {
+            elementCount[element] = (elementCount[element] ?? 0) + 1
+        }
+        
+        return elementCount[element] ?? 0
+    }
+}
+
+extension Collection where Element: Equatable {
+    func count4(for element: Element) -> Int {
+        return count - filter { $0 != element }.count
+    }
+}
+
+extension String {
+    func count5(for element: String) -> Int {
+        let string = replacingOccurrences(of: element, with: "")
+        return count - string.count
+    }
+}
+
 
 ## Challenge 6 - Remove duplicate letters from a string
 
@@ -5795,7 +5833,15 @@ a.updateValue(3, forKey: 1)
 
 
 
-
+extension String {
+    func unique() -> String {
+        var elements: [Character: Bool] = [:]
+        
+        return filter {
+            elements.updateValue(true, forKey: $0) == nil
+        }
+    }
+}
 
 
 
