@@ -5875,6 +5875,32 @@ extension String {
 
 "       a c".condenseWhitespace()
 
+import Foundation
+
+extension String {
+    func condenseWhitespace() -> String {
+        return replacingOccurrences(of: " +", with: " ", options: .regularExpression)
+    }
+    
+    func condenseWhitespace2() -> String {
+        var spaceSeen = false
+        return filter {
+            if $0 == " " {
+                if spaceSeen {
+                    return false
+                }
+                spaceSeen = true
+                return true
+            } else {
+                spaceSeen = false
+                return true
+            }
+        }
+    }
+}
+
+
+" a        cc     s   aaa    q".condenseWhitespace2()
 
 
 
