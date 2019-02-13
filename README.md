@@ -6779,6 +6779,17 @@ extension Int {
 
 import Foundation
 
+extension Sequence where Element: Equatable {
+    func count(of element: Element) -> Int {
+        return reduce(0) {
+            $1 == element ? $0 + 1 : $0
+        }
+    }
+}
+
+"Mississippi".count(of: "i")
+
+
 extension Sequence {
   func count(where predicate: (Element) -> Bool) -> Int {
     return reduce(0) {
