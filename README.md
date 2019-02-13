@@ -2405,7 +2405,7 @@ extension Dijkstra {
         var vertex = destination
         var path: [Edge<T>] = []
         
-        while let visit = vertex, case .edge(let edge) = visit {
+        while let visit = paths[vertex], case .edge(let edge) = visit {
             path = [edge] + path
             vertex = edge.source
         }
@@ -5621,6 +5621,18 @@ extension String {
 
 ## Challenge 3: Do two strings contain the same characters?
 
+extension Sequence where Element: Hashable {
+    func sameElements(as other: Self) -> Bool {
+        return frequencies() == other.frequencies()
+    }
+
+    func frequencies() -> [Element: Int] {
+        return reduce(into: [:]) { counts, element in
+            counts[element, default: 0] += 1
+        }
+    }
+}
+
 func sameCharacters(_ string1: String, _ string2: String) -> Bool {
   let array1 = Array(string1)
   let array2 = Array(string2)
@@ -5661,6 +5673,21 @@ extension String {
 //
 //However, there’s no need – the == operator for arrays does that before doing its item-by-item comparison, so doing it yourself is just redundant.
 // conformance to the equatable protocol makes this check in a guard on the static == func
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5905,6 +5932,8 @@ extension String {
 
 
 ## Challenge 8: String is rotated
+
+https://www.youtube.com/watch?v=ZMQWjslBlbU
 
 import Foundation
 
