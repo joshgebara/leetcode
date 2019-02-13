@@ -5412,6 +5412,34 @@ assert(challenge1(input: "Hello, world") == false, "Challenge 1 failed")
 ## Challenge 2: Is a string a palindrome?
 
 extension String {
+    var isPalindrome: Bool {
+        var left = startIndex
+        var right = index(before: endIndex)
+        
+        while left <= right {
+            let leftLetter = lowercasedLetter(from: self[left])
+            let rightLetter = lowercasedLetter(from: self[right])
+            
+            if leftLetter != rightLetter {
+                return false
+            }
+            left = index(after: left)
+            right = index(before: right)
+        }
+        return true
+    }
+    
+    func lowercasedLetter(from character: Character) -> String {
+        return String(character).lowercased()
+    }
+}
+
+"rotator".isPalindrome
+"Rats live on no evil star".isPalindrome
+"Never odd or even".isPalindrome
+"Hello, world".isPalindrome
+
+extension String {
   func palindrome() -> Bool {
     let lowercased = self.lowercased()
     return lowercased == String(lowercased.reversed())
