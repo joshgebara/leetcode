@@ -6056,6 +6056,30 @@ a.vowelsAndConsonants
 # Challenge 11: Three different letters
 
 extension String {
+    func threeDiff(to other: String) -> Bool {
+        guard count == other.count else {
+            return false
+        }
+        
+        var differences = 0
+        
+        for (i, j) in zip(self, other) {
+            guard differences < 3 else {
+                return false
+            }
+            
+            if i != j {
+                differences += 1
+            }
+        }
+        return true
+    }
+}
+
+"clamp".threeDiff(to: "maple")
+
+
+extension String {
     func check(against other: String) -> Bool {
         guard self.count == other.count else {
             return false
