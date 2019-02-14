@@ -6248,6 +6248,73 @@ extension String {
 
 "Swift Coding Challenges".reversedWords()
 
+# Challenge 16
+
+struct UnfoldingSequence<State, T>: Sequence, IteratorProtocol {
+    let _next: (inout State) -> T?
+    var state: State
+    
+    init(state: State, next: @escaping (inout State) -> T?) {
+        self.state = state
+        self._next = next
+    }
+    
+    mutating func next() -> T? {
+        return _next(&state)
+    }
+}
+
+func value(for number: Int) -> String {
+    if number.divisible(by: 15) { return "FizzBuzz" }
+    if number.divisible(by: 3)  { return "Fizz" }
+    if number.divisible(by: 5)  { return "Buzz" }
+    return "\(number)"
+}
+
+extension Int {
+    func divisible(by divisor: Int) -> Bool {
+        return self % divisor == 0
+    }
+}
+
+let fizzBuzz = UnfoldingSequence(state: 1) { state -> String in
+    defer { state += 1 }
+    return value(for: state)
+}
+
+for value in fizzBuzz.prefix(16) {
+    print(value)
+}
+
+# Challenge 17
+import Darwin
+
+extension Int {
+    static func random(in range: Range<Int>) -> Int {
+        return range.lowerBound + Int(arc4random_uniform(UInt32(range.upperBound - range.lowerBound)))
+    }
+    
+    static func random(in range: ClosedRange<Int>) -> Int {
+        return range.lowerBound + Int(arc4random_uniform(UInt32(range.upperBound - range.lowerBound) + 1))
+    }
+}
+
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+Int.random(in: 1...5)
+
+
+
+var a = 1..<5
+a.upperBound
+a.lowerBound
 
 
 
