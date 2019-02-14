@@ -6179,7 +6179,35 @@ extension String {
 }
 
 
+## Challenge 13
 
+extension String {
+    func runLength() -> String {
+        guard let first = self.first else { return self }
+        
+        var result = ""
+        var currentCharacter = "\(first)"
+        var currentCount = 1
+        
+        for character in self.dropFirst() {
+            guard currentCharacter != "\(character)" else {
+                currentCount += 1
+                continue
+            }
+            
+            defer {
+                currentCharacter = "\(character)"
+                currentCount = 1
+            }
+            result.append("\(currentCharacter)\(currentCount)")
+        }
+        
+        result.append("\(currentCharacter)\(currentCount)")
+        return result
+    }
+}
+
+"aaAAaa".runLength()
 
 
 
