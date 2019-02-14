@@ -6210,10 +6210,43 @@ extension String {
 "aaAAaa".runLength()
 
 
+## Challenge 14
+
+extension String {
+    func permutations(_ current: String = "") {
+        let strArray = Array(self)
+        
+        guard !isEmpty else {
+            print(current)
+            return
+        }
+        
+        for i in strArray.indices {
+            let left = String(strArray[0..<i])
+            let right = String(strArray[i + 1..<count])
+            let string = left + right
+            string.permutations(current + String(strArray[i]))
+        }
+    }
+}
+
+"abc".permutations()
 
 
 
+# Challenge 15
 
+import Foundation
+
+extension String {
+    func reversedWords() -> String {
+        return components(separatedBy: " ")
+                .map { String($0.reversed()) }
+                .joined(separator: " ")
+    }
+}
+
+"Swift Coding Challenges".reversedWords()
 
 
 
