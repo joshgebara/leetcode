@@ -5920,6 +5920,47 @@ extension String {
     }
 }
 
+
+import Foundation
+
+extension String {
+    func condense() -> String {
+        return replacingOccurrences(of: " +", with: " ", options: .regularExpression)
+    }
+    
+    func condense2() -> String {
+        var result = ""
+        var seenSpace = false
+        
+        for character in self {
+            if seenSpace && character == " " {
+                continue
+            }
+            
+            seenSpace = character == " "
+            result.append(character)
+        }
+        return result
+    }
+    
+    func condense3() -> String {
+        var seenSpace = false
+        return filter {
+            if seenSpace && $0 == " " {
+                return false
+            }
+
+            seenSpace = $0 == " "
+            return true
+        }
+    }
+}
+
+"abc ".condense3()
+
+
+
+
 import Foundation
 
 extension String {
