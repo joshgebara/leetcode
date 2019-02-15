@@ -7712,3 +7712,48 @@ https://stackoverflow.com/questions/3255/big-o-how-do-you-calculate-approximate-
 https://www.khanacademy.org/computing/computer-science/algorithms/intro-to-algorithms/v/what-are-algorithms
 
 https://www.youtube.com/watch?v=y2b94AxPlF8
+
+
+
+
+// Quick Sort
+// Best - O(n log n)
+// Worst - O(n^2)
+// Space - O(log n)
+// Unstable
+
+
+extension Array where Element: Comparable {
+    mutating func quickSort() {
+        quickSort(startIndex, index(before: endIndex))
+    }
+    
+    private mutating func quickSort(_ low: Index, _ high: Index, by ordered: (Element, Element) -> Bool = (<=)) {
+        guard low < high else { return }
+        
+        let randomIndex = Int.random(in: low...high)
+        swapAt(randomIndex, high)
+        
+        let partitionIndex = partition(low, high, by: ordered)
+        quickSort(low, index(before: partitionIndex))
+        quickSort(index(after: partitionIndex), high)
+    }
+    
+    private mutating func partition(_ start: Index, _ end: Index, by ordered: (Element, Element) -> Bool = (<=)) -> Index {
+        let partitionElement = self[end]
+        var startIndex = start
+        
+        for currentIndex in start..<end {
+            if ordered(self[currentIndex], partitionElement) {
+                swapAt(currentIndex, startIndex)
+                startIndex = index(after: startIndex)
+            }
+        }
+        
+        swapAt(startIndex, end)
+        return startIndex
+    }
+}
+
+var a = [1, 3, 7, 6, 5, 8, 7, 9, 8, 7, 6, 5, 6, 5, 4, 3]
+a.quickSort()
