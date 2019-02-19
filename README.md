@@ -6209,6 +6209,31 @@ extension String {
 
 "aaAAaa".runLength()
 
+extension String {
+    func encode() -> String {
+        guard let first = first else { return self }
+        
+        var result = ""
+        var currentCount = 1
+        var currentCharacter = first
+        
+        for character in dropFirst() {
+            if character == currentCharacter {
+                currentCount += 1
+            } else {
+                result += "\(currentCharacter)\(currentCount)"
+                currentCount = 1
+                currentCharacter = character
+            }
+        }
+        
+        result += "\(currentCharacter)\(currentCount)"
+        return result
+    }
+}
+
+"aaabaaabaaa".encode()
+
 
 ## Challenge 14
 
