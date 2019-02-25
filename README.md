@@ -1426,6 +1426,40 @@ func merge<Element: Comparable>(_ left: [Element], _ right: [Element]) -> [Eleme
 // Worst - O(n + k)
 // Space - O(n + k)
 
+// Counting Sort
+// Best - O(n + k)
+// Worst - O(n + k)
+// Space - O(n + k)
+// Stable
+
+extension Array where Element == Int {
+    func countingSort() -> [Element] {
+        guard let maxElement = self.max() else { return self }
+        
+        var buckets: [Element] = .init(repeating: 0, count: maxElement + 1)
+        for number in self {
+            buckets[number] += 1
+        }
+        
+        for index in buckets.indices.dropFirst() {
+            let sum = buckets[index] + buckets[index - 1]
+            buckets[index] = sum
+        }
+        
+        var sortedArray: [Element] = .init(repeating: 0, count: count)
+        for number in self {
+            buckets[number] -= 1
+            sortedArray[buckets[number]] = number
+        }
+        return sortedArray
+    }
+}
+
+var a = [1, 5, 4, 6, 5, 7, 6, 3, 2, 5, 8, 9, 8, 7, 8, 7, 5, 6, 5, 4, 2]
+a.countingSort()
+
+
+
 extension Array where Element == Int {
     func countingSort() -> [Element] {
         guard count > 1 else { return self }
@@ -6272,6 +6306,30 @@ extension String {
 }
 
 "Swift Coding Challenges".reversedWords()
+
+
+
+infix operator |>
+func |> <A, B>(a: A, f: (A) -> B) -> B {
+    return f(a)
+}
+
+import Foundation
+
+extension String {
+    func reverseWords() -> String {
+        guard !isEmpty else { return self }
+        return components(separatedBy: " ")
+            .map { $0.reversed() |> String.init }
+            .joined(separator: " ")
+    }
+}
+
+"Swift Coding Challenges".reverseWords()
+
+
+
+
 
 # Challenge 16
 
