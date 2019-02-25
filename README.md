@@ -589,7 +589,7 @@ extension BinaryNode {
     func inOrder() {
         leftChild?.inOrder()
         print(self)
-        rightChild?.postOrder()
+        rightChild?.inOrder()
     }
     
     func postOrder() {
