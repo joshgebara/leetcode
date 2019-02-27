@@ -6435,10 +6435,52 @@ extension Int {
 
 
 
+## Challenge 19
+
+```swift
+func swap(a: inout Int, b: inout Int) {
+    swap(&a, &b)
+}
+
+func swap1(a: inout Int, b: inout Int) {
+    a = a ^ b
+    b = a ^ b
+    a = a ^ b
+}
+
+func swap2(a: inout Int, b: inout Int) {
+    (a, b) = (b, a)
+}
+
+var a = 1
+var b = 2
+
+swap2(a: &a, b: &b)
+
+a
+b
+```
 
 
+# Challenge 20
 
+```swift
+extension Int {
+    var isPrime: Bool {
+        guard self >= 2 else { return false }
+        guard self != 2 else { return true }
+        let max = Int(ceil(sqrt(Double(self))))
+        for i in 2...max {
+          if self % i == 0 {
+             return false
+          }
+        }
+        return true
+    }
+}
 
+16_777_259.isPrime
+```
 
 
 
