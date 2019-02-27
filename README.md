@@ -6400,6 +6400,74 @@ a.upperBound
 a.lowerBound
 
 
+## Challenge 18
+
+```swift
+extension Int {
+    func pow(to power: Int) -> Int {
+        guard self > 0 && power > 0 else {
+            return 0
+        }
+        
+        var result = 1
+        
+        for _ in 0..<power {
+            result *= self
+        }
+        
+        return result
+    }
+    
+    func powR(to power: Int) -> Int {
+        guard power > 0 else {
+            return 1
+        }
+        
+        var result = self
+        result *= powR(to: power - 1)
+        return result
+    }
+}
+
+2.powR(to: 8)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
