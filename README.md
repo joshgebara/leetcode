@@ -6546,6 +6546,36 @@ testArray.missingNumbers()
 ```
 
 
+## Challenge 41
+
+```swift
+extension Collection where Element == Int, Index == Int {
+    func median() -> Double? {
+        guard !isEmpty else { return nil }
+    
+        let sorted = self.sorted()
+        let middle = sorted.count / 2
+    
+        if isEvenCount {
+            return Double(sorted[middle] + sorted[middle - 1]) / 2
+        } else {
+            return Double(self[middle])
+        }
+    }
+}
+
+extension Collection {
+    var isEvenCount: Bool {
+        return count % 2 == 0
+    }
+}
+
+[1, 3, 5, 7, 9].median()
+[1, 3, 5].median()
+[1, 2, 3, 4].median()
+
+
+```
 
 
 
