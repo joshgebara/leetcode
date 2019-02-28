@@ -6933,6 +6933,20 @@ print(reverseR(node1))
 
 ```
 
+## Challenge 52
+
+```swift
+extension Sequence where Element: Numeric {
+    func sum() -> Element {
+        return reduce(0, +)
+    }
+}
+
+[1, 2, 3].sum()
+[1.0, 2.0, 3.0].sum()
+Array<Float>([1.0, 2.0, 3.0]).sum()
+
+```
 
 
 
