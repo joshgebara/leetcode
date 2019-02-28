@@ -6843,7 +6843,37 @@ numbers.popBack() == nil
 
 ```
 
+## Challenge 49
 
+```swift
+extension Sequence where Element: Hashable {
+    func frequencies() -> [Element: Int] {
+        return reduce(into: [Element: Int]()) {
+            $0[$1, default: 0] += 1
+        }
+    }
+}
+
+func sum(_ numbers: Int...) -> Int {
+    return numbers.frequencies()
+            .filter { $0.1 % 2 == 0 }
+            .keys
+            .reduce(0, +)
+}
+
+func sum2(_ numbers: Int...) -> Int {
+    return numbers.frequencies()
+        .reduce(0) {
+            if $1.1 % 2 == 0 {
+                return $0 + $1.0
+            }
+            return $0
+        }
+}
+
+
+sum2(1, 2, 2, 3, 3, 4)
+```
 
 
 
