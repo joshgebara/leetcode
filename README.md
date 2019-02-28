@@ -6483,9 +6483,34 @@ extension Int {
 ```
 
 
+## Challenge 37
 
+```swift
+extension Collection where Element == Int {
+    func count(of element: Character) -> Int {
+        return reduce(0) {
+            $0 + String($1).filter { $0 == element }.count
+        }
+    }
+}
 
+[5, 15, 55, 515].count(of: "5")
 
+```
+
+## Challenge 38
+
+```swift
+extension Collection where Element: Comparable {
+    func minElements(through count: Int) -> [Element] {
+        let sorted = self.sorted()
+        return Array(sorted.prefix(count))
+    }
+}
+
+[1, 5, 4, 6, 5, 7, 6, 3, 2, 8, 7, 8, 9, 8, 7].minElements(through: 5)
+
+```
 
 
 
