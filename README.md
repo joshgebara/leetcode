@@ -6579,7 +6579,23 @@ extension Collection {
 
 
 
+## Challenge 42
 
+```swift
+extension Collection where Element: Equatable {
+    func index(of element: Element) -> Index? {
+        for index in indices {
+            if self[index] == element {
+                return index
+            }
+        }
+        return nil
+    }
+}
+
+[1, 2, 3].index(of: 5)
+
+```
 
 
 
