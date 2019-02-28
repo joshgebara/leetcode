@@ -6724,7 +6724,81 @@ extension Collection {
 
 ```
 
+## Challenge 47
 
+```swift
+extension Collection where Self: MutableCollection, Index == Int, Element: Comparable {
+    func min() -> Element? {
+        guard !isEmpty else {
+            return nil
+        }
+        
+        var sorted = self
+        sorted.heapify()
+        return sorted.first
+    }
+    
+    func leftChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 1
+    }
+    
+    func rightChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 2
+    }
+    
+    mutating func siftDown(from index: Int, upTo size: Int) {
+        var parent = index
+        while true {
+            let left = leftChildIndex(ofParentAt: parent)
+            let right = rightChildIndex(ofParentAt: parent)
+            var candidate = parent
+            
+            if left < size && (self[left] < self[candidate]) {
+                candidate = left
+            }
+            
+            if right < size && (self[right] < self[candidate]) {
+                candidate = right
+            }
+            
+            if candidate == parent {
+                return
+            }
+            
+            swapAt(candidate, parent)
+            parent = candidate
+        }
+    }
+    
+    mutating func heapify() {
+        guard count > 1 else { return }
+        
+        for index in stride(from: count / 2 - 1, through: 0, by: -1) {
+            siftDown(from: index, upTo: count - 1)
+        }
+    }
+}
+
+
+["q", "f", "k"].min()
+
+
+extension Collection where Element: Comparable {
+    func min() -> Element? {
+        return reduce(nil) { (result: Element?, current: Element) in
+            guard let result = result else {
+                return current
+            }
+            
+            return result < current ? result : current
+        }
+    }
+}
+
+[5, 4, 7, 8, 7, 6, 5, 6, 5, 43, 2, 1].min()
+
+
+```
 
 
 
