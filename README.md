@@ -6526,6 +6526,25 @@ extension Collection where Element == String {
 
 ```
 
+## Challenge 40
+
+```swift
+extension Collection where Element == Int {
+    func missingNumbers() -> [Element] {
+        let numbers = Set(self)
+        let comparisionNumbers = Set(1...100)
+        return Array(numbers.symmetricDifference(comparisionNumbers))
+    }
+}
+
+var testArray = Array(1...100)
+testArray.remove(at: 25)
+testArray.remove(at: 20)
+testArray.remove(at: 6)
+testArray.missingNumbers()
+
+```
+
 
 
 
