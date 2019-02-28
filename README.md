@@ -6666,9 +6666,43 @@ print(linkedList)
 
 
 
+## Challenge 44
 
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node<Value>?
+    
+    init(_ value: Value, next: Node<Value>? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
 
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+var node5 = Node(5)
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
 
+func midPoint<Value>(_ node: Node<Value>) -> Node<Value>? {
+    var slowPointer: Node<Value>? = node
+    var fastPointer: Node<Value>? = node
+    
+    while fastPointer?.next != nil && fastPointer != nil {
+        slowPointer = slowPointer?.next
+        fastPointer = fastPointer?.next?.next
+    }
+    return slowPointer
+}
+
+midPoint(node1)!.value
+
+```
 
 
 
