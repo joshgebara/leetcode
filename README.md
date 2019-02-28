@@ -6513,6 +6513,19 @@ extension Collection where Element: Comparable {
 ```
 
 
+## Challenge 39
+
+```swift
+extension Collection where Element == String {
+    func lengthSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows -> [Element] {
+        return try self.sorted(by: areInIncreasingOrder)
+    }
+}
+
+["a", "abc", "ab"].lengthSort(by: >)
+
+```
+
 
 
 
