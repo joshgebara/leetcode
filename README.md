@@ -6875,6 +6875,70 @@ func sum2(_ numbers: Int...) -> Int {
 sum2(1, 2, 2, 3, 3, 4)
 ```
 
+## Challenge 51
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node<Value>?
+    
+    init(_ value: Value, next: Node<Value>? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+func reverseI<Value>(_ node: Node<Value>?) -> Node<Value>? {
+    var current = node
+    var previous: Node<Value>? = nil
+    var next: Node<Value>? = nil
+    
+    while current != nil {
+        next = current?.next
+        current?.next = previous
+        previous = current
+        current = next
+    }
+    return previous
+}
+
+func reverseR<Value>(_ node: Node<Value>?) -> Node<Value>? {
+    guard let node = node else { return nil }
+    guard node.next != nil else { return node }
+    
+    let head = reverseR(node.next)
+    node.next?.next = node
+    node.next = nil
+    return head
+}
+
+print(reverseR(node1))
+
+```
+
+
+
+
+
+
+
 
 
 
