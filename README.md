@@ -6801,7 +6801,47 @@ extension Collection where Element: Comparable {
 ```
 
 
+## Challenge 48
 
+```swift
+struct Deque<Element> {
+    var elements: [Element] = []
+    
+    mutating func pushBack(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pushFront(_ element: Element) {
+        elements.insert(element, at: 0)
+    }
+    
+    mutating func popBack() -> Element? {
+        return elements.popLast()
+    }
+    
+    mutating func popFront() -> Element? {
+        guard !elements.isEmpty else {
+            return nil
+        }
+        return elements.removeFirst()
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+}
+
+var numbers = Deque<Int>()
+numbers.pushBack(5)
+numbers.pushBack(8)
+numbers.pushBack(3)
+numbers.count == 3
+numbers.popFront()! == 5
+numbers.popBack()! == 3
+numbers.popFront()! == 8
+numbers.popBack() == nil
+
+```
 
 
 
