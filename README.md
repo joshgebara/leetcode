@@ -6598,6 +6598,71 @@ extension Collection where Element: Equatable {
 ```
 
 
+## Challenge 43
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node<Value>?
+    
+    init(_ value: Value, next: Node<Value>? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) \(next)"
+    }
+}
+
+struct LinkedList<Value> {
+    var head: Node<Value>?
+    var tail: Node<Value>?
+    
+    var isEmpty: Bool {
+        return head == nil
+    }
+}
+
+extension LinkedList {
+    mutating func push(_ value: Value) {
+        head = Node(value, next: head)
+        if tail == nil {
+            tail = head
+        }
+    }
+    
+    mutating func append(_ value: Value) {
+        guard !isEmpty else {
+            push(value)
+            return
+        }
+        tail?.next = Node(value)
+        tail = tail?.next
+    }
+}
+
+extension LinkedList: CustomStringConvertible {
+    var description: String {
+        guard let head = head else {
+            return ""
+        }
+        return "\(head)"
+    }
+}
+
+var linkedList = LinkedList<String>()
+for letter in "abcdefghijklmnopqrstuvwxyz" {
+    linkedList.append(String(letter))
+}
+print(linkedList)
+
+```
 
 
 
