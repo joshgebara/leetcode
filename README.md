@@ -6705,7 +6705,24 @@ midPoint(node1)!.value
 ```
 
 
+## Challenge 46
 
+```swift
+extension Collection {
+    func map<T>(_ transform: (Element) throws -> T) rethrows -> [T] {
+        var result = ContiguousArray<T>()
+        result.reserveCapacity(count)
+        
+        for element in self {
+            result.append(try transform(element))
+        }
+        
+        return Array(result)
+    }
+}
+
+
+```
 
 
 
