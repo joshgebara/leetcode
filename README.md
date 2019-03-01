@@ -8392,7 +8392,7 @@ extension Array where Element: Comparable {
         quickSort(0, count - 1, by: order)
     }
     
-    private mutating func quickSort(_ low: Index, _ high: Index, by order: (Element, Element) -> Bool) {
+    mutating func quickSort(_ low: Index, _ high: Index, by order: (Element, Element) -> Bool) {
         guard low < high else { return }
         
         let randomIndex = Int.random(in: low...high)
@@ -8403,22 +8403,72 @@ extension Array where Element: Comparable {
         quickSort(partitionIndex + 1, high, by: order)
     }
     
-    private mutating func partition(_ start: Index, _ end: Index, by ordered: (Element, Element) -> Bool) -> Index {
-        let partitionElement = self[end]
-        var startIndex = start
+    mutating func partition(_ low: Index, _ high: Index, by order: (Element, Element) -> Bool) -> Int {
+        let partitionElement = self[high]
+        var lowIndex = low
         
-        for currentIndex in start..<end {
-            if self[currentIndex] == partitionElement || ordered(self[currentIndex], partitionElement) {
-                swapAt(currentIndex, startIndex)
-                startIndex = index(after: startIndex)
+        for currentIndex in low..<high {
+            if partitionElement == self[currentIndex] || order(self[currentIndex], partitionElement) {
+                swapAt(lowIndex, currentIndex)
+                lowIndex += 1
             }
         }
         
-        swapAt(startIndex, end)
-        return startIndex
+        swapAt(lowIndex, high)
+        return lowIndex
     }
 }
 
-var a = [1, 3, 7, 6, 5, 8, 7, 9, 8, 7, 6, 5, 6, 5, 4, 3]
+var a = [5, 4, 5, 4, 3, 4, 3, 6, 7, 8, 7, 6, 7, 6, 4, 5, 4, 3, 4, 3, 2, 1, 2]
 a.quickSort(by: >)
 
+
+## Check if binary tree is balanced
+
+```swift
+class Node<Value> {
+  let value: Value
+  var leftChild: Node<Value>?
+  var rightChild: Node<Value>?
+  
+  init(value: Value) {
+    self.value = value
+  }
+}
+
+extension Node {
+    func maxDepth() -> Int {
+        return 1 + max(leftChild?.maxDepth() ?? 0, rightChild?.maxDepth() ?? 0)
+    }
+    
+    func minDepth() -> Int {
+        return 1 + min(leftChild?.maxDepth() ?? 0, rightChild?.maxDepth() ?? 0)
+    }
+}
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+tree().maxDepth()
+tree().minDepth()
+
+```
+
+
+## Check if Binary Tree is Binary Search Tree
+
+```swift
+
+```
