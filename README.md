@@ -8388,27 +8388,27 @@ https://www.youtube.com/watch?v=y2b94AxPlF8
 
 
 extension Array where Element: Comparable {
-    mutating func quickSort() {
-        quickSort(startIndex, index(before: endIndex))
+    mutating func quickSort(by order: (Element, Element) -> Bool = (<)) {
+        quickSort(0, count - 1, by: order)
     }
     
-    private mutating func quickSort(_ low: Index, _ high: Index, by ordered: (Element, Element) -> Bool = (<=)) {
+    private mutating func quickSort(_ low: Index, _ high: Index, by order: (Element, Element) -> Bool) {
         guard low < high else { return }
         
         let randomIndex = Int.random(in: low...high)
         swapAt(randomIndex, high)
         
-        let partitionIndex = partition(low, high, by: ordered)
-        quickSort(low, index(before: partitionIndex))
-        quickSort(index(after: partitionIndex), high)
+        let partitionIndex = partition(low, high, by: order)
+        quickSort(low, partitionIndex - 1, by: order)
+        quickSort(partitionIndex + 1, high, by: order)
     }
     
-    private mutating func partition(_ start: Index, _ end: Index, by ordered: (Element, Element) -> Bool = (<=)) -> Index {
+    private mutating func partition(_ start: Index, _ end: Index, by ordered: (Element, Element) -> Bool) -> Index {
         let partitionElement = self[end]
         var startIndex = start
         
         for currentIndex in start..<end {
-            if ordered(self[currentIndex], partitionElement) {
+            if self[currentIndex] == partitionElement || ordered(self[currentIndex], partitionElement) {
                 swapAt(currentIndex, startIndex)
                 startIndex = index(after: startIndex)
             }
@@ -8420,4 +8420,5 @@ extension Array where Element: Comparable {
 }
 
 var a = [1, 3, 7, 6, 5, 8, 7, 9, 8, 7, 6, 5, 6, 5, 4, 3]
-a.quickSort()
+a.quickSort(by: >)
+
