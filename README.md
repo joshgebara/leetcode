@@ -8469,6 +8469,43 @@ tree().minDepth()
 
 ## Check if Binary Tree is Binary Search Tree
 
+// O(n)
+
 ```swift
+class Node<Value: Comparable> {
+  let value: Value
+  var leftChild: Node<Value>?
+  var rightChild: Node<Value>?
+  
+  init(value: Value) {
+    self.value = value
+  }
+}
+
+extension Node where Value == Int {
+    func isBST(_ min: Int = Int.min, _ max: Int = Int.max) -> Bool {
+        guard value >= min && value < max else {
+            return false
+        }
+        return leftChild?.isBST(min, value) ?? true && rightChild?.isBST(value, max) ?? true
+    }
+}
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+tree().isBST()
 
 ```
