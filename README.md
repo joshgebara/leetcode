@@ -1584,6 +1584,11 @@ extension Array where Element: Comparable {
 var a = [1, 5, 4, 6, 5, 7, 6, 5, 6, 5, 4, 3, 43]
 a.quickSort()
 
+
+
+var a = [1, 5, 4, 6, 5, 7, 6, 5, 6, 5, 4, 3, 43]
+a.quickSort()
+
 ```
 
 ## Graph - AdjacencyList
