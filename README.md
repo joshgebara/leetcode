@@ -1274,30 +1274,26 @@ extension PriorityQueue {
 // Space - O(1)
 
 extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
-    mutating func bubbleSort() {
-        bubbleSort(by: <)
-    }
-    
-    mutating func bubbleSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
-        guard count > 1 else {
-            return
-        }
+    mutating func bubbleSort(by areInIncreasingOrder: (Element, Element) throws -> Bool = (<)) rethrows {
+        guard count > 1 else { return }
         
         for endingIndex in indices.reversed() {
             var noSwaps = true
             for currentIndex in startIndex..<endingIndex {
                 let nextIndex = index(after: currentIndex)
                 if try areInIncreasingOrder(self[nextIndex], self[currentIndex]) {
-                    swapAt(nextIndex, currentIndex)
+                    swapAt(currentIndex, nextIndex)
                     noSwaps = false
                 }
             }
-            if noSwaps {
-                return
-            }
+            if noSwaps { return }
         }
     }
 }
+
+var a = [1, 5, 4, 8, 7, 9, 4, 3, 2, 3, 2, 1]
+a.bubbleSort()
+
 ```
 
 ## Insertion Sort
@@ -1309,14 +1305,8 @@ extension MutableCollection where Self: BidirectionalCollection, Element: Compar
 // Space - O(1)
 
 extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
-    mutating func insertionSort() {
-        insertionSort(by: <)
-    }
-    
-    mutating func insertionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
-        guard count > 1 else {
-            return
-        }
+    mutating func insertionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool = (<)) rethrows {
+        guard count > 1 else { return }
         
         for currentIndex in index(after: startIndex)..<endIndex {
             for shiftingIndex in (index(after: startIndex)...currentIndex).reversed() {
@@ -1329,6 +1319,10 @@ extension MutableCollection where Self: BidirectionalCollection, Element: Compar
             }
         }
     }
+}
+
+var a = [1, 5, 4, 6, 5, 7, 6, 8, 7, 6, 5, 6, 5, 3, 4, 3, 2]
+a.insertionSort(by: >)
 }
 ```
 
