@@ -1303,6 +1303,7 @@ a.bubbleSort()
 // Best - O(n)
 // Worst - O(n^2)
 // Space - O(1)
+// insertion sort is the preferred sorting algorithm for arrays with fewer than 20 items
 
 extension MutableCollection where Self: BidirectionalCollection, Element: Comparable, Index: Strideable, Index.Stride: SignedInteger {
     mutating func insertionSort(by areInIncreasingOrder: (Element, Element) throws -> Bool = (<)) rethrows {
@@ -1540,35 +1541,49 @@ extension Array where Element: Comparable {
 // Worst - O(n^2)
 // Space - O(1)
 
-func quickSort<Element: Comparable>(_ array: inout [Element]) {
-    quickSort(&array, 0, array.count - 1)
-}
+// QuickSort
+// Best - O(n log n)
+// Worst - O(n^2)
+// Space - O(log n)
 
-func quickSort<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) {
-    guard low < high else { return }
-    
-    let randomIndex = Int.random(in: low...high)
-    array.swapAt(randomIndex, high)
-    
-    let partitionIndex = partition(&array, low, high)
-    quickSort(&array, low, partitionIndex - 1)
-    quickSort(&array, partitionIndex + 1, high)
-}
-
-func partition<Element: Comparable>(_ array: inout [Element], _ low: Int, _ high: Int) -> Int {
-  let partitionElement = array[high]
-  var lowIndex = low
-  
-  for currentIndex in low..<high {
-    if array[currentIndex] <= partitionElement {
-      array.swapAt(currentIndex, lowIndex)
-      lowIndex += 1
+extension Array where Element: Comparable {
+    mutating func quickSort(by areInIncreasingOrder: (Element, Element) -> Bool = (<)) {
+        quickSort(0, count - 1, by: areInIncreasingOrder)
     }
-  }
-  
-  array.swapAt(lowIndex, high)
-  return lowIndex
+    
+    private mutating func quickSort(_ low: Index, _ high: Index, by areInIncreasingOrder: (Element, Element) -> Bool) {
+        guard low < high else {
+            return
+        }
+        
+        let randomIndex = Int.random(in: low...high)
+        swapAt(randomIndex, high)
+        
+        let partitionIndex = partition(low, high, by: areInIncreasingOrder)
+        quickSort(low, partitionIndex - 1, by: areInIncreasingOrder)
+        quickSort(partitionIndex + 1, high, by: areInIncreasingOrder)
+    }
+    
+    private mutating func partition(_ low: Int, _ high: Int, by areInIncreasingOrder: (Element, Element) -> Bool) -> Int {
+        let partitionElement = self[high]
+        var lowIndex = low
+        
+        for currentIndex in low..<high {
+            if partitionElement == self[currentIndex] || areInIncreasingOrder(self[currentIndex], partitionElement) {
+                swapAt(currentIndex, lowIndex)
+                lowIndex += 1
+            }
+        }
+        
+        swapAt(lowIndex, high)
+        return lowIndex
+    }
 }
+
+
+var a = [1, 5, 4, 6, 5, 7, 6, 5, 6, 5, 4, 3, 43]
+a.quickSort()
+
 ```
 
 ## Graph - AdjacencyList
