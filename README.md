@@ -6222,6 +6222,32 @@ extension String {
 
 "clamp".threeDiff(to: "maple")
 
+extension String {
+    func threeDiff(from other: String) -> Bool {
+
+              guard count == other.count else {
+            return false
+        }
+
+        var count = 0
+        for (firstChar, secondChar) in zip(self, other) {
+            if count >= 3 {
+                return false
+            }
+            
+            if firstChar != secondChar {
+                count += 1
+            }
+        }
+        return true
+    }
+}
+
+"clamp".threeDiff(from: "maple")
+
+
+
+
 
 extension String {
     func check(against other: String) -> Bool {
@@ -6519,6 +6545,17 @@ extension Int {
         return result
     }
 }
+
+extension Int {
+    func pow(to power: Int) -> Int {
+        guard power > 0 else { return 1 }
+        return self * self.pow(to: power - 1)
+    }
+}
+
+
+2.pow(to: 2)
+
 
 2.powR(to: 8)
 
