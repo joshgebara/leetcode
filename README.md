@@ -6166,6 +6166,31 @@ extension String {
 var a = "Swift Coding Challenges"
 a.vowelsAndConsonants
 
+extension String {
+    func vowelsAndConsonants() -> (vowels: Int, consonants: Int) {
+        guard !isEmpty else {
+            return (0, 0)
+        }
+        
+        let vowels = Set<Character>(["a", "e", "i", "o", "u"])
+        let consonants = Set<Character>(["b", "c", "d", "f", "g", "h", "j", "k", "l",
+                                         "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"])
+
+        return reduce((0, 0)) { result, character in
+            if vowels.contains(character) {
+                return (result.0 + 1, result.1)
+            }
+            
+            if consonants.contains(character) {
+                return (result.0, result.1 + 1)
+            }
+            
+            return (result.0, result.1)
+        }
+    }
+}
+
+"String".vowelsAndConsonants()
 
 
 
