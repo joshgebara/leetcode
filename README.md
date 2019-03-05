@@ -6451,6 +6451,28 @@ extension Int {
     }
 }
 
+import Darwin
+
+extension Int {
+    static func random(from range: Range<Int>) -> Int {
+        return range.lowerBound + Int(arc4random_uniform(UInt32(range.upperBound - range.lowerBound)))
+    }
+    
+    static func random(from range: ClosedRange<Int>) -> Int {
+        return range.randomElement() ?? range.lowerBound
+    }
+}
+
+Int.random(from: 0...10)
+Int.random(from: 50...60)
+Int.random(from: 3..<4)
+
+
+
+(1...100).upperBound
+(1..<100).upperBound
+
+
 Int.random(in: 1...5)
 Int.random(in: 1...5)
 Int.random(in: 1...5)
