@@ -1450,6 +1450,30 @@ extension Array where Element == Int {
     }
 }
 
+extension Array where Element == Int {
+    mutating func countingSort() {
+        guard let maxElement = self.max() else { return }
+        
+        var buckets: [Element] = .init(repeating: 0, count: maxElement + 1)
+        for number in self {
+            buckets[number] += 1
+        }
+        
+        for index in buckets.indices.dropFirst() {
+            let sum = buckets[index] + buckets[index - 1]
+            buckets[index] = sum
+        }
+        
+        for number in self {
+            buckets[number] -= 1
+            self[buckets[number]] = number
+        }
+    }
+}
+
+var a = [1, 6, 5, 7, 6, 3, 4, 3, 2, 8, 9, 8, 7, 8, 7, 6, 4]
+a.countingSort()
+
 var a = [1, 5, 4, 6, 5, 7, 6, 3, 2, 5, 8, 9, 8, 7, 8, 7, 5, 6, 5, 4, 2]
 a.countingSort()
 
