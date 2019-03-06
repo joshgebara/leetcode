@@ -6904,6 +6904,14 @@ extension Collection {
     }
 }
 
+extension Sequence {
+    func map<T>(_ transform: (Element) -> T) -> [T] {
+        return reduce([]) { $0 + [transform($1)] }
+    }
+}
+
+[1, 2, 3, 4].map { $0 * 2 }
+
 
 ```
 
@@ -7031,7 +7039,7 @@ numbers.popBack() == nil
 ```swift
 extension Sequence where Element: Hashable {
     func frequencies() -> [Element: Int] {
-        return reduce(into: [Element: Int]()) {
+        return reduce(into: [:]) {
             $0[$1, default: 0] += 1
         }
     }
