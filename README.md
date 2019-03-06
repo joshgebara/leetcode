@@ -6727,6 +6727,37 @@ extension Collection {
 [1, 2, 3, 4].median()
 
 
+extension BidirectionalCollection where Element: BinaryInteger {
+    func median() -> Double? {
+        guard !isEmpty else {
+            return nil
+        }
+        
+        let middleIndex = index(startIndex, offsetBy: count / 2)
+        
+        if isEvenCount {
+            let previousIndex = index(before: middleIndex)
+            let sum = self[previousIndex] + self[middleIndex]
+            return Double(sum) / 2
+        } else {
+            return Double(self[middleIndex])
+        }
+    }
+}
+
+extension Collection {
+    var isEvenCount: Bool {
+        return count % 2 == 0
+    }
+}
+
+[1, 2, 3].median()
+[1, 2, 9].median()
+[1, 3, 5, 7, 9].median()
+[1, 2, 3, 4].median()
+[Int]().median()
+
+
 ```
 
 
