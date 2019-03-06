@@ -7037,6 +7037,54 @@ numbers.popBack() == nil
 ## Challenge 49
 
 ```swift
+
+extension Sequence where Element: Hashable {
+    func frequencies() -> [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+}
+
+extension Int {
+    var isEven: Bool {
+        return self % 2 == 0
+    }
+}
+
+func sumEvenOccurrences(of numbers: Int...) -> Int {
+    return numbers
+            .frequencies()
+            .filter { ($0.1).isEven }
+            .keys
+            .reduce(0, +)
+}
+
+sumEvenOccurrences(of: 1, 2, 2, 3, 3, 4)
+
+
+
+
+
+func sumEvenOccurrences(of numbers: Int...) -> Int {
+    return numbers.frequencies()
+                  .filter { $0.1 % 2 == 0 }
+                  .keys
+                  .reduce(0, +)
+}
+
+extension Sequence where Element: Hashable {
+    func frequencies() -> [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+}
+
+
+sumEvenOccurrences(of: 1, 2, 2, 3, 3, 4)
+
+
 extension Sequence where Element: Hashable {
     func frequencies() -> [Element: Int] {
         return reduce(into: [:]) {
@@ -7098,8 +7146,8 @@ node3.next = node4
 
 func reverseI<Value>(_ node: Node<Value>?) -> Node<Value>? {
     var current = node
-    var previous: Node<Value>? = nil
-    var next: Node<Value>? = nil
+    var previous: Node<Value>?
+    var next: Node<Value>?
     
     while current != nil {
         next = current?.next
