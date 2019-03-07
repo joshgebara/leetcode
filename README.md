@@ -9416,3 +9416,19 @@ extension Sequence {
 [2, 4, 6].all { $0 % 2 == 0 }
 
 ```
+
+
+## swift Count(where:)
+
+```swift
+extension Sequence {
+    func count(where predicate: (Element) -> Bool) -> Int {
+        return reduce(0) {
+            predicate($1) ? $0 + 1 : $0
+        }
+    }
+}
+
+[1, 2, 3, 4, 5].count { $0 % 2 == 0 }
+
+```
