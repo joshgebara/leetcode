@@ -8879,3 +8879,123 @@ loopStart(node1)
 
 
 ```
+
+
+## Invert a binary tree
+
+```swift
+// Recursive
+// Time - O(n)
+// Space - O(h) -- h = height
+
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node {
+    func levelOrder() {
+        leftChild?.levelOrder()
+        print(self)
+        rightChild?.levelOrder()
+    }
+    
+    func invert() -> Node? {
+        let left: Node? = leftChild?.invert()
+        let right: Node? = rightChild?.invert()
+        
+        leftChild = right
+        rightChild = left
+        
+        return self
+    }
+}
+
+
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+
+tree().invert()?.levelOrder()
+
+
+
+
+// Iterative
+
+
+
+
+```
+
+
+## Find height of a binary tree
+
+```swift
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node {
+    var height: Int {
+        return max(leftChild?.height ?? -1, rightChild?.height ?? -1) + 1
+    }
+}
+
+
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+
+tree().height
+
+```
