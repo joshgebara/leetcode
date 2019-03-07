@@ -9453,10 +9453,11 @@ extension Collection {
 
 ```swift
 extension Sequence {
-    func filter(_ predicate: (Element) -> Bool) -> [Element] {
+    func filter(_ isIncluded: (Element) -> Bool) -> [Element] {
         return reduce([]) {
-            predicate($1) ? $0 + [$1] : $0
+            isIncluded($1) ? $0 + [$1] : $0
         }
     }
 }
 ```
+
