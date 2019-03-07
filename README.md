@@ -8998,4 +8998,242 @@ func tree() -> Node<Int> {
 
 tree().height
 
+
+// Iterative
+struct Stack<Element> {
+    var elements = [Element]()
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+}
+
+struct Queue<Element> {
+    var leftStack = Stack<Element>()
+    var rightStack = Stack<Element>()
+    
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        if rightStack.isEmpty {
+            while let value = leftStack.pop() {
+                rightStack.push(value)
+            }
+        }
+        return rightStack.pop()
+    }
+    
+    var isEmpty: Bool {
+        return leftStack.isEmpty && rightStack.isEmpty
+    }
+    
+    var count: Int {
+        return leftStack.count + rightStack.count
+    }
+}
+
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node where Value == Int {
+    func height() -> Int {
+        var queue = Queue<Node>()
+        queue.enqueue(self)
+        var height = 0
+        
+        while true {
+            var nodeCount = queue.count
+            
+            guard nodeCount != 0 else {
+                return height
+            }
+            
+            height += 1
+            
+            while nodeCount > 0 {
+                let node = queue.dequeue()
+            
+                if let leftChild = node?.leftChild {
+                    queue.enqueue(leftChild)
+                }
+
+                if let rightChild = node?.rightChild {
+                    queue.enqueue(rightChild)
+                }
+                
+                nodeCount -= 1
+            }
+        }
+        return height
+    }
+}
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+
+tree().height()
+
+
+```
+
+
+
+## Level order traversal  - binary tree - print levels on same line
+
+```swift
+struct Stack<Element> {
+    var elements = [Element]()
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+}
+
+struct Queue<Element> {
+    var leftStack = Stack<Element>()
+    var rightStack = Stack<Element>()
+    
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        if rightStack.isEmpty {
+            while let value = leftStack.pop() {
+                rightStack.push(value)
+            }
+        }
+        return rightStack.pop()
+    }
+    
+    var isEmpty: Bool {
+        return leftStack.isEmpty && rightStack.isEmpty
+    }
+    
+    var count: Int {
+        return leftStack.count + rightStack.count
+    }
+}
+
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node where Value == Int {
+    func levelOrder() {
+        var queue = Queue<Node>()
+        queue.enqueue(self)
+        
+        while true {
+            var nodeCount = queue.count
+            
+            guard nodeCount != 0 else {
+                break
+            }
+            
+            while nodeCount > 0 {
+                guard let node = queue.dequeue() else {
+                    break
+                }
+                
+                print(node, terminator: " ")
+                
+                if let leftChild = node.leftChild {
+                    queue.enqueue(leftChild)
+                }
+
+                if let rightChild = node.rightChild {
+                    queue.enqueue(rightChild)
+                }
+                
+                nodeCount -= 1
+            }
+            print("\n")
+        }
+    }
+}
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+
+tree().levelOrder()
+
+
 ```
