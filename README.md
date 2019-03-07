@@ -8718,3 +8718,68 @@ func tree() -> Node<Int> {
 tree().isBST()
 
 ```
+
+
+
+## Challenge 53
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node<Value>?
+    
+    init(_ value: Value, next: Node<Value>? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+var node5 = Node(5)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node3
+
+func loopStart<Value>(_ node: Node<Value>?) -> Node<Value>? {
+    var fast = node
+    var slow = node
+    
+    while fast != nil && fast?.next != nil {
+        fast = fast?.next?.next
+        slow = slow?.next
+        
+        if fast === slow {
+            break
+        }
+    }
+    
+    guard fast != nil || fast?.next != nil else {
+        return nil
+    }
+    
+    fast = node
+    
+    while slow !== fast {
+        slow = slow?.next
+        fast = fast?.next
+    }
+    
+    return slow
+}
+
+loopStart(node1)
+
+
+```
