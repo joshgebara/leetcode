@@ -8946,6 +8946,87 @@ tree().invert()?.levelOrder()
 
 
 // Iterative
+struct Queue<Element> {
+    var elements = [Element]()
+    
+    mutating func enqueue(_ element: Element) {
+        elements.insert(element, at: 0)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return elements.popLast()
+    }
+}
+
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node {
+    func invertR() -> Node? {
+        let left = leftChild?.invertR()
+        let right = rightChild?.invertR()
+        
+        leftChild = right
+        rightChild = left
+        
+        return self
+    }
+    
+    func invertI() -> Node {
+        var queue = Queue<Node>()
+        queue.enqueue(self)
+        
+        while let node = queue.dequeue() {
+            swap(&node.leftChild, &node.rightChild)
+            
+            if let leftChild = node.leftChild {
+                queue.enqueue(leftChild)
+            }
+            
+            if let rightChild = node.rightChild {
+                queue.enqueue(rightChild)
+            }
+            
+        }
+        return self
+    }
+    
+    func inOrder() {
+        leftChild?.inOrder()
+        print(self)
+        rightChild?.inOrder()
+    }
+}
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+tree().invertI().inOrder()
 
 
 
