@@ -8732,6 +8732,87 @@ func tree() -> Node<Int> {
 
 tree().isBST2()
 
+// perform an in order traversal and see if the output is sorted
+
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node where Value == Int {
+    func isBST(_ range: ClosedRange<Int> = Int.min...Int.max) -> Bool {
+        guard range.contains(value) else {
+            return false
+        }
+        
+        return leftChild?.isBST(range.lowerBound...value) ?? true && rightChild?.isBST(value...range.upperBound) ?? true
+    }
+    
+    func inOrder() -> [Value] {
+        var result = [Value]()
+        
+        if let leftChild = leftChild {
+            result += leftChild.inOrder()
+        }
+        
+        result += [self.value]
+        
+        if let rightChild = rightChild {
+            result += rightChild.inOrder()
+        }
+        
+        return result
+    }
+}
+
+extension Array where Element: Comparable {
+    var isSorted: Bool {
+        guard let first = first else {
+            return true
+        }
+        
+        var min = first
+        
+        for element in self.dropFirst() {
+            if min > element {
+                return false
+            }
+            min = element
+        }
+        return true
+    }
+}
+
+func tree() -> Node<Int> {
+  let zero = Node(value: 0)
+  let one = Node(value: 1)
+  let five = Node(value: 5)
+  let seven = Node(value: 7)
+  let eight = Node(value: 8)
+  let nine = Node(value: 9)
+  seven.leftChild = one
+  one.leftChild = zero
+  one.rightChild = five
+  seven.rightChild = nine
+  nine.leftChild = eight
+  return seven
+}
+
+
+print(tree().inOrder().isSorted)
+
+
 ```
 
 
