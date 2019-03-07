@@ -9318,3 +9318,61 @@ tree().levelOrder()
 
 
 ```
+
+
+## Lowest Common Ancestor in a binary tree
+
+```swift
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node where Value: Comparable {
+    func lowestCommonAncestor(of node1: Node, and node2: Node) -> Node? {
+        guard value != node1.value && value != node2.value else {
+            return self
+        }
+        
+        let left = leftChild?.lowestCommonAncestor(of: node1, and: node2)
+        let right = rightChild?.lowestCommonAncestor(of: node1, and: node2)
+        
+        if left != nil && right != nil {
+            return self
+        }
+        
+        if left == nil && right == nil {
+            return nil
+        }
+        
+        return left != nil ? left : right
+        
+    }
+}
+
+let zero = Node(value: 0)
+let one = Node(value: 1)
+let five = Node(value: 5)
+let seven = Node(value: 7)
+let eight = Node(value: 8)
+let nine = Node(value: 9)
+seven.leftChild = one
+one.leftChild = zero
+one.rightChild = five
+seven.rightChild = nine
+nine.leftChild = eight
+
+seven.lowestCommonAncestor(of: zero, and: five)
+
+```
