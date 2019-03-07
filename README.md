@@ -9396,3 +9396,23 @@ extension Sequence {
 [1, 2, 3, 4, 5, 6].accumulate(0, +)
 
 ```
+
+
+## swift all
+
+```swift
+extension Sequence {
+    func all(_ matching: (Element) -> Bool) -> Bool {
+        for element in self {
+            if !matching(element) {
+                return false
+            }
+        }
+        return true
+    }
+}
+
+
+[2, 4, 6].all { $0 % 2 == 0 }
+
+```
