@@ -8651,7 +8651,12 @@ extension Node {
     }
     
     func minDepth() -> Int {
-        return 1 + min(leftChild?.maxDepth() ?? 0, rightChild?.maxDepth() ?? 0)
+        return 1 + min(leftChild?.minDepth() ?? 0, rightChild?.minDepth() ?? 0)
+    }
+    
+    var isBalanced: Bool {
+        let diff = maxDepth() - minDepth()
+        return diff <= 1
     }
 }
 
@@ -8670,8 +8675,8 @@ func tree() -> Node<Int> {
   return seven
 }
 
-tree().maxDepth()
-tree().minDepth()
+tree().isBalanced
+
 
 ```
 
