@@ -9376,3 +9376,23 @@ nine.leftChild = eight
 seven.lowestCommonAncestor(of: zero, and: five)
 
 ```
+
+
+## swift accumulated
+
+```swift
+extension Sequence {
+    func accumulate<Result>(_ initalResult: Result, _ updateAccumulatingResult: (Result, Element) -> Result) -> [Result] {
+        var accumulated = initalResult
+        
+        return map {
+            accumulated = updateAccumulatingResult(accumulated, $0)
+            return accumulated
+        }
+    }
+}
+
+
+[1, 2, 3, 4, 5, 6].accumulate(0, +)
+
+```
