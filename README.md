@@ -8686,22 +8686,31 @@ tree().isBalanced
 // O(n)
 
 ```swift
-class Node<Value: Comparable> {
-  let value: Value
-  var leftChild: Node<Value>?
-  var rightChild: Node<Value>?
-  
-  init(value: Value) {
-    self.value = value
-  }
+class Node<Value> {
+    let value: Value
+    var leftChild: Node<Value>?
+    var rightChild: Node<Value>?
+    
+    init(value: Value) {
+        self.value = value
+    }
 }
 
 extension Node where Value == Int {
-    func isBST(_ min: Int = Int.min, _ max: Int = Int.max) -> Bool {
-        guard value >= min && value < max else {
+    func isBST(_ range: ClosedRange<Int> = Int.min...Int.max) -> Bool {
+        guard range.contains(value) else {
             return false
         }
-        return leftChild?.isBST(min, value) ?? true && rightChild?.isBST(value, max) ?? true
+        
+        return leftChild?.isBST(range.lowerBound...value) ?? true && rightChild?.isBST(value...range.upperBound) ?? true
+    }
+    
+    func isBST2(_ min: Int = Int.min, _ max: Int = Int.max) -> Bool {
+        guard value >= min && value <= max else {
+            return false
+        }
+
+        return leftChild?.isBST2(min, value) ?? true && rightChild?.isBST2(value, max) ?? true
     }
 }
 
@@ -8711,7 +8720,7 @@ func tree() -> Node<Int> {
   let five = Node(value: 5)
   let seven = Node(value: 7)
   let eight = Node(value: 8)
-  let nine = Node(value: 9)
+  let nine = Node(value: 1)
   seven.leftChild = one
   one.leftChild = zero
   one.rightChild = five
@@ -8720,7 +8729,8 @@ func tree() -> Node<Int> {
   return seven
 }
 
-tree().isBST()
+
+tree().isBST2()
 
 ```
 
