@@ -9382,11 +9382,11 @@ seven.lowestCommonAncestor(of: zero, and: five)
 
 ```swift
 extension Sequence {
-    func accumulate<Result>(_ initalResult: Result, _ updateAccumulatingResult: (Result, Element) -> Result) -> [Result] {
+    func accumulate<Result>(_ initalResult: Result, _ nextPartialResult: (Result, Element) -> Result) -> [Result] {
         var accumulated = initalResult
         
         return map {
-            accumulated = updateAccumulatingResult(accumulated, $0)
+            accumulated = nextPartialResult(accumulated, $0)
             return accumulated
         }
     }
@@ -9447,4 +9447,16 @@ extension Collection {
 ["a", "a", "b", "a"].indices { $0 == "a" }
 
 
+```
+
+## swift filter
+
+```swift
+extension Sequence {
+    func filter(_ predicate: (Element) -> Bool) -> [Element] {
+        return reduce([]) {
+            predicate($1) ? $0 + [$1] : $0
+        }
+    }
+}
 ```
