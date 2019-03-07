@@ -9432,3 +9432,19 @@ extension Sequence {
 [1, 2, 3, 4, 5].count { $0 % 2 == 0 }
 
 ```
+
+## swift indices
+
+```swift
+extension Collection {
+    func indices(where predicate: (Element) -> Bool) -> [Index] {
+        return indices.reduce([]) {
+            predicate(self[$1]) ? $0 + [$1] : $0
+        }
+    }
+}
+
+["a", "a", "b", "a"].indices { $0 == "a" }
+
+
+```
