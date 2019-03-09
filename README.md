@@ -6912,6 +6912,29 @@ extension Sequence {
 
 [1, 2, 3, 4].map { $0 * 2 }
 
+extension Sequence {
+    func map2<T>(_ transform: (Element) throws -> T) rethrows -> [T] {
+        var result = ContiguousArray<T>()
+        result.reserveCapacity(underestimatedCount)
+        
+        var iterator = makeIterator()
+        
+        for _ in 0..<underestimatedCount {
+            result.append(try transform(iterator.next()!))
+        }
+        
+        while let element = iterator.next() {
+            result.append(try transform(element))
+        }
+        
+        return Array(result)
+    }
+}
+
+var a = [1, 2, 3, 4, 5, 6, 7, 8]
+a.map2 { $0 * $0 }
+print(a)
+
 
 ```
 
@@ -9374,6 +9397,63 @@ seven.rightChild = nine
 nine.leftChild = eight
 
 seven.lowestCommonAncestor(of: zero, and: five)
+
+
+
+
+
+
+class Node<Value: Equatable> {
+    let value: Value
+    var leftChild: Node?
+    var rightChild: Node?
+    
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension Node {
+    func lowestCommonAncestor(of node1: Node, and node2: Node) -> Node? {
+        guard value != node1.value && value != node2.value else {
+            return self
+        }
+        
+        let left = leftChild?.lowestCommonAncestor(of: node1, and: node2)
+        
+        // If the return on the left is a value and that value is not either of the two nodes then we konw this is the lowest common ancestor and don't need to check the right side
+        if (left != nil) && (left !== node1) && (left !== node2) {
+            return left
+        }
+        
+        let right = rightChild?.lowestCommonAncestor(of: node1, and: node2)
+        
+        if left != nil && right != nil {
+            return self
+        }
+        
+        if left == nil && right == nil {
+            return nil
+        }
+        
+        return left != nil ? left : right
+    }
+}
+
+let zero = Node(value: 0)
+let one = Node(value: 1)
+let five = Node(value: 5)
+let seven = Node(value: 7)
+let eight = Node(value: 8)
+let nine = Node(value: 9)
+seven.leftChild = one
+one.leftChild = zero
+one.rightChild = five
+seven.rightChild = nine
+nine.leftChild = eight
+
+seven.lowestCommonAncestor(of: zero, and: five)?.value
+
 
 ```
 
