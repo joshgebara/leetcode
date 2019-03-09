@@ -7011,6 +7011,41 @@ extension Collection where Element: Comparable {
 
 [5, 4, 7, 8, 7, 6, 5, 6, 5, 43, 2, 1].min()
 
+extension Sequence where Element: Comparable {
+    func min2(by areInIncreasingOrder: (Element, Element) throws -> Bool = (<)) rethrows -> Element? {
+        var iterator = makeIterator()
+        guard let first = iterator.next() else { return nil }
+        return try dropFirst().reduce(first) {
+            try areInIncreasingOrder($0, $1) ? $0 : $1
+        }
+    }
+}
+
+
+[1, 2, 3].min2()
+["q", "f", "k"].min2()
+[4096, 256, 16].min2()
+[String]().min2()
+
+
+
+
+extension Sequence where Element: Comparable {
+    func min2() -> Element? {
+        var iterator = makeIterator()
+        guard let first = iterator.next() else { return nil }
+        return dropFirst().reduce(first) {
+            $0 < $1 ? $0 : $1
+        }
+    }
+}
+
+
+[1, 2, 3].min2()
+["q", "f", "k"].min2()
+[4096, 256, 16].min2()
+[String]().min2()
+
 
 ```
 
@@ -9471,7 +9506,6 @@ extension Sequence {
         }
     }
 }
-
 
 [1, 2, 3, 4, 5, 6].accumulate(0, +)
 
