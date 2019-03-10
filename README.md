@@ -9606,3 +9606,30 @@ extension Sequence {
 }
 ```
 
+
+
+
+## hasPrefix
+
+```swift
+extension Sequence where Element: Equatable {
+    func hasPrefix<Prefix: Sequence>(_ prefix: Prefix) -> Bool where Element == Prefix.Element {
+        for (element, prefixElement) in zip(self, prefix) {
+            if element != prefixElement {
+                return false
+            }
+        }
+        return true
+    }
+}
+
+extension Sequence where Element == String {
+    func wordsWith(prefix: String) -> [String] {
+        return filter { $0.hasPrefix(prefix) }
+    }
+}
+
+let dictionary = ["CAT", "DOG", "BUNNY", "CAN", "CUT", "DOLL"]
+dictionary.wordsWith(prefix: "N") // CAT, CAN
+
+```
