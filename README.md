@@ -9766,3 +9766,90 @@ extension String {
 "h8ers".sumOfNumbers()
 
 ```
+
+
+## Challenge 25
+
+```swift
+extension RandomAccessCollection where Element: Comparable {
+    func binarySearch(for key: Element) -> Index? {
+        guard count > 0 else { return nil }
+        
+        var left = startIndex
+        var right = index(before: endIndex)
+        
+        while left <= right {
+            let size = distance(from: left, to: right)
+            let middleIndex = index(startIndex, offsetBy: size / 2)
+            let middleValue = self[middleIndex]
+            
+            if middleValue == key {
+                return middleIndex
+            }
+            
+            if middleValue > key {
+                left = index(after: middleIndex)
+            } else {
+                right = index(before: middleIndex)
+            }
+        }
+        return nil
+    }
+}
+
+extension Int {
+    func squareRoot() -> Int {
+        guard self != 1 else { return 1 }
+        
+        let range = 0...(self / 2 + 1)
+        let index = range.lazy
+                         .map{ $0 * $0 }
+                         .binarySearch(for: self)!
+        return range[index]
+    }
+}
+
+64.squareRoot()
+
+```
+
+
+## Challenge 26
+
+```swift
+infix operator ~
+
+func ~(lhs: Int, rhs: Int) -> Int {
+    return lhs + (~rhs + 1)
+}
+
+1 ~ 3
+
+```
+
+
+## Challenge 27
+
+```swift
+import Foundation
+
+extension String {
+    func readLines(through lineCount: Int) {
+        guard let filePath = Bundle.main.path(forResource: self, ofType: ""),
+              let input = try? String(contentsOfFile: filePath)
+              else { return }
+        
+        let lines = input.components(separatedBy: "\n")
+                         .dropLast()
+        
+        guard !lines.isEmpty else { return }
+        
+        for line in lines.reversed().prefix(lineCount) {
+            print(line, terminator: " ")
+        }
+    }
+}
+
+"text.txt".readLines(through: 3)
+
+```
