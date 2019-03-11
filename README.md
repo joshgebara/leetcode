@@ -9738,3 +9738,31 @@ extension String {
 "0.1".isInteger
 
 ```
+
+
+## Challenge 24
+
+```swift
+import Foundation
+
+extension Character {
+    var isInteger: Bool {
+        let numbers = Set<Character>(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
+        return numbers.contains(self)
+    }
+}
+
+extension String {
+    func sumOfNumbers() -> Int {
+        return map { $0.isInteger ? String($0) : "-" }
+                .split(separator: "-")
+                .compactMap { Int($0.reduce("", +)) }
+                .reduce(0, +)
+    }
+}
+
+"a1b2c3".sumOfNumbers()
+"a10b20c30".sumOfNumbers()
+"h8ers".sumOfNumbers()
+
+```
