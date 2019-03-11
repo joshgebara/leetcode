@@ -9721,3 +9721,20 @@ extension UInt8 {
 (41 as UInt8).binaryReverse()
 
 ```
+
+
+## Challenge 23
+
+```swift
+import Foundation
+
+extension String {
+    var isInteger: Bool {
+        return rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
+    }
+}
+
+
+"0.1".isInteger
+
+```
