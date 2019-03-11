@@ -9633,3 +9633,91 @@ let dictionary = ["CAT", "DOG", "BUNNY", "CAN", "CUT", "DOLL"]
 dictionary.wordsWith(prefix: "N") // CAT, CAN
 
 ```
+
+
+
+## N Queens
+
+```swift
+func printSolution(_ board: [Int]) {
+    print("Solution:", board)
+    for row in board.indices {
+        for column in board.indices {
+            if board[row] == column {
+                print("Q", terminator: "")
+            } else {
+                print(".", terminator: "")
+            }
+        }
+        print("")
+    }
+    print("")
+}
+
+func nQueens(board: [Int], queen queenNumber: Int) -> Int {
+    guard queenNumber < board.count else {
+        printSolution(board)
+        return 1
+    }
+    
+    var solutionCount = 0
+    
+    boardLoop: for column in board.indices {
+        for row in 0..<queenNumber {
+            let otherQueenColumn = board[row]
+            if otherQueenColumn == column {
+                continue boardLoop
+            }
+            
+            let deltaRow = queenNumber - row
+            let deltaCol = otherQueenColumn - column
+            
+            if deltaRow == deltaCol { continue boardLoop }
+            if deltaRow == -deltaCol { continue boardLoop }
+        }
+        
+        var boardCopy = board
+        boardCopy[queenNumber] = column
+        
+        solutionCount += nQueens(board: boardCopy, queen: queenNumber + 1)
+    }
+    
+    return solutionCount
+}
+
+let emptyBoard = [Int](repeating: 0, count: 8)
+let solutionCount = nQueens(board: emptyBoard, queen: 0)
+print("Found \(solutionCount) solutions")
+
+
+```
+
+
+
+func fibs(_ n: Int) -> Int {
+    guard n > 1 else { return n }
+    return fibs(n - 1) + fibs(n - 2)
+}
+
+for i in 0..<20 {
+    print(fibs(i))
+}
+
+
+
+## Challenge 22
+
+```swift
+extension UInt8 {
+    func binaryReverse() -> UInt8? {
+        let binaryString = String(self, radix: 2)
+        let paddingAmount = 8 - binaryString.count
+        let paddedBinaryString = String(repeating: "0", count: paddingAmount) + binaryString
+        let reversedBinaryString = String(paddedBinaryString.reversed())
+        return UInt8(reversedBinaryString, radix: 2)
+    }
+}
+
+(41 as UInt8).binaryReverse()
+
+```
