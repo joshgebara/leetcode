@@ -9853,3 +9853,59 @@ extension String {
 "text.txt".readLines(through: 3)
 
 ```
+
+
+
+
+
+## Making character strideable
+
+import Foundation
+
+extension Character: Strideable {
+    var unicodeOffset: Int {
+        guard let uniCode = UnicodeScalar(String(self)) else { return 0 }
+        return Int(uniCode.value)
+    }
+
+    public func advanced(by n: Int) -> Character {
+        guard let uniCode = UnicodeScalar(String(self)),
+              let nextUniCode = UnicodeScalar(uniCode.value + 1)
+              else { return "0" }
+
+        return Character(nextUniCode)
+
+    }
+
+    public func distance(to other: Character) -> Int {
+        return other.unicodeOffset - unicodeOffset
+    }
+}
+
+for letter in ("0"..."p" as CountableClosedRange<Character>) {
+    print(letter)
+}
+
+
+## Challenge 28
+
+```swift
+import Foundation
+
+struct Logger {
+    func log(message: String, to file: String) throws {
+        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        else { return }
+        
+        let fileURL = documentsURL.appendingPathComponent(file)
+        
+        var logContents = (try? String(contentsOf: fileURL, encoding: .utf8)) ?? ""
+        logContents.append("\(Date()): \(message)\n")
+
+        try logContents.write(to: fileURL, atomically: true, encoding: .utf8)
+    }
+}
+
+Logger().log(message: "Hi", to: "log.txt")
+
+```
