@@ -9923,3 +9923,35 @@ func getDocumentsDirectory() -> URL? {
 getDocumentsDirectory()
 
 ```
+
+
+## Challenge 30
+
+```swift
+import Foundation
+
+extension FileManager {
+    func allJPGs(startingFrom date: Date) -> [String] {
+        let fileManager = FileManager.default
+        
+        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first,
+              let files = try? fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+        else { return [] }
+        
+        return files.reduce([]) { result, file in
+            if file.pathExtension == "jpg" || file.pathExtension == "jpeg" {
+                guard let attributes = try? fileManager.attributesOfItem(atPath: file.path),
+                      let creationDate = attributes[.creationDate] as? Date
+                      else { return result }
+
+                if creationDate > Date(timeIntervalSinceNow: -60 * 60 * 48) {
+                    return result + [file.lastPathComponent]
+                }
+            }
+            return result
+        }
+    }
+}
+
+print(FileManager.default.allJPGs(startingFrom: Date()))
+```
