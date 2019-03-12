@@ -10026,3 +10026,41 @@ extension Array where Element == Int {
 
 
 ```
+
+
+## Challenge 57
+
+```swift
+func isIsomorphic<T>(_ a: T, _ b: T) -> Bool {
+    let arrayA = Array("\(a)")
+    let arrayB = Array("\(b)")
+    
+    guard arrayA.count == arrayB.count else {
+        return false
+    }
+    
+    var mapAB: [Character: Character] = [:]
+    var mapBA: [Character: Character] = [:]
+    
+    for (charA, charB) in zip(arrayA, arrayB) {
+        if let mapValue = mapAB[charA] {
+            if charB != mapValue {
+                return false
+            }
+        } else {
+            if mapBA[charB] != nil {
+                return false
+            }
+            mapAB[charA] = charB
+            mapBA[charB] = charA
+        }
+    }
+
+    return true
+}
+
+
+isIsomorphic("aabaan", "cctccm")
+
+
+```
