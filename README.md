@@ -9909,3 +9909,17 @@ struct Logger {
 Logger().log(message: "Hi", to: "log.txt")
 
 ```
+
+
+## Challenge 29
+
+```swift
+import Foundation
+
+func getDocumentsDirectory() -> URL? {
+    return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? nil
+}
+
+getDocumentsDirectory()
+
+```
