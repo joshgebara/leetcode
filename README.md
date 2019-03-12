@@ -10064,3 +10064,58 @@ isIsomorphic("aabaan", "cctccm")
 
 
 ```
+
+
+
+## Challenge 58
+
+```swift
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+}
+
+extension String {
+    var isBalanced: Bool {
+        var validCharacters = Set<Character>("([{<>}])")
+        guard count == filter(validCharacters.contains).count else {
+            return false
+        }
+        
+        let charMap: [Character: Character] = ["(": ")", "[": "]", "{": "}", "<": ">"]
+        
+        var stack = Stack<Character>()
+        
+        for element in self {
+            if charMap[element] != nil {
+                stack.push(element)
+            } else {
+                if let openBracket = stack.pop() {
+                    if charMap[openBracket] != element {
+                        return false
+                    }
+                } else {
+                    return false
+                }
+            }
+        }
+        
+        return stack.count == 0
+    }
+}
+
+
+"(({}))".isBalanced
+
+```
