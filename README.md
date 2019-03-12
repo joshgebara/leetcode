@@ -9955,3 +9955,74 @@ extension FileManager {
 
 print(FileManager.default.allJPGs(startingFrom: Date()))
 ```
+
+
+
+## Challenge 21 
+
+```swift
+func snoob(_ x: Int) -> Int {
+    var rightOne = 0
+    var nextHigherOneBit = 0
+    var rightOnesPattern = 0
+    var next = 0
+    
+    rightOne = x & -x
+    
+    nextHigherOneBit = x + rightOne
+    rightOnesPattern = x ^ nextHigherOneBit
+    rightOnesPattern = (rightOnesPattern) / rightOne
+    rightOnesPattern >>= 2
+    next = nextHigherOneBit | rightOnesPattern
+    
+    return next
+}
+
+snoob(12)
+
+
+String(12, radix: 2)
+String(-12, radix: 2)
+String(4, radix: 2)
+
+```
+
+
+
+
+## Challenge 50
+
+```swift
+extension Array where Element == Int {
+    func maxSubArray() -> CountableClosedRange<Int>? {
+        guard count > 0 else { return nil }
+        
+        var bestSum = 0
+        var bestRange: CountableClosedRange<Int>? = nil
+        
+        var currentStart: Int? = nil
+        var currentSum = 0
+        
+        for (index, number) in self.enumerated() {
+            if number > 0 {
+                currentStart = currentStart ?? index
+                currentSum += number
+                
+                if currentSum > bestSum {
+                    bestSum = currentSum
+                    bestRange = currentStart!...index
+                }
+                
+            } else {
+                currentSum = 0
+                currentStart = nil
+            }
+        }
+        return bestRange
+    }
+}
+
+ [0, 1, 1, -1, 2, 3, 1].maxSubArray()
+
+
+```
