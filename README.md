@@ -6676,6 +6676,24 @@ extension Collection where Element == String {
 
 ["a", "abc", "ab"].lengthSort(by: >)
 
+extension Collection where Element == String {
+    func sortedByLength() -> [Element] {
+        return sorted { $0.count > $1.count }
+    }
+}
+
+// Can't extend mutablecollection because: Available when Self conforms to RandomAccessCollection and Element conforms to Comparable.
+
+extension Array where Element == String {
+    mutating func sortByLength() {
+        sort { $0.count > $1.count }
+    }
+}
+
+var a = ["a", "abs", "ab"]
+a.sortByLength()
+
+
 ```
 
 ## Challenge 40
