@@ -7155,6 +7155,7 @@ sumEvenOccurrences(of: 1, 2, 2, 3, 3, 4)
 
 
 
+
 func sumEvenOccurrences(of numbers: Int...) -> Int {
     return numbers.frequencies()
                   .filter { $0.1 % 2 == 0 }
@@ -7201,6 +7202,33 @@ func sum2(_ numbers: Int...) -> Int {
 
 
 sum2(1, 2, 2, 3, 3, 4)
+
+
+
+extension Sequence where Element: Hashable {
+    func frequencies() -> [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+}
+
+extension Int {
+    var isEven: Bool {
+        return self % 2 == 0
+    }
+}
+
+func sumEvenOccurrences(in numbers: Int...) -> Int {
+    return numbers.frequencies()
+                  .filter { (_, value) in value.isEven }
+                  .keys
+                  .reduce(0, +)
+}
+
+
+sumEvenOccurrences(in: 1, 2, 2, 3, 3, 4)
+
 ```
 
 ## Challenge 51
