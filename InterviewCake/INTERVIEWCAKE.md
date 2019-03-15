@@ -174,3 +174,170 @@ func mergeArrays<Element: Comparable>(_ left: [Element], _ right: [Element]) -> 
 }
 
 ```
+
+## Merge K Sorted Arrays
+
+```swift
+struct Heap<Element: Comparable> {
+    let sort: (Element, Element) -> Bool
+    var elements: [Element] = []
+    
+    init(sort: @escaping (Element, Element) -> Bool, elements: [Element] = []) {
+        self.sort = sort
+        self.elements = elements
+        
+        if !isEmpty {
+            for i in stride(from: count / 2 - 1, through: 0, by: -1) {
+                siftDown(from: i)
+            }
+        }
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+}
+
+extension Heap {
+    func leftChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 1
+    }
+    
+    func rightChildIndex(ofParentAt index: Int) -> Int {
+        return 2 * index + 2
+    }
+    
+    func parentIndex(ofChildAt index: Int) -> Int {
+        return (index - 1) / 2
+    }
+}
+
+extension Heap {
+    mutating func insert(_ element: Element) {
+        elements.append(element)
+        siftUp(from: count - 1)
+    }
+    
+    mutating func remove() -> Element? {
+        guard !isEmpty else { return nil }
+        
+        elements.swapAt(0, count - 1)
+        
+        defer {
+            siftDown(from: 0)
+        }
+        
+        return elements.popLast()
+    }
+}
+
+extension Heap {
+    mutating func siftDown(from index: Int) {
+        var parent = index
+        while true {
+            let left = leftChildIndex(ofParentAt: parent)
+            let right = rightChildIndex(ofParentAt: parent)
+            var candidate = parent
+            
+            if left < count && sort(elements[left], elements[candidate]) {
+                candidate = left
+            }
+            
+            if right < count && sort(elements[right], elements[candidate]) {
+                candidate = right
+            }
+            
+            if candidate == parent {
+                return
+            }
+            
+            elements.swapAt(parent, candidate)
+            parent = candidate
+        }
+    }
+    
+    mutating func siftUp(from index: Int) {
+        var child = index
+        var parent = parentIndex(ofChildAt: child)
+        
+        while child > 0 && sort(elements[child], elements[parent]) {
+            elements.swapAt(parent, child)
+            child = parent
+            parent = parentIndex(ofChildAt: child)
+        }
+    }
+}
+
+struct PriorityQueue<Element: Comparable> {
+    var elements: Heap<Element>
+    
+    init(sort: @escaping (Element, Element) -> Bool = (<), elements: [Element] = []) {
+        self.elements = Heap<Element>(sort: sort, elements: elements)
+    }
+    
+    mutating func enqueue(_ element: Element) {
+        elements.insert(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        return elements.remove()
+    }
+}
+
+struct QueueElement<Element: Comparable> {
+    var arrayIndex: Int
+    var elementIndex: Int
+    var value: Element
+}
+
+extension QueueElement: Comparable & Equatable {
+    static func < (lhs: QueueElement, rhs: QueueElement) -> Bool {
+        return lhs.value < rhs.value
+    }
+    
+    static func == (lhs: QueueElement, rhs: QueueElement) -> Bool {
+        return lhs.value == rhs.value
+    }
+}
+
+func merge<Element: Comparable>(_ arrays: [[Element]]) -> [Element] {
+    var priorityQueue = PriorityQueue<QueueElement<Element>>()
+    var result = [Element]()
+    
+    for index in arrays.indices {
+        guard !arrays[index].isEmpty else { continue }
+        
+        let queueElement = QueueElement(arrayIndex: index,
+                                        elementIndex: 0,
+                                        value: arrays[index][0])
+        priorityQueue.enqueue(queueElement)
+    }
+    
+    while let element = priorityQueue.dequeue() {
+        result.append(element.value)
+        
+        var nextIndex = element.elementIndex + 1
+        if nextIndex < arrays[element.arrayIndex].count {
+            let queueElement = QueueElement(arrayIndex: element.arrayIndex,
+                                            elementIndex: nextIndex,
+                                            value: arrays[element.arrayIndex][nextIndex])
+            priorityQueue.enqueue(queueElement)
+        }
+        
+    }
+    return result
+}
+
+var a = [
+    [1, 2, 3],
+    [9, 10, 11, 13, 15],
+    [7, 8, 9]
+]
+
+print(merge(a))
+
+```
