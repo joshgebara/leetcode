@@ -73,3 +73,46 @@ var a = "Taco"
 a.reverse()
 
 ```
+
+## Reverse Words
+
+```swift
+func reverseCharacters(_ string: inout String, from startIndex: String.Index, until endIndex: String.Index) {
+    guard startIndex != endIndex else { return }
+
+    var leftIndex  = startIndex
+    var rightIndex = string.index(before: endIndex)
+
+    while leftIndex < rightIndex {
+        let leftChar  = string[leftIndex]
+        let rightChar = string[rightIndex]
+
+        string.replaceSubrange(leftIndex...leftIndex, with: String(rightChar))
+        string.replaceSubrange(rightIndex...rightIndex, with: String(leftChar))
+
+        leftIndex  = string.index(after: leftIndex)
+        rightIndex = string.index(before: rightIndex)
+    }
+}
+
+func reverseWords(_ message: inout String) {
+    reverseCharacters(&message, from: message.startIndex, until: message.endIndex)
+    
+    var currentWordStartIndex = message.startIndex
+    
+    for i in message.indices {
+        if message[i] == " " {
+            reverseCharacters(&message, from: currentWordStartIndex, until: i)
+            currentWordStartIndex = message.index(after: i)
+        }
+    }
+    
+    reverseCharacters(&message, from: currentWordStartIndex, until: message.endIndex)
+}
+
+
+var a = "the eagle has landed"
+reverseWords(&a)
+print(a)
+
+```
