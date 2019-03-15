@@ -47,3 +47,29 @@ let meetings =   [
 print(meetings.mergeRanges())
 
 ```
+
+## Reverse String in Place
+
+```swift
+extension String {
+    mutating func reverse() {
+        var leftIndex = startIndex
+        var rightIndex = index(before: endIndex)
+        
+        while leftIndex < rightIndex {
+            let first = self[leftIndex]
+            let second = self[rightIndex]
+
+            replaceSubrange(leftIndex...leftIndex, with: String(second))
+            replaceSubrange(rightIndex...rightIndex, with: String(first))
+
+            leftIndex = index(after: leftIndex)
+            rightIndex = index(before: rightIndex)
+        }
+    }
+}
+
+var a = "Taco"
+a.reverse()
+
+```
