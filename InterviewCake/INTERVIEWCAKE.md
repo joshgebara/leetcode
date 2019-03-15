@@ -1,6 +1,10 @@
 ## Merging Meeting Times
 
 ```swift
+
+// Time: O(n log n)
+// Space - O(n)
+
 class Meeting: CustomStringConvertible {
     var startTime: Int
     var endTime: Int
@@ -51,6 +55,10 @@ print(meetings.mergeRanges())
 ## Reverse String in Place
 
 ```swift
+
+// Time: O(n)
+// Space - O(1)
+
 extension String {
     mutating func reverse() {
         var leftIndex = startIndex
@@ -77,6 +85,10 @@ a.reverse()
 ## Reverse Words
 
 ```swift
+
+// Time: O(n)
+// Space - O(1)
+
 func reverseCharacters(_ string: inout String, from startIndex: String.Index, until endIndex: String.Index) {
     guard startIndex != endIndex else { return }
 
@@ -114,5 +126,51 @@ func reverseWords(_ message: inout String) {
 var a = "the eagle has landed"
 reverseWords(&a)
 print(a)
+
+```
+
+## Merge Sorted Arrays
+
+```swift
+
+// Time: O(n)
+// Space - O(n)
+
+let myArray = [3, 4, 6, 10, 11, 15]
+let alicesArray = [1, 5, 8, 12, 14, 19]
+
+print(mergeArrays(myArray, alicesArray))
+
+func mergeArrays<Element: Comparable>(_ left: [Element], _ right: [Element]) -> [Element] {
+    var result = [Element]()
+    var leftIndex = 0
+    var rightIndex = 0
+    
+    while left.count > leftIndex && right.count > rightIndex {
+        let leftElement = left[leftIndex]
+        let rightElement = right[rightIndex]
+        
+        if leftElement > rightElement {
+            result.append(rightElement)
+            rightIndex += 1
+        } else if leftElement < rightElement {
+            result.append(leftElement)
+            leftIndex += 1
+        } else {
+            result.append(leftElement)
+            result.append(rightElement)
+            leftIndex += 1
+            rightIndex += 1
+        }
+    }
+    
+    if left.count > leftIndex {
+        result.append(contentsOf: left[leftIndex...])
+    } else {
+        result.append(contentsOf: right[rightIndex...])
+    }
+    
+    return result
+}
 
 ```
