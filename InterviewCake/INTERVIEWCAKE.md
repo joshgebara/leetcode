@@ -399,3 +399,35 @@ extension Array where Element: Numeric & Hashable  {
 
 [90, 91, 120, 180, 123, 154, 122, 164].twoSum(for: 180)
 ```
+
+## Inflight Entertainment - Guaranteed Sort
+
+```swift
+// Time: O(n)
+// Space: O(1)
+
+extension Array where Element == Int  {
+    func twoSum(for target: Element) -> Bool {
+        var left = startIndex
+        var right = index(before: endIndex)
+        
+        while left <= right {
+            let sum = self[left] + self[right]
+            
+            if sum == target {
+                return true
+            }
+            
+            if sum > target {
+                right = index(before: right)
+            } else {
+                left = index(after: left)
+            }
+        }
+        return false
+    }
+}
+
+[90, 91, 120, 123, 154, 164, 180].twoSum(for: 210)
+
+```
