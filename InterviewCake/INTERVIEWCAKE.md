@@ -457,3 +457,55 @@ extension Array where Element == Int {
 [1, 3, 9, 2].nSum(for: 5)
 
 ```
+
+## Permutation Palindrome
+
+### Optimized Solution
+
+```swift
+
+```
+
+### Slow Solution
+
+```swift
+extension String {
+    func permutationPalindrome(_ current: String = "") -> Bool {
+        guard !isEmpty else {
+            return current.isPalindrome
+        }
+        
+        let strArray = Array(self)
+        
+        for index in strArray.indices {
+            let left = String(strArray[0..<index])
+            let right = String(strArray[index+1..<count])
+            let string = left + right
+            
+            if string.permutationPalindrome(current + String(strArray[index])) {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+extension String {
+    var isPalindrome: Bool {
+        var left = startIndex
+        var right = index(before: endIndex)
+        
+        while left < right {
+            if self[left] != self[right] {
+                return false
+            }
+            left = index(after: left)
+            right = index(before: right)
+        }
+        return true
+    }
+}
+
+"ivicc".permutationPalindrome()
+
+```
