@@ -464,6 +464,23 @@ extension Array where Element == Int {
 
 ```swift
 
+// Time: O(n)
+extension String {
+    func permutationPalindrome() -> Bool {
+        var unpairedCharacters = Set<Character>()
+        
+        for character in self {
+            if unpairedCharacters.contains(character) {
+                unpairedCharacters.remove(character)
+            } else {
+                unpairedCharacters.insert(character)
+            }
+        }
+        return unpairedCharacters.count <= 1
+    }
+}
+
+"ivicc".permutationPalindrome()
 ```
 
 ### Fast Solution
@@ -471,6 +488,7 @@ extension Array where Element == Int {
 ```swift
 
 // Time: O(n)
+// Space: O(k) where k = Possible unicode character combinations
 
 extension Sequence where Element: Hashable {
     func frequencies() -> [Element: Int] {
@@ -490,7 +508,7 @@ extension String {
     func permutationPalindrome() -> Bool {
         return frequencies()
                 .filter { (_, value) in value.isOdd }
-                .count == 1
+                .count <= 1
     }
 }
 
