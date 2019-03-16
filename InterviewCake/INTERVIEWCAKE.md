@@ -466,9 +466,48 @@ extension Array where Element == Int {
 
 ```
 
-### Slow Solution
+### Fast Solution
 
 ```swift
+
+// Time: O(n)
+
+extension Sequence where Element: Hashable {
+    func frequencies() -> [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+}
+
+extension String {
+    func permutationPalindrome() -> Bool {
+        let charFrequencies = self.frequencies()
+        var oddOccurrences = 0
+        
+        for value in charFrequencies.values {
+            if value % 2 != 0 {
+                if oddOccurrences > 1 {
+                    return false
+                } else {
+                   oddOccurrences += 1
+                }
+            }
+        }
+        return true
+    }
+}
+
+"livci".permutationPalindrome()
+
+```
+
+### Slow Solution 2
+
+```swift
+
+// Time: O(n!n)
+
 extension String {
     func permutationPalindrome(_ current: String = "") -> Bool {
         guard !isEmpty else {
