@@ -375,3 +375,27 @@ func isSingleRiffle(_ shuffledDeck: [Int], _ half1: [Int], _ half2: [Int]) -> Bo
 isSingleRiffle(Array(1...51), Array(1...26), Array(27...51))
 
 ```
+
+## Inflight Entertainment
+
+```swift
+// Time: O(n)
+// Space: O(n)
+
+extension Array where Element: Numeric & Hashable  {
+    func twoSum(for target: Element) -> Bool {
+        var elementSet = Set<Element>()
+        
+        for element in self {
+            let compliment = target - element
+            if elementSet.contains(compliment) {
+                return true
+            }
+            elementSet.insert(element)
+        }
+        return false
+    }
+}
+
+[90, 91, 120, 180, 123, 154, 122, 164].twoSum(for: 180)
+```
