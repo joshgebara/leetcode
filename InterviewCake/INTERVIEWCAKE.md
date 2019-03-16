@@ -178,6 +178,10 @@ func mergeArrays<Element: Comparable>(_ left: [Element], _ right: [Element]) -> 
 ## Merge K Sorted Arrays
 
 ```swift
+
+// Time: O(kn log k)
+// Space: O(kn)
+
 struct Heap<Element: Comparable> {
     let sort: (Element, Element) -> Bool
     var elements: [Element] = []
@@ -339,5 +343,35 @@ var a = [
 ]
 
 print(merge(a))
+
+```
+
+## Single Riffle
+
+```swift
+// Time: O(n)
+// Space: O(1)
+
+func isSingleRiffle(_ shuffledDeck: [Int], _ half1: [Int], _ half2: [Int]) -> Bool {
+    var half1Index = 0
+    var half2Index = 0
+
+    for card in shuffledDeck {
+        if half1Index < half1.count, card == half1[half1Index] {
+            half1Index += 1
+            continue
+        }
+        
+        if half2Index < half2.count, card == half2[half2Index] {
+            half2Index += 1
+            continue
+        }
+        
+        return false
+    }
+    return true
+}
+
+isSingleRiffle(Array(1...51), Array(1...26), Array(27...51))
 
 ```
