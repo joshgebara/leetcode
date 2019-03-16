@@ -480,25 +480,21 @@ extension Sequence where Element: Hashable {
     }
 }
 
-extension String {
-    func permutationPalindrome() -> Bool {
-        let charFrequencies = self.frequencies()
-        var oddOccurrences = 0
-        
-        for value in charFrequencies.values {
-            if value % 2 != 0 {
-                if oddOccurrences > 1 {
-                    return false
-                } else {
-                   oddOccurrences += 1
-                }
-            }
-        }
-        return true
+extension Int {
+    var isOdd: Bool {
+        return self % 2 != 0
     }
 }
 
-"livci".permutationPalindrome()
+extension String {
+    func permutationPalindrome() -> Bool {
+        return frequencies()
+                .filter { (_, value) in value.isOdd }
+                .count == 1
+    }
+}
+
+"ivicc".permutationPalindrome()
 
 ```
 
