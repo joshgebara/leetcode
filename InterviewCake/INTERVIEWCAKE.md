@@ -431,3 +431,29 @@ extension Array where Element == Int  {
 [90, 91, 120, 123, 154, 164, 180].twoSum(for: 210)
 
 ```
+
+## Inflight Entertainment - n movies
+
+```swift
+extension Array where Element == Int {
+    func nSum(for target: Int) -> Bool {
+        guard !isEmpty else { return false }
+        guard reduce(0, +) != target else { return true }
+        
+        for index in indices {
+            let left = self[..<index]
+            let right = self[(index+1)...]
+            let subSet = Array(left + right)
+            
+            if subSet.nSum(for: target) {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+
+[1, 3, 9, 2].nSum(for: 5)
+
+```
