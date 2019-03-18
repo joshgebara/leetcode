@@ -562,3 +562,43 @@ extension String {
 "ivicc".permutationPalindrome()
 
 ```
+
+## Top Scores
+
+```swift
+// Time - O(n)
+// Space - O(n)
+
+let unsortedScores = [37, 89, 41, 90, 90, 90, 90, 65, 91, 53]
+let highestPossibleScore = 100
+
+let sortedScores = sortScores(unsortedScores, withHighest: highestPossibleScore)
+
+func sortScores(_ unsortedScores: [Int], withHighest highestPossibleScore: Int) -> [Int] {
+    return unsortedScores.countingSort(with: highestPossibleScore)
+}
+
+extension Array where Element == Int {
+    func countingSort(with upperBound: Element) -> [Element] {
+        guard !isEmpty else { return self }
+        
+        var buckets: [Element] = .init(repeating: 0, count: upperBound + 1)
+        for element in self {
+            buckets[element] += 1
+        }
+        
+        for index in 1..<buckets.count {
+            let sum = buckets[index] + buckets[index - 1]
+            buckets[index] = sum
+        }
+        
+        var sortedArray: [Element] = .init(repeating: 0, count: count)
+        
+        for element in self {
+            buckets[element] -= 1
+            sortedArray[buckets[element]] = element
+        }
+        return sortedArray
+    }
+}
+```
