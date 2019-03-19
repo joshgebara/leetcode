@@ -602,3 +602,30 @@ extension Array where Element == Int {
     }
 }
 ```
+
+## Apple Stocks
+
+```swift
+let stockPrices = [10, 7, 5, 4, 3, 2]
+
+getMaxProfit(from: stockPrices)
+
+func getMaxProfit(from stockPricesYesterday: [Int]) -> Int? {
+    guard stockPricesYesterday.count >= 2 else {
+        return nil
+    }
+    
+    var minPrice  = stockPricesYesterday[0]
+    var maxProfit = stockPricesYesterday[1] - stockPricesYesterday[0]
+    
+    for currentPrice in stockPricesYesterday.dropFirst() {
+        let potentialProfit = currentPrice - minPrice
+
+        maxProfit = max(maxProfit, potentialProfit)
+        minPrice = min(minPrice, currentPrice)
+    }
+    
+    return maxProfit
+}
+
+```
