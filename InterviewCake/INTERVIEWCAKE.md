@@ -698,3 +698,56 @@ extension Array where Element == Int {
 a.products()
 
 ```
+
+## Find Rotation Point
+
+```swift
+
+// Time: O(log n)
+// Space: O(1)
+
+var words = [
+    "asymptote",  // <-- rotates here!
+    "babka",
+    "banoffee",
+    "engender",
+    "karpatka",
+    "othellolagkage",
+        "ptolemaic",
+    "retrograde",
+    "supplant",
+    "undulate",
+    "xenoepist"
+]
+
+words.rotationPoint()
+
+extension RandomAccessCollection where Element: Comparable {
+    func rotationPoint() -> Index? {
+        guard count > 0 else { return nil }
+        
+        var firstWord = self[startIndex]
+        
+        var left = startIndex
+        var right = index(before: endIndex)
+
+        while left <= right {
+            let size = distance(from: left, to: right)
+            let middleIndex = index(left, offsetBy: size / 2)
+            let middleValue = self[middleIndex]
+
+            if middleValue < firstWord {
+                right = index(before: middleIndex)
+            } else {
+                left = index(after: middleIndex)
+            }
+        }
+        
+        let size = distance(from: left, to: right)
+        let middleIndex = index(left, offsetBy: size / 2)
+        
+        return middleIndex == endIndex ? startIndex : middleIndex
+    }
+}
+
+```
