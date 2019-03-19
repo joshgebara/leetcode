@@ -629,3 +629,72 @@ func getMaxProfit(from stockPricesYesterday: [Int]) -> Int? {
 }
 
 ```
+
+## Product of All Other Numbers
+
+### Optimized Solution
+
+```swift
+var a = [1, 7, 3, 4]
+
+extension Sequence {
+    func accumulate<T>(_ initialResult: T, _ nextPartialResult: (T, Element) -> T) -> [T] {
+        var result = initialResult
+        
+        return map {
+            let currentResult = result
+            result = nextPartialResult(result, $0)
+            return currentResult
+        }
+    }
+}
+
+extension Array where Element == Int {
+    func products() -> [Element] {
+        guard !isEmpty else { return self }
+        
+        var products = accumulate(1, *)
+        var currentProduct = 1
+        for i in indices.reversed() {
+            products[i] *= currentProduct
+            currentProduct *= self[i]
+        }
+        return products
+    }
+}
+
+a.products()
+```
+
+### Functional Solution
+
+```swift
+var a = [1, 7, 3, 4]
+
+extension Sequence {
+    func accumulate<T>(_ initialResult: T, _ nextPartialResult: (T, Element) -> T) -> [T] {
+        var result = initialResult
+        
+        return map {
+            let currentResult = result
+            result = nextPartialResult(result, $0)
+            return currentResult
+        }
+    }
+}
+
+extension Array where Element == Int {
+    func products() -> [Element] {
+        guard !isEmpty else { return self }
+        
+        let productsBeforeIndex = accumulate(1, *)
+        let productsAfterIndex = reversed().accumulate(1, *)
+        return zip(productsBeforeIndex, productsAfterIndex.reversed()).reduce(into: []) {
+            $0.append($1.0 * $1.1)
+        }
+    }
+}
+
+a.products()
+
+```
