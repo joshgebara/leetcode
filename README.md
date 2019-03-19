@@ -9824,7 +9824,7 @@ extension RandomAccessCollection where Element: Comparable {
         var left = startIndex
         var right = index(before: endIndex)
         
-        while left <= right {
+        while left < right {
             let size = distance(from: left, to: right)
             let middleIndex = index(left, offsetBy: size / 2)
             let middleValue = self[middleIndex]
