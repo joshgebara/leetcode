@@ -10165,3 +10165,40 @@ extension String {
 "(({}))".isBalanced
 
 ```
+
+
+## random index
+
+```swift
+extension Collection {
+    func randomIndex() -> Index {
+        let size = distance(from: indices.startIndex, to: indices.endIndex)
+        let offset = Int(arc4random_uniform(UInt32(size)))
+        return index(startIndex, offsetBy: offset)
+    }
+}
+```
+
+
+## shuffle array 
+```swift
+import Darwin
+
+extension Collection {
+    func randomIndex() -> Index {
+        let size = distance(from: indices.startIndex, to: indices.endIndex)
+        let offset = Int(arc4random_uniform(UInt32(size)))
+        return index(startIndex, offsetBy: offset)
+    }
+}
+
+extension MutableCollection {
+    mutating func shuffle() {
+        indices.forEach { swapAt($0, randomIndex()) }
+    }
+}
+
+var a = [1, 2, 3, 4, 5, 6, 7, 8]
+a.shuffle()
+
+```
