@@ -630,6 +630,12 @@ func getMaxProfit(from stockPricesYesterday: [Int]) -> Int? {
 
 ```
 
+## Highest Product of 3
+
+```swift
+
+```
+
 ## Product of All Other Numbers
 
 ### Optimized Solution
