@@ -633,7 +633,33 @@ func getMaxProfit(from stockPricesYesterday: [Int]) -> Int? {
 ## Highest Product of 3
 
 ```swift
+var ints = [1, 10, -5, 1, -100]
 
+extension Array where Element == Int {
+    func highestProduct() -> Int {
+        var highest = Swift.max(self[0], self[1])
+        var lowest = Swift.min(self[0], self[1])
+        
+        var highest2 = self[0] * self[1]
+        var lowest2 = self[0] * self[1]
+        
+        var highest3 = self[0] * self[1] * self[2]
+        
+        for number in self {
+            highest3 = Swift.max(highest3, highest2 * number, lowest2 * number)
+            
+            highest2 = Swift.max(highest2, highest * number, lowest * number)
+            lowest2 = Swift.min(lowest2, highest * number, lowest * number)
+            
+            highest = Swift.max(highest, number)
+            lowest = Swift.min(lowest, number)
+        }
+        
+        return highest3
+    }
+}
+
+ints.highestProduct()
 ```
 
 ## Product of All Other Numbers
