@@ -783,3 +783,31 @@ extension RandomAccessCollection where Element: Comparable {
 }
 
 ```
+
+
+## In-Place Shuffle
+
+```swift
+
+import Foundation
+
+func getRandom(floor: Int, ceiling: Int) -> Int {
+    let upperBound = UInt32(ceiling - floor + 1)
+    return floor + Int(arc4random_uniform(upperBound))
+}
+
+extension MutableCollection where Self: BidirectionalCollection, Index == Int {
+    mutating func shuffling() {
+        guard !isEmpty else { return }
+        
+        for currentIndex in indices.dropLast() {
+            let randomIndex = getRandom(floor: currentIndex, ceiling: index(before: endIndex))
+            swapAt(currentIndex, randomIndex)
+        }
+    }
+}
+
+var a = [1, 2, 3, 4, 5]
+a.shuffling()
+
+```
