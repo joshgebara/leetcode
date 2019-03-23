@@ -10245,3 +10245,82 @@ extension Dictionary {
 
 var settings = ["Hello": 1, "Bye": 2]
 settings.mappingValues(String.init)
+
+
+
+
+extension Sequence where Element: Hashable {
+    var frequencies: [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+
+    var maxFrequency: Int? {
+        return frequencies
+                .max { $0.value < $1.value }?
+                .value
+    }
+    
+    var mostFrequentElements: [Element] {
+        guard let maxFrequency = maxFrequency else {
+            return []
+        }
+        
+        return frequencies
+                .filter { $0.value == maxFrequency }
+                .map { $0.key }
+    }
+}
+
+var colors = ["Red", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Blue", "Blue", "Blue", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue",
+                "Red", "Red", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue", "Red", "Blue"]
+colors.mostFrequentElements
+
+
+
+
+extension Sequence where Element: Hashable {
+    var frequencies: [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+    
+    var mostFrequentElement: Element? {
+        return frequencies
+                .max { $0.value < $1.value }?
+                .key
+    }
+}
+
+var colors = ["Red", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Blue", "Blue", "Blue", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue",
+                "Red", "Red", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue", "Red", "Blue"]
+colors.mostFrequentElement
+
+
+
+extension Sequence where Element: Hashable {
+    var frequencies: [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+    
+    var mostFrequentElements: [Element] {
+        let elementFrequencies = frequencies
+        guard let maxFrequency = elementFrequencies
+                                    .max(by: { $0.value < $1.value })?
+                                    .value
+        else { return [] }
+        
+        return elementFrequencies
+                .filter { $0.value == maxFrequency }
+                .map { $0.key }
+        
+    }
+}
+
+var colors = ["Red", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Blue", "Blue", "Blue", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue",
+                "Red", "Red", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue", "Red", "Blue"]
+colors.mostFrequentElements
