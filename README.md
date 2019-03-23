@@ -10231,3 +10231,17 @@ extension Sequence where Element: Hashable {
 }
 
 "Hello".frequencies2
+
+
+
+Mapping values in dictionary
+extension Dictionary {
+    func mappingValues<T>(_ transform: (Value) throws -> T) rethrows -> [Key: T] {
+        return try reduce(into: [:]) {
+            $0[$1.key] = try transform($1.value)
+        }
+    }
+}
+
+var settings = ["Hello": 1, "Bye": 2]
+settings.mappingValues(String.init)
