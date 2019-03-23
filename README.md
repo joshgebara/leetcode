@@ -5761,6 +5761,18 @@ extension Sequence where Element: Hashable {
             counts[element, default: 0] += 1
         }
     }
+
+    extension Sequence where Element: Hashable {
+    var frequencies: [Element:Int] {
+        let frequencyPairs = self.map { ($0, 1) }
+        print(frequencyPairs)
+        return Dictionary(frequencyPairs, uniquingKeysWith: +)
+    }
+}
+
+let frequencies = "hello".frequencies // ["e": 1, "o": 1, "l": 2, "h": 1]
+frequencies.filter { $0.value > 1 } // ["l": 2]
+
 }
 
 func sameCharacters(_ string1: String, _ string2: String) -> Bool {
@@ -10202,3 +10214,20 @@ var a = [1, 2, 3, 4, 5, 6, 7, 8]
 a.shuffle()
 
 ```
+
+
+
+extension Sequence where Element: Hashable {
+    var frequencies: [Element: Int] {
+        let frequencyPairs = map { ($0, 1) }
+        return Dictionary(frequencyPairs, uniquingKeysWith: +)
+    }
+    
+    var frequencies2: [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+}
+
+"Hello".frequencies2
