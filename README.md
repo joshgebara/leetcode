@@ -3236,6 +3236,21 @@ class Solution {
 
 Solution().numJewelsInStones("aA", "aAAbbbb")
 
+// Jewels and Stones - custom operators
+
+extension Sequence {
+  func count(where predicate: (Element) -> Bool) -> Int {
+    return reduce(0) { predicate($1) ? $0 + 1 : $0 }
+  }
+}
+
+class Solution {
+  func numJewelsInStones(_ J: String, _ S: String) -> Int {
+    return S.count(where: J.contains)
+  }
+}
+
+
 
 Time Complexity: O(J\text{.length} + S\text{.length}))O(J.length+S.length)). The O(J\text{.length})O(J.length) part comes from creating J. The O(S\text{.length})O(S.length) part comes from searching S.
 
@@ -5353,7 +5368,7 @@ Solution().numJewelsInStones("aA", "aAAbbbb")
 
 extension Sequence where Element: Hashable {
   var frequencies: [Element: Int] {
-    let frequencyPairs = self.map { ($0, 1) }
+    let frequencyPairs = map { ($0, 1) }
     return Dictionary(frequencyPairs, uniquingKeysWith: +)
   }
 }
@@ -10324,3 +10339,400 @@ extension Sequence where Element: Hashable {
 var colors = ["Red", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Green", "Blue", "Blue", "Blue", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue",
                 "Red", "Red", "Red", "Red", "Red", "Red", "Red", "Blue", "Blue", "Blue", "Red", "Blue"]
 colors.mostFrequentElements
+
+
+extension Sequence where Element: Hashable {
+    var frequencies: [Element: Int] {
+        return Dictionary(grouping: self) { $0 }
+                .mapValues { $0.count }
+    }
+}
+
+
+
+extension Sequence where Element: Hashable {
+    var frequencies1: [Element: Int] {
+        let frequencyPairs = map { ($0, 1) }
+        return Dictionary(frequencyPairs, uniquingKeysWith: +)
+    }
+    
+    var frequencies2: [Element: Int] {
+        return Dictionary(grouping: self) { $0 }
+                .mapValues { $0.count }
+    }
+    
+    var frequencies3: [Element: Int] {
+        return reduce(into: [:]) {
+            $0[$1, default: 0] += 1
+        }
+    }
+    
+    var frequencies4: [Element: Int] {
+        var frequencies = [Element: Int]()
+        
+        for element in self {
+            frequencies[element, default: 0] += 1
+        }
+        
+        return frequencies
+    }
+}
+
+let colors = ["Blue", "Red", "Yellow", "Green", "Blue", "Yellow", "Yellow", "Green", "Green",
+              "Blue", "Red", "Blue", "Blue", "Yellow", "Blue", "Red", "Yellow", "Red", "Red",
+              "Green", "Blue", "Green", "Blue", "Yellow", "Blue", "Green", "Blue", "Red", "Yellow"]
+
+colors.frequencies1 // ["Blue": 10, "Red": 6, "Yellow": 7, "Green": 6]
+colors.frequencies2 // ["Blue": 10, "Red": 6, "Yellow": 7, "Green": 6]
+colors.frequencies3 // ["Blue": 10, "Red": 6, "Yellow": 7, "Green": 6]
+colors.frequencies4 // ["Blue": 10, "Red": 6, "Yellow": 7, "Green": 6]
+
+let word = "Hello"
+
+word.frequencies1 // ["o": 1, "e": 1, "H": 1, "l": 2]
+word.frequencies2 // ["o": 1, "e": 1, "H": 1, "l": 2]
+word.frequencies3 // ["o": 1, "e": 1, "H": 1, "l": 2]
+word.frequencies4 // ["o": 1, "e": 1, "H": 1, "l": 2]
+
+
+
+extension Sequence {
+    func count(where predicate: (Element) -> Bool) -> Int {
+        return filter(predicate).count
+    }
+}
+
+extension Sequence where Element: Equatable {
+    func occurrences(in other: Self) -> Int {
+        return other.count(where: contains)
+    }
+}
+
+extension Sequence where Element: Hashable {
+    func occurrences(in other: Self) -> Int {
+        let elementSet = Set(self)
+        return other.count(where: elementSet.contains)
+    }
+}
+
+
+let jewels = "Aa"
+let stones = "AaaaaBBBBCCaaaa"
+
+jewels.occurrences(in: stones)
+
+
+
+extension Sequence {
+    func count(where predicate: (Element) -> Bool) -> Int {
+        return filter(predicate).count
+    }
+}
+
+extension Sequence where Element: Equatable {
+    func occurrences(in other: Self) -> Int {
+        return other.count(where: contains)
+    }
+}
+
+extension Sequence where Element: Hashable {
+    func occurrences(in other: Self) -> Int {
+        let elementSet = Set(self)
+        return other.count(where: elementSet.contains)
+    }
+}
+
+
+let jewels = "Aa"
+let stones = "AaaaaBBBBCCaaaa"
+
+jewels.occurrences(in: stones)
+
+
+
+
+
+extension MutableCollection {
+    /**
+    Bubble Sorts the collection in place, using the given predicate as the comparison between elements.
+
+    A
+
+    - Time Complexity: O(n^2), where n is the length of the collection.
+    - Space Complexity: O(1)
+
+    - Parameter areInIncreasingOrder: A predicate that returns true if its first argument should be ordered before its second argument; otherwise, false. If areInIncreasingOrder throws an error during the sort, the elements may be in a different order, but none will be lost.
+    
+    */
+    mutating func bubbleSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+        guard count > 1 else { return }
+
+        for endingIndex in indices.reversed() {
+            var noSwaps = true
+            for currentIndex in indices[..<endingIndex] {
+                let nextIndex = index(after: currentIndex)
+                if try areInIncreasingOrder(self[nextIndex], self[currentIndex]) {
+                    swapAt(currentIndex, nextIndex)
+                    noSwaps = false
+                }
+            }
+            if noSwaps { break }
+        }
+    }
+}
+
+
+
+
+
+
+
+//
+//
+//
+//
+//// Add XCTests
+//
+//
+////
+////
+////var numbers = [1, 8, 6, 4, 9, 3, 2, 6, 5, 3]
+////numbers.sort()
+////
+////numbers.bubbleSort()        // [1, 2, 3, 3, 4, 5, 6, 6, 8, 9]
+////numbers.bubbleSort(by: >)   // [9, 8, 6, 6, 5, 4, 3, 3, 2, 1]
+////numbers.bubbleSort(by: <)   // [1, 2, 3, 3, 4, 5, 6, 6, 8, 9]
+//
+//
+//
+//
+//
+////
+////Declaration
+////
+////mutating func sort()
+////Discussion
+////
+////You can sort any mutable collection of elements that conform to the Comparable protocol by calling this method. Elements are sorted in ascending order.
+////The sorting algorithm is not stable. A nonstable sort may change the relative order of elements that compare equal.
+////Here’s an example of sorting a list of students’ names. Strings in Swift conform to the Comparable protocol, so the names are sorted in ascending order according to the less-than operator (<).
+////var students = ["Kofi", "Abena", "Peter", "Kweku", "Akosua"]
+////students.sort()
+////print(students)
+////// Prints "["Abena", "Akosua", "Kofi", "Kweku", "Peter"]"
+////To sort the elements of your collection in descending order, pass the greater-than operator (>) to the sort(by:) method.
+////students.sort(by: >)
+////print(students)
+////// Prints "["Peter", "Kweku", "Kofi", "Akosua", "Abena"]"
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////
+////
+////When you want to sort a collection of elements that doesn’t conform to the Comparable protocol, pass a closure to this method that returns true when the first element passed should be ordered before the second.
+////The predicate must be a strict weak ordering over the elements. That is, for any elements a, b, and c, the following conditions must hold:
+////areInIncreasingOrder(a, a) is always false. (Irreflexivity)
+////If areInIncreasingOrder(a, b) and areInIncreasingOrder(b, c) are both true, then areInIncreasingOrder(a, c) is also true. (Transitive comparability)
+////Two elements are incomparable if neither is ordered before the other according to the predicate. If a and b are incomparable, and b and c are incomparable, then a and c are also incomparable. (Transitive incomparability)
+////The sorting algorithm is not stable. A nonstable sort may change the relative order of elements for which areInIncreasingOrder does not establish an order.
+////In the following example, the closure provides an ordering for an array of a custom enumeration that describes an HTTP response. The predicate orders errors before successes and sorts the error responses by their error code.
+//
+//
+////extension Collection {
+////    func p() {
+////        for cIndex in indices.reversed() {
+////            for tIndex in indices[...cIndex] {
+////                print(tIndex)
+////            }
+////        }
+////    }
+////}
+////
+////var a = [1, 2, 3, 4, 5, 6]
+////a.p()
+//
+//
+//
+//
+//
+//
+//extension MutableCollection where Element: Comparable {
+//    /**
+//    Bubble Sorts the collection in place, using the given predicate as the comparison between elements.
+//
+//    You can sort any mutable collection of elements that conform to the Comparable protocol by calling this method. Elements are sorted in ascending order.
+//    
+//    Here’s an example of sorting a list of students’ names. Strings in Swift conform to the Comparable protocol, so the names are sorted in ascending order according to the less-than operator (<).
+//    
+//    ```
+//    var students = ["Kofi", "Abena", "Peter", "Kweku", "Akosua"]
+//    students.sort()
+//    print(students) // "["Abena", "Akosua", "Kofi", "Kweku", "Peter"]"
+//    ```
+//    
+//    To sort the elements of your collection in descending order, pass the greater-than operator (>) to the sort(by:) method.
+//    ```
+//    var students = ["Kofi", "Abena", "Peter", "Kweku", "Akosua"]
+//    students.sort(by: >)
+//    print(students) // "["Peter", "Kweku", "Kofi", "Akosua", "Abena"]"
+//    ```
+//
+//    - Time Complexity: O(n^2), where n is the length of the collection.
+//    - Space Complexity: O(1)
+//    
+//    The Bubble Sort algorithm is stable.
+//    */
+//    mutating func bubbleSort() {
+//        bubbleSort(by: <)
+//    }
+//}
+//
+//extension MutableCollection {
+//    /**
+//    Bubble Sorts the collection in place, using the given predicate as the comparison between elements.
+//
+//    A
+//
+//    - Time Complexity: O(n^2), where n is the length of the collection.
+//    - Space Complexity: O(1)
+//
+//    - Parameter areInIncreasingOrder: A predicate that returns true if its first argument should be ordered before its second argument; otherwise, false. If areInIncreasingOrder throws an error during the sort, the elements may be in a different order, but none will be lost.
+//    
+//    */
+//    mutating func bubbleSort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
+//        guard count > 1 else { return }
+//
+//        for endingIndex in indices.reversed() {
+//            var noSwaps = true
+//            for currentIndex in indices[..<endingIndex] {
+//                let nextIndex = index(after: currentIndex)
+//                if try areInIncreasingOrder(self[nextIndex], self[currentIndex]) {
+//                    swapAt(currentIndex, nextIndex)
+//                    noSwaps = false
+//                }
+//            }
+//            if noSwaps { break }
+//        }
+//    }
+//}
+//
+//
+//// Add XCTests
+//
+//
+//
+//
+//var numbers = [1, 8, 6, 4, 9, 3, 2, 6, 5, 3]
+//numbers.sort()
+//
+//numbers.bubbleSort()        // [1, 2, 3, 3, 4, 5, 6, 6, 8, 9]
+//numbers.bubbleSort(by: >)   // [9, 8, 6, 6, 5, 4, 3, 3, 2, 1]
+//numbers.bubbleSort(by: <)   // [1, 2, 3, 3, 4, 5, 6, 6, 8, 9]
+//
+//
+//
+//
+//
+////
+////Declaration
+////
+////mutating func sort()
+////Discussion
+////
+////You can sort any mutable collection of elements that conform to the Comparable protocol by calling this method. Elements are sorted in ascending order.
+////The sorting algorithm is not stable. A nonstable sort may change the relative order of elements that compare equal.
+////Here’s an example of sorting a list of students’ names. Strings in Swift conform to the Comparable protocol, so the names are sorted in ascending order according to the less-than operator (<).
+////var students = ["Kofi", "Abena", "Peter", "Kweku", "Akosua"]
+////students.sort()
+////print(students)
+////// Prints "["Abena", "Akosua", "Kofi", "Kweku", "Peter"]"
+////To sort the elements of your collection in descending order, pass the greater-than operator (>) to the sort(by:) method.
+////students.sort(by: >)
+////print(students)
+////// Prints "["Peter", "Kweku", "Kofi", "Akosua", "Abena"]"
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////
+////
+////When you want to sort a collection of elements that doesn’t conform to the Comparable protocol, pass a closure to this method that returns true when the first element passed should be ordered before the second.
+////The predicate must be a strict weak ordering over the elements. That is, for any elements a, b, and c, the following conditions must hold:
+////areInIncreasingOrder(a, a) is always false. (Irreflexivity)
+////If areInIncreasingOrder(a, b) and areInIncreasingOrder(b, c) are both true, then areInIncreasingOrder(a, c) is also true. (Transitive comparability)
+////Two elements are incomparable if neither is ordered before the other according to the predicate. If a and b are incomparable, and b and c are incomparable, then a and c are also incomparable. (Transitive incomparability)
+////The sorting algorithm is not stable. A nonstable sort may change the relative order of elements for which areInIncreasingOrder does not establish an order.
+////In the following example, the closure provides an ordering for an array of a custom enumeration that describes an HTTP response. The predicate orders errors before successes and sorts the error responses by their error code.
+//
+//
+////extension Collection {
+////    func p() {
+////        for cIndex in indices.reversed() {
+////            for tIndex in indices[...cIndex] {
+////                print(tIndex)
+////            }
+////        }
+////    }
+////}
+////
+////var a = [1, 2, 3, 4, 5, 6]
+////a.p()
+
+
+
+
+import Darwin
+
+extension CountableRange where Bound == Int {
+    var perfectSquares: [Int] {
+        var result = [Int]()
+        var currentNumber = Int(ceil(sqrt(Double(lowerBound))))
+        
+        while true {
+            let square = currentNumber * currentNumber
+            
+            if square >= upperBound {
+                break
+            }
+            
+            result.append(square)
+            currentNumber += 1
+        }
+        return result
+    }
+}
+
+extension CountableClosedRange where Bound == Int {
+    var perfectSquares: [Int] {
+        var result = [Int]()
+        var currentNumber = Int(ceil(sqrt(Double(lowerBound))))
+        
+        while true {
+            let square = currentNumber * currentNumber
+            
+            if square > upperBound {
+                break
+            }
+            
+            result.append(square)
+            currentNumber += 1
+        }
+        return result
+    }
+}
+
+(1..<100).perfectSquares
+(50...100).perfectSquares
