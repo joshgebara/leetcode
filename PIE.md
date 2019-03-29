@@ -203,3 +203,79 @@ node10.flatten2()
 print(node10)
 
 ```
+
+
+## Find cycle in a linked list
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: Equatable where Value: Equatable {
+    static func == (lhs: Node, rhs: Node) -> Bool {
+        return lhs.value == rhs.value
+    }
+}
+
+extension Node: Hashable where Value: Hashable {
+    var hashValue: Int {
+        return value.hashValue
+    }
+}
+
+extension Node {
+    var isCyclic: Bool {
+        var fast: Node? = self
+        var slow: Node? = self
+        
+        while fast != nil && fast?.next != nil {
+            fast = fast?.next?.next
+            slow = slow?.next
+            
+            if fast === slow {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+extension Node where Value: Hashable {
+    var isCyclic2: Bool {
+        var current: Node? = self
+        var visitedNodes = Set<Node>()
+        
+        while current != nil && current?.next != nil {
+            if visitedNodes.contains(current!) {
+                return true
+            }
+            
+            visitedNodes.insert(current!)
+            current = current?.next
+        }
+        return false
+    }
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+var node5 = Node(5)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node2
+
+node1.isCyclic2
+
+```
