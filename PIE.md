@@ -83,18 +83,6 @@ linkedList.last(6)
 ## Flatten a linked list
 
 ```swift
-struct Stack<Element> {
-    var elements: [Element] = []
-    
-    mutating func push(_ element: Element) {
-        elements.append(element)
-    }
-    
-    mutating func pop() -> Element? {
-        return elements.popLast()
-    }
-}
-
 class Node<Value> {
     let value: Value
     var next: Node?
@@ -107,26 +95,49 @@ class Node<Value> {
     }
 }
 
+struct Stack<Element> {
+    var elements = [Element]()
+    
+    mutating func push(_ element: Element) {
+        return elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
 extension Node: CustomStringConvertible {
     var description: String {
-        if next != nil && child != nil {
-            return "\(value) \n \(child!) \n -> \(next!)"
+        guard let next = next else {
+            return "\(value)"
         }
-        
-        if next != nil {
-            return "\(value) -> \(next!)"
-        }
-        
-        if child != nil {
-            return "\(value) \n \(child!)"
-        }
-        
-        return "\(value)"
+        return "\(value) -> \(next)"
     }
 }
 
 extension Node {
     func flatten() {
+        var tail: Node? = self
+        while tail?.next != nil {
+            tail = tail?.next
+        }
+        
+        var current: Node? = self
+        while current != nil {
+            if current?.child != nil {
+                tail?.next = current?.child
+                current?.child = nil
+                
+                while tail?.next != nil {
+                    tail = tail?.next
+                }
+            }
+            current = current?.next
+        }
+    }
+    
+    func flatten2() {
         var current: Node? = self
         var nextLinks = Stack<Node?>()
         
@@ -140,9 +151,7 @@ extension Node {
             }
 
             if current?.next == nil {
-                var nextLink: Node? = nextLinks.pop() ?? nil
-                current?.next = nextLink
-                nextLink = nextLink?.next
+                current?.next = nextLinks.pop() ?? nil
             }
 
             current = current?.next
@@ -150,28 +159,47 @@ extension Node {
     }
 }
 
-var node1 = Node(1)
-var node2 = Node(2)
-var node3 = Node(3)
-var node4 = Node(4)
-var node5 = Node(5)
-var node6 = Node(6)
-var node7 = Node(7)
-var node8 = Node(8)
-var node9 = Node(9)
+
+
+
 var node10 = Node(10)
+var node5  = Node(5)
+var node12 = Node(12)
+var node7  = Node(7)
+var node11 = Node(11)
+var node4  = Node(4)
+var node20 = Node(20)
+var node13 = Node(13)
+var node17 = Node(17)
+var node6  = Node(6)
+var node2  = Node(2)
+var node16 = Node(16)
+var node9  = Node(9)
+var node8  = Node(8)
+var node3  = Node(3)
+var node19 = Node(19)
+var node15 = Node(15)
 
-node1.next = node5
-node1.child = node2
-node2.next = node3
-node2.child = node10
-node3.child = node4
-node5.next = node9
-node5.child = node6
-node6.child = node7
-node7.child = node8
+node10.next = node5
+node5.next = node12
+node12.next = node7
+node7.next = node11
 
-node1.flatten()
-print(node1)
+node10.child = node4
+node4.next = node20
+node20.child = node2
+node20.next = node13
+node13.child = node16
+node16.child = node3
+
+node7.child = node17
+node17.next = node6
+node17.child = node9
+node9.next = node8
+node9.child = node19
+node19.next = node15
+
+node10.flatten2()
+print(node10)
 
 ```
