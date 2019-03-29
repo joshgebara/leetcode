@@ -10736,3 +10736,15 @@ extension CountableClosedRange where Bound == Int {
 
 (1..<100).perfectSquares
 (50...100).perfectSquares
+
+
+
+extension Sequence where Element: Equatable {
+    func headMirrorsTail(_ n: Int) -> Bool {
+        let head = prefix(n)
+        let tail = suffix(n).reversed()
+        return head.elementsEqual(tail)
+    }
+}
+
+[1,2,3,4,2,1].headMirrorsTail(2) // true
