@@ -36,6 +36,7 @@ node4.next = node5
 node5.next = node6
 
 extension Node where Value: Hashable {
+    // Optimize for time
     func removeDuplicates() {
         var current: Node? = self
         var previous: Node? = nil
@@ -52,6 +53,7 @@ extension Node where Value: Hashable {
         }
     }
     
+    // Optimize for space
     func removeDuplicates2() {
         var current: Node? = self
         
@@ -231,6 +233,7 @@ node5.next = node6
 node6.next = node7
 
 extension Node where Value == Int {
+    // Reversed
     func sum(with other: Node) -> Node? {
         let dummyNode: Node? = Node(-1)
         var current = dummyNode
