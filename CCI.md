@@ -190,3 +190,75 @@ node2.deleteNode()
 print(node1)
 
 ```
+
+
+## Sum Lists
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+var node1 = Node(3)
+var node2 = Node(2)
+var node3 = Node(8)
+
+var node4 = Node(2)
+var node5 = Node(9)
+var node6 = Node(0)
+var node7 = Node(9)
+
+node1.next = node2
+node2.next = node3
+
+node4.next = node5
+node5.next = node6
+node6.next = node7
+
+extension Node where Value == Int {
+    func sum(with other: Node) -> Node? {
+        let dummyNode: Node? = Node(-1)
+        var current = dummyNode
+        
+        var num1: Node? = self
+        var num2: Node? = other
+        
+        var carry = 0
+        
+        while let num1Value = num1?.value, let num2Value = num2?.value {
+            let total = num1Value + num2Value + carry
+            carry = total / 10
+            current?.next = Node(total % 10)
+            current = current?.next
+            num1 = num1?.next
+            num2 = num2?.next
+        }
+        
+        if num1 != nil {
+            current?.next = num1
+        } else {
+            current?.next = num2
+        }
+        
+        return dummyNode?.next
+    }
+}
+
+print(node1.sum(with: node4))
+
+```
