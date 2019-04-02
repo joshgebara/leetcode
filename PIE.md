@@ -45,7 +45,7 @@ extension LinkedList {
         tail?.next = Node(element)
         tail = tail?.next
     }
-    
+
     func kToLast(_ k: Int) -> Node<Element>? {
         guard k >= 0 else {
             return nil
@@ -250,22 +250,83 @@ extension Node {
     }
 }
 
-extension Node where Value: Hashable {
-    var isCyclic2: Bool {
-        var current: Node? = self
-        var visitedNodes = Set<Node>()
+}
+
+import Foundation
+
+class Node<Value> {
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: Equatable {
+        static func == (lhs: Node, rhs: Node) -> Bool {
+        return lhs === rhs
+    }
+}
+
+extension Node: Hashable where Value: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
+}
+
+extension Node {
+    var isCyclic: Bool {
+        var fast: Node? = self
+        var slow: Node? = self
         
-        while current != nil && current?.next != nil {
-            if visitedNodes.contains(current!) {
+        while fast != nil && fast?.next != nil {
+            fast = fast?.next?.next
+            slow = slow?.next
+
+            if fast === slow {
                 return true
             }
-            
-            visitedNodes.insert(current!)
+        }
+        return false
+    }
+}
+
+extension Node where Value: Hashable {
+    var isCyclic2: Bool {
+        var seenNodes = Set<Node>()
+        var current: Node? = self
+        
+        while current != nil {
+            if seenNodes.contains(current!) {
+                return true
+            }
+            seenNodes.insert(current!)
             current = current?.next
         }
         return false
     }
 }
+
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node1
+
+node1.isCyclic2
+
+ObjectIdentifier(node1)
+ObjectIdentifier(node2)
+ObjectIdentifier(node1)
+ObjectIdentifier(node1)
+
 
 var node1 = Node(1)
 var node2 = Node(2)
