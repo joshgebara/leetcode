@@ -46,23 +46,26 @@ extension LinkedList {
         tail = tail?.next
     }
     
-    mutating func last(_ place: Int) -> Node<Element>? {
-        var fast = head
-        var slow = head
+    func kToLast(_ k: Int) -> Node<Element>? {
+        guard k >= 0 else {
+            return nil
+        }
+    
+        var fast: Node<Element>? = head
+        var slow: Node<Element>? = head
         
-        for _ in 0..<place {
+        for _ in 0..<k {
             fast = fast?.next
         }
         
         guard fast != nil else {
             return nil
         }
-        
+
         while fast?.next != nil {
             fast = fast?.next
             slow = slow?.next
         }
-
         return slow
     }
 }
