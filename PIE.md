@@ -279,3 +279,143 @@ node5.next = node2
 node1.isCyclic2
 
 ```
+
+## delete and insert after
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+struct LinkedList<Element> {
+    var head: Node<Element>?
+    var tail: Node<Element>?
+}
+
+extension LinkedList {
+    mutating func push(_ element: Element) {
+        head = Node(element, next: head)
+        if tail == nil {
+            tail = head
+        }
+    }
+    
+    mutating func pop() -> Element? {
+        defer {
+            head = head?.next
+        }
+        return head?.value
+    }
+    
+    mutating func delete(_ node: Node<Element>?) {
+        guard node !== head else {
+            head = head?.next
+            return
+        }
+        
+        var current = head
+        
+        while current?.next != nil {
+            if current?.next === node {
+                break
+            }
+            
+            current = current?.next
+        }
+        
+        if current?.next === tail {
+            tail = current
+        }
+        
+        current?.next = current?.next?.next
+    }
+    
+    func node(at index: Int) -> Node<Element>? {
+        var currentNode = head
+        var currentIndex = 0
+        
+        while currentNode != nil && currentIndex < index {
+            currentNode = currentNode?.next
+            currentIndex += 1
+        }
+        return currentNode
+    }
+    
+    mutating func insert(_ element: Element, after node: Node<Element>?) {
+        guard node !== tail else {
+            append(element)
+            return
+        }
+        node?.next = Node(element, next: node?.next)
+    }
+    
+    mutating func append(_ element: Element) {
+        guard head != nil else {
+            push(element)
+            return
+        }
+        tail?.next = Node(element)
+        tail = tail?.next
+    }
+}
+
+extension LinkedList: Sequence {
+    func makeIterator() -> LinkedListIterator<Element> {
+        return LinkedListIterator(head)
+    }
+}
+
+struct LinkedListIterator<Element>: IteratorProtocol {
+    var current: Node<Element>?
+    
+    init(_ start: Node<Element>?) {
+        current = start
+    }
+    
+    mutating func next() -> Element? {
+        defer {
+            current = current?.next
+        }
+        return current?.value
+    }
+}
+
+extension LinkedList: ExpressibleByArrayLiteral {
+    init(arrayLiteral: Element...) {
+        for element in arrayLiteral.reversed() {
+            push(element)
+        }
+    }
+}
+
+extension LinkedList: CustomStringConvertible {
+    var description: String {
+        guard let head = head else {
+            return ""
+        }
+        return "\(head)"
+    }
+}
+
+var linkedList: LinkedList<Int> = [1, 2, 3, 4, 5]
+let node = linkedList.node(at: 4)
+linkedList.insert(99, after: node)
+linkedList.head
+linkedList.tail
+
+```
