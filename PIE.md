@@ -293,6 +293,8 @@ extension Node {
     }
 }
 
+https://ericasadun.com/2017/06/01/using-memory-addresses-for-hashing/
+https://www.youtube.com/watch?v=SWWK9e7xUxw&feature=youtu.be
 extension Node where Value: Hashable {
     var isCyclic2: Bool {
         var seenNodes = Set<Node>()
@@ -308,7 +310,17 @@ extension Node where Value: Hashable {
         return false
     }
 }
+protocol PointerHashable: class, Hashable {}
 
+extension PointerHashable {
+    static func == (left: Self, right: Self) -> Bool {
+        return left === right
+    }
+    
+    var hashValue: Int {
+        return ObjectIdentifier(self).hashValue
+    }
+}
 
 var node1 = Node(1)
 var node2 = Node(2)
