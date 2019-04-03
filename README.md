@@ -10748,3 +10748,70 @@ extension Sequence where Element: Equatable {
 }
 
 [1,2,3,4,2,1].headMirrorsTail(2) // true
+
+
+
+
+
+
+
+import Foundation
+
+extension Substring {
+    func nextRange(_ isBoundary: (Element) -> Bool) -> Range<Index> {
+        let start = drop(while: isBoundary)
+        let end = start.index(where: isBoundary) ?? endIndex
+        return start.startIndex..<end
+    }
+}
+
+struct WordsIndex: Comparable {
+    fileprivate let range: Range<Substring.Index>
+    fileprivate init(_ value: Range<Substring.Index>) {
+        self.range = value
+    }
+
+    static func < (lhs: WordsIndex, rhs: WordsIndex) -> Bool {
+        return lhs.range.lowerBound < rhs.range.lowerBound
+    }
+
+    static func == (lhs: WordsIndex, rhs: WordsIndex) -> Bool {
+        return lhs.range == rhs.range
+    }
+}
+
+struct Words: Collection {
+    let base: Substring
+    let startIndex: WordsIndex
+
+    init(_ s: String) {
+        self.init(s[...])
+    }
+
+    private init(_ s: Substring) {
+        self.base = s
+        self.startIndex = WordsIndex(base.nextRange { $0 == " " })
+    }
+
+    var endIndex: WordsIndex {
+        let e = base.endIndex
+        return WordsIndex(e..<e)
+    }
+
+}
+
+extension Words {
+    subscript(index: WordsIndex) -> Substring {
+        return base[index.range]
+    }
+}
+
+extension Words {
+    func index(after i: WordsIndex) -> WordsIndex {
+        guard i.range.upperBound < base.endIndex else { return endIndex }
+        let remainder = base[i.range.upperBound...]
+        return WordsIndex(remainder.nextRange { $0 == " " })
+    }
+}
+
+Array(Words(" hello world test ").prefix(2))

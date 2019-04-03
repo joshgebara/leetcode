@@ -495,3 +495,133 @@ linkedList.head
 linkedList.tail
 
 ```
+
+## unflatten linkedlist
+
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node?
+    var child: Node?
+    var previous: Node?
+    
+    init(_ value: Value, next: Node? = nil, child: Node? = nil, previous: Node? = nil) {
+        self.value = value
+        self.next = next
+        self.child = child
+        self.previous = previous
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+extension Node {
+    func flatten() {
+        var tail: Node? = self
+        while tail?.next != nil {
+            tail = tail?.next
+        }
+        
+        var current: Node? = self
+        while current != nil {
+            if current?.child != nil {
+                tail?.next = current?.child
+                current?.child?.previous = tail
+                
+                while tail?.next != nil {
+                    tail = tail?.next
+                }
+            }
+            current = current?.next
+        }
+    }
+    
+    
+    func unflatten() {
+        var current: Node? = self
+        
+        while current != nil {
+            if let child = current?.child {
+                let previousNode = child.previous
+                child.previous = nil
+                previousNode?.next = nil
+                
+                child.unflatten()
+            }
+            current = current?.next
+        }
+    }
+
+    func t() {
+        var current: Node? = self
+        while current != nil {
+            print(current!.value)
+            current?.child?.t()
+            current = current?.next
+        }
+        
+    }
+}
+
+var node10 = Node(10)
+var node5  = Node(5)
+var node12 = Node(12)
+var node7  = Node(7)
+var node11 = Node(11)
+var node4  = Node(4)
+var node20 = Node(20)
+var node13 = Node(13)
+var node17 = Node(17)
+var node6  = Node(6)
+var node2  = Node(2)
+var node16 = Node(16)
+var node9  = Node(9)
+var node8  = Node(8)
+var node3  = Node(3)
+var node19 = Node(19)
+var node15 = Node(15)
+
+node10.next = node5
+node5.previous = node10
+
+node5.next = node12
+node12.previous = node5
+
+node12.next = node7
+node7.previous = node12
+
+node7.next = node11
+node11.previous = node7
+
+node10.child = node4
+node4.next = node20
+node20.previous = node4
+node20.child = node2
+node20.next = node13
+node13.previous = node20
+node13.child = node16
+node16.child = node3
+
+node7.child = node17
+node17.next = node6
+node6.previous = node17
+node17.child = node9
+node9.next = node8
+node8.previous = node9
+node9.child = node19
+node19.next = node15
+node15.previous = node19
+
+node10.flatten()
+
+node10.unflatten()
+node10.t()
+
+```
