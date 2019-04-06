@@ -10841,3 +10841,16 @@ let prefixes = PrefixAccumulatingSequence("Hello")
 for prefix in prefixes {
     print(prefix)
 }
+
+
+
+extension Sequence {
+    func accumulate<Result>(_ initalResult: Result, _ nextPartialResult: (Result, Element) -> Result) -> [Result] {
+        return reduce([]) {
+            $0 + [nextPartialResult($0.last ?? initalResult, $1)]
+        }
+    }
+}
+
+var a = [1, 1, 1, 1, 1, 1, 1]
+a.accumulate(0, +)
