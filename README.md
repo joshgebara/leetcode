@@ -10854,3 +10854,26 @@ extension Sequence {
 
 var a = [1, 1, 1, 1, 1, 1, 1]
 a.accumulate(0, +)
+
+
+## perfect squares
+
+```swift
+let result = (1...)
+   .lazy
+   .map { $0 * $0 }
+   .prefix(while: { $0 < 100 })
+```
+
+extension RangeExpression where Bound == Int, Self: Sequence, Self.Element == Bound {
+    func perfectSquares(upTo bound: Bound) -> [Bound] {
+        let perfectSquares = lazy
+            .map { $0 * $0 }
+            .prefix { $0 < bound }
+        return Array(perfectSquares)
+    }
+}
+
+(1...).perfectSquares(upTo: 100)
+(1...100).perfectSquares(upTo: 100)
+(1..<5).perfectSquares(upTo: 100)
