@@ -10815,3 +10815,29 @@ extension Words {
 }
 
 Array(Words(" hello world test ").prefix(2))
+
+
+
+struct PrefixAccumulatingSequence<Base: Collection>: Sequence, IteratorProtocol {
+    let base: Base
+    var offset: Base.Index
+    
+    init(_ base: Base) {
+        self.base = base
+        offset = base.startIndex
+    }
+    
+    mutating func next() -> Base.SubSequence? {
+        guard offset < base.endIndex else {
+            return nil
+        }
+        base.formIndex(after: &offset)
+        return base.prefix(upTo: offset)
+    }
+}
+
+let prefixes = PrefixAccumulatingSequence("Hello")
+
+for prefix in prefixes {
+    print(prefix)
+}

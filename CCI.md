@@ -184,7 +184,7 @@ extension Node {
         
         value = nextNode.value
         current.next = nextNode.next
-        
+        nextNode.next = nil
     }
 }
 
