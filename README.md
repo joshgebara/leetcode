@@ -10877,3 +10877,42 @@ extension RangeExpression where Bound == Int, Self: Sequence, Self.Element == Bo
 (1...).perfectSquares(upTo: 100)
 (1...100).perfectSquares(upTo: 100)
 (1..<5).perfectSquares(upTo: 100)
+
+
+
+
+
+struct LazyEveryOtherSequence<Base: Sequence>: LazySequenceProtocol {
+    let base: Base
+    
+    func makeIterator() -> LazyEveryOtherIterator<Base.Iterator> {
+        return LazyEveryOtherIterator(base: base.makeIterator())
+    }
+}
+
+struct LazyEveryOtherIterator<Base: IteratorProtocol>: IteratorProtocol {
+    var base: Base
+    
+    @discardableResult
+    mutating func next() -> Base.Element? {
+        base.next()
+        return base.next()
+    }
+}
+
+extension LazySequenceProtocol {
+    func everyOther() -> LazyEveryOtherSequence<Self> {
+        return LazyEveryOtherSequence(base: self)
+    }
+}
+
+let t = (1...)
+    .lazy
+    .map { $0 * $0 }
+    .prefix { $0 < 100 }
+    .everyOther()
+
+for y in t {
+    print(y)
+}
+
