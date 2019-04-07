@@ -10916,3 +10916,39 @@ for y in t {
     print(y)
 }
 
+
+
+struct LazyScanSequence<Base: Sequence, Result>: LazySequenceProtocol {
+    let base: Base
+    let initialResult: Result
+    let nextPartialResult: (Result, Base.Element) -> Result
+    
+    func makeIterator() -> LazyScanIterator<Base.Iterator, Result> {
+        return LazyScanIterator(base: base.makeIterator(), nextElement: initialResult, nextPartialResult: nextPartialResult)
+    }
+}
+
+struct LazyScanIterator<Base: IteratorProtocol, Result>: IteratorProtocol {
+    var base: Base
+    var nextElement: Result?
+    let nextPartialResult: (Result, Base.Element) -> Result
+    
+    mutating func next() -> Result? {
+        return nextElement.map { result in
+            nextElement = base.next().map { nextPartialResult(result, $0) }
+            return result
+        }
+    }
+}
+
+extension LazySequenceProtocol {
+    func scan<Result>(_ initialResult: Result, _ nextPartialResult: @escaping (Result, Element) -> Result) -> LazyScanSequence<Self, Result> {
+        return LazyScanSequence(base: self, initialResult: initialResult, nextPartialResult: nextPartialResult)
+    }
+}
+
+var a = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].lazy.scan(0, +)
+
+for y in a {
+    print(y)
+}
