@@ -220,10 +220,11 @@ var node1 = Node(3)
 var node2 = Node(2)
 var node3 = Node(8)
 
-var node4 = Node(2)
+var node4 = Node(9)
 var node5 = Node(9)
-var node6 = Node(0)
+var node6 = Node(9)
 var node7 = Node(9)
+var node8 = Node(9)
 
 node1.next = node2
 node2.next = node3
@@ -231,37 +232,42 @@ node2.next = node3
 node4.next = node5
 node5.next = node6
 node6.next = node7
+node7.next = node8
 
 extension Node where Value == Int {
     // Reversed
     func sum(with other: Node) -> Node? {
-        let dummyNode: Node? = Node(-1)
-        var current = dummyNode
+        let result: Node? = Node(-1)
+        var current = result
         
         var num1: Node? = self
         var num2: Node? = other
         
         var carry = 0
         
-        while let num1Value = num1?.value, let num2Value = num2?.value {
+        while num1 != nil || num2 != nil {
+            let num1Value = num1?.value ?? 0
+            let num2Value = num2?.value ?? 0
+            
             let total = num1Value + num2Value + carry
             carry = total / 10
+            
             current?.next = Node(total % 10)
             current = current?.next
+            
             num1 = num1?.next
             num2 = num2?.next
         }
         
-        if num1 != nil {
-            current?.next = num1
-        } else {
-            current?.next = num2
+        if carry > 0 {
+            current?.next = Node(carry)
         }
         
-        return dummyNode?.next
+        return result?.next
     }
 }
 
 print(node1.sum(with: node4))
+
 
 ```
