@@ -816,3 +816,114 @@ stack.pop()
 stack.min
 
 ```
+
+## Stack of Plates
+
+```swift
+class Stack<Element> {
+    var elements: [Element] = []
+    var capacity: Int
+    
+    init(capacity: Int) {
+        elements.reserveCapacity(capacity)
+        self.capacity = capacity
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    var isFull: Bool {
+        return elements.count >= capacity
+    }
+    
+    func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+extension Stack: CustomStringConvertible {
+    var description: String {
+        return "\(elements)"
+    }
+}
+
+struct SetOfStacks<Element> {
+    var stacks: [Stack<Element>] = []
+    var capacity: Int
+    
+    init(capacity: Int) {
+        self.capacity = capacity
+    }
+    
+    mutating func push(_ element: Element) {
+        guard let stack = stacks.last, !stack.isFull else {
+            let stack = Stack<Element>(capacity: capacity)
+            stack.push(element)
+            stacks.append(stack)
+            return
+        }
+        stack.push(element)
+    }
+    
+    mutating func pop() -> Element? {
+        guard let stack = stacks.last else {
+            return nil
+        }
+        
+        guard stack.isEmpty else {
+            return stack.pop()
+        }
+        
+        stacks.popLast()
+        return pop()
+    }
+    
+    mutating func pop(at index: Int) -> Element? {
+        guard index < stacks.count else {
+            return nil
+        }
+        return stacks[index].pop()
+    }
+}
+
+extension SetOfStacks: CustomStringConvertible {
+    var description: String {
+        return "\(stacks)"
+    }
+}
+
+var stacks = SetOfStacks<Int>(capacity: 5)
+stacks.push(1)
+stacks.push(2)
+stacks.push(3)
+stacks.push(4)
+stacks.push(5)
+stacks.push(6)
+stacks.push(7)
+stacks.push(8)
+stacks.push(9)
+stacks.pop()
+stacks.pop()
+print(stacks)
+stacks.pop(at: 0)
+print(stacks)
+stacks.pop(at: 0)
+print(stacks)
+stacks.pop()
+stacks.pop()
+print(stacks)
+stacks.pop()
+stacks.pop()
+stacks.pop()
+stacks.pop()
+
+```
