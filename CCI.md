@@ -927,3 +927,58 @@ stacks.pop()
 stacks.pop()
 
 ```
+
+## Queue via Stack
+
+```swift
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+struct Queue<Element> {
+    var leftStack = Stack<Element>()
+    var rightStack = Stack<Element>()
+    
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        if rightStack.isEmpty {
+            while let value = leftStack.pop() {
+                rightStack.push(value)
+            }
+        }
+        return rightStack.pop()
+    }
+}
+
+extension Queue: ExpressibleByArrayLiteral {
+    init(arrayLiteral: Element...) {
+        for element in arrayLiteral {
+            leftStack.push(element)
+        }
+    }
+}
+
+var queue: Queue = [1, 2, 3, 4, 5]
+queue.dequeue()
+queue.dequeue()
+queue.dequeue()
+queue.dequeue()
+queue.dequeue()
+queue.dequeue()
+
+```
