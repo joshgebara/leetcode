@@ -750,3 +750,69 @@ print(node1.intersection(with: node4)!.value)
 //
 //node1.sumForward(with: node4)
 ////print(node1.sumForward(with: node4)!)
+
+
+
+# Stacks and Queues
+
+## Stack Min
+
+```swift
+struct Stack<Element: Comparable> {
+    var elements: [Element] = []
+    var mins: [Element] = []
+    
+    var min: Element? {
+        return mins.last
+    }
+    
+    mutating func push(_ element: Element) {
+        if let min = mins.last {
+            if element <= min {
+                mins.append(element)
+            }
+        } else {
+            mins.append(element)
+        }
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        let value = elements.popLast()
+        if let min = mins.last {
+            if value == min {
+                mins.popLast()
+            }
+        }
+        return value
+    }
+}
+
+
+var stack = Stack<Int>()
+stack.push(3)
+stack.push(4)
+stack.push(2)
+stack.push(8)
+stack.push(3)
+stack.push(5)
+stack.push(1)
+stack.mins
+stack.min
+stack.pop()
+stack.mins
+stack.min
+stack.pop()
+stack.min
+stack.pop()
+stack.min
+stack.pop()
+stack.min
+stack.pop()
+stack.min
+stack.pop()
+stack.min
+stack.pop()
+stack.min
+
+```
