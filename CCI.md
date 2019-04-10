@@ -982,3 +982,81 @@ queue.dequeue()
 queue.dequeue()
 
 ```
+
+## Sort Stack
+
+```swift
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    func peek() -> Element? {
+        return elements.last
+    }
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+struct SortedStack<Element: Comparable> {
+    var base = Stack<Element>()
+    
+    mutating func push(_ element: Element) {
+        base.push(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return base.pop()
+    }
+    
+    mutating func peek() -> Element? {
+        return base.peek()
+    }
+
+    mutating func sort() {
+        var bufferStack = Stack<Element>()
+        
+        while !base.isEmpty {
+            guard let temp = base.pop() else {
+                return
+            }
+            
+            while let last = bufferStack.peek(), last > temp {
+                base.push(bufferStack.pop()!)
+            }
+            
+            bufferStack.push(temp)
+        }
+        
+        while let value = bufferStack.pop() {
+            base.push(value)
+        }
+        
+    }
+
+    var isEmpty: Bool {
+        return base.isEmpty
+    }
+}
+
+
+var sortedStack = SortedStack<Int>()
+sortedStack.push(10)
+sortedStack.push(1)
+sortedStack.push(5)
+sortedStack.push(6)
+sortedStack.push(20)
+sortedStack.push(3)
+print(sortedStack)
+sortedStack.sort()
+print(sortedStack)
+
+```
