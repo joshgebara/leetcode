@@ -1060,3 +1060,158 @@ sortedStack.sort()
 print(sortedStack)
 
 ```
+
+## Animal Queue
+
+```swift
+import Foundation
+
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    func peek() -> Element? {
+        return elements.last
+    }
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+struct Queue<Element> {
+    var leftStack = Stack<Element>()
+    var rightStack = Stack<Element>()
+    
+    mutating func peek() -> Element? {
+        shiftStacks()
+        return rightStack.peek()
+    }
+    
+    var isEmpty: Bool {
+        return leftStack.isEmpty && rightStack.isEmpty
+    }
+    
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        shiftStacks()
+        return rightStack.pop()
+    }
+    
+    mutating func shiftStacks() {
+        if rightStack.isEmpty {
+            while let value = leftStack.pop() {
+                rightStack.push(value)
+            }
+        }
+    }
+}
+
+struct AnimalQueue {
+    var dogQueue = Queue<AnimalQueueNode>()
+    var catQueue = Queue<AnimalQueueNode>()
+    
+    mutating func enqueue(_ animal: Animal) {
+        let node = AnimalQueueNode(animal)
+        if animal is Dog {
+            dogQueue.enqueue(node)
+        } else {
+            catQueue.enqueue(node)
+        }
+    }
+    
+    mutating func dequeueAny() -> Animal? {
+        guard let dogNode = dogQueue.peek() else {
+            return dequeueCat()
+            
+        }
+        
+        guard let catNode = catQueue.peek() else {
+            return dequeueDog()
+        }
+        
+        if dogNode.enqueuedDate > catNode.enqueuedDate {
+            return dequeueCat()
+        } else {
+            return dequeueDog()
+        }
+    }
+    
+    mutating func dequeueDog() -> Dog? {
+        return dogQueue.dequeue()?.animal as? Dog
+    }
+    
+    mutating func dequeueCat() -> Cat? {
+        return catQueue.dequeue()?.animal as? Cat
+    }
+}
+
+struct AnimalQueueNode {
+    var animal: Animal
+    var enqueuedDate: Date
+    
+    init(_ animal: Animal) {
+        self.animal = animal
+        enqueuedDate = Date()
+    }
+}
+
+protocol Animal {
+    var name: String { get }
+}
+
+struct Cat: Animal {
+    var name: String
+}
+
+extension Cat: CustomStringConvertible {
+    var description: String {
+        return "\(name)"
+    }
+}
+
+struct Dog: Animal {
+    var name: String
+}
+
+extension Dog: CustomStringConvertible {
+    var description: String {
+        return "\(name)"
+    }
+}
+
+var animals = AnimalQueue()
+animals.enqueue(Dog(name: "Roy"))
+animals.enqueue(Dog(name: "Spot"))
+animals.enqueue(Cat(name: "Jake"))
+animals.enqueue(Dog(name: "Sara"))
+animals.enqueue(Dog(name: "Skip"))
+animals.enqueue(Dog(name: "Toy"))
+animals.enqueue(Cat(name: "Roger"))
+animals.enqueue(Cat(name: "Emily"))
+animals.enqueue(Cat(name: "Don"))
+
+print(animals)
+
+animals.dequeueAny()
+animals.dequeueDog()
+animals.dequeueDog()
+animals.dequeueDog()
+animals.dequeueAny()
+animals.dequeueAny()
+animals.dequeueCat()
+animals.dequeueCat()
+animals.dequeueDog()
+animals.dequeueAny()
+
+```
