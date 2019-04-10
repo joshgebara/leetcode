@@ -755,6 +755,88 @@ print(node1.intersection(with: node4)!.value)
 
 # Stacks and Queues
 
+## Three In One
+
+```swift
+struct MultiStack<Element> {
+    var base: [Element?] = []
+    var sizes: [Int] = []
+    
+    var numberOfStacks: Int
+    var capacity: Int
+    
+    init(with numberOfStacks: Int, capacity: Int) {
+        base = [Element?](repeating: nil, count: numberOfStacks * capacity)
+        sizes = [Int](repeating: 0, count: numberOfStacks)
+        
+        self.numberOfStacks = numberOfStacks
+        self.capacity = capacity
+    }
+    
+    mutating func push(_ element: Element, onTo stackNumber: Int) {
+        guard !isFull(stackNumber) else {
+            return
+        }
+        sizes[stackNumber] += 1
+        base[indexOfTop(stackNumber)] = element
+    }
+
+    mutating func pop(from stackNumber: Int) -> Element? {
+        guard !isEmpty(in: stackNumber) else {
+            return nil
+        }
+        
+        defer {
+            base[indexOfTop(stackNumber)] = nil
+            sizes[stackNumber] -= 1
+        }
+        return base[indexOfTop(stackNumber)]
+    }
+
+    mutating func peek(on stackNumber: Int) -> Element? {
+        return base[indexOfTop(stackNumber)]
+    }
+
+    mutating func isEmpty(in stackNumber: Int) -> Bool {
+        return sizes[stackNumber] == 0
+    }
+
+    func isFull(_ stackNumber: Int) -> Bool {
+        return sizes[stackNumber] == capacity
+    }
+
+    func indexOfTop(_ stackNumber: Int) -> Int {
+        let offset = stackNumber * capacity
+        let size = sizes[stackNumber]
+        return offset + size - 1
+    }
+}
+
+var stack = MultiStack<Int>(with: 3, capacity: 5)
+stack.push(1, onTo: 0)
+stack.push(2, onTo: 1)
+stack.push(3, onTo: 2)
+stack.push(4, onTo: 0)
+stack.push(5, onTo: 2)
+stack.push(6, onTo: 2)
+stack.peek(on: 0)
+stack.peek(on: 1)
+print(stack)
+stack.peek(on: 2)
+print(stack)
+stack.pop(from: 2)
+print(stack)
+stack.pop(from: 2)
+print(stack)
+stack.pop(from: 2)
+print(stack)
+stack.pop(from: 2)
+print(stack)
+stack.pop(from: 2)
+print(stack)
+
+```
+
 ## Stack Min
 
 ```swift
