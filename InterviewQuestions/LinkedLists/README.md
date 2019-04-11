@@ -88,12 +88,12 @@ Determine if a linked list has a loop in it.
 * Interview Cake - Chapter 8
 * Programming Interviews Exposed - Chapter 4
 
-## Return Bool
+### Return Bool
 
 ```swift
 ```
 
-## Return Node at Beginning of the Loop
+### Return Node at Beginning of the Loop
 
 ```swift
 
