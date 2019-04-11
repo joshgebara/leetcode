@@ -61,3 +61,40 @@ Given two numbers represented as a singly linked list, where each node contains 
 
 ```swift
 ```
+
+## Palindrome
+Partition a singly linked list around a value ```x```, such that all nodes less than ```x``` come before all nodes greater than or equal to ```x```
+
+**Source:** 
+* Cracking the Coding Interview - Chapter 2
+
+```swift
+```
+
+## Intersection
+Partition a singly linked list around a value ```x```, such that all nodes less than ```x``` come before all nodes greater than or equal to ```x```
+
+**Source:** 
+* Cracking the Coding Interview - Chapter 2
+
+```swift
+```
+
+## Loop Detection
+Determine if a linked list has a loop in it.
+
+**Source:** 
+* Cracking the Coding Interview - Chapter 2
+* Interview Cake - Chapter 8
+* Programming Interviews Exposed - Chapter 4
+
+## Return Bool
+
+```swift
+```
+
+## Return Node at Beginning of the Loop
+
+```swift
+
+```
