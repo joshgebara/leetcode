@@ -811,3 +811,80 @@ var a = [1, 2, 3, 4, 5]
 a.shuffling()
 
 ```
+## Largest element in the stack
+```swift
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+    
+    func peek() -> Element? {
+        return elements.last
+    }
+}
+
+struct MaxStack<Element: Comparable> {
+    var base = Stack<Element>()
+    var maxes = Stack<Element>()
+    
+    var max: Element? {
+        return maxes.peek()
+    }
+    
+    mutating func push(_ element: Element) {
+        if let max = maxes.peek() {
+            if max <= element {
+                maxes.push(element)
+            }
+        } else {
+            maxes.push(element)
+        }
+        
+        base.push(element)
+    }
+    
+    mutating func pop() -> Element? {
+        let value = base.pop()
+        if let max = maxes.peek(), max == value {
+            maxes.pop()
+        }
+        return value
+    }
+    
+    func peek() -> Element? {
+        return base.peek()
+    }
+}
+
+var maxStack = MaxStack<Int>()
+maxStack.push(1)
+maxStack.max
+maxStack.push(2)
+maxStack.max
+maxStack.push(10)
+maxStack.max
+maxStack.push(5)
+maxStack.max
+maxStack.push(44)
+maxStack.max
+maxStack.pop()
+maxStack.max
+maxStack.push(3)
+maxStack.max
+maxStack.pop()
+maxStack.max
+maxStack.pop()
+maxStack.max
+maxStack.pop()
+maxStack.max
+maxStack.pop()
+maxStack.max
+maxStack.pop()
+
+```
