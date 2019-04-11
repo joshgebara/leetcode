@@ -269,6 +269,120 @@ extension Node where Value == Int {
 
 print(node1.sum(with: node4))
 
+```
+
+## sum lists forward
+
+```swift
+import Foundation
+
+class Node<Value> {
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+extension Node {
+    var count: Int {
+        var count = 0
+        var current: Node? = self
+        
+        while current != nil {
+            current = current?.next
+            count += 1
+        }
+        
+        return count
+    }
+}
+
+extension Node where Value == Int {
+    func padZeros(_ count: Int) -> Node {
+        guard count > 0 else {
+            return self
+        }
+        
+        var head = self
+        
+        for _ in 0..<count {
+            head = Node(0, next: head)
+        }
+        
+        return head
+    }
+}
+
+var node1 = Node(5)
+var node2 = Node(6)
+var node3 = Node(3)
+var node8 = Node(9)
+var node9 = Node(8)
+
+
+node1.next = node2
+node2.next = node3
+node3.next = node8
+node8.next = node9
+
+var node4 = Node(8)
+var node5 = Node(4)
+var node6 = Node(2)
+
+node4.next = node5
+node5.next = node6
+
+func sumForward(_ list1: Node<Int>, _ list2: Node<Int>) -> Node<Int> {
+    var list1 = list1
+    var list2 = list2
+    
+    let list1Count = list1.count
+    let list2Count = list2.count
+    
+    let difference = abs(list1Count - list2Count)
+    
+    if list1Count < list2Count {
+        list1 = list1.padZeros(difference)
+    } else {
+        list2 = list2.padZeros(difference)
+    }
+    
+    var (head, carry) = addValues(list1, list2)
+    
+    if carry > 0 {
+        head = Node(carry, next: head)
+    }
+    
+    return head!
+    
+}
+
+func addValues(_ list1: Node<Int>?, _ list2: Node<Int>?) -> (node: Node<Int>?, carry: Int) {
+    guard let list1 = list1, let list2 = list2 else {
+        return (nil, 0)
+    }
+    
+    let (nextNode, nextCarry) = addValues(list1.next, list2.next)
+    let total = nextCarry + list1.value + list2.value
+    let value = total % 10
+    let carry = total / 10
+    let node = Node(value, next: nextNode)
+    return (node, carry)
+}
+
+sumForward(node1, node4)
 
 ```
 
@@ -935,6 +1049,7 @@ struct MinStack {
     
     mutating func pop() -> Int? {
         guard let value = base.pop() else {
+            minElement = nil
             return nil
         }
         
@@ -1019,6 +1134,7 @@ struct MaxStack {
     
     mutating func pop() -> Int? {
         guard let value = base.pop() else {
+            minElement = nil
             return nil
         }
         
