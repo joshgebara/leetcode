@@ -45,3 +45,19 @@ Partition a singly linked list around a value ```x```, such that all nodes less 
 
 ```swift
 ```
+
+## Sum Lists
+Given two numbers represented as a singly linked list, where each node contains one digit, add the two numbers together and return the sum as a singly linked list.
+
+**Source:** 
+* Cracking the Coding Interview - Chapter 2
+
+### Reverse Order Linked Lists
+
+```swift
+```
+
+### Forward Order Linked Lists
+
+```swift
+```
