@@ -888,3 +888,36 @@ maxStack.max
 maxStack.pop()
 
 ```
+
+## Closing Parens
+
+```swift
+extension String {
+    func closingParenthesis(for index: Index) -> Index? {
+        var openParenthesis = 0
+        
+        for position in self[index...].indices  {
+            let character = self[position]
+            
+            if character == "(" {
+                openParenthesis += 1
+            }
+            
+            if character == ")" {
+                openParenthesis -= 1
+            }
+            
+            if openParenthesis == 0 {
+                return position
+            }
+        }
+        return nil
+    }
+}
+
+let string = "Sometimes (when I nest them (my parentheticals) too much (like this (and this))) they get confusing."
+let index = string.index(string.startIndex, offsetBy: 10)
+let closingIndex = string.closingParenthesis(for: index)
+string[closingIndex!]
+
+```
