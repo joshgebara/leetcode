@@ -1,5 +1,8 @@
 # Pre-Order Traversal
 
+* Time: ```O(n)```
+* Space: ```O(h)``` where ```h``` is the height of the tree
+
 ```swift
 extension BinaryNode {
     func preOrderTraversal() {
