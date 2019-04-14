@@ -1,5 +1,8 @@
 # Depth First Traversal
 
+* Time: O(n)
+* Space: O(h), where ```h``` is the maximum depth of the tree
+
 ```swift
 extension TreeNode {
     func depthFirstTraversal() {
