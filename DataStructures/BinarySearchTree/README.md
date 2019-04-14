@@ -82,6 +82,7 @@ extension BinarySearchTree {
             
             node.value = node.rightChild!.min.value
             node.rightChild = remove(from: node.rightChild, value: node.value)
+            
         } else if value < node.value {
             node.leftChild = remove(from: node.leftChild, value: value)
         } else {
