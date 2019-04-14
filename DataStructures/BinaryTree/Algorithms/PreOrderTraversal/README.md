@@ -7,7 +7,6 @@ extension BinaryNode {
     }
 }
 
-
 let zero  = BinaryNode(0)
 let one   = BinaryNode(1)
 let five  = BinaryNode(5)
