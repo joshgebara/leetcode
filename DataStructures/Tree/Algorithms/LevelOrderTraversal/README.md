@@ -35,8 +35,8 @@ node3.add(node7)
 node1.levelOrderTraversal() // 1 2 3 4 5 6 7
 ```
 
-# Auxiliary Data Structures
-## Stack
+## Auxiliary Data Structures
+### Stack
 ```swift
 struct Stack<Element> {
     var elements = [Element]()
@@ -55,7 +55,7 @@ struct Stack<Element> {
 }
 ```
 
-## Queue
+### Queue
 ```swift
 struct Queue<Element> {
     var leftStack = Stack<Element>()
