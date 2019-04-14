@@ -1,3 +1,5 @@
+# Pre-Order Traversal
+
 ```swift
 extension BinaryNode {
     func preOrderTraversal() {
