@@ -46,6 +46,7 @@ extension BinarySearchTree {
         } else {
             node.rightChild = insert(from: node.rightChild, value: value)
         }
+        
         return node
     }
 }
@@ -86,6 +87,7 @@ extension BinarySearchTree {
         } else {
             node.rightChild = remove(from: node.rightChild, value: value)
         }
+        
         return node
     }
 }
