@@ -30,6 +30,7 @@ struct BinarySearchTree<Value: Comparable> {
 * Time: ```O(h)``` where ```h``` is the height of the tree
 * Space: ```O(h)``` where ```h``` is the height of the tree
 
+```swift
 extension BinarySearchTree {
     mutating func insert(_ value: Value) {
         root = insert(from: root, value: value)
@@ -48,6 +49,7 @@ extension BinarySearchTree {
         return node
     }
 }
+```
 
 ## Remove
 * Time: ```O(h)``` where ```h``` is the height of the tree
