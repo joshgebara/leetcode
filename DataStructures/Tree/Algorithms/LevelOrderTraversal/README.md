@@ -1,5 +1,4 @@
 # Level Order Traversal
-
 * Time: ```O(n)```
 * Space: ```O(n)```
 

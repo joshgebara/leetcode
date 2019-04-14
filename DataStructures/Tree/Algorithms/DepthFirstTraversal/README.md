@@ -1,5 +1,4 @@
 # Depth First Traversal
-
 * Time: ```O(n)```
 * Space: ```O(h)``` where ```h``` is the height of the tree
 
