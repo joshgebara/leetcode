@@ -1,40 +1,18 @@
 # Binary Search Tree
 
 ```swift
-class BinaryNode<Value> {
-    var value: Value
-    var leftChild: BinaryNode?
-    var rightChild: BinaryNode?
-
-    var min: BinaryNode {
-        return leftChild?.min ?? self
-    }
-
-    init(value: Value) {
-        self.value = value
-    }
+struct BinarySearchTree<Value: Comparable> {
+    var root: BinaryNode<Value>?
 }
-
-extension BinaryNode: CustomStringConvertible {
-    var description: String {
-        return "\(value)"
-    }
-}
-
-
-
-
 ```
+
+## Insert
 
 ## Remove
 * Time: ```O(h)``` where ```h``` is the height of the tree
 * Space: ```O(h)``` where ```h``` is the height of the tree
 
 ```swift
-struct BinarySearchTree<Value: Comparable> {
-    var root: BinaryNode<Value>?
-}
-
 extension BinarySearchTree {
     mutating func remove(_ value: Value) {
         root = remove(from: root, value: value)
@@ -69,3 +47,29 @@ extension BinarySearchTree {
     }
 }
 ```
+
+## Contains
+
+
+## Binary Node
+
+```swift
+class BinaryNode<Value> {
+    var value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+
+    var min: BinaryNode {
+        return leftChild?.min ?? self
+    }
+
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
