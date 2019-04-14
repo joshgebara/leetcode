@@ -36,25 +36,6 @@ node1.levelOrderTraversal() // 1 2 3 4 5 6 7
 ```
 
 ## Auxiliary Data Structures
-### Stack
-```swift
-struct Stack<Element> {
-    var elements = [Element]()
-    
-    var isEmpty: Bool {
-        return elements.isEmpty
-    }
-    
-    mutating func push(_ element: Element) {
-        return elements.append(element)
-    }
-    
-    mutating func pop() -> Element? {
-        return elements.popLast()
-    }
-}
-```
-
 ### Queue
 ```swift
 struct Queue<Element> {
@@ -72,6 +53,25 @@ struct Queue<Element> {
             }
         }
         return rightStack.pop()
+    }
+}
+```
+
+### Stack
+```swift
+struct Stack<Element> {
+    var elements = [Element]()
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    mutating func push(_ element: Element) {
+        return elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
     }
 }
 ```
