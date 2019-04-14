@@ -10,8 +10,6 @@ extension TreeNode {
     }
 }
 
-// Tree
-
 let node1 = TreeNode(1)
 let node2 = TreeNode(2)
 let node3 = TreeNode(3)
