@@ -1,12 +1,53 @@
 # Binary Search Tree
 
 ```swift
+class BinaryNode<Value> {
+    var value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+
+    var min: BinaryNode {
+        return leftChild?.min ?? self
+    }
+
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
 struct BinarySearchTree<Value: Comparable> {
     var root: BinaryNode<Value>?
 }
 ```
 
 ## Insert
+* Time: ```O(h)``` where ```h``` is the height of the tree
+* Space: ```O(h)``` where ```h``` is the height of the tree
+
+extension BinarySearchTree {
+    mutating func insert(_ value: Value) {
+        root = insert(from: root, value: value)
+    }
+    
+    mutating func insert(from node: BinaryNode<Value>?, value: Value) -> BinaryNode<Value>? {
+        guard let node = node else {
+            return BinaryNode(value: value)
+        }
+        
+        if value < node.value {
+            node.leftChild = insert(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = insert(from: node.rightChild, value: value)
+        }
+        return node
+    }
+}
 
 ## Remove
 * Time: ```O(h)``` where ```h``` is the height of the tree
@@ -49,27 +90,3 @@ extension BinarySearchTree {
 ```
 
 ## Contains
-
-
-## Binary Node
-
-```swift
-class BinaryNode<Value> {
-    var value: Value
-    var leftChild: BinaryNode?
-    var rightChild: BinaryNode?
-
-    var min: BinaryNode {
-        return leftChild?.min ?? self
-    }
-
-    init(value: Value) {
-        self.value = value
-    }
-}
-
-extension BinaryNode: CustomStringConvertible {
-    var description: String {
-        return "\(value)"
-    }
-}
