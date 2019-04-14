@@ -21,6 +21,16 @@ extension BinaryNode: CustomStringConvertible {
     }
 }
 
+
+
+
+```
+
+## Remove
+* Time: ```O(h)``` where ```h``` is the height of the tree
+* Space: ```O(h)``` where ```h``` is the height of the tree
+
+```swift
 struct BinarySearchTree<Value: Comparable> {
     var root: BinaryNode<Value>?
 }
@@ -58,6 +68,4 @@ extension BinarySearchTree {
         return node
     }
 }
-
-
 ```
