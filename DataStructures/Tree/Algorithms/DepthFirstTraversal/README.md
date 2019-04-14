@@ -1,5 +1,6 @@
 # Depth First Traversal
 
+```swift
 extension TreeNode {
     func depthFirstTraversal() {
         print(self)
@@ -29,3 +30,4 @@ node2.add(node6)
 node3.add(node7)
 
 node1.depthFirstTraversal() // 1 2 4 5 6 3 7
+```
