@@ -73,17 +73,15 @@ extension AVLTree {
     mutating func balanced(_ node: AVLNode<Value>) -> AVLNode<Value> {
         switch node.balanceFactor {
             case 2:
-                if let leftChild = node.leftChild, leftChild.balanceFactor == -1 {
-                    return leftRightRotate(node)
-                } else {
+                guard let leftChild = node.leftChild, leftChild.balanceFactor == -1 else {
                     return rightRotate(node)
                 }
+                return leftRightRotate(node)
             case -2:
-                if let rightChild = node.rightChild, rightChild.balanceFactor == 1 {
-                    return rightLeftRotate(node)
-                } else {
+                guard let rightChild = node.rightChild, rightChild.balanceFactor == 1 else {
                     return leftRotate(node)
                 }
+                return rightLeftRotate(node)
             default:
                 return node
         }
