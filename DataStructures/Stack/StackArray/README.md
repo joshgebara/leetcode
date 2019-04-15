@@ -1,4 +1,4 @@
-# Stack
+# Stack - With Array
 
 ```swift
 struct Stack<Element> {
