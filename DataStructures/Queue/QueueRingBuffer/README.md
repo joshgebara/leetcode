@@ -47,7 +47,7 @@ struct RingBuffer<Element> {
     
     @discardableResult
     mutating func write(_ element: Element) -> Bool {
-        guard !isFull  else {
+        guard !isFull else {
             return false
         }
         
@@ -73,29 +73,31 @@ struct RingBuffer<Element> {
 
 extension RingBuffer {
     var count: Int {
-        return avaliableSpaceForReading
-    }
-    
-    var isEmpty: Bool {
-        return avaliableSpaceForReading == 0
+        return spaceAvailableForReading
     }
     
     var isFull: Bool {
-        return avaliableSpaceForWriting == 0
+        return spaceAvailableForWriting == 0
     }
     
-    private var avaliableSpaceForWriting: Int {
-        return elements.count - avaliableSpaceForReading
+    var isEmpty: Bool {
+        return spaceAvailableForReading == 0
     }
     
-    private var avaliableSpaceForReading: Int {
+    private var spaceAvailableForReading: Int {
         return writeIndex - readIndex
+    }
+    
+    private var spaceAvailableForWriting: Int {
+        return elements.count - spaceAvailableForReading
     }
 }
 
 extension RingBuffer: CustomStringConvertible {
     var description: String {
-        return elements.description
+        return elements
+                .compactMap { $0 }
+                .description
     }
 }
 ```
