@@ -24,9 +24,9 @@ struct Queue<Element> {
 
     func peek() -> Element? {
         if rightStack.isEmpty {
-            return leftStack.last
+            return leftStack.first
         } else {
-            return rightStack.first
+            return rightStack.last
         }
     }
 }
