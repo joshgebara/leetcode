@@ -41,8 +41,8 @@ node1.levelOrderTraversal() // 1 2 3 4 5 6 7
 ### Queue
 ```swift
 struct Queue<Element> {
-    var leftStack = Stack<Element>()
-    var rightStack = Stack<Element>()
+    private var leftStack = Stack<Element>()
+    private var rightStack = Stack<Element>()
     
     mutating func enqueue(_ element: Element) {
         leftStack.push(element)
@@ -62,7 +62,7 @@ struct Queue<Element> {
 ### Stack
 ```swift
 struct Stack<Element> {
-    var elements = [Element]()
+    private var elements = [Element]()
     
     var isEmpty: Bool {
         return elements.isEmpty
