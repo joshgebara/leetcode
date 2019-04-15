@@ -21,17 +21,17 @@ struct Queue<Element> {
     }
 }
 
-extension Queue: CustomStringConvertible {
-    var description: String {
-        return elements.description
-    }
-}
-
 extension Queue: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
         for element in arrayLiteral {
             enqueue(element)
         }
+    }
+}
+
+extension Queue: CustomStringConvertible {
+    var description: String {
+        return elements.description
     }
 }
 ```
