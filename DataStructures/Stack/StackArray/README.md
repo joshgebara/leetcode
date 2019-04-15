@@ -24,7 +24,7 @@ struct Stack<Element> {
 extension Stack: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
         for element in arrayLiteral {
-            elements.append(element)
+            push(element)
         }
     }
 }
