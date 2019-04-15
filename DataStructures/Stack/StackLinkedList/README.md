@@ -50,9 +50,7 @@ struct LinkedList<Element> {
     var first: Element? {
         return head?.value
     }
-}
-
-extension LinkedList {
+    
     mutating func push(_ element: Element) {
         head = Node(element, next: head)
     }
