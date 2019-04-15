@@ -30,7 +30,7 @@ extension Stack: CustomStringConvertible {
 extension Stack: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
         for element in arrayLiteral {
-            elements.push(element)
+            push(element)
         }
     }
 }
