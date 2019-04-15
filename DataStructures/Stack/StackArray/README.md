@@ -2,7 +2,7 @@
 
 ```swift
 struct Stack<Element> {
-    var elements: [Element] = []
+    private var elements: [Element] = []
     
     var isEmpty: Bool {
         return elements.isEmpty
