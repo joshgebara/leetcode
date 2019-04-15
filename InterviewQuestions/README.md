@@ -4,13 +4,6 @@
 
 ```swift
 // Linked List
-
-
-// Queue - Array
-
-// Queue - Ring Buffer
-// Queue - Two Stacks
-// Ring Buffer
 // AVL Tree
 // Trie
 // Binary Search - Iterative
@@ -163,61 +156,6 @@ extension LinkedList {
     }
 }
 ```
-
-## Ring Buffer
-
-```swift
-struct RingBuffer<T> {
-    var array: [T?] = []
-    var writeIndex = 0
-    var readIndex = 0
-    
-    init(count: Int) {
-        array = [T?](repeating: nil, count: count)
-    }
-}
-
-extension RingBuffer {
-    mutating func write(_ element: T) -> Bool {
-        if !isFull {
-            array[writeIndex % array.count] = element
-            writeIndex += 1
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    mutating func read() -> T? {
-        if !isEmpty {
-            let element = array[readIndex % array.count]
-            readIndex += 1
-            return element
-        } else {
-            return nil
-        }
-    }
-}
-
-extension RingBuffer {
-    var isEmpty: Bool {
-        return avaliableSpaceForReading == 0
-    }
-    
-    var isFull: Bool {
-        return avaliableSpaceForWriting == 0
-    }
-    
-    var avaliableSpaceForWriting: Int {
-        return array.count - avaliableSpaceForReading
-    }
-    
-    var avaliableSpaceForReading: Int {
-        return writeIndex - readIndex
-    }
-}
-```
-
 
 ## AVL Tree
 
