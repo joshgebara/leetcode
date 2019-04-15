@@ -21,17 +21,17 @@ struct Stack<Element> {
     }
 }
 
-extension Stack: CustomStringConvertible {
-    var description: String {
-        return elements.description
-    }
-}
-
 extension Stack: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
         for element in arrayLiteral {
             push(element)
         }
+    }
+}
+
+extension Stack: CustomStringConvertible {
+    var description: String {
+        return elements.description
     }
 }
 ```
