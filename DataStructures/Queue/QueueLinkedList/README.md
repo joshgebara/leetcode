@@ -2,7 +2,7 @@
 
 ```swift
 struct Queue<Element> {
-    var elements: LinkedList<Element> = []
+    private var elements: LinkedList<Element> = []
 
     var isEmpty: Bool {
         return elements.isEmpty
