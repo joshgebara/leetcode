@@ -99,6 +99,8 @@ Determine if a linked list has a loop in it.
 
 ```
 
+### Would the program always work if the fast runner moves three steps every time the slow runner moves one step?
+
 ## Reverse a Linked List
 
 **Source:** 
