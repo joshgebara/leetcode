@@ -125,6 +125,16 @@ Implement a stack using a singly linked list as the underlying data store.
 
 ```
 
+## Queue Implementation
+Implement a queue using a singly linked list as the underlying data store.
+
+**Source:** 
+* Data Structures & Algorithms in Swift
+
+```swift
+
+```
+
 ## Multilevel List
 You are given a doubly linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list.
 
