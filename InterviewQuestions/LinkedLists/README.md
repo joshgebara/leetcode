@@ -141,3 +141,20 @@ You are given a doubly linked list where in addition to the next pointer, each n
 ```swift
 
 ```
+
+## Implement a Singly Linked List
+Implement a Singly Linked List with the following operations: 
+* ```push()```
+* ```append()```
+* ```insert(after:)```
+* ```pop()```
+* ```removeLast()```
+* ```remove(after:)```
+* ```node(at:)```
+
+**Source:** 
+* Data Structures & Algorithms in Swift
+
+```swift
+
+```
