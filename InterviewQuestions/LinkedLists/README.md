@@ -98,3 +98,19 @@ Determine if a linked list has a loop in it.
 ```swift
 
 ```
+
+## Reverse a Linked List
+
+**Source:** 
+* Interview Cake - Chapter 8
+
+### Iterative
+
+```swift
+```
+
+### Recursive
+
+```swift
+
+```
