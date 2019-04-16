@@ -74,7 +74,7 @@ extension BinarySearchTree {
 }
 ```
 
-# AVL Node
+# Binary Node
 ```swift
 class BinaryNode<Value> {
     var value: Value
