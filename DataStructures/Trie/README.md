@@ -9,7 +9,7 @@ struct Trie<CollectionType: Collection> where CollectionType.Element: Hashable {
 
 ## Insert
 * Time: ```O(k)``` where ```k``` is the length of the input collection
-* Space: ```O(1)```
+* Space: ```O(k)``` where ```k``` is the length of the input collection
 
 ```swift
 extension Trie {
