@@ -10,66 +10,6 @@ struct AVLTree<Value: Comparable> {
 }
 
 extension AVLTree {
-    mutating func insert(_ value: Value) {
-        root = insert(from: root, value: value)
-    }
-    
-    mutating func insert(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value> {
-        guard let node = node else {
-            return AVLNode(value)
-        }
-        
-        if value < node.value {
-            node.leftChild = insert(from: node.leftChild, value: value)
-        } else {
-            node.rightChild = insert(from: node.rightChild, value: value)
-        }
-        
-        let balancedNode = balanced(node)
-        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
-        return balancedNode
-    }
-}
-
-extension AVLTree {
-    mutating func remove(_ value: Value) {
-        root = remove(from: root, value: value)
-    }
-    
-    mutating func remove(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value>? {
-        guard let node = node else {
-            return nil
-        }
-        
-        if value == node.value {
-            if node.leftChild == nil && node.rightChild == nil {
-                return nil
-            }
-            
-            if node.leftChild == nil {
-                return node.rightChild
-            }
-            
-            if node.rightChild == nil {
-                return node.leftChild
-            }
-            
-            node.value = node.rightChild!.min.value
-            node.rightChild = remove(from: node.rightChild, value: node.value)
-            
-        } else if value < node.value {
-            node.leftChild = remove(from: node.leftChild, value: value)
-        } else {
-            node.rightChild = remove(from: node.rightChild, value: value)
-        }
-        
-        let balancedNode = balanced(node)
-        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
-        return balancedNode
-    }
-}
-
-extension AVLTree {
     mutating func balanced(_ node: AVLNode<Value>) -> AVLNode<Value> {
         switch node.balanceFactor {
             case 2:
@@ -125,6 +65,78 @@ extension AVLTree {
         }
         node.rightChild = rightRotate(rightChild)
         return leftRotate(node)
+    }
+}
+```
+
+## Insert
+* Time: ```O(log n)```
+* Space: ```O(log n)```
+
+```swift
+extension AVLTree {
+    mutating func insert(_ value: Value) {
+        root = insert(from: root, value: value)
+    }
+    
+    mutating func insert(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value> {
+        guard let node = node else {
+            return AVLNode(value)
+        }
+        
+        if value < node.value {
+            node.leftChild = insert(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = insert(from: node.rightChild, value: value)
+        }
+        
+        let balancedNode = balanced(node)
+        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
+        return balancedNode
+    }
+}
+```
+
+## Remove
+* Time: ```O(log n)```
+* Space: ```O(log n)```
+
+```swift
+extension AVLTree {
+    mutating func remove(_ value: Value) {
+        root = remove(from: root, value: value)
+    }
+    
+    mutating func remove(from node: AVLNode<Value>?, value: Value) -> AVLNode<Value>? {
+        guard let node = node else {
+            return nil
+        }
+        
+        if value == node.value {
+            if node.leftChild == nil && node.rightChild == nil {
+                return nil
+            }
+            
+            if node.leftChild == nil {
+                return node.rightChild
+            }
+            
+            if node.rightChild == nil {
+                return node.leftChild
+            }
+            
+            node.value = node.rightChild!.min.value
+            node.rightChild = remove(from: node.rightChild, value: node.value)
+            
+        } else if value < node.value {
+            node.leftChild = remove(from: node.leftChild, value: value)
+        } else {
+            node.rightChild = remove(from: node.rightChild, value: value)
+        }
+        
+        let balancedNode = balanced(node)
+        balancedNode.height = max(balancedNode.leftHeight, balancedNode.rightHeight) + 1
+        return balancedNode
     }
 }
 ```
