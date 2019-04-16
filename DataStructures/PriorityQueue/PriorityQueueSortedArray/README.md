@@ -43,6 +43,7 @@ struct SortedArray<Element: Comparable> {
     
     mutating func insert(_ element: Element) {
         elements.append(element)
+        
         let sortedElements = elements.sorted { !areInIncreasingOrder($0, $1) }
         elements = sortedElements
     }
