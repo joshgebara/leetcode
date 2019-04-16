@@ -28,7 +28,7 @@ struct PriorityQueue<Element: Comparable> {
 
 ## Auxiliary Data Structures
 
-# AVL Tree
+### AVL Tree
 ```swift
 struct AVLTree<Value: Comparable> {
     let sort: (Value, Value) -> Bool
@@ -169,7 +169,7 @@ extension AVLTree {
 }
 ```
 
-# AVL Tree Node
+### AVL Tree Node
 ```swift
 class AVLNode<Value> {
     var value: Value
