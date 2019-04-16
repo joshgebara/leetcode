@@ -8,7 +8,7 @@ struct Trie<CollectionType: Collection> where CollectionType.Element: Hashable {
 ```
 
 ## Insert
-* Time: ```O(k)``` where ```k``` is the length of the collection
+* Time: ```O(k)``` where ```k``` is the length of the input collection
 * Space: ```O(1)```
 
 ```swift
@@ -28,7 +28,7 @@ extension Trie {
 ```
 
 ## Remove
-* Time: ```O(k)``` where ```k``` is the length of the collection
+* Time: ```O(k)``` where ```k``` is the length of the input collection
 * Space: ```O(1)```
 
 ```swift
@@ -58,7 +58,7 @@ extension Trie {
 ```
 
 ## Contains
-* Time: ```O(k)``` where ```k``` is the length of the collection
+* Time: ```O(k)``` where ```k``` is the length of the input collection
 * Space: ```O(1)```
 
 ```swift
