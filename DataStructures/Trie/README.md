@@ -8,8 +8,8 @@ struct Trie<CollectionType: Collection> where CollectionType.Element: Hashable {
 ```
 
 ## Insert
-* Time: ```O(h)``` where ```h``` is the height of the tree
-* Space: ```O(h)``` where ```h``` is the height of the tree
+* Time: ```O(k)``` where ```k``` is the length of the collection
+* Space: ```O(1)```
 
 ```swift
 extension Trie {
@@ -28,8 +28,8 @@ extension Trie {
 ```
 
 ## Remove
-* Time: ```O(h)``` where ```h``` is the height of the tree
-* Space: ```O(h)``` where ```h``` is the height of the tree
+* Time: ```O(k)``` where ```k``` is the length of the collection
+* Space: ```O(1)```
 
 ```swift
 extension Trie {
@@ -58,8 +58,8 @@ extension Trie {
 ```
 
 ## Contains
-* Time: ```O(h)``` where ```h``` is the height of the tree
-* Space: ```O(h)``` where ```h``` is the height of the tree
+* Time: ```O(k)``` where ```k``` is the length of the collection
+* Space: ```O(1)```
 
 ```swift
 extension Trie {
