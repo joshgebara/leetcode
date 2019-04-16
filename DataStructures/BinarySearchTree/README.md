@@ -1,26 +1,6 @@
 # Binary Search Tree
 
 ```swift
-class BinaryNode<Value> {
-    var value: Value
-    var leftChild: BinaryNode?
-    var rightChild: BinaryNode?
-
-    var min: BinaryNode {
-        return leftChild?.min ?? self
-    }
-
-    init(value: Value) {
-        self.value = value
-    }
-}
-
-extension BinaryNode: CustomStringConvertible {
-    var description: String {
-        return "\(value)"
-    }
-}
-
 struct BinarySearchTree<Value: Comparable> {
     var root: BinaryNode<Value>?
 }
@@ -90,6 +70,29 @@ extension BinarySearchTree {
         }
         
         return node
+    }
+}
+```
+
+# AVL Node
+```swift
+class BinaryNode<Value> {
+    var value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+
+    var min: BinaryNode {
+        return leftChild?.min ?? self
+    }
+
+    init(value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
     }
 }
 ```
