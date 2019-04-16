@@ -114,3 +114,30 @@ Determine if a linked list has a loop in it.
 ```swift
 
 ```
+
+## Stack Implementation
+Implement a stack using a singly linked list as the underlying data store.
+
+**Source:** 
+* Programming Interviews Exposed - Chapter 4
+
+```swift
+
+```
+
+## MultiLevel List
+You are given a doubly linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list.
+
+**Source:** 
+* Programming Interviews Exposed - Chapter 4
+
+### Flatten the List
+```swift
+
+```
+
+
+### Unflatten the List
+```swift
+
+```
