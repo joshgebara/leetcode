@@ -63,7 +63,7 @@ Given two numbers represented as a singly linked list, where each node contains 
 ```
 
 ## Palindrome
-Partition a singly linked list around a value ```x```, such that all nodes less than ```x``` come before all nodes greater than or equal to ```x```
+Implement a function to check if a singly linked list is a palindrome.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -72,7 +72,7 @@ Partition a singly linked list around a value ```x```, such that all nodes less 
 ```
 
 ## Intersection
-Partition a singly linked list around a value ```x```, such that all nodes less than ```x``` come before all nodes greater than or equal to ```x```
+Given two singly linked lists, determine if the two lists intersect. Return the intersecting node.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
