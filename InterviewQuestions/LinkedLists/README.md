@@ -125,7 +125,7 @@ Implement a stack using a singly linked list as the underlying data store.
 
 ```
 
-## MultiLevel List
+## Multilevel List
 You are given a doubly linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list.
 
 **Source:** 
