@@ -78,7 +78,7 @@ extension Trie {
 ```
 
 ## Collections Starting with Prefix
-* Time: ```O(h)``` where ```h``` is the height of the tree
+* Time: ```O(k*m)``` where ```k``` is the longest collection matching the prefix and ```m``` is number of collections that match the prefix
 * Space: ```O(h)``` where ```h``` is the height of the tree
 
 ```swift
