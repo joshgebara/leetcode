@@ -1,36 +1,27 @@
-# Depth First Traversal
+# Breadth First Traversal
 * Time: ```O(V + E)```
 * Space: ```O(V)```
 
 ```swift
 extension Graph where Element: Hashable {
-    func depthFirstTraversal(from start: Vertex<Element>) -> [Vertex<Element>] {
-        var stack = Stack<Vertex<Element>>()
-        var pushed = Set<Vertex<Element>>()
+    func breadthFirstTraversal(from start: Vertex<Element>) -> [Vertex<Element>] {
+        var queue = Queue<Vertex<Element>>()
+        var enqueued = Set<Vertex<Element>>()
         var visited = [Vertex<Element>]()
         
-        stack.push(start)
-        pushed.insert(start)
-        visited.append(start)
+        queue.enqueue(start)
+        enqueued.insert(start)
         
-        outer: while let vertex = stack.peek() {
-            let neighborEdges = edges(from: vertex)
-            guard !neighborEdges.isEmpty else {
-                stack.pop()
-                continue
-            }
+        while let vertex = queue.dequeue() {
+            visited.append(vertex)
             
-            for edge in neighborEdges {
-                if !pushed.contains(edge.destination) {
-                    stack.push(edge.destination)
-                    pushed.insert(edge.destination)
-                    visited.append(edge.destination)
-                    continue outer
+            for edge in edges(from: vertex) {
+                if !enqueued.contains(edge.destination) {
+                    queue.enqueue(edge.destination)
+                    enqueued.insert(edge.destination)
                 }
             }
-            stack.pop()
         }
-        
         return visited
     }
 }
