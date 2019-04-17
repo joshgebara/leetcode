@@ -2,6 +2,7 @@
 * Time: ```O(V + E)```
 * Space: ```O(V)```
 
+```swift
 extension Graph where Element: Hashable {
     func breadthFirstTraversal(from start: Vertex<Element>) -> [Vertex<Element>] {
         var queue = Queue<Vertex<Element>>()
@@ -24,6 +25,7 @@ extension Graph where Element: Hashable {
         return visited
     }
 }
+```
 
 ## Auxiliary Data Structures
 
