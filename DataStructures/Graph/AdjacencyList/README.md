@@ -61,7 +61,7 @@ extension Graph {
 }
 ```
 
-## Auxillary Data Structures
+## Auxiliary Data Structures
 
 ### Vertex
 
