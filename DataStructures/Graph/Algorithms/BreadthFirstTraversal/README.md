@@ -1,6 +1,6 @@
 # Breadth First Traversal
-* Time: ```O(V + E)```
-* Space: ```O(V)```
+* Time: ```O(V + E)```, where ```V``` is the number of vertices and ```E``` is the number of edges
+* Space: ```O(V)```, where ```V``` is the number of vertices
 
 ```swift
 extension Graph where Element: Hashable {
