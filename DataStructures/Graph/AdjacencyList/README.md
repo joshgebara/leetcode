@@ -61,9 +61,9 @@ extension Graph {
 }
 ```
 
-## Auxillary Data Structures
+## Auxiliary Data Structures
 
-## Vertex
+### Vertex
 
 ```swift
 struct Vertex<Element> {
@@ -75,7 +75,7 @@ extension Vertex: Hashable where Element: Hashable {}
 extension Vertex: Equatable where Element: Equatable {}
 ```
 
-## Edge
+### Edge
 
 ```swift
 struct Edge<Element> {
