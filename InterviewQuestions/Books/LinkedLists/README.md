@@ -275,8 +275,6 @@ node7.next = node4
 node1.cycleStart() // 4
 ```
 
-### Would the program always work if the fast runner moves three steps every time the slow runner moves one step?
-
 ## Reverse a Linked List
 
 **Source:** 
