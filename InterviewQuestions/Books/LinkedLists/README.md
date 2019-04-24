@@ -194,7 +194,85 @@ node1.isCyclic // true
 ### Return Node at Beginning of the Loop
 
 ```swift
+class Node<Value> {
+    let value: Value
+    var next: Node?
 
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node {
+class Node<Value> {
+    let value: Value
+    var next: Node?
+
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension Node {
+    func cycleStart() -> Node? {
+        var fast: Node? = self
+        var slow: Node? = self
+        
+        while fast != nil && fast?.next != nil {
+            fast = fast?.next?.next
+            slow = slow?.next
+            
+            if fast === slow {
+                break
+            }
+        }
+        
+        guard fast != nil || fast?.next != nil else {
+            return nil
+        }
+        
+        fast = self
+        
+        while fast !== slow {
+            fast = fast?.next
+            slow = slow?.next
+        }
+        
+        return fast
+    }
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+var node5 = Node(5)
+var node6 = Node(6)
+var node7 = Node(7)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node4
+
+node1.cycleStart() // 4
 ```
 
 ### Would the program always work if the fast runner moves three steps every time the slow runner moves one step?
