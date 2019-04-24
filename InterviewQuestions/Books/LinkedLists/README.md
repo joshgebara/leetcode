@@ -81,8 +81,51 @@
 * Programming Interviews Exposed - Chapter 4
 
 ### Return Bool - O(1) Space
-
 ```swift
+class Node<Value> {
+    let value: Value
+    var next: Node?
+
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node {
+    var isCyclic: Bool {
+        var fast: Node? = self
+        var slow: Node? = self
+        
+        while fast != nil && fast?.next != nil {
+            fast = fast?.next?.next
+            slow = slow?.next
+            
+            if fast === slow {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+var node5 = Node(5)
+var node6 = Node(6)
+var node7 = Node(7)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node4
+
+node1.isCyclic // true
 ```
 
 ### Return Bool - O(n) Space
