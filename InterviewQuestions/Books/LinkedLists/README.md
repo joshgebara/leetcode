@@ -1,7 +1,6 @@
 # Linked List Questions
 
 ## Remove Dups
-Write code to remove duplicates from an unsorted singly linked list.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -17,7 +16,6 @@ Write code to remove duplicates from an unsorted singly linked list.
 ```
 
 ## Return Kth to Last
-Implement an algorithm to find the kth to last element of a singly linked list  
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -28,7 +26,6 @@ Implement an algorithm to find the kth to last element of a singly linked list
 ```
 
 ## Delete Middle Node
-Delete a node from a singly linked list, given only a variable pointing to that node.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -38,7 +35,6 @@ Delete a node from a singly linked list, given only a variable pointing to that 
 ```
 
 ## Partition
-Partition a singly linked list around a value ```x```, such that all nodes less than ```x``` come before all nodes greater than or equal to ```x```
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -47,7 +43,6 @@ Partition a singly linked list around a value ```x```, such that all nodes less 
 ```
 
 ## Sum Lists
-Given two numbers represented as a singly linked list, where each node contains one digit, add the two numbers together and return the sum as a singly linked list.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -63,7 +58,6 @@ Given two numbers represented as a singly linked list, where each node contains 
 ```
 
 ## Palindrome
-Implement a function to check if a singly linked list is a palindrome.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -72,7 +66,6 @@ Implement a function to check if a singly linked list is a palindrome.
 ```
 
 ## Intersection
-Given two singly linked lists, determine if the two lists intersect. Return the intersecting node.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -81,7 +74,6 @@ Given two singly linked lists, determine if the two lists intersect. Return the 
 ```
 
 ## Loop Detection
-Determine if a linked list has a loop in it.
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 2
@@ -118,7 +110,6 @@ Determine if a linked list has a loop in it.
 ```
 
 ## Stack Implementation
-Implement a stack using a singly linked list as the underlying data store.
 
 **Source:** 
 * Programming Interviews Exposed - Chapter 4
@@ -128,7 +119,6 @@ Implement a stack using a singly linked list as the underlying data store.
 ```
 
 ## Queue Implementation
-Implement a queue using a singly linked list as the underlying data store.
 
 **Source:** 
 * Data Structures & Algorithms in Swift
@@ -138,7 +128,6 @@ Implement a queue using a singly linked list as the underlying data store.
 ```
 
 ## Multilevel List
-You are given a doubly linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list.
 
 **Source:** 
 * Programming Interviews Exposed - Chapter 4
@@ -155,7 +144,6 @@ You are given a doubly linked list where in addition to the next pointer, each n
 ```
 
 ## Implement a Singly Linked List
-Implement a Singly Linked List with the following operations: 
 * ```push()```
 * ```append()```
 * ```insert(after:)```
