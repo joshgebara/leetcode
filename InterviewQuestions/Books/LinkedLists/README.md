@@ -341,39 +341,39 @@ node1.cycleStart() // 4
 
 ```swift
 class Node<Value> {
-	let value: Value
-	var next: Node?
-	
-	init(_ value: Value, next: Node? = nil) {
-		self.value = value
-		self.next = next
-	}
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
 }
 
 extension Node {
-	func reverseIterative() -> Node? {
-		var current: Node? = self
-		var previous: Node? = nil
-		var next: Node? = nil
+    func reverseIterative() -> Node? {
+        var current: Node? = self
+        var previous: Node? = nil
+        var next: Node? = nil
 
-		while current != nil {
-			next = current?.next
-			current?.next = previous
-			previous = current
-			current = next
-		}
-		
-		return previous
-	}
+        while current != nil {
+            next = current?.next
+            current?.next = previous
+            previous = current
+            current = next
+        }
+        
+        return previous
+    }
 }
 
 extension Node: CustomStringConvertible {
-	var description: String {
-		guard let next = next else {
-				return "\(value)"
-		}
-		return "\(value) -> \(next)"
-	}
+    var description: String {
+        guard let next = next else {
+                return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
 }
 
 var node1 = Node(1)
@@ -392,33 +392,33 @@ node1.reverseIterative() // 4 -> 3 -> 2 -> 1
 
 ```swift
 class Node<Value> {
-	let value: Value
-	var next: Node?
-	
-	init(_ value: Value, next: Node? = nil) {
-		self.value = value
-		self.next = next
-	}
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
 }
 
 extension Node {
-	func reverseRecursive() -> Node? {
-		guard next != nil else { return self }
-		
-		let head = next?.reverseRecursive()
-		next?.next = self
-		next = nil
-		return head
-	}
+    func reverseRecursive() -> Node? {
+        guard next != nil else { return self }
+        
+        let head = next?.reverseRecursive()
+        next?.next = self
+        next = nil
+        return head
+    }
 }
 
 extension Node: CustomStringConvertible {
-	var description: String {
-		guard let next = next else {
-				return "\(value)"
-		}
-		return "\(value) -> \(next)"
-	}
+    var description: String {
+        guard let next = next else {
+                return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
 }
 
 var node1 = Node(1)
