@@ -340,12 +340,97 @@ node1.cycleStart() // 4
 ### Iterative
 
 ```swift
+class Node<Value> {
+	let value: Value
+	var next: Node?
+	
+	init(_ value: Value, next: Node? = nil) {
+		self.value = value
+		self.next = next
+	}
+}
+
+extension Node {
+	func reverseIterative() -> Node? {
+		var current: Node? = self
+		var previous: Node? = nil
+		var next: Node? = nil
+
+		while current != nil {
+			next = current?.next
+			current?.next = previous
+			previous = current
+			current = next
+		}
+		
+		return previous
+	}
+}
+
+extension Node: CustomStringConvertible {
+	var description: String {
+		guard let next = next else {
+				return "\(value)"
+		}
+		return "\(value) -> \(next)"
+	}
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+node1.reverseIterative() // 4 -> 3 -> 2 -> 1
 ```
 
 ### Recursive
 
 ```swift
+class Node<Value> {
+	let value: Value
+	var next: Node?
+	
+	init(_ value: Value, next: Node? = nil) {
+		self.value = value
+		self.next = next
+	}
+}
 
+extension Node {
+	func reverseRecursive() -> Node? {
+		guard next != nil else { return self }
+		
+		let head = next?.reverseRecursive()
+		next?.next = self
+		next = nil
+		return head
+	}
+}
+
+extension Node: CustomStringConvertible {
+	var description: String {
+		guard let next = next else {
+				return "\(value)"
+		}
+		return "\(value) -> \(next)"
+	}
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+var node4 = Node(4)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+node1.reverseRecursive() // 4 -> 3 -> 2 -> 1
 ```
 
 ## Stack Implementation
