@@ -77,67 +77,7 @@ print(node1)
 
 ```
 
-## Return Kth to Last
 
-```swift
-class Node<Value> {
-    let value: Value
-    var next: Node?
-    
-    init(_ value: Value, next: Node? = nil) {
-        self.value = value
-        self.next = next
-    }
-}
-
-extension Node: CustomStringConvertible {
-    var description: String {
-        guard let next = next else {
-            return "\(value)"
-        }
-        return "\(value) -> \(next)"
-    }
-}
-
-var node1 = Node(1)
-var node2 = Node(1)
-var node3 = Node(2)
-var node4 = Node(6)
-var node5 = Node(4)
-var node6 = Node(1)
-
-node1.next = node2
-node2.next = node3
-node3.next = node4
-node4.next = node5
-node5.next = node6
-
-extension Node {
-    func kthFromEnd(_ k: Int) -> Node? {
-        guard k >= 0 else { return nil }
-    
-        var fast: Node? = self
-        var slow: Node? = self
-        
-        for _ in 0..<k {
-            fast = fast?.next
-        }
-        
-        guard fast != nil else {
-            return nil
-        }
-        
-        while fast?.next != nil {
-            fast = fast?.next
-            slow = slow?.next
-        }
-        return slow
-    }
-}
-
-node1.kthFromEnd(-1)
-
-```
 
 ## Delete Middle Node
 
