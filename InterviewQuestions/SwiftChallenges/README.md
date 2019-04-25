@@ -32,7 +32,7 @@ let numbers = (1...)
                 .everyOther()
 
 for number in numbers {
-    print(number)
+    print(number) // 4 16 36 64
 }
 ```
 
