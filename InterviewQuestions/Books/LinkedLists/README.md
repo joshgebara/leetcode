@@ -201,6 +201,74 @@ node1.kthFromEnd(-1) // nil
 * Cracking the Coding Interview - Chapter 2
 
 ```swift
+class Node<Value> {
+    let value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node {
+    func printNodes() {
+        var current: Node? = self
+        
+        while current != nil {
+            print(current!, terminator:" -> ")
+            current = current?.next
+        }
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+var node1 = Node(3)
+var node2 = Node(5)
+var node3 = Node(8)
+var node4 = Node(5)
+var node5 = Node(10)
+var node6 = Node(2)
+var node7 = Node(1)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+
+
+
+extension Node where Value: Comparable {
+    func partition(_ part: Value) -> Node? {
+        var current: Node? = self
+        var head: Node? = self
+        var tail: Node? = self
+        
+        while current != nil {
+            var next = current?.next
+            
+            if current!.value < part {
+                current?.next = head
+                head = current
+            } else {
+                tail?.next = current
+                tail = current
+            }
+            current = next
+        }
+        tail?.next = nil
+        return head
+    }
+}
+
+node1.partition(5)?.printNodes() // 1 -> 2 -> 3 -> 5 -> 8 -> 5 -> 10
 ```
 
 ## Sum Lists
