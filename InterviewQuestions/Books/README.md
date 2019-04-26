@@ -1,58 +1,5 @@
 # Linked Lists
 
-## Delete Middle Node
-
-```swift
-class Node<Value> {
-    var value: Value
-    var next: Node?
-    
-    init(_ value: Value, next: Node? = nil) {
-        self.value = value
-        self.next = next
-    }
-}
-
-extension Node: CustomStringConvertible {
-    var description: String {
-        guard let next = next else {
-            return "\(value)"
-        }
-        return "\(value) -> \(next)"
-    }
-}
-
-var node1 = Node(1)
-var node2 = Node(2)
-var node3 = Node(3)
-var node4 = Node(4)
-var node5 = Node(5)
-var node6 = Node(6)
-
-node1.next = node2
-node2.next = node3
-node3.next = node4
-node4.next = node5
-node5.next = node6
-
-extension Node {
-    # Note - this problem cannot be solved if the node to be deleted is the last node. This is because we aren't given a reference to the head only the node to be deleted.
-    func deleteNode() {
-        var current = self
-        guard let nextNode = next else {
-            return
-        }
-        
-        value = nextNode.value
-        current.next = nextNode.next
-        nextNode.next = nil
-    }
-}
-
-node2.deleteNode()
-print(node1)
-
-```
 
 ## Palindrome
 
