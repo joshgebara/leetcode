@@ -646,6 +646,97 @@ node1
 * Cracking the Coding Interview - Chapter 2
 
 ```swift
+import Darwin
+
+class Node<Value> {
+    let value: Value
+    var next: Node?
+
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+var node1 = Node(1)
+var node2 = Node(2)
+var node3 = Node(3)
+
+var node4 = Node(4)
+
+var node5 = Node(5)
+var node6 = Node(6)
+var node7 = Node(7)
+var node8 = Node(8)
+var node9 = Node(9)
+
+node1.next = node2
+node2.next = node3
+node3.next = node5
+
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node8
+node8.next = node9
+
+extension Node {
+    func intersection(with other: Node) -> Node? {
+        var list1: Node? = self
+        var list2: Node? = other
+        
+        let list1Count = count
+        let list2Count = other.count
+        let difference = abs(list1Count - list2Count)
+        
+        if list1Count > list2Count {
+            list1 = list1?.traverse(difference)
+        } else {
+            list2 = list2?.traverse(difference)
+        }
+ 
+        while list1 != nil && list2 != nil {
+            guard list1 !== list2 else {
+                return list2
+            }
+            
+            list1 = list1?.next
+            list2 = list2?.next
+        }
+        return nil
+    }
+    
+    func traverse(_ steps: Int) -> Node? {
+        var current: Node? = self
+        
+        for _ in 0..<steps {
+            current = current?.next
+        }
+        return current
+    }
+    
+    var count: Int {
+        var current: Node? = self
+        var count = 0
+        
+        while current != nil {
+            count += 1
+            current = current?.next
+        }
+        return count
+    }
+}
+
+node1.intersection(with: node4)
 ```
 
 ## Loop Detection
