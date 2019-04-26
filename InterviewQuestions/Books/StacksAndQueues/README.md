@@ -74,7 +74,7 @@ stack.pop()
 stack.min
 ```
 
-### Min Stack - O(1) Space
+### O(1) Space
 ```swift
 struct MinStack {
     var base = Stack<Int>()
