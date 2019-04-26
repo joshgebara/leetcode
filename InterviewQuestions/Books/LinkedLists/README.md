@@ -518,6 +518,126 @@ sumForward(node1, node4)
 * Cracking the Coding Interview - Chapter 2
 
 ```swift
+class Node<Value> {
+    var value: Value
+    var next: Node?
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+var node1 = Node("R")
+var node2 = Node("A")
+var node3 = Node("C")
+var node4 = Node("E")
+var node5 = Node("C")
+var node6 = Node("A")
+var node7 = Node("R")
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+
+extension Node where Value: Equatable {
+    var isPalindrome: Bool {
+        var nodeBeforeMiddle = self.nodeBeforeMiddle()
+        var middleNode = nodeBeforeMiddle?.next
+        
+        nodeBeforeMiddle?.next = nil
+        
+        var reversedMiddleNode = middleNode?.reverseList()
+        let result = nodesEqual(with: reversedMiddleNode)
+        
+        middleNode = reversedMiddleNode?.reverseList()
+        nodeBeforeMiddle?.next = middleNode
+        
+        return result
+    }
+    
+    func nodesEqual(with other: Node?) -> Bool {
+        var list1: Node? = self
+        var list2: Node? = other
+        var differences = 0
+
+        while list1 != nil || list2 != nil {
+            guard differences < 1 else {
+                return false
+            }
+
+            if list1?.value != list2?.value {
+                differences += 1
+            }
+            
+            list1 = list1?.next
+            list2 = list2?.next
+        }
+        return true
+    }
+}
+
+extension Node {
+    var count: Int {
+        var current: Node? = self
+        var count = 0
+        
+        while current != nil {
+            current = current?.next
+            count += 1
+        }
+        return count
+    }
+    
+    func nodeBeforeMiddle() -> Node? {
+        var fast: Node? = self
+        var slow: Node? = self
+        
+        let halfCount = count / 2
+        for _ in 0..<halfCount {
+            fast = fast?.next
+        }
+        
+        guard fast != nil else {
+            return nil
+        }
+        
+        while fast?.next != nil {
+            fast = fast?.next
+            slow = slow?.next
+        }
+        return slow
+    }
+
+    func reverseList() -> Node? {
+        var current: Node? = self
+        var previous: Node? = nil
+        var next: Node? = nil
+        
+        while current != nil {
+            next = current?.next
+            current?.next = previous
+            previous = current
+            current = next
+        }
+        return previous
+    }
+}
+
+node1.isPalindrome
+node1
 ```
 
 ## Intersection
