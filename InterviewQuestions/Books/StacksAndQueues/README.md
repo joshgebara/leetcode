@@ -165,6 +165,158 @@ stack.min
 * Cracking the Coding Interview - Chapter 3
 
 ```swift
+struct SetOfStacks<Element> {
+    private var stacks: [Stack<Element>] = []
+    private let capacity: Int
+    
+    init(with capacity: Int) {
+        self.capacity = capacity
+    }
+    
+    var isEmpty: Bool {
+        return stacks.isEmpty
+    }
+    
+    var count: Int {
+        var count =  0
+        for stack in stacks {
+            count += stack.count
+        }
+        return count
+    }
+    
+    private var stackCount: Int {
+        return stacks.count
+    }
+
+    mutating func push(_ element: Element) {
+        guard var lastStack = stacks.last, !lastStack.atCapacity else {
+            var stack = Stack<Element>(with: capacity)
+            stack.push(element)
+            return stacks.append(stack)
+        }
+        lastStack.push(element)
+    }
+    
+    mutating func pop() -> Element? {
+        guard var lastStack = stacks.last else {
+            return nil
+        }
+
+        defer {
+            if lastStack.isEmpty {
+                _ = stacks.popLast()
+            }
+        }
+
+        return lastStack.pop()
+    }
+    
+    mutating func pop(at index: Int) -> Element? {
+        guard index < stackCount else {
+            return nil
+        }
+        
+        var stack = stacks[index]
+        
+        defer {
+            if stack.isEmpty {
+                _ = stacks.remove(at: index)
+            }
+        }
+
+        return stack.pop()
+    }
+
+    func peek() -> Element? {
+        guard let lastStack = stacks.last else {
+            return nil
+        }
+
+        return lastStack.peek()
+    }
+}
+
+extension SetOfStacks: CustomStringConvertible {
+    var description: String {
+        return stacks.description
+    }
+}
+
+class Stack<Element> {
+    private var elements: [Element] = []
+    private let capacity: Int
+    
+    init(with capacity: Int) {
+        elements.reserveCapacity(capacity)
+        self.capacity = capacity
+    }
+    
+    var atCapacity: Bool {
+        return elements.count >= capacity
+    }
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    var count: Int {
+        return elements.count
+    }
+    
+    func peek() -> Element? {
+        return elements.last
+    }
+    
+    func push(_ element: Element) {
+        guard !atCapacity else {
+            return
+        }
+        elements.append(element)
+    }
+    
+    func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+extension Stack: CustomStringConvertible {
+    var description: String {
+        return elements.description
+    }
+}
+
+var stacks = SetOfStacks<Int>(with: 3)
+stacks
+stacks.push(1)
+stacks.push(2)
+stacks.push(3)
+stacks.push(4)
+stacks.push(5)
+stacks.push(6)
+stacks.push(7)
+stacks.push(8)
+stacks.push(9)
+stacks.push(10)
+stacks.push(11)
+stacks.push(12)
+stacks.push(13)
+stacks.peek()
+stacks.pop(at: 2)
+stacks.pop(at: 2)
+stacks.pop(at: 2)
+stacks.pop(at: 2)
+stacks.pop(at: 2)
+stacks.pop(at: 2)
+stacks.pop(at: 2)
+stacks.pop()
+stacks.pop()
+stacks.pop()
+stacks.pop()
+stacks.pop()
+stacks.pop()
+stacks.pop()
+stacks.pop()
 ```
 
 ## Queue via Stacks
@@ -174,6 +326,81 @@ stack.min
 * Interview Cake - Chapter 7
 
 ```swift
+struct Queue<Element> {
+    private var leftStack: Stack<Element> = []
+    private var rightStack: Stack<Element> = []
+    
+    var isEmpty: Bool {
+        return leftStack.isEmpty && rightStack.isEmpty
+    }
+
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+
+    mutating func dequeue() -> Element? {
+        if rightStack.isEmpty {
+            while let element = leftStack.pop() {
+               rightStack.push(element)
+            }
+        }
+        return rightStack.pop()
+    }
+
+    func peek() -> Element? {
+        if rightStack.isEmpty {
+            return leftStack.first
+        } else {
+            return rightStack.last
+        }
+    }
+}
+
+extension Queue: ExpressibleByArrayLiteral {
+    init(arrayLiteral: Element...) {
+        for element in arrayLiteral {
+            enqueue(element)
+        }
+    }
+}
+
+struct Stack<Element> {
+    private var elements: [Element] = []
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    var first: Element? {
+        return elements.first
+    }
+    
+    var last: Element? {
+        return elements.last
+    }
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+extension Stack: ExpressibleByArrayLiteral {
+    init(arrayLiteral: Element...) {
+        for element in arrayLiteral {
+            push(element)
+        }
+    }
+}
+
+extension Stack: CustomStringConvertible {
+    var description: String {
+        return elements.description
+    }
+}
 ```
 
 ## Sort Stack
