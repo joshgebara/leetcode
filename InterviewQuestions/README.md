@@ -11,6 +11,18 @@
 // Heap Sort
 // Quick Sort
 
+// optional subscript into array = advanced swift
+extension Array {
+    subscript(guarded index: Index) -> Element? {
+        guard indices.contains(index) else {
+            return nil
+        }
+        return self[index]
+    }
+}
+
+var a = [1, 2, 3, 4]
+let t = a[guarded: 1] ?? 0
 
 
 
