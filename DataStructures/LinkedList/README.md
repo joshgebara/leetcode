@@ -4,17 +4,11 @@
 struct LinkedList<Element> {
     var head: Node<Element>?
     var tail: Node<Element>?
-    
+}
+
+extension LinkedList {
     var isEmpty: Bool {
         return head == nil
-    }
-    
-    var first: Element? {
-        return head?.value
-    }
-    
-    var last: Element? {
-        return tail?.value
     }
     
     var count: Int {
@@ -22,16 +16,29 @@ struct LinkedList<Element> {
         var count = 0
         
         while current != nil {
-            count += 1
             current = current?.next
+            count += 1
         }
+        
         return count
+    }
+    
+    func node(at index: Int) -> Node<Element>? {
+        var currentNode = head
+        var currentIndex = 0
+        
+        while currentNode != nil && currentIndex < index {
+            currentNode = currentNode?.next
+            currentIndex += 1
+        }
+        return currentNode
     }
 }
 
 extension LinkedList {
     mutating func push(_ element: Element) {
         head = Node(element, next: head)
+        
         if tail == nil {
             tail = head
         }
@@ -99,16 +106,17 @@ extension LinkedList {
     }
 }
 
-extension LinkedList {
-    func node(at index: Int) -> Node<Element>? {
-        var currentIndex = 0
-        var currentNode = head
+extension LinkedList: Sequence {
+    struct LinkedListIterator: IteratorProtocol {
+        var base: LinkedList
         
-        while currentNode != nil && currentIndex < index {
-            currentNode = currentNode?.next
-            currentIndex += 1
+        mutating func next() -> Element? {
+            return base.pop()
         }
-        return currentNode
+    }
+    
+    func makeIterator() -> LinkedListIterator {
+        return LinkedListIterator(base: self)
     }
 }
 
@@ -134,9 +142,9 @@ extension LinkedList: CustomStringConvertible {
 ```swift
 class Node<Value> {
     let value: Value
-    var next: Node<Value>?
+    var next: Node?
     
-    init(_ value: Value, next: Node<Value>? = nil) {
+    init(_ value: Value, next: Node? = nil) {
         self.value = value
         self.next = next
     }
