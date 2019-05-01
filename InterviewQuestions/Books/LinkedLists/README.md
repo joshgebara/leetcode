@@ -293,15 +293,15 @@ node6.next = node7
 
 
 extension Node where Value: Comparable {
-    func partition(_ part: Value) -> Node? {
+    func partition(around value: Value) -> Node {
         var current: Node? = self
         var head: Node? = self
         var tail: Node? = self
         
         while current != nil {
-            var next = current?.next
+            let next = current?.next
             
-            if current!.value < part {
+            if current!.value < value {
                 current?.next = head
                 head = current
             } else {
@@ -311,11 +311,11 @@ extension Node where Value: Comparable {
             current = next
         }
         tail?.next = nil
-        return head
+        return head!
     }
 }
 
-node1.partition(5)?.printNodes() // 1 -> 2 -> 3 -> 5 -> 8 -> 5 -> 10
+node1.partition(around: 5).printNodes() // 1 -> 2 -> 3 -> 5 -> 8 -> 5 -> 10
 ```
 
 ## Sum Lists
