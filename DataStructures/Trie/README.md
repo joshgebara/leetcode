@@ -79,7 +79,7 @@ extension Trie {
 
 ## Collections Starting with Prefix
 * Time: ```O(k*m)``` where ```k``` is the longest collection matching the prefix and ```m``` is number of collections that match the prefix
-* Time: ```O(k*m)``` where ```k``` is the longest collection matching the prefix and ```m``` is number of collections that match the prefix
+* Space: ```O(k*m)``` where ```k``` is the longest collection matching the prefix and ```m``` is number of collections that match the prefix
 
 ```swift
 extension Trie where CollectionType: RangeReplaceableCollection {
