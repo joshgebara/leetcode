@@ -417,6 +417,165 @@ extension Stack: CustomStringConvertible {
 * Cracking the Coding Interview - Chapter 3
 
 ```swift
+import Foundation
+
+struct AnimalQueue {
+    var dogQueue = Queue<AnimalQueueNode<Dog>>()
+    var catQueue = Queue<AnimalQueueNode<Cat>>()
+    
+    mutating func enqueue(_ animal: Animal) {
+        if let dog = animal as? Dog {
+            let node = AnimalQueueNode(dog)
+            dogQueue.enqueue(node)
+            return
+        }
+        
+        if let cat = animal as? Cat {
+            let node = AnimalQueueNode(cat)
+            catQueue.enqueue(node)
+            return
+        }
+    }
+    
+    mutating func dequeueAny() -> Animal? {
+        let nextDog = dogQueue.peek()
+        let nextCat = catQueue.peek()
+        
+        guard nextDog != nil && nextCat != nil else {
+            return nil
+        }
+        
+        guard nextDog != nil else {
+            return dequeueCat()
+        }
+        
+        guard nextCat != nil else {
+            return dequeueDog()
+        }
+        
+        if nextDog!.enqueuedDate > nextCat!.enqueuedDate {
+            return dequeueCat()
+        } else {
+            return dequeueDog()
+        }
+    }
+    
+    mutating func dequeueDog() -> Dog? {
+        return dogQueue.dequeue()?.animal
+    }
+    
+    mutating func dequeueCat() -> Cat? {
+        return catQueue.dequeue()?.animal
+    }
+}
+
+struct AnimalQueueNode<AnimalType: Animal> {
+    var animal: AnimalType
+    var enqueuedDate: Date
+    
+    init(_ animal: AnimalType) {
+        self.animal = animal
+        enqueuedDate = Date()
+    }
+}
+
+protocol Animal {
+    var name: String { get }
+}
+
+struct Dog: Animal {
+    var name: String
+}
+
+extension Dog: CustomStringConvertible {
+    var description: String {
+        return "\(name)"
+    }
+}
+
+struct Cat: Animal {
+    var name: String
+}
+
+extension Cat: CustomStringConvertible {
+    var description: String {
+        return "\(name)"
+    }
+}
+
+struct Queue<Element> {
+    var leftStack = Stack<Element>()
+    var rightStack = Stack<Element>()
+    
+    mutating func peek() -> Element? {
+        shiftStacks()
+        return rightStack.peek()
+    }
+    
+    var isEmpty: Bool {
+        return leftStack.isEmpty && rightStack.isEmpty
+    }
+    
+    mutating func enqueue(_ element: Element) {
+        leftStack.push(element)
+    }
+    
+    mutating func dequeue() -> Element? {
+        shiftStacks()
+        return rightStack.pop()
+    }
+    
+    mutating func shiftStacks() {
+        if rightStack.isEmpty {
+            while let value = leftStack.pop() {
+                rightStack.push(value)
+            }
+        }
+    }
+}
+
+struct Stack<Element> {
+    var elements: [Element] = []
+    
+    var isEmpty: Bool {
+        return elements.isEmpty
+    }
+    
+    func peek() -> Element? {
+        return elements.last
+    }
+    
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+    
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+var animals = AnimalQueue()
+
+animals.enqueue(Dog(name: "A"))
+animals.enqueue(Dog(name: "B"))
+animals.enqueue(Cat(name: "C"))
+animals.enqueue(Dog(name: "D"))
+animals.enqueue(Dog(name: "E"))
+animals.enqueue(Dog(name: "F"))
+animals.enqueue(Cat(name: "G"))
+animals.enqueue(Cat(name: "H"))
+animals.enqueue(Cat(name: "I"))
+
+animals.dequeueAny()
+animals.dequeueDog()
+animals.dequeueDog()
+animals.dequeueDog()
+animals.dequeueAny()
+animals.dequeueAny()
+animals.dequeueCat()
+animals.dequeueCat()
+animals.dequeueDog()
+animals.dequeueAny()
 ```
 
 ## Parenthesis Matching
