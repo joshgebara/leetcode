@@ -584,6 +584,35 @@ animals.dequeueAny()
 * Interview Cake - Chapter 7
 
 ```swift
+extension String {
+    func getClosingParen(for position: Index) -> Index? {
+        guard "(" == self[position] else {
+            return nil
+        }
+        
+        var openParenCount = 1
+        
+        for index in self[position...].indices.dropFirst() {
+            let character = self[index]
+            
+            if "(" == character {
+                openParenCount += 1
+            } else if ")" == character {
+                openParenCount -= 1
+                
+                if openParenCount == 0 {
+                    return index
+                }
+            }
+        }
+        
+        return nil
+    }
+}
+
+let sentence = "Sometimes (when I nest them (my parentheticals) too much (like this (and this))) they get confusing."
+let position = sentence.getClosingParen(for: sentence.index(sentence.startIndex, offsetBy: 10))
+sentence[position!]
 ```
 
 ## Bracket Validator
