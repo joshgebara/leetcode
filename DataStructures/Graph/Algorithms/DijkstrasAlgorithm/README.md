@@ -10,7 +10,7 @@ enum Visit<T: Hashable> {
 
 class Dijkstra<T: Hashable> {
     typealias Graph = AdjacencyList<T>
-    let graph = Graph
+    let graph: Graph
     
     init(graph: Graph) {
         self.graph = graph
