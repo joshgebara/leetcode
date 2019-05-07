@@ -5,6 +5,8 @@
 **Source:** 
 * Cracking the Coding Interview - Chapter 4
 
+* Time: ```O(V + E)```
+* Space: ```O(V)```
 ```swift
 extension Graph where Element: Hashable {
     func route(between start: Vertex<Element>, and end: Vertex<Element>) -> Bool {
