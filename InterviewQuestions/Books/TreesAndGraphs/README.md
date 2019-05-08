@@ -18,7 +18,7 @@ extension Graph where Element: Hashable {
         enqueued.insert(start)
         
         while let vertex = queue.dequeue() {
-            for edge in graph.edges(from: vertex) {
+            for edge in edges(from: vertex) {
                 guard edge.destination != end else {
                     return true
                 }
