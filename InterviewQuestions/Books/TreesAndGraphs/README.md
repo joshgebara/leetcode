@@ -43,12 +43,12 @@ extension Graph where Element: Hashable {
 * Time: ```O(n)```
 * Space: ```O(n)```
 ```swift
-class BinaryNode {
-    let value: Int
+class BinaryNode<Value> {
+    let value: Value
     var leftChild: BinaryNode?
     var rightChild: BinaryNode?
     
-    init(_ value: Int) {
+    init(_ value: Value) {
         self.value = value
     }
 }
@@ -61,24 +61,20 @@ extension BinaryNode {
     }
 }
 
-func createMinimalBST(_ elements: [Int]) -> BinaryNode? {
-    return createMinimalBST(elements[...])
-}
-
-func createMinimalBST(_ elements: ArraySlice<Int>) -> BinaryNode? {
-    guard !elements.isEmpty else {
+func minBST<CollectionType: RandomAccessCollection>(_ collection: CollectionType) -> BinaryNode<CollectionType.Element>? {
+    guard !collection.isEmpty else {
         return nil
     }
     
-    let size = elements.distance(from: elements.startIndex, to: elements.endIndex)
-    let middleIndex = elements.index(elements.startIndex, offsetBy: size / 2)
-    let middleElement = elements[middleIndex]
-    let node = BinaryNode(middleElement)
+    let size = collection.distance(from: collection.startIndex, to: collection.endIndex)
+    let middleIndex = collection.index(collection.startIndex, offsetBy: size / 2)
+    let middleValue = collection[middleIndex]
     
-    node.leftChild = createMinimalBST(elements[..<middleIndex])
-    node.rightChild = createMinimalBST(elements[elements.index(after: middleIndex)...])
-    return node
+    let root = BinaryNode(middleValue)
+    root.leftChild = minBST(collection[..<middleIndex])
+    root.rightChild = minBST(collection[collection.index(after: middleIndex)...])
+    return root
 }
 
-createMinimalBST([1, 2, 3, 4, 5, 6, 7, 8, 9])?.inOrder()
+minBST([1, 2, 3, 4, 5, 6, 7, 8, 9])?.inOrder()
 ```
