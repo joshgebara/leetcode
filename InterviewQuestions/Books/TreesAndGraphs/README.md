@@ -298,7 +298,7 @@ seven.isBalanced()
 ```
 
 
-## Route Between Nodes
+## Valid BST
 
 **Source:** 
 * Cracking the Coding Interview - Chapter 4
