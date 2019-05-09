@@ -78,3 +78,148 @@ func minBST<CollectionType: RandomAccessCollection>(_ collection: CollectionType
 
 minBST([1, 2, 3, 4, 5, 6, 7, 8, 9])?.inOrder()
 ```
+
+## List of Depths
+
+**Source:** 
+* Cracking the Coding Interview - Chapter 4
+
+**Complexity**
+* Time: ```O(n)```
+* Space: ```O(n)```
+```swift
+class Node<Value> {
+    let value: Value
+    var next: Node? = nil
+    
+    init(_ value: Value, next: Node? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
+
+extension Node: CustomStringConvertible {
+    var description: String {
+        guard let next = next else {
+            return "\(value)"
+        }
+        return "\(value) -> \(next)"
+    }
+}
+
+struct LinkedList<Element> {
+    var head: Node<Element>?
+    var tail: Node<Element>?
+    
+    var isEmpty: Bool {
+        return head == nil
+    }
+    
+    mutating func push(_ element: Element) {
+        head = Node(element, next: head)
+        
+        if tail == nil {
+            tail = head
+        }
+    }
+    
+    mutating func append(_ element: Element) {
+        guard !isEmpty else {
+            push(element)
+            return
+        }
+        
+        tail?.next = Node(element)
+        tail = tail?.next
+    }
+    
+    mutating func pop() -> Element? {
+        defer {
+            head = head?.next
+            if isEmpty {
+                tail = nil
+            }
+        }
+        return head?.value
+    }
+}
+
+extension LinkedList: Sequence {
+    struct LinkedListIterator: IteratorProtocol {
+        var base: LinkedList
+        
+        mutating func next() -> Element? {
+            return base.pop()
+        }
+    }
+    
+    func makeIterator() -> LinkedListIterator {
+        return LinkedListIterator(base: self)
+    }
+}
+
+extension LinkedList: CustomStringConvertible {
+    var description: String {
+        guard let head = head else {
+            return ""
+        }
+        return "\(head)"
+    }
+}
+
+class BinaryNode<Value> {
+    let value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+    
+    init(_ value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension BinaryNode {
+    func createLevelLinkedList() -> [LinkedList<BinaryNode<Value>>] {
+        var result: [LinkedList<BinaryNode<Value>>] = []
+        var current = LinkedList<BinaryNode<Value>>()
+        current.append(self)
+        
+        while !current.isEmpty {
+            result.append(current)
+            var parents = current
+            current = LinkedList<BinaryNode<Value>>()
+            
+            for parent in parents {
+                if let left = parent.leftChild {
+                    current.append(left)
+                }
+                
+                if let right = parent.rightChild {
+                    current.append(right)
+                }
+            }
+        }
+        return result
+    }
+}
+
+let zero  = BinaryNode(0)
+let one   = BinaryNode(1)
+let five  = BinaryNode(5)
+let seven = BinaryNode(7) // Root
+let eight = BinaryNode(8)
+let nine  = BinaryNode(9)
+
+seven.leftChild  = one
+one.leftChild    = zero
+one.rightChild   = five
+seven.rightChild = nine
+nine.leftChild   = eight
+
+print(seven.createLevelLinkedList())
+```
