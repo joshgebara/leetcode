@@ -790,17 +790,14 @@ struct Stack<Element> {
 }
 
 extension String {
-    func validBrackets() -> Bool {
-        var stack = Stack<Element>()
-        let openersToClosers: [Character: Character] = ["(": ")",
-                                                        "[": "]",
-                                                        "{": "}"]
+    func validate() -> Bool {
+        let openersToClosers = ["(": ")", "[": "]", "{": "}"]
+        let openers = Set(openersToClosers.keys)
+        let closers = Set(openersToClosers.values)
+        var stack = Stack<String>()
         
-        let openers = Set<Character>(openersToClosers.keys)
-        let closers = Set<Character>(openersToClosers.values)
-        
-        for character in self {
-            if openers.contains(character) {
+        for character in lazy.map(String.init) {
+            guard !openers.contains(character) else {
                 stack.push(character)
                 continue
             }
@@ -819,7 +816,7 @@ extension String {
     }
 }
 
-"{ [ ] ( ) }".validBrackets()
-"{ [ ( ] ) }".validBrackets()
-"{ [ }".validBrackets()
+"{[]()}".validate() // should return true
+"{[(])}".validate() // should return false
+"{[}".validate() // should return false
 ```
