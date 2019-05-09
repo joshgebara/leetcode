@@ -296,3 +296,53 @@ eleven.leftChild = twelve
 
 seven.isBalanced()
 ```
+
+
+## Route Between Nodes
+
+**Source:** 
+* Cracking the Coding Interview - Chapter 4
+
+**Complexity**
+* Time: ```O(n)```
+* Space: ```O(n)``` (```O(log n)``` if we can guarantee the tree is balanced)
+
+class BinaryNode<Value> {
+    let value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+    
+    init(_ value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension BinaryNode where Value == Int {
+    func isBST(_ range: ClosedRange<Int> = Int.min...Int.max) -> Bool {
+        guard range.contains(value) else {
+            return false
+        }
+        return leftChild?.isBST(Int.min...value) ?? true && rightChild?.isBST(value...Int.max) ?? true
+    }
+}
+
+let zero    = BinaryNode(0)
+let one     = BinaryNode(1)
+let five    = BinaryNode(5)
+let seven   = BinaryNode(7) // Root
+let eight   = BinaryNode(8)
+let nine    = BinaryNode(9)
+
+seven.leftChild  = one
+one.leftChild    = zero
+one.rightChild   = five
+seven.rightChild = nine
+nine.leftChild   = eight
+
+seven.isBST()
