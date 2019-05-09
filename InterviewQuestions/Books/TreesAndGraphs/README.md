@@ -307,6 +307,7 @@ seven.isBalanced()
 * Time: ```O(n)```
 * Space: ```O(n)``` (```O(log n)``` if we can guarantee the tree is balanced)
 
+```swift
 class BinaryNode<Value> {
     let value: Value
     var leftChild: BinaryNode?
@@ -346,3 +347,4 @@ seven.rightChild = nine
 nine.leftChild   = eight
 
 seven.isBST()
+```
