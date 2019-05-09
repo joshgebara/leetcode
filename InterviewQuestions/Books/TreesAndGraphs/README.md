@@ -223,3 +223,76 @@ nine.leftChild   = eight
 
 print(seven.createLevelLinkedList())
 ```
+
+## Check Balanced
+
+**Source:** 
+* Cracking the Coding Interview - Chapter 4
+
+**Complexity**
+* Time: ```O(n)```
+* Space: ```O(h)```
+```swift
+import Foundation
+
+class BinaryNode<Value> {
+    let value: Value
+    var leftChild: BinaryNode?
+    var rightChild: BinaryNode?
+    
+    init(_ value: Value) {
+        self.value = value
+    }
+}
+
+extension BinaryNode: CustomStringConvertible {
+    var description: String {
+        return "\(value)"
+    }
+}
+
+extension BinaryNode {
+    func checkHeight() -> Int {
+        let leftHeight = leftChild?.checkHeight() ?? -1
+        guard leftHeight != Int.min else {
+            return Int.min
+        }
+        
+        let rightHeight = rightChild?.checkHeight() ?? -1
+        guard rightHeight != Int.min else {
+            return Int.min
+        }
+        
+        let heightDiff = leftHeight - rightHeight
+        guard abs(heightDiff) <= 1 else {
+            return Int.min
+        }
+        return max(leftHeight, rightHeight) + 1
+    }
+    
+    func isBalanced() -> Bool {
+        return checkHeight() != Int.min
+    }
+}
+
+let zero    = BinaryNode(0)
+let one     = BinaryNode(1)
+let five    = BinaryNode(5)
+let seven   = BinaryNode(7) // Root
+let eight   = BinaryNode(8)
+let nine    = BinaryNode(9)
+let ten     = BinaryNode(10)
+let eleven  = BinaryNode(11)
+let twelve  = BinaryNode(12)
+
+seven.leftChild  = one
+one.leftChild    = zero
+one.rightChild   = five
+seven.rightChild = nine
+nine.leftChild   = eight
+eight.leftChild  = ten
+ten.leftChild    = eleven
+eleven.leftChild = twelve
+
+seven.isBalanced()
+```
