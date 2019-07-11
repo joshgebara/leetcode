@@ -90,3 +90,49 @@ const insertionSort = (numbers) => {
 
 insertionSort([6, 4, 5, 4, 3, 8, 7, 9, 8, 7, 2, 3, 2, 1])  
 ```
+
+## Merge Sort
+```javascript
+// Time - O(n log n)
+// Space - O(n)
+
+const mergeSort = (nums) => {
+  if (nums.length <= 1) return nums
+  let middle = nums.length / 2
+  let left = mergeSort(nums.slice(0, middle))
+  let right = mergeSort(nums.slice(middle, nums.length))
+  return merge(left, right)
+}
+
+const merge = (left, right) => {
+  let result = []
+  let leftIndex = 0
+  let rightIndex = 0
+    
+  while (leftIndex < left.length && rightIndex < right.length) {  
+    let leftElement = left[leftIndex]
+    let rightElement = right[rightIndex]
+    
+    if (leftElement > rightElement) {
+      result.push(rightElement)
+      rightIndex += 1
+    } else if (leftElement < rightElement) {
+      result.push(leftElement)
+      leftIndex += 1      
+    } else {
+      result.push(leftElement)
+      result.push(rightElement)
+      leftIndex += 1
+      rightIndex += 1
+    }
+  }
+
+  if (leftIndex < left.length) {
+    return result.concat(left.slice(leftIndex, left.length))    
+  }
+  
+  return result.concat(right.slice(rightIndex, right.length))
+}
+
+mergeSort([7, 5, 6, 5, 4, 3, 4, 3, 2, 1])
+```
