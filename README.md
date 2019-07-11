@@ -66,3 +66,27 @@ const bubbleSort = (numbers, areInIncreasingOrder = (a, b) => { return a > b }) 
 
 bubbleSort([4, 6, 5, 7], (a, b) => { return a < b });
 ```
+
+## Insertion Sort
+```javascript
+// Time - O(n^2)
+// Space - O(1)
+const insertionSort = (numbers) => {
+  for (let currentIndex = 0; currentIndex < numbers.length; currentIndex++) {
+    for (let swapIndex = currentIndex + 1; swapIndex > 0; swapIndex--) {
+      let previousIndex = swapIndex - 1
+      if (numbers[previousIndex] > numbers[swapIndex]) {
+        var temp = numbers[previousIndex]
+        numbers[previousIndex] = numbers[swapIndex]
+        numbers[swapIndex] = temp
+      } else {
+        break
+      }
+    } 
+  }
+  
+  return numbers
+}
+
+insertionSort([6, 4, 5, 4, 3, 8, 7, 9, 8, 7, 2, 3, 2, 1])  
+```
