@@ -233,3 +233,111 @@ const quickSort = numbers => {
 
 quickSort([5, 3, 6, 7, 8, 7, 6, 3, 2, 1, 2, 4, 3, 5, 6, 5, 4, 3, 4, 3, 2]);
 ```
+
+## ArrayList
+
+```javascript
+class ArrayList {
+  constructor() {
+    this.length = 0;
+    this.data = {};
+  }
+
+  length() {
+    return this.length;
+  }
+
+  push(element) {
+    this.data[this.length] = element;
+    this.length++;
+  }
+
+  pop() {
+    this.delete(this.length - 1);
+  }
+
+  get(index) {
+    return this.data[index];
+  }
+
+  delete(index) {
+    const element = this.data[index];
+    this._collapse(index);
+    return element;
+  }
+
+  _collapse(index) {
+    for (let i = index; i < this.length; i++) {
+      this.data[i] = this.data[i + 1];
+    }
+    delete this.data[this.length];
+    this.length--;
+  }
+}
+
+const array = new ArrayList();
+array.push(99);
+array.push(76);
+array.push(54);
+array.push(32);
+array.push(34);
+array.pop();
+array.get(2);
+array;
+array.length;
+array;
+array.delete(5);
+array;
+array.length;
+array;
+```
+
+## BST
+
+```javascript
+class Node {
+  constructor(value, left = null, right = null) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+class Tree {
+  constructor() {
+    this.root = null;
+  }
+
+  add(value) {
+    if (!this.root) {
+      this.root = new Node(value);
+      return;
+    }
+
+    let currentNode = this.root;
+    while (true) {
+      if (currentNode.value > value) {
+        if (currentNode.left) {
+          currentNode = currentNode.left;
+        } else {
+          currentNode.left = new Node(value);
+          return;
+        }
+      } else {
+        if (currentNode.right) {
+          currentNode = currentNode.right;
+        } else {
+          currentNode.right = new Node(value);
+          return;
+        }
+      }
+    }
+  }
+}
+
+const bst = new Tree();
+bst;
+bst.add(1);
+bst.add(2);
+bst;
+```
