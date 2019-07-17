@@ -341,3 +341,27 @@ bst.add(1);
 bst.add(2);
 bst;
 ```
+
+## Memoized Factorial
+
+```javascript
+const memoize = (cb) => {
+  const memo = {}
+  return (n) => {
+    console.log(memo)
+    if (n in memo) {
+      return memo[n]
+    } else {
+      const result = cb(n)
+      memo[n] = result
+      return result
+    }
+  }
+}
+
+const factorial = memoize((n) => {
+  if (n === 0) return 1
+  return n * factorial(n - 1)
+})
+```
+
