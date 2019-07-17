@@ -365,3 +365,26 @@ const factorial = memoize((n) => {
 })
 ```
 
+## Make Change
+```javascript
+const makeChange = amount => {
+  if (amount < 5) return null
+
+  let runningAmount = 0
+  let coins = [25, 10, 5]
+  let coinsUsed = []
+
+  while (runningAmount < amount) {
+    for (let coin of coins) {
+      if (runningAmount + coin <= amount) {
+        runningAmount += coin
+        coinsUsed.push(coin)
+        break
+      }
+    }
+  }
+  return coinsUsed
+}
+
+makeChange(35)
+```
