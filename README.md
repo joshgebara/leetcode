@@ -471,3 +471,59 @@ console.log(n)
 n.pop(2)
 console.log(n)
 ```
+
+## Stack getMin
+```javascript
+class Stack {
+  constructor() {
+    this._storage = []
+    this._min = []
+  }
+  
+  push(value) {
+    const currMin = this._min[this._min.length - 1]
+    
+    if (!currMin) {
+      this._min.push(value)
+    }
+    
+    if (currMin > value) {
+      this._min.push(value)
+    }
+    
+    this._storage.push(value)
+  }
+  
+  pop() {
+    const value = this._storage.pop()
+    const currMin = this._min[this._min.length - 1]
+    
+    if (value == currMin) {
+      this._min.pop()
+    }
+    
+    return value
+  }
+  
+  getMin() {
+    return this._min[this._min.length - 1]
+  }
+}
+
+const stack = new Stack()
+stack.push(0)
+stack.push(2)
+stack.push(3)
+stack.push(1)
+stack.push(5)
+stack.push(2)
+stack.push(3)
+stack.push(1)
+console.log(stack)
+stack.pop()
+console.log(stack)
+stack.pop()
+console.log(stack)
+stack.pop()
+console.log(stack)
+```
