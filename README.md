@@ -563,3 +563,50 @@ queue.dequeue()
 queue.dequeue()
 queue.dequeue()
 ```
+
+## Sort Stack
+```javascript
+class Stack {
+  constructor() {
+    this._storage = [];
+  }
+  
+  push(value) {
+    this._storage.push(value);
+  } 
+  
+  pop() {
+    return this._storage.pop()
+  }
+  
+  sort() {
+    const buffer = []
+    let temp = this._storage.pop()
+    
+    while (temp) {      
+      let topValue = buffer[buffer.length - 1]
+        while (topValue < temp) {
+          let value = buffer.pop()
+          this._storage.push(value)
+          topValue = buffer[buffer.length - 1]
+        }  
+        buffer.push(temp)
+        temp = this._storage.pop()
+    }
+    
+    this._storage = buffer
+  }
+}
+
+const stack = new Stack()
+stack.push(9)
+stack.push(8)
+stack.push(2)
+stack.push(4)
+stack.push(1)
+stack.push(99)
+console.log(stack)
+stack.sort()
+console.log(stack)
+stack.pop()
+```
