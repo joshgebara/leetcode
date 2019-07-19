@@ -610,3 +610,63 @@ stack.sort()
 console.log(stack)
 stack.pop()
 ```
+
+## Delete Middle Node
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null
+  }
+  
+  push(value) {
+    const node = new Node(value)
+    node.next = this.head
+    this.head = node
+  }
+  
+  delete(node) {
+    let midNode = node
+    let nextNode = node.next
+    midNode.value = nextNode.value
+    midNode.next = midNode.next.next
+  }
+  
+  print() {
+    let head = this.head
+    while (head) {
+      console.log(head.value)
+      head = head.next
+    }
+  }
+  
+  get(i) {
+    let head = this.head
+    let currentIndex = 0
+    
+    while (head && currentIndex < i) {
+      head = head.next
+      currentIndex++
+    }
+    return head
+  }
+}
+
+const ll = new LinkedList()
+ll.push(1)
+ll.push(2)
+ll.push(3)
+ll.push(4)
+ll.push(5)
+const t = ll.get(3)
+ll.print()
+console.log("----")
+ll.delete(t)
+ll.print()
+```
