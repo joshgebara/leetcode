@@ -388,3 +388,86 @@ const makeChange = amount => {
 
 makeChange(35)
 ```
+
+### 3 Stacks
+```javascript
+// 3 Stacks
+
+class NStacks {
+  constructor(numberOfStacks, capacity) {
+    this.numberOfStacks = numberOfStacks
+    this.capacity = capacity
+    this.size = numberOfStacks * capacity
+    this.storage = []
+    this.currIndices = []
+    
+    for (let i = 0; i < this.numberOfStacks; i++) {
+      const startIndex = i * this.capacity
+      this.currIndices.push(startIndex)
+    }
+  }
+  
+  push(stackNumber, value) {
+    if (stackNumber >= this.numberOfStacks) {
+      return
+    }
+    
+    if (this.isFull(stackNumber)) {
+      return
+    }
+    
+    const currIndex = this.currIndices[stackNumber]
+    this.storage[currIndex] = value
+    this.currIndices[stackNumber]++
+  }
+  
+  pop(stackNumber) {
+    if (stackNumber >= this.numberOfStacks) {
+      return
+    }
+    
+    if (this.isEmpty(stackNumber)) {
+      return null
+    }
+    
+    this.currIndices[stackNumber]--
+    const currIndex = this.currIndices[stackNumber]
+    const value = this.storage[currIndex]
+    delete this.storage[currIndex]
+    return value
+  }
+  
+  isFull(stackNumber) {
+    const currIndex = this.currIndices[stackNumber]
+    const maxCapacity = ((stackNumber + 1) * this.capacity) - 1
+    return currIndex > maxCapacity
+  }
+  
+  isEmpty(stackNumber) {
+    const currIndex = this.currIndices[stackNumber] - 1
+    const minCapacity = stackNumber * this.capacity
+    return currIndex < minCapacity
+  }
+}
+
+
+const n = new NStacks(1, 2)
+n.push(1, 1)
+n.push(1, 2)
+n.push(1, 3)
+n.push(0, 4)
+n.push(0, 5)
+n.push(0, 9)
+console.log(n)
+n.pop(0)
+console.log(n)
+n.pop(0)
+console.log(n)
+// n.pop(0)
+// n.push(3, 4)
+// n.push(2, 5)
+// n.push(2, 9)
+// console.log(n)
+n.pop(2)
+console.log(n)
+```
