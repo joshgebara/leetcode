@@ -803,3 +803,64 @@ console.log("---")
 ll.reverseRecursive()
 ll.print()
 ```
+
+## Has a Cycle
+```javascript
+// cycle
+
+
+
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null
+    this.tail = null
+  }
+  
+  push(value) {
+    const node = new Node(value)
+    node.next = this.head
+    this.head = node
+    if (!this.tail) {
+      this.tail = this.head
+    }
+  }
+  
+  hasCycle() {
+    let fast = this.head
+    let slow = this.head
+    
+    while (fast) {
+      if (fast === slow) {
+        return true
+      }
+      fast = fast.next.next
+      slow = slow.next
+    }
+    return false
+  }
+  
+  print() {
+    let head = this.head
+    while (head) {
+      console.log(head.value)
+      head = head.next
+    }
+  }
+}
+
+const ll = new LinkedList()
+ll.push(1)
+ll.push(2)
+ll.push(3)
+ll.push(4)
+ll.push(5)
+ll.tail.next = ll.head
+ll.hasCycle()
+```
