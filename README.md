@@ -734,3 +734,72 @@ ll.removeDups()
 console.log("----")
 ll.print()
 ```
+
+## Reverse Linked List
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null
+  }
+  
+  push(value) {
+    const node = new Node(value)
+    node.next = this.head
+    this.head = node
+  }
+  
+  reverseIterative() {
+    let current = this.head;
+    let previous;
+    let next;
+    
+    while (current) {
+      next = current.next
+      current.next = previous
+      previous = current
+      current = next
+    }
+    this.head = previous
+  }
+  
+  reverseRecursive() {
+    this.head = this._reverseRecursive(this.head)
+  }
+  
+  _reverseRecursive(node) {
+    if (!node) return null
+    if (!node.next) return node
+    let head = this._reverseRecursive(node.next)
+    node.next.next = node
+    node.next = null
+    return head
+  }
+  
+  print() {
+    let head = this.head
+    while (head) {
+      console.log(head.value)
+      head = head.next
+    }
+  }
+}
+
+const ll = new LinkedList()
+ll.push(1)
+ll.push(2)
+ll.push(3)
+ll.push(4)
+ll.push(5)
+ll.reverseIterative()
+ll.print()
+console.log("---")
+ll.reverseRecursive()
+ll.print()
+```
