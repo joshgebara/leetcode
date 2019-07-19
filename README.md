@@ -670,3 +670,67 @@ console.log("----")
 ll.delete(t)
 ll.print()
 ```
+
+
+## Remove dups
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null
+  }
+  
+  push(value) {
+    const node = new Node(value)
+    node.next = this.head
+    this.head = node
+  }
+  
+  removeDups() {
+    const seenValues = new Set();
+    let curr = this.head;
+    let runner = curr.next;
+    seenValues.add(curr.value)
+    
+    while (runner) {
+      if (!seenValues.has(runner.value)) {
+        seenValues.add(runner.value)
+        runner = runner.next
+        curr = curr.next
+      } else {
+        runner = runner.next
+        curr.next = runner
+      }
+    }
+  }
+  
+  print() {
+    let head = this.head
+    while (head) {
+      console.log(head.value)
+      head = head.next
+    }
+  }
+}
+
+const ll = new LinkedList()
+ll.push(2)
+ll.push(2)
+ll.push(3)
+ll.push(4)
+ll.push(5)
+ll.push(2)
+ll.push(3)
+ll.push(2)
+ll.print()
+console.log("----")
+ll.removeDups()
+console.log("----")
+ll.print()
+```
