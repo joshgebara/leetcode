@@ -527,3 +527,39 @@ console.log(stack)
 stack.pop()
 console.log(stack)
 ```
+
+## Queue from two stacks
+```javascript
+class Queue {
+  constructor() {
+    this._leftStack = [];
+    this._rightStack = [];
+  } 
+  
+  enqueue(value) {
+    this._leftStack.push(value);
+  }
+  
+  dequeue() {
+    if (this._rightStack.length == 0) {
+      for (let element of this._leftStack) {
+        this._rightStack.push(element)
+      }
+      this._leftStack = []
+    }
+    return this._rightStack.pop()
+  }
+}
+
+const queue = new Queue()
+queue.enqueue(1)
+queue.enqueue(2)
+queue.enqueue(3)
+queue.enqueue(4)
+console.log(queue)
+queue.dequeue()
+queue.dequeue()
+queue.dequeue()
+queue.dequeue()
+queue.dequeue()
+```
