@@ -864,3 +864,38 @@ ll.push(5)
 ll.tail.next = ll.head
 ll.hasCycle()
 ```
+
+## Rotate Matrix
+```javascript
+const matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+]
+
+const rotateMatrix = matrix => {
+  let n = matrix.length
+  let endIndex = n - 1
+  
+  for (let i = 0; i < Math.floor(n / 2); i++) {
+    for (let j = 0 + i; j < n - (i + 1); j++) {
+      let temp
+      temp = matrix[i][j]
+      matrix[i][j] = matrix[j][endIndex - i]
+      matrix[j][endIndex - i] = temp   
+       
+      temp = matrix[j][endIndex - i]
+      matrix[j][endIndex - i] = matrix[endIndex - i][endIndex - j]
+      matrix[endIndex - i][endIndex - j] = temp
+      
+      temp = matrix[endIndex - i][endIndex - j]
+      matrix[endIndex - i][endIndex - j] = matrix[endIndex - j][i]
+      matrix[endIndex - j][i] = temp
+    }
+  }
+  
+  return matrix
+}
+
+rotateMatrix(matrix)
+```
