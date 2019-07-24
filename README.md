@@ -1010,7 +1010,7 @@ heap.remove()
 
 ## Heap Sort
 ```javascript
-const a = [7, 4, 5, 3, 9, 8, 0, 8, 7, 6, 7]
+const a = [5, 3, 7, 6, 8, 7, 3, 2, 1, 1, 3]
 
 
 const leftChildIndex = parentIndex => {
@@ -1028,15 +1028,15 @@ const siftDown = (from, to, elements) => {
     let right = rightChildIndex(parent)
     let candidate = parent
     
-    if (left < to && elements[left] < elements[candidate]) {
+    if (left < to && elements[left] > elements[candidate]) {
       candidate = left
     }
       
-    if (right < to && elements[right] < elements[candidate]) {
+    if (right < to && elements[right] > elements[candidate]) {
       candidate = right
     }
       
-    if (parent === candidate) return elements
+    if (parent === candidate) return
     
     let temp = elements[parent]
     elements[parent] = elements[candidate]
@@ -1063,7 +1063,7 @@ const heapSort = elements => {
     elements[i] = elements[0]
     elements[0] = temp
     
-    elements = siftDown(0, i, elements)
+    siftDown(0, i, elements)
   }
 }
 
