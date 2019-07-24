@@ -1007,3 +1007,67 @@ heap.remove()
 heap.remove()
 
 ```
+
+## Heap Sort
+```javascript
+const a = [7, 4, 5, 3, 9, 8, 0, 8, 7, 6, 7]
+
+
+const leftChildIndex = parentIndex => {
+  return 2 * parentIndex + 1
+}
+
+const rightChildIndex = parentIndex => {
+  return 2 * parentIndex + 2
+}
+
+const siftDown = (from, to, elements) => {
+  let parent = from
+  while (true) {
+    let left = leftChildIndex(parent)
+    let right = rightChildIndex(parent)
+    let candidate = parent
+    
+    if (left < to && elements[left] < elements[candidate]) {
+      candidate = left
+    }
+      
+    if (right < to && elements[right] < elements[candidate]) {
+      candidate = right
+    }
+      
+    if (parent === candidate) return elements
+    
+    let temp = elements[parent]
+    elements[parent] = elements[candidate]
+    elements[candidate] = temp
+    
+    parent = candidate
+  }
+}
+
+const heapify = elements => {
+  for (let i = Math.floor(elements.length / 2) - 1; 0 <= i; i--) {
+    siftDown(i, elements.length, elements)
+  }
+  return elements
+}
+
+const heapSort = elements => {
+  if (elements.length < 2) return elements
+  
+  heapify(elements)
+  
+  for (let i = (elements.length - 1); 0 <= i; i--) {
+    let temp = elements[i]
+    elements[i] = elements[0]
+    elements[0] = temp
+    
+    elements = siftDown(0, i, elements)
+  }
+}
+
+
+heapSort(a)
+a
+```
