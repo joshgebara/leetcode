@@ -1050,7 +1050,6 @@ const heapify = elements => {
   for (let i = Math.floor(elements.length / 2) - 1; 0 <= i; i--) {
     siftDown(i, elements.length, elements)
   }
-  return elements
 }
 
 const heapSort = elements => {
@@ -1070,4 +1069,134 @@ const heapSort = elements => {
 
 heapSort(a)
 a
+```
+
+## Radix Sort
+```javascript
+const a = [6, 4, 5, 4, 3, 2, 8, 7, 6, 9, 8, 3, 2, 1]
+
+const radixSort = numbers => {
+  let radix = 10
+  let done = false
+  let digits = 1
+  
+  while (!done) {
+    done = true
+    let buckets = [[],[],[],[],[],[],[],[],[],[]]
+
+    for (let number of numbers) {
+      let remainingNumber = Math.floor(number / digits)
+      let digit = Math.floor(remainingNumber % radix)
+      buckets[digit].push(number)
+      
+      if (remainingNumber > 0) {
+        done = false
+      }
+    }
+    
+    numbers = buckets.flat()
+    digits *= 10
+  }
+  return numbers
+}
+
+radixSort(a)
+```
+
+## Trie
+```javascript
+class TrieNode {
+  children = {}
+  isTerminating = false
+  constructor(key = null, parent = null) {
+    this.key = key
+    this.parent = parent  
+  }
+}
+
+class Trie {
+  constructor() {
+    this.root = new TrieNode()
+  }
+  
+  insert(collection) {
+    if (collection.length < 1) return
+    
+    let current = this.root
+    for (let element of collection) {
+      if (!current.children[element]) {
+        current.children[element] = new TrieNode(element, current)  
+      }
+      current = current.children[element]
+    }
+    current.isTerminating = true
+  }
+  
+  remove(collection) {
+    if (collection.length < 1) return
+    
+    let current = this.root
+    for (let element of collection) {
+      if (!current.children[element]) return
+      current = current.children[element]
+    }
+    
+    if (!current.isTerminating) return
+    current.isTerminating = false
+    
+    while (current.parent && 
+           !current.isTerminating && 
+           Object.entries(current.children).length === 0 && 
+           current.children.constructor === Object) {
+      let parent = current.parent
+      delete parent.children[current.key]
+      current = parent
+      parent = current.parent
+    }
+    
+  }
+  
+  contains(collection) {
+    if (collection.length < 1) return
+    
+    let current = this.root
+    for (let element of collection) {
+      if (!current.children[element]) return false
+      current = current.children[element]
+    }
+    return current.isTerminating
+  }
+  
+  collections(prefix) {
+    if (prefix.length < 1) return
+    
+    let current = this.root
+    for (let element of prefix) {
+      if (!current.children[element]) return []
+      current = current.children[element]
+    }
+    
+    return this._collections(prefix, current)
+  }
+  
+  _collections(prefix, current) {
+    let collections = [];
+
+    if (current.isTerminating) {
+      collections.push(prefix)
+    }
+    
+    for (let child of Object.values(current.children)) {
+      let matches = this._collections(prefix + child.key, child)
+      collections = [...collections, ...matches]
+    }
+    
+    return collections
+  }
+} 
+
+const t = new Trie()
+t.insert("Hello")
+t.insert("He")
+t.collections("H")
 ```
