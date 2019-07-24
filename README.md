@@ -899,3 +899,111 @@ const rotateMatrix = matrix => {
 
 rotateMatrix(matrix)
 ```
+
+## Heap
+```javascript
+class Heap {
+  constructor(elements, sort = ((a, b) => { return a < b })) {
+    this._elements = elements
+    this._sort = sort
+    this._heapify()
+  }
+  
+  _heapify() {
+    for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+      this._siftDown(i);
+    }
+  }
+  
+  _siftUp(index) {
+    let childIndex = index
+    let parentIndex = this._parentIndex(childIndex)
+    
+    while (childIndex > 0 && 
+           this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+      let temp = this._elements[childIndex]
+      this._elements[childIndex] = this._elements[parentIndex]
+      this._elements[parentIndex] = temp
+      
+      childIndex = parentIndex
+      parentIndex = this._parentIndex(childIndex)
+    }
+    
+  }
+  
+  _siftDown(index) {
+    let parentIndex = index
+    while (true) {
+      let leftIndex = this._leftChildIndex(parentIndex)
+      let rightIndex = this._rightChildIndex(parentIndex)
+      let candidate = parentIndex
+      
+      if (leftIndex < this._elements.length && 
+          this._sort(this._elements[leftIndex], this._elements[candidate])) {
+        candidate = leftIndex
+      }
+            
+      if (rightIndex < this._elements.length && 
+          this._sort(this._elements[rightIndex], this._elements[candidate])) {
+        candidate = rightIndex
+      }
+      
+      if (parentIndex === candidate) {
+        return
+      }
+      
+      let temp = this._elements[parentIndex]
+      this._elements[parentIndex] = this._elements[candidate]
+      this._elements[candidate] = temp
+      
+      parentIndex = candidate
+    }
+  }
+  
+  _leftChildIndex(parentIndex) {
+    return 2 * parentIndex + 1
+  }
+  
+  _rightChildIndex(parentIndex) {
+    return 2 * parentIndex + 2
+  }
+  
+  _parentIndex(childIndex) {
+    return Math.floor((childIndex - 1) / 2)
+  }
+  
+  insert(element) {
+    this._elements.push(element)
+    this._siftUp(this._elements.length - 1)
+  }
+  
+  remove() {
+    if (this._elements.length < 1) {
+      return null
+    }
+    
+    let temp = this._elements[0]
+    this._elements[0] = this._elements[this._elements.length - 1]
+    this._elements[this._elements.length - 1] = temp
+    
+    let element = this._elements.pop()
+    this._siftDown(0)
+    return element
+  }
+}
+
+
+const heap = new Heap([], (a, b) => { return a > b })
+heap
+heap.insert(5)
+heap.insert(9)
+heap.insert(2)
+heap.insert(100)
+heap
+heap.remove()
+heap.remove()
+heap.remove()
+heap.remove()
+heap.remove()
+
+```
