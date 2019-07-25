@@ -1200,3 +1200,47 @@ t.insert("Hello")
 t.insert("He")
 t.collections("H")
 ```
+
+## Minimal Tree / ListsFromTree
+```javascript
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+class TreeNode {
+  constructor(value, left = null, right = null) {
+    this.value = value
+    this.left = left
+    this.right = right
+  }
+}
+
+const minimalTree = array => {
+  if (array.length < 1) return
+  const middleIndex = Math.floor(array.length / 2)
+  const middleValue = array[middleIndex]
+  const left = minimalTree(array.slice(0, middleIndex))
+  const right = minimalTree(array.slice(middleIndex + 1))
+  return new TreeNode(middleValue, left, right)
+}
+
+const listsFromTree = tree => {
+  const lists = []
+  _listsFromTree(lists, tree)
+  return lists
+}
+
+const _listsFromTree = (lists, node, level = 0) => {
+  if (!node) return
+  if (lists[level]) {
+    lists[level].push(node.value)
+  } else {
+    lists[level] = [node.value]
+  }
+  _listsFromTree(lists, node.left, level + 1)
+  _listsFromTree(lists, node.right, level + 1)
+}
+
+const tree = minimalTree(array)
+const lists = listsFromTree(tree)
+console.log(lists)
+
+```
