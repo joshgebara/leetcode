@@ -1282,3 +1282,46 @@ const rotateMatrix = matrix => {
 
 rotateMatrix(matrix)
 ```
+
+## Zero Matrix
+```javascript
+const matrix = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 0, 1, 1],
+  [1, 1, 0, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+const zeroMatrix = matrix => {
+  if (matrix.length === 0) return matrix
+  const m = matrix.length
+  const n = matrix[0].length
+  
+  const validZeros = {}
+  
+  for (let rowIndex = 0; rowIndex < m; rowIndex++) {
+    for (let columnIndex = 0; columnIndex < n; columnIndex++) {
+      if (matrix[rowIndex][columnIndex] === 0) {
+        validZeros[rowIndex] = columnIndex
+      }
+    } 
+  }  
+  
+  for (let key of Object.keys(validZeros)) {
+    let rowIndex = key
+    let columnIndex = validZeros[key]
+    
+    for (let i = 0; i < n; i++) {
+      matrix[rowIndex][i] = 0
+    }
+    
+    for (let i = 0; i < m; i++) {
+      matrix[i][columnIndex] = 0
+    }
+  }
+  
+  return matrix
+}
+
+zeroMatrix(matrix)
+```
