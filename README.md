@@ -1325,3 +1325,70 @@ const zeroMatrix = matrix => {
 
 zeroMatrix(matrix)
 ```
+
+## Maze Generator
+```javascript
+const getNextCoordinate = (direction, [x, y]) => {
+  switch (direction) {
+      case 'n':
+        return [x + 1, y]
+      case 's':
+        return [x - 1, y]
+      case 'e':
+        return [x, y + 1]
+      case 'w':
+        return [x, y - 1]
+    }    
+}
+
+const isValidCoordinate = (maze, [x, y]) => {
+  if (x < 0 || x >= maze.length) {
+    return false
+  }
+  
+  if (y < 0 || y >= maze.length) {
+    return false
+  }
+  return true
+}
+
+const updateMaze = (maze, direction, current, next) => {
+  switch (direction) {
+    case 'n':
+      current.n = false
+      next.s = false
+      break
+    case 's':
+      current.s = false
+      next.n = false
+      break
+    case 'e':
+      current.e = false
+      next.w = false
+      break
+    case 'w':
+      current.w = false
+      next.e = false
+      break
+  } 
+}
+
+const generateMaze = (maze, [xStart, yStart]) => {
+  const current = maze[xStart][yStart]
+  current.visited = true
+  
+  randomizeDirection().forEach(direction => {
+    const [x, y] = getNextCoordinate(direction, [xStart, yStart])
+    if (!isValidCoordinate(maze, [x, y])) return;
+    
+    const next = maze[x][y];
+    if (next.visited) return;
+    
+    updateMaze(maze, direction, current, next)
+    generateMaze(maze, [x, y])
+  })
+
+  return maze;
+};
+
+```
