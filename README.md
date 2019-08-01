@@ -1392,3 +1392,25 @@ const generateMaze = (maze, [xStart, yStart]) => {
 };
 
 ```
+
+## isValid
+```javascript
+const isValid = (tree, range = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]) => {
+  if (!tree) return true
+  const [min, max] = range
+  if (!(tree.value >= min) && !(tree.value <= max)) return false
+  
+  let leftBalanced = true
+  let rightBalanced = true
+
+  if (tree.left) {
+    leftBalanced = isValid(tree.left, [min, tree.left.value])
+  }
+  
+  if (tree.right) {
+    rightBalanced = isValid(tree.right, [min, tree.right.value])
+  }
+  
+  return leftBalanced && rightBalanced
+}
+```
