@@ -1414,3 +1414,154 @@ const isValid = (tree, range = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER
   return leftBalanced && rightBalanced
 }
 ```
+
+## Project Dependencies
+```javascript
+const makeGraph = dependencies => {
+  return dependencies.reduce((graph, [project, dependency]) => {
+    if (graph[dependency]) {
+      graph[dependency].push(project)
+    } else {
+      graph[dependency] = [project] 
+    } 
+    return graph
+  }, {})
+}
+
+const getOrder = (projects, graph) => {
+  let buildOrder = new Map()
+  for (let project of projects) {
+    let visiting = new Set()
+    build(project, graph, buildOrder, visiting)  
+  }
+  return Object.keys(buildOrder)
+}
+
+const build = (project, graph, buildOrder, visiting) => {  
+  if (!project) return
+  if (visiting.has(project)) throw new Error('Cycle')
+  if (buildOrder[project]) return
+  
+  visiting.add(project)
+  
+  let children = graph[project]
+  if (children) {
+    for (let child of children) {
+        build(child, graph, buildOrder, visiting)  
+    }    
+  }
+  
+  visiting.delete(project)
+  buildOrder[project] = true
+  return
+
+}
+
+const buildOrder = (projects, dependencies) => {
+  let graph = makeGraph(dependencies)
+  return getOrder(projects, graph)
+} 
+
+buildOrder(['a', 'b', 'c', 'd', 'e', 'f'], 
+           [['a', 'd'], ['f', 'b'], ['b', 'd'], ['f', 'a'], ['d', 'c']])
+```
+
+## Lowest Common Ancestor
+```javascript
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+class TreeNode {
+  constructor(value, left = null, right = null) {
+    this.value = value
+    this.left = left
+    this.right = right
+  }
+}
+
+const lowestCA = (root, node1, node2) => {
+  if (!root) return null
+  
+  if (root.value === node1.value) return root
+  if (root.value === node2.value) return root
+  
+  const left = lowestCA(root.left, node1, node2)
+  const right = lowestCA(root.right, node1, node2)
+
+  if (left && right) return root
+  if (left) return left
+  if (right) return right
+  
+  return null
+}
+
+const minimalTree = array => {
+  if (array.length < 1) return
+  const middleIndex = Math.floor(array.length / 2)
+  const middleValue = array[middleIndex]
+  const left = minimalTree(array.slice(0, middleIndex))
+  const right = minimalTree(array.slice(middleIndex + 1))
+  return new TreeNode(middleValue, left, right)
+}
+
+const tree = minimalTree(array)
+lowestCA(tree, tree.right.right, tree.right.left.left)
+```
+
+## Check BST 1
+```javascript
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+class TreeNode {
+  constructor(value, left = null, right = null) {
+    this.value = value
+    this.left = left
+    this.right = right
+  }
+}
+
+const treeAsString = (tree, result = '') => {
+  result += `${tree.value}`
+
+  if (tree.left) {
+    result += treeAsString(tree.left)
+  } else {
+    result += 'X'
+  }
+
+  if (tree.right) {
+    result += treeAsString(tree.right)
+  } else {
+    result += 'X'
+  }
+
+  return result
+}
+
+const checkBST = (tree, subtree) => {
+  if (!tree && !subtree) return true
+  if (!subtree) return true
+  if (!tree) return false
+  
+  let bigTree = treeAsString(tree)
+  let smallTree = treeAsString(subtree)
+  
+  return bigTree.includes(smallTree)
+}
+
+const minimalTree = array => {
+  if (array.length < 1) return
+  const middleIndex = Math.floor(array.length / 2)
+  const middleValue = array[middleIndex]
+  const left = minimalTree(array.slice(0, middleIndex))
+  const right = minimalTree(array.slice(middleIndex + 1))
+  return new TreeNode(middleValue, left, right)
+}
+
+const tree = minimalTree(array)
+checkBST(tree, tree.left.left)
+```
+
+## Check BST 2
+```javascript
+
+```
