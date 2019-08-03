@@ -1520,32 +1520,18 @@ class TreeNode {
 }
 
 const treeAsString = (tree, result = '') => {
+  if (!tree) {
+    result += 'X'
+    return
+  }
   result += `${tree.value}`
-
-  if (tree.left) {
-    result += treeAsString(tree.left)
-  } else {
-    result += 'X'
-  }
-
-  if (tree.right) {
-    result += treeAsString(tree.right)
-  } else {
-    result += 'X'
-  }
-
+  result += treeAsString(tree.left)
+  result += treeAsString(tree.right)
   return result
 }
 
 const checkBST = (tree, subtree) => {
-  if (!tree && !subtree) return true
-  if (!subtree) return true
-  if (!tree) return false
-  
-  let bigTree = treeAsString(tree)
-  let smallTree = treeAsString(subtree)
-  
-  return bigTree.includes(smallTree)
+  return treeAsString(tree).includes(treeAsString(subtree))
 }
 
 const minimalTree = array => {
@@ -1563,5 +1549,41 @@ checkBST(tree, tree.left.left)
 
 ## Check BST 2
 ```javascript
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+class TreeNode {
+  constructor(value, left = null, right = null) {
+    this.value = value
+    this.left = left
+    this.right = right
+  }
+}
+
+const matchTree = (tree1, tree2) => {
+  if (!tree1 && !tree2) return true  
+  if (!tree1 || !tree2) return false
+  if (tree1.value !== tree2.value) return false
+  return matchTree(tree1.left, tree2.left) || matchTree(tree1.right, tree2.right) 
+}
+
+const checkBST = (tree, subtree) => {
+  if (!tree) return false
+  if (!subtree) return true
+  if (tree.value === subtree.value && matchTree(tree, subtree)) {
+    return true
+  }
+  return checkBST(tree.left, subtree) || checkBST(tree.right, subtree)
+}
+
+const minimalTree = array => {
+  if (array.length < 1) return
+  const middleIndex = Math.floor(array.length / 2)
+  const middleValue = array[middleIndex]
+  const left = minimalTree(array.slice(0, middleIndex))
+  const right = minimalTree(array.slice(middleIndex + 1))
+  return new TreeNode(middleValue, left, right)
+}
+
+const tree = minimalTree(array)
+checkBST(tree, tree.left.left)
 ```
