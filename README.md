@@ -1587,3 +1587,130 @@ const minimalTree = array => {
 const tree = minimalTree(array)
 checkBST(tree, tree.left.left)
 ```
+
+## Random Node
+```javascript
+class TreeNode {
+  constructor(value, left = null, right = null) {
+    this.value = value
+    this.left = left
+    this.right = right
+    this.children = 0
+  }
+  
+  min() {
+    if (this.left) {
+      return this.left.min()
+    } else {
+      return this.value
+    }
+  }
+}
+
+class Tree {
+  constructor() {
+    this.root = null
+  }
+
+  insert(value) {
+    this.root = this._insert(value, this.root)
+  }
+  
+  _insert(value, node) {    
+    if (!node) {
+      return new TreeNode(value)
+    }
+    
+    node.children++
+    
+    if (value < node.value) {
+      node.left = this._insert(value, node.left)
+    } else {
+      node.right = this._insert(value, node.right)
+    }
+    return node
+  }
+  
+  remove(value) {
+    this.root = this._remove(value, this.root)
+  }
+  
+  _remove(value, node) {
+    if (!node) {
+      return null
+    }
+    
+    node.children--
+    
+    if (value === node.value) {
+      if (!node.left && !node.right) {
+        return null
+      }
+            
+      if (!node.left) {
+        return node.right
+      }
+      
+      if (!node.right) {
+        return node.left
+      }
+      
+      node.value = node.right.min()
+      this._remove(node.value, node.right)
+      
+    } else if (value < node.value) {
+      node.left = this._remove(value, node.left)     
+    } else {
+      node.right = this._remove(value, node.right)
+    }
+    return node
+  }
+  
+  find(value) {
+    let current = this.root
+    
+    while (current) {
+      if (value === current.value) {
+        return true
+      }
+      
+      if (value < current.value) {
+        current = current.left
+      } else {
+        current = current.right
+      }
+    }
+    return false
+  }
+  
+  getRandom() {
+    if (!this.root) return
+    
+    const index = Math.floor(Math.random() * this.root.children + 1)
+    console.log("index", index)
+    return this.getIthNode(index, this.root)
+  }
+  
+  getIthNode(i, node) {
+    let leftSize = node.left ? node.left.children + 1 : 0
+
+    if (i < leftSize) {
+      return this.getIthNode(i, node.left)
+    } else if (i === leftSize) {
+      return node
+    } else {
+      return this.getIthNode((i - (leftSize + 1)), node.right)
+    }
+  }
+}
+
+const tree = new Tree()
+tree.insert(5)
+tree.insert(3)
+tree.insert(1)
+tree.insert(7)
+tree.insert(6)
+tree.insert(9)
+tree.getRandom().value
+
+```
