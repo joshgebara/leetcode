@@ -1714,3 +1714,36 @@ tree.insert(9)
 tree.getRandom().value
 
 ```
+
+## Max Depth of Binary Tree
+```javascript
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+class TreeNode {
+  constructor(value, left = null, right = null) {
+    this.value = value
+    this.left = left
+    this.right = right
+  }
+}
+
+const maxDepth = (tree, depth = 0, max = 0) => {
+  if (!tree) return depth - 1
+  
+   return Math.max(maxDepth(tree.left, depth + 1, max), 
+                  maxDepth(tree.right, depth + 1, max))
+}
+
+const minimalTree = array => {
+  if (array.length < 1) return
+  const middleIndex = Math.floor(array.length / 2)
+  const middleValue = array[middleIndex]
+  const left = minimalTree(array.slice(0, middleIndex))
+  const right = minimalTree(array.slice(middleIndex + 1))
+  return new TreeNode(middleValue, left, right)
+}
+
+const tree = minimalTree(array)
+tree.right.left
+maxDepth(tree)
+```
