@@ -1727,11 +1727,11 @@ class TreeNode {
   }
 }
 
-const maxDepth = (tree, depth = 0, max = 0) => {
+const maxDepth = (tree, depth = 0) => {
   if (!tree) return depth - 1
   
-   return Math.max(maxDepth(tree.left, depth + 1, max), 
-                  maxDepth(tree.right, depth + 1, max))
+   return Math.max(maxDepth(tree.left, depth + 1), 
+                  maxDepth(tree.right, depth + 1))
 }
 
 const minimalTree = array => {
@@ -1746,4 +1746,31 @@ const minimalTree = array => {
 const tree = minimalTree(array)
 tree.right.left
 maxDepth(tree)
+```
+
+## Flip Bit
+```javascript
+const flipBit = num => {
+  if (~num == 0) {
+    return 64;
+  }
+  
+  let max = 1
+  let current = 0
+  let previous = 0
+  
+  while (num !== 0) {
+    if ((num & 1) == 1) {
+      current++
+    } else if ((num & 1) == 0) {
+      previous = (num & 2) == 0 ? 0 : current
+      current = 0
+    }
+    max = Math.max(previous + current + 1, max)
+    num >>>= 1
+  }
+  return max
+}
+
+flipBit(1775)
 ```
