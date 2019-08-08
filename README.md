@@ -1797,3 +1797,24 @@ const longestOnes = (bin) => {
 
 longestOnes(0b1101111011)
 ```
+
+## First Set Bit
+```javascript
+const firstSetBit = bin => {
+  if (!bin) return null
+  
+  let currentIndex = 0
+  
+  while (bin) {
+    if (bin & 1) {
+      return currentIndex
+    }
+    
+    bin >>>= 1
+    currentIndex++
+  }
+  return null
+}
+
+firstSetBit(0b11001111000)
+```
