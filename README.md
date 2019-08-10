@@ -1818,3 +1818,22 @@ const firstSetBit = bin => {
 
 firstSetBit(0b11001111000)
 ```
+
+## Insertion
+```javascript
+function dec2bin(dec){
+    return (dec >>> 0).toString(2);
+}
+
+const insertion = (n, m, i, j) => {
+  const left = ~0 << j + 1
+  const right = (1 << i) - 1
+  const mask = left | right 
+  const nCleared = n & mask
+  const mShifted = m << i
+  return nCleared | mShifted
+}
+
+const t = insertion(0b10000000000, 0b10011, 2, 6)
+console.log(dec2bin(t))
+```
