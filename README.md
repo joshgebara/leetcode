@@ -1751,19 +1751,17 @@ maxDepth(tree)
 ## Flip Bit
 ```javascript
 const flipBit = num => {
-  if (~num == 0) {
-    return 64;
-  }
+  if (~num == 0) return 64
   
   let max = 1
   let current = 0
   let previous = 0
   
-  while (num !== 0) {
-    if ((num & 1) == 1) {
+  while (num) {
+    if (num & 1) {
       current++
-    } else if ((num & 1) == 0) {
-      previous = (num & 2) == 0 ? 0 : current
+    } else {
+      previous = num & 2 == 0 ? 0 : current
       current = 0
     }
     max = Math.max(previous + current + 1, max)
