@@ -1958,3 +1958,74 @@ const pairwiseSwap = bin => {
 const t = pairwiseSwap(0b11011010)
 console.log(decToBin(t))
 ```
+
+## Number is Sparse
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const isSparse = num => {
+  let num_shifted = num >> 1
+  return (num & num_shifted) == 0
+}
+
+isSparse(2)
+isSparse(3)
+
+```
+
+## Min Stack
+```javascript
+class Stack {
+  constructor() {
+    this.storage = []
+    this.min = []
+  }
+  
+  push(value) {
+    let min = this.min[this.min.length - 1]
+    if (min === undefined || value <= min) {
+      this.min.push(value)
+    }
+    this.storage.push(value)
+  }
+  
+  pop() {
+    let min = this.min[this.min.length - 1]
+    if (min === undefined) return
+    
+    let value = this.storage[this.storage.length - 1]
+    if (value === min) {
+      this.min.pop(value)
+    }
+    return this.storage.pop()
+  }
+  
+  minValue() {
+   return this.min[this.min.length - 1]
+  }
+}
+
+const s = new Stack()
+s.push(9)
+s.push(2)
+s.push(4)
+s.push(1)
+s.push(0)
+s.push(3)
+s.push(6)
+s.push(0)
+s
+s.pop()
+s
+s.pop()
+s
+s.pop()
+s
+s.pop()
+s
+s.pop()
+s
+s.minValue()
+```
