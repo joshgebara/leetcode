@@ -1879,3 +1879,43 @@ const conversion = (bin1, bin2) => {
 
 conversion(29, 15)
 ```
+
+## Right Most Diff
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const rightMostDiff = (bin1, bin2) => {
+  let diff = bin1 ^ bin2
+  let position = 0
+  while (diff) {
+    position++
+    if (diff & 1) return position
+    diff >>>= 1
+  }
+  return null
+}
+
+rightMostDiff(11, 9)
+```
+
+## Toggle In Range
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const toggleInRange = (bin, r, l) => {
+  let mask = (1 << l) - 1
+  
+  let count = r - 1
+  while (count) {
+    mask = mask & (mask - 1)
+    count-- 
+  }
+  return bin ^ mask
+}
+
+toggleInRange(17, 2, 3)
+```
