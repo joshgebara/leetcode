@@ -1919,3 +1919,28 @@ const toggleInRange = (bin, r, l) => {
 
 toggleInRange(17, 2, 3)
 ```
+
+## Rotate bits
+
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const uIntN = (bin, n) => {
+  let upperBound = Math.pow(2, n) - 1
+  return bin & upperBound
+}
+
+const uInt16 = (bin) => {
+  return uIntN(bin, 16)
+}
+
+const rotateBits = (bin, rotations) => {
+  let left = uInt16(bin << rotations) | uInt16(bin >> 16 - rotations)
+  let right = uInt16(bin >> rotations) | uInt16(bin << 16 - rotations)
+  return [left, right]
+}
+
+rotateBits(229, 3)
+```
