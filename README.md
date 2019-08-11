@@ -1859,3 +1859,23 @@ const powerOf2 = bin => {
 
 powerOf2(1)
 ```
+
+## Conversion
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const conversion = (bin1, bin2) => {
+  let diff = bin1 ^ bin2
+  let count = 0
+  
+  while (diff) {
+    count++
+    diff = diff & (diff - 1)
+  }
+  return count
+}
+
+conversion(29, 15)
+```
