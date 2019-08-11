@@ -1944,3 +1944,17 @@ const rotateBits = (bin, rotations) => {
 
 rotateBits(229, 3)
 ```
+
+## Pairwise Swap
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const pairwiseSwap = bin => {
+  return ((bin & 0xaaaaaaaa) >> 1) | ((bin & 0x55555555) << 1)
+}
+
+const t = pairwiseSwap(0b11011010)
+console.log(decToBin(t))
+```
