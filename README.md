@@ -2029,3 +2029,97 @@ s.pop()
 s
 s.minValue()
 ```
+
+## Stack of Plates
+```javascript
+class Stack {
+  constructor(capacity) {
+    this.capacity = capacity
+    this.storage = [[]]
+  }
+  
+  currentStack() {
+    return this.storage[this.storage.length - 1]
+  }
+  
+  push(value) {
+    let currentStack = this.currentStack()
+    if (currentStack.length >= this.capacity - 1) {
+      this.storage.push([value])
+    }
+    
+    currentStack.push(value)
+  }
+    
+  pop() {
+    let currentStack = this.currentStack()
+    if (!currentStack) return 
+    
+    if (currentStack.length === 0) {
+      this.storage.pop()
+      return this.pop()
+    }
+    
+    return currentStack.pop()
+  }
+  
+  popAt(index) {
+    if (index >= this.storage.length) return null
+    
+    let stack = this.storage[index]
+    return stack.pop()
+  }
+  
+}
+
+const stack = new Stack(3)
+stack
+stack.push(1)
+stack.push(2)
+stack.push(3)
+stack.push(4)
+stack.push(5)
+stack.push(6)
+stack
+stack.popAt(6)
+stack.popAt(1)
+stack
+stack.popAt(1)
+stack
+stack.popAt(1)
+stack
+stack.popAt(1)
+stack
+stack.popAt(0)
+stack
+stack.popAt(0)
+stack
+stack.push(6)
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+```
