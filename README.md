@@ -1835,3 +1835,27 @@ const insertion = (n, m, i, j) => {
 const t = insertion(0b10000000000, 0b10011, 2, 6)
 console.log(dec2bin(t))
 ```
+
+## Flip Bit at K
+```javascript
+const decToBin = num => {
+  return (num >>> 0).toString(2)
+}
+
+const flipK = (bin, k) => {
+  let mask = 1 << k
+  return bin ^ mask
+}
+
+const t = flipK(0b11011, 2)
+decToBin(t)
+```
+
+## Power of 2
+```javascript
+const powerOf2 = bin => {
+  return (bin & bin - 1) === 0
+}
+
+powerOf2(1)
+```
