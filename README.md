@@ -2123,3 +2123,56 @@ stack
 stack.pop()
 stack
 ```
+
+## Sort Stack
+```javascript
+class Stack {
+  constructor() {
+    this.storage = []
+  }
+  
+  push(value) {
+    this.storage.push(value)
+  }
+  
+  pop() {
+    return this.storage.pop()
+  }
+  
+  peek() {
+    return this.storage[this.storage.length - 1]
+  }
+  
+  isEmpty() {
+    return this.storage.length === 0
+  }
+  
+  sort() {
+    let buffer = new Stack()
+    
+    while (!this.isEmpty()) {
+      let temp = this.storage.pop()
+      
+      while (buffer.peek() > temp) {
+        this.storage.push(buffer.pop()) 
+      }
+      buffer.push(temp)
+    }
+        
+    while (!buffer.isEmpty()) {
+      this.storage.push(buffer.pop())
+    }
+  }
+}
+
+const stack = new Stack()
+stack.push(9)
+stack.push(2)
+stack.push(4)
+stack.push(12)
+stack.push(1)
+stack.push(3)
+stack
+stack.sort()
+stack
+```
