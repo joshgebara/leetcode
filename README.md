@@ -2323,3 +2323,30 @@ ringBuffer.write(8)
 ringBuffer.read()
 ringBuffer
 ```
+
+## Parenthesis Matching
+```javascript
+const parenPosition = (string, openPosition) => {
+  
+  let position = openPosition + 1
+  let nestDepth = 0
+  
+  while (position < string.length) {
+    let char = string[position]
+    
+    if (char === '(') {
+      nestDepth++
+    }
+    
+    if (char === ')') {
+      if (nestDepth === 0) return position
+      nestDepth--
+    } 
+    
+    position++
+  }
+  
+}
+
+parenPosition("Sometimes (when I nest them (my parentheticals) too much (like this (and this))) they get confusing.", 10)
+```
