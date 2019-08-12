@@ -2176,3 +2176,150 @@ stack
 stack.sort()
 stack
 ```
+
+## Animal Shelter
+```javascript
+class Animal {
+  constructor(name) {
+    this.name = name
+    this.age = null
+  }
+}
+
+class Dog extends Animal {}
+class Cat extends Animal {}
+
+class AnimalQueue {
+  constructor() {
+    this.dogQueue = []
+    this.catQueue = []
+  }
+  
+  enqueue(animal) {
+    animal.age = Date()
+    
+    if (animal instanceof Dog) {
+      this.dogQueue.push(animal)
+      return
+    }
+    
+    if (animal instanceof Cat) {
+      this.catQueue.push(animal)
+      return
+    }
+  }
+  
+  dequeueAny() {
+    if (!this.dogQueue.length && !this.catQueue.length) return null
+    if (!this.dogQueue.length) return this.catQueue.shift()
+    if (!this.catQueue.length) return this.dogQueue.shift()
+    
+    let nextDog = this.dogQueue[this.dogQueue.length - 1]
+    let nextCat = this.catQueue[this.catQueue.length - 1]
+    
+    if (nextDog > nextCat) {
+      return this.dogQueue.shift()
+    } else {
+      return this.catQueue.shift()
+    }
+  }
+  
+  dequeueDog() {
+    return this.dogQueue.shift()
+  }
+  
+  dequeueCat() {
+    return this.catQueue.shift()
+  }
+  
+}
+
+
+const queue = new AnimalQueue()
+queue.enqueue(new Dog("Dog1"))
+queue.enqueue(new Cat("Cat1"))
+queue.enqueue(new Cat("Cat2"))
+queue.enqueue(new Cat("Cat3"))
+queue.enqueue(new Cat("Cat4"))
+queue.enqueue(new Dog("Dog2"))
+queue.enqueue(new Dog("Dog3"))
+queue.dequeueCat().name
+queue
+queue.dequeueDog().name
+queue
+queue.dequeueAny().name
+queue.dequeueDog().name
+queue.dequeueAny().name
+queue.dequeueCat().name
+queue.dequeueAny().name
+
+```
+
+## Ring Buffer
+```javascript
+class RingBuffer {
+  constructor(size) {
+    this.storage = Array(size).fill(null)
+    this.readIndex = 0
+    this.writeIndex = 0
+  }
+  
+  write(value) {
+    if (this.isFull()) {
+      return false
+    }
+    
+    this.storage[this.writeIndex % this.count()] = value
+    this.writeIndex++
+    return true 
+  }
+  
+  read() {
+    if (this.isEmpty()) {
+      return null
+    }
+    
+    let element = this.storage[this.readIndex % this.count()]
+    this.readIndex++
+    return element
+  }
+  
+  isFull() {
+    return this.avaliableSpaceForWriting() === 0
+  }
+  
+  isEmpty() {
+    return this.avaliableSpaceForReading() === 0
+  }
+  
+  avaliableSpaceForWriting() {
+    return this.count() - this.avaliableSpaceForReading()
+  }
+  
+  avaliableSpaceForReading() {
+    return this.writeIndex - this.readIndex
+  }
+  
+  count() {
+    return this.storage.length
+  }
+}
+
+const ringBuffer = new RingBuffer(4)
+ringBuffer.write(1)
+ringBuffer.read()
+ringBuffer.write(2)
+ringBuffer.write(3)
+ringBuffer.read()
+ringBuffer.read()
+ringBuffer.read()
+ringBuffer.write(4)
+ringBuffer.write(5)
+ringBuffer.write(5)
+ringBuffer.write(6)
+ringBuffer.read()
+ringBuffer.write(7)
+ringBuffer.write(8)
+ringBuffer.read()
+ringBuffer
+```
