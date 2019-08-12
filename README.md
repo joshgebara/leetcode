@@ -2350,3 +2350,33 @@ const parenPosition = (string, openPosition) => {
 
 parenPosition("Sometimes (when I nest them (my parentheticals) too much (like this (and this))) they get confusing.", 10)
 ```
+
+## Bracket Validator
+```javascript
+const bracketValidator = string => {
+  const openers = new Set(['(', '{', '['])
+  const closers = new Set([')', '}', ']'])
+  const map = { '(': ')', '{': '}', '[': ']' }
+  const seen = []
+  
+  for (let char of string) {
+    if (openers.has(char)) {
+      seen.push(char)
+      continue
+    }
+    
+    if (closers.has(char)) {
+      let compliment = map[seen[seen.length - 1]]
+      if (compliment !== char) {
+        return false
+      }
+      seen.pop()
+    }
+  }
+  return seen.length === 0
+}
+
+bracketValidator("{ [ ] ( ) }") // true
+bracketValidator("{ [ ( ] ) }") // false
+bracketValidator("{ [ }") // false
+```
