@@ -2500,3 +2500,34 @@ const circularTour = (stops, size) => {
 
 circularTour([[4, 6], [6, 5], [7, 3], [4, 5]], 4)
 ```
+
+## Non Repeats
+```javascript
+const nonRepeats = stream => {
+  let counts = {}
+  let queue = []
+  return stream.reduce((result, element) => {
+    queue.push(element)
+    counts[element] = 1 + (counts[element] || 0)
+
+    while (queue.length) {
+      if (counts[queue[0]] > 1) {
+        queue.shift()
+      } else {
+        break
+      }
+    }
+
+    if (!queue.length) {
+      result.push('-1')
+      return result
+    }
+    
+    result.push(queue[0])
+    return result    
+  }, [])
+}
+
+nonRepeats(['a', 'a', 'a', 'b', 'c', 'a', 'b', 'd', 'g', 'c'])
+nonRepeats(['A', 'Q', 'I', 'Z', 'Q', 'A', 'Z', 'P', 'N'])
+```
