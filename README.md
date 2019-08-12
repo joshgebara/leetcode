@@ -2413,3 +2413,66 @@ const nextLargerElement = elements => {
 
 nextLargerElement([4, 3, 2, 1])
 ```
+
+## Stack with Two Queues
+```javascript
+class Stack {
+  constructor() {
+    this.left = []
+    this.right = []
+  }
+  
+  push(value) {
+    this.left.push(value)
+  }
+  
+  pop() {
+    if (this.left.length === 1) {
+      return this.left.shift()
+    }
+    
+    if (this.left.length === 0) {
+      while (this.right.length) {
+        this.left.push(this.right.shift())
+      }
+    }
+    
+    while (this.left.length > 1) {
+      this.right.push(this.left.shift())
+    }
+    
+    return this.left.shift()
+  }
+
+  count() {
+    return this.left.length + this.right.length
+  }
+  
+  isEmpty() {
+    return this.left.length === 0 && this.right.length === 0
+  }
+}
+
+const stack = new Stack()
+stack
+stack.push(1)
+stack.push(2)
+stack.push(3)
+stack.push(4)
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+stack
+stack.pop()
+```
