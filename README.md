@@ -2476,3 +2476,27 @@ stack.pop()
 stack
 stack.pop()
 ```
+
+## Circular Tour
+```javascript
+const circularTour = (stops, size) => {
+  let start = 0
+  let end = 1
+  let gas = stops[start][0] - stops[start][1]
+  
+  while (end !== start || gas < 0) {
+    while (gas < 0 && start !== end) {
+      gas -= stops[start][0] - stops[start][1]
+      start = (start + 1) % size
+      
+      if (start === 0) return -1
+    }
+
+    gas += stops[end][0] - stops[end][1]
+    end = (end + 1) % size
+  }
+  return start
+}
+
+circularTour([[4, 6], [6, 5], [7, 3], [4, 5]], 4)
+```
