@@ -2380,3 +2380,36 @@ bracketValidator("{ [ ] ( ) }") // true
 bracketValidator("{ [ ( ] ) }") // false
 bracketValidator("{ [ }") // false
 ```
+
+## Next Larger Element
+```javascript
+const nextLargerElement = elements => {
+  let result = []
+  let stack = []
+  
+  for (let element of elements) {
+    if (stack.length === 0 || stack[stack.length - 1] >= element) {
+      stack.push(element)
+      continue
+    }
+    
+    while (true) {
+      if (stack[stack.length - 1] < element) {
+          stack.pop()
+          result.push(element)
+          continue
+      }
+      break
+    }
+    stack.push(element)
+  }
+  
+  while (stack.length !== 0) {
+    stack.pop()
+    result.push(-1)
+  }
+  return result
+}
+
+nextLargerElement([4, 3, 2, 1])
+```
