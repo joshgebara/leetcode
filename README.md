@@ -2531,3 +2531,17 @@ const nonRepeats = stream => {
 nonRepeats(['a', 'a', 'a', 'b', 'c', 'a', 'b', 'd', 'g', 'c'])
 nonRepeats(['A', 'Q', 'I', 'Z', 'Q', 'A', 'Z', 'P', 'N'])
 ```
+
+## Is K Bit Set
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const kSet = (bin, k) => {
+  let mask = 1 << k
+  return (bin & mask) !== 0
+}
+
+kSet(0b110110, 3)
+```
