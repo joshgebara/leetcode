@@ -2561,3 +2561,9 @@ const num = flipK(0b110110, 0)
 console.log(decToBin(num))
 
 ```
+
+## isEven
+```javascript
+const isEven = num => (num & 1) === 0
+isEven(4)
+```
