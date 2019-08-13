@@ -2785,3 +2785,83 @@ const list = nReverse(node1, 4)
 print(list)
 
 ```
+
+## Flatten Linked List
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+    this.bottom = null
+  }
+}
+
+const node5 = new Node(5)
+const node7 = new Node(7)
+const node8 = new Node(8)
+const node30 = new Node(30)
+const node10 = new Node(10)
+const node20 = new Node(20)
+const node19 = new Node(19)
+const node22 = new Node(22)
+const node50 = new Node(50)
+const node28 = new Node(28)
+const node35 = new Node(35)
+const node40 = new Node(40)
+const node45 = new Node(45)
+
+node5.bottom = node7
+node7.bottom = node8
+node8.bottom = node30
+node5.next = node10
+node10.bottom = node20
+node10.next = node19
+node19.bottom = node22
+node22.bottom = node50
+node19.next = node28
+node28.bottom = node35
+node35.bottom = node40
+node40.bottom = node45
+
+const print = list => {
+  let current = list
+  
+  while (current) {
+    console.log(current.value)
+    current = current.bottom
+  }
+}
+
+const merge = (list1, list2) => {
+  if (!list1 && !list2) return
+  
+  let dummyNode = new Node(-1)
+  let current = dummyNode
+  
+  while (list1 && list2) {    
+    if (list1.value > list2.value) {
+      current.bottom = list2
+      list2 = list2.bottom
+    } else {
+      current.bottom = list1
+      list1 = list1.bottom
+    }
+    current = current.bottom
+  }
+  
+  if (list1) {
+    current.bottom = list1
+  } else {
+    current.bottom = list2
+  }
+  return dummyNode.bottom
+}
+
+const flatten = list => {
+  if (!list) return null
+  return merge(list, flatten(list.next))
+}
+
+const list = flatten(node5)
+print(list)
+```
