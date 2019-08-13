@@ -2925,3 +2925,24 @@ sameChars("abc", "Abc") // false
 sameChars("abc", "cbAa") // false
 sameChars("abcc", "abca") // false
 ```
+
+## Swift Code Challenge 5
+```javascript
+const counts = str => {
+  return str
+    .split('')
+    .reduce((result, element) => {
+      result[element] = 1 + (result[element] || 0)
+      return result
+  }, {})
+}
+
+const charCount = (str, char) => {
+  const charCounts = counts(str)
+  return charCounts[char] || 0
+}
+
+charCount("The rain in Spain", "a") // 2
+charCount("Mississippi", "i") // 4
+charCount("Hacking with Swift", "i") // 3
+```
