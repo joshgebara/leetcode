@@ -2597,3 +2597,18 @@ const updateI = (bin, i, value) => {
 const num = updateI(0b1100101, 1, 1)
 console.log(decToBin(num))
 ```
+
+## Stolen Breakfast Drone
+```javascript
+const uniqueElement = elements => {
+  let result
+  
+  for (let element of elements) {
+    result ^= element
+  }
+  
+  return result
+}
+
+uniqueElement([5, 5, 2, 3, 1, 2, 6, 3, 1])
+```
