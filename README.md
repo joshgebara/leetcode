@@ -2582,3 +2582,18 @@ const clearThroughI = (bin, i) => {
 const num = clearThroughI(0b1100101, 4)
 console.log(decToBin(num))
 ```
+
+## Update I
+```javascript
+const decToBin = num => {
+  return (num >>> 0).toString(2)
+}
+
+const updateI = (bin, i, value) => {
+  let mask = ~(1 << i)
+  return (bin & mask) | (value << i)
+}
+
+const num = updateI(0b1100101, 1, 1)
+console.log(decToBin(num))
+```
