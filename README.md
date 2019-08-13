@@ -2865,3 +2865,29 @@ const flatten = list => {
 const list = flatten(node5)
 print(list)
 ```
+
+## isPalindrome
+
+```javascript
+const isPalindrome = string => {
+  if (!string.length) return false
+  
+  let left = 0
+  let right = string.length - 1
+  
+  while (left < right) {
+    if (string[left].toLowerCase() !== string[right].toLowerCase()) {
+      return false 
+    }
+    
+    left++
+    right--
+  }
+  return true
+}
+
+isPalindrome("rotator")
+isPalindrome("Rats live on no evil star")
+isPalindrome("Never odd or even")
+isPalindrome("Hello, world")
+```
