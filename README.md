@@ -2650,3 +2650,70 @@ decToBin(num)
 const setK = (bin, k) => bin | (1 << k)
 setK(15, 3)
 ```
+
+## Rotate List
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+const node1 = new Node(2)
+const node2 = new Node(4)
+const node3 = new Node(7)
+const node4 = new Node(8)
+const node5 = new Node(9)
+// const node6 = new Node(6)
+// const node7 = new Node(7)
+// const node8 = new Node(8)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+// node5.next = node6
+// node6.next = node7
+// node7.next = node8
+
+const print = list => {
+  let current = list
+  
+  while (current) {
+    console.log(current.value)
+    current = current.next
+  }
+}
+
+const rotateList = (head, rotations) => {
+  let newTail = head
+  rotations = rotations - 1
+  
+  while (newTail.next && rotations) {
+    rotations--
+    newTail = newTail.next
+  }
+  
+  let newHead = newTail.next
+  newTail.next = null
+  
+  let lastNode = newHead
+  while (lastNode.next) {
+    lastNode = lastNode.next
+  }
+  
+  lastNode.next = head
+  return newHead
+}
+
+const list = rotateList(node1, 3)
+print(list)
+
+
+
+
+
+
+
+```
