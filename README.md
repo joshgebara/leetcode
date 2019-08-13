@@ -2946,3 +2946,22 @@ charCount("The rain in Spain", "a") // 2
 charCount("Mississippi", "i") // 4
 charCount("Hacking with Swift", "i") // 3
 ```
+
+## Swift Code Challenge 6
+```javascript
+const removeDups = str => {
+  let seenChars = new Set()
+  return str
+    .split('')
+    .filter(char => {
+      if (seenChars.has(char)) return false
+      seenChars.add(char)
+      return true
+    })
+    .join('')
+}
+
+removeDups("wombat")
+removeDups("hello")
+removeDups("Mississippi")
+```
