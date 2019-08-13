@@ -2891,3 +2891,37 @@ isPalindrome("Rats live on no evil star")
 isPalindrome("Never odd or even")
 isPalindrome("Hello, world")
 ```
+
+## Swift Code Challeng  3
+```javascript
+const counts = str => {
+  return str
+    .split('')
+    .reduce((result, element) => {
+      result[element] = 1 + (result[element] || 0)
+      return result
+  }, {})
+}
+
+const sameChars = (str1, str2) => {
+  if (str1.length !== str2.length) return false
+  
+  const str1Counts = counts(str1)
+  const str2Counts = counts(str2)
+  
+  for (let key in str1Counts) {
+    if (!str2Counts[key]) return false
+    if (str1Counts[key] !== str2Counts[key]) return false
+  }
+  
+  return true
+}
+
+sameChars("abca", "abca") // true
+sameChars("abc", "cba") // true
+sameChars(" a1 b2 ", " b1 a2 ") // true
+sameChars("abc", "abca") // false
+sameChars("abc", "Abc") // false
+sameChars("abc", "cbAa") // false
+sameChars("abcc", "abca") // false
+```
