@@ -2545,3 +2545,19 @@ const kSet = (bin, k) => {
 
 kSet(0b110110, 3)
 ```
+
+## Update K
+```javascript
+const decToBin = bin => {
+  return (bin >>> 0).toString(2)
+}
+
+const updateK = (bin, k) => {
+  let mask = 1 << k
+  return (bin ^ mask)
+}
+
+const num = updateK(0b110110, 0)
+console.log(decToBin(num))
+
+```
