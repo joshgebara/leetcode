@@ -1924,9 +1924,7 @@ const uIntN = (bin, n) => {
   return bin & upperBound
 }
 
-const uInt16 = (bin) => {
-  return uIntN(bin, 16)
-}
+const uInt16 = (bin) => uIntN(bin, 16)
 
 const rotateBits = (bin, rotations) => {
   let left = uInt16(bin << rotations) | uInt16(bin >> 16 - rotations)
@@ -2603,4 +2601,24 @@ const uniqueElement = elements => {
 }
 
 uniqueElement([5, 5, 2, 3, 1, 2, 6, 3, 1])
+```
+
+## Twos Complement
+```javascript
+const decToBin = num => {
+  return (num >>> 0).toString(2)
+}
+
+const twosComplement = bin => {
+  return (~bin) + 1
+}
+
+const num = twosComplement(5)
+decToBin(num)
+```
+
+## Set K
+```javascript
+const setK = (bin, k) => bin | (1 << k)
+setK(15, 3)
 ```
