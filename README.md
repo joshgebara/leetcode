@@ -2402,7 +2402,38 @@ const nextLargerElement = elements => {
 }
 
 nextLargerElement([4, 3, 2, 1])
+
+
+
+// or with queueconst nextLarger = elements => {
+  const queue = []
+  const result = []
+  
+  for (let element of elements) {    
+    if (queue[0] > element) {
+      queue.push(element)
+      continue
+    }
+    
+    while (queue.length && queue[0] < element) {
+      result.push(element)
+      queue.shift()
+    }
+    queue.push(element)    
+  }
+  
+  while (queue.length) {
+    result.push(-1)
+    queue.shift()
+  }
+  
+  return result
+}
+
+nextLarger([1, 3, 2, 4])
+
 ```
+
 
 ## Stack with Two Queues
 ```javascript
