@@ -2567,3 +2567,18 @@ console.log(decToBin(num))
 const isEven = num => (num & 1) === 0
 isEven(4)
 ```
+
+## Clear Through I
+```javascript
+const decToBin = num => {
+  return (num >>> 0).toString(2)
+}
+
+const clearThroughI = (bin, i) => {
+  let mask = (1 << i) - 1
+  return bin & mask
+}
+
+const num = clearThroughI(0b1100101, 4)
+console.log(decToBin(num))
+```
