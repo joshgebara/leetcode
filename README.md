@@ -1775,25 +1775,17 @@ flipBit(1775)
 
 ## longest ones
 ```javascript
-const longestOnes = (bin) => {
-  if (!bin) return 0
-
-  let maxCount = 0
-  let currentCount = 0
-
+const longest1s = bin => {
+  let count = 0
+  
   while (bin) {
-    if (bin & 1) {
-      currentCount++
-    } else {
-      currentCount = 0
-    }
-    maxCount = Math.max(currentCount, maxCount)
-    bin >>>= 1
+    bin = (bin & (bin << 1))
+    count++
   }
-  return maxCount  
+  return count
 }
 
-longestOnes(0b1101111011)
+longest1s(14)
 ```
 
 ## First Set Bit
