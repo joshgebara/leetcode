@@ -2710,10 +2710,78 @@ const rotateList = (head, rotations) => {
 const list = rotateList(node1, 3)
 print(list)
 
+```
 
+## Reverse list given groups
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
 
+const node1 = new Node(1)
+const node2 = new Node(2)
+const node3 = new Node(2)
+const node4 = new Node(4)
+const node5 = new Node(5)
+const node6 = new Node(6)
+const node7 = new Node(7)
+const node8 = new Node(8)
 
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node8
 
+const print = list => {
+  let current = list
+  
+  while (current) {
+    console.log(current.value)
+    current = current.next
+  }
+}
 
+const reverse = list => {
+  let current = list
+  let next = null
+  let previous = null
+  
+  while (current) {
+    next = current.next
+    current.next = previous
+    previous = current
+    current = next
+  }
+  return previous
+}
+
+const nReverse = (list, n) => {
+  if (!list) return null
+  
+  let head = list
+  let position = 1
+  
+  while (list, position !== n) {
+    list = list.next 
+    position++
+  }
+  
+  let nextList = list.next
+  list.next = null
+  
+  let reversedList = reverse(head)
+  let tail = head
+  tail.next = nReverse(nextList, n)
+  return reversedList
+}
+
+const list = nReverse(node1, 4)
+print(list)
 
 ```
