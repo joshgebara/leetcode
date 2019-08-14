@@ -472,6 +472,69 @@ n.pop(2)
 console.log(n)
 ```
 
+```javascript
+class NStacks {
+  constructor(stackCount, stackSize) {
+    this.stackCount = stackCount
+    this.stackSize = stackSize
+    this.storage = Array(stackCount * stackSize).fill(null)
+    this.currentIndices = []
+    
+    for (let i = 0; i < stackCount; i++) {
+      this.currentIndices.push(i * stackSize)
+    }
+  }
+  
+  push(value, stackNumber) {
+    if (!this.includesStack(stackNumber)) return
+    if (this.isFull(stackNumber)) return
+    let currentIndex = this.currentIndices[stackNumber]
+    this.currentIndices[stackNumber]++
+    this.storage[currentIndex] = value
+  }
+  
+  pop(stackNumber) {
+    if (!this.includesStack(stackNumber)) return
+    if (this.isEmpty(stackNumber)) return
+    this.currentIndices[stackNumber]--    
+    let currentIndex = this.currentIndices[stackNumber]
+    this.storage[currentIndex] = null
+  }
+  
+  isFull(stackNumber) {
+    let max = (stackNumber * this.stackSize) + this.stackSize
+    let currentIndex = this.currentIndices[stackNumber]
+    return currentIndex >= max
+  }
+  
+  isEmpty(stackNumber) {
+    let min = stackNumber * this.stackSize
+    let currentIndex = this.currentIndices[stackNumber]
+    return currentIndex <= min
+  }
+  
+  includesStack(stackNumber) {
+    return stackNumber < this.stackCount
+  }
+}
+
+const stacks = new NStacks(3, 3)
+stacks.push(1, 1)
+stacks.push(3, 1)
+stacks.push(6, 1)
+stacks.push(2, 2)
+stacks.push(3, 3)
+stacks.push(4, 1)
+stacks.pop(0)
+stacks
+stacks.pop(1)
+stacks
+stacks.pop(1)
+stacks
+stacks.pop(3)
+stacks
+```
+
 ## Stack getMin
 ```javascript
 class Stack {
@@ -2965,3 +3028,4 @@ removeDups("wombat")
 removeDups("hello")
 removeDups("Mississippi")
 ```
+
