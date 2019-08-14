@@ -1957,21 +1957,16 @@ rightMostDiff(11, 9)
 
 ## Toggle In Range
 ```javascript
-const decToBin = bin => {
-  return (bin >>> 0).toString(2)
-}
+const decToBin = bin => (bin >>> 0).toString(2);
 
 const toggleInRange = (bin, r, l) => {
-  let mask = (1 << l) - 1
+  r--
+  l--
   
-  let count = r - 1
-  while (count) {
-    mask = mask & (mask - 1)
-    count-- 
-  }
+  let mask = ((1 << l) - 1) << r
   return bin ^ mask
 }
-
+  
 toggleInRange(17, 2, 3)
 ```
 
