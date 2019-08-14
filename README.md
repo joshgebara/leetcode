@@ -3024,3 +3024,38 @@ removeDups("hello")
 removeDups("Mississippi")
 ```
 
+## Unique string
+```javascript
+const isUnique = str => {
+  for (let i in str) {
+    for (let j in str) {
+      if (i === j) continue
+      if (str[i] === str[j]) return false
+    }
+  }
+  return true
+}
+
+const isUnique2 = str => {
+  const seen = new Set()
+  for (let char of str) {
+    if (seen.has(char)) return false
+    seen.add(char)
+  }
+  return true
+}
+
+const isUnique3 = str => {
+  let checker = 0
+  for (let i = 0; i < str.length; i++) {
+    let value = str.charCodeAt(i) - 'a'.charCodeAt(0)
+    if ((checker & (1 << value)) > 0) {
+      return false
+    }
+    checker |= (1 << value)
+  }
+  return true
+}
+
+isUnique3("hello")
+```
