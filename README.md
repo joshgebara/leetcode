@@ -3234,3 +3234,21 @@ const longestPrefix = str => {
 longestPrefix('swift switch swill swim') // swi
 longestPrefix('flip flap flop') // fl
 ```
+
+## String Permutations
+```javascript
+const stringPermutations = (str, other = '') => {
+  if (!str.length) {
+    console.log(other)
+    return
+  }
+  
+  for (var index = 0; index < str.length; index++) {
+    let left = str.substring(0, index)
+    let right = str.substring(index + 1)
+    stringPermutations(left + right, other + str[index])
+  }
+}
+
+stringPermutations('abc')
+```

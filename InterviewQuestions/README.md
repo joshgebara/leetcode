@@ -7435,3 +7435,4 @@ extension RangeExpression where Bound == Int, Self: Sequence, Self.Element == Bo
 (1...).perfectSquares(upTo: 100)
 (1...100).perfectSquares(upTo: 100)
 (1..<5).perfectSquares(upTo: 100)
+
