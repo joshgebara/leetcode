@@ -3393,3 +3393,18 @@ countNums2([5, 15, 55, 515], 1)
 countNums2([55555], 5)
 countNums2([55555], 1)
 ```
+
+## First index of
+```javascript
+const firstIndexOf = (collection, element) => {
+  for (let index in collection) {
+    if (collection[index] === element) return +index
+  }
+  return null
+}
+
+firstIndexOf([1, 2, 3], 1)
+firstIndexOf([1, 2, 3], 3)
+firstIndexOf([1, 2, 3], 5)
+
+```
