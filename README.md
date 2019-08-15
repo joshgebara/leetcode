@@ -3210,3 +3210,27 @@ threeDiffLetters("Clamp", "Grans") // false
 threeDiffLetters("Clamp", "Clam") // false
 threeDiffLetters("clamp", "maple") // false
 ```
+
+## Longest Prefix
+```javascript
+const longestPrefix = str => {
+  if (!str) return ''
+  
+  const words = str.split(' ')
+  let longestPrefix = ''
+           
+  for (let char of words[0]) {
+    let localPrefix = longestPrefix + char
+    
+    for (let word of words.slice(1)) {
+      if (!word.startsWith(localPrefix)) return longestPrefix
+    }
+    
+    longestPrefix = localPrefix
+  }
+  return longestPrefix
+}
+
+longestPrefix('swift switch swill swim') // swi
+longestPrefix('flip flap flop') // fl
+```
