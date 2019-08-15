@@ -3169,3 +3169,22 @@ const isPanagram = str => {
 isPanagram('The quick brown fox jumps over the lazy dog')
 isPanagram('The quick brown fox jumped over the lazy dog')
 ```
+
+## Vowels and Consonants
+```javascript
+const vowelsAndConsonants = str => {
+  const vowels = new Set(['A', 'E', 'I', 'O', 'U'])
+  const consonants = new Set(['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 
+                              'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'])
+
+  return str.toUpperCase().split('').reduce((result, element) => {
+    let [vowelsCount, consonantsCount] = result
+    if (vowels.has(element)) vowelsCount++
+    if (consonants.has(element)) consonantsCount++
+    return [vowelsCount, consonantsCount]
+  }, [0, 0])
+}
+
+vowelsAndConsonants('Swift Coding Challenges')
+vowelsAndConsonants('Mississippi')
+```
