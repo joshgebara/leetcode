@@ -3252,3 +3252,25 @@ const stringPermutations = (str, other = '') => {
 
 stringPermutations('abc')
 ```
+
+## FizzBuzz
+```javascript
+const divisible = (num, den) => {
+  return num % den === 0
+}
+
+const translate = num => {
+  if (divisible(num, 15)) return 'FizzBuzz'
+  if (divisible(num, 3)) return 'Fizz'
+  if (divisible(num, 5)) return 'Buzz'
+  return num
+}
+
+const fizzBuzz = stop => {
+  for (let i = 1; i <= stop; i++) {
+    console.log(translate(i))
+  }
+}
+
+fizzBuzz(100)
+```
