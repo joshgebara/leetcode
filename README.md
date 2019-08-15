@@ -3408,3 +3408,15 @@ firstIndexOf([1, 2, 3], 3)
 firstIndexOf([1, 2, 3], 5)
 
 ```
+
+## Map
+```javascript
+const map = (collection, transform) => {
+  return collection.reduce((result, element) => {
+    result.push(transform(element))
+    return result
+  }, [])
+}
+
+map([1, 2, 3, 4], num => num * num)
+```
