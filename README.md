@@ -3325,3 +3325,43 @@ sumInString('a1b2c3')
 sumInString('a10b20c30')
 sumInString('h8ers')
 ```
+
+## sqrt
+```javascript
+const sqrt1 = num => {
+  if (!num) return 0
+  
+  let lowerBound = 0
+  let upperBound = 1 + Math.floor(num / 2)
+  
+  while (lowerBound < upperBound) {
+    let midPoint = Math.floor((upperBound - lowerBound) / 2) + lowerBound
+    let midSquared = midPoint * midPoint
+    
+    if (midSquared === num) {
+      return midPoint
+    }
+    
+    if (midSquared > num) {
+      upperBound = midPoint - 1
+    } else {
+      lowerBound = midPoint + 1
+    }
+  }
+  return lowerBound
+}
+
+const sqrt2 = num => {
+  return Math.floor(Math.pow(num, 0.5))  
+}
+
+sqrt1(9)
+sqrt1(16777216)
+sqrt1(16)
+sqrt1(15)
+
+
+// • The number 9 should return 3.
+// • The number 16777216 should return 4096. • The number 16 should return 4.
+// • The number 15 should return 3.
+```
