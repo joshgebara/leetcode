@@ -2014,7 +2014,7 @@ const decToBin = bin => {
 }
 
 const isSparse = num => {
-  let num_shifted = num >> 1
+  let num_shifted = num >>> 1
   return (num & num_shifted) == 0
 }
 
@@ -3154,4 +3154,18 @@ const isPalindrome = list => {
 }
 
 isPalindrome(node1)
+```
+
+## isPanagram
+```javascript
+const isPanagram = str => {
+  const set = new Set(str.toLowerCase())
+  const letters = [...set].filter(char => {
+    return (char >= 'a' && char <= 'z')
+  })
+  return letters.length === 26
+}
+
+isPanagram('The quick brown fox jumps over the lazy dog')
+isPanagram('The quick brown fox jumped over the lazy dog')
 ```
