@@ -3420,3 +3420,25 @@ const map = (collection, transform) => {
 
 map([1, 2, 3, 4], num => num * num)
 ```
+
+## Sum even repeats
+```javascript
+const counts = collection => {
+  return collection.reduce((result, element) => {
+    result[element] = 1 + (result[element] || 0)
+    return result
+  }, {})
+}
+
+const isEven = num => (num & 1) === 0
+
+const sumEvenRepeats = (...nums) => {
+  let numCounts = counts(nums)
+  return Object.entries(numCounts).reduce((result, [key, value]) => {
+    if (isEven(value)) result += (+key)
+    return result
+  }, 0)
+}
+
+sumEvenRepeats(1, 2, 2, 3, 3, 4)
+```
