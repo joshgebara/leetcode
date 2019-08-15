@@ -3283,3 +3283,22 @@ const random = (min, max) => {
 
 random(8, 10)
 ```
+
+## Pow function
+```javascript
+const pow = (base, power) => {
+  let result = 1
+  while (power > 1) {
+    if (power % 2 == 1) {
+      result *= base
+    }
+    power = Math.floor(power / 2)
+    base *= base
+  }
+  console.log(result, base)
+  return result * base
+}
+
+
+pow(9, 7)
+```
