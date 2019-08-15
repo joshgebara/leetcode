@@ -3188,3 +3188,25 @@ const vowelsAndConsonants = str => {
 vowelsAndConsonants('Swift Coding Challenges')
 vowelsAndConsonants('Mississippi')
 ```
+
+## Three Diff Letters
+```javascript
+const threeDiffLetters = (str1, str2) => {
+  if (str1.length !== str2.length) return false
+  
+  let diffCount = 0
+  
+  for (let index in str1) {
+    if (str1[index] !== str2[index]) diffCount++
+    if (diffCount > 3) return false
+  }
+  return true
+}
+
+threeDiffLetters("Clamp", "Cramp") // true
+threeDiffLetters("Clamp", "Crams") // true
+threeDiffLetters("Clamp", "Grams") // true
+threeDiffLetters("Clamp", "Grans") // false
+threeDiffLetters("Clamp", "Clam") // false
+threeDiffLetters("clamp", "maple") // false
+```
