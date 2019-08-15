@@ -3059,3 +3059,99 @@ const isUnique3 = str => {
 
 isUnique3("hello")
 ```
+
+## isPalindrome
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  } 
+}
+
+let node1 = new Node('R')
+let node2 = new Node('A')
+let node3 = new Node('C')
+let node4 = new Node('E')
+let node5 = new Node('C')
+let node6 = new Node('A')
+let node7 = new Node('R')
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+
+const print = list => {
+  while (list) {
+    console.log(list.value)
+    list = list.next
+  }
+}
+
+const reverse = list => {
+  let current = list
+  let previous = null
+  let next = null
+  
+  while (current) {
+    next = current.next
+    current.next = previous
+    previous = current
+    current = next
+  }
+  return previous
+}
+
+const getMiddle = list => {
+  let fast = list
+  let slow = list
+  
+  while (fast && fast.next) {
+    fast = fast.next.next
+    slow = slow.next
+  }
+  return slow
+}
+
+const checkEqual = (list1, list2) => {
+  let diff = 0
+  
+  while (list1 || list2) {
+    let list1Value = list1 ? list1.value : null
+    let list2Value = list2 ? list2.value : null
+    
+    if (list1Value !== list2Value) {
+      diff++
+    }    
+    
+    if (diff > 1) return false
+    
+    list1 = list1 ? list1.next : null
+    list2 = list2 ? list2.next : null
+  }
+  return true
+}
+
+const isPalindrome = list => {
+  if (!list) return false
+  
+  let head = list
+  let middleNode = getMiddle(list) 
+  
+  while (list && list.next !== middleNode) {
+    list = list.next
+  }
+  
+  list.next = null
+  let reversedList = reverse(middleNode)
+  
+  let areEqual = checkEqual(head, reversedList)
+  list.next = reverse(reversedList)
+  return areEqual
+}
+
+isPalindrome(node1)
+```
