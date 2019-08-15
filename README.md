@@ -3302,3 +3302,26 @@ const pow = (base, power) => {
 
 pow(9, 7)
 ```
+
+## SumInString
+```javascript
+const sumInString = str => {
+  let result = 0
+  let currentNumber = ''
+  
+  for (let char of str) {
+    if (!Number.isNaN(+char)) {
+      currentNumber += char
+      continue
+    }
+    result += (+currentNumber)
+    currentNumber = ''
+  }
+  result += (+currentNumber)
+  return result
+}
+
+sumInString('a1b2c3')
+sumInString('a10b20c30')
+sumInString('h8ers')
+```
