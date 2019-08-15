@@ -3365,3 +3365,31 @@ sqrt1(15)
 // • The number 16777216 should return 4096. • The number 16 should return 4.
 // • The number 15 should return 3.
 ```
+
+## Count the numbers
+```javascript
+const countNums1 = (nums, num) => {
+  return nums.map(ele => `${ele}`)
+    .reduce((result, element) => result + element, '')
+    .split('')
+    .filter(element => element == num)
+    .length
+}
+
+const countNums2 = (nums, numToCount) => {
+  let result = 0
+  
+  for (let num of nums) {
+    while (num) {
+      if (num % 10 === numToCount) result++
+      num = Math.floor(num / 10)
+    }
+  }
+  return result
+}
+
+countNums2([5, 15, 55, 515], 5)
+countNums2([5, 15, 55, 515], 1)
+countNums2([55555], 5)
+countNums2([55555], 1)
+```
