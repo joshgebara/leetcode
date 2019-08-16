@@ -3487,3 +3487,36 @@ const partition = (list, p) => {
 const l = partition(node1, 5)
 print(l)
 ```
+
+## Check Permutations
+```javascript
+const frequencies = str => {
+  return str.split("").reduce((result, element) => {
+    result[element] = (result[element] + 1) || 1
+    return result
+  }, {})
+}
+const checkPermutations = (str1, str2) => {
+  const str1Frequencies = frequencies(str1)
+  const str2Frequencies = frequencies(str2)
+  
+  for (let key of Object.keys(str1Frequencies)) {
+    if (str1Frequencies[key] !== str2Frequencies[key]) return false
+  }
+  return true
+}
+
+checkPermutations("man", "nam")
+```
+
+## urlify
+```javascript
+const urlify = str => {
+  return str
+    .split('')
+    .reduce((r, ele) => ele == ' ' ? r.concat(['%20']) : r.concat([ele]), [])
+    .join('')
+}
+
+urlify("Mr John Smith")
+```
