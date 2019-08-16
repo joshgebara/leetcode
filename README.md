@@ -3520,3 +3520,37 @@ const urlify = str => {
 
 urlify("Mr John Smith")
 ```
+
+## One Away
+```javascript
+const oneAway = (str1, str2) => {
+  if (Math.abs(str1.length - str2.length) > 1) return false
+  
+  let long = str1.length > str2.length ? str1 : str2
+  let short = str1.length > str2.length ? str2 : str1
+ 
+  let longIndex = 0
+  let shortIndex = 0
+  let diff = 0
+  
+  for (let i = 0; i < long.length; i++) {
+    if (long[longIndex] !== short[shortIndex]) {
+      diff++
+      if (diff > 1) return false
+      
+      if (long.length !== short.length) {
+        longIndex++  
+        continue
+      }
+    }
+    longIndex++
+    shortIndex++
+  }
+  return diff < 2
+}
+
+oneAway('pale', 'ple')
+oneAway('pales', 'pale')
+oneAway('pale', 'bale')
+oneAway('pale', 'bake')
+```
