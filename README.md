@@ -3442,3 +3442,62 @@ const sumEvenRepeats = (...nums) => {
 
 sumEvenRepeats(1, 2, 2, 3, 3, 4)
 ```
+
+## Partition
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+const node1 = new Node(3)
+const node2 = new Node(5)
+const node3 = new Node(8)
+const node4 = new Node(5)
+const node5 = new Node(10)
+const node6 = new Node(2)
+const node7 = new Node(1)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+
+const print = list => {
+  while (list) {
+    console.log(list.value)
+    list = list.next
+  }
+}
+
+const partition = (list, p) => {
+  if (!list || !list.next) return list
+  
+  let head = list
+  let tail = list
+  let current = list
+  
+  while (current) {
+    const next = current.next
+    
+    if (current.value < p) {
+      current.next = head
+      head = current
+    } else {
+      tail.next = current
+      tail = tail.next
+    }
+    
+    current = next
+  }
+  tail.next = null
+  return head
+}
+
+const l = partition(node1, 5)
+print(l)
+```
