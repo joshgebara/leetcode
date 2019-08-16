@@ -1813,27 +1813,27 @@ maxDepth(tree)
 
 ## Flip Bit
 ```javascript
-const flipBit = num => {
-  if (~num == 0) return 64
+const flipBit = bin => {
+  if (!bin) return 1
   
-  let max = 1
+  let max = 0
   let current = 0
   let previous = 0
   
-  while (num) {
-    if (num & 1) {
+  while (bin) {
+    if (bin & 1) {
       current++
     } else {
-      previous = num & 2 == 0 ? 0 : current
+      previous = current
       current = 0
     }
-    max = Math.max(previous + current + 1, max)
-    num >>>= 1
+    max = Math.max(current + previous + 1, max)
+    bin >>>= 1
   }
   return max
 }
 
-flipBit(1775)
+flipBit(0b11011101111)
 ```
 
 ## longest ones
