@@ -2506,21 +2506,17 @@ class Stack {
   }
   
   pop() {
-    if (this.left.length === 1) {
-      return this.left.shift()
-    }
-    
-    if (this.left.length === 0) {
-      while (this.right.length) {
-        this.left.push(this.right.shift())
-      }
-    }
-    
     while (this.left.length > 1) {
       this.right.push(this.left.shift())
     }
     
-    return this.left.shift()
+    let element = this.left.shift()
+    
+    let temp = this.left
+    this.left = this.right
+    this.right = temp
+    
+    return element
   }
 
   count() {
@@ -2533,26 +2529,16 @@ class Stack {
 }
 
 const stack = new Stack()
-stack
 stack.push(1)
 stack.push(2)
+stack.pop()
 stack.push(3)
+stack.pop()
+stack.pop()
 stack.push(4)
-stack
+stack.push(5)
 stack.pop()
-stack
 stack.pop()
-stack
-stack.pop()
-stack
-stack.pop()
-stack
-stack.pop()
-stack
-stack.pop()
-stack
-stack.pop()
-stack
 stack.pop()
 ```
 
