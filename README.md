@@ -3554,3 +3554,37 @@ oneAway('pales', 'pale')
 oneAway('pale', 'bale')
 oneAway('pale', 'bake')
 ```
+
+## Reverse Words
+```javascript
+const message = [ 'c', 'a', 'k', 'e', ' ',
+                 'p', 'o', 'u', 'n', 'd', ' ',
+                 's', 't', 'e', 'a', 'l' ];
+
+const reverseSubarray = (array, start, end) => {
+  while (start < end) {
+    let temp = array[start]
+    array[start] = array[end]
+    array[end] = temp
+    start++
+    end--
+  }
+}
+
+const reverseWords = message => {
+  const reversedMessage = message.reverse()
+  let start = 0
+  
+  for (let i = 0; i <= reversedMessage.length; i++) {
+    if (message[i] === ' ' || i === message.length) {
+      reverseSubarray(reversedMessage, start, i - 1)
+      start = i + 1      
+    }
+  }
+  return reversedMessage
+}
+
+reverseWords(message);
+
+console.log(message.join(''));
+```
