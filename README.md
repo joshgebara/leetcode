@@ -3590,3 +3590,23 @@ const stringRotation = (str1, str2) => {
 
 stringRotation('waterbottle', 'erbottlewat')
 ```
+
+## Reverse Bits
+```javascript
+const decToBin = bin => (bin >>> 0).toString(2)
+
+const reverseBits = bin => {
+  let rev = 0
+  
+  while (bin) {
+    rev <<= 1
+    if (bin & 1) rev ^= 1 
+    bin >>= 1
+  }
+  
+  return rev
+}
+
+const t = reverseBits(0b1011)
+decToBin(t)
+```
