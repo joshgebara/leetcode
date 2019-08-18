@@ -3642,3 +3642,24 @@ const mergeMeetingTimes = meetings => {
 
 mergeMeetingTimes(meetingTimes)
 ```
+
+## IC - Reverse String In Place
+```javascript
+const revInPlace = chars => {
+  let start = 0
+  let end = chars.length - 1
+  
+  while (start < end) {
+    let temp = chars[start]
+    chars[start] = chars[end]
+    chars[end] = temp
+    
+    start++
+    end--
+  }
+}
+
+const t = ['H', 'e', 'l', 'l', 'o']
+revInPlace(t)
+console.log(t)
+```
