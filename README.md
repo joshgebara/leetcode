@@ -3580,3 +3580,13 @@ reverseWords(message);
 
 console.log(message.join(''));
 ```
+
+## String Rotation
+```javascript
+const stringRotation = (str1, str2) => {
+  if (str1.length !== str2.length) return false
+  return (str1 + str1).includes(str2)
+}
+
+stringRotation('waterbottle', 'erbottlewat')
+```
