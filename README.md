@@ -3610,3 +3610,35 @@ const reverseBits = bin => {
 const t = reverseBits(0b1011)
 decToBin(t)
 ```
+
+## Merge Meeting Time
+```javascript
+const meetingTimes =   [
+  { startTime: 0,  endTime: 1 },
+  { startTime: 3,  endTime: 5 },
+  { startTime: 4,  endTime: 8 },
+  { startTime: 10, endTime: 12 },
+  { startTime: 9,  endTime: 10 },
+]
+
+const mergeMeetingTimes = meetings => {
+  if (!meetings) return []
+  
+  const sortedMeetings = meetings.sort((a, b) => a.startTime - b.startTime)
+  
+  return sortedMeetings
+    .slice(1)
+    .reduce((result, meeting) => {
+    let current = result[result.length - 1]
+
+    if (current.endTime < meeting.startTime) {
+      result.push(meeting)
+    } else {
+      current.endTime = Math.max(current.endTime, meeting.endTime)
+    }
+    return result
+  }, [meetings[0]])
+}
+
+mergeMeetingTimes(meetingTimes)
+```
