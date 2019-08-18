@@ -3822,3 +3822,98 @@ const radixSort = (elements, upperBound) => {
 const elements = sortScores(unsortedScores, HIGHEST_POSSIBLE_SCORE)
 console.log(elements)
 ```
+
+## Sort a Linked List 0, 1, 2
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+const node1 = new Node(1)
+const node2 = new Node(2)
+const node3 = new Node(2)
+const node4 = new Node(1)
+const node5 = new Node(2)
+const node6 = new Node(0)
+const node7 = new Node(2)
+const node8 = new Node(2)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node8
+
+const print = list => {
+  while (list) {
+    console.log(list.value)
+    list = list.next
+  }
+}
+
+const sort1 = list => {
+  let counts = Array(3).fill(null).map(() => [])
+  let head = list
+
+  while (list) {
+    counts[list.value]++
+    list = list.next
+  }
+
+  list = head
+  let i = 0
+
+  while (list) {
+    if (counts[i] == 0) i++
+
+    list.value = i
+    counts[i]--
+    list = list.next
+  }
+  return head
+}
+
+const sort2 = list => {
+  let zeroD = new Node(-1)
+  let oneD = new Node(-1)
+  let twoD = new Node(-1)
+
+  let zero = zeroD
+  let one = oneD
+  let two = twoD
+
+  while (list) {
+    if (list.value === 0) {
+      console.log("ds")
+      zero.next = list
+      zero = zero.next
+    }
+
+    if (list.value === 1) {
+      one.next = list
+      one = one.next
+    }
+
+    if (list.value === 2) {
+      two.next = list
+      two = two.next
+    }
+
+    list = list.next
+  }
+
+  zero.next = oneD.next
+  one.next = twoD.next
+
+  return zeroD.next
+}
+
+const t = sort2(node1)
+print(t)
+
+```
