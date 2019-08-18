@@ -2972,18 +2972,10 @@ sameChars("abcc", "abca") // false
 
 ## Swift Code Challenge 5
 ```javascript
-const counts = str => {
+const charCount = (str, char) => {
   return str
     .split('')
-    .reduce((result, element) => {
-      result[element] = 1 + (result[element] || 0)
-      return result
-  }, {})
-}
-
-const charCount = (str, char) => {
-  const charCounts = counts(str)
-  return charCounts[char] || 0
+    .reduce((result, element) => element == char ? result + 1 : result, 0)
 }
 
 charCount("The rain in Spain", "a") // 2
