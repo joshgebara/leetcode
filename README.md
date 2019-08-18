@@ -1842,7 +1842,7 @@ const longest1s = bin => {
   let count = 0
   
   while (bin) {
-    bin = (bin & (bin << 1))
+    bin &= bin << 1
     count++
   }
   return count
@@ -3754,4 +3754,47 @@ const inflightMovie2 = (flightLength, movies) => {
 }
 
 inflightMovie2(9, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+```
+
+## Top Scores
+```javascript
+const unsortedScores = [37, 89, 41, 65, 91, 53];
+const HIGHEST_POSSIBLE_SCORE = 100;
+
+const sortScores = (elements, upperBound) => {
+  let buckets = Array(upperBound + 1).fill(null).map(() => [])
+
+  return elements
+    .reduce((result, element) => {
+      result[element].push(element)
+      return result
+    }, buckets)
+    .flat()
+}
+
+const radixSort = (elements, upperBound) => {
+  let radix = 10
+  let done = false
+  let digits = 1
+  
+  while (!done) {
+    done = true
+    let buckets = Array(10).fill(null).map(() => [])
+    
+    for (let element of elements) {
+      let remainingNumber = Math.floor(element / digits)
+      let digit = remainingNumber % radix
+      buckets[digit].push(element)
+      
+      if (remainingNumber > 0) done = false
+    }
+    
+    elements = buckets.flat()
+    digits *= 10
+  }
+  return elements
+}
+
+const elements = sortScores(unsortedScores, HIGHEST_POSSIBLE_SCORE)
+console.log(elements)
 ```
