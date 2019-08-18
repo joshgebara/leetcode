@@ -3676,3 +3676,46 @@ const clearZeroThroughI = (bin, i) => {
 const t = clearThroughI(0b110101101111, 7)
 decToBin(t)
 ```
+
+## Merge Arrays
+```javascript
+const myArray = [3, 4, 6, 10, 11, 15];
+const alicesArray = [1, 5, 8, 12, 14, 19];
+
+const mergeArrays = (arr1, arr2) => {
+  if (!arr1.length) return arr2
+  if (!arr2.length) return arr1
+  
+  let result = []
+  let leftIndex = 0
+  let rightIndex = 0
+  
+  while (leftIndex < arr1.length && rightIndex < arr2.length) {
+    let leftElement = arr1[leftIndex]
+    let rightElement = arr2[rightIndex]
+    
+    if (leftElement > rightElement) {
+      result.push(rightElement)
+      rightIndex++
+    } else if (leftElement < rightElement) {
+      result.push(leftElement)
+      leftIndex++
+    } else {
+      result.push(leftElement)
+      result.push(rightElement)
+      leftIndex++
+      rightIndex++
+    }
+  }
+  
+  if (leftIndex < arr1.length) {
+    result = result.concat(arr1.slice(leftIndex))
+  } else {
+    result = result.concat(arr2.slice(rightIndex))
+  }
+  return result
+}
+
+console.log(mergeArrays(myArray, alicesArray));
+// // logs [1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19]
+```
