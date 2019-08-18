@@ -3719,3 +3719,39 @@ const mergeArrays = (arr1, arr2) => {
 console.log(mergeArrays(myArray, alicesArray));
 // // logs [1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19]
 ```
+
+## Inflight Movie
+```javascript
+const inflightMovie1 = (flightLength, movies) => {
+  let seen = new Set()
+  
+  for (let movie of movies) {
+    let diff = flightLength - movie
+    if (seen.has(diff)) return true 
+    seen.add(movie)
+  }
+  return false
+}
+
+inflightMovie1(9, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+const inflightMovie2 = (flightLength, movies) => {
+  let start = 0
+  let end = movies.length - 1
+  
+  while (start < end) {
+    let sum = movies[start] + movies[end]
+    
+    if (sum === flightLength) return true
+    
+    if (sum > flightLength) {
+      end--
+    } else {
+      start++
+    }
+  }
+  return false
+}
+
+inflightMovie2(9, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+```
