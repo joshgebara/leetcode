@@ -3917,3 +3917,30 @@ const t = sort2(node1)
 print(t)
 
 ```
+
+## Subarray with Sum
+```javascript
+const subArrayWithSum = (array, sum) => {
+  let start = 0
+  let end = 0
+  let currSum = 0
+  
+  for (let i = 0; i < array.length; i++) {    
+    while (currSum > sum) {
+      currSum -= array[start]
+      start++
+    }
+    
+    if (currSum === sum) break
+    
+    currSum += array[i]
+    end = i
+  }
+  
+  return [start, end]
+}
+
+subArrayWithSum([1, 4, 20, 3, 10, 5], 33)
+subArrayWithSum([1, 4, 0, 0, 3, 10, 5], 7)
+subArrayWithSum([1, 4], 0)
+```
