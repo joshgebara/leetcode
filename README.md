@@ -2492,6 +2492,30 @@ nextLarger([1, 3, 2, 4])
 
 ```
 
+## Next Larger - O(1) Space
+```javascript
+const nextLarger = nums => {
+  let queueIndex = 0
+  let currentIndex = 0
+  
+  while (currentIndex < nums.length) {
+    while (nums[currentIndex] >= nums[queueIndex] && queueIndex < nums.length) {
+      queueIndex++
+    }
+    
+    if (queueIndex >= nums.length) {
+      nums[currentIndex] = -1
+    } else {
+      nums[currentIndex] = nums[queueIndex]
+    }
+    currentIndex++
+  }
+}
+
+const t = [5, 3, 2, 10, 6, 8, 1, 4, 12, 7, 4]
+nextLarger(t)
+console.log(t)
+```
 
 ## Stack with Two Queues
 ```javascript
