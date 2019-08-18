@@ -3663,3 +3663,16 @@ const t = ['H', 'e', 'l', 'l', 'o']
 revInPlace(t)
 console.log(t)
 ```
+
+## Clear Zero Through I
+```javascript
+const decToBin = bin => (bin >>> 0).toString(2)
+
+const clearZeroThroughI = (bin, i) => {
+  let mask = -1 << (i + 1)
+  return bin & mask
+}
+
+const t = clearThroughI(0b110101101111, 7)
+decToBin(t)
+```
