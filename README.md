@@ -3955,13 +3955,7 @@ const maxInSubarray = (array, k) => {
   const deque = []
   
   for (let i = 0; i < k; i++) {
-    if (!deque.length) {
-      deque.push(i)
-      continue
-    }
-    
-    const element = array[i]
-    while (array[deque[deque.length - 1]] < element) {
+    while (deque.length && array[deque[deque.length - 1]] < array[i]) {
       deque.pop()
     }
     deque.push(i)
@@ -3970,15 +3964,11 @@ const maxInSubarray = (array, k) => {
   for (let j = k; j <= array.length; j++) {
     result.push(array[deque[0]])
     
-    if (j - k > deque[0]) deque.shift()  
-    
-    if (!deque.length) {
-      deque.push(j)
-      continue
+    while (deque.length && j - k > deque[0]) {
+      deque.shift()
     }
     
-    const element = array[j]
-    while (array[deque[deque.length - 1]] < element) {
+    while (deque.length && array[deque[deque.length - 1]] < array[j]) {
       deque.pop()
     }
     deque.push(j)
