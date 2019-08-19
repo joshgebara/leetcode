@@ -4070,3 +4070,135 @@ const missingNum2 = (array, n) => {
 missingNum2([1, 2, 3, 5], 5)
 missingNum2([1, 2, 3, 4, 5, 6, 7, 8, 10], 10)
 ```
+
+## Rearrange Numbers
+```javascript
+const arrange = array => {
+  let maxIndex = array.length - 1
+  let minIndex = 0
+  
+  const maxElement = array[maxIndex] + 1
+  
+  for (let i = 0; i < array.length; i++) { 
+    if (i % 2 == 0) { 
+      console.log((array[maxIndex] % maxElement) * maxElement)
+      array[i] += (array[maxIndex] % maxElement) * maxElement; 
+      maxIndex--
+    } 
+
+    else { 
+      array[i] += (array[minIndex] % maxElement) * maxElement; 
+      minIndex++; 
+    } 
+    
+    break
+  } 
+  
+//   for (let i = 0; i < array.length; i++) array[i] = Math.floor(array[i] / maxElement)
+  
+  console.log(array)
+  
+}
+
+arrange([1, 2, 3, 4, 5, 6])
+
+// 1 2 3 4 5 6
+
+// 6 1 5 2 4 3
+
+// 1 
+
+
+//     public static void rearrange(int arr[], int n) 
+//     { 
+
+//         int max_idx = n - 1, min_idx = 0; 
+  
+//         // store maximum element of array 
+//         int max_elem = arr[n - 1] + 1; 
+  
+//         // traverse array elements 
+//         for (int i = 0; i < n; i++) { 
+//             // at even index : we have to put 
+//             // maximum element 
+//             if (i % 2 == 0) { 
+//                 arr[i] += (arr[max_idx] % max_elem) * max_elem; 
+//                 max_idx--; 
+//             } 
+  
+//             // at odd index : we have to put minimum element 
+//             else { 
+//                 arr[i] += (arr[min_idx] % max_elem) * max_elem; 
+//                 min_idx++; 
+//             } 
+//         } 
+  
+//         // array elements back to it's original form 
+//         for (int i = 0; i < n; i++) 
+//             arr[i] = arr[i] / max_elem; 
+//     } 
+  
+
+  
+// // This code is contributed by Swetank Modi 
+```
+
+## Linked List Pairwise Swap
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+const node1 = new Node(1)
+const node2 = new Node(2)
+const node3 = new Node(2)
+const node4 = new Node(4)
+const node5 = new Node(5)
+const node6 = new Node(6)
+const node7 = new Node(7)
+const node8 = new Node(8)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node8
+
+const print = list => {
+  while (list) {
+    console.log(list.value)
+    list = list.next
+  }
+}
+
+const pairwiseSwap = list => {
+  if (!list) return
+  
+  let current = list
+  let head = current.next
+  
+  while (true) {
+    let next = current.next
+    let temp = next.next
+    next.next = current
+    
+    if (!temp || !temp.next) {
+      current.next = null
+      break
+    }
+    
+    current.next = temp.next
+    current = temp
+  }
+  return head
+}
+
+const t = pairwiseSwap(node1)
+print(t)
+// 2 1 4 2 6 5 8 7
+```
