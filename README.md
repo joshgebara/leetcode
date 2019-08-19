@@ -3980,3 +3980,71 @@ const maxInSubarray = (array, k) => {
 maxInSubarray([1, 2, 3, 1, 4, 5, 2, 3, 6], 3) // 3 3 4 5 5 5 6
 maxInSubarray([8, 5, 10, 7, 9, 4, 15, 12, 90, 13], 4) // 10 10 10 15 15 90 90
 ```
+
+## CCI 2.1
+```javascript
+class Node {
+  constructor(value) {
+    this.value = value
+    this.next = null
+  }
+}
+
+const node1 = new Node(1)
+const node2 = new Node(1)
+const node3 = new Node(2)
+const node4 = new Node(3)
+const node5 = new Node(1)
+const node6 = new Node(0)
+const node7 = new Node(2)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+
+const print = list => {
+  while (list) {
+    console.log(list.value)
+    list = list.next
+  }
+}
+
+const removeDups1 = list => {
+  if (!list) return list
+  
+  let previous = null
+  const seen = new Set()
+  
+  while (list) {
+    if (seen.has(list.value)) {
+      previous.next = list.next
+    } else {
+      seen.add(list.value)
+      previous = list 
+    }
+    list = list.next
+  }
+}
+
+const removeDups2 = list => {
+  if (!list) return list
+  
+  while (list) {
+    let runner = list
+    while (runner.next) {
+      if (runner.next.value === list.value) {
+        runner.next = runner.next.next  
+      } else {
+        runner = runner.next
+      }
+    }
+    list = list.next
+  }
+}
+
+removeDups2(node1)
+print(node1)
+```
