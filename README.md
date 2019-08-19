@@ -4048,3 +4048,25 @@ const removeDups2 = list => {
 removeDups2(node1)
 print(node1)
 ```
+
+## Missing Num
+```javascript
+const missingNum1 = (array, n) => {
+  const sum = array.reduce((result, element) => result + element, 0)
+  const totalSum = (n * (n + 1)) / 2
+  return totalSum - sum
+}
+
+missingNum1([1, 2, 3, 5], 5)
+missingNum1([1, 2, 3, 4, 5, 6, 7, 8, 10], 10)
+
+const missingNum2 = (array, n) => {
+  let result = 0
+  for (let num of array) result ^= num
+  for (let i = 1; i <= n; i++) result ^= i
+  return result
+}
+
+missingNum2([1, 2, 3, 5], 5)
+missingNum2([1, 2, 3, 4, 5, 6, 7, 8, 10], 10)
+```
