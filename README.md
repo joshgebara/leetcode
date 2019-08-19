@@ -3944,3 +3944,49 @@ subArrayWithSum([1, 4, 20, 3, 10, 5], 33)
 subArrayWithSum([1, 4, 0, 0, 3, 10, 5], 7)
 subArrayWithSum([1, 4], 0)
 ```
+
+## Max In Subarray of size k
+```javascript
+const maxInSubarray = (array, k) => {
+  if (!array) return
+  if (!k) return
+  
+  const result = [] 
+  const deque = []
+  
+  for (let i = 0; i < k; i++) {
+    if (!deque.length) {
+      deque.push(i)
+      continue
+    }
+    
+    const element = array[i]
+    while (array[deque[deque.length - 1]] < element) {
+      deque.pop()
+    }
+    deque.push(i)
+  }
+  
+  for (let j = k; j <= array.length; j++) {
+    result.push(array[deque[0]])
+    
+    if (j - k > deque[0]) deque.shift()  
+    
+    if (!deque.length) {
+      deque.push(j)
+      continue
+    }
+    
+    const element = array[j]
+    while (array[deque[deque.length - 1]] < element) {
+      deque.pop()
+    }
+    deque.push(j)
+  }
+  
+  return result
+}
+
+maxInSubarray([1, 2, 3, 1, 4, 5, 2, 3, 6], 3) // 3 3 4 5 5 5 6
+maxInSubarray([8, 5, 10, 7, 9, 4, 15, 12, 90, 13], 4) // 10 10 10 15 15 90 90
+```
