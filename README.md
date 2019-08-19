@@ -4202,3 +4202,15 @@ const t = pairwiseSwap(node1)
 print(t)
 // 2 1 4 2 6 5 8 7
 ```
+
+## Clear Bit at I
+```javascript
+const decToBin = bin => (bin >>> 0).toString(2)
+
+const clear = (bin, i) => {
+  let mask = ~(1 << i)
+  return bin & mask
+}
+
+clear(0b10011, 1).toString(2)
+```
