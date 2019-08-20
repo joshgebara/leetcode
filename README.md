@@ -4076,71 +4076,26 @@ missingNum2([1, 2, 3, 4, 5, 6, 7, 8, 10], 10)
 const arrange = array => {
   let maxIndex = array.length - 1
   let minIndex = 0
-  
   const maxElement = array[maxIndex] + 1
-  
-  for (let i = 0; i < array.length; i++) { 
-    if (i % 2 == 0) { 
-      console.log((array[maxIndex] % maxElement) * maxElement)
-      array[i] += (array[maxIndex] % maxElement) * maxElement; 
-      maxIndex--
-    } 
 
-    else { 
-      array[i] += (array[minIndex] % maxElement) * maxElement; 
-      minIndex++; 
+  for (let i = 0; i < array.length; i++) {     
+    if (i % 2 == 0) { 
+      array[i] += (array[maxIndex] % maxElement) * maxElement
+      maxIndex--
+      continue
     } 
-    
-    break
+    array[i] += (array[minIndex] % maxElement) * maxElement 
+    minIndex++    
   } 
   
-//   for (let i = 0; i < array.length; i++) array[i] = Math.floor(array[i] / maxElement)
-  
-  console.log(array)
-  
+  for (let i = 0; i < array.length; i++) {
+    array[i] = Math.floor(array[i] / maxElement)
+  } 
 }
 
-arrange([1, 2, 3, 4, 5, 6])
-
-// 1 2 3 4 5 6
-
-// 6 1 5 2 4 3
-
-// 1 
-
-
-//     public static void rearrange(int arr[], int n) 
-//     { 
-
-//         int max_idx = n - 1, min_idx = 0; 
-  
-//         // store maximum element of array 
-//         int max_elem = arr[n - 1] + 1; 
-  
-//         // traverse array elements 
-//         for (int i = 0; i < n; i++) { 
-//             // at even index : we have to put 
-//             // maximum element 
-//             if (i % 2 == 0) { 
-//                 arr[i] += (arr[max_idx] % max_elem) * max_elem; 
-//                 max_idx--; 
-//             } 
-  
-//             // at odd index : we have to put minimum element 
-//             else { 
-//                 arr[i] += (arr[min_idx] % max_elem) * max_elem; 
-//                 min_idx++; 
-//             } 
-//         } 
-  
-//         // array elements back to it's original form 
-//         for (int i = 0; i < n; i++) 
-//             arr[i] = arr[i] / max_elem; 
-//     } 
-  
-
-  
-// // This code is contributed by Swetank Modi 
+const arr = [1, 2, 3, 4, 5, 6]
+arrange(arr)
+arr
 ```
 
 ## Linked List Pairwise Swap
