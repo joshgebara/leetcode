@@ -4191,3 +4191,29 @@ kadanes([-2, -1, -3, -4])
 const subtract = (x, y) => (~x + 1) + y
 subtract1(9, 5)
 ```
+
+## Array Leaders
+```javascript
+const arrayLeaders = nums => {
+  if (!nums) return []
+  
+  let result = []
+  result.push(nums[nums.length - 1])
+  
+  let localMax = Math.max(nums[nums.length - 1], 0)
+  
+  for (let i = nums.length - 2; i >= 0; i--) {
+    if (localMax <= nums[i]) {
+      result.push(nums[i])
+    }
+    
+    localMax = Math.max(nums[i], localMax) 
+  }
+  
+  return result
+}
+
+leader([16, 17, 4, 3, 5, 2]) // 17 5 2
+leader([1, 2, 3, 4, 0]) // 4 0
+leader([7, 4, 5, 7, 3]) // 7 7 3
+```
