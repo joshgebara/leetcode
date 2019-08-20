@@ -4245,3 +4245,32 @@ const minPlatforms = (arr, dep) => {
 
 minPlatforms([900, 940, 950, 1100, 1500, 1800], [910, 1200, 1120, 1130, 1900, 2000])
 ```
+
+## Reverse Array In Groups
+```javascript
+const reverse = (elements, start, end) => {
+  let left = start
+  let right = Math.min(elements.length - 1, end)
+  
+  while (left < right) {
+    let temp = elements[left]
+    elements[left] = elements[right]
+    elements[right] = temp
+    
+    left++
+    right--
+  }
+  return elements
+}
+
+const reverseInGroups = (elements, k) => {
+  for (let i = 0; i < elements.length; i += k) {
+    let endIndex = i + k - 1
+    reverse(elements, i, endIndex)
+  }
+  return elements
+}
+
+reverseInGroups([1, 2, 3, 4, 5], 3) // 3 2 1 5 4
+reverseInGroups([10, 20, 30, 40, 50, 60], 2) // 20 10 40 30 60 50
+```
