@@ -4217,3 +4217,31 @@ leader([16, 17, 4, 3, 5, 2]) // 17 5 2
 leader([1, 2, 3, 4, 0]) // 4 0
 leader([7, 4, 5, 7, 3]) // 7 7 3
 ```
+
+## Min Platforms
+```javascript
+const minPlatforms = (arr, dep) => { 
+  arr.sort((a, b) => a - b)
+  dep.sort((a, b) => a - b)
+
+  let currPlatforms = 0
+  let maxPlatforms = 0
+  let arrI = 0
+  let depI = 0
+
+  while (arrI < arr.length - 1 && depI < arr.length - 1) { 
+    if (arr[arrI] <= dep[depI]) { 
+      currPlatforms++
+      maxPlatforms = Math.max(currPlatforms, maxPlatforms)
+      arrI++ 
+      continue
+    }
+    currPlatforms-- 
+    depI++ 
+  } 
+
+  return maxPlatforms
+} 
+
+minPlatforms([900, 940, 950, 1100, 1500, 1800], [910, 1200, 1120, 1130, 1900, 2000])
+```
