@@ -4214,3 +4214,19 @@ const clear = (bin, i) => {
 
 clear(0b10011, 1).toString(2)
 ```
+
+## Kadanes Algo
+```javascript
+const kadanes = elements => {
+  let globalMax = elements[0]
+  let localMax = elements[0]
+  
+  for (let element of elements.slice(1)) {
+    localMax = Math.max(element, localMax + element)
+    globalMax = Math.max(globalMax, localMax)
+  }
+  return globalMax
+}
+
+kadanes([-2, -1, -3, -4])
+```
