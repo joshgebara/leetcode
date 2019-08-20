@@ -4185,3 +4185,9 @@ const kadanes = elements => {
 
 kadanes([-2, -1, -3, -4])
 ```
+
+## Subtract
+```javascript
+const subtract = (x, y) => (~x + 1) + y
+subtract1(9, 5)
+```
