@@ -4554,3 +4554,18 @@ leftRight([4, 2, 5, 7])
 leftRight([11, 9, 12])
 leftRight([4, 3, 2, 7, 8, 9])
 ```
+
+## Largest Num from Array
+```javascript
+const largestNum = nums => {
+  nums.sort((a, b) => {
+    let ab = Number(`${a}` + `${b}`)
+    let ba = Number(`${b}` + `${a}`)
+    return ba - ab
+  })
+}
+
+const t = [54, 546, 548, 60]
+largestNum(t)
+console.log(t)
+```
