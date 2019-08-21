@@ -4544,6 +4544,7 @@ const leftRight = nums => {
     if (nums[i] > leftMax[i] && nums[i] < rightMin) {
       firstIndex = i
     }
+    rightMin = Math.min(rightMin, nums[i])
   }
   
   return nums[firstIndex] || -1
