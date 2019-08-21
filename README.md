@@ -3524,23 +3524,28 @@ print(l)
 
 ## Check Permutations
 ```javascript
-const frequencies = str => {
-  return str.split("").reduce((result, element) => {
-    result[element] = (result[element] + 1) || 1
+const counts = str => {
+  return str.split('').reduce((result, element) => {
+    result[element] = 1 + (result[element] || 0)
     return result
   }, {})
 }
-const checkPermutations = (str1, str2) => {
-  const str1Frequencies = frequencies(str1)
-  const str2Frequencies = frequencies(str2)
+
+const isPermutation = (str1, str2) => {
+  if (str1.length !== str2.length) return false
   
-  for (let key of Object.keys(str1Frequencies)) {
-    if (str1Frequencies[key] !== str2Frequencies[key]) return false
+  const str1Counts = counts(str1)
+  
+  for (let char of str2) {
+    str1Counts[char]--
+    if (!str1Counts[char] < 0) return false
   }
+  console.log(str1Counts)
+  
   return true
 }
 
-checkPermutations("man", "nam")
+isPermutation("hello", 'lehfo')
 ```
 
 ## urlify
@@ -4425,4 +4430,39 @@ const kthLargest = (arr, k) => {
 
 const arr = [7, 3, 5, 4, 2, 6, 4, 3, 2, 1]
 kthLargest(arr, 3)
+```
+
+## NumOfPairs
+```javascript
+const numOfPairs = (xs, ys) => {
+  xs.sort()
+  ys.sort()
+
+  let count = 0
+  
+  for (let y of ys) {
+    if (y === 0) {
+      let i = 0
+      while (xs[i] <= 0) i++
+      count += (1 * (xs.length - i))
+    }
+    
+    if (y === 1) {
+      let i = 0
+      while (xs[i] <= 1) i++
+      count += (1 * (xs.length - i))
+    }    
+  }
+  
+  for (let x of xs) {
+    if (x === 0 || x === 1) continue
+    
+    let i = 0
+    while (ys[i] < x) i++
+    count += (1 * (ys.length - i))
+  }
+  return count
+}
+
+numOfPairs([2, 1, 6], [1, 5])
 ```
