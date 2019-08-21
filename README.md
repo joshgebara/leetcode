@@ -3880,17 +3880,15 @@ const print = list => {
 }
 
 const sort1 = list => {
-  let counts = Array(3).fill(null).map(() => [])
-  let head = list
-
-  while (list) {
-    counts[list.value]++
-    list = list.next
+  const counts = Array(3).fill(0)
+  let curr = list
+  
+  while (curr) {
+    counts[curr.value]++
+    curr = curr.next
   }
-
-  list = head
+  
   let i = 0
-
   while (list) {
     if (counts[i] == 0) i++
 
@@ -3898,46 +3896,38 @@ const sort1 = list => {
     counts[i]--
     list = list.next
   }
-  return head
 }
 
 const sort2 = list => {
-  let zeroD = new Node(-1)
-  let oneD = new Node(-1)
-  let twoD = new Node(-1)
-
+  const zeroD = new Node(-1)
+  const oneD = new Node(-1)
+  const twoD = new Node(-1)
   let zero = zeroD
   let one = oneD
   let two = twoD
 
   while (list) {
-    if (list.value === 0) {
-      console.log("ds")
-      zero.next = list
-      zero = zero.next
+    switch (list.value) {
+      case (0):
+        zero.next = list
+        zero = zero.next
+        break
+      case (1):
+        one.next = list
+        one = one.next
+        break
+      case (2):
+        two.next = list
+        two = two.next
+        break
     }
-
-    if (list.value === 1) {
-      one.next = list
-      one = one.next
-    }
-
-    if (list.value === 2) {
-      two.next = list
-      two = two.next
-    }
-
     list = list.next
   }
 
   zero.next = oneD.next
   one.next = twoD.next
-
   return zeroD.next
 }
-
-const t = sort2(node1)
-print(t)
 
 ```
 
