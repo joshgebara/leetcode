@@ -4492,3 +4492,39 @@ const t = [0, 2, 1, 2, 0]
 sort(t)
 
 ```
+
+## Equilibrium
+```javascript
+const equilibrium = nums => {
+  let leftSum = 0
+  let rightSum = 0
+  let midPoint = Math.floor((nums.length) / 2)
+
+  leftSum = nums
+    .slice(0, midPoint)
+    .reduce((result, element) => result + element, 0)
+
+  rightSum = nums
+    .slice(midPoint + 1)
+    .reduce((result, element) => result + element, 0)
+
+  while (midPoint > 0 && midPoint < nums.length - 1) {
+    if (leftSum === rightSum) {
+      return midPoint
+    }
+
+    if (leftSum < rightSum) {
+      rightSum -= nums[midPoint]
+      leftSum += nums[midPoint + 1]
+      midPoint++
+    } else {
+      rightSum += nums[midPoint]
+      leftSum -= nums[midPoint - 1]
+      midPoint--
+    }
+  }
+  return null
+}
+
+equilibrium([-7, 1, 5, 2, -4, 3, 0])
+```
