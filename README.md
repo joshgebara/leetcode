@@ -210,28 +210,47 @@ median(a, b);
 // Space - O(log n)
 // Unstable
 
-const quickSort = numbers => {
-  if (numbers.length <= 1) return numbers;
+const random = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
-  const randomIndex = Math.floor(Math.random() * numbers.length);
-  const pivot = numbers[randomIndex];
+const quickSort = (arr, start, end) => {
+  if (start >= end) return
 
-  const left = numbers.filter(number => {
-    return number < pivot;
-  });
+  let low = start || 0
+  let high = end || arr.length - 1
+  let randomIndex = random(low, high)
+  swap(arr, randomIndex, high)
 
-  const pivots = numbers.filter(number => {
-    return number == pivot;
-  });
+  let pivot = partition(arr, low, high)
+  quickSort(arr, low, pivot - 1)
+  quickSort(arr, pivot + 1, high)
+}
 
-  const right = numbers.filter(number => {
-    return number > pivot;
-  });
+const partition = (arr, start, end) => { 
+  let pivot = end
+  let i = start - 1
+  
+  for (let j = start; j < end; j++) {
+    if (arr[j] <= arr[pivot]) {
+      i++
+      swap(arr, j, i)
+    }
+  }
 
-  return [...quickSort(left), ...pivots, ...quickSort(right)];
-};
+  swap(arr, i + 1, pivot)
+  return i + 1
+}
 
-quickSort([5, 3, 6, 7, 8, 7, 6, 3, 2, 1, 2, 4, 3, 5, 6, 5, 4, 3, 4, 3, 2]);
+const swap = (arr, first, second) => {
+  let temp = arr[first]
+  arr[first] = arr[second]
+  arr[second] = temp
+}
+
+const arr = [6, 2, 5, 3, 8, 7, 1, 4]
+quickSort(arr)
+console.log(arr)
 ```
 
 ## ArrayList
