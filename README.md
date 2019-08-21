@@ -4466,3 +4466,39 @@ const numOfPairs = (xs, ys) => {
 
 numOfPairs([2, 1, 6], [1, 5])
 ```
+
+## Sort 1s and 0s
+```javascript
+const swap = (arr, i, j) => {
+  let temp = arr[i]
+  arr[i] = arr[j]
+  arr[j] = temp
+}
+
+const sort = nums => {
+  let pivot = 0
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 1) {
+      pivot = i
+      break
+    }
+  }
+  
+  swap(nums, pivot, nums.length - 1)
+  pivot = nums.length - 1
+  
+  let i = -1
+  for (let j = i; j < pivot; j++) {
+    if (nums[j] <= nums[pivot]) {
+      i++
+      swap(nums, i, j)
+    }
+  }
+  swap(nums, i + 1, pivot)
+  return nums
+}
+
+const t = [0, 2, 1, 2, 0]
+sort(t)
+
+```
