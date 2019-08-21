@@ -1155,8 +1155,6 @@ a
 
 ## Radix Sort
 ```javascript
-const a = [6, 4, 5, 4, 3, 2, 8, 7, 6, 9, 8, 3, 2, 1]
-
 const radixSort = numbers => {
   let radix = 10
   let done = false
@@ -1164,7 +1162,7 @@ const radixSort = numbers => {
   
   while (!done) {
     done = true
-    let buckets = [[],[],[],[],[],[],[],[],[],[]]
+    let buckets = Array(radix + 1).fill(null).map(() => [])
 
     for (let number of numbers) {
       let remainingNumber = Math.floor(number / digits)
@@ -1182,7 +1180,8 @@ const radixSort = numbers => {
   return numbers
 }
 
-radixSort(a)
+const arr = [109, 3, 55, 4, 6, 5, 41, 2, 66, 7, 6, 4, 322, 2, 1]
+console.log(radixSort(arr))
 ```
 
 ## Trie
