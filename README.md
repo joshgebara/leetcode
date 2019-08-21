@@ -4528,3 +4528,28 @@ const equilibrium = nums => {
 
 equilibrium([-7, 1, 5, 2, -4, 3, 0])
 ```
+
+## Element with left side smaller and right side greater
+```javascript
+const leftRight = nums => {
+  let leftMax = [null]
+  let rightMin = nums[nums.length - 1]
+  let firstIndex = null
+  
+  for (let i = 1; i < nums.length; i++) {
+    leftMax[i] = Math.max(leftMax[i - 1] || Number.MIN_VALUE, nums[i - 1])
+  }
+  
+  for (let i = nums.length - 2; i > 0; i--) {
+    if (nums[i] > leftMax[i] && nums[i] < rightMin) {
+      firstIndex = i
+    }
+  }
+  
+  return nums[firstIndex] || -1
+}
+
+leftRight([4, 2, 5, 7])
+leftRight([11, 9, 12])
+leftRight([4, 3, 2, 7, 8, 9])
+```
