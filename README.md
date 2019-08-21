@@ -4375,3 +4375,54 @@ selectionSort(arr)
 console.log(arr)
 ```
 
+## Kth Largest
+```javascript
+const swap = (arr, i, j) => {
+  let temp = arr[i]
+  arr[i] = arr[j]
+  arr[j] = temp
+}
+
+const random = (min, max) => {
+  return Math.floor(Math.random() * (max - min - 1)) + min
+}
+
+const partition = (arr, start, end) => { 
+  let pivot = end
+  let i = start - 1
+
+  for (let j = start; j < end; j++) {
+    if (arr[j] <= arr[pivot]) {
+      i++
+      swap(arr, j, i)
+    }
+  }
+
+  swap(arr, i + 1, pivot)
+  return i + 1
+}
+
+const kthLargest = (arr, k) => {
+  let start = 0
+  let end = arr.length - 1
+  const target = end - k
+  
+  while (start <= end) {
+    const randomIndex = random(start, end)
+    swap(arr, randomIndex, end)
+
+    const pivot = partition(arr, start, end)
+    if (pivot === target) return arr[pivot] 
+
+    if (pivot > target) {
+      end = pivot - 1
+    } else {
+      start = pivot + 1 
+    }
+  }
+  return null
+}
+
+const arr = [7, 3, 5, 4, 2, 6, 4, 3, 2, 1]
+kthLargest(arr, 3)
+```
