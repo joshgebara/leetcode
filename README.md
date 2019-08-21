@@ -4293,3 +4293,32 @@ const reverseInGroups = (elements, k) => {
 reverseInGroups([1, 2, 3, 4, 5], 3) // 3 2 1 5 4
 reverseInGroups([10, 20, 30, 40, 50, 60], 2) // 20 10 40 30 60 50
 ```
+
+## Bubble Sort
+```javascript
+const swap = (arr, first, second) => {
+  let temp = arr[first]
+  arr[first] = arr[second]
+  arr[second] = temp
+}
+
+const bubbleSort = arr => {
+  if (!arr.length) return
+  
+  for (let endIndex = arr.length - 1; endIndex > 0; endIndex--) {
+    let noSwaps = true
+    for (let currentIndex = 0; currentIndex < endIndex; currentIndex++) {
+      const nextIndex = currentIndex + 1
+      if (arr[currentIndex] > arr[nextIndex]) {
+        swap(arr, currentIndex, nextIndex)
+        noSwaps = false
+      }
+    }
+    if (noSwaps) return
+  }
+}
+
+const arr = [9, 3, 5, 4, 6, 5, 4, 2, 6, 7, 6, 4, 3, 2, 1]
+bubbleSort(arr)
+console.log(arr)
+```
