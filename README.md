@@ -4322,3 +4322,57 @@ const arr = [9, 3, 5, 4, 6, 5, 4, 2, 6, 7, 6, 4, 3, 2, 1]
 bubbleSort(arr)
 console.log(arr)
 ```
+
+## Insertion Sort
+```javascript
+const swap = (arr, first, second) => {
+  let temp = arr[first]
+  arr[first] = arr[second]
+  arr[second] = temp
+}
+
+const insertionSort = arr => {
+  if (!arr.length) return
+  
+  for (let i = 1; i < arr.length; i++) {
+    for (let j = i; j > 0; j--) {
+      let previous = j - 1
+      while (arr[j] < arr[previous]) {
+        swap(arr, j, previous)
+      }
+    }
+  }
+}
+
+const arr = [9, 3, 5, 4, 6, 5, 4, 2, 6, 7, 6, 4, 3, 2, 1]
+insertionSort(arr)
+console.log(arr)
+```
+
+## Selection Sort
+```javascript
+const swap = (arr, first, second) => {
+  let temp = arr[first]
+  arr[first] = arr[second]
+  arr[second] = temp
+}
+
+const selectionSort = arr => {
+  if (!arr.length) return
+  
+  for (let i = 0; i < arr.length; i++) {
+    let smallestIndex = i
+    for (let j = i; j < arr.length; j++) {
+      if (arr[smallestIndex] > arr[j]) {
+        smallestIndex = j
+      }
+    }
+    swap(arr, smallestIndex, i)
+  }
+}
+
+const arr = [9, 3, 5, 4, 6, 5, 4, 2, 6, 7, 6, 4, 3, 2, 1]
+selectionSort(arr)
+console.log(arr)
+```
+
