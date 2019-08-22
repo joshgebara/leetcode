@@ -4630,3 +4630,31 @@ const rotateByTwo = (str1, str2) => {
 
 rotateByTwo('geeksforgeeks', 'geeksgeeksfor')
 ```
+
+## isUnique
+```javascript
+const isUnique = str => {
+  if (!str.length) return false
+  const lowercased = str.toLowerCase()
+
+  let bitVector = 0
+
+  for (let char of lowercased) {
+    const diff = char.charCodeAt(0) - 'a'.charCodeAt(0)
+    let mask = 1 << diff
+
+    if ((bitVector & mask) !== 0) return false
+    bitVector |= mask
+  }
+
+  let count = 0
+  while (bitVector) {
+    bitVector = bitVector & (bitVector - 1)
+    count++
+  }
+
+  return str.length === count
+}
+
+isUnique('Hello')
+```
