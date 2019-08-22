@@ -4618,3 +4618,15 @@ const dist = (packets, students) => {
 
 dist([3, 4, 1, 9, 56, 7, 9, 12], 5)
 ```
+
+## Rotate By 2
+```javascript
+const rotateByTwo = (str1, str2) => {
+  if (str1.length !== str2.length) return false
+  
+  const str = str1.slice(-2) + str1 + str1.slice(0, 2)
+  return str.includes(str2)
+}
+
+rotateByTwo('geeksforgeeks', 'geeksgeeksfor')
+```
