@@ -3992,6 +3992,35 @@ const maxInSubarray = (array, k) => {
 
 maxInSubarray([1, 2, 3, 1, 4, 5, 2, 3, 6], 3) // 3 3 4 5 5 5 6
 maxInSubarray([8, 5, 10, 7, 9, 4, 15, 12, 90, 13], 4) // 10 10 10 15 15 90 90
+
+const maxSubarrays = (nums, k) => {
+  if (!nums) return
+  const deque = []
+  const result = []
+
+  for (let i = 0; i < k; i++) {
+    if (nums[deque[deque.length - 1]] < nums[i] || !deque.length) {
+      deque.push(i)
+    }
+  }
+
+  result.push(nums[deque[deque.length - 1]])
+
+  for (let j = k; j <= nums.length - 1; j++) {
+    while (deque.length && deque[0] <= j - k) {
+      deque.shift()
+    }
+    
+    if (nums[deque[deque.length - 1]] < nums[j] || !deque.length) {
+      deque.push(j)
+    }
+    result.push(nums[deque[deque.length - 1]])
+  }
+
+  return result
+}
+
+maxSubarrays([8, 5, 10, 7, 9, 4, 15, 12, 90, 13], 4)
 ```
 
 ## CCI 2.1
@@ -4568,4 +4597,24 @@ const largestNum = nums => {
 const t = [54, 546, 548, 60]
 largestNum(t)
 console.log(t)
+```
+
+## Chocolate Dist
+```javascript
+const dist = (packets, students) => {
+  packets.sort((a, b) => a - b)
+  
+  let start = 0
+  let end = students - 1  
+  let minDiff = packets[end] - packets[start]
+  
+  while (end < packets.length - 1) {
+    start++
+    end++
+    minDiff = Math.min(minDiff, packets[end] - packets[start])
+  }
+  return minDiff
+}
+
+dist([3, 4, 1, 9, 56, 7, 9, 12], 5)
 ```
