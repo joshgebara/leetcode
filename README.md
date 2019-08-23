@@ -4721,3 +4721,27 @@ var heightChecker = function(heights) {
 heightChecker([10,6,6,10,10,9,8,8,3,3,8,2,1,5,1,9,5,2,7,4,7,7])
 
 ```
+
+## Leetcoede #922
+```javascript
+const isEven = num => (num & 1) === 0
+
+var sortArrayByParityII = function(A) {
+  if (!A.length) return []
+  
+  let j = 1
+  for (let i = 0; i < A.length; i += 2) {
+    if (A[i] % 2 === 1) {
+      while (A[j] % 2 === 1) j += 2
+      
+      let temp = A[i]
+      A[i] = A[j]
+      A[j] = temp
+    }
+  }
+};
+
+const t = [4,2,5,7]
+sortArrayByParityII(t)
+console.log(t)
+```
