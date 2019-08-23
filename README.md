@@ -4658,3 +4658,66 @@ const isUnique = str => {
 
 isUnique('Hello')
 ```
+
+## Inversion of Array
+```javascript
+const mergeSort = arr => {
+  if (arr.length < 2) return [arr, 0]
+  let midPoint = Math.floor(arr.length / 2)
+  let [leftResult, leftCount] = mergeSort(arr.slice(0, midPoint))
+  let [rightResult, rightCount] = mergeSort(arr.slice(midPoint))  
+  let [currResult, currCount] = merge(leftResult, rightResult)
+  return [currResult, leftCount + rightCount + currCount]
+}
+
+const merge = (left, right) => {
+  let result = []
+  let leftIndex = 0
+  let rightIndex = 0
+  let count = 0
+
+  while (leftIndex < left.length && rightIndex < right.length) {
+    let leftElement = left[leftIndex]
+    let rightElement = right[rightIndex]
+
+    if (leftElement > rightElement) {
+      count += (left.length - leftIndex)
+      result.push(rightElement)
+      rightIndex++
+    } else if (leftElement < rightElement) {
+      result.push(leftElement)
+      leftIndex++
+    } else {
+      result.push(leftElement)
+      result.push(rightElement)
+      leftIndex++
+      rightIndex++
+    }
+  }
+
+  if (leftIndex < left.length) {
+    result = result.concat(left.slice(leftIndex))
+  } else {
+    result = result.concat(right.slice(rightIndex))
+  }
+  return [result, count]
+}
+
+const [_, count] = mergeSort([2, 4, 1, 3, 5])
+console.log(count)
+```
+
+## Leetcode #1051
+```javascript
+var heightChecker = function(heights) {
+  let sortedHeights = heights.map((num) => num).sort((a, b) => a - b)
+  let count = 0
+  for (let i = 0; i < heights.length; i++) {
+    if (heights[i] !== sortedHeights[i]) count++
+  }
+  return count
+};
+
+heightChecker([10,6,6,10,10,9,8,8,3,3,8,2,1,5,1,9,5,2,7,4,7,7])
+
+```
