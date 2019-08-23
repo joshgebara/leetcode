@@ -4775,3 +4775,93 @@ var fib = function(N) {
 
 fib(29)
 ```
+
+## Leetcode #999
+```javascript
+var numRookCaptures = function(board) {
+  let rookPos = null
+  let count = 0
+
+  for (let row = 0; row < board.length; row++) {
+    for (let column = 0; column < board[0].length; column++) {
+      if (board[row][column] === 'R') {
+        rookPos = [row, column]
+      }
+    }
+  }
+
+  let left = rookPos[1] - 1
+  let right = rookPos[1] + 1
+  let leftFound = false
+  let rightFound = false
+
+  while (left > 0 || right < board[0].length) {
+    if (leftFound && rightFound) break
+
+    if (!leftFound) {
+      switch (board[rookPos[0]][left]) {
+        case ('p'):
+          count++
+          leftFound = true
+          break 
+        case ('B'): 
+          leftFound = true
+          break
+      }
+    }
+
+    if (!rightFound) {
+      switch (board[rookPos[0]][right]) {
+        case ('p'):
+          count++
+          rightFound = true
+          break 
+        case ('B'): 
+          rightFound = true
+          break
+      }
+    }
+
+    if (left > 0) left--
+    if (right < board[0].length) right++
+  }
+
+  let up = rookPos[0] - 1
+  let down = rookPos[0] + 1
+  let upFound = false
+  let downFound = false
+
+  while (up > 0 || down < board.length) {
+    if (upFound && downFound) break
+
+    if (!upFound) {
+      switch (board[up][rookPos[1]]) {
+        case ('p'):
+          count++
+          upFound = true
+          break 
+        case ('B'): 
+          upFound = true
+          break
+      }
+    }
+
+    if (!downFound) {
+      switch (board[down][rookPos[1]]) {
+        case ('p'):
+          count++
+          downFound = true
+          break 
+        case ('B'): 
+          downFound = true
+          break
+      }
+    }
+
+    if (up > 0) up--
+    if (down < board.length) down++
+  }
+  
+  return count
+};
+```
