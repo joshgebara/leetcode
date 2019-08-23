@@ -4744,3 +4744,34 @@ const t = [4,2,5,7]
 sortArrayByParityII(t)
 console.log(t)
 ```
+
+## Leetcode #509
+```javascript
+// Dynamic Programming
+var fib = function(N, memo = {}) {
+  if (N < 2) return N
+  if (memo[N]) return memo[N]
+
+  let result = fib(N - 1, memo) + fib(N - 2, memo)
+  memo[N] = result
+  return result
+};
+
+fib(29)
+```
+
+```javascript
+// Iterative
+var fib = function(N) {
+  if (N < 2) return N
+  let result = [0, 1]
+  
+  for (let i = 0; i < N; i++) {
+    result = [result[1], result[0] + result[1]]
+  }
+  
+  return result[0]
+};
+
+fib(29)
+```
