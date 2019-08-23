@@ -4737,6 +4737,7 @@ var sortArrayByParityII = function(A) {
       A[j] = temp
     }
   }
+  return A
 };
 
 const t = [4,2,5,7]
