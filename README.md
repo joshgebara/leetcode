@@ -4863,3 +4863,29 @@ var numRookCaptures = function(board) {
   return count
 };
 ```
+
+## Binary To String
+```javascript
+const floatToBinary = num => {
+  if (num >= 1 || num <= 0) {
+    return null
+  }
+
+  let bin = ['0', '.']
+  while (num > 0) {
+    if (bin.length >= 32) return null
+
+    let result = num * 2
+    if (result >= 1) {
+      bin.push('1')
+      num = result - 1
+      continue
+    }
+    bin.push('0')
+    num = result
+  }
+  return bin.join('')
+}
+
+floatToBinary(0.625)
+```
