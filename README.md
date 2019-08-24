@@ -1155,29 +1155,27 @@ a
 
 ## Radix Sort
 ```javascript
-const radixSort = numbers => {
-  let radix = 10
+const radixSort = arr => {
   let done = false
   let digits = 1
+  const radix = 10
   
   while (!done) {
     done = true
-    let buckets = Array(radix + 1).fill(null).map(() => [])
-
-    for (let number of numbers) {
-      let remainingNumber = Math.floor(number / digits)
-      let digit = Math.floor(remainingNumber % radix)
-      buckets[digit].push(number)
+    const buckets = Array(radix).fill(null).map(() => [])
+        
+    for (let num of arr) {
+      const remainingNum = Math.floor(num / digits)
+      const digit = remainingNum % radix
+      buckets[digit].push(num)
       
-      if (remainingNumber > 0) {
-        done = false
-      }
-    }
+      if (remainingNum > 0) done = false
+    } 
     
-    numbers = buckets.flat()
+    arr = buckets.flat()
     digits *= 10
   }
-  return numbers
+  return arr
 }
 
 const arr = [109, 3, 55, 4, 6, 5, 41, 2, 66, 7, 6, 4, 322, 2, 1]
