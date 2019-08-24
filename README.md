@@ -4889,3 +4889,26 @@ const floatToBinary = num => {
 
 floatToBinary(0.625)
 ```
+
+## Merge 2 Arrays O(1) Space
+```javascript
+const merge = (arr1, arr2) => {
+  if (!arr1.length && !arr2.length) return [arr1, arr2]
+  
+  let curr = 0  
+  while (curr < arr1.length) {
+    if (arr1[curr] > arr2[0]) {
+      let temp = arr1[curr]
+      arr1[curr] = arr2[0]
+      arr2[0] = temp
+      
+      arr2.sort((a, b) => a - b)
+    }
+    curr++
+  }
+  
+  return [arr1, arr2]
+}
+
+merge([1, 5, 9, 10, 15, 20], [2, 3, 8, 13])
+```
