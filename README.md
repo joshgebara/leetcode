@@ -5056,3 +5056,20 @@ var shortestDistance = function(words, word1, word2) {
 
 shortestDistance(["a","c","b","a"], "a", "b")
 ```
+
+## Monotonic
+```javascript
+var isMonotonic = function(A) {
+  let increasing = true
+  let decreasing = true
+
+  for (let i = 0; i < A.length - 1; i++) {
+    if (A[i] > A[i + 1]) increasing = false
+    if (A[i] < A[i + 1]) decreasing = false
+  }
+
+  return increasing || decreasing;
+};
+
+isMonotonic([6,5,4,4])
+```
