@@ -4992,3 +4992,26 @@ const matrix = [
 ]
 isToeplitzMatrix(matrix)
 ```
+
+## 1099. Two Sum Less Than K
+```javascript
+var twoSumLessThanK = function(A, K) {
+  if (!A.length) return -1
+  A.sort((a, b) => a - b)
+
+  let sum = -1
+  let left = 0
+  let right = A.length - 1
+
+  while (left < right) {
+    let localSum = A[left] + A[right]
+    if (localSum >= K) {
+      right--
+      continue
+    }
+    sum = Math.max(sum, localSum)
+    left++
+  }
+  return sum
+};
+```
