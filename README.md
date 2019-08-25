@@ -5110,3 +5110,20 @@ var findDisappearedNumbers = function(nums) {
 
 findDisappearedNumbers([4,3,2,7,8,2,3,1])
 ```
+
+## 283. Move Zeroes
+```javascript
+var moveZeroes = function(nums) {
+  let i = 0
+  
+  for (let j = 0; j < nums.length; j++) {
+    if (nums[j] !== 0) {
+      let temp = nums[j]
+      nums[j] = nums[i]
+      nums[i] = temp
+      i++
+    }
+  }
+  return nums
+};
+```
