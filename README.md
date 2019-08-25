@@ -5127,3 +5127,19 @@ var moveZeroes = function(nums) {
   return nums
 };
 ```
+
+## 169. Majority Element
+```javascript
+var majorityElement = function(nums) {
+  let count = 0
+  let cand = 0
+
+  for (let num of nums) {
+      if (count === 0) {
+          cand = num
+      }
+      count += (num === cand) ? 1 : -1
+  }
+  return cand
+};
+```
