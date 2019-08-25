@@ -4912,3 +4912,19 @@ const merge = (arr1, arr2) => {
 
 merge([1, 5, 9, 10, 15, 20], [2, 3, 8, 13])
 ```
+
+## Transpose A Matrix
+```javascript
+var transpose = function(A) {
+  const result = Array(A[0].length).fill(null).map(() => [])
+  
+  for (let column = 0; column < A[0].length; column++) {
+    for (let row = 0; row < A.length; row++) {
+      result[column][row] = A[row][column]
+    }
+  }
+  return result
+};
+
+transpose([[1,2,3],[4,5,6],[7,8,9]])
+```
