@@ -5150,3 +5150,12 @@ var majorityElement = function(nums) {
 
 majorityElement([2,1,2,4,7,7,7,7,7])
 ```
+
+## 217. Contains Duplicate
+```javascript
+var containsDuplicate = function(nums) {
+  if (!nums.length) return false
+  const unique = new Set(nums)
+  return nums.length !== unique.size
+};
+```
