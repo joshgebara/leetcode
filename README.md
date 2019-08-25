@@ -5159,3 +5159,23 @@ var containsDuplicate = function(nums) {
   return nums.length !== unique.size
 };
 ```
+
+## 268. Missing Number
+```javascript
+var missingNumber = function(nums) {
+  if (!nums.length) return null
+  
+  let missingNum = 0
+  
+  for (let num of nums) {
+    missingNum ^= num
+  }
+  
+  for (let i = 0; i <= nums.length; i++) {
+    missingNum ^= i
+  }
+  return missingNum
+};
+
+missingNumber([3,0,1])
+```
