@@ -5015,3 +5015,23 @@ var twoSumLessThanK = function(A, K) {
   return sum
 };
 ```
+
+## 566. Reshape the Matrix
+```javascript
+var matrixReshape = function(nums, r, c) {
+  if (!nums.length) return nums
+  if (nums.length * nums[0].length !== r * c) return nums
+  if (nums.length === r && nums[0].length === c) return nums
+  
+  let result = Array(r).fill(null).map(() => [])
+  
+  let currRow = 0
+  for (let row = 0; row < nums.length; row++) {
+    for (let column = 0; column < nums[0].length; column++) {
+      if (result[currRow].length >= c) currRow++
+      result[currRow].push(nums[row][column])
+    }
+  }
+  return result
+};
+```
