@@ -5199,3 +5199,24 @@ var largeGroupPositions = function(S) {
   return positions
 };
 ```
+## 118. Pascal's Triangle
+```javascript
+var generate = function(numRows) {
+  if (numRows === 0) return []
+  
+  let result = [[1]]
+  
+  for (let row = 1; row < numRows; row++) {
+    let currRow = [1]
+    let prevRow = row - 1
+    for (let j = 1; j < result[prevRow].length; j++) {
+      currRow.push(result[prevRow][j] + result[prevRow][j - 1])
+    }
+    currRow.push(1)
+    result.push(currRow)
+  }
+  return result
+};
+
+generate(5)
+```
