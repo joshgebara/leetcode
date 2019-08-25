@@ -4946,3 +4946,49 @@ var sumEvenAfterQueries = function(A, queries) {
   }, [])
 };
 ```
+
+## 766. Toeplitz Matrix
+```javascript
+var isToeplitzMatrix = function(matrix) {
+
+    for (var i = 0; i < matrix.length - 1; i++) {
+        for (var j = 0; j < matrix[0].length - 1; j++) {
+            if (matrix[i][j] != matrix[i+1][j+1]) {
+                return false;
+            }   
+        }   
+    }   
+
+    return true;
+};
+```
+## 766. Toeplitz Matrix Followup
+
+```javascript
+function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+var isToeplitzMatrix = function(matrix) {
+  let curr = matrix[0].slice(0, matrix[0].length - 1)
+  for (let row = 1; row < matrix.length; row++) {
+    if (!arraysEqual(curr, matrix[row].slice(1))) return false
+    curr = matrix[row].slice(0, matrix[row].length - 1)
+  }
+  return true
+};
+
+const matrix = [
+  [1,2,3,4],
+  [5,1,2,3],
+  [9,5,1,2]
+]
+isToeplitzMatrix(matrix)
+```
