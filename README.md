@@ -5035,3 +5035,24 @@ var matrixReshape = function(nums, r, c) {
   return result
 };
 ```
+
+## 243. Shortest Word Distance
+```javascript
+var shortestDistance = function(words, word1, word2) {
+  let i1 = -1
+  let i2 = -1
+  let min = words.length
+  
+  for (let i = 0; i < words.length; i++) {
+    if (words[i] === word1) i1 = i
+    if (words[i] === word2) i2 = i
+    
+    if (i1 !== -1 && i2 !== -1) {
+      min = Math.min(min, Math.abs(i1 - i2))
+    }
+  }
+  return min
+};
+
+shortestDistance(["a","c","b","a"], "a", "b")
+```
