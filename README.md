@@ -4928,3 +4928,21 @@ var transpose = function(A) {
 
 transpose([[1,2,3],[4,5,6],[7,8,9]])
 ```
+
+## 985. Sum of Even Numbers After Queries
+```javascript
+const isEven = num => (num & 1) === 0
+
+var sumEvenAfterQueries = function(A, queries) {
+  if (!A.length || !queries.length) return []
+  
+  let sum = A.reduce((result, num) => isEven(num) ? result + num : result, 0)
+  
+  return queries.reduce((result, [value, index]) => {
+    if (isEven(A[index])) sum -= A[index]
+    A[index] += value
+    if (isEven(A[index])) sum += A[index]
+    return result.concat([sum])
+  }, [])
+};
+```
