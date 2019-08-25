@@ -5179,3 +5179,23 @@ var missingNumber = function(nums) {
 
 missingNumber([3,0,1])
 ```
+
+## 830. Positions of Large Groups
+```javascript
+var largeGroupPositions = function(S) {
+  if (!S.length) return []
+  
+  let positions = []
+  let currStart = 0
+  for (let i = 1; i <= S.length; i++) {
+    let prevI = i - 1
+    if (S[i] !== S[prevI]) {
+      if (prevI - currStart > 1) {
+        positions.push([currStart, prevI])  
+      }
+      currStart = i
+    }
+  }
+  return positions
+};
+```
