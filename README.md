@@ -5135,11 +5135,18 @@ var majorityElement = function(nums) {
   let cand = 0
 
   for (let num of nums) {
-      if (count === 0) {
-          cand = num
-      }
+      if (count === 0) { cand = num}
       count += (num === cand) ? 1 : -1
   }
-  return cand
+  
+  count = 0
+  
+  for (let num of nums) {
+    if (num === cand) count++
+  }
+  
+  return count > Math.floor(nums.length / 2) ? cand : null
 };
+
+majorityElement([2,1,2,4,7,7,7,7,7])
 ```
