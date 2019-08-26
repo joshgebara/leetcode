@@ -5220,3 +5220,20 @@ var generate = function(numRows) {
 
 generate(5)
 ```
+
+## 53. Maximum Subarray
+```javascript
+var maxSubArray = function(nums) {  
+  let globalMax = -Number.MAX_VALUE
+  let localMax = globalMax
+  
+  for (let num of nums) {
+    localMax = Math.max(localMax, localMax + num)
+    globalMax = Math.max(globalMax, localMax)
+  }
+  return globalMax
+};
+
+maxSubArray([-2,-1])
+```
+
