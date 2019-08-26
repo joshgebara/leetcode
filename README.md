@@ -5379,3 +5379,22 @@ var removeDuplicates = function(nums) {
 
 removeDuplicates([0,0,1,1,1,2,2,3,3,4])
 ```
+
+## 724. Find Pivot Index
+```javascript
+var pivotIndex = function(nums) {
+  let sum = nums.reduce((result, num) => result + num, 0)
+
+  let leftSum = 0
+
+  for (let i = 0; i < nums.length; i++) {
+    if (leftSum === sum - leftSum - nums[i]) return i
+    leftSum += nums[i]
+  }
+  return -1;
+};
+
+pivotIndex([-1,-1,0,0,-1,-1])
+
+
+```
