@@ -5310,3 +5310,27 @@ var plusOne = function(digits) {
 
 plusOne([9,9,9,9])
 ```
+
+## 532. K-diff Pairs in an Array
+```javascript
+var findPairs = function(nums, k) {
+  if (k < 0) return 0
+
+  const counts = {}
+  for (let num of nums) {
+    counts[num] = 1 + (counts[num] || 0)
+  }  
+
+  let pairs = 0
+  for (let [num, count] of Object.entries(counts)) {
+    if (k === 0) {
+      if (counts[num] > 1) pairs++
+      continue
+    }
+
+    if (counts[+num + k]) pairs++
+  }
+
+  return pairs
+};
+```
