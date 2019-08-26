@@ -5261,4 +5261,29 @@ var numEquivDominoPairs = function(dominoes) {
 };
 
 numEquivDominoPairs([[1,1],[2,2],[1,1],[1,2],[1,2],[1,1]])
-````
+```
+
+## 674. Longest Continuous Increasing Subsequence
+```javascript
+var findLengthOfLCIS = function(nums) {
+  if (!nums.length) return 0
+  
+  let globalMax = 1
+  let localMax = 1
+  
+  for (let i = 1; i < nums.length; i++) {
+    let prev = i - 1
+    
+    if (nums[i] > nums[prev]) {
+      localMax++
+      globalMax = Math.max(localMax, globalMax)
+      continue
+    }
+    
+    localMax = 1
+  }
+  return globalMax
+};
+
+findLengthOfLCIS([1,3,5,7])
+```
