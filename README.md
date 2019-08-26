@@ -5361,3 +5361,21 @@ var dominantIndex = function(nums) {
 dominantIndex([3, 1, 6, 0])
 dominantIndex([1, 2, 3, 4])
 ```
+
+## 26. Remove Duplicates from Sorted Array
+```javascript
+var removeDuplicates = function(nums) {
+  if (!nums.length) return 0
+  
+  let p = 0  
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === nums[p1]) continue
+    
+    p++
+    nums[p] = nums[i]
+  }
+  return p + 1
+};
+
+removeDuplicates([0,0,1,1,1,2,2,3,3,4])
+```
