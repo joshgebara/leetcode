@@ -5287,3 +5287,26 @@ var findLengthOfLCIS = function(nums) {
 
 findLengthOfLCIS([1,3,5,7])
 ```
+
+## 66. Plus One
+```javascript
+var plusOne = function(digits) {
+  if (!digits.length) return 0
+
+  let carry = 0
+  for (let i = digits.length - 1; i >= 0; i--) {
+    if (digits[i] < 9) {
+      digits[i]++
+      return digits
+    }
+    
+    digits[i] = 0
+    carry = carry ? carry : 1
+  }
+
+  if (carry > 0) digits.unshift(carry)
+  return digits
+};
+
+plusOne([9,9,9,9])
+```
