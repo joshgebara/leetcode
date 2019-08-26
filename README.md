@@ -5334,3 +5334,30 @@ var findPairs = function(nums, k) {
   return pairs
 };
 ```
+
+## 747. Largest Number At Least Twice of Others
+```javascript
+var dominantIndex = function(nums) {
+  let max = 0
+  let maxIndex = 0
+  let secondMax = 0
+  
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > max) {
+      secondMax = max
+      max = nums[i]
+      maxIndex = i
+      continue
+    }
+    
+    if (nums[i] > secondMax) {
+      secondMax = nums[i]
+    }  
+  }
+  
+  return max >= secondMax * 2 ? maxIndex : -1
+};
+
+dominantIndex([3, 1, 6, 0])
+dominantIndex([1, 2, 3, 4])
+```
