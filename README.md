@@ -5448,3 +5448,30 @@ const search = (nums, target) => {
 }
 ```
 
+## 1150. Check If a Number Is Majority Element in a Sorted Array
+```javascript
+var isMajorityElement = function(nums, target) {
+  let first = search(nums, target)
+  let last = first + Math.floor(nums.length / 2)
+  return last < nums.length && nums[first] === target && nums[last] === target
+};
+
+const search = (nums, target) => {
+  if (!nums.length) return null
+
+  let left = 0
+  let right = nums.length - 1
+
+  while (left < right) {
+    let midPoint = Math.floor((right - left) / 2) + left
+    let midValue = nums[midPoint]
+
+    if (midValue < target) {
+      left = midPoint + 1
+    } else {
+      right = midPoint
+    }
+  }
+  return left
+}
+```
