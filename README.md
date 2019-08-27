@@ -5642,3 +5642,22 @@ var searchInsert = function(nums, target) {
 
 searchInsert([0, 1, 2, 3, 6], 8)
 ```
+
+## 121. Best Time to Buy and Sell Stock
+```javascript
+var maxProfit = function(prices) {
+    if (!prices.length) return 0
+    
+    let minPrice = prices[0]
+    let profit = 0
+    
+    for (let i = 1; i < prices.length; i++) {
+        if (prices[i] < minPrice) {
+            minPrice = prices[i]    
+        } else {
+            profit = Math.max(profit, prices[i] - minPrice)
+        }
+    }
+    return profit
+};
+```
