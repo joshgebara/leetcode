@@ -5475,3 +5475,28 @@ const search = (nums, target) => {
   return left
 }
 ```
+
+## 1122. Relative Sort Array
+```javascript
+var relativeSortArray = function(arr1, arr2) {
+  const counts = Array(1001).fill(0)
+  arr1.forEach(num => counts[num]++)
+  
+  let i = 0
+  for (let num of arr2) {
+    while(counts[num]-- > 0) {
+      arr1[i++] = num
+    }
+  }
+  
+  for (let n = 0; n < counts.length; n++) {
+    while(counts[n]-- > 0) {
+      arr1[i++] = n
+    }
+  }
+  
+  return arr1
+};
+
+relativeSortArray([2,3,1,3,2,4,6,7,9,2,19], [2,1,4,3,9,6])
+```
