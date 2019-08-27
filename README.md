@@ -5621,3 +5621,24 @@ var removeElement = function(nums, val) {
     return n
 };
 ```
+
+## 35. Search Insert Position
+```javascript
+var searchInsert = function(nums, target) {
+  let left = 0
+  let right = nums.length
+
+  while (left < right) {
+    const mid = Math.floor((right - left) / 2) + left
+
+    if (nums[mid] >= target) {
+      right = mid
+    } else {
+      left = mid + 1
+    }
+  }
+  return left
+};
+
+searchInsert([0, 1, 2, 3, 6], 8)
+```
