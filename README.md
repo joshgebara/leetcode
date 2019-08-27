@@ -5601,3 +5601,23 @@ var numSmallerByFrequency = function(queries, words) {
 
 numSmallerByFrequency(["bba","abaaaaaa","aaaaaa","bbabbabaab","aba","aa","baab","bbbbbb","aab","bbabbaabb"], ["aaabbb","aab","babbab","babbbb","b","bbbbbbbbab","a","bbbbbbbbbb","baaabbaab","aa"])
 ```
+
+## 27. Remove Element
+```javascript
+var removeElement = function(nums, val) {
+    if (!nums.length) return 0
+    
+    let i = 0
+    let n = nums.length
+    
+    while (i < n) {
+        if (nums[i] === val) {
+            nums[i] = nums[n - 1]
+            n--
+            continue
+        }
+        i++
+    }
+    return n
+};
+```
