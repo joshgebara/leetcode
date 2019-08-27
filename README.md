@@ -5478,6 +5478,7 @@ const search = (nums, target) => {
 
 ## 1122. Relative Sort Array
 ```javascript
+// Counting
 var relativeSortArray = function(arr1, arr2) {
   const counts = Array(1001).fill(0)
   arr1.forEach(num => counts[num]++)
@@ -5499,4 +5500,57 @@ var relativeSortArray = function(arr1, arr2) {
 };
 
 relativeSortArray([2,3,1,3,2,4,6,7,9,2,19], [2,1,4,3,9,6])
+
+
+// Hash Map
+var relativeSortArray = function(arr1, arr2) {
+  const arr1Counts = arr1.reduce((result, num) => {
+    result[num] = 1 + (result[num] || 0)
+    return result
+  }, {})
+  
+  let i = 0
+  for (let num of arr2) {
+    while (arr1Counts[num]-- > 0) arr1[i++] = num
+  }
+  
+  for (let [key, value] of Object.entries(arr1Counts)) {
+    while (arr1Counts[key]-- > 0) arr1[i++] = +key
+  }
+  
+  return arr1
+};
+
+relativeSortArray([2,3,1,3,2,4,6,7,9,2,19], [2,1,4,3,9,6])
+```
+
+## 1002. Find Common Characters
+```javascript
+const counts = str => {
+  return str.split('').reduce((result, char) => {
+    result[char] = 1 + (result[char] || 0)
+    return result
+  }, {})
+}
+
+var commonChars = function(A) {
+  if (!A.length) return []
+
+  let charCounts = counts(A[0])
+
+  for (let i = 1; i < A.length; i++) {
+    let currCounts = counts(A[i])
+    for (let [key, value] of Object.entries(charCounts)) {
+      if (currCounts[key]) {
+        charCounts[key] = Math.min(charCounts[key], currCounts[key])
+        continue
+      }
+      delete charCounts[key]
+    }
+  }
+  
+  return Object.entries(charCounts).reduce((result, [key, value]) => {
+    return result.concat(Array(value).fill(key))
+  }, [])
+};
 ```
