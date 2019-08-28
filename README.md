@@ -5817,3 +5817,24 @@ var isPalindrome = function(head) {
   return true
 };
 ```
+
+## 203. Remove Linked List Elements
+```javascript
+var removeElements = function(head, val) {
+    if (!head) return null
+    
+    const preHead = new ListNode(-1)
+    let curr = preHead
+    
+    while (head) {
+        if (head.val !== val) {
+            curr.next = head
+            curr = curr.next
+        }
+        head = head.next
+    }
+    curr.next = null
+    
+    return preHead.next
+};
+```
