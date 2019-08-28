@@ -5737,3 +5737,24 @@ var mergeTwoLists = function(l1, l2) {
     return dummy.next
 };
 ```
+
+## 83. Remove Duplicates from Sorted List
+```javascript
+var deleteDuplicates = function(head) {
+    if (!head) return head
+    
+    let previous = head
+    let current = head.next
+    
+    while (current) {
+        if (previous.val === current.val) {
+            previous.next = current.next
+        } else {
+            previous = current
+        }
+        current = current.next
+    }
+    
+    return head
+};
+```
