@@ -5838,3 +5838,57 @@ var removeElements = function(head, val) {
     return preHead.next
 };
 ```
+
+## 160. Intersection of Two Linked Lists
+```javascript
+// With Length
+const count = list => {
+    let count = 0
+    
+    while (list) {
+        count++
+        list = list.next
+    }
+    
+    return count
+}
+
+var getIntersectionNode = function(headA, headB) {
+    if (!headA || !headB) return null
+    
+    let headACount = count(headA)
+    let headBCount = count(headB)
+    let diff = Math.abs(headACount - headBCount)
+    
+    let largerList = headACount > headBCount ? headA : headB
+    let shorterList = headACount > headBCount ? headB : headA
+
+    while (diff) {
+        largerList = largerList.next
+        diff--
+    }
+
+    while (largerList && shorterList) {
+        if (largerList === shorterList) return largerList
+        
+        largerList = largerList.next
+        shorterList = shorterList.next
+    }
+    return null
+};
+
+// Without Length
+var getIntersectionNode = function(headA, headB) {
+    if (headA == null || headB == null) return null
+    
+    let a = headA
+    let b = headB
+    
+    while (a !== b) {
+        a = a ? a.next : headB
+        b = b ? b.next : headA
+    }
+    return a
+};
+```
+
