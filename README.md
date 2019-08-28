@@ -5987,3 +5987,123 @@ var removeDuplicates = function(S) {
     return result.join('')
 };
 ```
+
+## 232. Implement Queue using Stacks
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var MyQueue = function() {
+    this.left = []
+    this.right = []
+};
+
+/**
+ * Push element x to the back of queue. 
+ * @param {number} x
+ * @return {void}
+ */
+MyQueue.prototype.push = function(x) {
+    this.left.push(x)
+};
+
+/**
+ * Removes the element from in front of queue and returns that element.
+ * @return {number}
+ */
+MyQueue.prototype.pop = function() {
+    if (!this.right.length) this.shift()
+    return this.right.pop()
+};
+
+/**
+ * Get the front element.
+ * @return {number}
+ */
+MyQueue.prototype.peek = function() {
+    if (!this.right.length) this.shift()
+    return this.right[this.right.length - 1]
+};
+
+/**
+ * Returns whether the queue is empty.
+ * @return {boolean}
+ */
+MyQueue.prototype.empty = function() {
+    return this.left.length == 0 && this.right.length == 0
+};
+
+MyQueue.prototype.shift = function() {
+    while (this.left.length) {
+        this.right.push(this.left.pop())
+    }
+}
+
+/** 
+ * Your MyQueue object will be instantiated and called as such:
+ * var obj = new MyQueue()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.peek()
+ * var param_4 = obj.empty()
+ */
+```
+
+## 225. Implement Stack using Queues
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var MyStack = function() {
+    this.left = []
+    this.right = []
+};
+
+/**
+ * Push element x onto stack. 
+ * @param {number} x
+ * @return {void}
+ */
+MyStack.prototype.push = function(x) {
+    this.left.push(x)
+};
+
+/**
+ * Removes the element on top of the stack and returns that element.
+ * @return {number}
+ */
+MyStack.prototype.pop = function() {
+    while (this.left.length > 1) this.right.push(this.left.shift())
+    let val = this.left.pop()
+    let temp = this.left
+    this.left = this.right
+    this.right = temp
+    return val
+};
+
+/**
+ * Get the top element.
+ * @return {number}
+ */
+MyStack.prototype.top = function() {
+    while (this.left.length > 1) this.right.push(this.left.shift())
+    return this.left[0]
+};
+
+/**
+ * Returns whether the stack is empty.
+ * @return {boolean}
+ */
+MyStack.prototype.empty = function() {
+    return !this.left.length && !this.right.length
+};
+
+/** 
+ * Your MyStack object will be instantiated and called as such:
+ * var obj = new MyStack()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.empty()
+ */
+```
