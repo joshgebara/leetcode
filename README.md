@@ -5758,3 +5758,19 @@ var deleteDuplicates = function(head) {
     return head
 };
 ```
+
+## 141. Linked List Cycle
+```javascript
+var hasCycle = function(head) {
+    let fast = head
+    let slow = head
+    
+    while (fast && fast.next) {
+        fast = fast.next.next
+        slow = slow.next
+        
+        if (fast === slow) return true
+    }
+    return false
+};
+```
