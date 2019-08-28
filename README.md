@@ -5968,3 +5968,22 @@ var removeOuterParentheses = function(S) {
     return result.join('')
 };
 ```
+
+## 1047. Remove All Adjacent Duplicates In String
+```javascript
+var removeDuplicates = function(S) {
+    if (!S.length) return S
+    
+    const charArr = S.split('')
+    const result = []
+    
+    for (let char of charArr) {
+        if (result[result.length - 1] === char) {
+            result.pop()
+            continue
+        }
+        result.push(char)
+    } 
+    return result.join('')
+};
+```
