@@ -5675,3 +5675,18 @@ var maxProfit = function(prices) {
     return profit
 };
 ```
+
+## 876. Middle of the Linked List
+```javascript
+var middleNode = function(head) {
+    let fast = head
+    let slow = head
+    
+    while (fast && fast.next) {
+        fast = fast.next.next
+        slow = slow.next
+    }
+    
+    return slow
+};
+```
