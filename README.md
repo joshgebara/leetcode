@@ -5690,6 +5690,7 @@ var middleNode = function(head) {
     return slow
 };
 ```
+
 ## 206. Reverse Linked List
 ```javascript
 var reverseList = function(head) {
@@ -5704,5 +5705,13 @@ var reverseList = function(head) {
         current = next
     }
     return previous
+};
+```
+
+## 237. Delete Node in a Linked List
+```javascript
+var deleteNode = function(node) {
+    node.val = node.next.val
+    node.next = node.next.next
 };
 ```
