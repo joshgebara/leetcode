@@ -6134,3 +6134,33 @@ var isValid = function(s) {
 };
 ```
 
+## 682. Baseball Game
+```javascript
+var calPoints = function(ops) {
+  let stack = []
+  let sum = 0
+
+  for (let op of ops) {
+    switch(op) {
+        case 'C':
+            let lastVal = stack.pop()
+            sum -= lastVal
+            break
+        case 'D':
+            let val = stack[stack.length - 1] * 2
+            stack.push(val)
+            sum += val
+            break
+        case '+':
+            let valSum = stack[stack.length - 1] + stack[stack.length - 2]
+            stack.push(valSum)
+            sum += valSum
+            break
+        default:
+            stack.push(+op)
+            sum += +op   
+    }     
+  }
+  return sum
+};
+```
