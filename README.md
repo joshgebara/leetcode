@@ -6216,3 +6216,19 @@ MinStack.prototype.getMin = function() {
  * var param_4 = obj.getMin()
  */
 ```
+
+## CCI 1.4
+```javascript
+const permutationPalindrome = str => {
+  let bitVector = 0
+  
+  for (let char of str) {
+    if (char === ' ') continue
+    let i = char.charCodeAt(0) - 'a'.charCodeAt(0)
+    bitVector ^= 1 << i
+  }
+  return bitVector === 0 || (bitVector & (bitVector - 1)) === 0
+}
+
+permutationPalindrome('atco cta')
+```
