@@ -5892,3 +5892,64 @@ var getIntersectionNode = function(headA, headB) {
 };
 ```
 
+## 933. Number of Recent Calls
+```javascript
+
+var RecentCounter = function() {
+    this.queue = []
+};
+
+/** 
+ * @param {number} t
+ * @return {number}
+ */
+RecentCounter.prototype.ping = function(t) {
+    this.queue.push(t)
+    
+    while (this.queue[0] < t - 3000) {
+        this.queue.shift()
+    }
+    return this.queue.length
+};
+
+/** 
+ * Your RecentCounter object will be instantiated and called as such:
+ * var obj = new RecentCounter()
+ * var param_1 = obj.ping(t)
+ */
+```
+
+## 346. Moving Average from Data Stream
+```javascript
+/**
+ * Initialize your data structure here.
+ * @param {number} size
+ */
+var MovingAverage = function(size) {
+    this.size = size
+    this.storage = []
+    this.currSum = 0
+};
+
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+MovingAverage.prototype.next = function(val) {
+    this.storage.push(val)
+    this.currSum += val
+    
+    while(this.storage.length > this.size) {
+        let popVal = this.storage.shift()
+        this.currSum -= popVal
+    }
+    
+    return this.currSum / this.storage.length
+};
+
+/** 
+ * Your MovingAverage object will be instantiated and called as such:
+ * var obj = new MovingAverage(size)
+ * var param_1 = obj.next(val)
+ */
+```
