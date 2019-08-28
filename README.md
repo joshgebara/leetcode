@@ -6164,3 +6164,55 @@ var calPoints = function(ops) {
   return sum
 };
 ```
+
+## 155. Min Stack
+```javascript
+/**
+ * initialize your data structure here.
+ */
+var MinStack = function() {
+    this.storage = []
+    this.min = []
+};
+
+/** 
+ * @param {number} x
+ * @return {void}
+ */
+MinStack.prototype.push = function(x) {
+    if (!this.min.length || this.getMin() >= x) this.min.push(x)
+    this.storage.push(x)
+};
+
+/**
+ * @return {void}
+ */
+MinStack.prototype.pop = function() {
+    let val = this.storage.pop()
+    if (this.getMin() === val) this.min.pop()
+    return val
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.top = function() {
+    return this.storage[this.storage.length - 1]
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.getMin = function() {
+    return this.min[this.min.length - 1]
+};
+
+/** 
+ * Your MinStack object will be instantiated and called as such:
+ * var obj = new MinStack()
+ * obj.push(x)
+ * obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.getMin()
+ */
+```
