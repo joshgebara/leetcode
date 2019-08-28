@@ -5953,3 +5953,18 @@ MovingAverage.prototype.next = function(val) {
  * var param_1 = obj.next(val)
  */
 ```
+
+## 1021. Remove Outermost Parentheses
+```javascript
+var removeOuterParentheses = function(S) {
+    const result = []
+    let opened = 0
+    
+    for (let char of S) {
+        if (char == '(' && opened++ > 0) result.push(char)
+        if (char == ')' && opened-- > 1) result.push(char)
+    }
+    
+    return result.join('')
+};
+```
