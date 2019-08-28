@@ -6107,3 +6107,30 @@ MyStack.prototype.empty = function() {
  * var param_4 = obj.empty()
  */
 ```
+
+## 20. Valid Parentheses
+```javascript
+var isValid = function(s) {
+  const openers = new Set(['(', '{', '['])
+  const closers = new Set([')', '}', ']'])
+  const map = { '(': ')', '{': '}', '[': ']' }
+  const seen = []
+
+  for (let char of s) {
+    if (openers.has(char)) {
+      seen.push(char)
+      continue
+    }
+
+    if (closers.has(char)) {
+      let compliment = map[seen[seen.length - 1]]
+      if (compliment !== char) {
+        return false
+      }
+      seen.pop()
+    }
+  }
+  return seen.length === 0
+};
+```
+
