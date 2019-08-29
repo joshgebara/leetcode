@@ -6232,3 +6232,30 @@ const permutationPalindrome = str => {
 
 permutationPalindrome('atco cta')
 ```
+
+## 1086. High Five
+```javascript
+var highFive = function(items) {
+    items.sort(([idA, scoreA], [idB, scoreB]) => {
+        if (idA < idB) return -1
+        if (idA > idB) return 1
+        return scoreB - scoreA
+    })
+    
+    const scores = items.reduce((result, [key, value]) => {
+        if (!result[key]) {
+            result[key] = [value]
+            return result
+        } else if (result[key].length < 5) {
+            result[key].push(value)
+        } 
+        return result
+    }, {})
+    
+    return Object.entries(scores).reduce((result, [key, value]) => {
+        let sum = value.reduce((result, score) => result + score)
+        result.push([key, Math.floor(sum / value.length)])
+        return result
+    }, []) 
+};
+```
