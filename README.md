@@ -6322,6 +6322,26 @@ var canAttendMeetings = function(intervals) {
 
 ## 350. Intersection of Two Arrays II
 ```javascript
+// Hash Map Solution
+const counts = arr => {
+    return arr.reduce((result, num) => {
+        result[num] = 1 + (result[num] || 0)
+        return result
+    }, {})
+}
+
+var intersect = function(nums1, nums2) {
+    let n1Counts = counts(nums1)
+    let result = []
+    for (let num of nums2) {
+        if (n1Counts[num] && n1Counts[num] > 0) {
+            result.push(num)
+            n1Counts[num]--
+        }
+    }
+    return result
+};
+
 // Sort Solution
 var intersect = function(nums1, nums2) {
     nums1.sort((a, b) => a - b)
