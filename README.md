@@ -6268,3 +6268,15 @@ var intersection = function(nums1, nums2) {
     return Array.from(unique)
 };
 ```
+
+## 976. Largest Perimeter Triangle
+```javascript
+var largestPerimeter = function(A) {
+    A.sort((a, b) => a - b)
+    
+    for (let i = A.length - 3; i >= 0; i--) {
+        if (A[i] + A[i+1] > A[i+2]) return A[i] + A[i+1] + A[i+2]
+    }
+    return 0
+};
+```
