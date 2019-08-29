@@ -6259,3 +6259,12 @@ var highFive = function(items) {
     }, []) 
 };
 ```
+
+## 349. Intersection of Two Arrays
+```javascript
+var intersection = function(nums1, nums2) {
+    let seen = new Set(nums1)
+    let unique = new Set(nums2.filter(num => seen.has(num)))
+    return Array.from(unique)
+};
+```
