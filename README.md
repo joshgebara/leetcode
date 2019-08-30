@@ -6331,15 +6331,10 @@ const counts = arr => {
 }
 
 var intersect = function(nums1, nums2) {
-    let n1Counts = counts(nums1)
-    let result = []
-    for (let num of nums2) {
-        if (n1Counts[num] && n1Counts[num] > 0) {
-            result.push(num)
-            n1Counts[num]--
-        }
-    }
-    return result
+    const long = nums1.length > nums2.length ? nums1 : nums2
+    const short = nums1.length > nums2.length ? nums2 : nums1
+    const shortCounts = counts(short)
+    return long.filter(num => shortCounts[num]-- > 0)
 };
 
 // Sort Solution
@@ -6412,5 +6407,26 @@ var twoSum = function(numbers, target) {
         }
     }
     return null
+};
+```
+
+## 925. Long Pressed Name
+```javascript
+var isLongPressedName = function(name, typed) {
+    let i = 0
+    let j = 0
+    
+    while (i < name.length) {
+        if (typed[j] === name[i]) {
+            i++
+            j++
+            continue
+        }
+        
+        if (typed[j] !== name[i - 1]) return false
+        
+        j++
+    }
+    return true
 };
 ```
