@@ -6492,3 +6492,25 @@ var strStr = function(haystack, needle) {
     return -1
 };
 ```
+
+##
+```javascript
+var isPalindrome = function(s) {
+    if (!s.length) return true
+    s = s.toLowerCase()
+    
+    var regex = /[a-z0-9]/
+    let left = 0
+    let right = s.length - 1
+    
+    while (left < right) {
+        while (!regex.test(s[left]) && left < right) left++
+        while (!regex.test(s[right]) && left < right) right--
+        if (s[left] !== s[right]) return false
+        
+        left++
+        right--
+    }
+    return true
+};
+```
