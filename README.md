@@ -6414,19 +6414,14 @@ var twoSum = function(numbers, target) {
 ```javascript
 var isLongPressedName = function(name, typed) {
     let i = 0
-    let j = 0
     
-    while (i < name.length) {
+    for (let j = 0; j < typed.length; j++) {
         if (typed[j] === name[i]) {
             i++
-            j++
-            continue
+        } else if (typed[j] !== name[i - 1]){
+            return false
         }
-        
-        if (typed[j] !== name[i - 1]) return false
-        
-        j++
     }
-    return true
+    return i === name.length
 };
 ```
