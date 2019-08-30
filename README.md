@@ -6391,3 +6391,26 @@ var reverseString = function(s) {
     }
 };
 ```
+
+## 167. Two Sum II - Input array is sorted
+```javascript
+var twoSum = function(numbers, target) {
+    if (!numbers.length) return
+    
+    let left = 0
+    let right = numbers.length - 1
+    
+    while (left < right) {
+        let sum = numbers[left] + numbers[right]
+        
+        if (sum === target) {
+            return [left + 1, right + 1]
+        } else if (sum > target) {
+            right--
+        } else {
+            left++   
+        }
+    }
+    return null
+};
+```
