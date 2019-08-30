@@ -6559,3 +6559,26 @@ var search = function(nums, target) {
     return -1
 };
 ```
+
+## 69. Sqrt(x)
+```javascript
+var mySqrt = function(x) {
+    if (x === 0) return 0
+    
+    let start = 2
+    let end = Math.floor(x / 2) + 1
+    
+    while (start <= end) {
+        let mid = Math.floor((end - start) / 2) + start
+        let square = mid * mid
+        if (square === x || ((mid + 1) * (mid + 1) > x && square < x)) return mid
+        
+        if (square > x) {
+            end = mid - 1
+        } else {
+            start = mid + 1
+        }
+    }
+    return start
+};
+```
