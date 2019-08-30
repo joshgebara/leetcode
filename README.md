@@ -6408,6 +6408,30 @@ var twoSum = function(numbers, target) {
     }
     return null
 };
+
+// Binary Search 
+const binarySearch = (key, arr, start, end) => {
+    while (start <= end) {
+        let mid = Math.floor((end - start) / 2) + start
+        if (key === arr[mid]) return mid
+        
+        if (key > arr[mid]) {
+            start = mid + 1
+        } else {
+            end = mid - 1
+        }
+    }
+    return null
+}
+
+var twoSum = function(numbers, target) {
+    for (let j = 0; j < numbers.length; j++) {
+        let diff = Math.abs(numbers[j] - target)
+        let index = binarySearch(diff, numbers, j + 1, numbers.length)
+        if (index) return [j + 1, index + 1]
+    }
+    return []
+};
 ```
 
 ## 925. Long Pressed Name
