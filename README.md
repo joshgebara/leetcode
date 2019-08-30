@@ -6538,3 +6538,24 @@ var isPalindrome = function(s) {
     return true
 };
 ```
+
+## 704. Binary Search
+```javascript
+var search = function(nums, target) {
+    let start = 0
+    let end = nums.length
+    
+    while (start <= end) {
+        let mid = Math.floor((end - start) / 2) + start
+        
+        if (nums[mid] === target) return mid
+        
+        if (nums[mid] > target) {
+            end = mid - 1
+        } else {
+            start = mid + 1
+        }
+    }
+    return -1
+};
+```
