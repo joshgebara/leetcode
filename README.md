@@ -6468,7 +6468,7 @@ var merge = function(nums1, m, nums2, n) {
 };
 ```
 
-##
+## 28. Implement strStr()
 ```javascript
 var strStr = function(haystack, needle) {
     if (!needle.length) return 0
