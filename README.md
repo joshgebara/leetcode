@@ -6425,3 +6425,29 @@ var isLongPressedName = function(name, typed) {
     return i === name.length
 };
 ```
+
+## 345. Reverse Vowels of a String
+```javascript
+var reverseVowels = function(s) {
+    if (!s.length || s.length == 1) return s
+    
+    const charArr = s.split('')
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'])
+    
+    let left = 0
+    let right = s.length - 1
+    
+    while (left < right) {
+        while (!vowels.has(charArr[left]) && left < right) left++            
+        while (!vowels.has(charArr[right]) && left < right) right--
+        if (left >= right) break
+        
+        let temp = charArr[left]
+        charArr[left] = charArr[right]
+        charArr[right] = temp
+        left++
+        right--
+    }
+    return charArr.join('')
+};
+```
