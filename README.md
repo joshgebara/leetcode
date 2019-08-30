@@ -6493,7 +6493,7 @@ var strStr = function(haystack, needle) {
 };
 ```
 
-##
+## 125. Valid Palindrome
 ```javascript
 var isPalindrome = function(s) {
     if (!s.length) return true
