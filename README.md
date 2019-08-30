@@ -6451,3 +6451,19 @@ var reverseVowels = function(s) {
     return charArr.join('')
 };
 ```
+
+## 88. Merge Sorted Array
+```javascript
+var merge = function(nums1, m, nums2, n) {
+    let curr = nums1.length - 1
+    let mI = m - 1
+    let nI = n - 1
+    
+    while (mI >= 0 && nI >= 0) {
+        nums1[curr--] = nums1[mI] < nums2[nI] ? nums2[nI--] : nums1[mI--]
+    }
+    
+    while (nI >= 0) nums1[curr--] = nums2[nI--]
+    return nums1
+};
+```
