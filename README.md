@@ -6523,7 +6523,7 @@ var isPalindrome = function(s) {
     if (!s.length) return true
     s = s.toLowerCase()
     
-    var regex = /[a-z0-9]/
+    var regex = /\w/
     let left = 0
     let right = s.length - 1
     
