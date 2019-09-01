@@ -6694,3 +6694,28 @@ const kmp = (str, pattern) => {
   return -1
 }
 ```
+
+## 367. Valid Perfect Square
+```javascript
+var isPerfectSquare = function(num) {
+    if (!num) return false
+    if (num === 1) return true
+    
+    let left = 2
+    let right = Math.floor(num / 2) + 1
+    
+    while (left <= right) {
+        let mid = Math.floor((right - left) / 2) + left
+        let square = mid * mid
+        
+        if (square === num) return true
+        
+        if (square > num) {
+            right = mid - 1
+        } else {
+            left = mid + 1
+        }
+    }
+    return false
+};
+```
