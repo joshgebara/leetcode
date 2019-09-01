@@ -6719,3 +6719,26 @@ var isPerfectSquare = function(num) {
     return false
 };
 ```
+
+## 278. First Bad Version
+```javascript
+var solution = function(isBadVersion) {
+    return function(n) {
+        let left = 0
+        let right = n
+        
+        while (left < right) {
+            let mid = Math.floor((right - left) / 2) + left
+            
+            if (isBadVersion(mid)) {
+                right = mid
+            } else {
+                left = mid + 1
+            }
+            
+            
+        }
+        return left
+    };
+};
+```
