@@ -6494,27 +6494,26 @@ var merge = function(nums1, m, nums2, n) {
 
 ## 28. Implement strStr()
 ```javascript
+// Brute Force
 var strStr = function(haystack, needle) {
     if (!needle.length) return 0
-    if (!haystack.length) return -1 
+    if (!haystack.length) return -1
     
-    let p1 = 0
-    let p2 = 0
-    let p = 0
-    
-    while (p1 < haystack.length) {
-        p = p1
-        
-        while (haystack[p1] === needle[p2]) {
-            p1++
-            p2++
-            if (p2 >= needle.length) return p
+    let nI = 0
+    for (let hI = 0; hI < haystack.length; hI++) {
+        let curr = hI
+        while (haystack[curr] === needle[nI]) {
+            nI++
+            curr++
+            if (nI >= needle.length) return hI
         }
-        p1 = p + 1   
-        p2 = 0
+        nI = 0
     }
     return -1
 };
+
+// KMP
+
 ```
 
 ## 125. Valid Palindrome
