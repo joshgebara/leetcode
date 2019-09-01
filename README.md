@@ -6513,7 +6513,63 @@ var strStr = function(haystack, needle) {
 };
 
 // KMP
+const patternTable = pattern => {
+  const table = [0]
+  let p = 0
+  let s = 1
+  
+  while (s < pattern.length) {
+    if (pattern[p] === pattern[s]) {
+      table[s] = p + 1
+      s += 1
+      p += 1
+      continue
+    }
+    
+    if (p === 0) {
+      table[s] = 0
+      s += 1
+      continue
+    }
+    
+    p = table[p - 1]
+  }
 
+  return table
+}
+
+const kmp = (str, pattern) => {
+  if (pattern.length === 0) return 0
+  
+  const table = patternTable(pattern)
+  
+  let s = 0
+  let p = 0
+  while (s < str.length) {
+    if (str[s] === pattern[p]) {
+      if (p === pattern.length - 1) return (s - pattern.length) + 1
+      p += 1
+      s += 1
+      continue
+    }
+    
+    if (p === 0) {
+      p = 0
+      s += 1
+      continue
+    }
+    
+    p = table[p - 1]
+  }
+  return -1
+}
+
+var strStr = function(haystack, needle) {
+    if (!needle.length) return 0
+    if (!haystack.length) return -1
+    
+    return kmp(haystack, needle)
+};
 ```
 
 ## 125. Valid Palindrome
@@ -6587,36 +6643,54 @@ var mySqrt = function(x) {
 const substr = 'acbacdabcy'
 const str = 'acbacxabcdabxabcdacbacdabcy'
 
-const buildPatternTable = str => {
-  const patternTable = [0]
-
-  let i = 0
-  for (let j = 1; j < str.length; j++) {
-    if (str[i] === str[j]) {
-      patternTable[j] = ++i
+const patternTable = pattern => {
+  const table = [0]
+  let p = 0
+  let s = 1
+  
+  while (s < pattern.length) {
+    if (pattern[p] === pattern[s]) {
+      table[s] = p + 1
+      s += 1
+      p += 1
       continue
     }
-    i = 0
-    patternTable[j] = i
+    
+    if (p === 0) {
+      table[s] = 0
+      s += 1
+      continue
+    }
+    
+    p = table[p - 1]
   }
-  return patternTable
+
+  return table
 }
 
-function knuthMorrisPratt(text, word) {
-  if (!word.length === 0) return -1
+const kmp = (str, pattern) => {
+  if (pattern.length === 0) return 0
   
-  const patternTable = buildPatternTable(word);
+  const table = patternTable(pattern)
   
-  let i = 0;
-  for (let j = 0; j < text.length; j++) {
-    if (text[j] === word[i]) {
-      if (++i === word.length) return (j - word.length) + 1
+  let s = 0
+  let p = 0
+  while (s < str.length) {
+    if (str[s] === pattern[p]) {
+      if (p === pattern.length - 1) return (s - pattern.length) + 1
+      p += 1
+      s += 1
       continue
     }
-    i = i ? patternTable[i - 1] : 0
+    
+    if (p === 0) {
+      p = 0
+      s += 1
+      continue
+    }
+    
+    p = table[p - 1]
   }
   return -1
 }
-
-knuthMorrisPratt(str, substr)
 ```
