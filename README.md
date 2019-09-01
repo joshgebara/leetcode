@@ -6582,3 +6582,42 @@ var mySqrt = function(x) {
     return start
 };
 ```
+
+## KMP Algo
+```javascript
+const substr = 'acbacdabcy'
+const str = 'acbacxabcdabxabcdacbacdabcy'
+
+const buildPatternTable = str => {
+  const patternTable = [0]
+
+  let i = 0
+  for (let j = 1; j < str.length; j++) {
+    if (str[i] === str[j]) {
+      patternTable[j] = ++i
+      continue
+    }
+    i = 0
+    patternTable[j] = i
+  }
+  return patternTable
+}
+
+function knuthMorrisPratt(text, word) {
+  if (!word.length === 0) return -1
+  
+  const patternTable = buildPatternTable(word);
+  
+  let i = 0;
+  for (let j = 0; j < text.length; j++) {
+    if (text[j] === word[i]) {
+      if (++i === word.length) return (j - word.length) + 1
+      continue
+    }
+    i = i ? patternTable[i - 1] : 0
+  }
+  return -1
+}
+
+knuthMorrisPratt(str, substr)
+```
