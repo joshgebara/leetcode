@@ -6517,57 +6517,51 @@ const patternTable = pattern => {
   const table = [0]
   let p = 0
   let s = 1
-  
+
   while (s < pattern.length) {
-    if (pattern[p] === pattern[s]) {
-      table[s] = p + 1
-      s += 1
-      p += 1
+    if (pattern[s] === pattern[p]) {
+      table[s++] = ++p
       continue
     }
-    
+
     if (p === 0) {
-      table[s] = 0
-      s += 1
+      table[s++] = 0
       continue
     }
-    
+
     p = table[p - 1]
   }
-
   return table
 }
 
 const kmp = (str, pattern) => {
-  if (pattern.length === 0) return 0
+  let table = patternTable(pattern)
   
-  const table = patternTable(pattern)
-  
-  let s = 0
   let p = 0
+  let s = 0
+  
   while (s < str.length) {
     if (str[s] === pattern[p]) {
-      if (p === pattern.length - 1) return (s - pattern.length) + 1
-      p += 1
-      s += 1
+      if (p === pattern.length - 1) return s - pattern.length + 1
+      p++
+      s++
       continue
     }
     
     if (p === 0) {
-      p = 0
-      s += 1
+      s++
       continue
     }
     
     p = table[p - 1]
   }
+  
   return -1
 }
 
 var strStr = function(haystack, needle) {
     if (!needle.length) return 0
     if (!haystack.length) return -1
-    
     return kmp(haystack, needle)
 };
 ```
