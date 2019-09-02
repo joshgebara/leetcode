@@ -6564,6 +6564,61 @@ var strStr = function(haystack, needle) {
     if (!haystack.length) return -1
     return kmp(haystack, needle)
 };
+
+// Rabin-Karp
+const hash = pattern => {
+  const base = 256
+
+  let hash = 0
+  for (let i = 0; i < pattern.length; i += 1) {
+    hash += pattern.charCodeAt(i) * (base ** i)
+  }
+
+  return hash
+}
+
+const roll = (prevHash, prevPattern, newPattern) => {
+  const base = 256
+
+  let hash = prevHash
+  const prevValue = prevPattern.charCodeAt(0)
+  const newValue = newPattern.charCodeAt(newPattern.length - 1)
+
+  hash -= prevValue
+  hash /= base
+  hash += newValue * (base ** (newPattern.length - 1))
+
+  return hash
+}
+
+const rabinKarp = (str, pattern) => {
+  const wordHash = hash(pattern)
+
+  let prevFrame = null
+  let currentFrameHash = null
+
+  for (let i = 0; i <= (str.length - pattern.length); i++) {
+    const currentFrame = str.substring(i, i + pattern.length)
+
+    if (currentFrameHash) {
+      currentFrameHash = roll(currentFrameHash, prevFrame, currentFrame)
+    } else {
+      currentFrameHash = hash(currentFrame)
+    }
+    
+    if (wordHash === currentFrameHash && currentFrame === pattern) return i
+    
+    prevFrame = currentFrame
+  }
+  
+  return -1
+}
+
+var strStr = function(haystack, needle) {
+    if (!needle.length) return 0
+    if (!haystack.length) return -1
+    return rabinKarp(haystack, needle)
+};
 ```
 
 ## 125. Valid Palindrome
@@ -6756,4 +6811,57 @@ var arrangeCoins = function(n) {
     let sum = (left * ((left + 1) / 2))
     return sum === n ? left : left - 1
 };
+```
+
+## Rabin-Karp
+```javascript
+const hash = pattern => {
+  const base = 256
+
+  let hash = 0
+  for (let i = 0; i < pattern.length; i += 1) {
+    hash += pattern.charCodeAt(i) * (base ** i)
+  }
+
+  return hash
+}
+
+const roll = (prevHash, prevPattern, newPattern) => {
+  const base = 256
+
+  let hash = prevHash
+  const prevValue = prevPattern.charCodeAt(0)
+  const newValue = newPattern.charCodeAt(newPattern.length - 1)
+
+  hash -= prevValue
+  hash /= base
+  hash += newValue * (base ** (newPattern.length - 1))
+
+  return hash
+}
+
+const rabinKarp = (str, pattern) => {
+  const wordHash = hash(pattern)
+
+  let prevFrame = null
+  let currentFrameHash = null
+
+  for (let i = 0; i <= (str.length - pattern.length); i++) {
+    const currentFrame = str.substring(i, i + pattern.length)
+
+    if (currentFrameHash) {
+      currentFrameHash = roll(currentFrameHash, prevFrame, currentFrame)
+    } else {
+      currentFrameHash = hash(currentFrame)
+    }
+    
+    if (wordHash === currentFrameHash && currentFrame === pattern) return i
+    
+    prevFrame = currentFrame
+  }
+  
+  return -1
+}
+
+rabinKarp('mississippi', 'issip')
 ```
