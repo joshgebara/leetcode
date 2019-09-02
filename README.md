@@ -6592,21 +6592,21 @@ const roll = (prevHash, prevPattern, newPattern) => {
 }
 
 const rabinKarp = (str, pattern) => {
-  const wordHash = hash(pattern)
+  const patternHash = hash(pattern)
 
   let prevFrame = null
-  let currentFrameHash = null
+  let frameHash = null
 
   for (let i = 0; i <= (str.length - pattern.length); i++) {
     const currentFrame = str.substring(i, i + pattern.length)
 
-    if (currentFrameHash) {
-      currentFrameHash = roll(currentFrameHash, prevFrame, currentFrame)
+    if (frameHash) {
+      frameHash = roll(frameHash, prevFrame, currentFrame)
     } else {
-      currentFrameHash = hash(currentFrame)
+      frameHash = hash(currentFrame)
     }
     
-    if (wordHash === currentFrameHash && currentFrame === pattern) return i
+    if (patternHash === frameHash && currentFrame === pattern) return i
     
     prevFrame = currentFrame
   }
@@ -6864,4 +6864,24 @@ const rabinKarp = (str, pattern) => {
 }
 
 rabinKarp('mississippi', 'issip')
+```
+
+## 744. Find Smallest Letter Greater Than Target
+```javascript
+var nextGreatestLetter = function(letters, target) {
+    let left = 0
+    let right = letters.length
+    
+    while (left < right) {
+        let mid = Math.floor((right - left) / 2) + left
+        
+        if (letters[mid] > target) {
+            right = mid
+        } else {
+            left = mid + 1
+        }
+    }
+    
+    return letters[left % letters.length]
+};
 ```
