@@ -6742,3 +6742,24 @@ var solution = function(isBadVersion) {
     };
 };
 ```
+
+## 441. Arranging Coins
+```javascript
+var arrangeCoins = function(n) {
+    let left = 0
+    let right = n
+    
+    while (left < right) {
+        let mid = Math.floor((right - left) / 2) + left
+        let sum = mid * (mid + 1) / 2
+        if (sum >= n) {
+            right = mid
+        } else {
+            left = mid + 1
+        }
+    }
+    
+    let sum = (left * ((left + 1) / 2))
+    return sum === n ? left : left - 1
+};
+```
