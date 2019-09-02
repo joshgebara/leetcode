@@ -6920,3 +6920,47 @@ var peakIndexInMountainArray = function(A) {
     return left
 };
 ```
+
+## 392. Is Subsequence
+```javascript
+const binarySearch = (arr, target) => {
+  let left = 0
+  let right = arr.length - 1
+  
+  while (left < right) {
+    let mid = Math.floor((right - left) / 2) + left
+    
+    if (arr[mid] <= target) {
+      left = mid + 1
+    } else {
+      right = mid
+    }
+  }
+  return arr[left]
+}
+
+const indexMap = str => {
+    return str.split('').reduce((result, char, i) => {
+        if (result[char]) {
+            result[char].push(i)
+        } else {
+            result[char] = [i]
+        }
+        return result
+    }, {})
+}
+
+var isSubsequence = function(s, t) {
+    const map = indexMap(t)
+    
+    let lastIndex = -1
+    for (let i = 0; i < s.length; i++) {
+        if (!map[s[i]]) return false
+        
+        let currIndex = binarySearch(map[s[i]], lastIndex)
+        if (lastIndex >= currIndex) return false  
+        lastIndex = currIndex
+    }
+    return true
+};
+```
