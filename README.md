@@ -6901,3 +6901,22 @@ var closestValue = function(root, target) {
     return closest
 };
 ```
+
+## 852. Peak Index in a Mountain Array
+```javascript
+var peakIndexInMountainArray = function(A) {
+    let left = 0
+    let right = A.length
+    
+    while (left < right) {
+        let mid = Math.floor((right - left) / 2) + left
+        
+        if (A[mid] < A[mid + 1]) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    return left
+};
+```
