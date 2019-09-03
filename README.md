@@ -7139,3 +7139,16 @@ var isPowerOfFour = function(num) {
     return (num & (num - 1)) === 0 && (num & 0x55555555) === num
 };
 ```
+
+## 190. Reverse Bits
+```javascript
+var reverseBits = function(n) {
+    let result = 0
+    for (let i = 0; i < 32; i++) {
+        result <<= 1
+        result |= (n & 1)
+        n >>= 1
+    }
+    return result >>> 0
+};
+```
