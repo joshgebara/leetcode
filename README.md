@@ -7184,3 +7184,23 @@ var defangIPaddr = function(address) {
     }, []).join('')
 };
 ```
+
+## 804. Unique Morse Code Words
+```javascript
+const map = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---",
+             "-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-",
+             "...-",".--","-..-","-.--","--.."]
+
+const transform = word => {    
+    return [...word].map(char => {
+        let code = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        return map[code]
+    }).join('')
+}
+
+var uniqueMorseRepresentations = function(words) {
+    let transformations = new Set()
+    for (let word of words) transformations.add(transform(word))
+    return transformations.size
+};
+```
