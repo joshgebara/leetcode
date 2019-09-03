@@ -7239,3 +7239,31 @@ var numUniqueEmails = function(emails) {
   return uniqueEmails.size
 };
 ```
+
+## 557. Reverse Words in a String III
+```javascript
+const reverse = (arr, start, end) => {
+    while (start < end) {
+        let temp = arr[start]
+        arr[start] = arr[end]
+        arr[end] = temp
+        
+        start++
+        end--
+    }
+    return arr
+}
+
+var reverseWords = function(s) {
+    let charArray = [...s]
+    
+    let wordStart = 0
+    for (let i = 0; i <= s.length; i++) {
+        if (s[i] === " " || i === s.length) {
+            reverse(charArray, wordStart, i - 1)
+            wordStart = i + 1
+        }
+    }
+    return charArray.join('')
+};
+```
