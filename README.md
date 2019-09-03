@@ -7131,3 +7131,11 @@ var toHex = function(num) {
     return result
 };
 ```
+
+## 342. Power of Four
+```javascript
+var isPowerOfFour = function(num) {
+    if (num < 1) return false
+    return (num & (num - 1)) === 0 && (num & 0x55555555) === num
+};
+```
