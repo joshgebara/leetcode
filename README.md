@@ -7163,7 +7163,7 @@ var removeVowels = function(S) {
 // Set
 var removeVowels = function(S) {
     let vowels = new Set(['a', 'e', 'i', 'o', 'u'])
-    return S.split('')
+    return [...S]
             .filter(char => !vowels.has(char))
             .join('')
 };
