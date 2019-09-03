@@ -7289,3 +7289,19 @@ var reverseString = function(s) {
     }
 };
 ```
+
+## 709. To Lower Case
+```javascript
+var toLowerCase = function(str) {
+    let result = []
+    for (let char of str) {
+        let code = char.charCodeAt(0)
+        if (code >= 'A'.charCodeAt(0) && code <= 'Z'.charCodeAt(0)) {
+            result.push(String.fromCharCode(code + 32))
+            continue
+        }
+        result.push(char)
+    }
+    return result.join('')
+};
+```
