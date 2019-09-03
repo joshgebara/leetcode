@@ -6964,3 +6964,27 @@ var isSubsequence = function(s, t) {
     return true
 };
 ```
+
+## 1176. Diet Plan Performance
+```javascript
+const assignPoint = (calories, lower, upper) => {
+    if (calories < lower) return -1
+    if (calories > upper) return 1
+    return 0
+}
+
+var dietPlanPerformance = function(calories, k, lower, upper) {
+    let total = 0
+    let sum = 0
+    
+    for (let i = 0; i < k; i++) sum += calories[i]
+    total += assignPoint(sum, lower, upper)
+    
+    for (let j = k; j < calories.length; j++) {
+        sum += calories[j]
+        sum -= calories[j - k]
+        total += assignPoint(sum, lower, upper)
+    }
+    return total
+};
+```
