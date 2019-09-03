@@ -7226,3 +7226,16 @@ var judgeCircle = function(moves) {
   return posX === 0 && posY === 0
 };
 ```
+
+## 929. Unique Email Addresses
+```javascript
+var numUniqueEmails = function(emails) {
+  const actualEmail = emails.map(email => email.split('@'))
+  .map(email => [email[0].split('+')[0], email[1]])
+  .map(email => [email[0].split('.').join(''), email[1]])
+  .map(email => email.join('@'))
+
+  const uniqueEmails = new Set(actualEmail)
+  return uniqueEmails.size
+};
+```
