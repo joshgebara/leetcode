@@ -7168,3 +7168,11 @@ var removeVowels = function(S) {
             .join('')
 };
 ```
+
+## 1108. Defanging an IP Address
+```javascript
+// RegEx
+var defangIPaddr = function(address) {
+    return address.replace(/\./g, '[.]')
+};
+```
