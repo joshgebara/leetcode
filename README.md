@@ -7090,3 +7090,15 @@ var countPrimeSetBits = function(L, R) {
   return count
 };
 ```
+
+## 389. Find the Difference
+```javascript
+var findTheDifference = function(s, t) {
+    let result = 0
+    
+    for (let i of s) result ^= i.charCodeAt(0)
+    for (let j of t) result ^= j.charCodeAt(0)
+    
+    return String.fromCharCode(result)
+};
+```
