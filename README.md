@@ -7114,3 +7114,20 @@ var hammingWeight = function(n) {
     return count
 };
 ```
+
+## 405. Convert a Number to Hexadecimal
+```javascript
+var toHex = function(num) {
+    if (num === 0) return "0"
+    
+    let map = '0123456789abcdef'
+    let result = ''
+    
+    while (num) {
+        result = map[(num & 15)] + result
+        num >>>= 4
+    }
+    
+    return result
+};
+```
