@@ -7175,4 +7175,12 @@ var removeVowels = function(S) {
 var defangIPaddr = function(address) {
     return address.replace(/\./g, '[.]')
 };
+
+// Reduce
+var defangIPaddr = function(address) {
+    return [...address].reduce((result, char) => {
+        char === '.' ? result.push('[.]') : result.push(char)
+        return result
+    }, []).join('')
+};
 ```
