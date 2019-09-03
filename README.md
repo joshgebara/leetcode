@@ -7267,3 +7267,25 @@ var reverseWords = function(s) {
     return charArray.join('')
 };
 ```
+
+## 344. Reverse String
+```javascript
+const swap = (arr, i, j) => {
+    let temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+var reverseString = function(s) {
+    if (!s.length) return
+    
+    let left = 0
+    let right = s.length - 1
+    
+    while (left < right) {
+        swap(s, left, right)
+        left++
+        right--
+    }
+};
+```
