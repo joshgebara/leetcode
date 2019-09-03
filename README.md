@@ -7037,3 +7037,16 @@ var hammingDistance = function(x, y) {
     return count
 };
 ```
+
+## 476. Number Complement
+```javascript
+var findComplement = function(num) {
+    let numCount = 0
+    let t = num
+    while (t) {
+        numCount++
+        t >>= 1
+    }
+    return (num ^ ~(-1 << numCount))
+};
+```
