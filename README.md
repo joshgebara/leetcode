@@ -4089,7 +4089,7 @@ removeDups2(node1)
 print(node1)
 ```
 
-## Missing Num
+## 268. Missing Number
 ```javascript
 const missingNum1 = (array, n) => {
   const sum = array.reduce((result, element) => result + element, 0)
