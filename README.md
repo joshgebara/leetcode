@@ -7024,3 +7024,16 @@ var hasAlternatingBits = function(n) {
     return true
 };
 ```
+
+## 461. Hamming Distance
+```javascript
+var hammingDistance = function(x, y) {
+    let diff = x ^ y
+    let count = 0
+    while (diff) {
+        count++
+        diff &= (diff - 1)
+    }
+    return count
+};
+```
