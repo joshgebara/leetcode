@@ -7152,3 +7152,19 @@ var reverseBits = function(n) {
     return result >>> 0
 };
 ```
+
+## 1119. Remove Vowels from a String
+```javascript
+// RegEx
+var removeVowels = function(S) {
+    return S.replace(/[aeiou]/g, "")
+};
+
+// Set
+var removeVowels = function(S) {
+    let vowels = new Set(['a', 'e', 'i', 'o', 'u'])
+    return S.split('')
+            .filter(char => !vowels.has(char))
+            .join('')
+};
+```
