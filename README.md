@@ -7059,3 +7059,34 @@ var singleNumber = function(nums) {
     return result
 };
 ```
+
+## 762. Prime Number of Set Bits in Binary Representation
+```javascript
+const numOfSetBits = bin => {
+  let count = 0
+  while (bin) {
+    if (bin & 1) count++
+    bin >>= 1
+  }
+  return count
+}
+
+const isPrime = num => {
+  if (num === 1) return false
+  for (let i = 2; i <= Math.floor(num / 2); i++) {
+    if (num % i === 0) return false
+  }
+  return true
+}
+
+var countPrimeSetBits = function(L, R) {
+  let count = 0
+  let memo = {}
+  for (let num = L; num <= R; num++) {
+      let setBits = numOfSetBits(num)
+      if (memo[setBits] === undefined) memo[setBits] = isPrime(setBits)
+      if (memo[setBits]) count++
+  }
+  return count
+};
+```
