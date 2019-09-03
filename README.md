@@ -7204,3 +7204,25 @@ var uniqueMorseRepresentations = function(words) {
     return transformations.size
 };
 ```
+
+## 657. Robot Return to Origin
+```javascript
+const moveDirection = (dir, pos) => {
+  let [x, y] = pos
+  switch (dir) {
+    case ('U'): return [x, y + 1]
+    case ('D'): return [x, y - 1]
+    case ('L'): return [x + 1, y]
+    case ('R'): return [x - 1, y]
+  }
+}
+
+var judgeCircle = function(moves) {
+  let pos = [0, 0]
+
+  for (let move of moves) pos = moveDirection(move, pos)
+
+  let [posX, posY] = pos
+  return posX === 0 && posY === 0
+};
+```
