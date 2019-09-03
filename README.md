@@ -7009,3 +7009,18 @@ var fixedPoint = function(A) {
     return -1
 };
 ```
+
+## 693. Binary Number with Alternating Bits
+```javascript
+var hasAlternatingBits = function(n) {
+    let curr = n & 1
+    n = n >>> 1
+    
+    while (n) {
+        if ((n & 1) === curr) return false
+        curr = n & 1
+        n = n >>> 1
+    }
+    return true
+};
+```
