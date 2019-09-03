@@ -6988,3 +6988,24 @@ var dietPlanPerformance = function(calories, k, lower, upper) {
     return total
 };
 ```
+
+## 1064. Fixed Point
+```javascript
+var fixedPoint = function(A) {
+    let left = 0
+    let right = A.length
+    
+    while (left < right) {
+        let mid = Math.floor((right - left) / 2) + left
+        
+        if (A[mid] < mid) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    if (A[left] === left) return left
+    return -1
+};
+```
