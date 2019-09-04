@@ -7495,5 +7495,32 @@ var sortArrayByParity = function(A) {
 };
 
 // Two Pointers
+const isEven = num => (num & 1) === 0
 
+var sortArrayByParity = function(A) {
+    let i = 0
+    let j = 1
+    
+    while (j < A.length) {
+        if (isEven(A[i])) {
+            i++
+            j++
+            continue
+        }
+        
+        if (!isEven(A[j])) {
+            j++
+            continue
+        }
+        
+        let temp = A[j]
+        A[j] = A[i]
+        A[i] = temp    
+        
+        i++
+        j++
+    }
+    
+    return A
+};
 ```
