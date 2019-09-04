@@ -4705,8 +4705,33 @@ const [_, count] = mergeSort([2, 4, 1, 3, 5])
 console.log(count)
 ```
 
-## Leetcode #1051
+## 1051. Height Checker
 ```javascript
+// Counting Sort
+var heightChecker = function(heights) {
+    let counts = Array(101).fill(0)
+    for (let height of heights) counts[height]++
+    
+    let sortedHeights = []
+    for (let i = 0; i < counts.length; i++) {
+        while (counts[i] > 0) {
+            sortedHeights.push(i)
+            counts[i]--
+        }
+    }
+    
+    let i = 0
+    let j = 0
+    let count = 0
+    while (i < heights.length && j < sortedHeights.length) {
+        if (heights[i] !== sortedHeights[j]) count++
+        i++
+        j++
+    }
+    return count
+};
+
+// N Log N Sort
 var heightChecker = function(heights) {
   let sortedHeights = heights.map((num) => num).sort((a, b) => a - b)
   let count = 0
