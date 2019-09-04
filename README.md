@@ -5583,46 +5583,37 @@ var commonChars = function(A) {
 
 ## 1170. Compare Strings by Frequency of the Smallest Character
 ```javascript
-const minCharCount = str => {
-  let charCounts = Array(26).fill(0)
-  for (let char of str) {
-    let code = char.charCodeAt(0) - 'a'.charCodeAt(0)
-    charCounts[code]++
-  }
-
-  for (let i = 0; i < charCounts.length; i++) {
-    if (charCounts[i] !== 0) return charCounts[i]
-  }
-}
-
-const frequencies = (arr, target) => {
-  let left = 0
-  let right = arr.length - 1
-
-  while (left <= right) {
-    let mid = Math.floor((right - left) / 2) + left
-
-    if (arr[mid] > target) {
-      right = mid - 1
-    } else {
-      left = mid + 1
+const smallestChar = str => {
+    if (!str.length) return null
+    
+    let smallest = str[0]
+    for (let i = 1; i < str.length; i++) {
+        smallest = smallest < str[i] ? smallest : str[i]
     }
-  }
-  return arr.slice(left).length
+    return smallest
 }
+
+const smallestFreq = str => {
+    let smallest = smallestChar(str)
+    return str.split('').reduce((result, char) => {
+        return char === smallest ? result + 1 : result
+    }, 0)
+} 
 
 var numSmallerByFrequency = function(queries, words) {
-  let result = []
-  queries = queries.map(query => minCharCount(query)) 
-  words = words
-    .map(word => minCharCount(word))
-    .sort((a, b) => a - b)
-
-  for (let query of queries) {
-    result.push(frequencies(words, query))
-  }
-
-  return result
+    queries = queries.map(query => smallestFreq(query))
+    words = words.map(word => smallestFreq(word))
+    
+    let counts = []
+    
+    for (let query of queries) {
+        let count = 0
+        for (let word of words) {
+            if (query < word) count++
+        }
+        counts.push(count)
+    }
+    return counts
 };
 
 numSmallerByFrequency(["bba","abaaaaaa","aaaaaa","bbabbabaab","aba","aa","baab","bbbbbb","aab","bbabbaabb"], ["aaabbb","aab","babbab","babbbb","b","bbbbbbbbab","a","bbbbbbbbbb","baaabbaab","aa"])
