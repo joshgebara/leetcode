@@ -6363,6 +6363,40 @@ var intersect = function(nums1, nums2) {
     }
     return result
 };
+
+// Binary Search
+const binarySearch = (arr, target, start) => {
+    let left = start || 0
+    let right = arr.length
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid] < target) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    return arr[left] === target ? left : null
+}
+
+var intersect = function(nums1, nums2) {
+    nums1.sort((a, b) => a - b)
+    nums2.sort((a, b) => a - b)
+    
+    let result = []
+    let start = 0
+    
+    for (let num of nums1) {
+        let index = binarySearch(nums2, num, start)
+        if (index !== null) {
+            start = index + 1
+            result.push(nums2[index])
+        }
+    }
+    return result
+};
 ```
 
 ## 344. Reverse String
