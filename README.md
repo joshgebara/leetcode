@@ -7428,3 +7428,23 @@ var backspaceCompare = function(S, T) {
     return true
 };
 ```
+
+## 1085. Sum of Digits in the Minimum Number
+```javascript
+const sumDigits = num => {
+    let result = 0
+    while (num) {
+        result += num % 10        
+        num = Math.floor(num / 10)
+    }
+    return result
+}
+
+const isEven = num => (num & 1) === 0
+
+var sumOfDigits = function(A) {
+    let min = Math.min(...A)
+    let sum = sumDigits(min)
+    return isEven(sum) ? 1 : 0
+};
+```
