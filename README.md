@@ -7448,3 +7448,36 @@ var sumOfDigits = function(A) {
     return isEven(sum) ? 1 : 0
 };
 ```
+
+## 832. Flipping an Image
+```javascript
+const flipRow = row => {
+    for (let i = 0; i < row.length; i++) {
+        row[i] = +!row[i]
+    }
+}
+
+const reverseRow = row => {
+    let left = 0
+    let right = row.length - 1
+    
+    while (left < right) {
+        let temp = row[left]
+        row[left] = row[right]
+        row[right] = temp
+        
+        left++
+        right--
+    }
+}
+
+var flipAndInvertImage = function(A) {
+    if (!A.length || !A[0].length) return A
+    
+    for (let row of A) {
+        flipRow(row)
+        reverseRow(row)
+    }
+    return A
+};
+```
