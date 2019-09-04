@@ -7607,3 +7607,14 @@ var largestUniqueNumber = function(A) {
     return max
 };
 ```
+
+## 509. Fibonacci Number
+```javascript
+// Recursion
+var fib = function(N) {
+    if (N < 2) return N
+    return fib(N - 1) + fib(N - 2)
+};
+
+
+```
