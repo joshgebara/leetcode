@@ -7537,3 +7537,32 @@ var arrayPairSum = function(nums) {
     return sum
 };
 ```
+
+## 1160. Find Words That Can Be Formed by Characters
+```javascript
+const counts = str => {
+    return str.split('').reduce((result, char) => {
+        result[char] = 1 + (result[char] || 0)
+        return result
+    }, {})
+}
+
+var countCharacters = function(words, chars) {
+    const charsCounts = counts(chars)
+    
+    let sum = 0
+    for (let word of words) {
+        let wordCount = counts(word)
+        let valid = true
+        for (let [char, count] of Object.entries(wordCount)) {
+            if (!charsCounts[char] || charsCounts[char] < count) {
+                valid = !valid
+                break
+            }   
+        }
+        if (valid) sum += word.length
+    }
+    
+    return sum
+};
+```
