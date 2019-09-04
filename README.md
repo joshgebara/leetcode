@@ -7023,6 +7023,17 @@ var dietPlanPerformance = function(calories, k, lower, upper) {
 
 ## 1064. Fixed Point
 ```javascript
+// Linear Scan
+var fixedPoint = function(A) {
+    if (!A.length) return -1
+    
+    for (let i = 0; i < A.length; i++) {
+        if (A[i] === i) return i
+    }
+    
+    return -1
+};
+
 // Binary Search
 var fixedPoint = function(A) {
     if (!A.length) return -1
