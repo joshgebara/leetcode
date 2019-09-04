@@ -7339,3 +7339,38 @@ var toLowerCase = function(str) {
     return result.join('')
 };
 ```
+
+## 977. Squares of a Sorted Array
+```javascript
+var sortedSquares = function(A) {
+    let right = 0
+    while (A[right] < 0) right++
+    
+    let left = right - 1
+    
+    const result = []
+    while (left >= 0 && right < A.length) {
+        let sL = A[left] ** 2
+        let sR = A[right] ** 2
+        
+        if (sL < sR) {
+            result.push(sL)
+            left--
+        } else {
+            result.push(sR)
+            right++
+        }
+    }
+    
+    while (right < A.length) {
+        result.push(A[right] ** 2)
+        right++
+    }
+    
+    while (left >= 0) {
+        result.push(A[left] ** 2)
+        left--
+    }
+    return result
+};
+```
