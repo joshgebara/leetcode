@@ -5549,32 +5549,35 @@ relativeSortArray([2,3,1,3,2,4,6,7,9,2,19], [2,1,4,3,9,6])
 
 ## 1002. Find Common Characters
 ```javascript
-const counts = str => {
-  return str.split('').reduce((result, char) => {
-    result[char] = 1 + (result[char] || 0)
+const charCounts = word => {
+    return word.split('').reduce((result, char) => {
+        result[char] = 1 + (result[char] || 0)
+        return result
+    }, {})
+}
+
+const merge = (map1, map2) => {
+    let result = {}
+    
+    for (let [key, value] of Object.entries(map1)) {
+        if (map1[key] && map2[key]) {
+            result[key] = Math.min(map1[key], map2[key])
+        }
+    }
     return result
-  }, {})
 }
 
 var commonChars = function(A) {
-  if (!A.length) return []
-
-  let charCounts = counts(A[0])
-
-  for (let i = 1; i < A.length; i++) {
-    let currCounts = counts(A[i])
-    for (let [key, value] of Object.entries(charCounts)) {
-      if (currCounts[key]) {
-        charCounts[key] = Math.min(charCounts[key], currCounts[key])
-        continue
-      }
-      delete charCounts[key]
+    if (!A.length) return []
+    
+    let counts = charCounts(A[0])
+    for (let i = 1; i < A.length; i++) {
+        counts = merge(charCounts(A[i]), counts)
     }
-  }
-  
-  return Object.entries(charCounts).reduce((result, [key, value]) => {
-    return result.concat(Array(value).fill(key))
-  }, [])
+    
+    return Object.entries(counts).reduce((result, [key, value]) => {
+        return result.concat(Array(value).fill(key))
+    }, [])
 };
 ```
 
