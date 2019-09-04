@@ -7591,3 +7591,19 @@ var countCharacters = function(words, chars) {
     return sum
 };
 ```
+
+## 1133. Largest Unique Number
+```javascript
+var largestUniqueNumber = function(A) {
+    const counts = A.reduce((result, num) => {
+        result[num] = 1 + (result[num] || 0)
+        return result
+    }, {})
+    
+    let max = -1
+    for (let [num, count] of Object.entries(counts)) {
+        if (count === 1) max = Math.max(max, num)
+    }
+    return max
+};
+```
