@@ -7616,5 +7616,23 @@ var fib = function(N) {
     return fib(N - 1) + fib(N - 2)
 };
 
+// Recursion + Memo
+var fib = function(N, memo = {}) {
+    if (N < 2) return N
+    if (memo[N]) return memo[N]
+    
+    let result = fib(N - 1, memo) + fib(N - 2, memo)
+    memo[N] = result
+    return result
+};
 
+// Iterative
+var fib = function(N) {
+    let fibs = [0, 1]
+    
+    for (let i = 0; i < N; i++) {
+        fibs = [fibs[1], fibs[0] + fibs[1]]
+    }
+    return fibs[0]
+};
 ```
