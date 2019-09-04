@@ -7481,3 +7481,19 @@ var flipAndInvertImage = function(A) {
     return A
 };
 ```
+
+## 905. Sort Array By Parity
+```javascript
+// Linear Time and Space
+const isEven = num => (num & 1) === 0
+
+var sortArrayByParity = function(A) {
+    const evens = []
+    const odds = []
+    for (let a of A) isEven(a) ? evens.push(a) : odds.push(a)
+    return evens.concat(odds)
+};
+
+// Two Pointers
+
+```
