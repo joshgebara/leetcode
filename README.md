@@ -7374,3 +7374,46 @@ var sortedSquares = function(A) {
     return result
 };
 ```
+
+## 844. Backspace String Compare
+```javascript
+var backspaceCompare = function(S, T) {
+    let sSkips = 0
+    let tSkips = 0
+    
+    let sIndex = S.length - 1
+    let tIndex = T.length - 1
+    
+    while (sIndex >= 0 || tIndex >= 0) {
+        if (S[sIndex] === '#') {
+            sSkips++
+            sIndex--
+            continue
+        }
+        
+        if (T[tIndex] === '#') {
+            tSkips++
+            tIndex--
+            continue
+        }
+        
+        if (sSkips > 0) {
+            sSkips--
+            sIndex--
+            continue
+        }
+        
+        if (tSkips > 0) {
+            tSkips--
+            tIndex--
+            continue
+        }
+        
+        if (S[sIndex] !== T[tIndex]) return false
+        
+        sIndex--
+        tIndex--
+    }
+    return true
+};
+```
