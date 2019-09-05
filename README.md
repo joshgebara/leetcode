@@ -7643,3 +7643,27 @@ var transpose = function(A) {
     return matrix
 };
 ```
+
+## 985. Sum of Even Numbers After Queries
+```javascript
+const isEven = num => (num & 1) === 0
+
+const sumOfEvens = nums => {
+    return nums.reduce((result, num) => isEven(num) ? result + num : result, 0)
+}
+
+var sumEvenAfterQueries = function(A, queries) {
+    if (!A.length || !queries.length) return []
+    
+    const result = []
+    
+    let sum = sumOfEvens(A)
+    for (let [val, index] of queries) {
+        if (isEven(A[index])) sum -= A[index]
+        A[index] += val
+        if (isEven(A[index])) sum += A[index]
+        result.push(sum)
+    }
+    return result
+};
+```
