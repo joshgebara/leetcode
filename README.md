@@ -5021,23 +5021,31 @@ isToeplitzMatrix(matrix)
 ## 1099. Two Sum Less Than K
 ```javascript
 var twoSumLessThanK = function(A, K) {
-  if (!A.length) return -1
-  A.sort((a, b) => a - b)
-
-  let sum = -1
-  let left = 0
-  let right = A.length - 1
-
-  while (left < right) {
-    let localSum = A[left] + A[right]
-    if (localSum >= K) {
-      right--
-      continue
+    const counts = Array(1001).fill(0)
+    for (let a of A) counts[a]++
+    
+    const sortedA = []
+    for (let i = 0; i < counts.length; i++) {
+        while (counts[i] > 0) {
+            sortedA.push(i)
+            counts[i]--
+        }
     }
-    sum = Math.max(sum, localSum)
-    left++
-  }
-  return sum
+    
+    let left = 0
+    let right = sortedA.length - 1
+    let max = -1
+    
+    while (left < right) {
+        let sum = sortedA[left] + sortedA[right]
+        if (sum >= K) {
+            right--
+        } else {
+            max = Math.max(sum, max)
+            left++
+        }
+    }
+    return max
 };
 ```
 
