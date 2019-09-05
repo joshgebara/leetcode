@@ -5052,20 +5052,18 @@ var twoSumLessThanK = function(A, K) {
 ## 566. Reshape the Matrix
 ```javascript
 var matrixReshape = function(nums, r, c) {
-  if (!nums.length) return nums
-  if (nums.length * nums[0].length !== r * c) return nums
-  if (nums.length === r && nums[0].length === c) return nums
-  
-  let result = Array(r).fill(null).map(() => [])
-  
-  let currRow = 0
-  for (let row = 0; row < nums.length; row++) {
-    for (let column = 0; column < nums[0].length; column++) {
-      if (result[currRow].length >= c) currRow++
-      result[currRow].push(nums[row][column])
+    if (r * c !== nums.length * nums[0].length) return nums
+    
+    const m = Array(r).fill(null).map(() => [])
+    let i = 0
+    
+    for (let row = 0; row < nums.length; row++) {
+        for (let col = 0; col < nums[0].length; col++) {
+            if (m[i].length >= c) i++
+            m[i].push(nums[row][col])
+        }
     }
-  }
-  return result
+    return m
 };
 ```
 
