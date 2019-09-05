@@ -5070,22 +5070,17 @@ var matrixReshape = function(nums, r, c) {
 ## 243. Shortest Word Distance
 ```javascript
 var shortestDistance = function(words, word1, word2) {
-  let i1 = -1
-  let i2 = -1
-  let min = words.length
-  
-  for (let i = 0; i < words.length; i++) {
-    if (words[i] === word1) i1 = i
-    if (words[i] === word2) i2 = i
+    let i1 = -1
+    let i2 = -1
+    let dist = words.length
     
-    if (i1 !== -1 && i2 !== -1) {
-      min = Math.min(min, Math.abs(i1 - i2))
+    for (let i = 0; i < words.length; i++) {
+        if (words[i] === word1) i1 = i
+        if (words[i] === word2) i2 = i
+        if (i1 !== -1 && i2 !== -1) dist = Math.min(Math.abs(i1 - i2), dist)    
     }
-  }
-  return min
+    return dist
 };
-
-shortestDistance(["a","c","b","a"], "a", "b")
 ```
 
 ## Monotonic
