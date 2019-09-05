@@ -7630,3 +7630,16 @@ var fib = function(N) {
     return fibs[0]
 };
 ```
+
+## 867. Transpose Matrix
+```javascript
+var transpose = function(A) {
+    const matrix = Array(A[0].length).fill(null).map(() => [])
+    for (let column = 0; column < A[0].length; column++) {
+        for (let row = 0; row < A.length; row++) {
+            matrix[column].push(A[row][column])
+        }
+    }
+    return matrix
+};
+```
