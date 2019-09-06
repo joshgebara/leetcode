@@ -5628,20 +5628,22 @@ numSmallerByFrequency(["bba","abaaaaaa","aaaaaa","bbabbabaab","aba","aa","baab",
 ## 27. Remove Element
 ```javascript
 var removeElement = function(nums, val) {
-    if (!nums.length) return 0
-    
     let i = 0
-    let n = nums.length
-    
-    while (i < n) {
-        if (nums[i] === val) {
-            nums[i] = nums[n - 1]
-            n--
+    for (let j = 0; j < nums.length; j++) {
+        if (nums[i] !== val) {
+            i++
             continue
         }
-        i++
+        
+        if (nums[j] !== val) {
+            let temp = nums[i]
+            nums[i] = nums[j]
+            nums[j] = temp
+            
+            i++
+        }
     }
-    return n
+    return i
 };
 ```
 
