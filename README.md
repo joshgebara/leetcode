@@ -7744,3 +7744,24 @@ var thirdMax = function(nums) {
     return max3 !== -Number.MAX_VALUE ? max3 : max1
 };
 ```
+
+## 119. Pascal's Triangle II
+```javascript
+var getRow = function(rowIndex) {
+    let result = [1]
+    
+    for (let i = 1; i <= rowIndex; i++) {
+        let row = new Array(i+1)
+        for (let j = 0; j < i + 1; j++) {
+            if (j <= 0 || j >= i) {
+                row[j] = 1
+                continue
+            }
+            row[j] = result[j] + result[j-1]
+        }
+        result = row
+    }
+    
+    return result
+};
+```
