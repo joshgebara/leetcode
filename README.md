@@ -7791,3 +7791,17 @@ var isOneBitCharacter = function(bits) {
     return i === bits.length - 1
 };
 ```
+
+## 1. Two Sum
+```javascript
+var twoSum = function(nums, target) {
+    const seen = {}
+    
+    for (let i = 0; i < nums.length; i++) {
+        let diff = target - nums[i]
+        if (seen[diff] !== undefined) return [seen[diff], i]
+        seen[nums[i]] = i
+    }
+    return []
+};
+```
