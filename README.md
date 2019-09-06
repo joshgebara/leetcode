@@ -5103,17 +5103,18 @@ isMonotonic([6,5,4,4])
 ## 485. Max Consecutive Ones
 ```javascript
 var findMaxConsecutiveOnes = function(nums) {
-  let globalMax = 0
-  let currMax = 0
-  for (let num of nums) {
-    if (num === 1) {
-      currMax++
-    } else {
-      currMax = 0
+    let max = 0
+    let curr = 0
+    for (const num of nums) {
+        if (num === 1) {
+            curr++
+            continue
+        }
+        max = Math.max(curr, max)
+        curr = 0
     }
-    globalMax = Math.max(globalMax, currMax)
-  }
-  return globalMax
+    max = Math.max(curr, max)
+    return max
 };
 
 findMaxConsecutiveOnes([1,1,0,1,1,1])
