@@ -5232,23 +5232,24 @@ var largeGroupPositions = function(S) {
 ## 118. Pascal's Triangle
 ```javascript
 var generate = function(numRows) {
-  if (numRows === 0) return []
-  
-  let result = [[1]]
-  
-  for (let row = 1; row < numRows; row++) {
-    let currRow = [1]
-    let prevRow = row - 1
-    for (let j = 1; j < result[prevRow].length; j++) {
-      currRow.push(result[prevRow][j] + result[prevRow][j - 1])
+    if (!numRows) return []
+    
+    let result = [[1]]
+    
+    for (let i = 1; i < numRows; i++) {
+        let row = []
+        for (let j = 0; j < i + 1; j++) {
+            let prevRow = result[i-1]
+            if (j <= 0 || j >= i) {
+                row.push(1)
+                continue
+            }
+            row.push(prevRow[j] + prevRow[j-1])
+        }
+        result.push(row)
     }
-    currRow.push(1)
-    result.push(currRow)
-  }
-  return result
+    return result
 };
-
-generate(5)
 ```
 
 ## 53. Maximum Subarray
