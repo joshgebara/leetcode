@@ -7710,3 +7710,36 @@ var isMonotonic = function(A) {
   return increasing || decreasing;
 };
 ```
+
+## 414. Third Maximum Number
+```javascript
+var thirdMax = function(nums) {
+    let max1 = -Number.MAX_VALUE
+    let max2 = -Number.MAX_VALUE
+    let max3 = -Number.MAX_VALUE
+    
+    for (const num of nums) {
+        if (num === max1) continue
+        if (num > max1) {
+            max3 = max2
+            max2 = max1
+            max1 = num
+            continue
+        }
+        
+        if (num === max2) continue
+        if (num > max2) {
+            max3 = max2
+            max2 = num
+            continue
+        }
+        
+        if (num > max3) {
+            max3 = num
+            continue
+        }
+    }
+    
+    return max3 !== -Number.MAX_VALUE ? max3 : max1
+};
+```
