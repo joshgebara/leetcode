@@ -5374,9 +5374,6 @@ var dominantIndex = function(nums) {
   
   return max >= secondMax * 2 ? maxIndex : -1
 };
-
-dominantIndex([3, 1, 6, 0])
-dominantIndex([1, 2, 3, 4])
 ```
 
 ## 26. Remove Duplicates from Sorted Array
