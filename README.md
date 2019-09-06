@@ -5141,14 +5141,18 @@ findDisappearedNumbers([4,3,2,7,8,2,3,1])
 ## 283. Move Zeroes
 ```javascript
 var moveZeroes = function(nums) {
-    if (nums.length === 1 || !nums.length) return
     let i = 0
     for (let j = 0; j < nums.length; j++) {
+        if (nums[i] !== 0) {
+            i++
+            continue
+        }
+        
         if (nums[j] !== 0) {
-            let temp = nums[i]
-            nums[i] = nums[j]
-            nums[j] = temp
-            i++   
+            let temp = nums[j]
+            nums[j] = nums[i]
+            nums[i] = temp
+            i++
         }
     }
 };
