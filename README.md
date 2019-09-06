@@ -5213,20 +5213,18 @@ missingNumber([3,0,1])
 ## 830. Positions of Large Groups
 ```javascript
 var largeGroupPositions = function(S) {
-  if (!S.length) return []
-  
-  let positions = []
-  let currStart = 0
-  for (let i = 1; i <= S.length; i++) {
-    let prevI = i - 1
-    if (S[i] !== S[prevI]) {
-      if (prevI - currStart > 1) {
-        positions.push([currStart, prevI])  
-      }
-      currStart = i
+    let start = 0
+    let result = []
+    
+    for (let i = 1; i <= S.length; i++) {
+        if (S[i] !== S[i - 1]) {
+            if (i - start > 2) {
+                result.push([start, i - 1])   
+            }
+            start = i
+        }
     }
-  }
-  return positions
+    return result
 };
 ```
 ## 118. Pascal's Triangle
