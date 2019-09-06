@@ -5292,21 +5292,17 @@ var findLengthOfLCIS = function(nums) {
   let globalMax = 1
   let localMax = 1
   
-  for (let i = 1; i < nums.length; i++) {
-    let prev = i - 1
-    
-    if (nums[i] > nums[prev]) {
+  for (let i = 1; i < nums.length; i++) {    
+    if (nums[i] > nums[i-1]) {
       localMax++
       globalMax = Math.max(localMax, globalMax)
       continue
     }
-    
+      
     localMax = 1
   }
   return globalMax
 };
-
-findLengthOfLCIS([1,3,5,7])
 ```
 
 ## 66. Plus One
