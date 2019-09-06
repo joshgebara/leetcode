@@ -5632,22 +5632,20 @@ var removeElement = function(nums, val) {
 ## 35. Search Insert Position
 ```javascript
 var searchInsert = function(nums, target) {
-  let left = 0
-  let right = nums.length
-
-  while (left < right) {
-    const mid = Math.floor((right - left) / 2) + left
-
-    if (nums[mid] >= target) {
-      right = mid
-    } else {
-      left = mid + 1
+    let left = 0
+    let right = nums.length
+    
+    while (left < right) {
+        let mid = Math.floor((right - left) / 2) + left
+        
+        if (nums[mid] < target) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
     }
-  }
-  return left
+    return left
 };
-
-searchInsert([0, 1, 2, 3, 6], 8)
 ```
 
 ## 121. Best Time to Buy and Sell Stock
