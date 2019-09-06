@@ -5246,18 +5246,16 @@ var generate = function(numRows) {
 
 ## 53. Maximum Subarray
 ```javascript
-var maxSubArray = function(nums) {  
-  let globalMax = -Number.MAX_VALUE
-  let localMax = globalMax
-  
-  for (let num of nums) {
-    localMax = Math.max(localMax, localMax + num)
-    globalMax = Math.max(globalMax, localMax)
-  }
-  return globalMax
+var maxSubArray = function(nums) {
+    let globalMax = nums[0]
+    let localMax = nums[0]
+    
+    for (let i = 1; i < nums.length; i++) {
+        localMax = Math.max(nums[i], localMax + nums[i])
+        globalMax = Math.max(localMax, globalMax)
+    }
+    return globalMax
 };
-
-maxSubArray([-2,-1])
 ```
 
 ## 1128. Number of Equivalent Domino Pairs
