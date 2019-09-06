@@ -7803,3 +7803,24 @@ var twoSum = function(nums, target) {
     return []
 };
 ```
+
+## 989. Add to Array-Form of Integer
+```javascript
+var addToArrayForm = function(A, K) {
+    let carry = K
+    let result = []
+    
+    for (let i = A.length - 1; i >= 0; i--) {
+        let sum = A[i] + carry
+        carry = Math.floor(sum / 10)
+        result.push(sum % 10)
+    }
+    
+    while (carry) {
+        result.push(carry % 10)
+        carry = Math.floor(carry / 10)
+    }
+    
+    return result.reverse()
+};
+```
