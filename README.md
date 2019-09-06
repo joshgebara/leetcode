@@ -4745,27 +4745,21 @@ heightChecker([10,6,6,10,10,9,8,8,3,3,8,2,1,5,1,9,5,2,7,4,7,7])
 
 ```
 
-## Leetcoede #922
+## 922. Sort Array By Parity II
 ```javascript
 var sortArrayByParityII = function(A) {
-  if (!A.length) return []
-  
-  let j = 1
-  for (let i = 0; i < A.length; i += 2) {
-    if (A[i] % 2 === 1) {
-      while (A[j] % 2 === 1) j += 2
-      
-      let temp = A[i]
-      A[i] = A[j]
-      A[j] = temp
+    let i = 0
+    for (let j = 1; j < A.length; j += 2) {
+        if (A[j] % 2 === 0) {
+            while (A[i] % 2 == 0) i += 2
+            
+            let temp = A[j]
+            A[j] = A[i]
+            A[i] = temp
+        }
     }
-  }
-  return A
+    return A
 };
-
-const t = [4,2,5,7]
-sortArrayByParityII(t)
-console.log(t)
 ```
 
 ## Leetcode #509
