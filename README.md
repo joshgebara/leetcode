@@ -7690,3 +7690,19 @@ var canThreePartsEqualSum = function(A) {
     return count === 3
 };
 ```
+
+## 896. Monotonic Array
+```javascript
+var isMonotonic = function(A) {
+  let increasing = true
+  let decreasing = true
+
+  for (let i = 0; i < A.length; i++) {
+    if (A[i] === A[i + 1]) continue
+    if (A[i] > A[i + 1]) increasing = false
+    if (A[i] < A[i + 1]) decreasing = false
+  }
+
+  return increasing || decreasing;
+};
+```
