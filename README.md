@@ -5263,25 +5263,24 @@ var maxSubArray = function(nums) {
 var numEquivDominoPairs = function(dominoes) {
   if (!dominoes.length) return 0
 
-  const seen = Array(10).fill(null).map(() => [])
+  const seen = Array(100).fill(0)
   let pairCount = 0
 
   for (let [a, b] of dominoes) {
     let min = Math.min(a, b)
     let max = Math.max(a, b)
+    let val = min * 10 + max
     
-    if (Number.isInteger(seen[min][max])) {
-      seen[min][max]++
-      pairCount += seen[min][max]  
-      continue
+    if (seen[val] > 0) {
+        pairCount += seen[val]  
+        seen[val]++
+        continue
     }
     
-    seen[min][max] = 0
+    seen[val] = 1
   }
   return pairCount
 };
-
-numEquivDominoPairs([[1,1],[2,2],[1,1],[1,2],[1,2],[1,1]])
 ```
 
 ## 674. Longest Continuous Increasing Subsequence
