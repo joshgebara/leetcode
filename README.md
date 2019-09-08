@@ -7832,3 +7832,21 @@ var rotate = function(nums, k) {
     rotateSubarray(nums, k, nums.length - 1)
 };
 ```
+
+## 605. Can Place Flowers
+```javascript
+var canPlaceFlowers = function(flowerbed, n) {
+    let plants = 0
+    
+    for (let i = 0; i < flowerbed.length; i++) {        
+        if (flowerbed[i] === 0 && (flowerbed[i-1] || 0) === 0 && (flowerbed[i+1] || 0) === 0) {
+            plants++
+            flowerbed[i] = 1
+        }
+
+        if (plants >= n) return true
+    }
+    
+    return false
+};
+```
