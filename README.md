@@ -5451,30 +5451,28 @@ const search = (nums, target) => {
 
 ## 1150. Check If a Number Is Majority Element in a Sorted Array
 ```javascript
-var isMajorityElement = function(nums, target) {
-  let first = search(nums, target)
-  let last = first + Math.floor(nums.length / 2)
-  return last < nums.length && nums[first] === target && nums[last] === target
-};
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length
+    
+    while (left < right) {
+       let mid = Math.floor((right - left) / 2) + left
 
-const search = (nums, target) => {
-  if (!nums.length) return null
-
-  let left = 0
-  let right = nums.length - 1
-
-  while (left < right) {
-    let midPoint = Math.floor((right - left) / 2) + left
-    let midValue = nums[midPoint]
-
-    if (midValue < target) {
-      left = midPoint + 1
-    } else {
-      right = midPoint
+       if (arr[mid] < target) {
+           left = mid + 1
+       } else {
+           right = mid
+       }
     }
-  }
-  return left
+    
+    return arr[left] === target ? left : -1
 }
+
+var isMajorityElement = function(nums, target) {
+    const start = binarySearch(nums, target)
+    if (start === -1) return false
+    return (nums[start] === nums[start + Math.floor(nums.length / 2)])
+};
 ```
 
 ## 1122. Relative Sort Array
