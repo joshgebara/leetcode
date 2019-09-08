@@ -7814,3 +7814,21 @@ var addToArrayForm = function(A, K) {
     return result.reverse()
 };
 ```
+
+## 189. Rotate Array
+```javascript
+const rotateSubarray = (arr, left, right) => {
+    while (left < right) {
+        [arr[left], arr[right]] = [arr[right], arr[left]]
+        left++
+        right--
+    }
+}
+
+var rotate = function(nums, k) {
+    k %= nums.length
+    nums.reverse()
+    rotateSubarray(nums, 0, k - 1)
+    rotateSubarray(nums, k, nums.length - 1)
+};
+```
