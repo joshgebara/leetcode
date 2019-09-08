@@ -5643,17 +5643,27 @@ var searchInsert = function(nums, target) {
 var maxProfit = function(prices) {
     if (!prices.length) return 0
     
+    let maxProfit = 0
     let minPrice = prices[0]
-    let profit = 0
     
     for (let i = 1; i < prices.length; i++) {
-        if (prices[i] < minPrice) {
-            minPrice = prices[i]    
-        } else {
-            profit = Math.max(profit, prices[i] - minPrice)
-        }
+        minPrice = Math.min(minPrice, prices[i])
+        maxProfit = Math.max(maxProfit, prices[i] - minPrice)
     }
-    return profit
+    return maxProfit
+};
+
+var maxProfit = function(prices) {
+    if (!prices.length) return 0
+    
+    let maxGlobal = 0
+    let maxLocal = 0
+    
+    for (let i = 1; i < prices.length; i++) {
+        maxLocal = Math.max(0, maxLocal + prices[i] - prices[i - 1])
+        maxGlobal = Math.max(maxLocal, maxGlobal)
+    }
+    return maxGlobal
 };
 ```
 
