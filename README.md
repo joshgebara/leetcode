@@ -7864,3 +7864,22 @@ var containsNearbyDuplicate = function(nums, k) {
     return false
 };
 ```
+
+## 914. X of a Kind in a Deck of Cards
+```javascript
+const gcd = (a, b) => {
+    return a === 0 ? b : gcd(b % a, a)
+}
+var hasGroupsSizeX = function(deck) {
+    const counts = deck.reduce((result, card) => {
+        result[card] = 1 + (result[card] || 0)
+        return result
+    }, {})
+    
+    let g = 0
+    for (const value of Object.values(counts)) {
+       g = gcd(g, value)
+    }
+    return g >= 2
+};
+```
