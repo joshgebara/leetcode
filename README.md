@@ -7944,3 +7944,12 @@ var findPairs = function(nums, k) {
     return pairs
 };
 ```
+
+## 1185. Day of the Week
+```javascript
+var dayOfTheWeek = function(day, month, year) {
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const date = new Date(year, month - 1, day)
+    return days[date.getDay()]
+};
+```
