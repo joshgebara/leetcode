@@ -5229,16 +5229,17 @@ var generate = function(numRows) {
     let result = [[1]]
     
     for (let i = 1; i < numRows; i++) {
-        let row = []
-        for (let j = 0; j < i + 1; j++) {
-            let prevRow = result[i-1]
-            if (j <= 0 || j >= i) {
-                row.push(1)
+        let curr = []
+        let prev = result[i-1]
+        
+        for (let j = 0; j <= prev.length; j++) {
+            if (j <= 0 || j >= prev.length) {
+                curr.push(1)
                 continue
             }
-            row.push(prevRow[j] + prevRow[j-1])
+            curr.push(prev[j] + prev[j-1])
         }
-        result.push(row)
+        result.push(curr)
     }
     return result
 };
