@@ -7534,13 +7534,23 @@ var sortArrayByParity = function(A) {
 ## 561. Array Partition I
 ```javascript
 var arrayPairSum = function(nums) {
-    nums.sort((a, b) => a - b)
-    
-    let sum = 0
-    for (let i = 0; i < nums.length; i += 2) {
-        sum += nums[i]
+  const arr = Array(20001).fill(0)
+  const lim = 10000
+  for (let num of nums) arr[num + lim]++
+  
+  const sortedArr = []
+  for (let i = 0; i < arr.length; i++) {
+    while (arr[i] > 0) {
+      sortedArr.push(i - lim)
+      arr[i]--
     }
-    return sum
+  }
+  
+  let sum = 0
+  for (let i = 0; i < sortedArr.length; i += 2) {
+    sum += sortedArr[i]
+  }
+  return sum  
 };
 ```
 
