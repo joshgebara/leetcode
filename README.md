@@ -7953,3 +7953,43 @@ var dayOfTheWeek = function(day, month, year) {
     return days[date.getDay()]
 };
 ```
+
+## 498. Diagonal Traverse
+```javascript
+var findDiagonalOrder = function(matrix) {
+    if (!matrix.length || !matrix[0].length) return []
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    let r = 0
+    let c = 0
+    const result = []
+    
+    for (let i = 0; i < m*n; i++) {
+        result.push(matrix[r][c])
+        
+        if ((r + c) % 2 === 0) {
+            // going up
+            if (c === n - 1) {
+                r++
+            } else if (r === 0) {
+                c++
+            } else {
+                r--
+                c++
+            }
+        } else {
+            // going down
+            if (r === m - 1) {
+                c++
+            } else if (c === 0) {
+                r++
+            } else {
+                r++
+                c--
+            }
+        }
+    }
+    return result
+};
+```
