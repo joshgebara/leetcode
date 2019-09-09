@@ -7993,3 +7993,40 @@ var findDiagonalOrder = function(matrix) {
     return result
 };
 ```
+
+## 54. Spiral Matrix
+```javascript
+var spiralOrder = function(matrix) {
+    if (!matrix.length || !matrix[0].length) return []
+    
+    const result = []
+    const m = matrix.length
+    const n = matrix[0].length
+    let r = 0
+    let c = 0
+    
+    for (let layer = 0; layer < Math.floor(m / 2) + 1; layer++) {
+        r = layer
+        c = layer
+        
+        if (c >= n - layer) break
+        while (c < n - layer) result.push(matrix[layer][c++])
+        
+        r++
+        c--
+        if (r >= m - layer) break
+        while (r < m - layer) result.push(matrix[r++][c])
+        
+        r--
+        c--
+        if (c < layer) break
+        while (c >= layer) result.push(matrix[r][c--])
+       
+        r--
+        c++
+        if (r <= layer) break
+        while (r > layer) result.push(matrix[r--][c])
+    }
+    return result
+};
+```
