@@ -8031,3 +8031,28 @@ var spiralOrder = function(matrix) {
     return result
 };
 ```
+
+## 67. Add Binary
+```javascript
+var addBinary = function(a, b) {
+    let i = a.length - 1
+    let j = b.length - 1
+    const result = []
+    let carry = 0
+    
+    while (i >= 0 || j >= 0) {
+        let iBin = a[i] ? +a[i] : 0
+        let jBin = b[j] ? +b[j] : 0
+        
+        let sum = iBin + jBin + carry
+        carry = Math.floor(sum / 2)
+        result.push(sum % 2)
+        
+        i--
+        j--
+    }
+    
+    if (carry > 0) result.push(carry)
+    return result.reverse().join('')
+};
+```
