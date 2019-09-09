@@ -8084,3 +8084,22 @@ var longestCommonPrefix = function(strs) {
     return prefix.join('')
 };
 ```
+
+## 209. Minimum Size Subarray Sum
+```javascript
+var minSubArrayLen = function(s, nums) {
+    let left = 0
+    let result = Number.MAX_VALUE
+    let sum = 0
+    
+    for (let i = 0; i < nums.length; i++) {
+        sum += nums[i]
+        while (sum >= s) {
+            result = Math.min(result, i + 1 - left)
+            sum -= nums[left++]
+        }
+    }
+    
+    return result !== Number.MAX_VALUE ? result : 0
+};
+```
