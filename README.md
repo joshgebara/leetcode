@@ -8103,3 +8103,34 @@ var minSubArrayLen = function(s, nums) {
     return result !== Number.MAX_VALUE ? result : 0
 };
 ```
+
+## 151. Reverse Words in a String
+```javascript
+const reverseSubseq = (arr, start, end) => {
+    while (start < end) {
+        [arr[start], arr[end]] = [arr[end], arr[start]]
+        
+        start++
+        end--
+    }
+}
+
+var reverseWords = function(s) {
+    const charArr = s.split(' ')
+                     .filter(str => str)
+                     .reverse()
+    
+    let start = 0
+    for (let i = 0; i < charArr.length; i++) {
+        if (charArr[i] === " ") {
+            reverseSubseq(charArr, start, i-1)
+            start = i+1
+            continue
+        }
+    }
+    
+    reverseSubseq(charArr, start, charArr.length - 1)
+    
+    return charArr.join(' ')
+};
+```
