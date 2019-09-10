@@ -8508,3 +8508,47 @@ var binaryTreePaths = function(root) {
     return paths.map(path => path.join('->'))
 };
 ```
+
+## 100. Same Tree
+```javascript
+var isSameTree = function(p, q) {
+    if (!p && !q) return true
+    return isEqual(preOrder(p), preOrder(q))
+};
+
+const isEqual = (a, b) => {
+    if (a.length !== b.length) return false
+    
+    let i = 0
+    let j = 0
+    
+    while (i < a.length && j < b.length) {
+        if (a[i++] !== b[j++]) return false
+    }
+    return true
+}
+
+const preOrder = node => {
+    const result = []
+    return _preOrder(node, result)
+}
+
+const _preOrder = (node, result) => {
+    if (!node) return result
+    result.push(node.val)
+    
+    if (node.left) {
+        _preOrder(node.left, result)  
+    } else {
+        result.push(null) 
+    }
+    
+    if (node.right) {
+      _preOrder(node.right, result)  
+    } else {
+        result.push(null) 
+    }
+    
+    return result
+}
+```
