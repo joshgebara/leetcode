@@ -8175,3 +8175,28 @@ var maxDepth = function(root) {
     return depth
 };
 ```
+
+## 429. N-ary Tree Level Order Traversal
+```javascript
+var levelOrder = function(root) {
+    if (!root) return []
+    
+    const queue = [root]
+    const result = [[root.val]]
+
+    while (queue.length) {
+        const row = []
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            for (const child of curr.children) {
+                queue.push(child)
+                row.push(child.val)
+            }
+        }
+        if (row.length) result.push(row)
+    }
+    
+    return result
+};
+```
