@@ -8349,6 +8349,7 @@ function getImportance(employees, id) {
 
 ## 872. Leaf-Similar Trees
 ```javascript
+// Iterative
 var leafSimilar = function(root1, root2) {
     const leaves1 = getLeaves(root1)
     const leaves2 = getLeaves(root2)
@@ -8394,5 +8395,38 @@ const getLeaves = node => {
         stack.pop()
     }
     return leaves
+}
+
+// Recursive
+var leafSimilar = function(root1, root2) {
+    const leaves1 = getLeaves(root1)
+    const leaves2 = getLeaves(root2)
+
+    let i = 0
+    let j = 0
+    
+    if (leaves1.length !== leaves2.length) return false
+    while (i < leaves1.length && j < leaves2.length) {
+        if (leaves1[i] !== leaves2[j]) return false
+        i++
+        j++
+    }
+    return true
+};
+
+const getLeaves = node => {
+    const result = []
+    _getLeaves(node, result)
+    return result
+}
+
+const _getLeaves = (node, result) => {
+    if (!node) return
+    if (!node.left && !node.right) {
+        result.push(node.val)
+        return
+    }
+    _getLeaves(node.left, result)
+    _getLeaves(node.right, result)
 }
 ```
