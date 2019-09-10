@@ -8465,3 +8465,46 @@ var hasPathSum = function(root, sum) {
     return false
 };
 ```
+
+## 257. Binary Tree Paths
+```javascript
+var binaryTreePaths = function(root) {
+    if (!root) return []
+    
+    let seen = new Set()
+    let stack = [root]
+    
+    let paths = []
+    let path = [root.val]
+    
+    while (stack.length) {
+        let curr = stack[stack.length - 1]
+        
+        if (!curr.left && !curr.right) {
+            paths.push(path.slice())
+            path.pop()
+            stack.pop()
+            continue
+        }
+        
+        if (!seen.has(curr.left) && curr.left) {
+            path.push(curr.left.val)
+            seen.add(curr.left)
+            stack.push(curr.left)
+            continue
+        }
+        
+        if (!seen.has(curr.right) && curr.right) {
+            path.push(curr.right.val)
+            seen.add(curr.right)
+            stack.push(curr.right)
+            continue
+        }
+        
+        path.pop()
+        stack.pop()
+    }
+    
+    return paths.map(path => path.join('->'))
+};
+```
