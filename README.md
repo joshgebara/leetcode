@@ -8200,3 +8200,17 @@ var levelOrder = function(root) {
     return result
 };
 ```
+
+## 111. Minimum Depth of Binary Tree
+```javascript
+var minDepth = function(root) {
+    if (!root) return 0
+    
+    let leftDepth = minDepth(root.left)
+    let rightDepth = minDepth(root.right)
+    
+    if (leftDepth === 0) return rightDepth + 1
+    if (rightDepth === 0) return leftDepth + 1
+    return Math.min(leftDepth + 1, rightDepth + 1)
+};
+```
