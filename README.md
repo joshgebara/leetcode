@@ -8237,3 +8237,56 @@ var levelOrderBottom = function(root) {
     return result.reverse()
 };
 ```
+
+## 101. Symmetric Tree
+```javascript
+// Recursive
+const traverseLeft = node => {
+    const result = []
+    _traverseLeft(node, result)
+    return result
+}
+
+const _traverseLeft = (node, result) => {
+    if (!node) {
+        result.push(null)
+        return
+    }
+    result.push(node.val)
+    _traverseLeft(node.left, result)
+    _traverseLeft(node.right, result)
+}
+
+const traverseRight = node => {
+    const result = []
+    _traverseRight(node, result)
+    return result
+}
+
+const _traverseRight = (node, result) => {
+    if (!node) {
+        result.push(null)
+        return
+    }
+    result.push(node.val)
+    _traverseRight(node.right, result)
+    _traverseRight(node.left, result)
+}
+
+var isSymmetric = function(root) {
+    if (!root) return true
+    
+    let i = 0
+    let j = 0
+    
+    let left = traverseLeft(root)
+    let right = traverseRight(root)
+    
+    while (i < left.length && j < right.length) {
+        if (left[i] !== right[j]) return false
+        i++
+        j++
+    }
+    return true
+};
+```
