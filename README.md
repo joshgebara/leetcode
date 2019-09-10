@@ -8346,3 +8346,53 @@ function getImportance(employees, id) {
     return sum;
 }
 ```
+
+## 872. Leaf-Similar Trees
+```javascript
+var leafSimilar = function(root1, root2) {
+    const leaves1 = getLeaves(root1)
+    const leaves2 = getLeaves(root2)
+    
+    let i = 0
+    let j = 0
+    
+    if (leaves1.length !== leaves2.length) return false
+    while (i < leaves1.length && j < leaves2.length) {
+        if (leaves1[i] !== leaves2[j]) return false
+        i++
+        j++
+    }
+    return true
+};
+
+const getLeaves = node => {
+    const seen = new Set()
+    const stack = [node]
+    const leaves = []
+    
+    while (stack.length) {
+        let curr = stack[stack.length - 1]
+        
+        if (!curr.left && !curr.right) {
+            leaves.push(curr.val)
+            stack.pop()
+            continue
+        }
+        
+        if (!seen.has(curr.left) && curr.left) {
+            stack.push(curr.left)
+            seen.add(curr.left)
+            continue
+        }
+        
+        if (!seen.has(curr.right) && curr.right) {
+            stack.push(curr.right)
+            seen.add(curr.right)
+            continue
+        }
+        
+        stack.pop()
+    }
+    return leaves
+}
+```
