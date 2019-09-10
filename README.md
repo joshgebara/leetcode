@@ -8585,3 +8585,23 @@ const _preorderTraversal = (node, result) => {
     if (node.right) _preorderTraversal(node.right, result)
 }
 ```
+
+## 94. Binary Tree Inorder Traversal
+```javascript
+// Recursive
+var inorderTraversal = function(root) {
+    let result = []
+    _inorderTraversal(root, result)
+    return result
+};
+
+const _inorderTraversal = (node, result) => {
+    if (!node) return
+    if (node.left) _inorderTraversal(node.left, result)
+    result.push(node.val)
+    if (node.right) _inorderTraversal(node.right, result)
+}
+
+// Iterative
+
+```
