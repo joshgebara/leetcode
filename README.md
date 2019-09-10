@@ -8320,3 +8320,29 @@ var isCousins = function(root, x, y) {
     return false
 };
 ```
+
+## 690. Employee Importance
+```javascript
+function getImportance(employees, id) {
+    let map = {};
+    let sum = 0;
+
+    employees.forEach(([id, importance, reports]) => {
+        map[id] = { importance, reports };
+    });
+
+    const currentEmployee = map[id];
+    sum += currentEmployee.importance;
+
+    let queue = [...currentEmployee.reports];
+
+    while (queue.length) {
+        const curId = queue.shift();
+        const {importance, reports} = map[curId];
+        sum += importance;
+        queue.push(...reports);
+    }
+
+    return sum;
+}
+```
