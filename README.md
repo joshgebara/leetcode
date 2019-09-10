@@ -8241,54 +8241,18 @@ var levelOrderBottom = function(root) {
 ## 101. Symmetric Tree
 ```javascript
 // Recursive
-const traverseLeft = node => {
-    const result = []
-    _traverseLeft(node, result)
-    return result
-}
-
-const _traverseLeft = (node, result) => {
-    if (!node) {
-        result.push(null)
-        return
-    }
-    result.push(node.val)
-    _traverseLeft(node.left, result)
-    _traverseLeft(node.right, result)
-}
-
-const traverseRight = node => {
-    const result = []
-    _traverseRight(node, result)
-    return result
-}
-
-const _traverseRight = (node, result) => {
-    if (!node) {
-        result.push(null)
-        return
-    }
-    result.push(node.val)
-    _traverseRight(node.right, result)
-    _traverseRight(node.left, result)
-}
-
 var isSymmetric = function(root) {
     if (!root) return true
-    
-    let i = 0
-    let j = 0
-    
-    let left = traverseLeft(root)
-    let right = traverseRight(root)
-    
-    while (i < left.length && j < right.length) {
-        if (left[i] !== right[j]) return false
-        i++
-        j++
-    }
-    return true
+    return _isSymmetric(root.left, root.right)
 };
+
+const _isSymmetric = (left, right) => {
+    if (!left && !right) return true
+    if (!left || !right) return false
+    return left.val === right.val &&
+        _isSymmetric(left.left, right.right) && 
+        _isSymmetric(left.right, right.left)
+}
 
 // Iterative
 const isPalindrome = arr => {
@@ -8327,5 +8291,32 @@ var isSymmetric = function(root) {
     }
     
     return true
+};
+```
+
+## 993. Cousins in Binary Tree
+```javascript
+var isCousins = function(root, x, y) {
+    if (!root) return false
+    
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        const seen = new Set()
+        
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            seen.add(curr.val)
+            if (curr.left) queue.push(curr.left)
+            if (curr.right) queue.push(curr.right)
+            
+            let leftVal = curr.left ? curr.left.val : null
+            let rightVal = curr.right ? curr.right.val : null
+            if ((leftVal === x || rightVal === x) && (leftVal === y || rightVal === y)) return false
+        }
+        if (seen.has(x) && seen.has(y)) return true
+    }
+    return false
 };
 ```
