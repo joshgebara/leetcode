@@ -8620,3 +8620,29 @@ var inorderTraversal = function(root) {
     return result
 };
 ```
+
+## 102. Binary Tree Level Order Traversal
+```javascript
+// Iterative
+var levelOrder = function(root) {
+    if (!root) return []
+    
+    const result = []
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        const row = []
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            
+            if (curr.left) queue.push(curr.left)
+            if (curr.right) queue.push(curr.right)
+            
+            row.push(curr.val)
+        }
+        result.push(row)
+    }
+    return result
+};
+```
