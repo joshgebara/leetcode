@@ -8289,4 +8289,43 @@ var isSymmetric = function(root) {
     }
     return true
 };
+
+// Iterative
+const isPalindrome = arr => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left < right) {
+        if (arr[left] !== arr[right]) return false
+        
+        left++
+        right--
+    }
+    return true
+}
+
+var isSymmetric = function(root) {
+    if (!root) return true
+    
+    const result = []
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        let row = []
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            if (curr) queue.push(curr.left)
+            if (curr) queue.push(curr.right)
+            row.push(curr ? curr.val : null)
+        }
+        result.push(row)
+    }
+    
+    for (let i = 0; i < result.length; i++) {
+        if (!isPalindrome(result[i])) return false
+    }
+    
+    return true
+};
 ```
