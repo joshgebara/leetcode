@@ -8552,3 +8552,36 @@ const _preOrder = (node, result) => {
     return result
 }
 ```
+
+## 144. Binary Tree Preorder Traversal
+```javascript
+// Iterative
+var preorderTraversal = function(root) {
+    let result = []
+    let stack = [root]
+    
+    while (stack.length) {
+        const curr = stack.pop()
+        if (!curr) continue
+        
+        result.push(curr.val)
+        if (curr.right) stack.push(curr.right)
+        if (curr.left) stack.push(curr.left)    
+    }
+    return result
+};
+
+// Recursive
+var preorderTraversal = function(root) {
+    let result = []
+    _preorderTraversal(root, result)
+    return result
+};
+
+const _preorderTraversal = (node, result) => {
+    if (!node) return result
+    result.push(node.val)
+    if (node.left) _preorderTraversal(node.left, result)
+    if (node.right) _preorderTraversal(node.right, result)
+}
+```
