@@ -8430,3 +8430,38 @@ const _getLeaves = (node, result) => {
     _getLeaves(node.right, result)
 }
 ```
+
+## 112. Path Sum
+```javascript
+var hasPathSum = function(root, sum) {
+    if (!root) return false
+    
+    let stack = [root]
+    let seen = new Set()
+    let currSum = root.val
+    
+    while (stack.length) {
+        const curr = stack[stack.length - 1]
+        
+        if (!curr.left && !curr.right && currSum === sum) return true        
+        
+        if (!seen.has(curr.left) && curr.left) {
+            seen.add(curr.left)
+            stack.push(curr.left)
+            currSum += curr.left.val
+            continue
+        }
+        
+        if (!seen.has(curr.right) && curr.right) {
+            seen.add(curr.right)
+            stack.push(curr.right)
+            currSum += curr.right.val
+            continue
+        }
+        
+        currSum -= curr.val
+        stack.pop()
+    }
+    return false
+};
+```
