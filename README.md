@@ -8214,3 +8214,26 @@ var minDepth = function(root) {
     return Math.min(leftDepth + 1, rightDepth + 1)
 };
 ```
+
+## 107. Binary Tree Level Order Traversal II
+```javascript
+var levelOrderBottom = function(root) {
+    if (!root) return []
+    
+    const queue = [root]
+    const result = []
+    
+    while (queue.length) {
+        const size = queue.length
+        let row = []
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            if (curr.left) queue.push(curr.left)
+            if (curr.right) queue.push(curr.right)
+            row.push(curr.val)
+        }
+        result.push(row)
+    }
+    return result.reverse()
+};
+```
