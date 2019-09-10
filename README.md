@@ -8134,3 +8134,44 @@ var reverseWords = function(s) {
     return charArr.join(' ')
 };
 ```
+
+## 559. Maximum Depth of N-ary Tree
+```javascript
+// Iterative
+var maxDepth = function(root) {
+    if (!root) return 0
+    
+    const stack = [root]
+    const seen = new Set()
+    seen.add(root)
+    let maxDepth = 1
+    
+    outer : while (stack.length) {
+        let curr = stack[stack.length - 1]
+        for (let child of curr.children) {
+            if (!seen.has(child)) {
+                stack.push(child)
+                seen.add(child)
+                maxDepth = Math.max(stack.length, maxDepth)
+                continue outer
+            }
+        }
+        stack.pop()
+    }
+    
+    return maxDepth
+};
+
+// Recursive
+var maxDepth = function(root) {
+    if (!root) return 0
+    
+    let depth = 1
+    
+    for (const child of root.children) {
+        depth = Math.max(depth, maxDepth(child) + 1)
+    }
+    
+    return depth
+};
+```
