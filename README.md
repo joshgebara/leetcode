@@ -8255,39 +8255,23 @@ const _isSymmetric = (left, right) => {
 }
 
 // Iterative
-const isPalindrome = arr => {
-    let left = 0
-    let right = arr.length - 1
-    
-    while (left < right) {
-        if (arr[left] !== arr[right]) return false
-        
-        left++
-        right--
-    }
-    return true
-}
-
 var isSymmetric = function(root) {
     if (!root) return true
     
-    const result = []
-    const queue = [root]
+    const queue = [root, root]
     
     while (queue.length) {
-        const size = queue.length
-        let row = []
-        for (let i = 0; i < size; i++) {
-            const curr = queue.shift()
-            if (curr) queue.push(curr.left)
-            if (curr) queue.push(curr.right)
-            row.push(curr ? curr.val : null)
-        }
-        result.push(row)
-    }
-    
-    for (let i = 0; i < result.length; i++) {
-        if (!isPalindrome(result[i])) return false
+        const t1 = queue.shift()
+        const t2 = queue.shift()
+        
+        if (!t1 && !t2) continue
+        if (!t1 || !t2) return false
+        if (t1.val !== t2.val) return false
+        
+        queue.push(t1.left)
+        queue.push(t2.right)
+        queue.push(t1.right)
+        queue.push(t2.left)
     }
     
     return true
