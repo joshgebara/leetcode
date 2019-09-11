@@ -8765,3 +8765,20 @@ var postorder = function(root) {
     return result.reverse()
 };
 ```
+
+## 559. Maximum Depth of N-ary Tree
+```javascript
+var maxDepth = function(root) {
+    const _maxDepth = (root, max = 1, level = 1) => {
+        max = Math.max(max, level)
+        
+        for (const child of root.children)
+            max = Math.max(_maxDepth(child, max, level + 1), max)
+        
+        return max
+    }
+    
+    if (!root) return 0
+    return _maxDepth(root)
+};
+```
