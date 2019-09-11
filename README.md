@@ -8645,6 +8645,26 @@ var levelOrder = function(root) {
     }
     return result
 };
+
+// Recursive
+var levelOrder = function(root) {
+    if (!root) return []
+    
+    const result = []
+    _levelOrder(root, result)
+    return result
+};
+
+const _levelOrder = (node, result, level = 0) => {
+    if (!node) return
+    
+    if (result.length === level) result.push([])
+    
+    result[level].push(node.val)
+    
+    if (node.left) _levelOrder(node.left, result, level + 1)  
+    if (node.right) _levelOrder(node.right, result, level + 1)
+}
 ```
 
 ## 145. Binary Tree Postorder Traversal
