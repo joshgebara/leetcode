@@ -8662,7 +8662,6 @@ const _levelOrder = (node, result, level = 0) => {
 ```javascript
 // Iterative
 var postorderTraversal = function(root) {
-    if (!root) return []
     let stack = []
     let result = []
     
@@ -8672,19 +8671,18 @@ var postorderTraversal = function(root) {
             root = root.left
         } else {
             let temp = stack[stack.length - 1].right
+            
             if (temp) {
                 root = temp
             } else {
-                temp = stack.pop()
-                result.push(temp.val)
-                
-                while (stack.length && temp === stack[stack.length - 1].right) {
+                while (stack.length && stack[stack.length - 1].right === temp) {
                     temp = stack.pop()
                     result.push(temp.val)
                 }
             }
         }
     }
+    
     return result
 };
 ```
