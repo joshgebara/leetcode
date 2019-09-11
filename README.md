@@ -8646,3 +8646,25 @@ var levelOrder = function(root) {
     return result
 };
 ```
+
+## 145. Binary Tree Postorder Traversal
+```javascript
+// Two Stacks
+var postorderTraversal = function(root) {
+    if (!root) return []
+    
+    const stack1 = [root]
+    const stack2 = []
+    
+    while (stack1.length) {
+        const curr = stack1.pop()
+        stack2.push(curr.val)
+        if (curr.left) stack1.push(curr.left)
+        if (curr.right) stack1.push(curr.right)
+    }
+    
+    return stack2.reverse()
+};
+
+//
+```
