@@ -8745,3 +8745,23 @@ var preorder = function(root) {
     return result
 };
 ```
+
+## 590. N-ary Tree Postorder Traversal
+```javascript
+var postorder = function(root) {
+    if (!root) return []
+    
+    const result = []
+    const stack = [root]
+    
+    while (stack.length) {
+        const curr = stack.pop()
+        result.push(curr.val)
+        
+        for (const child of curr.children)
+            stack.push(child)
+    }
+    
+    return result.reverse()
+};
+```
