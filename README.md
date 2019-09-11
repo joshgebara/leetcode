@@ -8681,3 +8681,27 @@ var postorderTraversal = function(root) {
     return result
 };
 ```
+
+## 250. Count Univalue Subtrees
+```javascript
+var count = 0
+
+var countUnivalSubtrees = function(root) {
+    if (!root) return 0
+    count = 0
+    _countUnivalSubtrees(root)
+    return count
+};
+
+const _countUnivalSubtrees = node => {
+    if (!node) return null
+    
+    let left = _countUnivalSubtrees(node.left)
+    let right = _countUnivalSubtrees(node.right)
+    
+    if ((left === null || node.val === left) && (right === null || node.val === right)) {
+        count++
+        return node.val
+    }
+}
+```
