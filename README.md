@@ -8448,6 +8448,25 @@ var hasPathSum = function(root, sum) {
     }
     return false
 };
+
+// Recursive
+var hasPathSum = function(root, sum) {
+    return _hasPathSum(root, 0, sum)
+};
+
+const _hasPathSum = (node, currSum, sum) => {
+    if (!node) return false
+    
+    if (node.val + currSum === sum && !node.left && !node.right) return true
+    
+    let lSum = _hasPathSum(node.left, currSum + node.val, sum)
+    if (lSum) return true
+    
+    let rSum = _hasPathSum(node.right, currSum + node.val, sum)
+    if (rSum) return true
+    
+    return false
+}
 ```
 
 ## 257. Binary Tree Paths
