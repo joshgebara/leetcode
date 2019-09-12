@@ -6423,6 +6423,17 @@ var reverseString = function(s) {
         right--
     }
 };
+
+// Recursive
+var reverseString = function(s) {
+    const _reverseString = (s, start, end) => {
+        if (start >= end) return
+        [s[start], s[end]] = [s[end], s[start]]
+        _reverseString(s, start + 1, end - 1)
+    }
+    
+    _reverseString(s, 0, s.length - 1)
+};
 ```
 
 ## 167. Two Sum II - Input array is sorted
