@@ -8793,3 +8793,17 @@ var maxDepth = function(root) {
     return _maxDepth(root)
 };
 ```
+
+## 24. Swap Nodes in Pairs
+```javascript
+var swapPairs = function(head) {
+    if (!head || !head.next) return head
+
+    let next = head.next.next
+    let newHead = head.next
+    newHead.next = head
+    head.next = swapPairs(next)
+
+    return newHead
+};
+```
