@@ -8844,3 +8844,15 @@ var reverseKGroup = function(head, k) {
     return reverseHead
 };
 ```
+
+## 70. Climbing Stairs
+```javascript
+const memo = {}
+
+var climbStairs = function(n) {
+    if (n <= 2) return n
+    if (!memo[n-1]) memo[n-1] = climbStairs(n-1)
+    if (!memo[n-2]) memo[n-2] = climbStairs(n-2)
+    return memo[n-1] + memo[n-2]
+};
+```
