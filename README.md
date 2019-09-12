@@ -8807,3 +8807,40 @@ var swapPairs = function(head) {
     return newHead
 };
 ```
+
+## 25. Reverse Nodes in k-Group
+```javascript
+const reverse = head => {
+    let curr = head
+    let prev = null
+    let next = null
+    
+    while (curr) {
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    }
+    return prev
+}
+
+var reverseKGroup = function(head, k) {
+    if (!head) return head
+    
+    let tail = head
+    let i = 0
+    while (i < k - 1 && tail) {
+        tail = tail.next 
+        i++
+    }
+    
+    if (!tail || i !== k - 1) return head
+    
+    let nextHead = tail.next
+    tail.next = null
+    
+    let reverseHead = reverse(head)
+    head.next = reverseKGroup(nextHead, k)
+    return reverseHead
+};
+```
