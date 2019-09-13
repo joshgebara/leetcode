@@ -8896,3 +8896,25 @@ var invertTree = function(root) {
     return root
 };
 ```
+
+## 1165. Single-Row Keyboard
+```javascript
+var calculateTime = function(keyboard, word) {
+    const map = keyboard.split('').reduce((result, char, i) => {
+        result[char] = i
+        return result
+    }, {})
+    
+    let currIndex = 0
+    let time = 0
+    
+    for (let char of word) {
+        let index = map[char]
+        let dist = Math.abs(currIndex - index)
+        time += dist
+        currIndex = index
+    }
+    
+    return time
+};
+```
