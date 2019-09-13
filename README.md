@@ -8874,3 +8874,23 @@ var climbStairs = function(n) {
     return memo[n-1] + memo[n-2]
 };
 ```
+
+## 387. First Unique Character in a String
+```javascript
+const counts = s => {
+    return s.split('').reduce((result, element) => {
+        result[element] = 1 + (result[element] || 0)
+        return result
+    }, {})
+}
+
+var firstUniqChar = function(s) {
+    const count = counts(s)
+    
+    for (let i = 0; i < s.length; i++) {
+        if (count[s[i]] > 1) continue
+        return i
+    }
+    return -1
+};
+```
