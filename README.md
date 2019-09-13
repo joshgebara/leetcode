@@ -1545,45 +1545,19 @@ buildOrder(['a', 'b', 'c', 'd', 'e', 'f'],
            [['a', 'd'], ['f', 'b'], ['b', 'd'], ['f', 'a'], ['d', 'c']])
 ```
 
-## Lowest Common Ancestor
+## 235. Lowest Common Ancestor of a Binary Search Tree
 ```javascript
-const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-class TreeNode {
-  constructor(value, left = null, right = null) {
-    this.value = value
-    this.left = left
-    this.right = right
-  }
-}
-
-const lowestCA = (root, node1, node2) => {
-  if (!root) return null
-  
-  if (root.value === node1.value) return root
-  if (root.value === node2.value) return root
-  
-  const left = lowestCA(root.left, node1, node2)
-  const right = lowestCA(root.right, node1, node2)
-
-  if (left && right) return root
-  if (left) return left
-  if (right) return right
-  
-  return null
-}
-
-const minimalTree = array => {
-  if (array.length < 1) return
-  const middleIndex = Math.floor(array.length / 2)
-  const middleValue = array[middleIndex]
-  const left = minimalTree(array.slice(0, middleIndex))
-  const right = minimalTree(array.slice(middleIndex + 1))
-  return new TreeNode(middleValue, left, right)
-}
-
-const tree = minimalTree(array)
-lowestCA(tree, tree.right.right, tree.right.left.left)
+var lowestCommonAncestor = function(root, p, q) {
+    if (!root) return null
+    if (root === p || root === q) return root
+    
+    const left = lowestCommonAncestor(root.left, p, q)
+    const right = lowestCommonAncestor(root.right, p, q)
+    
+    if (left && right) return root
+    if (!left && !right) return null
+    return left ? left : right
+};
 ```
 
 ## Check BST 1
