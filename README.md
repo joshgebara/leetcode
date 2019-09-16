@@ -9022,4 +9022,18 @@ var searchBST = function(root, val) {
         return searchBST(root.right, val)
     }
 };
+
+// Iterative
+var searchBST = function(root, val) {
+    while (root) {
+        if (root.val === val) return root
+        
+        if (root.val > val) {
+            root = root.left
+        } else {
+            root = root.right
+        }
+    }
+    return null
+};
 ```
