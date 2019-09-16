@@ -9077,3 +9077,26 @@ var sumRootToLeaf = function(root) {
     return sum
 };
 ```
+
+## 637. Average of Levels in Binary Tree
+```javascript
+var averageOfLevels = function(root) {
+    if (!root) return null
+    
+    const result = []
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        let sum = 0
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            sum += curr.val
+            if (curr.left) queue.push(curr.left)
+            if (curr.right) queue.push(curr.right)
+        }
+        result.push(sum / size)
+    }
+    return result
+};
+```
