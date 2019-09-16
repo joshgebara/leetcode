@@ -9122,3 +9122,37 @@ var averageOfLevels = function(root) {
     return levels
 };
 ```
+
+## 653. Two Sum IV - Input is a BST
+```javascript
+var findTarget = function(root, k) {
+    const inOrder = root => {
+        if (!root) return
+        inOrder(root.left)
+        result.push(root.val)
+        inOrder(root.right)
+    }
+        
+    if (!root) return false
+    
+    const result = []
+    inOrder(root)
+    
+    let left = 0
+    let right = result.length - 1
+
+    while (left < right) {
+        const sum = result[left] + result[right]
+
+        if (sum === k) return true
+
+        if (sum > k) {
+            right--
+        } else {
+            left++
+        }
+    }
+        
+    return false
+};
+```
