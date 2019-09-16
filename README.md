@@ -9053,3 +9053,27 @@ var isUnivalTree = function(root) {
     return left && right
 };
 ```
+
+## 1022. Sum of Root To Leaf Binary Numbers
+```javascript
+var sumRootToLeaf = function(root) {
+    const _sumRootToLeaf = (root, curr) => {
+        if (!root) return
+        
+        curr <<= 1
+        curr |= root.val
+        
+        if (!root.left && !root.right) {
+            sum += curr
+            return
+        }
+        
+        _sumRootToLeaf(root.left, curr)    
+        _sumRootToLeaf(root.right, curr)
+    }
+    
+    let sum = 0
+    _sumRootToLeaf(root, 0)
+    return sum
+};
+```
