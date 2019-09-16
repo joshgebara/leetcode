@@ -3289,23 +3289,24 @@ const random = (min, max) => {
 random(8, 10)
 ```
 
-## Pow function
+## 50. Pow(x, n)
 ```javascript
-const pow = (base, power) => {
-  let result = 1
-  while (power > 1) {
-    if (power % 2 == 1) {
-      result *= base
-    }
-    power = Math.floor(power / 2)
-    base *= base
+var myPow = function(x, n) {
+  let result = 1  
+  
+  if (n < 0) {
+      n = -n
+      x = 1 / x
   }
-  console.log(result, base)
-  return result * base
-}
-
-
-pow(9, 7)
+  
+  while (n) {
+    if (n % 2) result *= x
+    n = Math.floor(n / 2)
+    x *= x
+  }
+    
+  return result
+};
 ```
 
 ## SumInString
@@ -8918,3 +8919,4 @@ var calculateTime = function(keyboard, word) {
     return time
 };
 ```
+
