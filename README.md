@@ -8969,4 +8969,30 @@ var minDiffInBST = function(root) {
     _minDiffInBST(root)
     return min
 };
+
+// Iterative
+var minDiffInBST = function(root) {
+    if (!root) return 0
+    
+    let stack = []
+    let prev = null 
+    let min = Number.MAX_VALUE
+    
+    
+    while (root || stack.length) {
+        if (root) {
+            stack.push(root)
+            root = root.left
+        } else {
+            root = stack.pop()
+            
+            if (prev) min = Math.min(min, root.val - prev)
+            prev = root.val  
+            
+            root = root.right
+        }
+    }
+    
+    return min
+};
 ```
