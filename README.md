@@ -9099,4 +9099,26 @@ var averageOfLevels = function(root) {
     }
     return result
 };
+
+// Recursive
+var averageOfLevels = function(root) {
+    const _averageOfLevels = (root, level = 0) => {
+        if (!root) return
+        
+        levels[level] = levels[level] ? levels[level] + root.val : root.val
+        counts[level] = counts[level] ? counts[level] + 1 : 1
+
+        _averageOfLevels(root.left, level + 1)
+        _averageOfLevels(root.right, level + 1)   
+    }
+    
+    const levels = []
+    const counts = []
+    _averageOfLevels(root)
+    
+    for (let i = 0; i < levels.length; i++)
+        levels[i] = levels[i] / counts[i]
+    
+    return levels
+};
 ```
