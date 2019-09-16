@@ -9037,3 +9037,19 @@ var searchBST = function(root, val) {
     return null
 };
 ```
+
+## 965. Univalued Binary Tree
+```javascript
+var isUnivalTree = function(root) {
+    if (!root) return true
+    if (!root.left && !root.right) return true
+    
+    let l = root.left ? root.left.val === root.val : true
+    let r = root.right ? root.right.val === root.val : true
+    if (!l || !r) return false
+    
+    let left = isUnivalTree(root.left)
+    let right = isUnivalTree(root.right)
+    return left && right
+};
+```
