@@ -8949,3 +8949,24 @@ var tribonacci = function(n) {
     return memo[n]
 };
 ```
+
+## 783. Minimum Distance Between BST Nodes
+```javascript
+var minDiffInBST = function(root) {
+    let prev = null 
+    let min = Number.MAX_VALUE
+    
+    const _minDiffInBST = root => {
+        if (!root) return
+        
+        _minDiffInBST(root.left)
+        
+        if (prev) min = Math.min(min, root.val - prev)
+        prev = root.val
+        
+        _minDiffInBST(root.right)
+    }
+    _minDiffInBST(root)
+    return min
+};
+```
