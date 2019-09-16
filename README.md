@@ -9155,4 +9155,18 @@ var findTarget = function(root, k) {
         
     return false
 };
+
+// Recursive
+var findTarget = function(root, k) {
+    const _findTarget = (root) => {
+        if (!root) return false
+        
+        if (set.has(k - root.val)) return true
+        set.add(root.val)
+        return _findTarget(root.left) || _findTarget(root.right)
+    }
+    
+    const set = new Set()
+    return _findTarget(root)
+};
 ```
