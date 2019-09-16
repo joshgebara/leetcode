@@ -8920,3 +8920,19 @@ var calculateTime = function(keyboard, word) {
 };
 ```
 
+## 938. Range Sum of BST
+```javascript
+var rangeSumBST = function(root, L, R) {
+    if (!root) return 0
+    
+    if (L <= root.val && root.val <= R) {
+        return root.val + rangeSumBST(root.left, L, R) + rangeSumBST(root.right, L, R) 
+    }
+    
+    if (L > root.val) {
+        return rangeSumBST(root.right, L, R)
+    }
+    
+    return rangeSumBST(root.left, L, R) 
+};
+```
