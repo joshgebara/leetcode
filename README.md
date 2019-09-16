@@ -8936,3 +8936,16 @@ var rangeSumBST = function(root, L, R) {
     return rangeSumBST(root.left, L, R) 
 };
 ```
+
+## 1137. N-th Tribonacci Number
+```javascript
+const memo = {}
+
+var tribonacci = function(n) {
+    if (memo[n]) return memo[n]
+    if (n <= 1) return n
+    if (n === 2) return 1
+    memo[n] = tribonacci(n - 3) + tribonacci(n - 2) + tribonacci(n - 1)
+    return memo[n]
+};
+```
