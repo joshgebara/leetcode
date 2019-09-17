@@ -9306,3 +9306,22 @@ var minDiffInBST = function(root) {
     return min
 };
 ```
+
+## 110. Balanced Binary Tree
+```javascript
+var isBalanced = function(root) {
+    const _isBalanced = root => {
+        if (!root) return 0
+
+        let left = _isBalanced(root.left) 
+        if (left === -1) return -1
+
+        let right = _isBalanced(root.right)
+        if (right === -1) return -1
+
+        if (Math.abs(left - right) > 1) return -1
+        return Math.max(left, right) + 1
+    }
+    return _isBalanced(root) !== -1
+};
+```
