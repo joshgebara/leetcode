@@ -9193,5 +9193,23 @@ var getMinimumDifference = function(root) {
 };
 
 // Iterative
-
+var getMinimumDifference = function(root) {
+    const _getMinimumDifference = root => {
+        if (!root) return
+        _getMinimumDifference(root.left)
+        result.push(root.val)
+        _getMinimumDifference(root.right)
+    }
+    
+    if (!root) return null
+    
+    const result = []
+    _getMinimumDifference(root)
+    
+    let min = Number.MAX_VALUE
+    for (let i = 1; i < result.length; i++) {
+        min = Math.min(result[i] - result[i - 1], min)
+    }
+    return min
+};
 ```
