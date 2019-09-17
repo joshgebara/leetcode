@@ -9213,3 +9213,31 @@ var getMinimumDifference = function(root) {
     return min
 };
 ```
+
+## 671. Second Minimum Node In a Binary Tree
+```javascript
+var findSecondMinimumValue = function(root) {
+    const _findSecondMinimumValue = root => {
+        if (!root) return
+        
+        if (min < root.val && root.val < secondMin) {
+            secondMin = root.val
+            return
+        }
+        
+        if (min === root.val) {
+            _findSecondMinimumValue(root.left)
+            _findSecondMinimumValue(root.right)   
+        }
+    }
+    
+    if (!root) return -1
+    
+    const min = root.val
+    let secondMin = Number.MAX_VALUE
+    
+    _findSecondMinimumValue(root)
+    
+    return secondMin === Number.MAX_VALUE ? -1 : secondMin
+};
+```
