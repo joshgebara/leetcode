@@ -9286,3 +9286,23 @@ var sumOfLeftLeaves = function(root, isLeft = false) {
     return sumOfLeftLeaves(root.left, true) + sumOfLeftLeaves(root.right, false)
 };
 ```
+
+## 783. Minimum Distance Between BST Nodes
+```javascript
+var minDiffInBST = function(root) {
+    const inOrder = root => {
+        if (!root) return
+        
+        inOrder(root.left)
+        
+        if (prev) min = Math.min(min, root.val - prev)
+        prev = root.val
+        inOrder(root.right)
+    }
+    
+    let prev = null
+    let min = Number.MAX_VALUE
+    inOrder(root)
+    return min
+};
+```
