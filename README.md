@@ -9170,3 +9170,28 @@ var findTarget = function(root, k) {
     return _findTarget(root)
 };
 ```
+
+## 530. Minimum Absolute Difference in BST
+```javascript
+var getMinimumDifference = function(root) {
+    const _getMinimumDifference = root => {
+        if (!root) return
+        
+        _getMinimumDifference(root.left)
+
+        if (prev !== null) diff = Math.min(root.val - prev, diff)
+        prev = root.val
+        
+        _getMinimumDifference(root.right)
+    }
+    
+    let prev = null
+    let diff = Number.MAX_VALUE
+    
+    _getMinimumDifference(root)
+    return diff
+};
+
+// Iterative
+
+```
