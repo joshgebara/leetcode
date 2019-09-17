@@ -9274,3 +9274,15 @@ var trimBST = function(root, L, R) {
     return root
 };
 ```
+
+## 404. Sum of Left Leaves
+```javascript
+var sumOfLeftLeaves = function(root, isLeft = false) {
+    if (!root) return 0
+    
+    if (!root.left && !root.right && isLeft) 
+        return root.val
+    
+    return sumOfLeftLeaves(root.left, true) + sumOfLeftLeaves(root.right, false)
+};
+```
