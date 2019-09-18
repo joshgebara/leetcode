@@ -9344,3 +9344,26 @@ var diameterOfBinaryTree = function(root) {
     return diameter
 };
 ```
+
+## 572. Subtree of Another Tree
+```javascript
+var isSubtree = function(s, t) {
+    const isEqual = (s, t) => {
+        if (!s && !t) return true
+        if (!s || !t) return false
+        return s.val === t.val && 
+            isEqual(s.left, t.left) && 
+            isEqual(s.right, t.right)
+    }
+    
+    const preOrder = root => {
+        if (!root) return false
+        if (isEqual(root, t)) return true
+        
+        let left = preOrder(root.left)
+        let right = preOrder(root.right)
+        return left || right
+    }
+    return preOrder(s)
+};
+```
