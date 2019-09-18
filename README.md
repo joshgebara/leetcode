@@ -9406,5 +9406,72 @@ var isSubtree = function(s, t) {
 };
 
 // KMP
-
+var isSubtree = function(s, t) {
+    const buildString = (root, charArr) => {
+        if (!root) {
+            charArr.push('#')
+            return
+        }
+        
+        charArr.push(`${root.val}`)
+        buildString(root.left, charArr)
+        buildString(root.right, charArr)
+    }
+    
+    const kmp = (needle, haystack) => {
+        const table = prefixTable(needle)
+        
+        let n = 0
+        let h = 0
+        
+        while (h < haystack.length) {
+            if (haystack[h] === needle[n]) {
+                if (n === needle.length - 1) return true
+                h++
+                n++
+                continue
+            }
+            
+            if (n === 0) {
+                h++
+                continue
+            }
+            
+            n = table[n - 1]
+            
+        }
+        return false
+    }
+    
+    const prefixTable = needle => {
+        const table = [0]
+        
+        let p = 0
+        let s = 1
+        
+        while (s < needle.length) {
+            if (needle[s] === needle[p]) {
+                table[s++] = ++p
+                continue
+            }
+            
+            if (!p) {
+                table[s++] = 0
+                continue
+            }
+            
+            p = table[p - 1]
+        }
+        
+        return table
+    }
+    
+    const sSeralize = []
+    const tSeralize = []
+    
+    buildString(s, sSeralize)
+    buildString(t, tSeralize)
+    
+    return kmp(tSeralize, sSeralize)
+};
 ```
