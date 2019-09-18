@@ -9347,6 +9347,7 @@ var diameterOfBinaryTree = function(root) {
 
 ## 572. Subtree of Another Tree
 ```javascript
+// O(mn)
 var isSubtree = function(s, t) {
     const isEqual = (s, t) => {
         if (!s && !t) return true
@@ -9366,4 +9367,44 @@ var isSubtree = function(s, t) {
     }
     return preOrder(s)
 };
+
+// Contains
+var isSubtree = function(s, t) {
+    const buildString = (root, charArr) => {
+        if (!root) {
+            charArr.push('#')
+            return
+        }
+        charArr.push(`${root.val}`)
+        buildString(root.left, charArr)
+        buildString(root.right, charArr)
+    }
+    
+    const contains = (needle, haystack) => {
+        let h = 0
+        while (h < haystack.length) {
+            let currH = h
+            let n = 0
+            while (n < needle.length) {
+                if (needle[n] !== haystack[currH]) break
+                currH++
+                n++
+                if (n >= needle.length) return true
+            }
+            h++
+        }
+        return false
+    }
+    
+    const sSeralize = []
+    const tSeralize = []
+    
+    buildString(s, sSeralize)
+    buildString(t, tSeralize)
+    
+    return contains(tSeralize, sSeralize)
+};
+
+// KMP
+
 ```
