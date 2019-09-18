@@ -9474,4 +9474,34 @@ var isSubtree = function(s, t) {
     
     return kmp(tSeralize, sSeralize)
 };
+
+// Merkle Tree
+var isSubtree = function(s, t) {
+    const merkle = root => {
+        if (!root) return 0
+        
+        let left = merkle(root.left)
+        let right = merkle(root.right)
+        
+        root.merkle = left + root.val + right
+        return root.merkle
+    }
+    
+    const dfs = root => {
+        if (!root) return false
+        return (root.merkle === t.merkle && isEqual(root, t)) || 
+            dfs(root.left) || 
+            dfs(root.right)
+    }
+    
+    const isEqual = (s, t) => {
+        if (!s && !t) return true
+        if (!s || !t) return false
+        return s.val === t.val && isEqual(s.left, t.left) && isEqual(s.right, t.right)
+    }
+    
+    merkle(s)
+    merkle(t)
+    return dfs(s)
+};
 ```
