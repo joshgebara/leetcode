@@ -9561,4 +9561,30 @@ var convertBST = function(root) {
     morris(root)
     return root
 };
+
+// Iterative
+var convertBST = function(root) {
+    const inOrder = root => {
+        const stack = []
+        
+        while (stack.length || root) {
+            if (!root) {
+                const node = stack.pop()
+                
+                let temp = node.val
+                node.val += sum
+                sum += temp
+                
+                root = node.left
+            } else {
+                stack.push(root)
+                root = root.right
+            }
+        }
+    }
+    
+    let sum = 0
+    inOrder(root)
+    return root
+};
 ```
