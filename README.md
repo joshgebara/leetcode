@@ -9505,3 +9505,60 @@ var isSubtree = function(s, t) {
     return dfs(s)
 };
 ```
+
+## 538. Convert BST to Greater Tree
+```javascript
+var convertBST = function(root) {
+    const reverseInOrder = root => {
+        if (!root) return
+        reverseInOrder(root.right)
+        
+        let temp = root.val
+        root.val = sum + root.val
+        sum += temp
+        
+        reverseInOrder(root.left)
+    }
+    
+    let sum = 0
+    reverseInOrder(root)
+    return root
+};
+
+// Morris 
+var convertBST = function(root) {
+    const morris = root => {
+        while (root) {
+            if (!root.right) {
+                let temp = root.val
+                root.val = sum + root.val
+                sum += temp
+                
+                root = root.left
+            } else {
+                let pred = root.right
+                
+                while (pred.left !== root && pred.left)
+                    pred = pred.left
+                
+                if (!pred.left) {
+                    pred.left = root
+                    root = root.right
+                } else {
+                    pred.left = null
+
+                    let temp = root.val
+                    root.val = sum + root.val
+                    sum += temp
+                    
+                    root = root.left
+                }
+            }
+        }
+    }
+    
+    let sum = 0
+    morris(root)
+    return root
+};
+```
