@@ -9325,3 +9325,22 @@ var isBalanced = function(root) {
     return _isBalanced(root) !== -1
 };
 ```
+
+## 543. Diameter of Binary Tree
+```javascript
+var diameterOfBinaryTree = function(root) {
+    const _diameterOfBinaryTree = root => {
+        if (!root) return 0
+        
+        const left = _diameterOfBinaryTree(root.left)
+        const right = _diameterOfBinaryTree(root.right)
+        
+        diameter = Math.max(diameter, left + right)
+        return 1 + Math.max(left, right)
+    }
+    
+    let diameter = 0
+    _diameterOfBinaryTree(root)
+    return diameter
+};
+```
