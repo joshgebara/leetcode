@@ -9651,21 +9651,14 @@ var findMode = function(root) {
 ## 687. Longest Univalue Path
 ```javascript
 var longestUnivaluePath = function(root) {
-    const _longestUnivaluePath = node => { 
+    const _longestUnivaluePath = (node, val) => { 
         if (!node) return 0
         
-        let left = _longestUnivaluePath(node.left)
-        let right = _longestUnivaluePath(node.right)
-        
-        if (node.left)
-            left += node.left.val === node.val ? 1 : -left
-        
-        if (node.right)
-            right += node.right.val === node.val ? 1 : -right
-        
+        let left = _longestUnivaluePath(node.left, node.val)
+        let right = _longestUnivaluePath(node.right, node.val)
         max = Math.max(max, left + right)
         
-        return Math.max(left, right)
+        return node.val === val ? Math.max(left, right) + 1 : 0
     }
     
     let max = 0
