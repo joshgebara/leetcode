@@ -9666,3 +9666,25 @@ var longestUnivaluePath = function(root) {
     return max
 };
 ```
+
+## 606. Construct String from Binary Tree
+```javascript
+var tree2str = function(t) {
+    const _tree2str = (root, isRoot = true) => {
+        if (!root) return
+        
+        if (!isRoot) s.push('(')
+        s.push(root.val)
+        
+        if (!root.left && root.right) s.push('()')
+        _tree2str(root.left, false)
+        _tree2str(root.right, false)
+        
+        if (!isRoot) s.push(')')
+    }
+    
+    const s = []
+    _tree2str(t)
+    return s.join('')
+};
+```
