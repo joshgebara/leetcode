@@ -9648,3 +9648,28 @@ var findMode = function(root) {
 };
 ```
 
+## 687. Longest Univalue Path
+```javascript
+var longestUnivaluePath = function(root) {
+    const _longestUnivaluePath = node => { 
+        if (!node) return 0
+        
+        let left = _longestUnivaluePath(node.left)
+        let right = _longestUnivaluePath(node.right)
+        
+        if (node.left)
+            left += node.left.val === node.val ? 1 : -left
+        
+        if (node.right)
+            right += node.right.val === node.val ? 1 : -right
+        
+        max = Math.max(max, left + right)
+        
+        return Math.max(left, right)
+    }
+    
+    let max = 0
+    _longestUnivaluePath(root)
+    return max
+};
+```
