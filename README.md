@@ -9688,3 +9688,20 @@ var tree2str = function(t) {
     return s.join('')
 };
 ```
+
+## 560. Subarray Sum Equals K
+```javascript
+var subarraySum = function(nums, k) {
+    const map = { 0: 1 }
+    let sum = 0
+    let result = 0
+    
+    for (const num of nums) {
+        sum += num
+        result += (map[sum - k] || 0)
+        map[sum] = 1 + (map[sum] || 0)
+    }
+    
+    return result
+};
+```
