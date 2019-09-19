@@ -9705,3 +9705,25 @@ var subarraySum = function(nums, k) {
     return result
 };
 ```
+
+## 437. Path Sum III
+```javascript
+var pathSum = function(root, sum) {
+    const _pathSum = (root, currSum, sum, map) => {
+        if (!root) return 0
+        
+        currSum += root.val
+        paths = map[currSum - sum] || 0
+        map[currSum] = 1 + (map[currSum] || 0)
+        
+        paths += _pathSum(root.left, currSum, sum, map)
+        paths += _pathSum(root.right, currSum, sum, map)
+        
+        map[currSum] = map[currSum] ? map[currSum] - 1 : 0
+        return paths
+    }
+    
+    const map = { 0: 1 }
+    return _pathSum(root, 0, sum, map)
+};
+```
