@@ -9727,3 +9727,25 @@ var pathSum = function(root, sum) {
     return _pathSum(root, 0, sum, map)
 };
 ```
+
+## 897. Increasing Order Search Tree
+```javascript
+var increasingBST = function(root) {
+    const _increasingBST = root => {
+        if (!root) return
+        _increasingBST(root.left)
+        
+        root.left = null
+        curr.right = root
+        curr = root
+        
+        _increasingBST(root.right)
+        return root
+    }
+    
+    const dummy = new TreeNode(0)
+    let curr = dummy
+    _increasingBST(root)
+    return dummy.right
+};
+```
