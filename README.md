@@ -9588,3 +9588,62 @@ var convertBST = function(root) {
     return root
 };
 ```
+
+## 501. Find Mode in Binary Search Tree
+```javascript
+var findMode = function(root) {
+    const inOrder = (root, handler) => {
+        while (root) {
+            if (!root.left) {
+                handler(root.val)
+                root = root.right
+            } else {
+                let pred = root.left
+                
+                while (pred.right !== root && pred.right)
+                    pred = pred.right
+                
+                if (!pred.right) {
+                    pred.right = root
+                    root = root.left
+                } else {
+                    handler(root.val)
+                    pred.right = null
+                    root = root.right
+                }
+            }
+        }
+    }
+    
+    const setMax = val => {
+        if (val !== currVal) {
+            currVal = val
+            curr = 0
+        }
+        curr++
+        max = Math.max(max, curr)
+    }
+    
+    const addModes = val => {
+        if (val !== currVal) {
+            currVal = val
+            curr = 0
+        }
+        curr++
+        
+        if (curr === max) result.push(currVal)
+    }
+    
+    let currVal = null
+    let curr = 0
+    let max = 0
+    inOrder(root, setMax)
+    
+    const result = []
+    currVal = null
+    curr = 0
+    inOrder(root, addModes)
+    
+    return result
+};
+```
