@@ -9783,3 +9783,32 @@ var floodFill = function(image, sr, sc, newColor) {
     return image
 };
 ```
+
+## 1161. Maximum Level Sum of a Binary Tree
+```javascript
+var maxLevelSum = function(root) {
+    const queue = [root]
+    let max = 0
+    let maxLevel = 0
+    let level = 0
+    
+    while (queue.length) {
+        const size = queue.length
+        let sum = 0
+        level++
+        
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            if (curr.left) queue.push(curr.left)
+            if (curr.right) queue.push(curr.right)
+            sum += curr.val
+        }
+        
+        if (sum > max) {
+            max = sum
+            maxLevel = level
+        }
+    }
+    return maxLevel
+};
+```
