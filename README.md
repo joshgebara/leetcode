@@ -8861,6 +8861,17 @@ var climbStairs = function(n) {
     if (!memo[n-2]) memo[n-2] = climbStairs(n-2)
     return memo[n-1] + memo[n-2]
 };
+
+// Dynamic Programming
+var climbStairs = function(n) {
+    const steps = [0, 1]
+    
+    while (n) {
+        [steps[0], steps[1]] = [steps[1], steps[0] + steps[1]]
+        n--
+    }
+    return steps[1]
+};
 ```
 
 ## 387. First Unique Character in a String
@@ -9747,5 +9758,28 @@ var increasingBST = function(root) {
     let curr = dummy
     _increasingBST(root)
     return dummy.right
+};
+```
+
+## 733. Flood Fill
+```javascript
+var floodFill = function(image, sr, sc, newColor) {
+    const _floodFill = (image, cr, cc, startColor, newColor) => {
+        if (cr >= image.length || cr < 0) return
+        if (cc >= image[0].length || cc < 0) return
+        if (image[cr][cc] !== startColor) return
+        
+        image[cr][cc] = newColor
+        
+        _floodFill(image, cr + 1, cc, startColor, newColor)
+        _floodFill(image, cr - 1, cc, startColor, newColor)
+        _floodFill(image, cr, cc + 1, startColor, newColor)
+        _floodFill(image, cr, cc - 1, startColor, newColor)
+    }
+    
+    if (!image || image[sr][sc] === newColor) return image
+    let startColor = image[sr][sc]
+    _floodFill(image, sr, sc, startColor, newColor)
+    return image
 };
 ```
