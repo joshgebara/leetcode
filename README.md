@@ -9812,3 +9812,26 @@ var maxLevelSum = function(root) {
     return maxLevel
 };
 ```
+
+## 841. Keys and Rooms
+```javascript
+var canVisitAllRooms = function(rooms) {
+    let stack = [0]
+    let seen = new Set()
+    seen.add(0)
+    
+    while (stack.length) {
+        const curr = stack.pop()
+        
+        for (let key of rooms[curr]) {
+            if (!seen.has(key)) {
+                stack.push(key)
+                seen.add(key)
+                if (seen.size === rooms.length) return true
+            }
+        }
+    }
+
+    return seen.size === rooms.length
+};
+```
