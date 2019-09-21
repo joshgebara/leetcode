@@ -9881,3 +9881,22 @@ var permute = function(nums) {
     return result
 };
 ```
+
+## 77. Combinations
+```javascript
+var combine = function(n, k) {
+    const _combine = (first, curr = []) => {
+        if (curr.length === k) {
+            result.push(curr)
+            return
+        }
+        
+        for (let i = first; i < n + 1; i++)
+            _combine(i + 1, [...curr, i])
+    }
+    
+    const result = []
+    _combine(1)
+    return result
+};
+```
