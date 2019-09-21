@@ -9900,3 +9900,37 @@ var combine = function(n, k) {
     return result
 };
 ```
+
+## 47. Permutations II
+```javascript
+var permuteUnique = function(nums) {
+    const isEqual = (arr1, arr2) => {
+        let i = 0
+        while (i < arr1.length) {
+            if (arr1[i] !== arr2[i]) return false
+            i++
+        }
+        if (arr2.length > i) return false
+        return true
+    }
+
+    const _permute = (nums, curr = []) => {
+        if (!nums.length) {
+            for (let arr of result)
+                if (isEqual(curr, arr)) return
+            
+            result.push(curr)
+            return
+        }
+
+        for (let i = 0; i < nums.length; i++) {
+            let remaining = [...nums.slice(0, i), ...nums.slice(i + 1)]
+            _permute(remaining, [...curr, nums[i]])
+        }
+    }
+
+    const result = []
+    _permute(nums)
+    return result  
+};
+```
