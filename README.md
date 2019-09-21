@@ -9934,3 +9934,27 @@ var permuteUnique = function(nums) {
     return result  
 };
 ```
+
+## 60. Permutation Sequence
+```javascript
+var getPermutation = function(n, k) {
+    const _getPermutation = (nums, curr = []) => {     
+        if (!nums.length) {
+            result = curr
+            index++
+            return
+        }
+        
+        for (let i = 0; i < nums.length; i++) {
+            if (index >= k) return
+            _getPermutation([...nums.slice(0, i), ...nums.slice(i + 1)], [...curr, nums[i]])
+        }
+    } 
+    
+    let index = 0
+    let result = 0
+    const nums = Array(n).fill(0).map((_, i) => i + 1)
+    _getPermutation(nums)
+    return result.join('')
+};
+```
