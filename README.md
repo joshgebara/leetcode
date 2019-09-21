@@ -9835,3 +9835,49 @@ var canVisitAllRooms = function(rooms) {
     return seen.size === rooms.length
 };
 ```
+
+## 784. Letter Case Permutation
+```javascript
+// Iterative
+var letterCasePermutation = function(S) {
+    const result = [[]]
+    
+    for (const char of S) {
+        if (Number.isNaN(+char)) {
+            const n = result.length
+            
+            for (let i = 0; i < n; i++) {
+                result.push(result[i].slice())
+                result[i].push(char.toLowerCase())
+                result[n + i].push(char.toUpperCase())
+            }
+            continue
+        }
+        for (const arr of result)
+            arr.push(char)
+    }
+    
+    return result.map(charArr => charArr.join(''))
+};
+```
+
+## 46. Permutations
+```javascript
+var permute = function(nums) {
+    const _permute = (nums, curr = []) => {
+        if (!nums.length) {
+            result.push(curr)
+            return
+        }
+        
+        for (let i = 0; i < nums.length; i++) {
+            let remaining = [...nums.slice(0, i), ...nums.slice(i + 1)]
+            _permute(remaining, [...curr, nums[i]])
+        }
+    }
+    
+    const result = []
+    _permute(nums)
+    return result
+};
+```
