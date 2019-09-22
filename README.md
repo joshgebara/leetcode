@@ -9993,7 +9993,30 @@ var letterCombinations = function(digits) {
 ## 369. Plus One Linked List
 ```javascript
 // Iterative
-
+var plusOne = function(head) {
+    const dummy = new ListNode(0)
+    dummy.next = head
+    
+    let i = dummy
+    let j = dummy
+    
+    while (j) {
+        if (j.val < 9)
+            i = j
+        
+        j = j.next
+    }
+    
+    i.val++
+    i = i.next
+    
+    while (i) {
+        i.val = 0
+        i = i.next
+    }
+    
+    return dummy.val !== 0 ? dummy : dummy.next
+};
 
 // Recursive
 var plusOne = function(head) {
