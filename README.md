@@ -9989,3 +9989,27 @@ var letterCombinations = function(digits) {
     return result
 };
 ```
+
+## 369. Plus One Linked List
+```javascript
+var plusOne = function(head) {
+    const _plusOne = (node) => {
+        if (!node) return 1
+        
+        let carry = _plusOne(node.next)
+        let sum = node.val + carry 
+        node.val = Math.floor(sum % 10)
+        carry = Math.floor(sum / 10)
+        return carry
+    }
+    
+    let remainder = _plusOne(head)
+    
+    if (remainder > 0) {
+        const newHead = new ListNode(remainder)
+        newHead.next = head
+        head = newHead
+    }
+    return head
+};
+```
