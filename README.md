@@ -10040,3 +10040,24 @@ var plusOne = function(head) {
     return head
 };
 ```
+
+## 496. Next Greater Element I
+```javascript
+var nextGreaterElement = function(nums1, nums2) {
+    const map = {}
+    const stack = []
+    const result = []
+    
+    for (const num of nums2) {
+        while (stack.length && stack[stack.length - 1] < num)
+            map[stack.pop()] = num
+        
+        stack.push(num)
+    }
+    
+    for (const num of nums1) 
+        result.push(map[num] ? map[num] : -1)
+    
+    return result
+};
+```
