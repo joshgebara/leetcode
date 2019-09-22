@@ -9992,6 +9992,10 @@ var letterCombinations = function(digits) {
 
 ## 369. Plus One Linked List
 ```javascript
+// Iterative
+
+
+// Recursive
 var plusOne = function(head) {
     const _plusOne = (node) => {
         if (!node) return 1
