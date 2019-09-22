@@ -9870,10 +9870,8 @@ var permute = function(nums) {
             return
         }
         
-        for (let i = 0; i < nums.length; i++) {
-            let remaining = [...nums.slice(0, i), ...nums.slice(i + 1)]
-            _permute(remaining, [...curr, nums[i]])
-        }
+        for (let i = 0; i < nums.length; i++)
+            _permute([...nums.slice(0, i), ...nums.slice(i + 1)], [...curr, nums[i]])
     }
     
     const result = []
