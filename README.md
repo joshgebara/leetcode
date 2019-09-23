@@ -10356,3 +10356,32 @@ var removeNthFromEnd = function(head, n) {
     return dummy.next
 };
 ```
+
+## 82. Remove Duplicates from Sorted List II
+```javascript
+var deleteDuplicates = function(head) {
+    if (!head) return head
+    
+    let dummy = new ListNode(-1)
+    dummy.next = head
+    
+    let prev = dummy
+    let curr = head
+    let next = curr.next
+    
+    while (next) {
+        if (curr.val !== next.val) {    
+            prev = prev.next
+            curr = curr.next
+        } else {
+            while (next && curr.val === next.val)
+                next = next.next    
+            
+            prev.next = next
+            curr = prev.next
+        }
+        next = curr ? curr.next : null
+    }
+    return dummy.next
+};
+```
