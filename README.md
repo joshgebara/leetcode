@@ -10388,6 +10388,7 @@ var deleteDuplicates = function(head) {
 
 ## 426. Convert Binary Search Tree to Sorted Doubly Linked List
 ```javascript
+// Recursive
 var treeToDoublyList = function(root) {
     const _treeToDoublyList = root => {
         if (!root) return
@@ -10402,6 +10403,40 @@ var treeToDoublyList = function(root) {
         curr = curr.right
         
         _treeToDoublyList(right)
+    }
+    
+    if (!root) return root
+    
+    const dummy = new Node(-1)
+    let curr = dummy
+    
+    _treeToDoublyList(root)
+    
+    curr.right = dummy.right
+    dummy.right.left = curr
+    
+    return dummy.right
+};
+
+// Iterative
+var treeToDoublyList = function(root) {
+    const _treeToDoublyList = root => {
+        const stack = []
+        
+        while (root || stack.length) {
+            if (root) {
+                stack.push(root)
+                root = root.left
+            } else {
+                const top = stack.pop()
+                
+                curr.right = top
+                top.left = curr
+                curr = curr.right
+                
+                root = top.right
+            }
+        }
     }
     
     if (!root) return root
