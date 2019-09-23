@@ -10195,3 +10195,30 @@ const _addTwoNumbers = (l1, l2) => {
     return [carry, currNode]
 }
 ```
+
+## Linked List Cycle II
+```javascript
+var detectCycle = function(head) {
+    if (!head) return null
+    
+    let slow = head
+    let fast = head
+    
+    while (fast && fast.next) {
+        slow = slow.next
+        fast = fast.next.next
+        
+        if (slow === fast) break
+    }
+    
+    if (!fast || !fast.next) return null
+    
+    slow = head
+    
+    while (slow !== fast) {
+        fast = fast.next
+        slow = slow.next
+    }
+    return slow
+};
+```
