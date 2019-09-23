@@ -10308,3 +10308,29 @@ var oddEvenList = function(head) {
     return oddDummy.next
 };
 ```
+
+## 86. Partition List
+```javascript
+var partition = function(head, x) {
+    let left = new ListNode(-1)
+    let right = new ListNode(-1)
+    let currL = left
+    let currR = right
+    
+    while (head) {
+        if (head.val < x) {
+            currL.next = head
+            currL = currL.next
+        } else {
+            currR.next = head
+            currR = currR.next
+        }
+        head = head.next
+    }
+    currL.next = null
+    currR.next = null
+    
+    currL.next = right.next
+    return left.next
+};
+```
