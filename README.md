@@ -10082,15 +10082,6 @@ var nextGreaterElements = function(nums) {
 ## 1019. Next Greater Node In Linked List
 ```javascript
 var nextLargerNodes = function(head) {
-    const count = head => {
-        let count = 0
-        while (head) {
-            count++
-            head = head.next
-        }
-        return count
-    }
-    
     const seralize = head => {
         const arr = []
         while (head) {
@@ -10101,18 +10092,14 @@ var nextLargerNodes = function(head) {
     }
     
     const arr = seralize(head)
-    const result = Array(count(head)).fill(0)
+    const result = Array(arr.length).fill(0)
     const stack = []
         
-    let i = 0
-    while (head) {
-        while (stack.length && arr[stack[stack.length - 1]] < head.val)
-            result[stack.pop()] = head.val
+    for (let i = 0; i < arr.length; i++) {
+        while (stack.length && arr[stack[stack.length - 1]] < arr[i])
+            result[stack.pop()] = arr[i]
         
         stack.push(i)
-        
-        i++
-        head = head.next
     }
     
     return result
