@@ -10061,3 +10061,20 @@ var nextGreaterElement = function(nums1, nums2) {
     return result
 };
 ```
+
+## 503. Next Greater Element II
+```javascript
+var nextGreaterElements = function(nums) {
+    const n = nums.length
+    const result = Array(n).fill(-1)
+    const stack = []
+    
+    for (let i = 0; i < n*2; i++) {
+        while (stack.length && nums[stack[stack.length - 1]] < nums[i % n])
+            result[stack.pop()] = nums[i % n]
+        
+        if (i < n) stack.push(i)  
+    }
+    return result
+};
+```
