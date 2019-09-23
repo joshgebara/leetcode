@@ -10279,3 +10279,32 @@ var sortedListToBST = function(head) {
     return _sortedListToBST(arr)
 };
 ```
+
+## 328. Odd Even Linked List
+```javascript
+const isOdd = num => num & 1
+
+var oddEvenList = function(head) {
+    let oddDummy = new ListNode(-1)
+    let evenDummy = new ListNode(-1)
+    let currOdd = oddDummy
+    let currEven = evenDummy
+    
+    let i = 1
+    while (head) {
+        if (isOdd(i++)) {
+            currOdd.next = head
+            currOdd = currOdd.next
+        } else {
+            currEven.next = head
+            currEven = currEven.next
+        }
+        head = head.next
+    }
+    currOdd.next = null
+    currEven.next = null
+    
+    currOdd.next = evenDummy.next
+    return oddDummy.next
+};
+```
