@@ -10134,3 +10134,64 @@ var addTwoNumbers = function(l1, l2) {
     return dummy.next
 };
 ```
+
+## 445. Add Two Numbers II
+```javascript
+const padZeros = (node, count) => {
+    let head = node
+    
+    while (count) {
+        let zero = new ListNode(0)
+        zero.next = head
+        head = zero
+        count--
+    }
+    return head
+}
+
+const count = node => {
+    let count = 0
+    while (node) {
+        node = node.next
+        count++
+    }
+    return count
+}
+
+var addTwoNumbers = function(l1, l2) {
+    if (!l1 || !l2) return null
+    
+    let count1 = count(l1)
+    let count2 = count(l2)
+    
+    let diff = Math.abs(count1 - count2)
+    if (count1 < count2) {
+        l1 = padZeros(l1, diff)
+    } else {
+        l2 = padZeros(l2, diff)
+    }
+    
+    let [carry, nextNode] = _addTwoNumbers(l1, l2)
+    
+    if (carry) {
+        let node = new ListNode(carry)
+        node.next = nextNode
+        return node
+    }
+    
+    return nextNode
+};
+
+const _addTwoNumbers = (l1, l2) => {
+    if (!l1 && !l2) return [0, null]
+    
+    let [carry, nextNode] = _addTwoNumbers(l1.next, l2.next)
+    let sum = l1.val + l2.val + carry
+    
+    let currNode = new ListNode(sum % 10)
+    currNode.next = nextNode
+    carry = Math.floor(sum / 10)
+    
+    return [carry, currNode]
+}
+```
