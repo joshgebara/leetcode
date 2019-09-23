@@ -10252,3 +10252,30 @@ function insertAfter(head, child) {
         next.prev = tail
 }
 ```
+
+## Convert Sorted List to Binary Search Tree
+```javascript
+const seralize = node => {
+    const arr = []
+    while (node) {
+        arr.push(node.val)
+        node = node.next
+    }
+    return arr
+}
+
+var sortedListToBST = function(head) {
+    const _sortedListToBST = arr => {
+        if (!arr.length) return null
+        
+        const midIndex = Math.floor(arr.length / 2)
+        const parent = new TreeNode(arr[midIndex])
+        parent.left = _sortedListToBST(arr.slice(0, midIndex))
+        parent.right = _sortedListToBST(arr.slice(midIndex + 1))
+        return parent
+    }
+          
+    const arr = seralize(head)
+    return _sortedListToBST(arr)
+};
+```
