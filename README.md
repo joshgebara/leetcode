@@ -10222,3 +10222,33 @@ var detectCycle = function(head) {
     return slow
 };
 ```
+
+## 430. Flatten a Multilevel Doubly Linked List
+```javascript
+var flatten = function(head) {
+    let curr = head
+    while (curr) {
+        if (curr.child)
+            insertAfter(curr, curr.child)
+        
+        curr = curr.next
+    }
+    return head
+};
+
+function insertAfter(head, child) {
+    const next = head.next
+    head.next = child
+    head.child = null
+    child.prev = head
+    
+    let tail = child 
+    while (tail.next)
+        tail = tail.next
+    
+    tail.next = next
+    
+    if (next)
+        next.prev = tail
+}
+```
