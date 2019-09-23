@@ -10334,3 +10334,25 @@ var partition = function(head, x) {
     return left.next
 };
 ```
+
+## 19. Remove Nth Node From End of List
+```javascript
+var removeNthFromEnd = function(head, n) {
+    let dummy = new ListNode(-1)
+    dummy.next = head
+    
+    let slow = dummy
+    let fast = dummy
+    
+    for (let i = 0; i < n + 1; i++)
+        fast = fast.next
+    
+    while (fast) {
+        slow = slow.next
+        fast = fast.next
+    }
+    
+    slow.next = slow.next.next
+    return dummy.next
+};
+```
