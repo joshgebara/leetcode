@@ -10385,3 +10385,35 @@ var deleteDuplicates = function(head) {
     return dummy.next
 };
 ```
+
+## 426. Convert Binary Search Tree to Sorted Doubly Linked List
+```javascript
+var treeToDoublyList = function(root) {
+    const _treeToDoublyList = root => {
+        if (!root) return
+        
+        let left = root.left
+        let right = root.right
+        
+        _treeToDoublyList(left)
+        
+        curr.right = root
+        root.left = curr
+        curr = curr.right
+        
+        _treeToDoublyList(right)
+    }
+    
+    if (!root) return root
+    
+    const dummy = new Node(-1)
+    let curr = dummy
+    
+    _treeToDoublyList(root)
+    
+    curr.right = dummy.right
+    dummy.right.left = curr
+    
+    return dummy.right
+};
+```
