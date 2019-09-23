@@ -10078,3 +10078,43 @@ var nextGreaterElements = function(nums) {
     return result
 };
 ```
+
+## 1019. Next Greater Node In Linked List
+```javascript
+var nextLargerNodes = function(head) {
+    const count = head => {
+        let count = 0
+        while (head) {
+            count++
+            head = head.next
+        }
+        return count
+    }
+    
+    const seralize = head => {
+        const arr = []
+        while (head) {
+            arr.push(head.val)
+            head = head.next
+        }
+        return arr
+    }
+    
+    const arr = seralize(head)
+    const result = Array(count(head)).fill(0)
+    const stack = []
+        
+    let i = 0
+    while (head) {
+        while (stack.length && arr[stack[stack.length - 1]] < head.val)
+            result[stack.pop()] = head.val
+        
+        stack.push(i)
+        
+        i++
+        head = head.next
+    }
+    
+    return result
+};
+```
