@@ -10581,4 +10581,39 @@ var copyRandomList = function(head) {
     
     return map.get(head)
 };
+
+// O(1)
+var copyRandomList = function(head) {
+    if (!head) return head
+    
+    let curr = head
+    while (curr) {
+        let node = new Node(curr.val)
+        let next = curr.next
+        curr.next = node
+        node.next = next
+        
+        curr = next
+    }
+    
+    curr = head
+    while (curr) {
+        if (curr.random)
+            curr.next.random = curr.random.next
+        curr = curr.next.next
+    }
+    
+    let dummy = new Node(NaN)
+    let p1 = dummy
+    let p2 = head
+    
+    while (p2) {
+        p1.next = p2.next
+        p1 = p1.next
+        p2.next = p2.next.next
+        p2 = p2.next
+    }
+    
+    return dummy.next
+};
 ```
