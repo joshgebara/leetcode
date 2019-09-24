@@ -10556,3 +10556,29 @@ var removeZeroSumSublists = function(head) {
     return dummy.next
 };
 ```
+
+## 138. Copy List with Random Pointer
+```javascript
+var copyRandomList = function(head) {
+    if (!head) return head
+    
+    const map = new Map()
+    
+    let curr = head
+    while (curr) {
+        map.set(curr, new Node(curr.val))
+        curr = curr.next
+    }
+    
+    curr = head
+    while(curr) {
+        if (curr.next) 
+            map.get(curr).next = map.get(curr.next)
+        if (curr.random) 
+            map.get(curr).random = map.get(curr.random)
+        curr = curr.next
+    }
+    
+    return map.get(head)
+};
+```
