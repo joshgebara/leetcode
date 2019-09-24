@@ -10475,3 +10475,20 @@ var rotateRight = function(head, k) {
     return newHead
 };
 ```
+
+## 817. Linked List Components
+```javascript
+var numComponents = function(head, G) {
+    const set = new Set(G)
+    
+    let groups = 0
+    
+    while (head) {    
+        if (set.has(head.val) && (!head.next || !set.has(head.next.val))) 
+            groups++
+        
+        head = head.next
+    }
+    return groups
+};
+```
