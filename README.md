@@ -10452,3 +10452,26 @@ var treeToDoublyList = function(root) {
     return dummy.right
 };
 ```
+
+## 61. Rotate List
+```javascript
+var rotateRight = function(head, k) {
+    if (!head) return head
+    if (!head.next) return head
+    
+    let curr = head
+    let n = 1
+    while (curr.next) {
+        curr = curr.next
+        n++
+    }
+    curr.next = head
+    
+    for (let i = 0; i < n - k % n - 1; i++)
+        head = head.next
+    
+    let newHead = head.next
+    head.next = null
+    return newHead
+};
+```
