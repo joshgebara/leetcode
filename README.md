@@ -10492,3 +10492,37 @@ var numComponents = function(head, G) {
     return groups
 };
 ```
+
+## 725. Split Linked List in Parts
+```javascript
+const count = list => {
+    let count = 0
+    while (list) {
+        list = list.next
+        count++
+    }
+    return count
+}
+
+var splitListToParts = function(root, k) {
+    let length = count(root)    
+    let remainder = Math.floor(length % k)
+    let parts = Math.floor(length / k)
+    
+    const result = Array(k).fill(null)
+    
+    for (let i = 0; i < k; i++) {
+        let head = root
+        for (let j = 0; j < parts + (i < remainder ? 1 : 0) - 1; j++)
+            root = root.next
+            
+        if (root) {
+            let prev = root
+            root = root.next
+            prev.next = null
+        }
+        result[i] = head
+    }
+    return result
+};
+```
