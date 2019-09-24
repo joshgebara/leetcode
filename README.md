@@ -10526,3 +10526,33 @@ var splitListToParts = function(root, k) {
     return result
 };
 ```
+
+## 1171. Remove Zero Sum Consecutive Nodes from Linked List
+```javascript
+var removeZeroSumSublists = function(head) {
+    const dummy = new ListNode(-1)
+    dummy.next = head
+    
+    const map = {0: dummy}
+    
+    let sum = 0
+    while (head) {
+        sum += head.val
+        if (map[sum]) {
+            let removed = map[sum].next
+            let subSum = sum
+            while (removed !== head) {
+                subSum += removed.val
+                map[subSum] = null
+                removed = removed.next
+            }
+            map[sum].next = head.next
+        } else
+            map[sum] = head
+        
+        head = head.next
+    }
+    
+    return dummy.next
+};
+```
