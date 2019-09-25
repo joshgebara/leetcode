@@ -8816,6 +8816,57 @@ var swapPairs = function(head) {
 
 ## 25. Reverse Nodes in k-Group
 ```javascript
+// Iterative
+const reverse = (node, k) => {
+    let curr = node
+    let prev = null
+    let next = null
+    
+    while (k-- && curr) {
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    }
+    node.next = curr
+    return prev
+}
+
+const length = node => {
+    let count = 0
+    
+    while (node) {
+        node = node.next
+        count++
+    }
+    return count
+}
+
+var reverseKGroup = function(head, k) {
+    if (!head || k === 1) return head
+    
+    let count = length(head)
+    let currIndex = 0
+    
+    let dummy = new ListNode(NaN)
+    dummy.next = head
+    
+    let prev = dummy
+    let curr = head
+    
+    while (curr) {
+        if (count - currIndex >= k)
+            prev.next = reverse(curr, k)
+        
+        currIndex += k
+        prev = curr
+        curr = curr.next
+    }
+    
+    return dummy.next
+};
+
+// Recursive
 const reverse = head => {
     let curr = head
     let prev = null
