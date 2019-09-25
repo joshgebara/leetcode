@@ -10734,4 +10734,26 @@ var reverseBetween = function(head, m, n) {
     
     return dummy.next
 };
+
+// Recursion
+var reverseBetween = function(head, m, n) {
+    const _reverseBetween = (head, j) => {
+        if (j <= 1) {
+            successor = head.next
+            return head
+        }
+
+        let root = _reverseBetween(head.next, j - 1)
+        head.next.next = head
+        head.next = successor
+        return root    
+    }
+    
+    let successor = null
+    if (m <= 1)
+        return _reverseBetween(head, n)
+    
+    head.next = reverseBetween(head.next, m - 1, n - 1)
+    return  head
+};
 ```
