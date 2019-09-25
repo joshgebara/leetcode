@@ -10701,3 +10701,37 @@ var insert = function(head, insertVal) {
     return head
 };
 ```
+
+## 92. Reverse Linked List II
+```javascript
+// Iterative
+var reverseBetween = function(head, m, n) {
+    if (!head) return head
+    
+    let dummy = new ListNode(NaN)
+    dummy.next = head
+    
+    let prev = dummy
+    
+    while (--m) {
+        prev = prev.next
+        --n
+    }
+    
+    let reverse = null
+    let curr = prev.next
+    let next = curr
+    
+    while (n--) {
+        next = curr.next
+        curr.next = reverse
+        reverse = curr
+        curr = next
+    }
+    
+    prev.next.next = curr
+    prev.next = reverse
+    
+    return dummy.next
+};
+```
