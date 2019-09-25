@@ -10671,3 +10671,33 @@ var reorderList = function(head) {
     merge(half1, half2)
 };
 ```
+
+## 708. Insert into a Cyclic Sorted List
+```javascript
+var insert = function(head, insertVal) {
+    if (!head) {
+        const node = new Node(insertVal)
+        node.next = node
+        return node
+    }
+    
+    let prev = head
+    let next = head.next
+
+    while (true) {
+        if ((prev.val <= insertVal && insertVal <= next.val) ||
+            (prev.val > next.val && insertVal < next.val) ||
+            (prev.val > next.val && insertVal > prev.val)) {
+            prev.next = new Node(insertVal, next)
+            return head
+        }
+        
+        prev = prev.next
+        next = next.next
+        if (prev === head) break
+    }
+    
+    prev.next = new Node(insertVal, next)
+    return head
+};
+```
