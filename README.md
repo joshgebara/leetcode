@@ -10617,3 +10617,57 @@ var copyRandomList = function(head) {
     return dummy.next
 };
 ```
+
+## 143. Reorder List
+```javascript
+const reverse = node => {
+    let prev = null
+    let next = null
+    
+    while (node) {
+        next = node.next
+        node.next = prev
+        prev = node
+        node = next
+    }
+    return prev
+}
+
+const split = head => {
+    let fast = head
+    let slow = head
+    let prev = null
+    
+    while (fast && fast.next) {
+        prev = slow
+        slow = slow.next
+        fast = fast.next.next
+    }
+    
+    prev.next = null
+    return [head, slow]
+}
+
+const merge = (l1, l2) => {
+    while (l1) {
+        let nextL1 = l1.next
+        let nextL2 = l2.next
+        
+        l1.next = l2
+
+        if (!nextL1) break        
+        l2.next = nextL1
+        
+        l1 = nextL1
+        l2 = nextL2
+    }
+}
+
+var reorderList = function(head) {
+    if (!head || !head.next || !head.next.next) return head
+
+    let [half1, half2] = split(head)
+    half2 = reverse(half2)
+    merge(half1, half2)
+};
+```
