@@ -10880,7 +10880,7 @@ var mergeKLists = function(lists) {
     return _mergeKLists(lists)
 };
 
-// O(n log n)
+// O(nk)
 // O(1)
 const merge = (l1, l2) => {
     if (!l1) return l2
