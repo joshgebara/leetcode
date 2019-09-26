@@ -10879,4 +10879,38 @@ var mergeKLists = function(lists) {
     if (!lists.length) return null
     return _mergeKLists(lists)
 };
+
+// O(n log n)
+// O(1)
+const merge = (l1, l2) => {
+    if (!l1) return l2
+    if (!l2) return l1
+    
+    const dummy = new ListNode(NaN)
+    let curr = dummy
+    
+    while (l1 && l2) {
+        if (l1.val < l2.val) {
+            curr.next = l1
+            l1 = l1.next
+        } else {
+            curr.next = l2
+            l2 = l2.next
+        }
+        curr = curr.next
+    }
+    
+    curr.next = l1 ? l1 : l2    
+    return dummy.next
+}
+
+var mergeKLists = function(lists) {
+    if (!lists.length) return null
+    
+    let result = null
+    while (lists.length)
+        result = merge(result, lists.pop())
+    
+    return result
+};
 ```
