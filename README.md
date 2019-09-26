@@ -10808,3 +10808,42 @@ var reverseBetween = function(head, m, n) {
     return  head
 };
 ```
+
+## 23. Merge k Sorted Lists
+```javascript
+// Time - O(mn) 
+// Space - O(1)
+var mergeKLists = function(lists) {
+    if (!lists.length) return null
+    
+    const dummy = new ListNode(NaN)
+    let curr = dummy
+    
+    let min = null
+    let index = null
+
+    while (true) {
+        for (let i = 0; i < lists.length; i++) {
+            if (!lists[i]) continue
+            
+            if (!min || lists[i].val < min.val) {
+                min = lists[i]
+                index = i
+            }
+        }
+        
+        if (!min) break
+        
+        let next = min.next
+        min.next = null
+        
+        curr.next = min
+        curr = curr.next
+        
+        min = null
+        lists[index] = next
+    }
+    
+    return dummy.next
+};
+```
