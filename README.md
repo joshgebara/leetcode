@@ -11044,3 +11044,109 @@ var mergeKLists = function(lists) {
     return dummy.next
 };
 ```
+
+## 1046. Last Stone Weight
+```javascript
+// O n log n
+class Heap {
+    constructor(elements, sortBy) {
+        this.elements = elements
+        this.sortBy = sortBy
+        this.heapify()
+    }
+    
+    heapify() {
+        if (!this.elements.length) return
+        
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    siftUp() {
+        let childIndex = this.elements.length - 1
+        let parentIndex = this.parentIndex(childIndex)
+        
+        while (childIndex > 0 && this.sortBy(this.elements[childIndex], this.elements[parentIndex])) {
+            let temp = this.elements[parentIndex]
+            this.elements[parentIndex] = this.elements[childIndex]
+            this.elements[childIndex] = temp
+            
+            childIndex = parentIndex
+            parentIndex = this.parentIndex(childIndex)
+        }
+    }
+    
+    siftDown(index) {
+        let parentIndex = index
+        while (true) {
+            let leftIndex = this.leftChildIndex(parentIndex)
+            let rightIndex = this.rightChildIndex(parentIndex)
+            let candidate = parentIndex
+            
+            if (leftIndex < this.elements.length && this.sortBy(this.elements[leftIndex], this.elements[candidate]))
+                candidate = leftIndex
+            
+            if (rightIndex < this.elements.length && this.sortBy(this.elements[rightIndex], this.elements[candidate]))
+                candidate = rightIndex
+            
+            if (parentIndex === candidate) return
+                
+            let temp = this.elements[parentIndex]
+            this.elements[parentIndex] = this.elements[candidate]
+            this.elements[candidate] = temp
+                
+            parentIndex = candidate
+        }
+    }
+    
+    insert(val) {
+        this.elements.push(val)
+        this.siftUp()
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown(0)
+        
+        return element
+    }
+    
+    peek() {
+        return this.elements[0]
+    }
+    
+    leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+    
+    rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+    
+    parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+}
+
+
+var lastStoneWeight = function(stones) {
+    const heap = new Heap(stones, (a, b) => a > b)
+    
+    while (heap.elements.length > 1) {
+        let x = heap.remove()
+        let y = heap.remove()
+        
+        if (x === y) continue    
+        heap.insert(x - y)
+    }
+
+    return heap.peek() ? heap.peek() : 0
+};
+```
