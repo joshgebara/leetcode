@@ -10913,4 +10913,134 @@ var mergeKLists = function(lists) {
     
     return result
 };
+
+// Time - O(n log k)
+// Space - O(k)
+class Heap {
+    constructor(elements, sortBy) {
+        this.elements = elements
+        this.sortBy = sortBy
+        this.heapify()
+    }
+    
+    heapify() {
+        if (!this.elements.length) return
+        
+        for (let i = Math.floor(this.elements.length / 2) - 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    peek() {
+        return this.elements[0]
+    }
+    
+    insert(val) {
+        this.elements.push(val)
+        this.siftUp()
+    }
+  
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown(0)
+        
+        return element
+    }
+    
+    siftUp() {
+        let childIndex = this.elements.length - 1
+        let parentIndex = this.parentIndex(childIndex)
+        
+        while (childIndex > 0 && this.sortBy(this.elements[childIndex], this.elements[parentIndex])) {
+            let temp = this.elements[parentIndex]
+            this.elements[parentIndex] = this.elements[childIndex]
+            this.elements[childIndex] = temp
+            
+            childIndex = parentIndex
+            parentIndex = this.parentIndex(childIndex) 
+        }
+    }
+    
+    siftDown(index) {
+        let parentIndex = index
+        while (true) {
+            let leftIndex = this.leftChildIndex(parentIndex)
+            let rightIndex = this.rightChildIndex(parentIndex)
+            let candidate = parentIndex
+            
+            if (leftIndex < this.elements.length && 
+                this.sortBy(this.elements[leftIndex], this.elements[candidate]))
+                candidate = leftIndex
+            
+            if (rightIndex < this.elements.length && 
+                this.sortBy(this.elements[rightIndex], this.elements[candidate]))
+                candidate = rightIndex
+            
+            if (parentIndex === candidate) return
+            
+            let temp = this.elements[parentIndex]
+            this.elements[parentIndex] = this.elements[candidate]
+            this.elements[candidate] = temp
+          
+            parentIndex = candidate
+        }
+    }
+    
+    leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+    
+    rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+    
+    parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+}
+
+class MergeNode {
+    constructor(node, index) {
+        this.node = node
+        this.index = index
+    }
+}
+
+var mergeKLists = function(lists) {
+    if (!lists.length) return null
+    
+    const heap = new Heap([], (a, b) => a.node.val < b.node.val)
+    const dummy = new ListNode(NaN)
+    let curr = dummy
+    
+    for (let i = 0; i < lists.length; i++) {
+        if (!lists[i]) continue
+        
+        const mergeNode = new MergeNode(lists[i], i)
+        heap.insert(mergeNode)
+    }
+    
+    while (heap.elements.length) {
+        let { node, index } = heap.remove()
+        
+        let next = node.next
+        node.next = null
+        
+        curr.next = node
+        curr = curr.next
+        lists[index] = next
+        
+        if (!next) continue
+        const mergeNode = new MergeNode(lists[index], index)
+        heap.insert(mergeNode)
+    }
+    
+    return dummy.next
+};
 ```
