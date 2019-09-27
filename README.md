@@ -11329,16 +11329,14 @@ console.log(t)
 // O(n)
 // O(1)
 var kClosest = function(points, K) {
-    const distance = (p1, p2) => {
-        let [x1, y1] = p1
-        let [x2, y2] = p2
-        
-        let a = ((x2 - x1) ** 2)
-        let b = ((y2 - y1) ** 2)
-        return Math.sqrt(a + b)
+    const distance = (point) => {
+        let [x, y] = point
+        return (x ** 2) + (y ** 2)
     }
     
     const quickSelect = (elements, K, left, right) => {
+        if (left >= right) return
+        
         left = left || 0
         right = right || elements.length - 1
         
@@ -11365,7 +11363,7 @@ var kClosest = function(points, K) {
         let i = left - 1
         
         for (let j = left; j < right; j++) {
-            if (distance(elements[j], [0,0]) <= distance(elements[pivot], [0,0])) {
+            if (distance(elements[j]) <= distance(elements[pivot])) {
                 i++
                 
                 let temp = elements[i]
@@ -11511,3 +11509,4 @@ var kClosest = function(points, K) {
     return heap.elements
 };
 ```
+
