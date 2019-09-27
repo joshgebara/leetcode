@@ -11625,3 +11625,38 @@ var frequencySort = function(s) {
     return result.join('')
 };
 ```
+
+## 347. Top K Frequent Elements
+```javascript
+const frequencies = nums => {
+    return nums.reduce((result, num) => {
+        result[num] = 1 + (result[num] || 0)
+        return result
+    }, {})
+}
+
+var topKFrequent = function(nums, k) {
+    const buckets = []
+    for (let [key, value] of Object.entries(frequencies(nums))) {
+        key = +key
+        
+        if (!buckets[value]) {
+            buckets[value] = [key]
+            continue
+        }
+        buckets[value].push(key)
+    }
+
+    const result = []
+    for (let i = buckets.length - 1; i >= 0; i--) {
+        if (result.length >= k) break
+
+        if (!buckets[i]) continue
+        
+        for (let num of buckets[i])
+            result.push(num)        
+    }
+
+    return result    
+};
+```
