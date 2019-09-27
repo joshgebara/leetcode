@@ -11047,6 +11047,8 @@ var mergeKLists = function(lists) {
 
 ## 1046. Last Stone Weight
 ```javascript
+
+
 // O(n log n)
 class Heap {
     constructor(elements, sortBy) {
@@ -11149,4 +11151,126 @@ var lastStoneWeight = function(stones) {
 
     return heap.peek() ? heap.peek() : 0
 };
+```
+
+## 703. Kth Largest Element in a Stream
+```javascript
+class Heap {
+    constructor(elements, capacity, sortBy) {
+        this.capacity = capacity
+        this.elements = elements
+        this.sortBy = sortBy
+        this.heapify()
+    }
+    
+    atCapacity() {
+        return this.elements.length >= this.capacity
+    }
+    
+    heapify() {
+        if (!this.elements.length) return
+        
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    insert(val) {
+        if (this.atCapacity() && val > this.peek())
+            this.remove()
+        
+        if (!this.atCapacity()) {
+            this.elements.push(val)
+            this.siftUp()
+        }
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = this.elements[0]
+        this.elements[0] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown()
+        
+        return element
+    }
+    
+    siftDown(index) {
+        let parent = index ? index : 0
+        while (true) {
+            let left = this.leftChildIndex(parent)
+            let right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+                candidate = left
+            
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+                candidate = right
+            
+            if (candidate === parent) return
+            
+            let temp = this.elements[candidate]
+            this.elements[candidate] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    siftUp(index) {
+        let child = index ? index : this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            let temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    peek() {
+        return this.elements[0]
+    }
+    
+    leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+    
+    rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+    
+    parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+}
+
+var KthLargest = function(k, nums) {
+    this.heap = new Heap([], k, (a, b) => a < b)
+    
+    for (const num of nums)
+        this.heap.insert(num)
+};
+
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+KthLargest.prototype.add = function(val) {
+    this.heap.insert(val)
+    return this.heap.peek()
+};
+
+/** 
+ * Your KthLargest object will be instantiated and called as such:
+ * var obj = new KthLargest(k, nums)
+ * var param_1 = obj.add(val)
+ */
 ```
