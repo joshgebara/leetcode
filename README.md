@@ -11274,3 +11274,52 @@ KthLargest.prototype.add = function(val) {
  * var param_1 = obj.add(val)
  */
 ```
+
+## Heap Sort
+```javascript
+const heapSort = (elements, sortBy) => {
+  const _heapify = () => {
+    for (let i = Math.floor(elements.length / 2) + 1; i >= 0; i--)
+      _siftDown(i)
+  }
+  
+  const _siftDown = (index, size) => {
+    let parent = index || 0
+    size = size || elements.length
+    
+    while (true) {
+      let left = _leftChildIndex(parent)
+      let right = _rightChildIndex(parent)
+      let candidate = parent
+      
+      if (left < size && sortBy(elements[left], elements[candidate]))
+        candidate = left
+      
+      if (right < size && sortBy(elements[right], elements[candidate]))
+        candidate = right
+      
+      if (candidate === parent) return
+      [elements[candidate], elements[parent]] = [elements[parent], elements[candidate]]
+      
+      parent = candidate
+    }
+  }
+  
+  const _leftChildIndex = index => 2 * index + 1
+  const _rightChildIndex = index => 2 * index + 2
+  
+  if (elements.length <= 1) return elements
+  sortBy = sortBy || ((a, b) => a > b)
+  _heapify()
+  
+  for (let i = elements.length - 1; i > 0; i--) {
+    [elements[0], elements[i]] = [elements[i], elements[0]]
+    _siftDown(0, i)
+  }
+}
+
+
+const t = [1, 6, 4, 5, 3, 8, 7, 9, 8, 7, 3]
+heapSort(t)
+console.log(t)
+```
