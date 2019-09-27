@@ -11047,36 +11047,6 @@ var mergeKLists = function(lists) {
 
 ## 1046. Last Stone Weight
 ```javascript
-// O(n)
-const bucketSort = elements => {
-    let buckets = Array(1001).fill(0)
-    let result = []
-    
-    for (let element of elements)
-        buckets[element]++
-    
-    for (let i = 0; i < buckets.length; i++)
-        while (buckets[i]--) result.push(i)
-    
-    return result
-}
-
-var lastStoneWeight = function(stones) {
-    if (!stones.length) return 0
-    
-    while (stones.length > 1) {
-        stones = bucketSort(stones)
-        
-        let x = stones.pop()
-        let y = stones.pop()
-        
-        if (x === y) continue    
-        stones.push(x - y)
-    }
-
-    return stones[0] ? stones[0] : 0
-};
-
 // O(n log n)
 class Heap {
     constructor(elements, sortBy) {
