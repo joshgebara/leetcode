@@ -11323,3 +11323,127 @@ const t = [1, 6, 4, 5, 3, 8, 7, 9, 8, 7, 3]
 heapSort(t)
 console.log(t)
 ```
+
+## 973. K Closest Points to Origin
+```javascript
+// O(n log k)
+// O(k)
+class Heap {
+    constructor(elements, capacity, sortBy) {
+        this.elements = elements
+        this.capacity = capacity
+        this.sortBy = sortBy
+        
+        this.heapify()
+    }
+    
+    heapify() {
+        if (!this.elements.length) return
+        
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    siftUp() {
+        let childIndex = this.elements.length - 1
+        let parentIndex = this.parentIndex(childIndex)
+        
+        while (childIndex > 0 && this.sortBy(this.elements[childIndex], this.elements[parentIndex])) {
+            let temp = this.elements[parentIndex]
+            this.elements[parentIndex] = this.elements[childIndex]
+            this.elements[childIndex] = temp
+            
+            childIndex = parentIndex
+            parentIndex = this.parentIndex(childIndex)
+        }
+    }
+    
+    siftDown(index) {
+        let parentIndex = index
+        while (true) {
+            let leftIndex = this.leftChildIndex(parentIndex)
+            let rightIndex = this.rightChildIndex(parentIndex)
+            let candidate = parentIndex
+            
+            if (leftIndex < this.elements.length && this.sortBy(this.elements[leftIndex], this.elements[candidate]))
+                candidate = leftIndex
+            
+            if (rightIndex < this.elements.length && this.sortBy(this.elements[rightIndex], this.elements[candidate]))
+                candidate = rightIndex
+            
+            if (parentIndex === candidate) return
+                
+            let temp = this.elements[parentIndex]
+            this.elements[parentIndex] = this.elements[candidate]
+            this.elements[candidate] = temp
+                
+            parentIndex = candidate
+        }
+    }
+    
+    atCapacity() {
+        return this.elements.length >= this.capacity
+    }
+    
+    insert(val) {
+        if (this.atCapacity() && this.sortBy(this.peek(), val))
+            this.remove()
+        
+        if (!this.atCapacity()) {
+            this.elements.push(val)
+            this.siftUp()   
+        }
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown(0)
+        
+        return element
+    }
+    
+    peek() {
+        return this.elements[0]
+    }
+    
+    leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+    
+    rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+    
+    parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+}
+
+var kClosest = function(points, K) {
+    const distance = (p1, p2) => {
+        let [x1, y1] = p1
+        let [x2, y2] = p2
+        
+        let a = ((x2 - x1) ** 2)
+        let b = ((y2 - y1) ** 2)
+        return Math.sqrt(a + b)
+    }
+    
+    if (!points.length) return []
+    if (!K) return []
+    
+    const heap = new Heap([], K, (a, b) => distance(a, [0, 0]) >= distance(b, [0, 0]))
+
+    for (let point of points)
+        heap.insert(point)
+    
+    return heap.elements
+};
+```
