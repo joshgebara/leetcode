@@ -11326,6 +11326,70 @@ console.log(t)
 
 ## 973. K Closest Points to Origin
 ```javascript
+// O(n)
+// O(1)
+var kClosest = function(points, K) {
+    const distance = (p1, p2) => {
+        let [x1, y1] = p1
+        let [x2, y2] = p2
+        
+        let a = ((x2 - x1) ** 2)
+        let b = ((y2 - y1) ** 2)
+        return Math.sqrt(a + b)
+    }
+    
+    const quickSelect = (elements, K, left, right) => {
+        left = left || 0
+        right = right || elements.length - 1
+        
+        let randomIndex = random(left, right)
+        let temp = elements[right]
+        elements[right] = elements[randomIndex]
+        elements[randomIndex] = temp
+        
+        let pivot = partition(elements, left, right)
+        
+        if (pivot === K) return 
+        
+        if (pivot > K) {
+            return quickSelect(elements, K, left, pivot - 1)
+        } else {
+            return quickSelect(elements, K, pivot + 1, right)
+        }
+    }
+    
+    const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
+    
+    const partition = (elements, left, right) => {
+        let pivot = right
+        let i = left - 1
+        
+        for (let j = left; j < right; j++) {
+            if (distance(elements[j], [0,0]) <= distance(elements[pivot], [0,0])) {
+                i++
+                
+                let temp = elements[i]
+                elements[i] = elements[j]
+                elements[j] = temp
+            }
+        }
+        
+        i++
+        
+        let temp = elements[i]
+        elements[i] = elements[pivot]
+        elements[pivot] = temp
+        
+        return i
+    }
+    
+    if (!points.length) return []
+    if (!K) return []
+    
+    quickSelect(points, K)
+    return points.slice(0, K)
+};
+
 // O(n log k)
 // O(k)
 class Heap {
