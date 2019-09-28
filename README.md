@@ -11769,4 +11769,51 @@ var findKthLargest = function(nums, k) {
 
     return heap.peek()
 };
+
+// Quick Select
+var findKthLargest = function(nums, k) {
+    const index = quickSelect(nums, 0, nums.length - 1, nums.length - k)
+    return nums[index]
+};
+
+const quickSelect = (nums, start, end, k) => {
+    if (start >= end) return start
+    
+    let randomIndex = random(start, end)
+    let temp = nums[randomIndex]
+    nums[randomIndex] = nums[end]
+    nums[end] = temp
+    
+    let pivot = partition(nums, start, end)
+    if (pivot === k) return pivot
+    
+    if (pivot > k) {
+        return quickSelect(nums, start, pivot - 1, k)
+    } else {
+        return quickSelect(nums, pivot + 1, end, k)
+    }
+}
+
+const partition = (nums, start, end) => {
+    let pivot = nums[end]
+    let i = start - 1
+    for (let j = start; j < end; j++) {
+        if (nums[j] <= pivot) {
+            i++
+            let temp = nums[i]
+            nums[i] = nums[j]
+            nums[j] = temp
+        }
+    }
+
+    i++
+    let temp = nums[i]
+    nums[i] = nums[end]
+    nums[end] = temp
+    return i
+}
+
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
 ```
