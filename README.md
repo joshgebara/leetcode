@@ -11816,4 +11816,28 @@ const partition = (nums, start, end) => {
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
+
+// Counting Sort
+var findKthLargest = function(nums, k) {
+    let max = null
+    let min = null
+    
+    for (const num of nums) {
+        max = Math.max(num, max || -Number.MAX_VALUE)
+        min = Math.min(num, min || Number.MAX_VALUE)
+    }
+    
+    let offset = min >= 0 ? 0 : Math.abs(min)
+    
+    const counts = Array(max + offset + 1).fill(0)
+    for (const num of nums)
+        counts[num + offset]++
+    
+    const result = []
+    for (let i = 0; i < counts.length; i++)
+        while (counts[i]--)
+            result.push(i - offset)
+    
+    return result[result.length - k]
+};
 ```
