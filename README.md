@@ -11660,3 +11660,113 @@ var topKFrequent = function(nums, k) {
     return result    
 };
 ```
+
+## 215. Kth Largest Element in an Array
+```javascript
+// Heap
+class Heap {
+    constructor(elements, capacity, sortBy) {
+        this.elements = elements
+        this.capacity = capacity
+        this.sortBy = sortBy
+        
+        if (this.elements.length)
+            this.heapify()
+    }
+    
+    heapify() {
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    siftDown(index) {
+        let parent = index
+        while (true) {
+            let left = this.leftChildIndex(parent)
+            let right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+                candidate = left
+            
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+                candidate = right
+            
+            if (candidate === parent) return
+            
+            let temp = this.elements[candidate]
+            this.elements[candidate] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    siftUp(index) {
+        let child = index
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            let temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    atCapacity() {
+        return this.elements.length >= this.capacity
+    }
+    
+    insert(val) {
+        if (this.atCapacity() && this.sortBy(this.peek(), val))
+           this.remove()
+            
+        if (!this.atCapacity()) {
+            this.elements.push(val)
+            this.siftUp(this.elements.length - 1)
+        }
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown(0)
+        
+        return element
+    }
+    
+    peek() {
+        return this.elements[0]
+    }
+    
+    leftChildIndex(index) {
+        return 2 * index + 1
+    }
+    
+    rightChildIndex(index) {
+        return 2 * index + 2
+    }
+    
+    parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+}
+
+var findKthLargest = function(nums, k) {
+    const heap = new Heap([], k, (a, b) => a < b)
+    
+    for (const num of nums)
+        heap.insert(num)
+
+    return heap.peek()
+};
+```
