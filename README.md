@@ -11841,3 +11841,26 @@ var findKthLargest = function(nums, k) {
     return result[result.length - k]
 };
 ```
+
+## 692. Top K Frequent Words
+```javascript
+// O(n log n)
+// O(n)
+const frequencies = arr => {
+    return arr.reduce((result, ele) => {
+        result[ele] = 1 + (result[ele] || 0)
+        return result
+    }, {})
+}
+
+var topKFrequent = function(words, k) {
+    return Object
+        .entries(frequencies(words))
+        .sort(([wordA, freqA], [wordB, freqB]) => {
+            if (freqA === freqB) return wordA < wordB ? -1 : 1
+            return freqB - freqA
+        })
+        .slice(0, k)
+        .map(([word, _]) => word)
+};
+```
