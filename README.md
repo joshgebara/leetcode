@@ -11865,3 +11865,23 @@ var topKFrequent = function(words, k) {
 };
 ```
 
+## 442. Find All Duplicates in an Array
+```javascript
+// Counting Sort
+var findDuplicates = function(nums) {
+    const counts = Array(nums.length + 1).fill(0)
+    
+    for (const num of nums)
+        counts[num]++
+    
+    const result = []
+    for (let i = 0; i < counts.length; i++)
+        if (counts[i] > 1)
+            result.push(i)
+    
+    return result
+};
+
+// Comparative Sort
+
+```
