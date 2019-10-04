@@ -11941,12 +11941,9 @@ var findMin = function(nums) {
     let right = nums.length - 1
     
     while (left < right) {
-        if (nums[left] < nums[right])
-            return nums[left]
-                
         let mid = Math.floor((right - left) / 2) + left
         
-        if (nums[mid] >= nums[left]) {
+        if (nums[mid] > nums[right]) {
             left = mid + 1
         } else {
             right = mid
