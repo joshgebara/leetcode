@@ -11916,8 +11916,10 @@ var findDuplicates = function(nums) {
         const index = Math.abs(num) - 1
         const val = -1 * nums[index]
         
-        if (nums[index] < 0)
+        if (nums[index] < 0) {
             result.push(index + 1)
+            continue
+        }
         
         nums[index] = val
     }
