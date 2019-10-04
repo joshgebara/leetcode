@@ -11953,3 +11953,51 @@ var findMin = function(nums) {
     return nums[left]
 };
 ```
+
+## 33. Search in Rotated Sorted Array
+```javascript
+const rotationPoint = nums => {
+    let left = 0
+    let right = nums.length - 1
+    
+    while (left < right) {
+        let mid = Math.floor((right - left) / 2) + left
+        
+        if (nums[right] >= nums[mid]) {
+            right = mid
+        } else {
+            left = mid + 1
+        }
+    }
+    return left
+}
+
+const binarySearch = (nums, left, right, target) => {
+    while (left <= right) {
+        let mid = Math.floor((right - left) / 2) + left
+        
+        if (nums[mid] === target) 
+            return mid
+        
+        if (nums[mid] > target) {
+            right = mid - 1
+        } else {
+            left = mid + 1
+        }
+    }
+    return -1
+}
+
+var search = function(nums, target) {
+    const rotationIndex = rotationPoint(nums)
+    
+    if (nums[rotationIndex] === target)
+        return rotationIndex
+
+    if (nums[0] <= target && target <= nums[rotationIndex - 1]) {
+        return binarySearch(nums, 0, rotationIndex - 1, target)
+    } else {
+        return binarySearch(nums, rotationIndex + 1, nums.length - 1, target)
+    }
+};
+```
