@@ -11927,3 +11927,13 @@ var findDuplicates = function(nums) {
     return result
 };
 ```
+
+## 153. Find Minimum in Rotated Sorted Array
+```javascript
+// O(n)
+var findMin = function(nums) {
+    return Math.min(...nums)
+};
+
+
+```
