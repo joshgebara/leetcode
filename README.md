@@ -11893,4 +11893,35 @@ var findDuplicates = function(nums) {
     }
     return result
 };
+
+// Set
+var findDuplicates = function(nums) {
+    const seen = new Set()
+    const result = []
+    
+    for (const num of nums) {
+        if (seen.has(num))
+            result.push(num)  
+        else
+            seen.add(num)
+    }
+    return result
+};
+
+// Mutate
+var findDuplicates = function(nums) {
+    const result = []
+    
+    for (const num of nums) {
+        const index = Math.abs(num) - 1
+        const val = -1 * nums[index]
+        
+        if (nums[index] < 0)
+            result.push(index + 1)
+        
+        nums[index] = val
+    }
+    
+    return result
+};
 ```
