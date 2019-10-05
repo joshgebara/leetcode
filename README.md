@@ -12001,3 +12001,130 @@ var search = function(nums, target) {
     }
 };
 ```
+
+## 378. Kth Smallest Element in a Sorted Matrix
+```javascript
+class Heap {
+    constructor(elements, capacity, sortBy) {
+        this.elements = elements
+        this.capacity = capacity
+        this.sortBy = sortBy
+        
+        if (this.elements.length)
+            this.heapify()
+    }
+    
+    heapify() {
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    siftDown(index) {
+        let parent = index || 0
+        while (true) {
+            let left = this.leftChildIndex(parent)
+            let right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+                candidate = left
+            
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+                candidate = right
+            
+            if (candidate === parent) return
+            
+            let temp = this.elements[candidate]
+            this.elements[candidate] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    siftUp(index) {
+        let child = index || this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            let temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    atCapacity() {
+        return this.elements.length >= this.capacity
+    }
+    
+    insert(val) {
+        if (this.atCapacity() && this.sortBy(val, this.elements[0]))
+            this.remove()
+        
+        if (!this.atCapacity()) {
+            this.elements.push(val)
+            this.siftUp()
+        } 
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown()
+        
+        return element
+    }
+    
+    leftChildIndex(index) {
+        return 2 * index + 1
+    }
+    
+    rightChildIndex(index) {
+        return 2 * index + 2
+    }
+    
+    parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+}
+
+class Node {
+    constructor(val, row, col) {
+        this.val = val
+        this.row = row
+        this.col = col
+    }
+}
+
+var kthSmallest = function(matrix, k) {
+    const heap = new Heap([], k, (a, b) => a.val < b.val)
+    
+    for (let row = 0; row < matrix.length; row++) {
+        const node = new Node(matrix[row][0], row, 0)
+        heap.insert(node)
+    }
+    
+    for (let i = 1; i < k; i++) {
+        const node = heap.remove()
+        
+        if (node.col + 1 < matrix[0].length) {
+            const nextNode = new Node(matrix[node.row][node.col + 1], node.row, node.col + 1)
+            heap.insert(nextNode)    
+        }
+    }
+    
+    return heap.elements[0].val
+};
+
+// Binary Search
+
+```
