@@ -12124,7 +12124,4 @@ var kthSmallest = function(matrix, k) {
     
     return heap.elements[0].val
 };
-
-// Binary Search
-
 ```
