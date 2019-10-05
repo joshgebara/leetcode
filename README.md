@@ -12125,3 +12125,138 @@ var kthSmallest = function(matrix, k) {
     return heap.elements[0].val
 };
 ```
+
+## 373. Find K Pairs with Smallest Sums
+```javascript
+class Heap {
+    constructor(elements, capacity, sortBy) {
+        this.elements = elements
+        this.capacity = capacity
+        this.sortBy = sortBy
+        
+        if (this.elements.length)
+            this.heapify()
+    }
+    
+    heapify() {
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    siftDown(index) {
+        let parent = index || 0
+        while (true) {
+            let left = this.leftChildIndex(parent)
+            let right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+                candidate = left
+            
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+                candidate = right
+            
+            if (parent === candidate) return
+            
+            let temp = this.elements[parent]
+            this.elements[parent] = this.elements[candidate]
+            this.elements[candidate] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    siftUp(index) {
+        let child = index || this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            let temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    atCapacity() {
+        return this.elements.length >= this.capacity
+    }
+    
+    insert(val) {
+        if (this.atCapacity() && this.sortBy(val, this.elements[0]))
+            this.remove()
+        
+        if (!this.atCapacity()) {
+            this.elements.push(val)
+            this.siftUp()
+        }
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown()
+        
+        return element
+    }
+    
+    leftChildIndex(index) {
+        return 2 * index + 1
+    }
+    
+    rightChildIndex(index) {
+        return 2 * index + 2
+    }
+    
+    parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+}
+
+class Node {
+    constructor(sum, leftVal, rightVal, rightPos) {
+        this.sum = sum
+        this.leftVal = leftVal
+        this.rightVal = rightVal
+        this.rightPos = rightPos
+    }
+}
+
+var kSmallestPairs = function(nums1, nums2, k) {
+    if (!nums1.length || !nums2.length) return []
+    
+    const heap = new Heap([], k, (a, b) => a.sum < b.sum)
+    const result = []
+    
+    for (let i = 0; i < nums1.length; i++) {
+        const node = new Node(nums1[i] + nums2[0], nums1[i], nums2[0], 0)
+        heap.insert(node)
+    }
+    
+    while (k > 0) {
+        const node = heap.remove()
+        
+        if (!node) break
+        result.push([node.leftVal, node.rightVal])
+        
+        if (node.rightPos < nums2.length - 1) {
+            const newNode = new Node(node.leftVal + nums2[node.rightPos + 1], 
+                                     node.leftVal, 
+                                     nums2[node.rightPos + 1], 
+                                     node.rightPos + 1)
+            heap.insert(newNode)
+        }
+        k--
+    }
+    
+    return result
+};
+```
