@@ -12261,8 +12261,9 @@ var kSmallestPairs = function(nums1, nums2, k) {
 };
 ```
 
-## Task Scheduler
+## 621. Task Scheduler
 ```javascript
+// Sorting
 var leastInterval = function(tasks, n) {
     const counts = Array(26).fill(0)
     for (const task of tasks)
@@ -12286,4 +12287,6 @@ var leastInterval = function(tasks, n) {
     }
     return time
 };
+
+
 ```
