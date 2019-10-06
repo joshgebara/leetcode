@@ -12260,3 +12260,30 @@ var kSmallestPairs = function(nums1, nums2, k) {
     return result
 };
 ```
+
+## Task Scheduler
+```javascript
+var leastInterval = function(tasks, n) {
+    const counts = Array(26).fill(0)
+    for (const task of tasks)
+        counts[task.charCodeAt(0) - 'A'.charCodeAt(0)]++
+    
+    counts.sort((a, b) => a - b)
+    
+    let time = 0
+    while (counts[25] > 0) {
+        for (let i = 0; i <= n; i++) {
+            if (counts[25] === 0)
+                break
+            
+            if (i < 26 && counts[25 - i] > 0) {
+                counts[25 - i]--
+            }
+            
+            time++
+        }
+        counts.sort((a, b) => a - b)
+    }
+    return time
+};
+```
