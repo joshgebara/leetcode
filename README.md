@@ -12775,5 +12775,28 @@ var rearrangeBarcodes = function(barcodes) {
 };
 
 // O(n)
-
+var rearrangeBarcodes = function(barcodes) {
+    const counts = Array(10001).fill(0)
+    
+    let maxCount = 0
+    let maxCode = 0
+    
+    for (const barcode of barcodes) {
+        maxCount = Math.max(maxCount, ++counts[barcode])
+        maxCode = maxCount === counts[barcode] ? barcode : maxCode
+    }
+    
+    let pos = 0
+    
+    for (let i = 0; i < counts.length; i++) {
+        let code = i === 0 ? maxCode : i
+        
+        while (counts[code]-- > 0) {
+            barcodes[pos] = code
+            pos = pos + 2 < barcodes.length ? pos + 2 : 1
+        }
+    }
+    
+    return barcodes
+};
 ```
