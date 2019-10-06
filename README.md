@@ -12288,5 +12288,118 @@ var leastInterval = function(tasks, n) {
     return time
 };
 
+// Heap
+class Heap {
+    constructor(elements, sortBy) {
+        this.elements = elements
+        this.sortBy = sortBy
+        
+        if (this.elements.length)
+            this.heapify()
+    }
+    
+    heapify() {
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    siftDown(index) {
+        let parent = index || 0
+        while (true) {
+            let left = this.leftChildIndex(parent)
+            let right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+                candidate = left
+                
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+                candidate = right
+            
+            if (candidate === parent) return
+            
+            let temp = this.elements[parent]
+            this.elements[parent] = this.elements[candidate]
+            this.elements[candidate] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    siftUp(index) {
+        let child = index || this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            let temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    insert(val) {
+        this.elements.push(val)
+        this.siftUp()
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown()
+        
+        return element
+    }
+    
+    leftChildIndex(index) {
+        return 2 * index + 1
+    }
+    
+    rightChildIndex(index) {
+        return 2 * index + 2
+    }
+    
+    parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+    
+    isEmpty() {
+        return this.elements.length === 0
+    }
+}
+
+var leastInterval = function(tasks, n) {
+    const counts = Array(tasks.length).fill(0)
+    for (const task of tasks)
+        counts[task.charCodeAt(0) - 'A'.charCodeAt(0)]++
+    
+    const heap = new Heap(counts.filter(count => count), (a, b) => a > b)
+    
+    let cycles = 0
+    
+    while (!heap.isEmpty()) {
+        let tasksCompleted = [] 
+        for (let i = 0; i <= n; i++) {            
+            let task = heap.remove() - 1
+            if (task > 0) tasksCompleted.push(task)    
+            cycles++
+            
+            if (heap.isEmpty() && !tasksCompleted.length) break
+        }
+        
+        for (const task of tasksCompleted)
+            heap.insert(task)
+    }
+    
+    return cycles
+};
 
 ```
