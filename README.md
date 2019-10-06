@@ -12531,3 +12531,122 @@ var reorganizeString = function(S) {
     return result.join('')
 };
 ```
+
+## 358. Rearrange String k Distance Apart
+```javascript
+class Heap {
+    constructor(elements, sortBy) {
+        this.elements = elements
+        this.sortBy = sortBy
+        
+        if (this.elements.length)
+            this.heapify()
+    }
+    
+    heapify() {
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+            
+    }
+    
+    siftDown(index) {
+        let parent = index || 0
+        while (true) {
+            let left = this.leftChildIndex(parent)
+            let right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+                candidate = left
+            
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+                candidate = right
+            
+            if (candidate === parent) return
+            
+            let temp = this.elements[parent]
+            this.elements[parent] = this.elements[candidate]
+            this.elements[candidate] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    siftUp(index) {
+        let child = index || this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            let temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    insert(val) {
+        this.elements.push(val)
+        this.siftUp()
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown()
+        
+        return element
+    }
+    
+    leftChildIndex(index) {
+        return 2 * index + 1
+    }
+    
+    rightChildIndex(index) {
+        return 2 * index + 2
+    }
+    
+    parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+    
+    isEmpty() {
+        return this.elements.length === 0
+    }
+}
+
+const counts = str => {
+    return str.split('').reduce((result, ele) => {
+        result[ele] = 1 + (result[ele] || 0)
+        return result
+    }, {})
+}
+
+var rearrangeString = function(s, k) {
+    const strCounts = Object.entries(counts(s))
+    const heap = new Heap(strCounts, (a, b) => a[1] > b[1])
+    const result = []
+    const queue = []
+    
+    while (!heap.isEmpty()) {
+        const curr = heap.remove()
+        result.push(curr[0])
+        curr[1]--
+        queue.push(curr)
+        
+        if (queue.length < k) continue
+        
+        let element = queue.shift()
+        if (element[1] > 0) heap.insert(element)
+    }
+
+    return result.length == s.length ? result.join('') : ''
+};
+```
