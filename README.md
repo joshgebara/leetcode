@@ -13016,7 +13016,7 @@ var nthUglyNumber = function(n) {
         
         for (const num of primes) {
             const currNum = top * num
-            if (!seen.has(currNum) && isUgly(currNum)) {
+            if (!seen.has(currNum)) {
                 heap.insert(currNum)
                 seen.add(currNum)
             }
@@ -13024,24 +13024,5 @@ var nthUglyNumber = function(n) {
     }
     
     return cache[n]
-};
-
-const uglyCache = {}
-var isUgly = function(num) {
-    if (uglyCache[num]) 
-        return uglyCache[num]
-    
-    if (num <= 0) {
-        uglyCache[num] = false
-        return uglyCache[num]
-    }
-    
-    let n = num
-    while (n % 2 == 0) n /= 2
-    while (n % 3 == 0) n /= 3
-    while (n % 5 == 0) n /= 5
-    uglyCache[num] = n === 1
-    
-    return uglyCache[num]
 };
 ```
