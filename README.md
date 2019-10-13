@@ -13135,3 +13135,43 @@ class Heap {
     }
 }
 ```
+
+## 787. Cheapest Flights Within K Stops
+```javascript
+// BFS
+var findCheapestPrice = function(n, flights, src, dst, K) {
+    const graph = {}
+    
+    for (const [vertex, neighbor, weight] of flights) {
+        if (!graph[vertex]) {
+            graph[vertex] = [[neighbor, weight]]
+        } else {
+            graph[vertex].push([neighbor, weight])
+        }
+    }
+
+    const queue = [[src, 0, 0]]
+    let minCost = Number.MAX_VALUE
+    
+    while (queue.length) {
+        const [node, stops, costSoFar] = queue.pop()
+        
+        if (node === dst) {
+            minCost = Math.min(minCost, costSoFar)
+            continue
+        }
+        
+        if (stops > K || costSoFar > minCost)
+            continue
+        
+        if (!graph[node])
+            continue
+        
+        for (const [neighbor, cost] of graph[node]) {
+            queue.push([neighbor, stops + 1, costSoFar + cost])
+        }
+    }
+    
+    return minCost !== Number.MAX_VALUE ? minCost : -1
+};
+```
