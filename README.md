@@ -13154,7 +13154,7 @@ var findCheapestPrice = function(n, flights, src, dst, K) {
     let minCost = Number.MAX_VALUE
     
     while (queue.length) {
-        const [node, stops, costSoFar] = queue.pop()
+        const [node, stops, costSoFar] = queue.shift()
         
         if (node === dst) {
             minCost = Math.min(minCost, costSoFar)
@@ -13173,5 +13173,122 @@ var findCheapestPrice = function(n, flights, src, dst, K) {
     }
     
     return minCost !== Number.MAX_VALUE ? minCost : -1
+};
+
+// Dijkstra's
+class Heap {
+    constructor(elements, sortBy) {
+        this.elements = elements
+        this.sortBy = sortBy
+        
+        if (this.elements.length)
+            this.heapify()
+    }
+    
+    heapify() {
+        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
+            this.siftDown(i)
+    }
+    
+    insert(val) {
+        this.elements.push(val)
+        this.siftUp()
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        let temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        let element = this.elements.pop()
+        
+        this.siftDown()
+        
+        return element
+    }
+    
+    siftUp(index) {
+        let child = index || this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            let temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    siftDown(index) {
+        let parent = index || 0
+        while(true) {
+            let left = this.leftChildIndex(parent)
+            let right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+                candidate = left
+            
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+                candidate = right
+            
+            if (candidate === parent)
+                return
+            
+            let temp = this.elements[candidate]
+            this.elements[candidate] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    leftChildIndex(parent) {
+        return 2 * parent + 1
+    }
+    
+    rightChildIndex(parent) {
+        return 2 * parent + 2
+    }
+    
+    parentIndex(child) {
+        return Math.floor((child - 1) / 2)
+    }
+}
+
+var findCheapestPrice = function(n, flights, src, dst, K) {
+    const graph = {}
+    for (const [vertex, neighbor, weight] of flights) {
+        if (!graph[vertex]) {
+            graph[vertex] = [[neighbor, weight]]
+        } else {
+            graph[vertex].push([neighbor, weight])
+        }
+    }
+    
+    const heap = new Heap([], (a, b) => a[1] < b[1])
+    heap.insert([src, 0, 0])
+    
+    while (heap.elements.length) {
+        const [vertex, costSoFar, stops] = heap.remove()
+        
+        if (vertex === dst)
+            return costSoFar
+        
+        if (stops > K)
+            continue
+        
+        if (!graph[vertex]) continue
+        
+        for (const [neighbor, weight] of graph[vertex]) {
+            heap.insert([neighbor, costSoFar + weight, stops + 1])
+        }
+    }
+    
+    return -1
 };
 ```
