@@ -13600,3 +13600,51 @@ var sortList = function(head) {
     return head
 };
 ```
+
+## 207. Course Schedule
+```javascript
+const buildGraph = edges => {
+    const graph = {}
+    
+    for (const [vertex, neighbor] of edges) {
+        if (!graph[vertex]) {
+            graph[vertex] = [neighbor]
+        } else {
+            graph[vertex].push(neighbor)
+        }
+    }
+    
+    return graph
+}
+
+var canFinish = function(numCourses, prerequisites) {
+    const dfs = (start) => {
+        if (visiting.has(start))
+            return true
+        
+        if (visited.has(start))
+            return false
+        
+        visiting.add(start)
+        
+        let neighbors = graph[start]
+        if (neighbors)
+            for (const neighbor of neighbors)
+                if (dfs(neighbor))
+                    return true
+        
+        visiting.delete(start)
+        visited.add(start)
+        return false
+    }
+    
+    const graph = buildGraph(prerequisites)
+    const visited = new Set()
+    const visiting = new Set()
+    
+    for (const vertex of Object.keys(graph))
+        if (dfs(vertex)) return false
+    
+    return true
+};
+```
