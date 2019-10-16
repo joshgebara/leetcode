@@ -13424,3 +13424,26 @@ var networkDelayTime = function(times, N, K) {
     return max === Number.MAX_VALUE ? -1 : max
 };
 ```
+
+## 147. Insertion Sort List
+```javascript
+function insertionSortList(head) {
+    if (!head) return head
+    
+    const dummy = new ListNode(NaN)
+    
+    while (head) {
+        let prev = dummy
+        
+        while (prev.next && prev.next.val < head.val)
+            prev = prev.next
+        
+        const next = head.next
+        head.next = prev.next
+        prev.next = head
+        head = next
+    }
+    
+    return dummy.next
+}
+```
