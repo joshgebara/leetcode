@@ -152,6 +152,61 @@ const merge = (left, right) => {
 };
 
 mergeSort([7, 5, 6, 5, 4, 3, 4, 3, 2, 1]);
+
+// Iterative
+const arr = [3, 6, 5, 7, 9, 8, 4, 3, 1]
+
+const mergeSort = arr => {
+  if (arr.length <= 1) return arr
+  
+  arr = arr.map(ele => [ele])
+  
+  while (arr.length > 1) {
+    let result = []
+    for (let i = 0; i < arr.length; i += 2) {
+      let next = i + 1
+      result.push(merge(arr[i], arr[next]))
+    }
+    arr = result
+  }
+  return arr[0]  
+}
+
+const merge = (left, right) => {  
+  if (!left) return right
+  if (!right) return left
+  
+  let result = []
+  let leftIndex = 0
+  let rightIndex = 0
+  
+  while (leftIndex < left.length && rightIndex < right.length) {
+    let leftElement = left[leftIndex]
+    let rightElement = right[rightIndex]
+    
+    if (leftElement < rightElement) {
+      result.push(leftElement)
+      leftIndex++
+    } else if (leftElement > rightElement) {
+      result.push(rightElement)
+      rightIndex++
+    } else {
+      result.push(leftElement)
+      result.push(rightElement)
+      leftIndex++
+      rightIndex++
+    }
+  }
+  
+  if (leftIndex < left.length) {
+    result = [...result, ...left.slice(leftIndex)]
+  } else {
+    result = [...result, ...right.slice(rightIndex)]
+  }
+  return result
+}
+
+mergeSort(arr)
 ```
 
 ## Median element of two sorted arrays
