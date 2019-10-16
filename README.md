@@ -13503,3 +13503,100 @@ function insertionSortList(head) {
 }
 ```
 
+## 148. Sort List
+```javascript
+const listLength = head => {
+    let length = 0
+    
+    while (head) {
+        head = head.next
+        length++
+    }
+        
+    return length
+}
+
+const mergeK = (head, k) => {
+    const dummy = new ListNode(NaN)
+    dummy.next = head
+    let curr = dummy
+    let currHead = head
+    
+    while (currHead) {
+        let l1Head = currHead
+        let l1Tail = l1Head
+
+        let i = 1
+        while (l1Tail.next && i < k) {
+            l1Tail = l1Tail.next
+            i++
+        }
+            
+        let l2Head = l1Tail.next
+        let l2Tail = l2Head
+        
+        if (!l2Tail) break
+        
+        l1Tail.next = null
+
+        i = 1
+        while (l2Tail.next && i < k) {
+            l2Tail = l2Tail.next
+            i++
+        }
+            
+        let next = l2Tail.next
+        l2Tail.next = null
+
+        const merged = merge(l1Head, l2Head)
+        let mergedTail = merged
+
+        while (mergedTail.next)
+            mergedTail = mergedTail.next
+
+        mergedTail.next = next
+        
+        curr.next = merged
+        curr = mergedTail
+        currHead = next
+    }
+    
+    return dummy.next
+}
+
+const merge = (left, right) => {
+    if (!left) return right
+    if (!right) return left
+    
+    let dummy = new ListNode(NaN)
+    let curr = dummy
+    
+    while (left && right) {
+        if (left.val < right.val) {
+            curr.next = left
+            left = left.next
+        } else {
+            curr.next = right
+            right = right.next
+        }
+        curr = curr.next
+    }
+    
+    curr.next = left ? left : right
+    return dummy.next
+}
+
+var sortList = function(head) {
+    if (!head) return head
+    
+    const length = listLength(head)
+    
+    let steps = 1
+    while (steps < length) {
+        head = mergeK(head, steps)
+        steps *= 2
+    }
+    
+    return head
+};
+```
