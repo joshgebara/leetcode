@@ -13648,3 +13648,58 @@ var canFinish = function(numCourses, prerequisites) {
     return true
 };
 ```
+
+## 210. Course Schedule II
+```javascript
+const buildGraph = edges => {
+    const graph = new Map()
+    
+    for (const [vertex, neighbor] of edges) {
+        if (!graph.has(vertex)) {
+            graph.set(vertex, [neighbor])
+        } else {
+            graph.get(vertex).push(neighbor)
+        }
+    }
+    
+    return graph
+}
+
+var findOrder = function(numCourses, prerequisites) {
+    const dfs = start => {
+        if (visiting.has(start))
+            return true
+        
+        if (visited.has(start))
+            return false
+        
+        visiting.add(+start)
+        
+        let neighbors = graph.get(start)
+        if (neighbors)
+            for (let neighbor of neighbors)
+                if (dfs(neighbor))
+                    return true
+        
+        visiting.delete(start)
+        visited.add(start)
+        order.push(start)
+        return false
+    }
+    
+    const graph = buildGraph(prerequisites)
+    const visited = new Set()
+    const visiting = new Set()
+    const order = []
+    
+    for (const vertex of graph.keys())
+        if (dfs(vertex))
+            return []
+    
+    for (let i = 0; i < numCourses; i++)
+        if (!visited.has(i))
+            order.push(i)
+    
+    return order
+};
+```
