@@ -13702,4 +13702,64 @@ var findOrder = function(numCourses, prerequisites) {
     
     return order
 };
+
+// BFS
+const buildGraph = edges => {
+    const graph = new Map()
+    
+    for (const [vertex, neighbor] of edges) {
+        if (!graph.has(vertex)) {
+            graph.set(vertex, [neighbor])
+        } else {
+            graph.get(vertex).push(neighbor)
+        }
+    }
+    
+    return graph
+}
+
+const getIndegrees = edges => {
+    const indegrees = new Map()
+    
+    for (const [vertex, neighbor] of edges) {
+        if (!indegrees.has(neighbor)) {
+            indegrees.set(neighbor, 1)
+        } else {
+            const curr = indegrees.get(neighbor)
+            indegrees.set(neighbor, curr + 1)
+        }
+    }
+    
+    return indegrees
+}
+
+var findOrder = function(numCourses, prerequisites) {
+    const graph = buildGraph(prerequisites)
+    const indegrees = getIndegrees(prerequisites)
+    const queue = []
+    const order = []
+    let count = 0
+    
+    for (let i = 0; i < numCourses; i++)
+        if (!indegrees.has(i))
+            queue.push(i)
+    
+    while (queue.length) {
+        const vertex = queue.pop()
+        order.push(vertex)
+        count++
+        
+        if (graph.get(vertex)) {
+            for (const neighbor of graph.get(vertex)) {
+                const curr = indegrees.get(neighbor)
+                indegrees.set(neighbor, curr - 1)
+
+                if (indegrees.get(neighbor) === 0)
+                    queue.push(neighbor)
+            }
+        }
+    }
+    
+    return count === numCourses ? order.reverse() : []
+};
 ```
