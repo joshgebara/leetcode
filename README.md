@@ -13763,3 +13763,35 @@ var findOrder = function(numCourses, prerequisites) {
     return count === numCourses ? order.reverse() : []
 };
 ```
+
+## 582. Kill Process
+```javascript
+var killProcess = function(pid, ppid, kill) {
+    const map = new Map()
+    for (let i = 0; i < pid.length; i++) {
+        if (!map.has(ppid[i])) {
+            map.set(ppid[i], [pid[i]])
+        } else {
+            const pids = map.get(ppid[i])
+            pids.push(pid[i])
+        }
+    }
+    
+    const queue = [kill]
+    const result = []
+    
+    while (queue.length) {
+        const process = queue.shift()
+        result.push(process)
+        
+        const children = map.get(process)
+        if (!children) continue
+        
+        for (const child of children)
+            queue.push(child)
+        
+    }
+    
+    return result
+};
+```
