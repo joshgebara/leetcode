@@ -13795,3 +13795,35 @@ var killProcess = function(pid, ppid, kill) {
     return result
 };
 ```
+
+## 303. Range Sum Query - Immutable
+```javascript
+/**
+ * @param {number[]} nums
+ */
+var NumArray = function(nums) {
+    this.prefix = nums.reduce((result, num) => {
+        let last = result[result.length - 1] || 0
+        result.push(last + num)
+        return result
+    }, [])
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} j
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function(i, j) {
+    if (i === 0)
+        return this.prefix[j]
+    
+    return this.prefix[j] - this.prefix[i-1]
+};
+
+/** 
+ * Your NumArray object will be instantiated and called as such:
+ * var obj = new NumArray(nums)
+ * var param_1 = obj.sumRange(i,j)
+ */
+```
