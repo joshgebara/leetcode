@@ -5808,20 +5808,19 @@ var mergeTwoLists = function(l1, l2) {
 ## 83. Remove Duplicates from Sorted List
 ```javascript
 var deleteDuplicates = function(head) {
-    if (!head) return head
+    if (!head || !head.next) return head
     
-    let previous = head
-    let current = head.next
+    let curr = head
     
-    while (current) {
-        if (previous.val === current.val) {
-            previous.next = current.next
-        } else {
-            previous = current
-        }
-        current = current.next
+    while (curr) {
+        let runner = curr.next
+        while (runner && runner.val == curr.val)
+            runner = runner.next
+        
+        curr.next = runner
+        curr = curr.next
     }
-    
+           
     return head
 };
 ```
