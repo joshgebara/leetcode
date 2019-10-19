@@ -5859,6 +5859,53 @@ var hasCycle = function(head) {
 
 ## 234. Palindrome Linked List
 ```javascript
+const reverseList = node => {
+    let curr = node
+    let prev = null
+    let next = null
+    
+    while (curr) {
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    }
+    return prev
+}
+
+const copyList = node => {
+    const dummy = new ListNode(NaN)
+    let curr = dummy
+    
+    while (node) {
+        curr.next = new ListNode(node.val)
+        curr = curr.next
+        
+        node = node.next
+    }
+    
+    return dummy.next
+}
+
+const isEqual = (l1, l2) => {
+    while (l1 && l2) {
+        if (l1.val !== l2.val)
+            return false
+        l1 = l1.next
+        l2 = l2.next
+    }
+    return true    
+}
+
+var isPalindrome = function(head) {
+    if (!head || !head.next) return true
+    
+    let l1 = head
+    let l2 = reverseList(copyList(head))
+    return isEqual(l1, l2)
+};
+
+
 const reverse = head => {
   let current = head
   let previous = null
