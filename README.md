@@ -5828,6 +5828,22 @@ var deleteDuplicates = function(head) {
 ## 141. Linked List Cycle
 ```javascript
 var hasCycle = function(head) {
+    if (!head) return false
+    
+    const seen = new Set()
+    
+    while (head) {
+        if (seen.has(head))
+            return true
+            
+        seen.add(head)
+        head = head.next
+    }
+    
+    return false
+};
+
+var hasCycle = function(head) {
     let fast = head
     let slow = head
     
