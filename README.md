@@ -5945,6 +5945,56 @@ var isPalindrome = function(head) {
   }
   return true
 };
+
+const reverseList = node => {
+    let curr = node
+    let prev = null
+    let next = null
+    
+    while (curr) {
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    }
+    return prev
+}
+
+const middle = node => {
+    let fast = node
+    let slow = node
+    let prev = null
+    
+    while (fast && fast.next) {
+        fast = fast.next.next
+        prev = slow
+        slow = slow.next
+    }
+    return prev
+}
+
+const isEqual = (l1, l2) => {
+    while (l1 && l2) {
+        if (l1.val !== l2.val)
+            return false
+        
+        l1 = l1.next
+        l2 = l2.next
+    }
+
+    return true
+}
+
+var isPalindrome = function(head) {
+    if (!head || !head.next) return true
+    
+    let beforeMiddle = middle(head)
+    let mid = beforeMiddle.next
+    beforeMiddle.next = null
+    
+    const reversedList = reverseList(mid)
+    return isEqual(head, reversedList)
+};
 ```
 
 ## 203. Remove Linked List Elements
