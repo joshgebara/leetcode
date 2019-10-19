@@ -6016,6 +6016,25 @@ var removeElements = function(head, val) {
     
     return preHead.next
 };
+
+var removeElements = function(head, val) {
+    if (!head) return head
+    
+    const dummy = new ListNode(NaN)
+    dummy.next = head
+    let curr = dummy
+    
+    while (curr && curr.next) {
+        let next = curr.next
+        while (next && next.val === val)
+            next = next.next
+        
+        curr.next = next
+        curr = curr.next
+    }
+    
+    return dummy.next
+};
 ```
 
 ## 160. Intersection of Two Linked Lists
