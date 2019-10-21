@@ -14030,3 +14030,29 @@ const manhattanDist = (p1, p2) => {
     return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1])
 }
 ```
+
+## 1030. Matrix Cells in Distance Order
+```javascript
+// Counting Sort
+const dist = (p1, p2) => {
+    return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1])
+}
+
+var allCellsDistOrder = function(R, C, r0, c0) {
+    let buckets = Array(R + C + 1).fill(null).map(() => [])
+    for (let row = 0; row < R; row++) {
+        for (let column = 0; column < C; column++) {
+            let cellDist = dist([row, column], [r0, c0])
+            buckets[cellDist].push([row, column])
+        }
+    }
+    
+    let result = []
+    for (let bucket of buckets) {
+        for (let cell of bucket) {
+            result.push(cell)
+        }
+    }
+    return result
+};
+```
