@@ -14088,3 +14088,27 @@ const enqueue = (queue, R, C, currR, currC, visited) => {
     }    
 }
 ```
+
+## 853. Car Fleet
+```javascript
+var carFleet = function(target, position, speed) {
+    const map = new Map()
+    for (let i = 0; i < position.length; i++)
+        map.set(position[i], speed[i])
+    
+    position.sort((a, b) => b - a)
+    
+    let time = -1
+    let fleets = 0
+    
+    for (let i = 0; i < position.length; i++) {
+        const currTime = (target - position[i]) / map.get(position[i])
+        if (currTime > time) {
+            time = currTime
+            fleets++
+        }
+    }
+    
+    return fleets
+};
+```
