@@ -13993,3 +13993,40 @@ var wiggleSort = function(nums) {
     }
 };
 ```
+
+## 1057. Campus Bikes
+```javascript
+var assignBikes = function(workers, bikes) {
+  const buckets = buildBuckets(workers, bikes)
+  const result = []
+  
+  for (let i = 0; i < buckets.length; i++) {
+      for (let j = 0; j < buckets[i].length; j++) {
+          const { bike, worker } = buckets[i][j]
+          if (bikes[bike] && workers[worker]) {
+              workers[worker] = null
+              bikes[bike] = null
+              result[worker] = bike
+          }
+      }    
+  }
+      
+  return result
+}
+
+const buildBuckets = (workers, bikes) => {
+    let buckets = Array(2001).fill(null).map(() => [])
+    for (let i = 0; i < workers.length; i++) {
+        for (let j = 0; j < bikes.length; j++) {
+            const dist = manhattanDist(workers[i], bikes[j])    
+            buckets[dist].push({ worker: i, bike: j })
+        }
+    }
+    
+    return buckets
+}
+
+const manhattanDist = (p1, p2) => {
+    return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1])
+}
+```
