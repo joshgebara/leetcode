@@ -13973,5 +13973,23 @@ var wiggleSort = function(nums) {
     }
 };
 
+const isEven = num => (num & 1) === 0
 
+const swap = (arr, i, j) => {
+    let temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+var wiggleSort = function(nums) {
+    for (let i = 0; i < nums.length - 1; i++) {
+        if (isEven(i)) {
+            if (!(nums[i] < nums[i+1]))
+                swap(nums, i, i+1)
+        } else {
+            if (!(nums[i] > nums[i+1]))
+                swap(nums, i, i+1)
+        }
+    }
+};
 ```
