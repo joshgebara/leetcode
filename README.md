@@ -14138,3 +14138,31 @@ var merge = function(intervals) {
     return result
 };
 ```
+
+## 524. Longest Word in Dictionary through Deleting
+```javascript
+// O(nm)
+var findLongestWord = function(s, d) {
+    let result = ""
+
+    for (let word of d) {
+        let wordIndex = 0
+        for (let strIndex = 0; strIndex < s.length; strIndex++) {
+            if (word[wordIndex] === s[strIndex]) 
+                wordIndex++
+        }
+        
+        
+        if (wordIndex === word.length && result.length <= word.length) {
+            if (result.length === word.length && result < word)
+                continue
+            
+            result = word
+        }
+    }
+    
+    return result
+};
+
+
+```
