@@ -14163,6 +14163,48 @@ var findLongestWord = function(s, d) {
     
     return result
 };
+```
 
+## 969. Pancake Sorting
+```javascript
+var pancakeSort = function(A) {
+    if (A.length <= 1) return []
+    
+    const result = []
+    
+    let max = A.length
+    for (let i = 0; i < A.length; i++) {
+        let maxIndex = find(A, max)
+        flip(A, maxIndex)
+        result.push(maxIndex + 1)
+        
+        flip(A, max - 1)
+        result.push(max)
+        
+        max--
+    }
+    return result
+};
 
+const find = (A, target) => {
+    for (let i = 0; i < A.length; i++)
+        if (A[i] == target)
+            return i
+    
+    return -1
+}
+
+const flip = (A, index) => {
+    let i = 0
+    let j = index
+    
+    while (i < j) {
+        let temp = A[i]
+        A[i] = A[j]
+        A[j] = temp
+        
+        i++
+        j--
+    }   
+}
 ```
