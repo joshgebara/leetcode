@@ -14208,3 +14208,46 @@ const flip = (A, index) => {
     }   
 }
 ```
+
+## 75. Sort Colors
+```javascript
+// Two Pass
+var sortColors = function(nums) {
+    let counts = [0, 0, 0]
+    
+    for (let num of nums)
+        counts[num]++
+    
+    let i = 0
+    for (let j = 0; j < counts.length; j++)
+        while (counts[j]--)
+            nums[i++] = j
+};
+
+// One Pass
+const swap = (arr, i, j) => {
+    let temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+var sortColors = function(nums) {
+    let low = 0
+    let high = nums.length - 1
+    
+    let i = 0
+    while (i <= high) {
+        if (nums[i] === 0) {
+            swap(nums, i++, low++)
+            continue
+        }
+        
+        if (nums[i] == 2) {
+            swap(nums, i, high--)
+            continue
+        }
+        
+        i++
+    }
+};
+```
