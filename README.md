@@ -14330,3 +14330,19 @@ var uniqueOccurrences = function(arr) {
     return unique.size === counts.length
 };
 ```
+
+## 760. Find Anagram Mappings
+```javascript
+var anagramMappings = function(A, B) {
+    const map = {}
+    const result = []
+    
+    for (let i = 0; i < B.length; i++)
+        map[B[i]] = i
+    
+    for (let a of A)
+        result.push(map[a])
+    
+    return result
+};
+```
