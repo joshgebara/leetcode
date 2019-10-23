@@ -14270,3 +14270,24 @@ var largestNumber = function(nums) {
     return nums.join('')
 };
 ```
+
+## 961. N-Repeated Element in Size 2N Array
+```javascript
+var repeatedNTimes = function(A) {
+    const map = new Map()
+    
+    for (let a of A) {
+        if (map.get(a) === undefined) {
+            map.set(a, 1)
+        } else {
+            map.set(a, map.get(a) + 1)
+        }
+    }
+    
+    for (let [key, val] of map.entries()) {
+        if (val === Math.floor(A.length / 2)) {
+            return key
+        }
+    }
+};
+```
