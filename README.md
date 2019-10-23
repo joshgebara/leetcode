@@ -14411,3 +14411,63 @@ var anagramMappings = function(A, B) {
     return result
 };
 ```
+
+## 1152. Analyze User Website Visit Pattern
+```javascript
+var sequences = (pages) => {
+    let set = new Set()
+    for (let i = 0; i < pages.length-2; i++) {
+        for (let j = i+1; j < pages.length-1; j++) {
+            for (let k = j+1; k < pages.length; k++) {
+                set.add(pages[i] + '-' +  pages[j] + '-' +  pages[k])
+            }
+        }
+    }
+    return set
+}
+
+var mostVisitedPattern = function(username, timestamp, website) {
+    const tuples = []
+    for (let i = 0; i < username.length; i++)
+        tuples.push([username[i], timestamp[i], website[i]])
+    
+    tuples.sort((a, b) => a[1] - b[1])
+    
+    const userList = {}
+    for (let i = 0; i < tuples.length; i++) {
+        if (!userList[tuples[i][0]])
+            userList[tuples[i][0]] = []
+        
+        userList[tuples[i][0]].push(tuples[i][2])
+    }
+    
+    let sequence = {}
+    let max = 0
+    let maxSeq = []
+    
+    for (let user of Object.keys(userList)) {
+        let pages = userList[user]
+        
+        if (pages.length <= 2) continue
+        
+        let subsequences = sequences(pages)
+        for (let s of subsequences) {
+            if (!sequence[s])
+                sequence[s] = 0
+            
+            sequence[s]++
+            
+            if (sequence[s] > max) {
+                max = sequence[s]
+                maxSeq = s
+            }
+            
+            if (sequence[s] == max && s < maxSeq) {
+                max = sequence[s]
+                maxSeq = s
+            }
+        }
+    }
+    return maxSeq.split('-')
+};
+```
