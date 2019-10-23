@@ -14311,3 +14311,22 @@ var repeatedNTimes = function(A) {
     }
 };
 ```
+
+## 1207. Unique Number of Occurrences
+```javascript
+var uniqueOccurrences = function(arr) {
+    const map = {}
+    
+    for (let a of arr) {
+        if (!map[a]) {
+            map[a] = 1
+        } else {
+            map[a]++
+        }
+    }
+    
+    const counts = Object.values(map)
+    const unique = new Set(counts)
+    return unique.size === counts.length
+};
+```
