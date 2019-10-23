@@ -14290,4 +14290,24 @@ var repeatedNTimes = function(A) {
         }
     }
 };
+
+var repeatedNTimes = function(A) {
+    A.sort((a, b) => a - b)
+    
+    let val = 0
+    let valCount = 0
+    
+    for (let a of A) {
+        if (a === val) {
+            valCount++
+            if (valCount === Math.floor(A.length / 2))
+                return val
+            
+            continue
+        }
+        
+        val = a
+        valCount = 1
+    }
+};
 ```
