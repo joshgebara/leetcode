@@ -14471,3 +14471,20 @@ var mostVisitedPattern = function(username, timestamp, website) {
     return maxSeq.split('-')
 };
 ```
+
+## 219. Contains Duplicate II
+```javascript
+var containsNearbyDuplicate = function(nums, k) {
+    const map = {}
+    for (let i = 0; i < nums.length; i++) {
+        const num = nums[i]
+        if (map[num] >= 0 && i - map[num] <= k) {
+            return true
+        } else {
+            map[num] = i
+        }
+    }
+    
+    return false
+};
+```
