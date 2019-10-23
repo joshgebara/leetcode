@@ -14163,6 +14163,71 @@ var findLongestWord = function(s, d) {
     
     return result
 };
+
+// O(n log m)
+const getIndices = str => {
+    const indices = {}
+    
+    for (let i = 0; i < str.length; i++) {
+        let char = str[i]
+        if (!indices[char]) {
+            indices[char] = [i]
+        } else {
+            indices[char].push(i)
+        }
+    }
+    
+    return indices
+}
+
+const binarySeach = (target, arr) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left < right) {
+        let middle = Math.floor((right - left) / 2) + left
+        let middleVal = arr[middle]
+        
+        if (middleVal > target) {
+            right = middle
+        } else {
+            left = middle + 1
+        }
+    }
+    return target < arr[left] ? arr[left] : null
+}
+
+var findLongestWord = function(s, d) {
+    const indices = getIndices(s)
+    
+    let result = ""
+    
+    for (let word of d) {
+        
+        let length = 0
+        let curr = -1
+        for (let i = 0; i < word.length; i++) {
+            let char = word[i]
+            let charIndices = indices[char]
+            if (!charIndices) break
+            
+            let index = binarySeach(curr, charIndices)
+            if (index === null) break
+            
+            curr = index
+            length++
+        }
+        
+        if (length === word.length && result.length <= word.length) {
+            if (result.length === word.length && result < word)
+                continue
+            
+            result = word
+        }
+    }
+    
+    return result
+};
 ```
 
 ## 969. Pancake Sorting
