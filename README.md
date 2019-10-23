@@ -14251,3 +14251,22 @@ var sortColors = function(nums) {
     }
 };
 ```
+
+## 179. Largest Number
+```javascript
+var largestNumber = function(nums) {
+    if (nums.every(num => num === 0)) 
+        return "0"
+    
+    nums.sort((a, b) => {
+        const s1 = `${a}${b}`
+        const s2 = `${b}${a}`
+        
+        if (s1 < s2) return 1
+        if (s1 > s2) return -1
+        return 0
+    })
+    
+    return nums.join('')
+};
+```
