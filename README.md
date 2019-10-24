@@ -14488,3 +14488,34 @@ var containsNearbyDuplicate = function(nums, k) {
     return false
 };
 ```
+
+## 435. Non-overlapping Intervals
+```javascript
+var eraseOverlapIntervals = function(intervals) {
+    let min = 0
+    
+    if (intervals.length <= 1) 
+        return min
+    
+    intervals.sort((a, b) => {
+        if (a[1] !== b[1])
+            return a[1] - b[1]
+        
+        return 0
+    })
+    
+    let interval = intervals[0]
+    for (let i = 1; i < intervals.length; i++) {
+        let curr = intervals[i]
+        
+        if (interval[1] > curr[0]) {
+            min++
+            continue
+        }
+        
+        interval = curr
+    }
+    
+    return min
+};
+```
