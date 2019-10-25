@@ -14661,3 +14661,65 @@ MapSum.prototype.sum = function(prefix) {
  * var param_2 = obj.sum(prefix)
  */
 ```
+
+## 648. Replace Words
+```javascript
+/**
+ * @param {string[]} dict
+ * @param {string} sentence
+ * @return {string}
+ */
+
+class TrieNode {
+    constructor(val = "") {
+        this.val = val
+        this.children = {}
+        this.isEnd = false
+    }
+}
+
+class Trie {
+    root = new TrieNode()
+
+    insert(word) {
+        let curr = this.root
+        
+        for (let char of word) {
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            curr = curr.children[char]
+        }
+        
+        curr.isEnd = true
+    }
+
+    prefix(word) {
+        let curr = this.root
+        let prefix = []
+        
+        for (let char of word) {
+            if (!curr.children[char]) return null
+            
+            curr = curr.children[char]
+            prefix.push(char)
+            if (curr.isEnd) return prefix.join('')
+        }
+        
+        if (curr.isEnd) return prefix.join('')
+    }
+}
+
+var replaceWords = function(dict, sentence) {
+    const trie = new Trie()
+    for (let word of dict)
+        trie.insert(word)
+    
+    const words = sentence.split(' ')
+    return words.map(word => {
+        let prefix = trie.prefix(word)
+        if (prefix) return prefix 
+        return word
+    }).join(' ')
+};
+```
