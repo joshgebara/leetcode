@@ -14723,3 +14723,74 @@ var replaceWords = function(dict, sentence) {
     }).join(' ')
 };
 ```
+
+## 211. Add and Search Word - Data structure design
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+
+class TrieNode {
+    constructor(val) {
+        this.val = val
+        this.children = {}
+        this.isEnd = false
+    }
+}
+
+var WordDictionary = function() {
+    this.root = new TrieNode()
+};
+
+/**
+ * Adds a word into the data structure. 
+ * @param {string} word
+ * @return {void}
+ */
+WordDictionary.prototype.addWord = function(word) {
+    let curr = this.root
+    
+    for (let char of word) {
+        if (!curr.children[char]) {
+            curr.children[char] = new TrieNode(char)
+        }
+        curr = curr.children[char]
+    }
+    
+    curr.isEnd = true
+};
+
+/**
+ * Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. 
+ * @param {string} word
+ * @return {boolean}
+ */
+WordDictionary.prototype.search = function(word) {
+    return this.find(word, this.root, 0)
+};
+
+WordDictionary.prototype.find = function(word, node, index) {
+    if (index === word.length)
+        return node.isEnd
+    
+    const char = word[index]
+    if (char === ".") {
+        for (let key of Object.keys(node.children)) {
+            if (this.find(word, node.children[key], index + 1)) {
+                return true
+            }
+        }
+        return false
+    } else {
+        return node.children[char] !== undefined && 
+            this.find(word, node.children[char], index + 1)
+    }
+};
+
+/** 
+ * Your WordDictionary object will be instantiated and called as such:
+ * var obj = new WordDictionary()
+ * obj.addWord(word)
+ * var param_2 = obj.search(word)
+ */
+```
