@@ -14597,3 +14597,67 @@ Trie.prototype.startsWith = function(prefix) {
  * var param_3 = obj.startsWith(prefix)
  */
 ```
+
+## 677. Map Sum Pairs
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+
+class TrieNode {
+    constructor(sum = 0) {
+        this.sum = sum
+        this.children = {}
+    }
+}
+
+var MapSum = function() {
+    this.root = new TrieNode()
+    this.keys = {}
+};
+
+/** 
+ * @param {string} key 
+ * @param {number} val
+ * @return {void}
+ */
+MapSum.prototype.insert = function(key, val) {
+    let curr = this.root
+    let delta = val - (this.keys[key] || 0)
+    
+    this.keys[key] = val
+    curr.sum += delta
+    
+    for (let char of key) {
+        if (!curr.children[char]) {
+            curr.children[char] = new TrieNode()
+        }
+        curr = curr.children[char]
+        curr.sum += delta
+    }
+};
+
+/** 
+ * @param {string} prefix
+ * @return {number}
+ */
+MapSum.prototype.sum = function(prefix) {
+    let curr = this.root
+    
+    for (let char of prefix) {
+        if (!curr.children[char])
+            return 0
+            
+        curr = curr.children[char]
+    }
+    
+    return curr.sum
+};
+
+/** 
+ * Your MapSum object will be instantiated and called as such:
+ * var obj = new MapSum()
+ * obj.insert(key,val)
+ * var param_2 = obj.sum(prefix)
+ */
+```
