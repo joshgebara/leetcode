@@ -14794,3 +14794,30 @@ WordDictionary.prototype.find = function(word, node, index) {
  * var param_2 = obj.search(word)
  */
 ```
+
+## 720. Longest Word in Dictionary
+```javascript
+// O(n^2)
+var longestWord = function(words) {
+    const seen = new Set(words)
+    let result = ""
+    
+    for (let word of words) {
+        let prefix = ""
+        for (let char of word) {
+            let currPrefix = prefix + char
+            if (!seen.has(currPrefix)) break
+            prefix = currPrefix
+        }
+        
+        if (result.length <= prefix.length) {
+            if (result.length === prefix.length && prefix > result) continue
+            result = prefix
+        }
+    }
+    
+    return result
+};
+
+
+```
