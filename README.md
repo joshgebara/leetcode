@@ -14819,7 +14819,7 @@ var longestWord = function(words) {
     return result
 };
 
-// O(n)
+// O(n) Iterative
 class TrieNode {
     constructor(val = "") {
         this.val = val
@@ -14865,6 +14865,55 @@ class Trie {
             for (const neighbor of Object.values(node.children))
                 stack.push(neighbor)
         }
+        return result
+    }
+}
+
+var longestWord = function(words) {
+    const trie = new Trie()
+    for (let word of words)
+        trie.insert(word)
+    
+    return trie.longestWord()
+};
+
+// O(n) Recursive
+class TrieNode {
+    constructor(val = "") {
+        this.val = val
+        this.children = {}
+        this.isEnd = false
+    }
+}
+
+class Trie {
+    root = new TrieNode()
+
+    insert(word) {
+        let curr = this.root
+        
+        for (let char of word) {
+            if (!curr.children[char])
+                curr.children[char] = new TrieNode(char)
+            
+            curr = curr.children[char]
+        }
+        
+        curr.isEnd = true
+    }
+
+    longestWord() {
+        const _longestWord = (node, str) => {
+            if ((result.length < str.length) || (result.length === str.length && str < result))
+                result = str
+            
+            for (let neighbor of Object.values(node.children))
+                if (neighbor.isEnd)
+                    _longestWord(neighbor, str + neighbor.val)
+        }
+        
+        let result = ""
+        _longestWord(this.root, "")
         return result
     }
 }
