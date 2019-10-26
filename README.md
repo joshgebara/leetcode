@@ -14819,5 +14819,61 @@ var longestWord = function(words) {
     return result
 };
 
+// O(n)
+class TrieNode {
+    constructor(val = "") {
+        this.val = val
+        this.children = {}
+        this.isEnd = false
+        this.word = ""
+    }
+}
 
+class Trie {
+    root = new TrieNode()
+
+    insert(word) {
+        let curr = this.root
+        
+        for (let char of word) {
+            if (!curr.children[char])
+                curr.children[char] = new TrieNode(char)
+            
+            curr = curr.children[char]
+        }
+        
+        curr.isEnd = true
+        curr.word = word
+    }
+
+    longestWord() {
+        let result = ""
+        
+        const stack = [this.root]
+        while (stack.length) {
+            const node = stack.pop()
+
+            if (node !== this.root) {
+                if (!node.isEnd) continue
+                
+                if ((result.length < node.word.length) || 
+                    (result.length === node.word.length && result > node.word)) {
+                    result = node.word
+                }
+            }
+            
+            for (const neighbor of Object.values(node.children))
+                stack.push(neighbor)
+        }
+        return result
+    }
+}
+
+var longestWord = function(words) {
+    const trie = new Trie()
+    for (let word of words)
+        trie.insert(word)
+    
+    return trie.longestWord()
+};
 ```
