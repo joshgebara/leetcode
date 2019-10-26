@@ -14926,3 +14926,38 @@ var longestWord = function(words) {
     return trie.longestWord()
 };
 ```
+
+## 79. Word Search
+```javascript
+var exist = function(board, word) {
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            if (board[row][col] === word[0] && dfs(board, row, col, 0, word)) {
+                return true
+            }
+        }
+    }
+    
+    return false
+};
+
+const dfs = (board, row, col, count, word) => {
+    if (count === word.length)
+        return true
+    
+    if (row < 0 || row >= board.length || 
+        col < 0 || col >= board[row].length || 
+        board[row][col] != word[count]) {
+        return false
+    }
+    
+    let temp = board[row][col]
+    board[row][col] = ""
+    let found = dfs(board, row + 1, col, count + 1, word) || 
+                dfs(board, row - 1, col, count + 1, word) || 
+                dfs(board, row, col + 1, count + 1, word) ||
+                dfs(board, row, col - 1, count + 1, word)
+    board[row][col] = temp
+    return found
+}
+```
