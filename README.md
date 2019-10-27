@@ -14961,3 +14961,36 @@ const dfs = (board, row, col, count, word) => {
     return found
 }
 ```
+
+## 200. Number of Islands
+```javascript
+var numIslands = function(grid) {
+    if (!grid.length || !grid[0].length)
+        return 0
+    
+    let numOfIslands = 0
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[row].length; col++) {
+            if (grid[row][col] === '1') {
+                numOfIslands++
+                dfs(grid, row, col)
+            }
+        }
+    }
+    console.log(grid)
+    return numOfIslands
+};
+
+const dfs = (grid, row, col) => {
+    if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length || grid[row][col] === '0')
+        return
+    
+    grid[row][col] = '0'
+    
+    dfs(grid, row + 1, col)
+    dfs(grid, row - 1, col)
+    dfs(grid, row, col + 1)
+    dfs(grid, row, col - 1)  
+}
+```
