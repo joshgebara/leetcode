@@ -14964,6 +14964,7 @@ const dfs = (board, row, col, count, word) => {
 
 ## 200. Number of Islands
 ```javascript
+// DFS
 var numIslands = function(grid) {
     if (!grid.length || !grid[0].length)
         return 0
@@ -14978,7 +14979,6 @@ var numIslands = function(grid) {
             }
         }
     }
-    console.log(grid)
     return numOfIslands
 };
 
@@ -14993,4 +14993,39 @@ const dfs = (grid, row, col) => {
     dfs(grid, row, col + 1)
     dfs(grid, row, col - 1)  
 }
+
+// BFS
+var numIslands = function(grid) {
+    if (!grid.length || !grid[0].length)
+        return 0
+    
+    let numOfIslands = 0
+    const queue = []
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[row].length; col++) {
+            if (grid[row][col] === '1') {
+                numOfIslands++
+                
+                queue.push([row, col])
+                while (queue.length) {
+                    const [topRow, topCol] = queue.shift()
+                    
+                    if (topRow >= 0 && topRow < grid.length && topCol >= 0 && topCol < grid[0].length) {
+                        if (grid[topRow][topCol] === '0') continue
+
+                        grid[topRow][topCol] = '0'
+
+                        queue.push([topRow + 1, topCol])
+                        queue.push([topRow - 1, topCol])
+                        queue.push([topRow, topCol + 1])
+                        queue.push([topRow, topCol - 1])
+                    }
+                }
+            }
+        }
+    }
+    return numOfIslands
+};
 ```
+
