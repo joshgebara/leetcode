@@ -6810,59 +6810,48 @@ var strStr = function(haystack, needle) {
 };
 
 // Rabin-Karp
-const hash = pattern => {
+var rkSearch = function (text, pattern) {
+  const tLength = text.length
+  const pLength = pattern.length
+  
+  if (tLength === 0 || pLength === 0 || tLength < pLength) 
+    return null
+  
+  const textArr = text.split('').map(char => char.charCodeAt(0) - "0".charCodeAt(0))
+  const patternArr = pattern.split('').map(char => char.charCodeAt(0) - "0".charCodeAt(0))
+
   const base = 256
-
-  let hash = 0
-  for (let i = 0; i < pattern.length; i += 1) {
-    hash += pattern.charCodeAt(i) * (base ** i)
-  }
-
-  return hash
-}
-
-const roll = (prevHash, prevPattern, newPattern) => {
-  const base = 256
-
-  let hash = prevHash
-  const prevValue = prevPattern.charCodeAt(0)
-  const newValue = newPattern.charCodeAt(newPattern.length - 1)
-
-  hash -= prevValue
-  hash /= base
-  hash += newValue * (base ** (newPattern.length - 1))
-
-  return hash
-}
-
-const rabinKarp = (str, pattern) => {
-  const patternHash = hash(pattern)
-
-  let prevFrame = null
-  let frameHash = null
-
-  for (let i = 0; i <= (str.length - pattern.length); i++) {
-    const currentFrame = str.substring(i, i + pattern.length)
-
-    if (frameHash) {
-      frameHash = roll(frameHash, prevFrame, currentFrame)
-    } else {
-      frameHash = hash(currentFrame)
-    }
-    
-    if (patternHash === frameHash && currentFrame === pattern) return i
-    
-    prevFrame = currentFrame
+  const prime = 101
+  
+  let textHash = 0
+  let patternHash = 0
+  
+  for (let i = 0; i < pLength; i++) {
+    patternHash = (base * patternHash + patternArr[i]) % prime
+    textHash = (base * textHash + textArr[i]) % prime
   }
   
-  return -1
+  const indices = []
+  
+  for (let i = 0; i <= tLength - pLength; i++) {
+    if (textHash === patternHash) {
+      if (text.substring(i, i + pLength) === pattern) {
+        indices.push(i)
+      }
+    }
+    
+    let h = Math.pow(base, pLength - 1) % prime
+    let nextCharCode = textArr[i + pLength]
+    textHash = (base * (textHash - textArr[i] * h) + nextCharCode) % prime
+    
+    if (textHash < 0)
+      textHash += prime 
+  }
+  
+  return indices.length ? indices : null
 }
 
-var strStr = function(haystack, needle) {
-    if (!needle.length) return 0
-    if (!haystack.length) return -1
-    return rabinKarp(haystack, needle)
-};
+rkSearch("aabaaabaaac", "aab")
 ```
 
 ## 125. Valid Palindrome
