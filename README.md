@@ -3097,12 +3097,8 @@ const isUnique = str => {
 }
 
 const isUnique2 = str => {
-  const seen = new Set()
-  for (let char of str) {
-    if (seen.has(char)) return false
-    seen.add(char)
-  }
-  return true
+  const unique = new Set(str)
+  return unique.size === str.length
 }
 
 const isUnique3 = str => {
@@ -5441,6 +5437,27 @@ var pivotIndex = function(nums) {
     }
     return -1
 };
+```
+
+## CCI: 1.2
+```javascript
+const counts = str => {
+  return str.split('').reduce((result, char) => {
+    result[char] = 1 + (result[char] || 0)
+    return result
+  }, {})
+}
+
+const isPermutation2 = (str1, str2) => {
+  const s1Counts = counts(str1)
+
+  for (let char of str2) {
+    if (!s1Counts[char] || s1Counts[char] <= 0) return false
+    s1Counts[char]--
+  }
+  
+  return true
+}
 ```
 
 ## 643. Maximum Average Subarray I
