@@ -5883,6 +5883,25 @@ var hasCycle = function(head) {
 };
 ```
 
+## CCI 1.4
+```javascript
+const palindromePemutation = str => {
+  str = str.toLowerCase()
+  
+  let mask = 0
+  for (const char of str) {
+    if (char === ' ') continue
+    const pos = char.charCodeAt(0) - 'a'.charCodeAt(0)
+    mask ^= 1 << pos
+  }
+  
+  mask &= (mask - 1)
+  return mask === 0
+}
+
+palindromePemutation("Tact Coa")
+```
+
 ## 234. Palindrome Linked List
 ```javascript
 const reverseList = node => {
