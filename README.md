@@ -809,7 +809,29 @@ ll.print()
 ```
 
 
-## Remove dups
+## CCI 2.1
+```javascript
+const removeDups = list => {
+  if (!list || !list.next) return list
+  
+  let curr = list
+  
+  while (curr) {
+    let runner = curr
+    while (runner.next) {
+      if (runner.next.val === curr.val) {
+        runner.next = runner.next.next
+      } else {
+        runner = runner.next
+      }
+    }
+    curr = curr.next
+  }
+  
+  return list
+}
+```
+
 ```javascript
 class Node {
   constructor(value) {
