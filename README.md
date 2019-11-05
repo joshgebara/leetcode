@@ -3587,14 +3587,23 @@ isPermutation("hello", 'lehfo')
 
 ## urlify
 ```javascript
-const urlify = str => {
-  return str
-    .split('')
-    .reduce((r, ele) => ele == ' ' ? r.concat(['%20']) : r.concat([ele]), [])
-    .join('')
+const urlify = (str, length) => {
+  const charArr = str.split('')
+  let index = str.length - 1
+  for (let i = length - 1; i >= 0; i--) {
+    if (charArr[i] === ' ') {
+      charArr[index] = '0'
+      charArr[index - 1] = '2'
+      charArr[index - 2] = '%'
+      index -= 3
+    } else {
+      charArr[index--] = charArr[i]
+    }
+  }
+  return charArr.join('')
 }
 
-urlify("Mr John Smith")
+urlify("Mr John Smith Too      ", 17)
 ```
 
 ## One Away
