@@ -938,6 +938,19 @@ const kToLast = (list, k) => {
 }
 
 kToLast(node1, 19)
+
+const kToLast = (list, k) => {
+  if (k < 0) return null
+  if (!list) return [null, 0]
+  
+  let [node, count] = kToLast(list.next, k)
+  
+  if (count === k + 1) {
+    return [node, count]
+  }
+  
+  return [list, count + 1]
+}
 ```
 
 ## Reverse Linked List
