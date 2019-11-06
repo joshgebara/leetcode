@@ -2054,7 +2054,7 @@ const powerOf2 = bin => {
 powerOf2(1)
 ```
 
-## Conversion
+## CCI 5.6
 ```javascript
 const decToBin = bin => {
   return (bin >>> 0).toString(2)
