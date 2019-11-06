@@ -8235,6 +8235,39 @@ const _sumLists = (list1, list2) => {
 print(sumLists(node1, node4))
 ```
 
+## CCI 5.4
+```javascript
+const getNextNum = num => {
+  let c = num
+  let c0 = 0
+  let c1 = 0
+  
+  while (((c & 1) === 0) && c !== 0) {
+    c0++
+    c >>= 1
+  }
+  
+  while ((c & 1) === 1) {
+    c1++
+    c >>= 1
+  }
+  
+  if (c0 + c1 === 31 || c0 + c1 === 0) {
+    return -1
+  }
+  
+  let p = c0 + c1
+  num |= (1 << p)
+  num &= ~((1 << p) - 1)
+  num |= (1 << (c1 - 1)) - 1
+  return num
+}
+
+getNextNum(13948)
+
+
+```
+
 ## 189. Rotate Array
 ```javascript
 const rotateSubarray = (arr, left, right) => {
