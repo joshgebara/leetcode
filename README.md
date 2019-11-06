@@ -8145,6 +8145,96 @@ var addToArrayForm = function(A, K) {
 };
 ```
 
+## CCI 2.5
+```javascript
+class Node {
+  constructor(val) {
+    this.val = val
+    this.next = null
+  }
+}
+
+const node1 = new Node(6)
+const node2 = new Node(1)
+const node3 = new Node(7)
+
+const node4 = new Node(2)
+const node5 = new Node(9)
+const node6 = new Node(5)
+const node7 = new Node(4)
+const node8 = new Node(4)
+
+node1.next = node2
+node2.next = node3
+
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node8
+
+const print = node => {
+  while (node) {
+    console.log(node.val)
+    node = node.next
+  }
+}
+
+const count = node => {
+  let counter = 0
+  while (node) {
+    node = node.next
+    counter++
+  }
+  return counter
+}
+
+const padZeros = (node, diff) => {
+  let newHead = new Node(0)
+  let curr = newHead
+  while (--diff) {
+    curr.next = new Node(0)
+    curr = curr.next
+  }
+  curr.next = node
+  return newHead
+}
+
+const sumLists = (list1, list2) => {
+  if (!list1) return list2
+  if (!list2) return list1
+  
+  let l1Count = count(list1)
+  let l2Count = count(list2)
+  
+  let diff =  Math.abs(l1Count - l2Count)
+  if (l1Count > l2Count) {
+    list2 = padZeros(list2, diff)
+  } else {
+    list1 = padZeros(list1, diff)
+  }
+  
+  let [node, carry] = _sumLists(list1, list2)
+  if (carry > 0) {
+    let head = new Node(carry)
+    head.next = node
+    return head
+  }
+  return node
+}
+
+const _sumLists = (list1, list2) => {
+  if (!list1 && !list2) return [null, 0]
+
+  let [node, carry] = _sumLists(list1.next, list2.next)
+  let sum = list1.val + list2.val + carry
+  let head = new Node(sum % 10)
+  head.next = node
+  return [head, Math.floor(sum / 10)]
+}
+
+print(sumLists(node1, node4))
+```
+
 ## 189. Rotate Array
 ```javascript
 const rotateSubarray = (arr, left, right) => {
