@@ -8266,6 +8266,34 @@ const getNextNum = num => {
 getNextNum(13948)
 
 
+const getPrevNum = num => {
+  let temp = num
+  let c0 = 0
+  let c1 = 0
+  
+  while ((temp & 1) === 1) {
+    c1++
+    temp >>= 1
+  }
+  
+  if (temp === 0)
+    return -1
+  
+  while (((temp & 1) === 0) && temp !== 0) {
+    c0++
+    temp >>= 1
+  }
+    
+  let p = c0 + c1
+  num &= ~0 << p + 1
+  
+  let mask = (1 << (c1 + 1)) - 1
+  num |= mask << (c0 - 1)
+  return num
+}
+
+getPrevNum(0b10011110000011)
+
 ```
 
 ## 189. Rotate Array
