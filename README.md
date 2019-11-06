@@ -4501,28 +4501,20 @@ console.log(arr)
 
 ## Selection Sort
 ```javascript
-const swap = (arr, first, second) => {
-  let temp = arr[first]
-  arr[first] = arr[second]
-  arr[second] = temp
-}
-
-const selectionSort = arr => {
-  if (!arr.length) return
-  
-  for (let i = 0; i < arr.length; i++) {
-    let smallestIndex = i
-    for (let j = i; j < arr.length; j++) {
-      if (arr[smallestIndex] > arr[j]) {
-        smallestIndex = j
-      }
-    }
-    swap(arr, smallestIndex, i)
+const selectionSort = (arr, sortBy) => {
+  for (let i = 0; i < arr.length - 1; i++) {
+    let lowestElementIndex = i
+    for (let j = i + 1; j < arr.length; j++)
+      if (sortBy(arr[j], arr[lowestElementIndex]))
+        lowestElementIndex = j
+    
+    if (lowestElementIndex !== i)
+      [arr[lowestElementIndex], arr[i]] = [arr[i], arr[lowestElementIndex]]
   }
 }
 
-const arr = [9, 3, 5, 4, 6, 5, 4, 2, 6, 7, 6, 4, 3, 2, 1]
-selectionSort(arr)
+const arr = [1, 6, 5, 3, 4, 8, 9, 4, 3, 2];
+selectionSort(arr, (a, b) => a < b)
 console.log(arr)
 ```
 
