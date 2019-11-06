@@ -894,6 +894,52 @@ console.log("----")
 ll.print()
 ```
 
+## CCI 2.2
+```javascript
+class Node {
+  constructor(val) {
+    this.val = val
+    this.next = null
+  }
+}
+
+const node1 = new Node(1)
+const node2 = new Node(2)
+const node3 = new Node(3)
+const node4 = new Node(4)
+const node5 = new Node(5)
+const node6 = new Node(6)
+const node7 = new Node(7)
+const node8 = new Node(8)
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node8
+
+const kToLast = (list, k) => {
+  if (!list) return list
+  if (k < 0) return null
+  
+  let fast = list
+  let slow = list
+  while (k--) {
+    if (!fast) return null  
+    fast = fast.next
+  }
+  
+  while (fast.next) {
+    fast = fast.next
+    slow = slow.next
+  }
+  return slow
+}
+
+kToLast(node1, 19)
+```
+
 ## Reverse Linked List
 ```javascript
 class Node {
