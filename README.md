@@ -15287,3 +15287,19 @@ var numIslands = function(grid) {
 };
 ```
 
+## Bucket Sort
+```javascript
+const bucketSort = arr => {
+  const buckets = Array(arr.length).fill(null).map(ele => [])
+  const max = Math.max(...arr)
+  const divider = Math.ceil((max + 1) / arr.length)
+  
+  for (const num of arr)
+    buckets[Math.floor(num / divider)].push(num)
+  
+  arr = buckets.flat().sort((a, b) => a - b)
+}
+
+const arr = [10, 200, 1000, 32, 444]
+bucketSort(arr)
+```
