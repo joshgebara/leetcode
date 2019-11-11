@@ -15303,3 +15303,26 @@ const bucketSort = arr => {
 const arr = [10, 200, 1000, 32, 444]
 bucketSort(arr)
 ```
+
+## Counting Sort
+```javascript
+const arr = [1, 3, 2, 3, 5, 5, 6, 3, 7, 8, 9]
+
+const countingSort = arr => {
+  const max = Math.max(...arr)
+  const counts = Array(max + 1).fill(0)
+  for (let num of arr)
+    counts[num]++
+  
+  for (let i = 0; i < counts.length - 1; i++)
+    counts[i+1] = counts[i] + counts[i+1]
+  
+  const result = []
+  for (let i = arr.length - 1; i >= 0; i--)
+    result[counts[arr[i]]-- - 1] = arr[i]
+    
+  return result
+}
+
+countingSort(arr)
+```
