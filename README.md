@@ -8227,6 +8227,21 @@ const _sumLists = (list1, list2) => {
 print(sumLists(node1, node4))
 ```
 
+## CCI 5.1
+```javascript
+const decToBin = bin => (bin >>> 0).toString(2)
+
+const insertion = (n, m, i, j) => {
+  let left = -1 << j + 1
+  let right = (1 << i) - 1
+  let mask = left | right
+  n &= mask
+  return n | (m << i)
+}
+
+insertion(0b100100111001, 0b1101, 1, 4)
+```
+
 ## CCI 5.4
 ```javascript
 const getNextNum = num => {
