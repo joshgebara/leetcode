@@ -1083,39 +1083,35 @@ ll.tail.next = ll.head
 ll.hasCycle()
 ```
 
-## Rotate Matrix
+## CCI 1.7
 ```javascript
 const matrix = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9]
+  ['a', 'b', 'c', 'd'],
+  ['e', 'f', 'g', 'h'],
+  ['i', 'j', 'k', 'l'],
+  ['m', 'n', 'o', 'p'],
 ]
 
-const rotateMatrix = matrix => {
+const rotateImage = matrix => {
   let n = matrix.length
-  let endIndex = n - 1
   
-  for (let i = 0; i < Math.floor(n / 2); i++) {
-    for (let j = 0 + i; j < n - (i + 1); j++) {
-      let temp
-      temp = matrix[i][j]
-      matrix[i][j] = matrix[j][endIndex - i]
-      matrix[j][endIndex - i] = temp   
-       
-      temp = matrix[j][endIndex - i]
-      matrix[j][endIndex - i] = matrix[endIndex - i][endIndex - j]
-      matrix[endIndex - i][endIndex - j] = temp
-      
-      temp = matrix[endIndex - i][endIndex - j]
-      matrix[endIndex - i][endIndex - j] = matrix[endIndex - j][i]
-      matrix[endIndex - j][i] = temp
+  for (let layer = 0; layer < Math.floor(n / 2); layer++) {
+    let first = layer
+    let last = n - 1 - layer
+    for (let i = first; i < last; i++) {
+      let offset = i - first
+      let top = matrix[first][i]
+      matrix[first][i] = matrix[last - offset][first]
+      matrix[last - offset][first] = matrix[last][last - offset]
+      matrix[last][last - offset] = matrix[i][last]
+      matrix[i][last] = top
     }
   }
   
   return matrix
 }
 
-rotateMatrix(matrix)
+rotateImage(matrix)
 ```
 
 ## Heap
