@@ -15337,3 +15337,56 @@ const countingSort = arr => {
 
 countingSort(arr)
 ```
+
+## QuickSelect
+```javascript
+const random = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const partition = (arr, start, end) => {
+  let pivot = arr[end]
+  let i = start - 1
+  
+  for (let j = start; j < end; j++) {
+    if (arr[j] <= pivot) {
+      i++
+      let temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+  }
+  
+  let temp = arr[i + 1]
+  arr[i + 1] = arr[end]
+  arr[end] = temp
+  
+  return i + 1
+}
+
+const quickSelect = (arr, k, start, end) => {
+  if (start > end) return null
+  
+  start = start || 0
+  end = end || arr.length - 1
+  
+  let randomIndex = random(start, end)  
+  let temp = arr[randomIndex]
+  arr[randomIndex] = arr[end]
+  arr[end] = temp
+
+  let partitionIndex = partition(arr, start, end)
+  if (partitionIndex === arr.length - k - 1) {
+    return arr[partitionIndex]
+  }
+  
+  if (partitionIndex > arr.length - k - 1) {
+    return quickSelect(arr, k, start, partitionIndex - 1)
+  } else {
+    return quickSelect(arr, k, partitionIndex + 1, end)
+  }
+}
+
+const arr = [1, 9, 4, 5, 6, 3, 2, 7, 8]
+quickSelect(arr, 2)
+```
