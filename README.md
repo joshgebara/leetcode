@@ -15534,12 +15534,15 @@ var rightSideView = function(root) {
 ## 520. Detect Capital
 ```javascript
 var detectCapitalUse = function(word) {
-    if (word === word.toUpperCase() || 
-        word === word.toLowerCase()) 
-        return true
+    let capCount = 0
     
-    let f = word[0]
-    let r = word.slice(1)
-    return f === f.toUpperCase() && r === r.toLowerCase()
+    for (let char of word) {
+        if (char === char.toUpperCase())
+            capCount++
+    }
+
+    return capCount === word.length || 
+           capCount === 0 || 
+           capCount === 1 && word[0] === word[0].toUpperCase()
 };
 ```
