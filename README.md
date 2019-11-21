@@ -15436,3 +15436,33 @@ var rkSearch = function (text, pattern) {
 
 rkSearch("aabaaabaaac", "aab")
 ```
+
+## 1110. Delete Nodes And Return Forest
+```javascript
+var delNodes = function(root, to_delete) {
+    const _delNodes = (node) => {
+        if (!node) return null
+        
+        node.left = _delNodes(node.left)
+        node.right = _delNodes(node.right)
+        
+        if (toDelete.has(node.val)) {
+            if (node.left) remaining.push(node.left)
+            if (node.right) remaining.push(node.right)
+            return null
+        }
+        
+        return node
+    }
+    
+    const toDelete = new Set(to_delete)
+    const remaining = []
+    
+    _delNodes(root)
+    
+    if (!toDelete.has(root.val))
+        remaining.push(root)
+    
+    return remaining
+};
+```
