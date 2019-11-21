@@ -15501,3 +15501,32 @@ var canWinNim = function(n) {
     return n % 4 !== 0
 };
 ```
+
+## 199. Binary Tree Right Side View
+```javascript
+var rightSideView = function(root) {
+    if (!root) return []
+    
+    const result = []
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            
+            if (i === size - 1)
+                result.push(curr.val)
+            
+            if (curr.left)
+                queue.push(curr.left)
+
+            if (curr.right)
+                queue.push(curr.right)
+        }    
+    }
+    
+    return result
+};
+```
