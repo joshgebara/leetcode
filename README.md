@@ -15494,3 +15494,10 @@ var generatePossibleNextMoves = function(s) {
     return result
 };
 ```
+
+## 292. Nim Game
+```javascript
+var canWinNim = function(n) {
+    return n % 4 !== 0
+};
+```
