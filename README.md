@@ -15466,3 +15466,31 @@ var delNodes = function(root, to_delete) {
     return remaining
 };
 ```
+## 293. Flip Game
+```javascript
+var generatePossibleNextMoves = function(s) {
+    const result = []
+    const str = s.split('')
+    
+    let i = 1
+    while (i < s.length) {
+        if (s[i] === '-') {
+            i += 2
+            continue
+        }
+        
+        if (s[i] === '+' && s[i - 1] === '+') {
+            str[i] = '-'
+            str[i - 1] = '-'
+            result.push(str.join(''))
+            
+            str[i] = '+'
+            str[i - 1] = '+'
+        }
+        
+        i += 1
+    }
+    
+    return result
+};
+```
