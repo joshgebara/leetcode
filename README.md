@@ -15530,3 +15530,16 @@ var rightSideView = function(root) {
     return result
 };
 ```
+
+## 520. Detect Capital
+```javascript
+var detectCapitalUse = function(word) {
+    if (word === word.toUpperCase() || 
+        word === word.toLowerCase()) 
+        return true
+    
+    let f = word[0]
+    let r = word.slice(1)
+    return f === f.toUpperCase() && r === r.toLowerCase()
+};
+```
