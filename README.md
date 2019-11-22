@@ -15546,3 +15546,25 @@ var detectCapitalUse = function(word) {
            capCount === 1 && word[0] === word[0].toUpperCase()
 };
 ```
+
+## 204. Count Primes
+```javascript
+var countPrimes = function(n) {
+    const primes = Array(n).fill(true)
+    primes[0] = false
+    primes[1] = false
+    
+    for (let i = 2; i * i < n; i++) {
+        if (primes[i]) {
+            for (let j = i; j * i < n; j++) {
+                primes[i * j] = false
+            }
+        }
+    }
+    
+    return primes.reduce((result, ele) => {
+        if (!ele) return result
+        return result + 1
+    }, 0)
+};
+```
