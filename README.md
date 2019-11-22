@@ -15592,3 +15592,22 @@ const isPalindrome = (str, callback, i, j) => {
     return true
 }
 ```
+
+## 383. Ransom Note
+```javascript
+var canConstruct = function(ransomNote, magazine) {
+    const counts = {}
+    for (let char of magazine) {
+        counts[char] ? counts[char]++ : counts[char] = 1 
+    }
+    
+    for (let char of ransomNote) {
+        if (counts[char] <= 0 || counts[char] === undefined) 
+            return false
+        
+        counts[char]--
+    }
+    
+    return true
+};
+```
