@@ -15611,3 +15611,28 @@ var canConstruct = function(ransomNote, magazine) {
     return true
 };
 ```
+
+## 202. Happy Number
+```javascript
+var isHappy = function(n) {
+    const seen = new Set()
+    let curr = n
+    
+    while (curr !== 1) {
+        let sum = 0
+        
+        while (curr) {
+            let digit = curr % 10
+            sum += digit * digit
+            curr = Math.floor(curr / 10)
+        }
+        
+        if (seen.has(sum)) 
+            return false
+        
+        seen.add(sum)
+        curr = sum
+    }    
+    return true
+};
+```
