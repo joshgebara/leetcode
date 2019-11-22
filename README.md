@@ -15636,3 +15636,23 @@ var isHappy = function(n) {
     return true
 };
 ```
+
+## 258. Add Digits
+```javascript
+var addDigits = function(num) {
+    let curr = num
+    
+    while (Math.floor(curr / 10)) {
+        let sum = 0
+        
+        while (curr) {
+            let digit = curr % 10
+            sum += digit
+            curr = Math.floor(curr / 10)
+        }
+        curr = sum
+    }
+    
+    return curr
+};
+```
