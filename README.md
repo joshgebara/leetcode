@@ -15568,3 +15568,27 @@ var countPrimes = function(n) {
     }, 0)
 };
 ```
+
+## 680. Valid Palindrome II
+```javascript
+var validPalindrome = function(s) {
+    return isPalindrome(s, (left, right) => {
+        return isPalindrome(s, () => false, left + 1, right) || 
+               isPalindrome(s, () => false, left, right - 1)       
+    })
+};
+
+const isPalindrome = (str, callback, i, j) => {
+    let left = i || 0
+    let right = j || str.length - 1
+    
+    while (left < right) {
+        if (str[left] !== str[right]) {
+            return callback(left, right)
+        }
+        left++
+        right--
+    }
+    return true
+}
+```
