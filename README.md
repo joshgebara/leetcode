@@ -15656,3 +15656,24 @@ var addDigits = function(num) {
     return curr
 };
 ```
+
+## 49. Group Anagrams
+```javascript
+var groupAnagrams = function(strs) {
+    const map = {}
+    
+    for (let str of strs) {
+        const charArr = str.split('')
+        charArr.sort()
+        const sortedStr = charArr.join('')
+        
+        if (map[sortedStr]) {
+            map[sortedStr].push(str)
+        } else {
+            map[sortedStr] = [str]
+        }    
+    }
+    
+    return Object.values(map)
+};
+```
