@@ -15781,3 +15781,30 @@ var numRescueBoats = function(people, limit) {
     return boats
 };
 ```
+
+## 875. Koko Eating Bananas
+```javascript
+var minEatingSpeed = function(piles, H) {
+    let low = 0
+    let high = 1000000000
+    
+    while (low < high) {
+        let mid = Math.floor((high - low) / 2) + low
+        if (!possible(piles, H, mid)) {
+            low = mid + 1
+        } else {
+            high = mid
+        }
+    }
+    
+    return low
+};
+
+const possible = (piles, H, K) => {
+    let time = 0
+    for (const pile of piles)
+        time += Math.ceil(pile / K)
+    
+    return time <= H
+}
+```
