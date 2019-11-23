@@ -15692,3 +15692,24 @@ var balancedStringSplit = function(s) {
     return count
 };
 ```
+
+## 90. Subsets II
+```javascript
+var subsetsWithDup = function(nums) {
+    nums.sort((a, b) => a - b)
+    const subsets = []
+    generateSubsets(0, nums, [], subsets)
+    return subsets    
+};
+
+const generateSubsets = (index, nums, curr, subsets) => {
+    subsets.push(curr.slice())
+    
+    for (let i = index; i < nums.length; i++) {
+        if (i !== index && nums[i] === nums[i - 1]) continue
+        curr.push(nums[i])
+        generateSubsets(i + 1, nums, curr, subsets)
+        curr.pop(nums[i])
+    }
+}
+```
