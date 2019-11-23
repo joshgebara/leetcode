@@ -15677,3 +15677,18 @@ var groupAnagrams = function(strs) {
     return Object.values(map)
 };
 ```
+
+## 1221. Split a String in Balanced Strings
+```javascript
+var balancedStringSplit = function(s) {
+    let balance = 0
+    let count = 0
+    
+    for (let i = 0; i < s.length; i++) {
+        s[i] === 'R' ? balance++ : balance--
+        if (balance === 0) count++
+    }
+    
+    return count
+};
+```
