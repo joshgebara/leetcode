@@ -15756,3 +15756,28 @@ var maxArea = function(height) {
     return maxArea
 };
 ```
+
+## 881. Boats to Save People
+```javascript
+var numRescueBoats = function(people, limit) {
+    people.sort((a, b) => a - b)
+    
+    let boats = 0
+    let left = 0
+    let right = people.length - 1
+    
+    while (left <= right) {
+        let weight = people[left] + people[right]
+        
+        if (weight > limit) {
+            right--
+        } else {
+            left++
+            right--
+        }
+        boats++
+    }
+    
+    return boats
+};
+```
