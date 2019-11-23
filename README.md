@@ -15808,3 +15808,28 @@ const possible = (piles, H, K) => {
     return time <= H
 }
 ```
+
+## 113. Path Sum II
+```javascript
+var pathSum = function(root, sum) {
+    const _pathSum = (node, currSum, path) => {
+        if (!node) return
+        
+        currSum += node.val
+        path.push(node.val)
+        
+        if (currSum === sum && !node.left && !node.right) {
+            result.push(path.slice())
+        } else {
+            _pathSum(node.left, currSum, path)
+            _pathSum(node.right, currSum, path)    
+        }
+        
+        path.pop()
+    }
+    
+    const result = []
+    _pathSum(root, 0, [])
+    return result
+};
+```
