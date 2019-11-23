@@ -15833,3 +15833,32 @@ var pathSum = function(root, sum) {
     return result
 };
 ```
+
+## 482. License Key Formatting
+```javascript
+var licenseKeyFormatting = function(S, K) {
+    const arr = S.split('').filter(char => char !== '-')
+    const remaining = arr.length % K
+    const result = []    
+    let charArr = []
+    
+    if (remaining) {    
+        for (let i = 0; i < remaining; i++)
+            charArr.push(arr[i].toUpperCase())
+        
+        result.push(charArr.join(''))
+        charArr = []
+    }
+    
+    for (let i = remaining; i < arr.length; i++) {
+        charArr.push(arr[i].toUpperCase())
+        
+        if (charArr.length === K) {
+            result.push(charArr.join(''))
+            charArr = []
+        }
+    }
+
+    return result.join('-')  
+};
+```
