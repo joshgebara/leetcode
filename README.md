@@ -15914,3 +15914,22 @@ var findFrequentTreeSum = function(root) {
     }, [])
 };
 ```
+
+## 366. Find Leaves of Binary Tree
+```javascript
+var findLeaves = function(root) {
+    const dfs = (node) => {
+        if (!node) return -1
+        
+        const leftDepth = dfs(node.left)
+        const rightDepth = dfs(node.right)
+        const depth = Math.max(leftDepth, rightDepth) + 1
+        depths[depth] ? depths[depth].push(node.val) : depths[depth] = [node.val]
+        return depth
+    }
+    
+    const depths = []
+    dfs(root)
+    return depths
+};
+```
