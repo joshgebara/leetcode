@@ -15970,3 +15970,41 @@ const area = (grid, row, col) => {
     return area
 }
 ```
+
+## 463. Island Perimeter
+```javascript
+var islandPerimeter = function(grid) {
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === 1) {
+                return perimeter(grid, row, col)   
+            }
+        }
+    }
+    return 0
+};
+
+const perimeter = (grid, row, col) => {
+    const _perimeter = (grid, row, col) => {
+        if (row < 0 || row >= grid.length || 
+            col < 0 || col >= grid[0].length || 
+            grid[row][col] !== 1) return
+        
+        grid[row][col] = 'X'
+        
+        if (row - 1 < 0 || !grid[row - 1][col]) p++
+        if (row + 1 >= grid.length || !grid[row + 1][col]) p++
+        if (col - 1 < 0 || !grid[row][col - 1]) p++
+        if (col + 1 >= grid[0].length || !grid[row][col + 1]) p++
+
+        _perimeter(grid, row - 1, col)
+        _perimeter(grid, row + 1, col)
+        _perimeter(grid, row, col - 1)
+        _perimeter(grid, row, col + 1)
+    }
+    
+    let p = 0
+    _perimeter(grid, row, col)
+    return p
+}
+```
