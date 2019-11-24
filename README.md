@@ -15933,3 +15933,40 @@ var findLeaves = function(root) {
     return depths
 };
 ```
+
+## 695. Max Area of Island
+```javascript
+var maxAreaOfIsland = function(grid) {
+    let max = 0
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] !== 1) continue
+            max = Math.max(max, area(grid, row, col))
+        }
+    }
+    
+    return max
+};
+
+const area = (grid, row, col) => {
+    const _area = (grid, row, col) => {
+        if (row < 0 || row >= grid.length ||
+            col < 0 || col >= grid[0].length || 
+            grid[row][col] === 0) 
+            return
+        
+        grid[row][col] = 0
+        area++
+        
+        _area(grid, row - 1, col)
+        _area(grid, row + 1, col)
+        _area(grid, row, col - 1)
+        _area(grid, row, col + 1)
+    }
+    
+    let area = 0
+    _area(grid, row, col)
+    return area
+}
+```
