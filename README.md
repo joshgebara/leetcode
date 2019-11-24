@@ -15889,3 +15889,28 @@ var addStrings = function(num1, num2) {
     return result.reverse().join('')
 };
 ```
+
+## 508. Most Frequent Subtree Sum
+```javascript
+var findFrequentTreeSum = function(root) {
+    const dfs = (node) => {
+        if (!node) return 0
+        
+        const sum = node.val + dfs(node.left) + dfs(node.right)
+        
+        sumFreq[sum] ? sumFreq[sum]++ : sumFreq[sum] = 1
+        maxFreq = Math.max(sumFreq[sum], maxFreq)
+        return sum
+    }
+    
+    const sumFreq = {}
+    let maxFreq = 0
+    dfs(root)
+    
+    return Object.entries(sumFreq).reduce((result, [key, val]) => {
+        if (val === maxFreq)
+            result.push(key)
+        return result
+    }, [])
+};
+```
