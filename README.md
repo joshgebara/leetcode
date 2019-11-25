@@ -5861,7 +5861,7 @@ var deleteNode = function(node) {
 ## 21. Merge Two Sorted Lists
 ```javascript
 var mergeTwoLists = function(l1, l2) {
-    const dummy = new ListNode(-1)
+    const dummy = new ListNode(NaN)
     let current = dummy
     
     while (l1 && l2) {
