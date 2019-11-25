@@ -5881,22 +5881,16 @@ var mergeTwoLists = function(l1, l2) {
 
 // Recursive
 var mergeTwoLists = function(l1, l2) {
-    const _mergeTwoLists = (l1, l2) => {
-        if (!l1) return l2
-        if (!l2) return l1
-        
-        let node;
-        if (l1.val < l2.val) {
-            node = l1
-            l1 = l1.next
-        } else {
-            node = l2
-            l2 = l2.next
-        }
-        node.next = _mergeTwoLists(l1, l2)
-        return node
+    if (!l1) return l2
+    if (!l2) return l1
+
+    if (l1.val > l2.val) {
+        l2.next = mergeTwoLists(l1, l2.next)
+        return l2
+    } else {
+        l1.next = mergeTwoLists(l1.next, l2)
+        return l1
     }
-    return _mergeTwoLists(l1, l2)
 };
 ```
 
