@@ -16026,3 +16026,47 @@ var orangesRotting = function(grid) {
     return maxTime  
 };
 ```
+
+## 323. Number of Connected Components in an Undirected Graph
+```javascript
+var countComponents = function(n, edges) {
+    const adjList = {}
+    
+    for (let [start, end] of edges) {
+        adjList[start] ? adjList[start].push(end) : adjList[start] = [end] 
+        adjList[end] ? adjList[end].push(start) : adjList[end] = [start] 
+    }
+    
+    const visited = new Set()
+    let count = 0
+    
+    for (let edge of edges) {
+        if (!visited.has(edge[0])) {
+            bfs(edge[0], adjList, visited)
+            count++
+        }
+    }
+    
+    while (--n >= 0)
+        if (!visited.has(n)) count++
+    
+    return count
+};
+
+const bfs = (source, list, visited) => {
+    const queue = [source]
+    
+    while (queue.length) {
+        const next = queue.shift()
+        
+        if (!list[next]) continue
+
+        for (const neighbor of list[next]) {
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor)
+                queue.push(neighbor)
+            }
+        }
+    }
+}
+```
