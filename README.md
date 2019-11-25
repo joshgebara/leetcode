@@ -16040,15 +16040,12 @@ var countComponents = function(n, edges) {
     const visited = new Set()
     let count = 0
     
-    for (let edge of edges) {
-        if (!visited.has(edge[0])) {
-            bfs(edge[0], adjList, visited)
+    while (--n >= 0) {
+        if (!visited.has(n)) {
+            bfs(n, adjList, visited)
             count++
         }
     }
-    
-    while (--n >= 0)
-        if (!visited.has(n)) count++
     
     return count
 };
