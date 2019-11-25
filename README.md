@@ -15990,3 +15990,39 @@ const perimeter = (grid, row, col) => {
     return p
 }
 ```
+
+## 994. Rotting Oranges
+```javascript
+var orangesRotting = function(grid) {
+    let maxTime = 0
+    const queue = []
+    
+    for (let row = 0; row < grid.length; row++)
+        for (let col = 0; col < grid[0].length; col++)
+            if (grid[row][col] === 2)
+                queue.push([row, col, 0])
+    
+    while (queue.length) {
+        const [row, col, time] = queue.shift()
+        
+        if (row < 0 || row >= grid.length || 
+            col < 0 || col >= grid[0].length || 
+            grid[row][col] === 0) continue
+        
+        grid[row][col] = 0
+        maxTime = Math.max(maxTime, time)
+        
+        queue.push([row - 1, col, time + 1])
+        queue.push([row + 1, col, time + 1])
+        queue.push([row, col + 1, time + 1])
+        queue.push([row, col - 1, time + 1])
+    }
+    
+    for (let row = 0; row < grid.length; row++)
+        for (let col = 0; col < grid[0].length; col++)
+            if (grid[row][col] === 1)
+                return -1
+    
+    return maxTime  
+};
+```
