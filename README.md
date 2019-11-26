@@ -16068,3 +16068,25 @@ const bfs = (source, list, visited) => {
 }
 ```
 
+## 904. Fruit Into Baskets
+```javascript
+var totalFruit = function(tree) {
+    const counter = new Map()
+    let max = 0
+    let j = 0
+    
+    for (let i = 0; i < tree.length; i++) {
+        counter.set(tree[i], i)
+        
+        if (counter.size > 2) {
+            const min = Math.min(...counter.values())
+            j = min + 1
+            counter.delete(tree[min])
+        }
+        
+        max = Math.max(max, i - j)
+    }
+    
+    return max + 1
+};
+```
