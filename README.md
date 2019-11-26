@@ -16070,6 +16070,8 @@ const bfs = (source, list, visited) => {
 
 ## 904. Fruit Into Baskets
 ```javascript
+// O(n)
+// O(n)
 var totalFruit = function(tree) {
     const counter = new Map()
     let max = 0
@@ -16089,4 +16091,33 @@ var totalFruit = function(tree) {
     
     return max + 1
 };
+```
+
+## 681. Next Closest Time
+```javascript
+var nextClosestTime = function(time) {
+    const [hour, min] = time.split(':')
+    let totalMin = (+hour * 60) + +min
+    
+    const nums = new Set()
+    for (let char of time)
+        nums.add(+char)
+    
+    outer: while (true) {
+        totalMin = (totalMin + 1) % (24 * 60)
+        
+        const time = format(totalMin)
+        for (const char of time)
+            if (!nums.has(+char)) 
+                continue outer
+        
+        return time
+    }
+};
+
+const format = time => {
+    let hour = Math.floor(time / 60)
+    let min = time % 60
+    return `${Math.floor(hour / 10)}${hour % 10}:${Math.floor(min / 10)}${min % 10}`
+}
 ```
