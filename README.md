@@ -6357,12 +6357,9 @@ MyQueue.prototype.shift = function() {
 
 ## 225. Implement Stack using Queues
 ```javascript
-/**
- * Initialize your data structure here.
- */
 var MyStack = function() {
-    this.left = []
-    this.right = []
+    this.leftQueue = []
+    this.rightQueue = []
 };
 
 /**
@@ -6371,7 +6368,7 @@ var MyStack = function() {
  * @return {void}
  */
 MyStack.prototype.push = function(x) {
-    this.left.push(x)
+    this.leftQueue.push(x)
 };
 
 /**
@@ -6379,12 +6376,16 @@ MyStack.prototype.push = function(x) {
  * @return {number}
  */
 MyStack.prototype.pop = function() {
-    while (this.left.length > 1) this.right.push(this.left.shift())
-    let val = this.left.pop()
-    let temp = this.left
-    this.left = this.right
-    this.right = temp
-    return val
+    while (this.leftQueue.length > 1)
+        this.rightQueue.push(this.leftQueue.shift())
+    
+    const element = this.leftQueue.shift()
+    
+    const temp = this.leftQueue
+    this.leftQueue = this.rightQueue
+    this.rightQueue = temp
+    
+    return element
 };
 
 /**
@@ -6392,8 +6393,7 @@ MyStack.prototype.pop = function() {
  * @return {number}
  */
 MyStack.prototype.top = function() {
-    while (this.left.length > 1) this.right.push(this.left.shift())
-    return this.left[0]
+    return this.leftQueue[this.leftQueue.length - 1]
 };
 
 /**
@@ -6401,7 +6401,7 @@ MyStack.prototype.top = function() {
  * @return {boolean}
  */
 MyStack.prototype.empty = function() {
-    return !this.left.length && !this.right.length
+    return !this.leftQueue.length && !this.rightQueue.length
 };
 
 /** 
