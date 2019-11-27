@@ -16357,3 +16357,28 @@ const dfs = (rooms, row, col, dist = 0) => {
     dfs(rooms, row, col + 1, dist + 1)
 }
 ```
+
+##
+```javascript
+var lengthOfLongestSubstring = function(s) {
+    if (s.length <= 1) return s.length
+    
+    const seen = new Set()
+    let maxLength = 0
+
+    let j = 0
+    for (let i = 0; i < s.length; i++) {
+        if (seen.has(s[i])) {
+            while (s[j] !== s[i])
+                seen.delete(s[j++])
+                
+            seen.delete(s[j++])
+        }
+        
+        seen.add(s[i])
+        maxLength = Math.max(maxLength, i - j)
+    }
+    
+    return maxLength + 1
+};
+```
