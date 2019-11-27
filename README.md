@@ -16206,3 +16206,27 @@ var cloneGraph = function(node) {
     return graph[node.val]
 };
 ```
+
+## 645. Set Mismatch
+```javascript
+var findErrorNums = function(nums) {
+    const n = nums.length
+    const sum = (n * (n + 1)) / 2
+    
+    const seen = new Set()
+    let repeat = 0
+    let currSum = 0
+    
+    for (const num of nums) {
+        currSum += num
+        
+        if (seen.has(num)) {
+            repeat = num
+        } else {
+            seen.add(num)
+        }
+    }
+    
+    return [repeat, sum - (currSum - repeat)]
+};
+```
