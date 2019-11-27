@@ -16382,3 +16382,71 @@ var lengthOfLongestSubstring = function(s) {
     return maxLength + 1
 };
 ```
+
+## 43. Multiply Strings
+```javascript
+var multiply = function(num1, num2) {
+    if (!(+num1)) return "0"
+    if (!(+num2)) return "0"
+    
+    let i = num1.length - 1
+    let products = []
+    let zerosPlace = 0
+    
+    while (i >= 0) {
+        let result = []
+        let carry = 0
+        
+        let curr = 0
+        while (curr < zerosPlace) {
+            result.push(0)
+            curr++
+        }
+
+        for (let j = num2.length - 1; j >= 0; j--) {
+            let product = (+num1[i] * +num2[j]) + carry
+            carry = Math.floor(product / 10)
+            result.push(product % 10)
+        }
+
+        if (carry) {
+            result.push(carry)
+        }
+
+        zerosPlace++
+        products.push(result.reverse().join(''))
+        i--
+    }
+    
+    while (products.length > 1) {
+        products[0] = addStrings(products[0], products[products.length - 1])
+        products.pop()
+    }
+    
+    return products[0]
+};
+
+var addStrings = function(num1, num2) {
+    if (!(+num1)) return num2
+    if (!(+num2)) return num1
+    
+    let i = num1.length - 1
+    let j = num2.length - 1
+    let carry = 0
+    
+    let result = []
+    
+    while (i >= 0 || j >= 0 || carry) {
+        let num1Val = i >= 0 ? +num1[i] : 0
+        let num2Val = j >= 0 ? +num2[j] : 0
+        
+        let sum = num1Val + num2Val + carry
+        carry = Math.floor(sum / 10)
+        result.push(sum % 10)
+        i--
+        j--
+    }
+    
+    return result.reverse().join('')
+};
+```
