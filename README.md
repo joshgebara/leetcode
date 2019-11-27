@@ -16331,3 +16331,29 @@ var dailyTemperatures = function(T) {
     return result
 };
 ```
+
+## 286. Walls and Gates
+```javascript
+var wallsAndGates = function(rooms) {
+    for (let row = 0; row < rooms.length; row++) {
+        for (let col = 0; col < rooms[0].length; col++) {
+            if (rooms[row][col] === 0) {
+                dfs(rooms, row, col)
+            }
+        }
+    }
+    return rooms
+};
+
+const dfs = (rooms, row, col, dist = 0) => {
+    if (row < 0 || row >= rooms.length || col < 0 || col >= rooms[0].length || 
+        rooms[row][col] === -1 || rooms[row][col] < dist) return
+
+    rooms[row][col] = dist
+
+    dfs(rooms, row - 1, col, dist + 1)
+    dfs(rooms, row + 1, col, dist + 1)
+    dfs(rooms, row, col - 1, dist + 1)
+    dfs(rooms, row, col + 1, dist + 1)
+}
+```
