@@ -16255,3 +16255,27 @@ var findWords = function(words) {
     })
 };
 ```
+
+## 1189. Maximum Number of Balloons
+```javascript
+var maxNumberOfBalloons = function(text) {
+    const counts = {}
+    for (const t of text)
+        counts[t] ? counts[t]++ : counts[t] = 1
+    
+    let min = Number.MAX_VALUE
+    
+    for (const char of "balloon") {
+        if (!counts[char]) 
+            return 0
+        
+        if (char === 'l' || char === 'o') {
+            min = Math.min(min, Math.floor(counts[char] / 2))
+            continue
+        }
+        
+        min = Math.min(min, counts[char])
+    }
+    return min
+};
+```
