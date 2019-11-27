@@ -16174,3 +16174,35 @@ var removeDuplicates = function(s, k) {
     return stack.map(pair => pair[0]).join('')
 };
 ```
+
+## 133. Clone Graph
+```javascript
+var cloneGraph = function(node) {
+    const graph = {}
+    
+    const visited = new Set()
+    visited.add(node.val)
+    
+    const queue = [node]
+    while (queue.length) {
+        const source = queue.shift()
+        
+        if (!graph[source.val])
+            graph[source.val] = new Node(source.val, [])    
+        
+        for (let neighbor of source.neighbors) {
+            if (!graph[neighbor.val])
+                graph[neighbor.val] = new Node(neighbor.val, [])
+            
+            graph[source.val].neighbors.push(graph[neighbor.val])
+            
+            if (!visited.has(neighbor.val)) {
+                visited.add(neighbor.val)
+                queue.push(neighbor)
+            }
+        }
+    }
+    
+    return graph[node.val]
+};
+```
