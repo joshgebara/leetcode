@@ -16358,7 +16358,7 @@ const dfs = (rooms, row, col, dist = 0) => {
 }
 ```
 
-##
+## 3. Longest Substring Without Repeating Characters
 ```javascript
 var lengthOfLongestSubstring = function(s) {
     if (s.length <= 1) return s.length
