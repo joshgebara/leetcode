@@ -16304,3 +16304,30 @@ var solution = function(knows) {
     };
 };
 ```
+
+## 739. Daily Temperatures
+```javascript
+var dailyTemperatures = function(T) {    
+    const stack = []
+    const result = []
+    
+    for (let i = 0; i < T.length; i++) {
+        while (stack.length) {
+            const [temp, days] = stack[stack.length - 1]
+            
+            if (temp >= T[i]) break
+            
+            result[days] = i - days
+            stack.pop()
+        }
+        stack.push([T[i], i])
+    }
+    
+    while (stack.length) {
+        const [temp, days] = stack.pop()
+        result[days] = 0
+    }
+    
+    return result
+};
+```
