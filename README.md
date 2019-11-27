@@ -16142,3 +16142,35 @@ const format = time => {
     return `${Math.floor(hour / 10)}${hour % 10}:${Math.floor(min / 10)}${min % 10}`
 }
 ```
+
+## 1209. Remove All Adjacent Duplicates in String II
+```javascript
+var removeDuplicates = function(s, k) {
+    const stack = []
+    
+    for (let char of s) {
+        if (!stack.length) {
+            stack.push([char, 1])
+            continue
+        }
+        
+        const [topChar, topCount] = stack[stack.length - 1]
+        
+        if (topChar === char) {
+            if (topCount + 1 !== k) {
+                stack.push([char, topCount + 1])    
+                continue
+            }
+            
+            let count = k
+            while (--count) 
+                stack.pop()
+            continue
+        }
+        
+        stack.push([char, 1])
+    }
+    
+    return stack.map(pair => pair[0]).join('')
+};
+```
