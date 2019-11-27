@@ -16279,3 +16279,28 @@ var maxNumberOfBalloons = function(text) {
     return min
 };
 ```
+
+## 277. Find the Celebrity
+```javascript
+var solution = function(knows) {
+    /**
+     * @param {integer} n Total people
+     * @return {integer} The celebrity
+     */
+    return function(n) {
+        let celebrity = 0
+        
+        for (let i = 1; i < n; i++)
+            if (knows(celebrity, i))
+                celebrity = i
+        
+        for (let i = 0; i < n; i++) {
+            if (i !== celebrity && knows(celebrity, i) || !knows(i, celebrity)) {
+                return -1
+            }
+        }
+        
+        return celebrity
+    };
+};
+```
