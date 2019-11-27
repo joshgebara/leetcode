@@ -6278,19 +6278,18 @@ var removeOuterParentheses = function(S) {
 ## 1047. Remove All Adjacent Duplicates In String
 ```javascript
 var removeDuplicates = function(S) {
-    if (!S.length) return S
+    const stack = []
     
-    const charArr = S.split('')
-    const result = []
-    
-    for (let char of charArr) {
-        if (result[result.length - 1] === char) {
-            result.pop()
+    for (const char of S) {
+        if (char === stack[stack.length - 1]) {
+            stack.pop()
             continue
         }
-        result.push(char)
-    } 
-    return result.join('')
+        
+        stack.push(char)
+    }
+    
+    return stack.join('')
 };
 ```
 
