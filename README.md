@@ -16481,3 +16481,61 @@ const fillCol = (matrix, col, n) => {
     }
 }
 ```
+
+## 73. Set Matrix Zeroes
+```javascript
+var setZeroes = function(matrix) {
+    const height = matrix.length
+    const width = matrix[0].length
+    
+    let firstRowZero = false
+    for (let col = 0; col < width; col++) {
+        if (matrix[0][col] === 0) {
+            firstRowZero = true
+            break
+        }
+    }
+    
+    for (let row = 1; row < height; row++) {
+        for (let col = 0; col < width; col++) {
+            if (matrix[row][col] === 0)
+                matrix[0][col] = 0
+        }
+    }
+    
+    for (let row = 1; row < height; row++) {
+        for (let col = 0; col < width; col++) {
+            if (matrix[row][col] === 0) {
+                fillRow(row, matrix, width)
+                break
+            }
+        }
+    }
+    
+    for (let col = 0; col < width; col++) {
+        if (matrix[0][col] === 0) {
+            fillCol(col, matrix, height)
+        }
+    }
+    
+    if (firstRowZero) {
+        for (let col = 0; col < width; col++) {
+            matrix[0][col] = 0
+        }
+    }
+    
+    return matrix
+};
+
+const fillRow = (row, matrix, height) => {
+    for (let col = 0; col < height; col++) {
+        matrix[row][col] = 0
+    }    
+}
+
+const fillCol = (col, matrix, width) => {
+    for (let row = 0; row < width; row++) {
+        matrix[row][col] = 0
+    }
+}
+```
