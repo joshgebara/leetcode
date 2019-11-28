@@ -16558,3 +16558,27 @@ const reverse = (s, left, right) => {
     }
 }
 ```
+
+## 58. Length of Last Word
+```javascript
+var lengthOfLastWord = function(s) {
+    if (!s.length) return 0
+    
+    let start = 0
+    let end = 0
+    
+    for (let i = s.length - 1; i >= 0; i--) {
+        if (s[i] === ' ') continue
+        end = i
+        break
+    }
+
+    for (let i = end; i >= 0; i--) {
+        if (s[i] !== ' ') continue
+        start = i + 1
+        break
+    }
+    
+    return end - start + 1
+};
+```
