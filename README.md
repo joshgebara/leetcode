@@ -16108,6 +16108,39 @@ var totalFruit = function(tree) {
     
     return max + 1
 };
+
+// O(n)
+// O(1)
+var totalFruit = function(tree) {
+    let max = 0
+    let currMax = 0
+    
+    let lastFruit = 0
+    let lastFruitCount = 0
+    let secondLastFruit = 0
+    
+    for (let i = 0; i < tree.length; i++) {
+        if (tree[i] === lastFruit) {
+            lastFruitCount++
+            currMax++
+        } else if (tree[i] === secondLastFruit) {
+            lastFruitCount = 1
+            currMax++
+            
+            secondLastFruit = lastFruit
+            lastFruit = tree[i]
+        } else {
+            currMax = lastFruitCount + 1
+            lastFruitCount = 1
+            
+            secondLastFruit = lastFruit
+            lastFruit = tree[i]
+        }
+        max = Math.max(currMax, max)
+    }
+    
+    return max
+};
 ```
 
 ## 681. Next Closest Time
@@ -16617,3 +16650,4 @@ const isLetter = char => {
     return lowercase >= 'a' && lowercase <= 'z'
 }
 ```
+
