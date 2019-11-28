@@ -16756,3 +16756,22 @@ var findRestaurant = function(list1, list2) {
     return min
 };
 ```
+## 266. Palindrome Permutation
+```javascript
+var canPermutePalindrome = function(s) {
+    const counts = {}
+    let oddCount = 0
+    
+    for (let l of s) {
+        counts[l] ? counts[l]++ : counts[l] = 1
+        
+        if (counts[l] & 1) {
+            oddCount++
+        } else {
+            oddCount--
+        }
+    }
+
+    return oddCount <= 1
+};
+```
