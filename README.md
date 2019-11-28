@@ -16450,3 +16450,34 @@ var addStrings = function(num1, num2) {
     return result.reverse().join('')
 };
 ```
+
+## 1252. Cells with Odd Values in a Matrix
+```javascript
+var oddCells = function(n, m, indices) {
+    const matrix = Array(n).fill(false).map(e => Array(m).fill(false))
+    
+    for (let [row, col] of indices) {
+        fillRow(matrix, row, m)
+        fillCol(matrix, col, n)
+    }
+    
+    let count = 0
+    for (let row = 0; row < n; row++)
+        for (let col = 0; col < m; col++)
+            if (matrix[row][col])
+                count++
+    return count
+};
+
+const fillRow = (matrix, row, m) => {
+    for (let col = 0; col < m; col++) {
+        matrix[row][col] ^= true
+    }
+}
+
+const fillCol = (matrix, col, n) => {
+    for (let row = 0; row < n; row++) {
+        matrix[row][col] ^= true
+    }
+}
+```
