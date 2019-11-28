@@ -16535,3 +16535,26 @@ const fillCol = (col, matrix, width) => {
     }
 }
 ```
+
+## 541. Reverse String II
+```javascript
+var reverseStr = function(s, k) {
+    const charArr = s.split('')
+    
+    for (let i = 0; i < charArr.length; i += (2 * k)) {
+        reverse(charArr, i, Math.min((i + k - 1), charArr.length - 1))
+    }
+    return charArr.join('')
+};
+
+const reverse = (s, left, right) => {
+    while (left < right) {
+        let temp = s[left]
+        s[left] = s[right]
+        s[right] = temp
+        
+        left++
+        right--
+    }
+}
+```
