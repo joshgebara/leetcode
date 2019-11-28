@@ -16708,3 +16708,24 @@ var lengthOfLongestSubstringKDistinct = function(s, k) {
     return max
 };
 ```
+
+## 1213. Intersection of Three Sorted Arrays
+```javascript
+var arraysIntersection = function(arr1, arr2, arr3) {
+    const counts = {}
+    for (let a of arr1)
+        counts[a] ? counts[a]++ : counts[a] = 1
+    
+    for (let a of arr2)
+        counts[a] ? counts[a]++ : counts[a] = 1
+    
+    for (let a of arr3)
+        counts[a] ? counts[a]++ : counts[a] = 1
+    
+    return Object.entries(counts).reduce((result, entry) => {
+        if (entry[1] === 3) 
+            result.push(entry[0])
+        return result
+    }, [])
+};
+```
