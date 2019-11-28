@@ -5618,26 +5618,22 @@ var isMajorityElement = function(nums, target) {
 ```javascript
 // Counting
 var relativeSortArray = function(arr1, arr2) {
-  const counts = Array(1001).fill(0)
-  arr1.forEach(num => counts[num]++)
-  
-  let i = 0
-  for (let num of arr2) {
-    while(counts[num]-- > 0) {
-      arr1[i++] = num
-    }
-  }
-  
-  for (let n = 0; n < counts.length; n++) {
-    while(counts[n]-- > 0) {
-      arr1[i++] = n
-    }
-  }
-  
-  return arr1
+    const result = []
+    const counts = Array(1001).fill(0)
+    
+    for (const num of arr1)
+        counts[num]++
+    
+    for (const num of arr2)
+        while (counts[num]--)
+            result.push(num)
+    
+    for (let i = 0; i < counts.length; i++)
+        while(counts[i]-- > 0)
+            result.push(i)
+    
+    return result
 };
-
-relativeSortArray([2,3,1,3,2,4,6,7,9,2,19], [2,1,4,3,9,6])
 
 
 // Hash Map
