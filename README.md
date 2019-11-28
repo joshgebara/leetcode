@@ -16651,3 +16651,36 @@ const isLetter = char => {
 }
 ```
 
+## 159. Longest Substring with At Most Two Distinct Characters
+```javascript
+var lengthOfLongestSubstringTwoDistinct = function(s) {
+    let max = 0
+    let currMax = 0
+    
+    let lastChar = null
+    let lastCharCount = 0
+    let secondLastChar = null
+    
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === lastChar) {
+            lastCharCount++
+            currMax++
+        } else if (s[i] === secondLastChar) {
+            lastCharCount = 1
+            currMax++
+            
+            secondLastChar = lastChar
+            lastChar = s[i]
+        } else {
+            currMax = lastCharCount + 1
+            lastCharCount = 1
+            
+            secondLastChar = lastChar
+            lastChar = s[i]
+        }
+        max = Math.max(currMax, max)
+    }
+    
+    return max
+};
+```
