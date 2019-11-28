@@ -16729,3 +16729,30 @@ var arraysIntersection = function(arr1, arr2, arr3) {
     }, [])
 };
 ```
+
+## 599. Minimum Index Sum of Two Lists
+```javascript
+var findRestaurant = function(list1, list2) {
+    const order1 = {}
+    for (let i = 0; i < list1.length; i++) {
+        order1[list1[i]] = i 
+    }
+    
+    let minDist = Number.MAX_VALUE
+    let min = []
+    
+    for (let i = 0; i < list2.length; i++) {
+        if (order1[list2[i]] === undefined) continue
+        
+        let dist = order1[list2[i]] + i
+
+        if (dist === minDist) {
+            min.push(list2[i])
+        } else if (!min.length || dist < minDist) {
+            min = [list2[i]]
+            minDist = dist
+        }
+    }
+    return min
+};
+```
