@@ -16845,3 +16845,29 @@ var combinationSum2 = function(candidates, target) {
     return result
 };
 ```
+
+## 39. Combination Sum
+```javascript
+var combinationSum = function(candidates, target) {
+    const _combinationSum = (candidates, curr, currSum, startIndex = 0) => {
+        if (currSum === target) {
+            result.push(curr.slice())
+            return
+        }
+        
+        if (currSum > target) {
+            return
+        }
+        
+        for (let i = startIndex; i < candidates.length; i++) {
+            curr.push(candidates[i])
+            _combinationSum(candidates, curr, currSum + candidates[i], i)
+            curr.pop()
+        }
+    }
+    
+    const result = []
+    _combinationSum(candidates, [], 0)
+    return result
+};
+```
