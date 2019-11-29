@@ -16798,3 +16798,20 @@ var inorderSuccessor = function(root, p) {
     return left
 };
 ```
+
+## 510. Inorder Successor in BST II
+```javascript
+var inorderSuccessor = function(node) {
+    if (node.right) {
+        node = node.right
+        while (node.left) node = node.left
+        return node
+    }
+    
+    while (node.parent && node.parent.right === node) {
+        node = node.parent
+    }
+    
+    return node.parent
+};
+```
