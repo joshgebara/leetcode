@@ -16819,7 +16819,7 @@ var inorderSuccessor = function(node) {
 ## 40. Combination Sum II
 ```javascript
 var combinationSum2 = function(candidates, target) {
-    const _combinationSum2 = (candidates, curr, currSum, startIndex = 0) => {
+    const _combinationSum2 = (candidates, curr, currSum, startIndex) => {
         if (currSum === target) {
             result.push(curr.slice())
             return
@@ -16841,7 +16841,7 @@ var combinationSum2 = function(candidates, target) {
     
     const result = []
     candidates.sort((a, b) => a - b)
-    _combinationSum2(candidates, [], 0)
+    _combinationSum2(candidates, [], 0, 0)
     return result
 };
 ```
