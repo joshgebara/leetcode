@@ -7239,16 +7239,24 @@ var nextGreatestLetter = function(letters, target) {
 ## 270. Closest Binary Search Tree Value
 ```javascript
 var closestValue = function(root, target) {
-    let val = root.val
-    let closest = root.val
-    
+    let result = Number.MAX_VALUE
+    let diff = Number.MAX_VALUE
+
     while (root) {
-      val = root.val
-      closest = Math.abs(val - target) < Math.abs(closest - target) ? val : closest
-      root = target < root.val ? root.left : root.right
+        const currDiff = Math.abs(root.val - target)
+        if (currDiff < diff) {
+            result = root.val
+            diff = currDiff
+        }
+        
+        if (root.val < target) {
+            root = root.right
+        } else {
+            root = root.left
+        }        
     }
-    
-    return closest
+
+    return result
 };
 ```
 
