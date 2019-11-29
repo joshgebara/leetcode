@@ -16776,3 +16776,25 @@ var canPermutePalindrome = function(s) {
     return oddCount <= 1
 };
 ```
+
+## 285. Inorder Successor in BST
+```javascript
+var inorderSuccessor = function(root, p) {
+    if (p.right) {
+        p = p.right
+        while (p.left) p = p.left
+        return p
+    }
+    
+    let left = null
+    while (root && p.val !== root.val) {
+        if (p.val < root.val) {
+            left = root
+            root = root.left
+        } else {
+            root = root.right
+        }
+    }
+    return left
+};
+```
