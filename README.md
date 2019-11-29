@@ -16879,3 +16879,49 @@ var combinationSum = function(candidates, target) {
     return result
 };
 ```
+
+## 130. Surrounded Regions
+```javascript
+var solve = function(board) {
+    if (!board.length) return
+    
+    const height = board.length
+    const width = board[0].length
+    const visited = Array(height).fill(null).map(_ => Array(width).fill(false))
+    
+    for (let col = 0; col < width; col++)
+        if (board[0][col] === 'O')
+           dfs(board, 0, col, visited)
+    
+    for (let col = 0; col < width; col++)
+        if (board[height - 1][col] === 'O')
+            dfs(board, height - 1, col, visited)
+            
+    for (let row = 1; row < height - 1; row++)
+        if (board[row][0] === 'O')
+            dfs(board, row, 0, visited)
+    
+    for (let row = 1; row < height - 1; row++)
+        if (board[row][width - 1] === 'O')
+            dfs(board, row, width - 1, visited)
+    
+    for (let row = 0; row < height; row++)
+        for (let col = 0; col < width; col++)
+            if (!visited[row][col] && board[row][col] === 'O')
+                board[row][col] = 'X'
+};
+
+const dfs = (board, row, col, visited) => {
+    if (row < 0 || row >= board.length || col < 0 || 
+        col >= board[0].length || board[row][col] === 'X' || 
+        visited[row][col]) return
+    
+    if (board[row][col] === 'O')
+        visited[row][col] = true
+    
+    dfs(board, row - 1, col, visited)
+    dfs(board, row + 1, col, visited)
+    dfs(board, row, col - 1, visited)
+    dfs(board, row, col + 1, visited)
+}
+```
