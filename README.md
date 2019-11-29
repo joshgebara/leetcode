@@ -16756,6 +16756,7 @@ var findRestaurant = function(list1, list2) {
     return min
 };
 ```
+
 ## 266. Palindrome Permutation
 ```javascript
 var canPermutePalindrome = function(s) {
