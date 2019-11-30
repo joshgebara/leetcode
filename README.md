@@ -16926,7 +16926,7 @@ const dfs = (board, row, col, visited) => {
 }
 ```
 
-##
+## 763. Partition Labels
 ```javascript
 var partitionLabels = function(S) {
     const intervals = {}
@@ -16948,5 +16948,40 @@ var partitionLabels = function(S) {
     }
     
     return result
+};
+```
+
+##
+```javascript
+var mostCommonWord = function(paragraph, banned) {
+    const bannedSet = new Set(banned)
+    let maxCount = 0
+    let maxWord = ""
+    
+    const words = paragraph
+    .split('')
+    .map(char => {
+        const lowercase = char.toLowerCase()
+        if ('a' <= lowercase && lowercase <= 'z') 
+            return lowercase
+        return ' '
+    })
+    .join('')
+    .split(' ')
+    .filter(word => !bannedSet.has(word))
+    .reduce((result, word) => {
+        if (word == '') return result
+        
+        result[word] ? result[word]++ : result[word] = 1
+        
+        if (result[word] > maxCount) {
+            maxCount = result[word]
+            maxWord = word
+        }
+        
+        return result
+    }, {})
+    
+    return maxWord
 };
 ```
