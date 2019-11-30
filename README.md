@@ -5963,142 +5963,51 @@ palindromePemutation("Tact Coa")
 
 ## 234. Palindrome Linked List
 ```javascript
-const reverseList = node => {
-    let curr = node
-    let prev = null
-    let next = null
-    
-    while (curr) {
-        next = curr.next
-        curr.next = prev
-        prev = curr
-        curr = next
-    }
-    return prev
-}
-
-const copyList = node => {
-    const dummy = new ListNode(NaN)
-    let curr = dummy
-    
-    while (node) {
-        curr.next = new ListNode(node.val)
-        curr = curr.next
-        
-        node = node.next
-    }
-    
-    return dummy.next
-}
-
-const isEqual = (l1, l2) => {
-    while (l1 && l2) {
-        if (l1.val !== l2.val)
-            return false
-        l1 = l1.next
-        l2 = l2.next
-    }
-    return true    
-}
-
 var isPalindrome = function(head) {
     if (!head || !head.next) return true
     
-    let l1 = head
-    let l2 = reverseList(copyList(head))
-    return isEqual(l1, l2)
+    const list1 = firstHalf(head)
+    const list2 = reverse(list1.next)
+
+    return equal(head, list2)
 };
 
-
-const reverse = head => {
-  let current = head
-  let previous = null
-  let next = null
-
-  while (current) {
-    next = current.next
-    current.next = previous
-    previous = current
-    current = next
-  }
-  return previous
-}
-
-var isPalindrome = function(head) {
-  if (!head || !head.next) return true
-  
-  let fast = head
-  let slow = head
-  
-  while (fast && fast.next) {
-    fast = fast.next.next
-    slow = slow.next
-  }
-  
-  if (fast) {
-    slow = slow.next
-  }
-  
-  slow = reverse(slow)
-  fast = head
-  
-  while (slow != null) {
-    if (fast.val != slow.val) return false
-    fast = fast.next
-    slow = slow.next
-  }
-  return true
-};
-
-const reverseList = node => {
-    let curr = node
-    let prev = null
-    let next = null
-    
-    while (curr) {
-        next = curr.next
-        curr.next = prev
-        prev = curr
-        curr = next
-    }
-    return prev
-}
-
-const middle = node => {
-    let fast = node
-    let slow = node
-    let prev = null
-    
-    while (fast && fast.next) {
-        fast = fast.next.next
-        prev = slow
-        slow = slow.next
-    }
-    return prev
-}
-
-const isEqual = (l1, l2) => {
-    while (l1 && l2) {
-        if (l1.val !== l2.val)
+const equal = (list1, list2) => {
+    while (list1 && list2) {
+        if (list1.val !== list2.val)
             return false
         
-        l1 = l1.next
-        l2 = l2.next
+        list1 = list1.next
+        list2 = list2.next
     }
-
+    
     return true
 }
 
-var isPalindrome = function(head) {
-    if (!head || !head.next) return true
+const reverse = head => {
+    let curr = head
+    let prev = null
+    let next = null
     
-    let beforeMiddle = middle(head)
-    let mid = beforeMiddle.next
-    beforeMiddle.next = null
+    while (curr) {
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    }
+    return prev
+}
+
+const firstHalf = head => {   
+    let fast = head
+    let slow = head
     
-    const reversedList = reverseList(mid)
-    return isEqual(head, reversedList)
-};
+    while (fast.next && fast.next.next) {
+        fast = fast.next.next
+        slow = slow.next
+    }
+    return slow
+}
 ```
 
 ## 203. Remove Linked List Elements
