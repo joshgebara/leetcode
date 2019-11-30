@@ -6008,6 +6008,25 @@ const firstHalf = head => {
     }
     return slow
 }
+
+// Recursive
+var isPalindrome = function(head) {
+    const _isPalindrome = node => {
+        if (!node) return true
+        
+        const result = _isPalindrome(node.next)
+        
+        if (result && head.val === node.val) {
+            head = head.next
+            return true
+        } else {
+            return false
+        }
+        
+    }
+    
+    return _isPalindrome(head)
+};
 ```
 
 ## 203. Remove Linked List Elements
