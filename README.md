@@ -16925,4 +16925,48 @@ var printLinkedListInReverse = function(head) {
     head.printValue()
 };
 
+// Iterative
+// O(n)
+// O(n)
+var printLinkedListInReverse = function(head) {
+    const stack = []
+    
+    while (head) {
+        stack.push(head)
+        head = head.getNext()
+    }
+    
+    while (stack.length) {
+        stack.pop().printValue()
+    }
+};
+
+// O(n^2)
+// O(1)
+var printLinkedListInReverse = function(head) {
+    let length = listLength(head)
+    
+    while (length--) {
+        let runner = head
+        for (let i = 0; i < length; i++) {
+            runner = runner.getNext()
+        }
+        runner.printValue()
+    }
+};
+
+const listLength = head => {
+    let count = 0
+    
+    while (head) {
+        head = head.getNext()
+        count++
+    }
+    
+    return count
+}
+
+// O(n)
+// O(sqrt(n))
+
 ```
