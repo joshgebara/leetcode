@@ -17019,3 +17019,31 @@ const listLength = head => {
     return count
 }
 ```
+
+## 254. Factor Combinations
+```javascript
+var getFactors = function(n) {
+    if (n === 1) return []
+    
+    const _getFactors = (n, curr, start) => {
+        if (n <= 1) {
+            if (curr.length > 1) {
+                result.push(curr.slice())                 
+            }
+            return
+        }
+        
+        for (let i = start; i <= n; i++) {
+            if (n % i !== 0) continue
+            
+            curr.push(i)
+            _getFactors(n / i, curr, i)
+            curr.pop(i)
+        }
+    }
+    
+    const result = []
+    _getFactors(n, [], 2)
+    return result
+};
+```
