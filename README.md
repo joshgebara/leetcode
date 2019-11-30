@@ -16968,5 +16968,54 @@ const listLength = head => {
 
 // O(n)
 // O(sqrt(n))
+var printLinkedListInReverse = function(head) {
+    const length = listLength(head)
+    const k = Math.floor(Math.sqrt(length))
+    const startNodes = []
+    
+    let runner = head
+    let i = 0
+    while (runner) {
+        if (i % k === 0)
+            startNodes.push(runner)
+            
+        runner = runner.getNext()
+        i++
+    }
+    
+    printList(head, startNodes, k)
+};
 
+const printList = (head, startNodes, k) => {
+    let start = null
+    let end = null
+    let temp = null
+    
+    while (startNodes.length) {
+        end = start
+        start = startNodes.pop()
+        temp = start
+        const stack = []
+        
+        while (temp != end) {
+            stack.push(temp)
+            temp = temp.getNext()
+        }
+
+        while (stack.length) {
+            stack.pop().printValue()
+        }   
+    }
+}
+
+const listLength = head => {
+    let count = 0
+    
+    while (head) {
+        head = head.getNext()
+        count++
+    }
+    
+    return count
+}
 ```
