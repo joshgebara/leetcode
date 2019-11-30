@@ -16951,7 +16951,7 @@ var partitionLabels = function(S) {
 };
 ```
 
-##
+## 819. Most Common Word
 ```javascript
 var mostCommonWord = function(paragraph, banned) {
     const bannedSet = new Set(banned)
