@@ -16913,3 +16913,16 @@ var mostCommonWord = function(paragraph, banned) {
     return maxWord
 };
 ```
+
+## 1265. Print Immutable Linked List in Reverse
+```javascript
+// Recursive
+// O(n)
+// O(n)
+var printLinkedListInReverse = function(head) {
+    if (!head) return
+    printLinkedListInReverse(head.getNext())
+    head.printValue()
+};
+
+```
