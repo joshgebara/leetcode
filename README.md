@@ -17086,3 +17086,24 @@ var kthSmallest = function(root, k) {
     return result
 };
 ```
+
+## 128. Longest Consecutive Sequence
+```javascript
+var longestConsecutive = function(nums) {
+    const seen = new Set(nums)
+    
+    let max = 0
+    
+    for (let num of nums) {
+        if (seen.has(num - 1)) continue
+        
+        let count = 1
+        
+        while (seen.has(num++)) {
+            max = Math.max(max, count++)
+        }
+    }
+    
+    return max
+};
+```
