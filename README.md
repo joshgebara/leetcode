@@ -17065,3 +17065,24 @@ var longestPalindrome = function(s) {
     return Math.min(count + 1, s.length)
 };
 ```
+
+## 230. Kth Smallest Element in a BST
+```javascript
+var kthSmallest = function(root, k) {
+    const inOrder = (root) => {
+        if (!root) return
+        
+        inOrder(root.left)
+        
+        if (!k) return
+        result = root.val
+        k--
+        
+        inOrder(root.right)
+    }
+    
+    let result = null
+    inOrder(root)
+    return result
+};
+```
