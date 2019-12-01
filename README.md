@@ -17047,3 +17047,21 @@ var getFactors = function(n) {
     return result
 };
 ```
+
+## 409. Longest Palindrome
+```javascript
+var longestPalindrome = function(s) {
+    const counts = {}
+    
+    for (let char of s) {
+        counts[char] = 1 + (counts[char] || 0)
+    }
+    
+    let count = 0
+    for (let [key, val] of Object.entries(counts)) {    
+        count += (Math.floor(val / 2) * 2)
+    }
+    
+    return Math.min(count + 1, s.length)
+};
+```
