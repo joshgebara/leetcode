@@ -17122,3 +17122,25 @@ var minCost = function(costs) {
     return Math.min(...costs[costs.length - 1])
 };
 ```
+
+## 339. Nested List Weight Sum
+```javascript
+var depthSum = function(nestedList) {
+    const _depthSum = (nestedList, depth = 1) => {
+        let sum = 0
+        
+        for (const n of nestedList) {
+            if (n.isInteger()) {
+                sum += n.getInteger() * depth
+            } else {
+                sum += _depthSum(n.getList(), depth + 1)
+            }
+        }
+        
+        return sum
+    }
+    
+    const depths = {}
+    return _depthSum(nestedList)
+};
+```
