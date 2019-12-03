@@ -17144,3 +17144,64 @@ var depthSum = function(nestedList) {
     return _depthSum(nestedList)
 };
 ```
+
+## 364. Nested List Weight Sum II
+```javascript
+// Two Pass
+var depthSumInverse = function(nestedList) {
+    const _depthSumInverse = (nestedList, depth = 1) => {
+        let sum = 0
+        
+        for (let n of nestedList) {
+            if (n.isInteger()) {
+                sum += (max - depth + 1) * n.getInteger()
+            } else {
+                sum += _depthSumInverse(n.getList(), depth + 1)
+            }
+        }
+        
+        return sum
+    }
+    
+    const maxDepth = (nestedList, depth = 1) => {
+        for (let n of nestedList) {
+            if (n.isInteger()) {
+                max = Math.max(max, depth)
+            } else {
+                maxDepth(n.getList(), depth + 1)
+            }
+        }
+    }
+    
+    let max = 0
+    maxDepth(nestedList)
+    return _depthSumInverse(nestedList)
+};
+
+// One Pass
+var depthSumInverse = function(nestedList) {
+    const _depthSumInverse = (nestedList, d = 1) => {
+        for (let n of nestedList) {
+            if (n.isInteger()) {
+                if (!depths[d]) depths[d] = 0
+                depths[d] += n.getInteger()
+                max = Math.max(max, d)
+            } else {
+                _depthSumInverse(n.getList(), d + 1)
+            }
+        }
+    }
+    
+    const depths = {}
+    let max = 0
+    
+    _depthSumInverse(nestedList)
+    
+    let sum = 0
+    
+    for (let [key, val] of Object.entries(depths)) {
+        sum += (val * (max - key + 1))
+    }
+    return sum
+};
+```
