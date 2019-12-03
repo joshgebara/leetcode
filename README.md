@@ -17205,3 +17205,35 @@ var depthSumInverse = function(nestedList) {
     return sum
 };
 ```
+
+## 937. Reorder Data in Log Files
+```javascript
+var reorderLogFiles = function(logs) {
+    const letterLogs = []
+    const digitLogs = []
+    
+    for (const log of logs) {
+        if (Number.isNaN(+log[log.length - 1])) {
+            letterLogs.push(log)
+        } else {
+            digitLogs.push(log)
+        }
+    }
+    
+    letterLogs.sort((a, b) => {
+        let [aId, ...aWord] = a.split(' ')
+        let [bId, ...bWord] = b.split(' ')
+        aWord = aWord.join(' ')
+        bWord = bWord.join(' ')
+        
+        let result = aWord.localeCompare(bWord)
+        
+        if (!result) 
+            result = aId.localeCompare(bId)
+        
+        return result
+    })
+    
+    return letterLogs.concat(digitLogs)
+};
+```
