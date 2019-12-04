@@ -6504,24 +6504,19 @@ var largestPerimeter = function(A) {
 
 ## 242. Valid Anagram
 ```javascript
-const counts = str => {
-    return str.split('').reduce((result, char) => {
-        result[char] = 1 + (result[char] || 0)
-        return result
-    }, {})
-}
-
 var isAnagram = function(s, t) {
     if (s.length !== t.length) return false
-    let sCounts = counts(s)
     
-    for (let char of t) {
-        if (!sCounts[char]) return false
-        sCounts[char]--
-    }
+    const counts = Array(26).fill(0)
+    for (const char of s)
+        counts[char.charCodeAt(0) - 'a'.charCodeAt(0)]++
     
-    for (let value of Object.values(sCounts)) {
-        if (value !== 0) return false
+    for (const char of t) {
+        const code = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        counts[code]--
+        
+        if (counts[code] < 0) 
+            return false
     }
     return true
 };
