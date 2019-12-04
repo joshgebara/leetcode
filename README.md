@@ -5817,6 +5817,8 @@ var maxProfit = function(prices) {
 ## 876. Middle of the Linked List
 ```javascript
 var middleNode = function(head) {
+    if (!head) return null
+    
     let fast = head
     let slow = head
     
@@ -5824,7 +5826,6 @@ var middleNode = function(head) {
         fast = fast.next.next
         slow = slow.next
     }
-    
     return slow
 };
 ```
