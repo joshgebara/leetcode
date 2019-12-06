@@ -6157,9 +6157,9 @@ RecentCounter.prototype.ping = function(t) {
  * @param {number} size
  */
 var MovingAverage = function(size) {
+    this.queue = []
+    this.sum = 0
     this.size = size
-    this.storage = []
-    this.currSum = 0
 };
 
 /** 
@@ -6167,15 +6167,14 @@ var MovingAverage = function(size) {
  * @return {number}
  */
 MovingAverage.prototype.next = function(val) {
-    this.storage.push(val)
-    this.currSum += val
-    
-    while(this.storage.length > this.size) {
-        let popVal = this.storage.shift()
-        this.currSum -= popVal
+    if (this.queue.length === this.size) {
+        this.sum -= this.queue.shift()
     }
     
-    return this.currSum / this.storage.length
+    this.queue.push(val)
+    this.sum += val
+    
+    return this.sum / this.queue.length
 };
 
 /** 
@@ -17233,3 +17232,4 @@ var reorderLogFiles = function(logs) {
     return letterLogs.concat(digitLogs)
 };
 ```
+
