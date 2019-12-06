@@ -6358,31 +6358,33 @@ var isValid = function(s) {
 ## 682. Baseball Game
 ```javascript
 var calPoints = function(ops) {
-  let stack = []
-  let sum = 0
-
-  for (let op of ops) {
-    switch(op) {
-        case 'C':
-            let lastVal = stack.pop()
-            sum -= lastVal
-            break
-        case 'D':
-            let val = stack[stack.length - 1] * 2
-            stack.push(val)
-            sum += val
-            break
-        case '+':
-            let valSum = stack[stack.length - 1] + stack[stack.length - 2]
-            stack.push(valSum)
-            sum += valSum
-            break
-        default:
-            stack.push(+op)
-            sum += +op   
-    }     
-  }
-  return sum
+    const stack = [0, 0]
+    let result = 0
+    
+    for (const op of ops) {
+        switch (op) {
+            case '+':
+                const sumVal = stack[stack.length - 1] + stack[stack.length - 2] 
+                result += sumVal
+                stack.push(sumVal)       
+                break
+            case 'C':
+                const lastVal = stack.pop()
+                result -= lastVal
+                break
+            case 'D':
+                const doubleVal = stack[stack.length - 1] * 2
+                result += doubleVal
+                stack.push(doubleVal)
+                break
+            default:
+                const val = +op
+                result += val
+                stack.push(val)
+        }
+    }
+    
+    return result
 };
 ```
 
