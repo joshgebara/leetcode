@@ -6942,23 +6942,24 @@ var search = function(nums, target) {
 ## 69. Sqrt(x)
 ```javascript
 var mySqrt = function(x) {
-    if (x === 0) return 0
+    let left = 2
+    let right = Math.ceil(x / 2)
     
-    let start = 2
-    let end = Math.floor(x / 2) + 1
-    
-    while (start <= end) {
-        let mid = Math.floor((end - start) / 2) + start
-        let square = mid * mid
-        if (square === x || ((mid + 1) * (mid + 1) > x && square < x)) return mid
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        const square = mid ** 2
+        
+        if (square === x)
+            return mid
         
         if (square > x) {
-            end = mid - 1
+            right = mid - 1
         } else {
-            start = mid + 1
+            left = mid + 1
         }
     }
-    return start
+    
+    return right
 };
 ```
 
