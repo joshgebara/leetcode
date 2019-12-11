@@ -7319,13 +7319,16 @@ var hammingDistance = function(x, y) {
 ## 476. Number Complement
 ```javascript
 var findComplement = function(num) {
-    let numCount = 0
-    let t = num
-    while (t) {
-        numCount++
-        t >>= 1
+    let result = 0
+    let pos = 0
+    
+    while (num) {
+        const bit = num & 1
+        result |= (!bit << pos++)
+        num >>= 1
     }
-    return (num ^ ~(-1 << numCount))
+    
+    return result
 };
 ```
 
