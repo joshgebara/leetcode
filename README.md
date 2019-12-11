@@ -6033,36 +6033,17 @@ var isPalindrome = function(head) {
 ## 203. Remove Linked List Elements
 ```javascript
 var removeElements = function(head, val) {
-    if (!head) return null
-    
-    const preHead = new ListNode(-1)
-    let curr = preHead
-    
-    while (head) {
-        if (head.val !== val) {
-            curr.next = head
-            curr = curr.next
-        }
-        head = head.next
-    }
-    curr.next = null
-    
-    return preHead.next
-};
-
-var removeElements = function(head, val) {
     if (!head) return head
     
     const dummy = new ListNode(NaN)
     dummy.next = head
     let curr = dummy
     
-    while (curr && curr.next) {
-        let next = curr.next
-        while (next && next.val === val)
-            next = next.next
-        
-        curr.next = next
+    while (curr.next) {
+        if (curr.next.val === val) {
+            curr.next = curr.next.next
+            continue
+        }
         curr = curr.next
     }
     
