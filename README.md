@@ -10289,6 +10289,34 @@ var letterCasePermutation = function(S) {
     
     return result.map(charArr => charArr.join(''))
 };
+
+// Recursive
+var letterCasePermutation = function(S) {
+    const _letterCasePermutation = (s, curr, i = 0) => {
+        if (curr.length === s.length) {
+            result.push(curr.join(''))
+            return
+        }
+        
+        if (!Number.isNaN(+s[i])) {
+            curr.push(s[i])
+            _letterCasePermutation(s, curr, i + 1)
+            curr.pop()
+        } else {
+            curr.push(s[i].toUpperCase())
+            _letterCasePermutation(s, curr, i + 1)
+            curr.pop()
+
+            curr.push(s[i].toLowerCase())
+            _letterCasePermutation(s, curr, i + 1)
+            curr.pop()    
+        }
+    }
+    
+    const result = []
+    _letterCasePermutation(S.split(''), [])
+    return result
+};
 ```
 
 ## 46. Permutations
