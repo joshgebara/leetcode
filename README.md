@@ -17248,3 +17248,25 @@ var reorderLogFiles = function(logs) {
 };
 ```
 
+## 170. Two Sum III - Data structure design
+```
+TwoSum.prototype.find = function(value) {    
+    for (const key of Object.keys(this.seen)) {
+        const comp = value - key
+        if (comp == key) {
+            if (this.seen[comp] > 1) 
+                return true
+        } else if (this.seen[comp]) {
+            return true
+        }
+    }
+    return false
+};
+
+/** 
+ * Your TwoSum object will be instantiated and called as such:
+ * var obj = new TwoSum()
+ * obj.add(number)
+ * var param_2 = obj.find(value)
+ */
+```
