@@ -17249,7 +17249,7 @@ var reorderLogFiles = function(logs) {
 ```
 
 ## 170. Two Sum III - Data structure design
-```
+```javascript
 TwoSum.prototype.find = function(value) {    
     for (const key of Object.keys(this.seen)) {
         const comp = value - key
