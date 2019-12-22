@@ -17287,3 +17287,18 @@ var convertToTitle = function(n) {
 };
 ```
 
+## 171. Excel Sheet Column Number
+```javascript
+var titleToNumber = function(s) {
+    let power = 0
+    let result = 0
+    const aCode = 'A'.charCodeAt(0)
+    for (let i = s.length - 1; i >= 0; i--) {
+        const code = s[i].charCodeAt(0) - aCode + 1
+        result += (code * (26 ** power))
+        power++
+    }
+    
+    return result
+};
+```
