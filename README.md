@@ -17270,3 +17270,20 @@ TwoSum.prototype.find = function(value) {
  * var param_2 = obj.find(value)
  */
 ```
+
+## 168. Excel Sheet Column Title
+```javascript
+var convertToTitle = function(n) {
+    const map = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',                  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    const result = []
+    
+    while (n) {
+        n--
+        result.push(n % 26)
+        n = Math.floor(n / 26)
+    }
+    
+    return result.reverse().map((letter) => map[letter]).join('')
+};
+```
+
