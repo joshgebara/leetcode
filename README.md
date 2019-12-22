@@ -17302,3 +17302,19 @@ var titleToNumber = function(s) {
     return result
 };
 ```
+
+## 198. House Robber
+```javascript
+var rob = function(nums) {
+    let prev = 0
+    let curr = 0
+    
+    for (const n of nums) {
+        const temp = curr
+        curr = Math.max(n + prev, curr)
+        prev = temp
+    }
+
+    return curr
+}
+```
