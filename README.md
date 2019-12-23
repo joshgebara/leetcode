@@ -17318,3 +17318,31 @@ var rob = function(nums) {
     return curr
 }
 ```
+
+## 953. Verifying an Alien Dictionary
+```javascript
+var isAlienSorted = function(words, order) {
+    const map = {}
+    for (let i = 0; i < order.length; i++) {
+        map[order[i]] = i
+    } 
+    
+    search: for (let i = 1; i < words.length; i++) {
+        const currWord = words[i]
+        const prevWord = words[i - 1]
+        
+        for (let j = 0; j < Math.min(currWord.length, prevWord.length); j++) {
+            if (currWord[j] === prevWord[j]) continue
+            
+            if (map[prevWord[j]] > map[currWord[j]])
+                return false
+                
+            continue search
+        }
+        
+        if (prevWord.length > currWord.length)
+            return false
+    }
+    return true
+};
+```
