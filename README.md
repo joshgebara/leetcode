@@ -17346,3 +17346,11 @@ var isAlienSorted = function(words, order) {
     return true
 };
 ```
+
+## 326. Power of Three
+```javascript
+var isPowerOfThree = function(n) {
+    const regex = /^10*$/
+    return regex.test(n.toString(3))
+};
+```
