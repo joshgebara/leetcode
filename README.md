@@ -17408,3 +17408,32 @@ var countAndSay = function(n) {
     return prev.join('')
 };
 ```
+
+## 443. String Compression
+```javascript
+var compress = function(chars) {
+    if (chars.length <= 1) return chars.length
+    
+    let val = chars[0]
+    let count = 1
+    let write = 0
+    
+    for (let read = 1; read <= chars.length; read++) {
+        if (chars[read] === val) {
+            count++
+            continue
+        }
+        
+        chars[write++] = `${val}`
+        
+        if (count !== 1)
+            for (const c of `${count}`)
+                chars[write++] = c
+        
+        val = chars[read]
+        count = 1
+    }
+    
+    return write
+};
+```
