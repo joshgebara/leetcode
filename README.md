@@ -17519,3 +17519,23 @@ var subtractProductAndSum = function(n) {
     return product - sum
 };
 ```
+
+## 5291. Find Numbers with Even Number of Digits
+```javascript
+var findNumbers = function(nums) {
+    let count = 0
+    
+    for (let num of nums) {
+        let numCount = 0
+        
+        while (num) {
+            numCount++
+            num = Math.floor(num / 10)
+        }
+        
+        if ((numCount & 1) === 0)
+            count++
+    }  
+    return count
+};
+```
