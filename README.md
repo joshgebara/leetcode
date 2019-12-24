@@ -17354,3 +17354,26 @@ var isPowerOfThree = function(n) {
     return regex.test(n.toString(3))
 };
 ```
+
+## 824. Goat Latin
+```javascript
+var toGoatLatin = function(S) {
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'])
+    
+    return S.split(' ').map((word, i) => {
+        const wordResult = []
+        
+        if (vowels.has(word[0])) {
+            wordResult.push(word)
+        } else {
+            wordResult.push(word.slice(1))
+            wordResult.push(word[0])
+        }
+        
+        wordResult.push('ma')
+        wordResult.push('a'.repeat(i + 1))
+        
+        return wordResult.join('')
+    }).join(' ')
+};
+```
