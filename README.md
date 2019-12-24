@@ -17377,3 +17377,34 @@ var toGoatLatin = function(S) {
     }).join(' ')
 };
 ```
+
+## 38. Count and Say
+```javascript
+var countAndSay = function(n) {
+    let prev = [1]
+    let curr = []
+    
+    for (let i = 1; i < n; i++) {            
+        let val = prev[0]
+        let count = 1
+        
+        for (let j = 1; j <= prev.length; j++) {
+            if (prev[j] === val) {
+                count++
+                continue
+            }
+
+            curr.push(count)
+            curr.push(val)
+
+            val = prev[j]
+            count = 1
+        }
+
+        prev = curr
+        curr = []
+    }
+    
+    return prev.join('')
+};
+```
