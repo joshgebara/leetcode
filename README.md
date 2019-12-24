@@ -17437,3 +17437,27 @@ var compress = function(chars) {
     return write
 };
 ```
+
+## 249. Group Shifted Strings
+```javascript
+var groupStrings = function(strings) {
+    const result = {}
+    
+    for (const string of strings) {
+        let hash = []
+        
+        for (let i = 0; i < string.length - 1; i++) {
+            const curr = string[i].charCodeAt(0)
+            const next = string[i + 1].charCodeAt(0)
+            let dist = next - curr
+            if (dist < 0) dist += 26
+            hash.push(dist)
+        }
+        
+        hash = hash.join('')
+        result[hash] ? result[hash].push(string) : result[hash] = [string]
+    }
+    
+    return Object.values(result)
+};
+```
