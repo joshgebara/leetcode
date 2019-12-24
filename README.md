@@ -17461,3 +17461,12 @@ var groupStrings = function(strings) {
     return Object.values(result)
 };
 ```
+
+## 1148. Article Views I
+```sql
+SELECT DISTINCT author_id 
+AS id 
+FROM Views 
+WHERE author_id = viewer_id 
+ORDER BY id
+```
