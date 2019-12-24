@@ -17504,3 +17504,18 @@ HAVING count(order_number) = (
 	ORDER BY count(order_number) DESC LIMIT 1
 )
 ```
+
+## 1281. Subtract the Product and Sum of Digits of an Integer
+```javascript
+var subtractProductAndSum = function(n) {
+    let product = 1
+    let sum = 0
+    
+    while (n) {
+        product *= n % 10
+        sum += n % 10    
+        n = Math.floor(n / 10)
+    }
+    return product - sum
+};
+```
