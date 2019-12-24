@@ -17470,3 +17470,23 @@ FROM Views
 WHERE author_id = viewer_id 
 ORDER BY id
 ```
+
+## 868. Binary Gap
+```javascript
+var binaryGap = function(N) {
+    let maxDist = 0
+    let currDist = 0
+    
+    while (N) {
+        if (N & 1) {
+            maxDist = Math.max(maxDist, currDist)
+            currDist = 1
+        } else if (currDist) {
+            currDist++
+        }
+        N >>>= 1
+    }
+    
+    return maxDist
+};
+```
