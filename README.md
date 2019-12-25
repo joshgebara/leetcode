@@ -17568,3 +17568,32 @@ SELECT name, population, area FROM World WHERE area > 3000000
 UNION
 SELECT name, population, area FROM World WHERE population > 25000000
 ```
+
+## 728. Self Dividing Numbers
+```javascript
+var selfDividingNumbers = function(left, right) {
+    const result = []
+    
+    for (let i = left; i <= right; i++) {
+        if (i === 0 || i % 10 === 0) continue
+        if (1 <= i && i <= 9) {
+            result.push(i)
+            continue
+        }
+        
+        let num = i
+        while (num) {
+            const digit = num % 10
+            
+            if (i % digit !== 0)
+                break
+            
+            num = Math.floor(num / 10)
+        }
+        
+        if (!num) result.push(i)
+    }
+    
+    return result
+};
+```
