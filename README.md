@@ -17613,3 +17613,9 @@ var isPalindrome = function(x) {
     return x === r || x ===  Math.floor(r / 10)
 };
 ```
+
+## 195. Tenth Line
+```bash
+# Read from the file file.txt and output the tenth line to stdout.
+head -n 10 file.txt | tail -n +10
+```
