@@ -17715,3 +17715,16 @@ var isIsomorphic = function(s, t) {
     return true
 };
 ```
+
+## 371. Sum of Two Integers
+```javascript
+var getSum = function(a, b) {
+    while (b) {
+        const carry = a & b
+        a ^= b
+        b = carry << 1
+    }
+    
+    return a
+};
+```
