@@ -17637,3 +17637,11 @@ FROM Sales
 INNER JOIN Product
 USING(product_id)
 ```
+
+## 1069. Product Sales Analysis II
+```sql
+# Write your MySQL query statement below
+SELECT product_id, SUM(quantity) as total_quantity
+FROM Sales
+GROUP BY product_id 
+```
