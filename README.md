@@ -17653,3 +17653,10 @@ SELECT player_id, MIN(event_date) as first_login
 FROM ACTIVITY
 GROUP BY player_id
 ```
+
+## 1173. Immediate Food Delivery I
+```sql
+# Write your MySQL query statement below
+SELECT ROUND(100 * AVG(order_date = customer_pref_delivery_date), 2) AS immediate_percentage 
+FROM Delivery
+```
