@@ -17691,3 +17691,27 @@ var wordPattern = function(pattern, str) {
     return true
 };
 ```
+
+## 205. Isomorphic Strings
+```javascript
+var isIsomorphic = function(s, t) {
+    if (s.length !== t.length) return false
+    
+    const map = {}
+    const seen = new Set()
+    
+    for (let i = 0; i < t.length; i++) {
+        if (!map[s[i]]) {
+            if (seen.has(t[i])) return false
+            
+            map[s[i]] = t[i]
+            seen.add(t[i])
+            continue
+        }
+        
+        if (map[s[i]] !== t[i]) return false
+    }
+    
+    return true
+};
+```
