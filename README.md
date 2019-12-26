@@ -17728,3 +17728,18 @@ var getSum = function(a, b) {
     return a
 };
 ```
+
+## 1290. Convert Binary Number in a Linked List to Integer
+```javascript
+var getDecimalValue = function(head) {
+    let result = 0
+    
+    while (head) {
+        result <<= 1
+        result |= head.val
+        head = head.next
+    }
+    
+    return result
+};
+```
