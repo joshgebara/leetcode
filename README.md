@@ -17645,3 +17645,11 @@ SELECT product_id, SUM(quantity) as total_quantity
 FROM Sales
 GROUP BY product_id 
 ```
+
+## 511. Game Play Analysis I
+```sql
+# Write your MySQL query statement below
+SELECT player_id, MIN(event_date) as first_login
+FROM ACTIVITY
+GROUP BY player_id
+```
