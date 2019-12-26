@@ -17782,3 +17782,13 @@ FROM (SELECT num
       GROUP BY num 
       HAVING COUNT(num) = 1) AS t
 ```
+
+## 181. Employees Earning More Than Their Managers
+```sql
+# Write your MySQL query statement below
+SELECT e.Name AS Employee
+FROM Employee AS e
+INNER JOIN Employee AS m
+ON e.ManagerId = m.Id
+WHERE e.Salary > m.Salary
+```
