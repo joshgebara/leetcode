@@ -17743,3 +17743,13 @@ var getDecimalValue = function(head) {
     return result
 };
 ```
+
+## 183. Customers Who Never Order
+```sql
+# Write your MySQL query statement below
+SELECT Name AS Customers
+FROM Customers
+LEFT JOIN Orders
+ON Customers.Id = Orders.CustomerId
+WHERE CustomerId IS Null;
+```
