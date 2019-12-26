@@ -17850,3 +17850,15 @@ SELECT
      ORDER BY Salary DESC
      LIMIT 1 OFFSET 1) AS SecondHighestSalary;
 ```
+
+## 1142. User Activity for the Past 30 Days II
+```sql
+# Write your MySQL query statement below
+SELECT ROUND(IFNULL(AVG(count), 0), 2) AS average_sessions_per_user
+FROM (
+    SELECT COUNT(DISTINCT session_id) AS count
+    FROM Activity
+    WHERE DATEDIFF('2019-07-27', activity_date) < 30
+    GROUP BY user_id
+) as temp
+```
