@@ -17619,3 +17619,12 @@ var isPalindrome = function(x) {
 # Read from the file file.txt and output the tenth line to stdout.
 head -n 10 file.txt | tail -n +10
 ```
+
+## 175. Combine Two Tables
+```sql
+# Write your MySQL query statement below
+SELECT FirstName, LastName, City, State
+FROM Person
+LEFT JOIN Address
+ON Person.PersonId = Address.PersonId
+```
