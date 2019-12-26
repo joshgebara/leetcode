@@ -17821,3 +17821,13 @@ HAVING COUNT(employee_id) =
     LIMIT 1
 )
 ```
+
+## 596. Classes More Than 5 Students
+```sql
+# Write your MySQL query statement below
+SELECT class
+FROM (SELECT class, COUNT(DISTINCT student) as count
+      FROM courses
+      GROUP BY class) as t
+WHERE count >= 5
+```
