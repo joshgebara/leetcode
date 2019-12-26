@@ -17628,3 +17628,12 @@ FROM Person
 LEFT JOIN Address
 ON Person.PersonId = Address.PersonId
 ```
+
+## 1068. Product Sales Analysis I
+```sql
+# Write your MySQL query statement below
+SELECT product_name, year, price
+FROM Sales
+INNER JOIN Product
+USING(product_id)
+```
