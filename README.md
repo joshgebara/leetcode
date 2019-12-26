@@ -17660,3 +17660,34 @@ GROUP BY player_id
 SELECT ROUND(100 * AVG(order_date = customer_pref_delivery_date), 2) AS immediate_percentage 
 FROM Delivery
 ```
+
+## 290. Word Pattern
+```javascript
+var wordPattern = function(pattern, str) {
+    const words = str.split(' ')
+    if (words.length !== pattern.length)
+        return false
+    
+    const map = {}
+    const seen = new Set()
+    
+    for (let i = 0; i < words.length; i++) {
+        const w = words[i]
+        const p = pattern[i]
+        
+        if (!map[p]) {
+            if (seen.has(w)) 
+                return false
+            
+            map[p] = w
+            seen.add(w)
+            continue
+        }
+        
+        if (map[p] !== w)
+            return false
+    }
+    
+    return true
+};
+```
