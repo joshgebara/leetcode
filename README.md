@@ -17792,3 +17792,18 @@ INNER JOIN Employee AS m
 ON e.ManagerId = m.Id
 WHERE e.Salary > m.Salary
 ```
+
+## 597. Friend Requests I: Overall Acceptance Rate
+```sql
+# Write your MySQL query statement below
+SELECT ROUND(
+    IFNULL(
+        (SELECT COUNT(*) FROM (SELECT DISTINCT requester_id, accepter_id FROM request_accepted) AS A)
+        /
+        (SELECT COUNT(*) FROM (SELECT DISTINCT sender_id, send_to_id FROM friend_request) AS B)
+        , 0
+    )
+, 2) as accept_rate
+
+
+```
