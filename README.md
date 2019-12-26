@@ -17772,3 +17772,13 @@ AND buyer_id NOT IN (SELECT buyer_id
                      FROM sales JOIN product USING(product_id)
                      WHERE product_name = 'iPhone');
 ```
+
+## 619. Biggest Single Number
+```sql
+# Write your MySQL query statement below
+SELECT MAX(num) as num
+FROM (SELECT num 
+      FROM my_numbers 
+      GROUP BY num 
+      HAVING COUNT(num) = 1) AS t
+```
