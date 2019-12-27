@@ -18014,3 +18014,13 @@ WHERE sales_id NOT IN (SELECT sales_id
 SELECT *, IF(x + y > z AND x + z > y AND z + y > x, 'Yes', 'No') as triangle
 FROM triangle
 ```
+
+## 577. Employee Bonus
+```sql
+# Write your MySQL query statement below
+SELECT name, bonus
+FROM Employee
+LEFT JOIN Bonus
+USING(empId)
+WHERE bonus < 1000 OR bonus IS NULL
+```
