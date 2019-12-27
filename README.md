@@ -17983,3 +17983,15 @@ USING(country_id)
 WHERE MONTH(day) = '11' AND YEAR(day) = '2019'
 GROUP BY country_id
 ```
+
+## 512. Game Play Analysis II
+```sql
+# Write your MySQL query statement below
+SELECT player_id, device_id 
+FROM activity 
+WHERE (player_id, event_date)
+IN (SELECT player_id, 
+    MIN(event_date)
+    FROM Activity 
+    GROUP BY player_id)
+```
