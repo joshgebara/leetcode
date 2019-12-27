@@ -18024,3 +18024,13 @@ LEFT JOIN Bonus
 USING(empId)
 WHERE bonus < 1000 OR bonus IS NULL
 ```
+
+## 1075. Project Employees I
+```sql
+# Write your MySQL query statement below
+SELECT project_id, ROUND(AVG(experience_years), 2) as average_years
+FROM Project
+LEFT JOIN Employee
+USING(employee_id)
+GROUP BY project_id
+```
