@@ -17916,3 +17916,12 @@ USING(product_id)
 GROUP BY product_id
 HAVING MIN(sale_date) >= '2019-01-01' AND MAX(sale_date) <= '2019-03-31'
 ```
+
+## 620. Not Boring Movies
+```sql
+# Write your MySQL query statement below
+SELECT *
+FROM cinema
+WHERE description != 'boring' AND mod(id, 2) = 1
+ORDER BY rating DESC
+```
