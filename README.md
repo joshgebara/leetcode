@@ -17968,3 +17968,18 @@ SELECT name
 FROM customer
 WHERE referee_id <> 2 OR referee_id IS NULL
 ```
+
+## 1294. Weather Type in Each Country
+```sql
+# Write your MySQL query statement below
+SELECT country_name, 
+CASE WHEN AVG(weather_state) <= 15 THEN 'Cold'
+     WHEN AVG(weather_state) >= 25 THEN 'Hot'
+     ELSE 'Warm'
+     END AS weather_type
+FROM Weather
+INNER JOIN Countries
+USING(country_id)
+WHERE MONTH(day) = '11' AND YEAR(day) = '2019'
+GROUP BY country_id
+```
