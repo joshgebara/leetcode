@@ -17896,3 +17896,12 @@ FROM Person AS p1
 JOIN Person AS p2 
 ON p1.Email = p2.Email AND p1.ID > p2.ID
 ```
+
+## 1113. Reported Posts
+```sql
+# Write your MySQL query statement below
+SELECT extra AS report_reason, COUNT(DISTINCT post_id) AS report_count
+FROM Actions
+WHERE action = 'report' AND DATEDIFF(action_date, '2019-07-05') = -1
+GROUP BY extra
+```
