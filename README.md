@@ -18034,3 +18034,12 @@ LEFT JOIN Employee
 USING(employee_id)
 GROUP BY project_id
 ```
+
+## 1050. Actors and Directors Who Cooperated At Least Three Times
+```sql
+# Write your MySQL query statement below
+SELECT actor_id, director_id
+FROM ActorDirector
+GROUP BY director_id, actor_id
+HAVING COUNT(*) >= 3
+```
