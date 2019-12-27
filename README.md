@@ -17925,3 +17925,14 @@ FROM cinema
 WHERE description != 'boring' AND mod(id, 2) = 1
 ORDER BY rating DESC
 ```
+
+## 1241. Number of Comments per Post
+```sql
+# Write your MySQL query statement below
+SELECT S1.sub_id AS post_id, COUNT(DISTINCT S2.sub_id) AS number_of_comments
+FROM Submissions AS S1
+LEFT JOIN Submissions AS S2
+ON S1.sub_id = S2.parent_id
+WHERE S1.parent_id IS NULL
+GROUP BY S1.sub_id
+```
