@@ -17960,3 +17960,11 @@ LEFT JOIN Examinations as c
 ON a.student_id=c.student_id AND b.subject_name=c.subject_name
 GROUP BY a.student_id,b.subject_name;
 ```
+
+## 584. Find Customer Referee
+```sql
+# Write your MySQL query statement below
+SELECT name
+FROM customer
+WHERE referee_id <> 2 OR referee_id IS NULL
+```
