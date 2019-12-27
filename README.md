@@ -17936,3 +17936,27 @@ ON S1.sub_id = S2.parent_id
 WHERE S1.parent_id IS NULL
 GROUP BY S1.sub_id
 ```
+
+## 1280. Students and Examinations
+```sql
+-- Subquery
+SELECT student_id, student_name, subject_name, 
+    (SELECT COUNT(subject_name)
+     FROM Examinations AS e
+     WHERE e.student_id = st.student_id AND e.subject_name = su.subject_name) 
+     AS attended_exams
+FROM Students AS st
+JOIN Subjects AS su
+GROUP BY student_id, subject_name
+
+-- JOINS
+SELECT a.student_id, 
+       a.student_name, 
+       b.subject_name, 
+       COUNT(c.subject_name) as attended_exams
+FROM Students as a
+JOIN Subjects as b
+LEFT JOIN Examinations as c
+ON a.student_id=c.student_id AND b.subject_name=c.subject_name
+GROUP BY a.student_id,b.subject_name;
+```
