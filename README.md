@@ -18007,3 +18007,10 @@ WHERE sales_id NOT IN (SELECT sales_id
                        USING(com_id)
                        WHERE name = 'RED')
 ```
+
+## 610. Triangle Judgement
+```sql
+# Write your MySQL query statement below
+SELECT *, IF(x + y > z AND x + z > y AND z + y > x, 'Yes', 'No') as triangle
+FROM triangle
+```
