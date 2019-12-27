@@ -17905,3 +17905,14 @@ FROM Actions
 WHERE action = 'report' AND DATEDIFF(action_date, '2019-07-05') = -1
 GROUP BY extra
 ```
+
+## 1084. Sales Analysis III
+```sql
+# Write your MySQL query statement below
+SELECT product_id, product_name
+FROM Sales
+INNER JOIN Product
+USING(product_id)
+GROUP BY product_id
+HAVING MIN(sale_date) >= '2019-01-01' AND MAX(sale_date) <= '2019-03-31'
+```
