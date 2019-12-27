@@ -17995,3 +17995,15 @@ IN (SELECT player_id,
     FROM Activity 
     GROUP BY player_id)
 ```
+
+## 607. Sales Person
+```sql
+# Write your MySQL query statement below
+SELECT name
+FROM salesperson
+WHERE sales_id NOT IN (SELECT sales_id
+                       FROM orders
+                       JOIN company
+                       USING(com_id)
+                       WHERE name = 'RED')
+```
