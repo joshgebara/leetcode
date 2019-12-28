@@ -18043,3 +18043,12 @@ FROM ActorDirector
 GROUP BY director_id, actor_id
 HAVING COUNT(*) >= 3
 ```
+
+## 613. Shortest Distance in a Line
+```sql
+# Write your MySQL query statement below
+SELECT MIN(ABS(p1.x - p2.x)) as shortest
+FROM point as p1
+JOIN point as p2
+ON p1.x != p2.x
+```
