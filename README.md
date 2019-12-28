@@ -18063,3 +18063,13 @@ USING(product_id)
 WHERE u.purchase_date BETWEEN p.start_date AND p.end_date
 GROUP BY product_id
 ```
+
+## 603. Consecutive Available Seats
+```sql
+# Write your MySQL query statement below
+SELECT DISTINCT c1.seat_id
+FROM cinema as c1
+JOIN cinema as c2
+ON c1.free = 1 AND c2.free = 1 AND ABS(c1.seat_id - c2.seat_id) = 1
+ORDER BY c1.seat_id
+```
