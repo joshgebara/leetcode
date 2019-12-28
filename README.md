@@ -5694,40 +5694,35 @@ var commonChars = function(A) {
 
 ## 1170. Compare Strings by Frequency of the Smallest Character
 ```javascript
-const smallestChar = str => {
-    if (!str.length) return null
+const f = str => {
+    let min = str[0]
+    for (let i = 1; i < str.length; i++)
+        min = str[i] < min ? str[i] : min
     
-    let smallest = str[0]
-    for (let i = 1; i < str.length; i++) {
-        smallest = smallest < str[i] ? smallest : str[i]
-    }
-    return smallest
+    let count = 0
+    for (const char of str)
+        if (char === min) count++
+    
+    return count
 }
 
-const smallestFreq = str => {
-    let smallest = smallestChar(str)
-    return str.split('').reduce((result, char) => {
-        return char === smallest ? result + 1 : result
-    }, 0)
-} 
-
 var numSmallerByFrequency = function(queries, words) {
-    queries = queries.map(query => smallestFreq(query))
-    words = words.map(word => smallestFreq(word))
+    const wordsNum = words.map(ele => f(ele))
     
-    let counts = []
+    const buckets = Array(12).fill(0)
+    for (w of wordsNum)
+        buckets[w]++
     
-    for (let query of queries) {
-        let count = 0
-        for (let word of words) {
-            if (query < word) count++
-        }
-        counts.push(count)
-    }
-    return counts
+    for (let i = buckets.length - 1; i >= 1; i--)
+        buckets[i - 1] = buckets[i - 1] + buckets[i]
+    
+    const result = []
+    
+    for (const q of queries)
+        result.push(buckets[f(q) + 1])
+    
+    return result
 };
-
-numSmallerByFrequency(["bba","abaaaaaa","aaaaaa","bbabbabaab","aba","aa","baab","bbbbbb","aab","bbabbaabb"], ["aaabbb","aab","babbab","babbbb","b","bbbbbbbbab","a","bbbbbbbbbb","baaabbaab","aa"])
 ```
 
 ## 27. Remove Element
