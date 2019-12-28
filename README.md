@@ -18073,3 +18073,13 @@ JOIN cinema as c2
 ON c1.free = 1 AND c2.free = 1 AND ABS(c1.seat_id - c2.seat_id) = 1
 ORDER BY c1.seat_id
 ```
+
+## 1211. Queries Quality and Percentage
+```sql
+# Write your MySQL query statement below
+SELECT query_name, 
+       ROUND(AVG(rating / position), 2) AS quality,
+       ROUND(AVG(rating < 3) * 100, 2) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name
+```
