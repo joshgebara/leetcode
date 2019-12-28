@@ -18052,3 +18052,14 @@ FROM point as p1
 JOIN point as p2
 ON p1.x != p2.x
 ```
+
+## 1251. Average Selling Price
+```sql
+# Write your MySQL query statement below
+SELECT product_id, ROUND(SUM(units * price) / SUM(units), 2) AS average_price
+FROM UnitsSold u
+INNER JOIN Prices p
+USING(product_id)
+WHERE u.purchase_date BETWEEN p.start_date AND p.end_date
+GROUP BY product_id
+```
