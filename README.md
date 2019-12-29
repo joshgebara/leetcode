@@ -18078,3 +18078,23 @@ SELECT query_name,
 FROM Queries
 GROUP BY query_name
 ```
+
+## 942. DI String Match
+```javascript
+var diStringMatch = function(S) {
+    const result = []
+    let low = 0
+    let high = S.length
+    
+    for (let i = 0; i < S.length; i++) {
+        if (S[i] === 'I') {
+            result.push(low++)
+        } else {
+            result.push(high--)
+        }
+    }
+    
+    result.push(low)
+    return result
+};
+```
