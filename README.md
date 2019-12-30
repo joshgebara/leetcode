@@ -18127,5 +18127,15 @@ JOIN (SELECT team_id, COUNT(*) as team_size
       FROM Employee 
       GROUP BY team_id) as t
 USING(team_id)
+```
 
+## 627. Swap Salary
+```sql
+-- XOR
+UPDATE salary
+set sex = CHAR(ASCII('f') ^ ASCII('m') ^ ASCII(sex));
+
+-- IF
+UPDATE salary
+SET sex = IF(sex = 'm', 'f', 'm')
 ```
