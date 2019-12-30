@@ -18159,3 +18159,26 @@ SELECT
 FROM Department
 GROUP BY id
 ```
+
+## 1056. Confusing Number
+```javascript
+var confusingNumber = function(N) {
+    const map = { 0: 0, 1: 1, 6: 9, 8: 8, 9: 6 }
+    
+    let num = N
+    let result = 0
+    while (num) {
+        const digit = num % 10
+        
+        if (map[digit] === undefined)
+            return false
+        
+        result *= 10
+        result += map[digit]
+        
+        num = Math.floor(num / 10)
+    }
+
+    return result !== N
+};
+```
