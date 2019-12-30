@@ -18189,3 +18189,13 @@ var findLUSlength = function(a, b) {
     return a === b ? -1 : Math.max(a.length, b.length)
 };
 ```
+
+## 504. Base 7
+```javascript
+// Built In Function
+var convertToBase7 = function(num) {
+    return num.toString(7)
+};
+
+
+```
