@@ -18284,3 +18284,24 @@ var maxDistToClosest = function(seats) {
     return max
 };
 ```
+
+## 806. Number of Lines To Write String
+```javascript
+var numberOfLines = function(widths, S) {
+    let lines = 1
+    let width = 0
+
+    for (const s of S) {
+      const pos = s.charCodeAt(0) - 'a'.charCodeAt(0)
+      if (width + widths[pos] > 100) {
+          lines++
+          width = widths[pos]
+          continue
+      }  
+
+      width += widths[pos]
+    }
+    
+    return [lines, width]
+};
+```
