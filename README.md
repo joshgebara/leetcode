@@ -18257,3 +18257,30 @@ var checkRecord = function(s) {
     return true
 };
 ```
+
+## 849. Maximize Distance to Closest Person
+```javascript
+var maxDistToClosest = function(seats) {
+    const indices = []
+    for (let i = 0; i < seats.length; i++) {
+        if (seats[i] === 1) {
+            indices.push(i) 
+        }
+    }
+    
+    let curr = 0
+    let max = 0
+    
+    for (let i = 0; i < seats.length; i++) {
+            const left = Math.abs(i - indices[curr])
+            const right = Math.abs(i - indices[curr + 1])
+            const min = isNaN(right) ? left : Math.min(left, right)
+            
+            max = Math.max(max, min)
+        
+            if (left > right) curr++
+    }
+    
+    return max
+};
+```
