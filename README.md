@@ -18118,3 +18118,14 @@ var minDeletionSize = function(A) {
     return count
 };
 ```
+
+## 1303. Find the Team Size
+```sql
+SELECT employee_id, team_size
+FROM Employee
+JOIN (SELECT team_id, COUNT(*) as team_size 
+      FROM Employee 
+      GROUP BY team_id) as t
+USING(team_id)
+
+```
