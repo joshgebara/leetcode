@@ -18213,3 +18213,25 @@ var convertToBase7 = function(num) {
     return `${sign * result}`
 };
 ```
+
+## 246. Strobogrammatic Number
+```javascript
+var isStrobogrammatic = function(num) {
+    const map = { '0': '0', '1': '1', '6': '9', '8': '8', '9': '6' }
+    
+    let left = 0
+    let right = num.length - 1
+    while (left <= right) {
+        if (map[num[left]] === undefined)
+            return false
+            
+        if (map[num[left]] !== num[right])
+            return false
+        
+        left++
+        right--
+    }
+    
+    return true
+};
+```
