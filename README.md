@@ -18197,5 +18197,19 @@ var convertToBase7 = function(num) {
     return num.toString(7)
 };
 
-
+// Math
+var convertToBase7 = function(num) {
+    const sign = num < 0 ? -1 : 1
+    num = Math.abs(num)
+    
+    let result = 0
+    let place = 1
+    while (num) {
+        result += (num % 7) * place
+        place *= 10
+        num = Math.floor(num / 7)
+    }
+    
+    return `${sign * result}`
+};
 ```
