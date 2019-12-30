@@ -18235,3 +18235,25 @@ var isStrobogrammatic = function(num) {
     return true
 };
 ```
+
+## 551. Student Attendance Record I
+```javascript
+var checkRecord = function(s) {
+    let LCount = 0
+    let ACount = 0
+    
+    for (const status of s) {
+        if (status === 'L') {
+            if (++LCount > 2) return false
+            continue
+        }
+        
+        if (status === 'A')
+            if (++ACount > 1) return false
+        
+        LCount = 0
+    }
+    
+    return true
+};
+```
