@@ -18340,3 +18340,23 @@ var shortestCompletingWord = function(licensePlate, words) {
     return result
 };
 ```
+
+## 1089. Duplicate Zeros
+```javascript
+var duplicateZeros = function(arr) {
+    const zeroCount = arr.reduce((c, n) => n === 0 ? c + 1 : c, 0)
+    const len = arr.length + zeroCount
+    
+    let j = len - 1
+    for (let i = arr.length - 1; i >= 0; i--) {
+        if (arr[i] === 0) {
+            if (j < arr.length) arr[j] = arr[i]
+            j--
+            if (j < arr.length) arr[j] = arr[i]
+        } else {
+            if (j < arr.length) arr[j] = arr[i]
+        }
+        j--
+    }
+};
+```
