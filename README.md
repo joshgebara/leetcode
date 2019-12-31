@@ -18305,3 +18305,38 @@ var numberOfLines = function(widths, S) {
     return [lines, width]
 };
 ```
+
+## 748. Shortest Completing Word
+```javascript
+const count = str => {
+    return str.toLowerCase().split('').reduce((result, char) => {
+        if (char < 'a' || char > 'z')
+            return result
+        
+        result[char] = 1 + (result[char] || 0)
+        return result
+    }, {})
+}
+
+var shortestCompletingWord = function(licensePlate, words) {
+    const lpCount = count(licensePlate)
+    
+    let result = ""    
+    
+    outer: for (const word of words) {
+        if (result.length && word.length >= result.length) 
+            continue
+        
+        const wordCount = count(word)
+        
+        for (const key of Object.keys(lpCount))
+            if (!wordCount[key] || wordCount[key] < lpCount[key])
+                continue outer
+        
+        if (!result.length || result.length > word.length)
+            result = word
+    }
+    
+    return result
+};
+```
