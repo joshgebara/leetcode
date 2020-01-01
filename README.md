@@ -18360,3 +18360,17 @@ var duplicateZeros = function(arr) {
     }
 };
 ```
+
+## 1077. Project Employees III
+```sql
+SELECT p.project_id, p.employee_id
+FROM Project as p
+INNER JOIN Employee as e
+USING(employee_id)
+WHERE (p.project_id, e.experience_years) IN 
+(SELECT project_id, MAX(experience_years) as max
+ FROM Project
+ INNER JOIN Employee
+ USING(employee_id)
+ GROUP BY project_id)
+```
