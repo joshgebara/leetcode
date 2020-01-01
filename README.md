@@ -18436,3 +18436,15 @@ ON s1.gender = s2.gender AND s1.day >= s2.day
 GROUP BY s1.gender, s1.day
 ORDER BY gender, day
 ```
+
+## 1204. Last Person to Fit in the Elevator
+```sql
+SELECT q1.person_name
+FROM Queue as q1
+INNER JOIN Queue as q2
+ON q1.turn >= q2.turn
+GROUP BY q1.turn
+HAVING SUM(q2.weight) <= 1000
+ORDER BY SUM(q2.weight) DESC
+LIMIT 1
+```
