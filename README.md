@@ -18426,3 +18426,13 @@ FROM Customer
 GROUP BY customer_id
 HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(*) FROM Product)
 ```
+
+## 1308. Running Total for Different Genders
+```sql
+SELECT s1.gender, s1.day, SUM(s2.score_points) as total
+FROM Scores as s1
+JOIN Scores as s2
+ON s1.gender = s2.gender AND s1.day >= s2.day
+GROUP BY s1.gender, s1.day
+ORDER BY gender, day
+```
