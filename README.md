@@ -18374,3 +18374,13 @@ WHERE (p.project_id, e.experience_years) IN
  USING(employee_id)
  GROUP BY project_id)
 ```
+
+## 534. Game Play Analysis III
+```sql
+SELECT player_id, a1.event_date, SUM(a2.games_played) as games_played_so_far
+FROM Activity as a1
+INNER JOIN Activity as a2
+USING(player_id)
+WHERE a1.event_date >= a2.event_date
+GROUP BY player_id, a1.event_date
+```
