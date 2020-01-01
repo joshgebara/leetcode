@@ -18448,3 +18448,11 @@ HAVING SUM(q2.weight) <= 1000
 ORDER BY SUM(q2.weight) DESC
 LIMIT 1
 ```
+
+## 178. Rank Scores
+```sql
+SELECT Score, 
+       (SELECT COUNT(DISTINCT Score) FROM Scores WHERE Score >= s.Score) AS Rank
+FROM Scores AS s
+ORDER BY Score DESC
+```
