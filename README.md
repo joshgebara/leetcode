@@ -18384,3 +18384,21 @@ USING(player_id)
 WHERE a1.event_date >= a2.event_date
 GROUP BY player_id, a1.event_date
 ```
+
+## 550. Game Play Analysis IV
+```sql
+SELECT 
+    ROUND(
+        (
+            SELECT COUNT(DISTINCT player_id)
+            FROM Activity
+            WHERE (player_id, event_date)
+            IN (SELECT player_id, DATE_ADD(MIN(event_date), INTERVAL 1 day)
+            FROM Activity
+            GROUP BY player_id)
+        )
+        / 
+        (SELECT COUNT(DISTINCT player_id) FROM Activity)
+    , 2) 
+AS fraction
+```
