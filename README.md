@@ -18545,3 +18545,14 @@ FROM tree AS t1
 LEFT JOIN tree AS t2
 ON t1.id = t2.p_id
 ```
+
+## 574. Winning Candidate
+```sql
+SELECT Name
+FROM Vote
+INNER JOIN Candidate AS c
+ON c.id = CandidateId
+GROUP BY c.Name
+ORDER BY COUNT(*) DESC
+LIMIT 1
+```
