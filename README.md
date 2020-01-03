@@ -18456,3 +18456,12 @@ SELECT Score,
 FROM Scores AS s
 ORDER BY Score DESC
 ```
+
+## 614. Second Degree Follower
+```sql
+SELECT followee as follower, COUNT(DISTINCT follower) AS num
+FROM follow
+WHERE followee IN (SELECT follower FROM follow)
+GROUP BY followee
+ORDER BY followee
+```
