@@ -18495,3 +18495,15 @@ LEFT JOIN seat AS s2
 ON ((s1.id + 1) ^ 1) - 1 = s2.id
 ORDER BY s1.id;
 ```
+
+## 602. Friend Requests II: Who Has the Most Friends
+```sql
+SELECT ids AS id, COUNT(*) AS num
+FROM (SELECT requester_id AS ids FROM request_accepted
+      UNION ALL
+      SELECT accepter_id FROM request_accepted
+     ) AS t
+GROUP BY ids
+ORDER BY num DESC
+LIMIT 1
+```
