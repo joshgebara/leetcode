@@ -18459,9 +18459,17 @@ ORDER BY Score DESC
 
 ## 614. Second Degree Follower
 ```sql
+-- Subquery
 SELECT followee as follower, COUNT(DISTINCT follower) AS num
 FROM follow
 WHERE followee IN (SELECT follower FROM follow)
 GROUP BY followee
 ORDER BY followee
+
+-- Self Join
+SELECT f1.follower, COUNT(DISTINCT f2.follower) AS num
+FROM follow as f1
+JOIN follow as f2
+ON f1.follower = f2.followee
+GROUP BY f1.follower
 ```
