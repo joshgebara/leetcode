@@ -18507,3 +18507,14 @@ GROUP BY ids
 ORDER BY num DESC
 LIMIT 1
 ```
+
+## 580. Count Student Number in Departments
+```sql
+SELECT dept_name, COALESCE(count, 0) as student_number
+FROM department
+LEFT JOIN (SELECT dept_id, COUNT(*) as count
+           FROM student
+           GROUP BY dept_id) as t
+USING(dept_id)
+ORDER BY student_number DESC, dept_name
+```
