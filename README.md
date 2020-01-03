@@ -18556,3 +18556,13 @@ GROUP BY c.Name
 ORDER BY COUNT(*) DESC
 LIMIT 1
 ```
+
+## 1070. Product Sales Analysis III
+```sql
+SELECT product_id, year AS first_year, quantity, price
+FROM Sales
+WHERE (product_id, year) IN (
+    SELECT product_id, MIN(year)
+    FROM Sales
+    GROUP BY product_id)
+```
