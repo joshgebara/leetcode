@@ -18473,3 +18473,18 @@ JOIN follow as f2
 ON f1.follower = f2.followee
 GROUP BY f1.follower
 ```
+
+## 626. Exchange Seats
+```sql
+SELECT 
+    (CASE
+        WHEN id % 2 != 0 AND id != count THEN id + 1
+        WHEN id % 2 != 0 AND id = count THEN id
+        ELSE id - 1
+    END) as id,
+    student
+FROM seat
+JOIN (SELECT COUNT(*) AS count
+      FROM seat) AS seat_counts
+ORDER BY id ASC;
+```
