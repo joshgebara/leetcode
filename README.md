@@ -18518,3 +18518,19 @@ LEFT JOIN (SELECT dept_id, COUNT(*) as count
 USING(dept_id)
 ORDER BY student_number DESC, dept_name
 ```
+
+## 1212. Team Scores in Football Tournament
+```sql
+SELECT team_id,
+       team_name,
+       SUM(CASE WHEN host_goals > guest_goals AND team_id = host_team THEN 3
+                WHEN host_goals < guest_goals AND team_id = guest_team THEN 3
+                WHEN host_goals = guest_goals THEN 1
+                ELSE 0
+           END) as num_points
+FROM Teams as t
+LEFT JOIN Matches as m
+ON team_id = host_team OR team_id = guest_team
+GROUP BY team_id, team_name
+ORDER BY num_points DESC, team_id
+```
