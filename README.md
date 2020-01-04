@@ -18691,3 +18691,11 @@ LEFT JOIN Orders AS o
 ON u.user_id = o.buyer_id AND YEAR(order_date) = '2019'
 GROUP BY user_id
 ```
+
+## 585. Investments in 2016
+```sql
+SELECT ROUND(SUM(TIV_2016), 2) AS TIV_2016
+FROM insurance AS i
+WHERE TIV_2015 IN (SELECT TIV_2015 FROM insurance WHERE PID != i.PID)
+AND (LAT, LON) NOT IN (SELECT LAT, LON FROM insurance WHERE PID != i.PID)
+```
