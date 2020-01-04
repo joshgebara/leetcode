@@ -18588,3 +18588,16 @@ FROM (SELECT user_id, activity, MIN(activity_date) as login_date
 WHERE DATEDIFF('2019-06-30', login_date) <= 90
 GROUP BY login_date
 ```
+
+## 1126. Active Businesses
+```sql
+SELECT business_id
+FROM Events
+INNER JOIN (SELECT event_type, AVG(occurences) AS avg_occurence
+            FROM Events
+            GROUP BY event_type) as t
+USING(event_type)
+WHERE occurences > avg_occurence
+GROUP BY business_id
+HAVING COUNT(*) > 1
+```
