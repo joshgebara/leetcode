@@ -18725,3 +18725,12 @@ INNER JOIN Likes
 ON friend_id = user_id
 WHERE page_id NOT IN (SELECT page_id FROM Likes WHERE user_id = 1)
 ```
+
+## 1270. All People Report to the Given Manager
+```sql
+SELECT e1.employee_id
+FROM Employees AS e1
+JOIN Employees AS e2 ON e1.manager_id = e2.employee_id
+JOIN Employees AS e3 ON e2.manager_id = e3.employee_id
+WHERE e3.manager_id = 1 AND e1.employee_id != 1
+```
