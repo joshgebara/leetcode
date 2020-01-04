@@ -18632,3 +18632,18 @@ FROM (
 ) as t
 GROUP BY country, trans_date
 ```
+
+## 1098. Unpopular Books
+```sql
+SELECT b.book_id, b.name
+FROM Books as b
+LEFT JOIN (SELECT book_id, SUM(quantity) as quantity
+           FROM Orders as o
+           INNER JOIN Books as b
+           USING(book_id)
+           WHERE dispatch_date >= DATE_ADD('2019-06-23', INTERVAL -1 YEAR)
+           GROUP BY book_id) as t
+USING(book_id)
+WHERE available_from < DATE_ADD('2019-06-23', INTERVAL -1 MONTH) 
+AND (t.quantity IS NULL OR t.quantity < 10)
+```
