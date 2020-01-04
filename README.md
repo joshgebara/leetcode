@@ -18647,3 +18647,12 @@ USING(book_id)
 WHERE available_from < DATE_ADD('2019-06-23', INTERVAL -1 MONTH) 
 AND (t.quantity IS NULL OR t.quantity < 10)
 ```
+
+## 578. Get Highest Answer Rate Question
+```sql
+SELECT question_id as survey_log
+FROM survey_log
+GROUP BY question_id
+ORDER BY COUNT(answer_id) / COUNT(IF(action = 'show', 1, NULL)) DESC
+LIMIT 1
+```
