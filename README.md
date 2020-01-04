@@ -17488,7 +17488,7 @@ var binaryGap = function(N) {
 
 ## 586. Customer Placing the Largest Number of Orders
 ```sql
-# Write your MySQL query statement below
+
 SELECT customer_number 
 FROM orders
 GROUP BY customer_number
@@ -17558,7 +17558,7 @@ var judgeSquareSum = function(c) {
 
 ## 595. Big Countries
 ```sql
-# Write your MySQL query statement below
+
 SELECT name, population, area FROM World WHERE area > 3000000
 UNION
 SELECT name, population, area FROM World WHERE population > 25000000
@@ -17617,7 +17617,7 @@ head -n 10 file.txt | tail -n +10
 
 ## 175. Combine Two Tables
 ```sql
-# Write your MySQL query statement below
+
 SELECT FirstName, LastName, City, State
 FROM Person
 LEFT JOIN Address
@@ -17626,7 +17626,7 @@ ON Person.PersonId = Address.PersonId
 
 ## 1068. Product Sales Analysis I
 ```sql
-# Write your MySQL query statement below
+
 SELECT product_name, year, price
 FROM Sales
 INNER JOIN Product
@@ -17635,7 +17635,7 @@ USING(product_id)
 
 ## 1069. Product Sales Analysis II
 ```sql
-# Write your MySQL query statement below
+
 SELECT product_id, SUM(quantity) as total_quantity
 FROM Sales
 GROUP BY product_id 
@@ -17643,7 +17643,7 @@ GROUP BY product_id
 
 ## 511. Game Play Analysis I
 ```sql
-# Write your MySQL query statement below
+
 SELECT player_id, MIN(event_date) as first_login
 FROM ACTIVITY
 GROUP BY player_id
@@ -17651,7 +17651,7 @@ GROUP BY player_id
 
 ## 1173. Immediate Food Delivery I
 ```sql
-# Write your MySQL query statement below
+
 SELECT ROUND(100 * AVG(order_date = customer_pref_delivery_date), 2) AS immediate_percentage 
 FROM Delivery
 ```
@@ -17742,7 +17742,6 @@ var getDecimalValue = function(head) {
 ## 183. Customers Who Never Order
 ```sql
 -- Left Join
-# Write your MySQL query statement below
 SELECT Name AS Customers
 FROM Customers
 LEFT JOIN Orders
@@ -17750,7 +17749,6 @@ ON Customers.Id = Orders.CustomerId
 WHERE CustomerId IS Null;
 
 -- Subqueury
-# Write your MySQL query statement below
 SELECT Name AS Customers
 FROM Customers
 WHERE Id NOT IN (SELECT DISTINCT CustomerId From Orders)
@@ -17770,7 +17768,6 @@ AND buyer_id NOT IN (SELECT buyer_id
 
 ## 619. Biggest Single Number
 ```sql
-# Write your MySQL query statement below
 SELECT MAX(num) as num
 FROM (SELECT num 
       FROM my_numbers 
@@ -17780,7 +17777,6 @@ FROM (SELECT num
 
 ## 181. Employees Earning More Than Their Managers
 ```sql
-# Write your MySQL query statement below
 SELECT e.Name AS Employee
 FROM Employee AS e
 INNER JOIN Employee AS m
@@ -17790,7 +17786,6 @@ WHERE e.Salary > m.Salary
 
 ## 597. Friend Requests I: Overall Acceptance Rate
 ```sql
-# Write your MySQL query statement below
 SELECT ROUND(
     IFNULL(
         (SELECT COUNT(*) FROM (SELECT DISTINCT requester_id, accepter_id FROM request_accepted) AS A)
@@ -17803,7 +17798,6 @@ SELECT ROUND(
 
 ## 1076. Project Employees II
 ```sql
-# Write your MySQL query statement below
 SELECT project_id
 FROM Project
 GROUP BY project_id
@@ -17819,7 +17813,6 @@ HAVING COUNT(employee_id) =
 
 ## 596. Classes More Than 5 Students
 ```sql
-# Write your MySQL query statement below
 SELECT class
 FROM (SELECT class, COUNT(DISTINCT student) as count
       FROM courses
@@ -17829,7 +17822,6 @@ WHERE count >= 5
 
 ## 1141. User Activity for the Past 30 Days I
 ```sql
-# Write your MySQL query statement below
 SELECT activity_date as day, COUNT(DISTINCT user_id) as active_users
 FROM Activity
 WHERE DATEDIFF('2019-07-27', activity_date) < 30
@@ -17838,7 +17830,6 @@ GROUP BY activity_date
 
 ## 176. Second Highest Salary
 ```sql
-# Write your MySQL query statement below
 SELECT 
     (SELECT DISTINCT Salary
      FROM Employee
@@ -17848,7 +17839,6 @@ SELECT
 
 ## 1142. User Activity for the Past 30 Days II
 ```sql
-# Write your MySQL query statement below
 SELECT ROUND(IFNULL(AVG(count), 0), 2) AS average_sessions_per_user
 FROM (
     SELECT COUNT(DISTINCT session_id) AS count
@@ -17860,7 +17850,6 @@ FROM (
 
 ## 1082. Sales Analysis I
 ```sql
-# Write your MySQL query statement below
 SELECT seller_id
 FROM Sales
 GROUP BY seller_id
@@ -17876,7 +17865,6 @@ HAVING SUM(price) =
 
 ## 182. Duplicate Emails
 ```sql
-# Write your MySQL query statement below
 SELECT Email
 FROM Person
 GROUP BY Email
@@ -17885,7 +17873,6 @@ HAVING COUNT(Email) > 1
 
 ## 196. Delete Duplicate Emails
 ```sql
-# Write your MySQL query statement below
 DELETE p1
 FROM Person AS p1
 JOIN Person AS p2 
@@ -17894,7 +17881,6 @@ ON p1.Email = p2.Email AND p1.ID > p2.ID
 
 ## 1113. Reported Posts
 ```sql
-# Write your MySQL query statement below
 SELECT extra AS report_reason, COUNT(DISTINCT post_id) AS report_count
 FROM Actions
 WHERE action = 'report' AND DATEDIFF(action_date, '2019-07-05') = -1
@@ -17903,7 +17889,6 @@ GROUP BY extra
 
 ## 1084. Sales Analysis III
 ```sql
-# Write your MySQL query statement below
 SELECT product_id, product_name
 FROM Sales
 INNER JOIN Product
@@ -17914,7 +17899,6 @@ HAVING MIN(sale_date) >= '2019-01-01' AND MAX(sale_date) <= '2019-03-31'
 
 ## 620. Not Boring Movies
 ```sql
-# Write your MySQL query statement below
 SELECT *
 FROM cinema
 WHERE description != 'boring' AND mod(id, 2) = 1
@@ -17923,7 +17907,6 @@ ORDER BY rating DESC
 
 ## 1241. Number of Comments per Post
 ```sql
-# Write your MySQL query statement below
 SELECT S1.sub_id AS post_id, COUNT(DISTINCT S2.sub_id) AS number_of_comments
 FROM Submissions AS S1
 LEFT JOIN Submissions AS S2
@@ -17958,7 +17941,6 @@ GROUP BY a.student_id,b.subject_name;
 
 ## 584. Find Customer Referee
 ```sql
-# Write your MySQL query statement below
 SELECT name
 FROM customer
 WHERE referee_id <> 2 OR referee_id IS NULL
@@ -17966,7 +17948,6 @@ WHERE referee_id <> 2 OR referee_id IS NULL
 
 ## 1294. Weather Type in Each Country
 ```sql
-# Write your MySQL query statement below
 SELECT country_name, 
 CASE WHEN AVG(weather_state) <= 15 THEN 'Cold'
      WHEN AVG(weather_state) >= 25 THEN 'Hot'
@@ -17981,7 +17962,6 @@ GROUP BY country_id
 
 ## 512. Game Play Analysis II
 ```sql
-# Write your MySQL query statement below
 SELECT player_id, device_id 
 FROM activity 
 WHERE (player_id, event_date)
@@ -17993,7 +17973,6 @@ IN (SELECT player_id,
 
 ## 607. Sales Person
 ```sql
-# Write your MySQL query statement below
 SELECT name
 FROM salesperson
 WHERE sales_id NOT IN (SELECT sales_id
@@ -18005,14 +17984,12 @@ WHERE sales_id NOT IN (SELECT sales_id
 
 ## 610. Triangle Judgement
 ```sql
-# Write your MySQL query statement below
 SELECT *, IF(x + y > z AND x + z > y AND z + y > x, 'Yes', 'No') as triangle
 FROM triangle
 ```
 
 ## 577. Employee Bonus
 ```sql
-# Write your MySQL query statement below
 SELECT name, bonus
 FROM Employee
 LEFT JOIN Bonus
@@ -18022,7 +17999,6 @@ WHERE bonus < 1000 OR bonus IS NULL
 
 ## 1075. Project Employees I
 ```sql
-# Write your MySQL query statement below
 SELECT project_id, ROUND(AVG(experience_years), 2) as average_years
 FROM Project
 LEFT JOIN Employee
@@ -18032,7 +18008,6 @@ GROUP BY project_id
 
 ## 1050. Actors and Directors Who Cooperated At Least Three Times
 ```sql
-# Write your MySQL query statement below
 SELECT actor_id, director_id
 FROM ActorDirector
 GROUP BY director_id, actor_id
@@ -18041,7 +18016,6 @@ HAVING COUNT(*) >= 3
 
 ## 613. Shortest Distance in a Line
 ```sql
-# Write your MySQL query statement below
 SELECT MIN(ABS(p1.x - p2.x)) as shortest
 FROM point as p1
 JOIN point as p2
@@ -18050,7 +18024,6 @@ ON p1.x != p2.x
 
 ## 1251. Average Selling Price
 ```sql
-# Write your MySQL query statement below
 SELECT product_id, ROUND(SUM(units * price) / SUM(units), 2) AS average_price
 FROM UnitsSold u
 INNER JOIN Prices p
@@ -18061,7 +18034,6 @@ GROUP BY product_id
 
 ## 603. Consecutive Available Seats
 ```sql
-# Write your MySQL query statement below
 SELECT DISTINCT c1.seat_id
 FROM cinema as c1
 JOIN cinema as c2
@@ -18071,7 +18043,6 @@ ORDER BY c1.seat_id
 
 ## 1211. Queries Quality and Percentage
 ```sql
-# Write your MySQL query statement below
 SELECT query_name, 
        ROUND(AVG(rating / position), 2) AS quality,
        ROUND(AVG(rating < 3) * 100, 2) AS poor_query_percentage
@@ -18409,7 +18380,7 @@ CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
 BEGIN
   SET N = N - 1;
   RETURN (
-      # Write your MySQL query statement below.
+      .
       SELECT DISTINCT Salary
       FROM Employee
       ORDER BY Salary DESC
