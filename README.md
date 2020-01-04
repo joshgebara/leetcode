@@ -18672,3 +18672,11 @@ LEFT JOIN (SELECT *
 USING(product_id)
 GROUP BY product_id
 ```
+
+## 612. Shortest Distance in a Plane
+```sql
+SELECT MIN(ROUND(SQRT(POW(p2.y - p1.y, 2) + POW(p2.x - p1.x, 2)), 2)) AS shortest
+FROM point_2d AS p1
+JOIN point_2d AS p2
+ON (p1.x, p1.y) <> (p2.x, p2.y)
+```
