@@ -18713,3 +18713,15 @@ SELECT LEFT(trans_date, 7) AS month,
 FROM Transactions
 GROUP BY month, country
 ```
+
+## 1264. Page Recommendations
+```sql
+SELECT DISTINCT page_id AS recommended_page
+FROM (SELECT IF(user1_id = 1, user2_id, user1_id) AS friend_id
+      FROM Friendship
+      WHERE user1_id = 1 OR user2_id = 1
+     ) as t
+INNER JOIN Likes
+ON friend_id = user_id
+WHERE page_id NOT IN (SELECT page_id FROM Likes WHERE user_id = 1)
+```
