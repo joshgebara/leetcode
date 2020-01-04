@@ -18680,3 +18680,14 @@ FROM point_2d AS p1
 JOIN point_2d AS p2
 ON (p1.x, p1.y) <> (p2.x, p2.y)
 ```
+
+## 1158. Market Analysis I
+```sql
+SELECT user_id AS buyer_id, 
+       join_date, 
+       COALESCE(COUNT(o.order_id),0) AS orders_in_2019
+FROM Users AS u
+LEFT JOIN Orders AS o 
+ON u.user_id = o.buyer_id AND YEAR(order_date) = '2019'
+GROUP BY user_id
+```
