@@ -18609,3 +18609,26 @@ FROM Weather AS w1
 JOIN Weather AS w2
 WHERE DATEDIFF(w1.RecordDate, w2.RecordDate) = 1 AND w1.Temperature > w2.Temperature
 ```
+
+## 1205. Monthly Transactions II
+```sql
+SELECT trans_date as month, 
+       country,
+       COUNT(IF(state = 'approved', 1, NULL)) AS approved_count,
+       SUM(IF(state = 'approved', amount, 0)) approved_amount,
+       COUNT(IF(state = 'chargeback', 1, NULL)) chargeback_count,
+       SUM(IF(state = 'chargeback', amount, 0)) AS chargeback_amount
+FROM (
+    SELECT LEFT(trans_date, 7) AS trans_date, country, state, amount
+    FROM Transactions
+    WHERE state = 'approved'
+
+    UNION ALL
+
+    SELECT LEFT(c.trans_date, 7) AS trans_date, country, "chargeback" AS state, amount
+    FROM Chargebacks AS c
+    INNER JOIN transactions AS t 
+    ON c.trans_id = t.id
+) as t
+GROUP BY country, trans_date
+```
