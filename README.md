@@ -18699,3 +18699,12 @@ FROM insurance AS i
 WHERE TIV_2015 IN (SELECT TIV_2015 FROM insurance WHERE PID != i.PID)
 AND (LAT, LON) NOT IN (SELECT LAT, LON FROM insurance WHERE PID != i.PID)
 ```
+
+## 1149. Article Views II
+```sql
+SELECT DISTINCT viewer_id AS id
+FROM Views
+GROUP BY viewer_id, view_date
+HAVING COUNT(DISTINCT article_id) > 1
+ORDER BY id
+```
