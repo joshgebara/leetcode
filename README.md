@@ -18701,3 +18701,15 @@ WHERE (student_id, grade) IN
 GROUP BY student_id
 ORDER BY student_id
 ```
+
+## 1193. Monthly Transactions I
+```sql
+SELECT LEFT(trans_date, 7) AS month, 
+       country, 
+       COUNT(*) AS trans_count, 
+       COUNT(IF(state = 'approved', 1, NULL)) AS approved_count,
+       SUM(amount) AS trans_total_amount,
+       SUM(IF(state = 'approved', amount, 0)) AS approved_total_amount
+FROM Transactions
+GROUP BY month, country
+```
