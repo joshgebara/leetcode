@@ -18679,3 +18679,13 @@ GROUP BY viewer_id, view_date
 HAVING COUNT(DISTINCT article_id) > 1
 ORDER BY id
 ```
+
+## 570. Managers with at Least 5 Direct Reports
+```sql
+SELECT e2.Name
+FROM Employee AS e1
+INNER JOIN Employee AS e2
+ON e1.ManagerId = e2.Id
+GROUP BY e1.ManagerId
+HAVING COUNT(*) >= 5
+```
