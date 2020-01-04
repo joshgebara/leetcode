@@ -18689,3 +18689,15 @@ ON e1.ManagerId = e2.Id
 GROUP BY e1.ManagerId
 HAVING COUNT(*) >= 5
 ```
+
+## 1112. Highest Grade For Each Student
+```sql
+SELECT student_id, MIN(course_id) AS course_id, grade
+FROM Enrollments
+WHERE (student_id, grade) IN
+    (SELECT student_id, MAX(grade) as grade
+     FROM Enrollments
+     GROUP BY student_id)
+GROUP BY student_id
+ORDER BY student_id
+```
