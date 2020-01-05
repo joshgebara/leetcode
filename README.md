@@ -18767,3 +18767,18 @@ FROM
 WHERE start_id <= end_id
 GROUP BY start_id
 ```
+
+## 180. Consecutive Numbers
+```sql
+SELECT DISTINCT Num AS ConsecutiveNums
+FROM (
+SELECT Num, 
+       @group:= IF(@previous = Num, @group, @group + 1) AS grouping,
+       @previous:= Num AS prev
+FROM Logs,
+     (SELECT @previous:= 0,
+             @group:= 0) AS init
+) AS t
+GROUP BY grouping
+HAVING COUNT(*) >= 3
+```
