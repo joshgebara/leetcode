@@ -18782,3 +18782,16 @@ FROM Logs,
 GROUP BY grouping
 HAVING COUNT(*) >= 3
 ```
+
+## 1132. Reported Posts II
+```sql
+SELECT ROUND(AVG(percent) * 100, 2) AS average_daily_percent
+FROM (SELECT action_date,
+      COUNT(DISTINCT r.post_id) / COUNT(DISTINCT a.post_id) AS percent
+      FROM Actions AS a
+      LEFT JOIN Removals AS r
+      USING(post_id)
+      WHERE extra = 'spam'
+      GROUP BY action_date
+     ) AS temp
+```
