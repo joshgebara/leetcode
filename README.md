@@ -18734,3 +18734,18 @@ JOIN Employees AS e2 ON e1.manager_id = e2.employee_id
 JOIN Employees AS e3 ON e2.manager_id = e3.employee_id
 WHERE e3.manager_id = 1 AND e1.employee_id != 1
 ```
+
+## 1285. Find the Start and End Number of Continuous Ranges
+```sql
+SELECT MIN(log_id) AS start_id, MAX(log_id) AS end_id
+FROM (
+SELECT log_id, 
+       @group:= IF(@previous = log_id - 1, @group, @group + 1) AS grouping, 
+       @previous:=log_id AS prev
+FROM Logs, 
+     (SELECT @group:= 0,
+             @previous:= -1) AS init
+) as t
+GROUP BY grouping
+ORDER BY start_id
+```
