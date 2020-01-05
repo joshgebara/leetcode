@@ -18737,6 +18737,7 @@ WHERE e3.manager_id = 1 AND e1.employee_id != 1
 
 ## 1285. Find the Start and End Number of Continuous Ranges
 ```sql
+-- Session Variables
 SELECT MIN(log_id) AS start_id, MAX(log_id) AS end_id
 FROM (
 SELECT log_id, 
@@ -18748,4 +18749,21 @@ FROM Logs,
 ) as t
 GROUP BY grouping
 ORDER BY start_id
+
+-- Subqueries
+SELECT start_id, MIN(end_id) AS end_id  
+FROM 
+    (
+        (SELECT log_id AS start_id
+        FROM Logs
+        WHERE log_id - 1 NOT IN (SELECT * FROM Logs)) AS L1
+
+        JOIN
+
+        (SELECT log_id AS end_id
+        FROM Logs
+        WHERE log_id + 1 NOT IN (SELECT * FROM Logs)) AS L2
+    )
+WHERE start_id <= end_id
+GROUP BY start_id
 ```
