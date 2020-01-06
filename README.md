@@ -18795,3 +18795,23 @@ FROM (SELECT action_date,
       GROUP BY action_date
      ) AS temp
 ```
+
+## 185. Department Top Three Salaries
+```sql
+-- Session Variables
+SELECT d.Name AS Department, e.Name AS Employee, e.Salary
+FROM Employee AS e
+JOIN Department AS d
+ON e.DepartmentId = d.Id
+WHERE (e.Salary, d.Id) IN
+    (SELECT Salary, DepartmentId
+     FROM (SELECT Salary, DepartmentId, 
+                  @rank:= IF(@prev = DepartmentId, @rank + 1, 0) AS rank, 
+                  @prev:= DepartmentId
+           FROM (SELECT DISTINCT Salary, DepartmentId
+                 FROM Employee
+                 ORDER BY DepartmentId, Salary DESC) AS distinct_salaries,
+                (SELECT @rank:= 0, @prev:= 0) AS init
+          ) AS ranked_salaries
+     WHERE rank < 3)
+```
