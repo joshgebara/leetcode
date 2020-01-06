@@ -18851,3 +18851,19 @@ FROM (SELECT date,
      ) as t2
 GROUP BY group_id
 ```
+
+## 1194. Tournament Winners
+```sql
+SELECT group_id, player_id
+FROM (SELECT group_id, player_id, SUM(score) AS total_points
+      FROM (SELECT first_player AS player_id, first_score AS score FROM Matches
+            UNION ALL
+            SELECT second_player AS player_id, second_score AS score FROM Matches
+        ) AS t1
+        JOIN Players 
+        USING(player_id)
+        GROUP BY player_id
+        ORDER BY group_id, total_points DESC, player_id
+    ) AS t2
+GROUP BY group_id
+```
