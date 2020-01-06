@@ -18815,3 +18815,14 @@ WHERE (e.Salary, d.Id) IN
           ) AS ranked_salaries
      WHERE rank < 3)
 ```
+
+## 262. Trips and Users
+```sql
+SELECT Request_at AS Day,
+       ROUND(AVG(Status != 'completed'), 2) AS 'Cancellation Rate'
+FROM Trips
+WHERE Client_Id IN (SELECT Users_Id FROM Users WHERE Banned = 'NO') 
+      AND Driver_Id IN (SELECT Users_Id FROM Users WHERE Banned = 'NO')
+      AND Request_at BETWEEN '2013-10-01' AND '2013-10-03'
+GROUP BY Request_at
+```
