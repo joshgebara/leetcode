@@ -18826,3 +18826,28 @@ WHERE Client_Id IN (SELECT Users_Id FROM Users WHERE Banned = 'NO')
       AND Request_at BETWEEN '2013-10-01' AND '2013-10-03'
 GROUP BY Request_at
 ```
+
+## 1225. Report Contiguous Dates
+```sql
+SELECT state AS period_state, 
+       MIN(date) AS start_date, 
+       MAX(date) AS end_date
+FROM (SELECT date, 
+             state, 
+             @group_id:= IF(state = @prev_state, @group_id, @group_id + 1) AS group_id, 
+             @prev_state:= state AS prev_state
+      FROM (SELECT success_date AS date, 'succeeded' AS state 
+            FROM Succeeded 
+            WHERE success_date BETWEEN '2019-01-01' AND '2019-12-31'
+            
+            UNION 
+            
+            SELECT fail_date AS date, 'failed' AS state 
+            FROM Failed
+            WHERE fail_date BETWEEN '2019-01-01' AND '2019-12-31'
+            ORDER BY date
+           ) as t1,
+           (SELECT @prev_state := '', @group_id:= 0) AS init
+     ) as t2
+GROUP BY group_id
+```
