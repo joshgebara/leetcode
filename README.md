@@ -18867,3 +18867,20 @@ FROM (SELECT group_id, player_id, SUM(score) AS total_points
     ) AS t2
 GROUP BY group_id
 ```
+
+## 1159. Market Analysis II
+```sql
+SELECT user_id AS seller_id, 
+       IF(i.item_brand = u.favorite_brand, "yes", "no") AS '2nd_item_fav_brand'
+FROM Users AS u 
+LEFT JOIN (SELECT seller_id, item_id
+           FROM orders AS o1
+           WHERE 1 = (SELECT COUNT(*) 
+                      FROM orders AS o2 
+                      WHERE o1.seller_id = o2.seller_id 
+                      AND o1.order_date > o2.order_date)
+          ) AS t1
+ON u.user_id = t1.seller_id
+LEFT JOIN Items AS i
+ON t1.item_id = i.item_id
+```
