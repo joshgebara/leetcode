@@ -18896,3 +18896,23 @@ WHERE e1.Month NOT IN (SELECT MAX(month) FROM Employee WHERE e1.Id = Id)
 GROUP BY e1.Id, e1.Month
 ORDER BY e1.Id, e1.Month DESC
 ```
+
+## 569. Median Employee Salary
+```sql
+SELECT t1.Id, t1.Company, t1.Salary
+FROM (SELECT Id, 
+             Company, 
+             Salary, 
+             @row_number:= IF(@company_name = Company, @row_number + 1, 1) AS row_number, 
+             @company_name:= Company AS company_name
+      FROM Employee, (SELECT @row_number:= 0, @company_name:= 0) AS init
+      ORDER BY Company, Salary
+     ) AS t1
+JOIN (SELECT Company, 
+             FLOOR((COUNT(*) + 1) / 2) as floor, 
+             CEIL((COUNT(*) + 1) / 2) as ceil 
+      FROM Employee
+      GROUP BY Company) as t2
+ON t1.Company = t2.Company
+WHERE row_number = floor or row_number = ceil
+```
