@@ -18884,3 +18884,15 @@ ON u.user_id = t1.seller_id
 LEFT JOIN Items AS i
 ON t1.item_id = i.item_id
 ```
+
+## 579. Find Cumulative Salary of an Employee
+```sql
+SELECT e1.Id, e1.Month, SUM(e2.Salary) AS Salary
+FROM Employee AS e1
+JOIN Employee AS e2
+ON e1.Id = e2.Id AND e1.month >= e2.month AND e2.Month 
+                 AND e1.Month - e2.Month <= 2
+WHERE e1.Month NOT IN (SELECT MAX(month) FROM Employee WHERE e1.Id = Id)
+GROUP BY e1.Id, e1.Month
+ORDER BY e1.Id, e1.Month DESC
+```
