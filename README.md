@@ -18944,3 +18944,21 @@ FROM (SELECT Number,
 WHERE (SELECT FLOOR((SUM(Frequency) + 1) / 2) FROM Numbers) BETWEEN range_start AND range_end
 OR (SELECT CEIL((SUM(Frequency) + 1) / 2) FROM Numbers) BETWEEN range_start AND range_end
 ```
+
+## 615. Average Salary: Departments VS Company
+```sql
+SELECT LEFT(pay_date, 7) AS pay_month, 
+       department_id,
+       CASE WHEN AVG(amount) > (SELECT AVG(amount) 
+                                FROM salary 
+                                WHERE LEFT(pay_date, 7) = pay_month) THEN "higher"
+            WHEN AVG(amount) < (SELECT AVG(amount) 
+                                FROM salary 
+                                WHERE LEFT(pay_date, 7) = pay_month) THEN "lower"
+            ELSE 'same'
+       END AS comparison
+FROM Salary
+JOIN Employee
+USING(employee_id)
+GROUP BY department_id, pay_month
+```
