@@ -18916,3 +18916,16 @@ JOIN (SELECT Company,
 ON t1.Company = t2.Company
 WHERE row_number = floor or row_number = ceil
 ```
+
+## 1097. Game Play Analysis V
+```sql
+SELECT install_dt, 
+       COUNT(*) AS installs, 
+       ROUND(COUNT(event_date) / COUNT(*), 2) AS Day1_retention
+FROM (SELECT player_id, MIN(event_date) AS install_dt
+      FROM Activity
+      GROUP BY player_id) AS i
+LEFT JOIN Activity as a
+ON i.player_id = a.player_id AND install_dt = event_date - 1
+GROUP BY install_dt
+```
