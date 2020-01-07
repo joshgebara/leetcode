@@ -18929,3 +18929,18 @@ LEFT JOIN Activity as a
 ON i.player_id = a.player_id AND install_dt = event_date - 1
 GROUP BY install_dt
 ```
+
+## 571. Find Median Given Frequency of Numbers
+```sql
+SELECT AVG(Number) AS median
+FROM (SELECT Number, 
+             Frequency,
+             @range_start:= @prev_end + 1 AS range_start,
+             @range_end:= @range_end + Frequency AS range_end,
+             @prev_end:= @range_end AS prev
+      FROM Numbers, (SELECT @range_start:= 0, @range_end:= 0, @prev_end:= 0) AS init
+      ORDER BY Number
+     ) AS temp
+WHERE (SELECT FLOOR((SUM(Frequency) + 1) / 2) FROM Numbers) BETWEEN range_start AND range_end
+OR (SELECT CEIL((SUM(Frequency) + 1) / 2) FROM Numbers) BETWEEN range_start AND range_end
+```
