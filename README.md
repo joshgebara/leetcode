@@ -18993,3 +18993,36 @@ LEFT JOIN (SELECT user_id,
 ON t1.spend_date = t2.spend_date AND t1.platform = t2.platform
 GROUP BY spend_date, platform
 ```
+
+## 618. Students Report By Geography
+```sql
+SELECT America, Asia, Europe
+FROM (SELECT name AS Asia, 
+             @rankA:= @rankA + 1 as rank
+      FROM (SELECT * 
+            FROM student 
+            WHERE continent = 'Asia'
+            ORDER BY continent, name) as a1,
+      (SELECT @rankA:= 0) as init
+     ) as a2
+RIGHT JOIN (SELECT name AS America, 
+                   @rankB:= @rankB + 1 as rank
+           FROM (SELECT * 
+                 FROM student 
+                 WHERE continent = 'America'
+                 ORDER BY continent, name) as b1,
+           (SELECT @rankB:= 0) as init
+          ) as b2
+ON a2.rank = b2.rank
+LEFT JOIN (SELECT name AS Europe, 
+                  @rankC:= @rankC + 1 as rank
+           FROM (SELECT * 
+                 FROM student 
+                 WHERE continent = 'Europe'
+                 ORDER BY continent, name) as c1,
+           (SELECT @rankC:= 0) as init
+          ) as c2
+ON b2.rank = c2.rank
+
+-- Follow Up
+```
