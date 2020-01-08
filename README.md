@@ -19064,3 +19064,30 @@ WHERE (grouping) IN
  GROUP BY grouping
  HAVING COUNT(*) >= 3)
 ```
+
+## 22. Generate Parentheses
+```javascript
+var generateParenthesis = function(n) {
+    const generateParenthesis = (curr, opened, closed) => {
+        if (closed > opened || opened > n)
+            return
+        
+        if (closed === n) {
+            result.push(curr.join(''))
+            return
+        }
+        
+        curr.push('(')
+        generateParenthesis(curr, opened + 1, closed)
+        curr.pop()            
+        
+        curr.push(')')
+        generateParenthesis(curr, opened, closed + 1)
+        curr.pop()
+    }
+    
+    const result = []
+    generateParenthesis([], 0, 0)
+    return result
+};
+```
