@@ -19040,3 +19040,27 @@ FROM (
 ) t
 GROUP BY row_id;
 ```
+
+## 601. Human Traffic of Stadium
+```sql
+SELECT id, visit_date, people
+FROM (SELECT id, 
+             visit_date, 
+             people,
+             CASE WHEN people >= 100 AND @prev1 = true THEN @grouping1
+                  ELSE @grouping1 := @grouping1 + 1
+             END AS grouping,
+             @prev1 := people >= 100 AS prev
+      FROM stadium, (SELECT @grouping1 := 0, @prev1 := false) AS init
+     ) as t1
+WHERE (grouping) IN
+(SELECT grouping
+ FROM (SELECT CASE WHEN people >= 100 AND @prev2 = true THEN @grouping2
+                   ELSE @grouping2 := @grouping2 + 1
+              END AS grouping,
+              @prev2 := people >= 100 AS prev
+       FROM stadium, (SELECT @grouping2 := 0, @prev2 := false) as init
+      ) as t2
+ GROUP BY grouping
+ HAVING COUNT(*) >= 3)
+```
