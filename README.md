@@ -18962,3 +18962,34 @@ JOIN Employee
 USING(employee_id)
 GROUP BY department_id, pay_month
 ```
+
+## 1127. User Purchase Platform
+```sql
+SELECT t1.spend_date, 
+       t1.platform, 
+       IFNULL(SUM(amount), 0) AS total_amount,
+       COUNT(user_id) AS total_users
+FROM (SELECT DISTINCT(spend_date), 'mobile' AS platform FROM Spending
+      UNION
+      SELECT DISTINCT(spend_date), 'desktop' AS platform FROM Spending
+      UNION
+      SELECT DISTINCT(spend_date), 'both' AS platform FROM Spending
+     ) as t1
+LEFT JOIN (SELECT user_id,
+                  spend_date,
+                  CASE WHEN mobile_amount > 0 AND desktop_amount > 0 THEN 'both'
+                       WHEN mobile_amount > 0 THEN 'mobile'
+                       WHEN desktop_amount > 0 THEN 'desktop'
+                  END AS platform,
+                  mobile_amount + desktop_amount AS amount
+           FROM (SELECT user_id,
+                        spend_date,
+                        SUM(IF(platform = 'mobile', amount, 0)) AS mobile_amount,
+                        SUM(IF(platform = 'desktop', amount, 0)) AS desktop_amount
+                 FROM Spending
+                 GROUP BY spend_date, user_id
+                ) AS u
+          ) as t2
+ON t1.spend_date = t2.spend_date AND t1.platform = t2.platform
+GROUP BY spend_date, platform
+```
