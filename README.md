@@ -19161,3 +19161,58 @@ const dfs = (grid, row, col) => {
     return max
 }
 ```
+
+## 1087. Brace Expansion
+```javascript
+var expand = function(S) {
+    const _expand = (curr, index) => {
+        if (index === str.length) {
+            result.push(curr.join(''))
+            return 
+        }
+        
+        for (const char of str[index]) {
+            curr.push(char)
+            _expand(curr, index + 1)
+            curr.pop()
+        }
+    }
+    
+    const result = []
+    const str = formatStr(S)
+    _expand([], 0)
+    result.sort()
+    return result
+};
+
+const formatStr = (str) => {
+    const result = []
+    
+    let group = []
+    let inGroup = false
+    for (const s of str) {
+        if (s === ',') continue
+        
+        if (s === '{') {
+            group = []
+            inGroup = true
+            continue
+        }
+        
+        if (s === '}') {
+            result.push(group)
+            inGroup = false
+            continue
+        }
+        
+        if (inGroup) {
+            group.push(s)
+            continue
+        }
+        
+        result.push([s])
+    }
+    
+    return result
+}
+```
