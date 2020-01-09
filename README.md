@@ -19115,3 +19115,49 @@ var numTilePossibilities = function(tiles) {
     return dfs(count)
 };
 ```
+
+## 1219. Path with Maximum Gold
+```javascript
+// Time: O(n · 3 ^ k), where k is the number of cells with gold, and n - total number of cells.
+// Memory: O(k) for the recursion.
+var getMaximumGold = function(grid) {
+    let max = 0
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col]) {
+                max = Math.max(dfs(grid, row, col), max)
+            }
+        }        
+    }
+    
+    return max
+};
+
+const dfs = (grid, row, col) => {
+    const _dfs = (row, col, pathSum) => {
+        if (row >= grid.length || row < 0 || 
+            col >= grid[0].length || col < 0 || 
+            visited[row][col] || !grid[row][col]) {
+            max = Math.max(pathSum, max)
+            return
+        }
+        
+        pathSum += grid[row][col]
+        
+        visited[row][col] = 1
+        
+        _dfs(row + 1, col, pathSum)
+        _dfs(row - 1, col, pathSum)
+        _dfs(row, col + 1, pathSum)
+        _dfs(row, col - 1, pathSum)
+        
+        visited[row][col] = 0
+    }
+    
+    let max = 0
+    const visited = Array(grid.length).fill(null).map(ele => Array(grid[0].length).fill(0))
+    _dfs(row, col, 0)
+    return max
+}
+```
