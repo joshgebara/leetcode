@@ -19216,3 +19216,31 @@ const formatStr = (str) => {
     return result
 }
 ```
+
+## 320. Generalized Abbreviation
+```javascript
+var generateAbbreviations = function(word) {
+    const _generateAbbreviations = (curr, index, lastIsAbbreviation = false) => {
+        if (index === word.length) {
+            result.push(curr.join(''))
+            return
+        }
+        
+        curr.push(word[index])
+        _generateAbbreviations(curr, index + 1, false)
+        curr.pop()
+        
+        if (lastIsAbbreviation) return
+        
+        for (let i = 1; i <= word.length - index; i++) {
+            curr.push(i)
+            _generateAbbreviations(curr, index + i, true)
+            curr.pop()   
+        }
+    }
+    
+    const result = []
+    _generateAbbreviations([], 0)
+    return result
+};
+```
