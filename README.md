@@ -10287,29 +10287,30 @@ var letterCasePermutation = function(S) {
 
 // Recursive
 var letterCasePermutation = function(S) {
-    const _letterCasePermutation = (s, curr, i = 0) => {
-        if (curr.length === s.length) {
+    const letterCasePermutation = (curr, index = 0) => {
+        if (index === S.length) {
             result.push(curr.join(''))
             return
         }
-        
-        if (!Number.isNaN(+s[i])) {
-            curr.push(s[i])
-            _letterCasePermutation(s, curr, i + 1)
+            
+        if (!Number.isNaN(+S[index])) {
+            curr.push(S[index])
+            letterCasePermutation(curr, index + 1)
             curr.pop()
-        } else {
-            curr.push(s[i].toUpperCase())
-            _letterCasePermutation(s, curr, i + 1)
-            curr.pop()
-
-            curr.push(s[i].toLowerCase())
-            _letterCasePermutation(s, curr, i + 1)
-            curr.pop()    
+            return
         }
+        
+        curr.push(S[index].toLowerCase())
+        letterCasePermutation(curr, index + 1)
+        curr.pop()
+
+        curr.push(S[index].toUpperCase())
+        letterCasePermutation(curr, index + 1)
+        curr.pop()
     }
     
     const result = []
-    _letterCasePermutation(S.split(''), [])
+    letterCasePermutation([])
     return result
 };
 ```
