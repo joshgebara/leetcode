@@ -19258,3 +19258,41 @@ var generateAbbreviations = function(word) {
 };
 ```
 
+## 526. Beautiful Arrangement
+```javascript
+// Permutation Solution
+var countArrangement = function(N) {
+    const _countArrangement = (pos) => {
+        if (pos === N) {
+            count++
+            return
+        }
+        
+        for (let i = pos; i < nums.length; i++) {
+            if (nums[i] % (pos + 1) != 0 && (pos + 1) % nums[i] != 0)
+                continue
+            
+            swap(nums, i, pos)            
+            _countArrangement(pos + 1)
+            swap(nums, i, pos)
+        }
+    }
+    
+    const nums = []
+    for (let i = 1; i <= N; i++) 
+        nums.push(i)
+    
+    let count = 0
+    _countArrangement(0)
+    return count
+};
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+// Backtracking Solution
+
+```
