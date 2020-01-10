@@ -15674,6 +15674,26 @@ const generateSubsets = (index, nums, curr, subsets) => {
         curr.pop(nums[i])
     }
 }
+
+// Another backtracking solution
+var subsets = function(nums) {
+  const _subsets = (curr, index) => {
+      if (index === nums.length) {
+          result.push(curr.slice())
+          return
+      }
+      
+      curr.push(nums[index])
+      _subsets(curr, index + 1)
+      curr.pop()
+      
+      _subsets(curr, index + 1)
+  }  
+  
+  const result = []
+  _subsets([], 0)
+  return result
+};
 ```
 
 ## 11. Container With Most Water
