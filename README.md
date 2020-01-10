@@ -19294,5 +19294,25 @@ const swap = (arr, i, j) => {
 }
 
 // Backtracking Solution
-
+var countArrangement = function(N) {
+    const _countArrangement = pos => {
+        if (pos > N) {
+            count++
+            return
+        }
+        
+        for (let i = 1; i <= N; i++) {
+            if (!visited[i] && (i % pos === 0 || pos % i === 0)) {            
+                visited[i] = true
+                _countArrangement(pos + 1)
+                visited[i] = false
+            }
+        }    
+    }
+    
+    const visited = Array(N + 1).fill(false)
+    let count = 0
+    _countArrangement(1)
+    return count
+};
 ```
