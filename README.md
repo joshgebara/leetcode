@@ -3368,24 +3368,6 @@ longestPrefix('swift switch swill swim') // swi
 longestPrefix('flip flap flop') // fl
 ```
 
-## String Permutations
-```javascript
-const stringPermutations = (str, other = '') => {
-  if (!str.length) {
-    console.log(other)
-    return
-  }
-  
-  for (var index = 0; index < str.length; index++) {
-    let left = str.substring(0, index)
-    let right = str.substring(index + 1)
-    stringPermutations(left + right, other + str[index])
-  }
-}
-
-stringPermutations('abc')
-```
-
 ## FizzBuzz
 ```javascript
 const divisible = (num, den) => {
@@ -10318,20 +10300,29 @@ var letterCasePermutation = function(S) {
 ## 46. Permutations
 ```javascript
 var permute = function(nums) {
-    const _permute = (nums, curr = []) => {
-        if (!nums.length) {
-            result.push(curr)
+    const _permute = (nums, index) => {
+        if (index === nums.length) {
+            result.push(nums.slice())
             return
         }
         
-        for (let i = 0; i < nums.length; i++)
-            _permute([...nums.slice(0, i), ...nums.slice(i + 1)], [...curr, nums[i]])
+        for (let i = index; i < nums.length; i++) {
+            swap(nums, i, index)
+            _permute(nums, index + 1)
+            swap(nums, i, index)
+        }
     }
     
     const result = []
-    _permute(nums)
+    _permute(nums, 0)
     return result
 };
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
 ```
 
 ## 77. Combinations
@@ -19266,3 +19257,4 @@ var generateAbbreviations = function(word) {
     return result
 };
 ```
+
