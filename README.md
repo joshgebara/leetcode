@@ -16804,25 +16804,24 @@ var combinationSum2 = function(candidates, target) {
 ## 39. Combination Sum
 ```javascript
 var combinationSum = function(candidates, target) {
-    const _combinationSum = (candidates, curr, currSum, startIndex = 0) => {
-        if (currSum === target) {
+    const _combinationSum = (curr, sum, start) => {
+        if (sum === target) {
             result.push(curr.slice())
             return
         }
         
-        if (currSum > target) {
+        if (sum > target)
             return
-        }
         
-        for (let i = startIndex; i < candidates.length; i++) {
+        for (let i = start; i < candidates.length; i++) {
             curr.push(candidates[i])
-            _combinationSum(candidates, curr, currSum + candidates[i], i)
+            _combinationSum(curr, sum + candidates[i], i)
             curr.pop()
         }
     }
     
     const result = []
-    _combinationSum(candidates, [], 0)
+    _combinationSum([], 0, 0)
     return result
 };
 ```
@@ -19343,3 +19342,4 @@ var combinationSum3 = function(k, n) {
     return result
 };
 ```
+
