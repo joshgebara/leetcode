@@ -19316,3 +19316,30 @@ var countArrangement = function(N) {
     return count
 };
 ```
+
+## 216. Combination Sum III
+```javascript
+var combinationSum3 = function(k, n) {
+    const _combinationSum3 = (curr, currSum, start) => {
+        if (curr.length === k && currSum === n) {
+            result.push(curr.slice())
+            return 
+        }
+        
+        if (curr.length >= k)
+            return
+        
+        for (let i = start; i <= 9; i++) {
+            if (currSum + i > n) return
+            
+            curr.push(i)
+            _combinationSum3(curr, currSum + i, i + 1)
+            curr.pop()
+        }        
+    }
+    
+    const result = []
+    _combinationSum3([], 0, 1)
+    return result
+};
+```
