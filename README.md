@@ -19404,3 +19404,13 @@ var sequentialDigits = function(low, high) {
     return result
 };
 ```
+
+## 98. Validate Binary Search Tree
+```javascript
+var isValidBST = function(root, left = -Number.MAX_VALUE, right = Number.MAX_VALUE) {
+    if (!root) return true
+    if (root.val <= left || root.val >= right) return false
+    return isValidBST(root.left, left, root.val) && 
+           isValidBST(root.right, root.val, right)
+};
+```
