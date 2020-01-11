@@ -10328,18 +10328,21 @@ const swap = (arr, i, j) => {
 ## 77. Combinations
 ```javascript
 var combine = function(n, k) {
-    const _combine = (first, curr = []) => {
+    const _combine = (curr, start) => {
         if (curr.length === k) {
-            result.push(curr)
+            result.push(curr.slice())
             return
         }
         
-        for (let i = first; i < n + 1; i++)
-            _combine(i + 1, [...curr, i])
+        for (let i = start; i <= n; i++) {
+            curr.push(i)
+            _combine(curr, i + 1)
+            curr.pop()
+        }
     }
     
     const result = []
-    _combine(1)
+    _combine([], 1)
     return result
 };
 ```
