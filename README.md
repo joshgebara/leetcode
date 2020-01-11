@@ -15633,22 +15633,27 @@ var balancedStringSplit = function(s) {
 ## 90. Subsets II
 ```javascript
 var subsetsWithDup = function(nums) {
-    nums.sort((a, b) => a - b)
-    const subsets = []
-    generateSubsets(0, nums, [], subsets)
-    return subsets    
-};
-
-const generateSubsets = (index, nums, curr, subsets) => {
-    subsets.push(curr.slice())
-    
-    for (let i = index; i < nums.length; i++) {
-        if (i !== index && nums[i] === nums[i - 1]) continue
-        curr.push(nums[i])
-        generateSubsets(i + 1, nums, curr, subsets)
-        curr.pop(nums[i])
+    const _subsetsWithDup = (curr, start) => {
+        if (start > nums.length)
+            return
+        
+        result.push(curr.slice())
+        
+        for (let i = start; i < nums.length; i++) {
+            if (i > start && nums[i] === nums[i - 1]) 
+                continue
+            
+            curr.push(nums[i])
+            _subsetsWithDup(curr, i + 1)
+            curr.pop()
+        }
     }
-}
+    
+    const result = []
+    nums.sort((a, b) => a - b)
+    _subsetsWithDup([], 0)
+    return result
+};
 ```
 
 ## 78. Subsets
