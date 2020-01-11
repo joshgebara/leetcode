@@ -19365,4 +19365,39 @@ var sequentialDigits = function(low, high) {
     
     return result
 };
+
+// Backtracking
+var sequentialDigits = function(low, high) {
+    const _sequentialDigits = (curr, start, last) => {
+        const num = +curr.join('')
+        
+        if (num <= high && num >= low)
+            result.push(num)
+        
+        if (num > high)
+            return
+        
+        if (last) {
+            if (last > 9) return
+            
+            curr.push(last)
+            _sequentialDigits(curr, start, last + 1)
+            curr.pop()
+            return
+        }
+        
+        for (let i = start; i < 9; i++) {
+            if (!curr.length || curr[curr.length - 1] + 1 === i) {
+                curr.push(i)
+                _sequentialDigits(curr, start, i + 1)
+                curr.pop()
+            }
+        }
+    }
+    
+    const result = []
+    _sequentialDigits([], 1, 0)
+    result.sort((a, b) => a - b)
+    return result
+};
 ```
