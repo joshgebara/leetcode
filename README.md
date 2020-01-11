@@ -10350,35 +10350,35 @@ var combine = function(n, k) {
 ## 47. Permutations II
 ```javascript
 var permuteUnique = function(nums) {
-    const isEqual = (arr1, arr2) => {
-        let i = 0
-        while (i < arr1.length) {
-            if (arr1[i] !== arr2[i]) return false
-            i++
-        }
-        if (arr2.length > i) return false
-        return true
-    }
-
-    const _permute = (nums, curr = []) => {
-        if (!nums.length) {
-            for (let arr of result)
-                if (isEqual(curr, arr)) return
-            
-            result.push(curr)
+    const _permuteUnique = (start) => {
+        if (start === nums.length) {
+            result.push(nums.slice())
             return
         }
-
-        for (let i = 0; i < nums.length; i++) {
-            let remaining = [...nums.slice(0, i), ...nums.slice(i + 1)]
-            _permute(remaining, [...curr, nums[i]])
+        
+        const seen = new Set()
+        
+        for (let i = start; i < nums.length; i++) {
+            if (!seen.has(nums[i])) {
+                seen.add(nums[i])
+                
+                swap(nums, i, start)
+                _permuteUnique(start + 1)
+                swap(nums, i, start)
+            }
         }
     }
-
+    
     const result = []
-    _permute(nums)
-    return result  
+    _permuteUnique(0)
+    return result
 };
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
 ```
 
 ## 60. Permutation Sequence
