@@ -16777,21 +16777,21 @@ var inorderSuccessor = function(node) {
 ## 40. Combination Sum II
 ```javascript
 var combinationSum2 = function(candidates, target) {
-    const _combinationSum2 = (candidates, curr, currSum, startIndex) => {
-        if (currSum === target) {
+    const _combinationSum2 = (curr, sum, start) => {
+        if (sum > target)
+            return
+        
+        if (sum === target) {
             result.push(curr.slice())
             return
         }
         
-        if (currSum > target)
-            return
-        
-        for (let i = startIndex; i < candidates.length; i++) {
-            if (i > startIndex && candidates[i] === candidates[i-1]) 
+        for (let i = start; i < candidates.length; i++) {
+            if (i > start && candidates[i] === candidates[i-1]) 
                 continue
                 
             curr.push(candidates[i])
-            _combinationSum2(candidates, curr, currSum + candidates[i], i + 1)
+            _combinationSum2(curr, sum + candidates[i], i + 1)
             curr.pop()
         }
         
@@ -16799,7 +16799,7 @@ var combinationSum2 = function(candidates, target) {
     
     const result = []
     candidates.sort((a, b) => a - b)
-    _combinationSum2(candidates, [], 0, 0)
+    _combinationSum2([], 0, 0)
     return result
 };
 ```
@@ -19414,3 +19414,4 @@ var isValidBST = function(root, left = -Number.MAX_VALUE, right = Number.MAX_VAL
            isValidBST(root.right, root.val, right)
 };
 ```
+
