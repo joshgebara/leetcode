@@ -19343,3 +19343,26 @@ var combinationSum3 = function(k, n) {
 };
 ```
 
+## 1291. Sequential Digits
+```javascript
+// Sliding Window
+var sequentialDigits = function(low, high) {
+    const result = []
+    const num = "123456789"
+    const n = 10
+    
+    const lowLen = `${low}`.length
+    const highLen = `${high}`.length
+    
+    for (let length = lowLen; length <= highLen; length++) {
+        for (let start = 0; start < n - length; start++) {
+            const candidate = num.slice(start, start + length)
+            if (candidate >= low && candidate <= high) {
+                result.push(candidate)
+            }
+        }
+    }
+    
+    return result
+};
+```
