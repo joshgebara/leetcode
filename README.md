@@ -19449,3 +19449,32 @@ const swap = (arr, i, j) => {
     arr[j] = temp
 }
 ```
+
+## 93. Restore IP Addresses
+```javascript
+var restoreIpAddresses = function(s) {
+    const _restoreIpAddresses = (curr, section, index) => {
+        if (section === 4 && index === s.length) {
+            result.push(curr.join('.'))
+            return
+        }
+        
+        if (section >= 4 || index >= s.length)
+            return
+        
+        for (let i = index; i < index + 3; i++) {
+            const part = s.slice(index, i + 1)
+            const num = +part
+            if ((part.length > 1 && part[0] === '0') || num > 255) return
+            
+            curr.push(num)
+            _restoreIpAddresses(curr, section + 1, i + 1)
+            curr.pop()
+        }
+    }
+    
+    const result = []
+    _restoreIpAddresses([], 0, 0)
+    return result
+};
+```
