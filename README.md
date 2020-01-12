@@ -14932,18 +14932,6 @@ var replaceWords = function(dict, sentence) {
 
 ## 211. Add and Search Word - Data structure design
 ```javascript
-/**
- * Initialize your data structure here.
- */
-
-class TrieNode {
-    constructor(val) {
-        this.val = val
-        this.children = {}
-        this.isEnd = false
-    }
-}
-
 var WordDictionary = function() {
     this.root = new TrieNode()
 };
@@ -14955,14 +14943,12 @@ var WordDictionary = function() {
  */
 WordDictionary.prototype.addWord = function(word) {
     let curr = this.root
-    
-    for (let char of word) {
-        if (!curr.children[char]) {
+    for (const char of word) {
+        if (!curr.children[char])
             curr.children[char] = new TrieNode(char)
-        }
+            
         curr = curr.children[char]
     }
-    
     curr.isEnd = true
 };
 
@@ -14972,25 +14958,25 @@ WordDictionary.prototype.addWord = function(word) {
  * @return {boolean}
  */
 WordDictionary.prototype.search = function(word) {
-    return this.find(word, this.root, 0)
-};
-
-WordDictionary.prototype.find = function(word, node, index) {
-    if (index === word.length)
-        return node.isEnd
-    
-    const char = word[index]
-    if (char === ".") {
-        for (let key of Object.keys(node.children)) {
-            if (this.find(word, node.children[key], index + 1)) {
-                return true
+    const _search = (curr, word, i) => {
+        if (word.length === i)
+            return curr.isEnd
+        
+        const char = word[i]
+        if (char === '.') {
+            for (const key of Object.keys(curr.children)) {
+                if (_search(curr.children[key], word, i + 1)) {
+                    return true
+                }
             }
+            return false
+        } else {
+            return curr.children[char] !== undefined && 
+                _search(curr.children[char], word, i + 1)
         }
-        return false
-    } else {
-        return node.children[char] !== undefined && 
-            this.find(word, node.children[char], index + 1)
     }
+    
+    return _search(this.root, word, 0)
 };
 
 /** 
@@ -14999,6 +14985,14 @@ WordDictionary.prototype.find = function(word, node, index) {
  * obj.addWord(word)
  * var param_2 = obj.search(word)
  */
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
 ```
 
 ## 720. Longest Word in Dictionary
