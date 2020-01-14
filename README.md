@@ -19497,3 +19497,42 @@ var bstToGst = function(root) {
     return root
 };
 ```
+
+## 1214. Two Sum BSTs
+```javascript
+var twoSumBSTs = function(root1, root2, target) {
+    const dfs = (root) => {
+        if (!root) return 
+        
+        dfs(root.left)
+        if (search(root2, target - root.val)) {
+            isPair = true
+            return
+        }
+        dfs(root.right)
+    }
+    
+    const search = (root, val) => {
+        if (seen.has(val)) return true
+        
+        while (root) {
+            if (root.val === val)
+                return true
+            
+            seen.add(root.val)
+            
+            if (root.val > val) {
+                root = root.left
+            } else {
+                root = root.right
+            }
+        }
+        return false
+    }
+    
+    const seen = new Set()
+    let isPair = false
+    dfs(root1)
+    return isPair
+};
+```
