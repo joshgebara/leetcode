@@ -13943,6 +13943,7 @@ var sortList = function(head) {
 
 ## 207. Course Schedule
 ```javascript
+// DFS
 const buildGraph = edges => {
     const graph = {}
     
@@ -13987,6 +13988,58 @@ var canFinish = function(numCourses, prerequisites) {
     
     return true
 };
+
+// Kahn's Algorithm
+var canFinish = function(numCourses, prerequisites) {
+    const graph = buildAdjList(prerequisites)
+    const degrees = getDegrees(graph, numCourses)
+    
+    const list = []
+    for (const [vertex, degree] of Object.entries(degrees)) {
+        if (degree === 0)
+            list.push(vertex)
+    }
+    
+    if (!list.length) 
+        return false
+    
+    for (let i = 0; i < list.length; i++) {
+        if (!graph[list[i]]) continue
+        for (const neighbor of graph[list[i]]) {
+            degrees[neighbor]--
+            if (degrees[neighbor] === 0)
+                list.push(neighbor)
+        }
+    }
+    
+    return list.length === numCourses
+};
+
+const buildAdjList = edges => {
+    const graph = {}
+    
+    for (const [vertex, neighbor] of edges) {
+        if (graph[vertex]) {
+            graph[vertex].push(neighbor)
+        } else {
+            graph[vertex] = [neighbor]
+        }
+    }
+    
+    return graph
+}
+
+const getDegrees = (graph, n) => {
+    const degrees = Array(n).fill(0)
+    
+    for (const [vertex, neighbors] of Object.entries(graph)) {
+        for (const neighbor of neighbors) {
+            degrees[neighbor]++
+        }
+    }
+    
+    return degrees
+}
 ```
 
 ## 210. Course Schedule II
