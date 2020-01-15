@@ -14096,65 +14096,54 @@ var findOrder = function(numCourses, prerequisites) {
     return order
 };
 
-// BFS
+// Kahn's Algorithm
+var findOrder = function(numCourses, prerequisites) {
+    const graph = buildGraph(prerequisites)
+    const degrees = getDegrees(graph, numCourses)
+    const list = []
+    
+    for (const [vertex, degree] of Object.entries(degrees)) {
+        if (degree === 0)
+            list.push(vertex)
+    }
+    
+    for (let i = 0; i < list.length; i++) {
+        if (!graph[list[i]]) continue
+        for (const neighbor of graph[list[i]]) {
+            if (--degrees[neighbor] === 0) {
+                list.push(neighbor)
+            }
+        }
+    }
+    
+    return list.length === numCourses ? list : []
+};
+
 const buildGraph = edges => {
-    const graph = new Map()
+    const graph = {}
     
     for (const [vertex, neighbor] of edges) {
-        if (!graph.has(vertex)) {
-            graph.set(vertex, [neighbor])
+        if (graph[neighbor]) {
+            graph[neighbor].push(vertex)
         } else {
-            graph.get(vertex).push(neighbor)
+            graph[neighbor] = [vertex]
         }
     }
     
     return graph
 }
 
-const getIndegrees = edges => {
-    const indegrees = new Map()
+const getDegrees = (graph, n) => {
+    const degrees = Array(n).fill(0)
     
-    for (const [vertex, neighbor] of edges) {
-        if (!indegrees.has(neighbor)) {
-            indegrees.set(neighbor, 1)
-        } else {
-            const curr = indegrees.get(neighbor)
-            indegrees.set(neighbor, curr + 1)
+    for (const [vertex, neighbors] of Object.entries(graph)) {
+        for (const neighbor of neighbors) {
+            degrees[neighbor]++
         }
     }
-    
-    return indegrees
+          
+    return degrees
 }
-
-var findOrder = function(numCourses, prerequisites) {
-    const graph = buildGraph(prerequisites)
-    const indegrees = getIndegrees(prerequisites)
-    const queue = []
-    const order = []
-    let count = 0
-    
-    for (let i = 0; i < numCourses; i++)
-        if (!indegrees.has(i))
-            queue.push(i)
-    
-    while (queue.length) {
-        const vertex = queue.pop()
-        order.push(vertex)
-        count++
-        
-        if (graph.get(vertex)) {
-            for (const neighbor of graph.get(vertex)) {
-                const curr = indegrees.get(neighbor)
-                indegrees.set(neighbor, curr - 1)
-
-                if (indegrees.get(neighbor) === 0)
-                    queue.push(neighbor)
-            }
-        }
-    }
-    
-    return count === numCourses ? order.reverse() : []
-};
 ```
 
 ## 582. Kill Process
