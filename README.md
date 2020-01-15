@@ -19577,3 +19577,78 @@ var twoSumBSTs = function(root1, root2, target) {
     return isPair
 };
 ```
+
+## 444. Sequence Reconstruction
+```javascript
+var sequenceReconstruction = function(org, seqs) {
+    const graph = buildGraph(seqs)
+    const degrees = getDegrees(graph, org.length)
+    const queue = []
+    let n = 0
+    
+    for (const vertex of Object.keys(graph)) {
+        if (degrees[vertex] === undefined) return false
+        if (degrees[vertex] === 0) {
+            queue.push(vertex)
+            n++
+        }
+    }
+    
+    while (queue.length) {
+        if (queue.length > 1) 
+            return false
+        
+        const vertex = queue.shift()
+        
+        if (!graph[vertex]) 
+            continue
+        
+        for (const neighbor of graph[vertex]) {
+            if (--degrees[neighbor] === 0) {
+                queue.push(neighbor)
+                n++
+            }
+        }
+    }
+    
+    return n === org.length && n === Object.keys(graph).length
+};
+
+const buildGraph = seqs => {
+    const graph = {}
+    
+    for (const seq of seqs) {
+        if (seq.length === 1) {
+            if (!graph[seq[0]]) {
+                graph[seq[0]] = []   
+            }
+        } else {
+            for(let i = 0; i < seq.length - 1; i++) {
+                if(!graph[seq[i]]) {
+                    graph[seq[i]] = []
+                }
+
+                if(!graph[seq[i + 1]]) {
+                    graph[seq[i + 1]] = []
+                }
+                
+                graph[seq[i]].push(seq[i + 1])
+            }   
+        }
+    }
+    
+    return graph
+}
+
+const getDegrees = (graph, n) => {
+    const degrees = Array(n + 1).fill(0)
+    
+    for (const [vertex, neighbors] of Object.entries(graph)) {
+        for (const neighbor of neighbors) {
+            degrees[neighbor]++
+        }
+    }
+    
+    return degrees
+}
+```
