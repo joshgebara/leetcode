@@ -14044,57 +14044,56 @@ const getDegrees = (graph, n) => {
 
 ## 210. Course Schedule II
 ```javascript
-const buildGraph = edges => {
-    const graph = new Map()
-    
-    for (const [vertex, neighbor] of edges) {
-        if (!graph.has(vertex)) {
-            graph.set(vertex, [neighbor])
-        } else {
-            graph.get(vertex).push(neighbor)
-        }
-    }
-    
-    return graph
-}
-
 var findOrder = function(numCourses, prerequisites) {
     const dfs = start => {
-        if (visiting.has(start))
-            return true
+        if (cycle) return
         
-        if (visited.has(start))
-            return false
+        if (visiting.has(start)) {
+            cycle = true
+            return
+        }
         
-        visiting.add(+start)
+        visiting.add(start)
         
-        let neighbors = graph.get(start)
-        if (neighbors)
-            for (let neighbor of neighbors)
-                if (dfs(neighbor))
-                    return true
+        if (graph[start]) {
+            for (const neighbor of graph[start]) {
+                if (visited.has(neighbor)) continue
+                dfs(neighbor)
+            }
+        }
         
         visiting.delete(start)
         visited.add(start)
-        order.push(start)
-        return false
+        result.push(start)
+        return
     }
     
     const graph = buildGraph(prerequisites)
     const visited = new Set()
     const visiting = new Set()
-    const order = []
+    const result = []
+    let cycle = false
     
-    for (const vertex of graph.keys())
-        if (dfs(vertex))
-            return []
+    for (let vertex = 0; vertex < numCourses; vertex++) {
+        if (cycle) return []
+        if (visited.has(vertex)) continue
+        dfs(vertex)
+    }
     
-    for (let i = 0; i < numCourses; i++)
-        if (!visited.has(i))
-            order.push(i)
-    
-    return order
+    return result
 };
+
+const buildGraph = edges => {
+    const graph = {}
+    for (const [vertex, neighbor] of edges) {
+        if (graph[vertex]) {
+            graph[vertex].push(neighbor)
+        } else {
+            graph[vertex] = [neighbor]
+        }
+    }
+    return graph
+}
 
 // Kahn's Algorithm
 var findOrder = function(numCourses, prerequisites) {
