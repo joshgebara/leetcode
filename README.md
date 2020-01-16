@@ -19652,3 +19652,73 @@ const getDegrees = (graph, n) => {
     return degrees
 }
 ```
+
+## 269. Alien Dictionary
+```javascript
+// DFS TopSort
+var alienOrder = function(words) {
+    const dfs = vertex => {
+        if (visiting.has(vertex)) {
+            cycle = true
+            return
+        }
+        
+        if (visited.has(vertex)) 
+            return
+        
+        visiting.add(vertex)
+        
+        if (graph[vertex]) {
+            graph[vertex].forEach(neighbor => {
+                if (!visited.has(neighbor)) {
+                    dfs(neighbor)
+                }
+            })
+        }
+        
+        visiting.delete(vertex)
+        visited.add(vertex)
+        result.push(vertex)
+    }
+    
+    const graph = buildGraph(words)
+    const visited = new Set()
+    const visiting = new Set()
+    const result = []
+    let cycle = false
+    
+    Object.keys(graph).forEach(vertex => dfs(vertex))
+    
+    if (cycle) return ""
+    
+    return result.reverse().join('')
+};
+
+const buildGraph = words => {
+    const graph = {}
+    
+    for (const word of words) {
+        for (const char of word) {
+            if (!graph[char]) graph[char] = []
+        }
+    }
+    
+    for (let i = 0; i < words.length - 1; i++) {
+        const currWord = words[i]
+        const nextWord = words[i + 1]
+        
+        for (let j = 0; j < Math.min(currWord.length, nextWord.length); j++) {
+            if (currWord[j] !== nextWord[j]) {
+                if (graph[currWord[j]]) {
+                    graph[currWord[j]].push(nextWord[j])
+                } else {
+                    graph[currWord[j]] = [nextWord[j]]
+                }                    
+                break
+            }
+        }
+    }
+    
+    return graph
+} 
+```
