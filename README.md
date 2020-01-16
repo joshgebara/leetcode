@@ -19709,11 +19709,7 @@ const buildGraph = words => {
         
         for (let j = 0; j < Math.min(currWord.length, nextWord.length); j++) {
             if (currWord[j] !== nextWord[j]) {
-                if (graph[currWord[j]]) {
-                    graph[currWord[j]].push(nextWord[j])
-                } else {
-                    graph[currWord[j]] = [nextWord[j]]
-                }                    
+                graph[currWord[j]].push(nextWord[j])               
                 break
             }
         }
@@ -19721,4 +19717,59 @@ const buildGraph = words => {
     
     return graph
 } 
+
+// Kahn's Algo
+var alienOrder = function(words) {
+    const [graph, degrees] = buildGraph(words)
+    
+    const list = []
+    for (const [vertex, degree] of Object.entries(degrees)) {
+        if (degree === 0) {
+            list.push(vertex)
+        }
+    }
+    
+    for (let i = 0; i < list.length; i++) {
+        const vertex = list[i]
+        if (graph[vertex]) {
+            graph[vertex].forEach(neighbor => {
+                if (--degrees[neighbor] === 0) {
+                    list.push(neighbor)
+                }
+            })
+        }
+    }
+    
+    return list.length === Object.keys(graph).length ? list.join('') : ''
+};
+
+const buildGraph = words => {
+    const graph = {}
+    const degrees = {}
+    
+    for (const word of words) {
+        for (const char of word) {
+            if (!graph[char]) {
+                graph[char] = new Set()
+                degrees[char] = 0
+            }
+        }
+    }
+    
+    for (let i = 0; i < words.length - 1; i++) {
+        const currWord = words[i]
+        const nextWord = words[i + 1]
+        for (let j = 0; j < Math.min(currWord.length, nextWord.length); j++) {
+            if (currWord[j] !== nextWord[j]) {
+                if (!graph[currWord[j]].has(nextWord[j])) {
+                    graph[currWord[j]].add(nextWord[j])
+                    degrees[nextWord[j]]++
+                }
+                break
+            }
+        }
+    }
+    
+    return [graph, degrees]
+}
 ```
