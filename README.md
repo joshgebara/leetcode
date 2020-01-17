@@ -19854,10 +19854,29 @@ MyCircularQueue.prototype.isFull = function() {
 
 ## 1061. Lexicographically Smallest Equivalent String
 ```javascript
+var smallestEquivalentString = function(A, B, S) {
+    const set = new DisjointSet()
+    
+    for (let i = 0; i < A.length; i++) {
+        const aPos = posForChar(A[i])
+        const bPos = posForChar(B[i])
+        set.union(aPos, bPos)
+    }
+    
+    const result = []
+    for (const char of S) {
+        const sPos = posForChar(char)
+        const parent = set.find(sPos)
+        result.push(charForPos(parent))
+    }
+    
+    return result.join('')
+};
+
 class DisjointSet {
-    constructor(size) {
+    constructor() {
         this.parent = []
-        for (let i = 0; i < size; i++)
+        for (let i = 0; i < 26; i++)
             this.parent[i] = i
     }
     
@@ -19876,37 +19895,18 @@ class DisjointSet {
     }
     
     union(p, q) {
-        const root1 = this.find(p)
-        const root2 = this.find(q)
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
         
-        if (root1 === root2) return
+        if (rootP === rootQ) return
         
-        if (root1 > root2) {
-            this.parent[root1] = root2
+        if (rootP > rootQ) {
+            this.parent[rootP] = rootQ
         } else {
-            this.parent[root2] = root1
+            this.parent[rootQ] = rootP
         }
     }
 }
-
-var smallestEquivalentString = function(A, B, S) {
-    const set = new DisjointSet(26)
-    
-    for (let i = 0; i < A.length; i++) {
-        const aPos = posForChar(A[i])
-        const bPos = posForChar(B[i])
-        set.union(aPos, bPos)
-    }
-    
-    const result = []
-    for (const char of S) {
-        const sPos = posForChar(char)
-        const parent = set.find(sPos)
-        result.push(charForPos(parent))
-    }
-    
-    return result.join('')
-};
 
 const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
