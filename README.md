@@ -19911,3 +19911,60 @@ class DisjointSet {
 const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
 ```
+
+## 1101. The Earliest Moment When Everyone Become Friends
+```javascript
+var earliestAcq = function(logs, N) {
+    const set = new DisjointSet(N)
+    logs.sort((a, b) => a[0] - b[0])
+    
+    for (const [time, a, b] of logs) {
+        set.union(a, b)
+        if (set.numOfComponents === 1)
+            return time
+    }
+    return -1
+};
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root])
+            root = this.parent[root]
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
