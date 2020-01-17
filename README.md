@@ -19851,3 +19851,61 @@ MyCircularQueue.prototype.isFull = function() {
  * var param_6 = obj.isFull()
  */
 ```
+
+## 1061. Lexicographically Smallest Equivalent String
+```javascript
+class DisjointSet {
+    constructor(size) {
+        this.parent = []
+        for (let i = 0; i < size; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root])
+            root = this.parent[root]
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const root1 = this.find(p)
+        const root2 = this.find(q)
+        
+        if (root1 === root2) return
+        
+        if (root1 > root2) {
+            this.parent[root1] = root2
+        } else {
+            this.parent[root2] = root1
+        }
+    }
+}
+
+var smallestEquivalentString = function(A, B, S) {
+    const set = new DisjointSet(26)
+    const baseCode = 'a'.charCodeAt(0)
+    
+    for (let i = 0; i < A.length; i++) {
+        const aCharCode = A[i].charCodeAt(0) - baseCode
+        const bCharCode = B[i].charCodeAt(0) - baseCode
+        set.union(aCharCode, bCharCode)
+    }
+    
+    const result = []
+    for (let i = 0; i < S.length; i++) {
+        const sCharCode = S[i].charCodeAt(0) - baseCode
+        const parent = set.find(sCharCode)
+        result.push(String.fromCharCode(parent + baseCode))
+    }
+    
+    return result.join('')
+};
+```
