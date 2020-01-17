@@ -19968,3 +19968,63 @@ class DisjointSet {
     }
 }
 ```
+
+## 547. Friend Circles
+```javascript
+var findCircleNum = function(M) {
+    const set = new DisjointSet(M.length)
+    
+    for (let i = 0; i < M.length; i++) {
+        for (let j = 0; j < M[0].length; j++) {
+            if (M[i][j] === 1) {
+                set.union(i, j)
+            }
+        }
+    }
+    
+    return set.numOfComponents
+};
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
