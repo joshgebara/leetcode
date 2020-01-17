@@ -19891,21 +19891,23 @@ class DisjointSet {
 
 var smallestEquivalentString = function(A, B, S) {
     const set = new DisjointSet(26)
-    const baseCode = 'a'.charCodeAt(0)
     
     for (let i = 0; i < A.length; i++) {
-        const aCharCode = A[i].charCodeAt(0) - baseCode
-        const bCharCode = B[i].charCodeAt(0) - baseCode
-        set.union(aCharCode, bCharCode)
+        const aPos = posForChar(A[i])
+        const bPos = posForChar(B[i])
+        set.union(aPos, bPos)
     }
     
     const result = []
-    for (let i = 0; i < S.length; i++) {
-        const sCharCode = S[i].charCodeAt(0) - baseCode
-        const parent = set.find(sCharCode)
-        result.push(String.fromCharCode(parent + baseCode))
+    for (const char of S) {
+        const sPos = posForChar(char)
+        const parent = set.find(sPos)
+        result.push(charForPos(parent))
     }
     
     return result.join('')
 };
+
+const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
 ```
