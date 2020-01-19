@@ -20085,16 +20085,13 @@ class DisjointSet {
 ## 1319. Number of Operations to Make Network Connected
 ```javascript
 var makeConnected = function(n, connections) {
+    if (connections.length < n - 1) return -1
+    
     const set = new DisjointSet(n)
-    let redundantConnections = 0
-    for (const [start, end] of connections) {
-        if (set.find(start) === set.find(end))
-            redundantConnections++
-            
+    for (const [start, end] of connections)
         set.union(start, end)
-    }
-    const min = set.numOfComponents - 1
-    return redundantConnections >= min ? min : -1
+        
+    return set.numOfComponents - 1
 };
 
 class DisjointSet {
