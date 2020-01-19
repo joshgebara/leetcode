@@ -16044,6 +16044,59 @@ var orangesRotting = function(grid) {
 
 ## 323. Number of Connected Components in an Undirected Graph
 ```javascript
+// Union Find
+var countComponents = function(n, edges) {
+    const set = new DisjointSet(n)
+    for (const [start, end] of edges) {
+        set.union(start, end)
+    }
+    return set.numOfComponents
+};
+
+class DisjointSet {
+    constructor(n) {
+        this.numOfComponents = n
+        this.componentSize = Array(n).fill(0)
+        this.parent = []
+        
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i
+        }
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root])
+            root = this.parent[root]
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+
+// BFS
 var countComponents = function(n, edges) {
     const adjList = {}
     
@@ -20028,3 +20081,4 @@ class DisjointSet {
     }
 }
 ```
+
