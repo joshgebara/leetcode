@@ -20376,3 +20376,77 @@ var areSentencesSimilar = function(words1, words2, pairs) {
     return true
 };
 ```
+
+## 1202. Smallest String With Swaps
+```javascript
+var smallestStringWithSwaps = function(s, pairs) {
+    const set = new DisjointSet(s.length)
+    for (const [index1, index2] of pairs) {
+        set.union(index1, index2)
+    }
+    
+    const map = {}
+    for (let i = 0; i < s.length; i++) {
+        const componentId = set.find(i)
+        if (map[componentId]) {
+            map[componentId].push(s[i])
+        } else {
+            map[componentId] = [s[i]]
+        }
+    }
+    
+    for (const val of Object.values(map)) {
+        val.sort().reverse()
+    }
+    
+    const result = []
+    for (let i = 0; i < s.length; i++) {
+        result.push(map[set.find(i)].pop())
+    }
+    
+    return result.join('')
+};
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
