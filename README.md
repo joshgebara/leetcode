@@ -20265,3 +20265,77 @@ class DisjointSet {
     }
 }
 ```
+
+## 737. Sentence Similarity II
+```javascript
+var areSentencesSimilarTwo = function(words1, words2, pairs) {
+    if (words1.length !== words2.length) 
+        return false
+    
+    const set = new DisjointSet(2 * pairs.length)
+    const map = {}
+    
+    let count = 0
+    for (const [word1, word2] of pairs) {
+        if (!map[word1]) map[word1] = count++
+        if (!map[word2]) map[word2] = count++
+        
+        const pos1 = map[word1]
+        const pos2 = map[word2]
+        set.union(pos1, pos2)
+    }
+    
+    for (let i = 0; i < words1.length; i++) {
+        const pos1 = map[words1[i]]
+        const pos2 = map[words2[i]]
+
+        if (set.find(pos1) !== set.find(pos2))
+            return false
+    }
+    
+    return true
+};
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
