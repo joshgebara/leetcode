@@ -20137,3 +20137,73 @@ class DisjointSet {
     }
 }
 ```
+
+## 990. Satisfiability of Equality Equations
+```javascript
+var equationsPossible = function(equations) {
+    const set = new DisjointSet(26)
+    
+    for (const equation of equations) {
+        if (equation[1] === '=') {
+            const v1 = posForChar(equation[0])
+            const v2 = posForChar(equation[3])
+            set.union(v1, v2)
+        }
+    }
+    
+    for (const equation of equations) {
+        if (equation[1] === '!') {
+            const v1 = posForChar(equation[0])
+            const v2 = posForChar(equation[3])
+            if (set.find(v1) === set.find(v2))
+                return false
+        }
+    }
+    return true
+};
+
+const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
