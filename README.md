@@ -20582,3 +20582,22 @@ FindElements.prototype.find = function(target) {
  * var param_1 = obj.find(target)
  */
 ```
+
+## 1325. Delete Leaves With a Given Value
+```javascript
+var removeLeafNodes = function(root, target) {
+    const dfs = (node) => {
+        if (!node) return null
+        
+        node.left = dfs(node.left)
+        node.right = dfs(node.right)
+        
+        if (!node.left && !node.right && node.val === target) 
+            return null
+        
+        return node
+    }
+    
+    return dfs(root)
+};
+```
