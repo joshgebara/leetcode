@@ -20450,3 +20450,25 @@ class DisjointSet {
     }
 }
 ```
+
+## 1302. Deepest Leaves Sum
+```javascript
+var deepestLeavesSum = function(root) {
+    const dfs = (root, level = 0) => {
+        if (!root) return
+        
+        if (levels[level]) {
+            levels[level].push(root.val)
+        } else {
+            levels[level] = [root.val]
+        }
+        
+        dfs(root.left, level + 1)
+        dfs(root.right, level + 1)
+    }
+    
+    const levels = []
+    dfs(root)
+    return levels[levels.length - 1].reduce((r, e) => r + e, 0)
+};
+```
