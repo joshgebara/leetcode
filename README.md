@@ -20601,3 +20601,22 @@ var removeLeafNodes = function(root, target) {
     return dfs(root)
 };
 ```
+
+## 814. Binary Tree Pruning
+```javascript
+var pruneTree = function(root) {
+    const dfs = (node) => {
+        if (!node) return null
+        
+        node.left = dfs(node.left)
+        node.right = dfs(node.right)
+        
+        if (!node.left && !node.right && node.val === 0) 
+            return null
+        
+        return node
+    }
+    
+    return dfs(root)
+};
+```
