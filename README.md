@@ -20491,3 +20491,44 @@ var sumEvenGrandparent = function(root) {
     return sum
 };
 ```
+
+## 701. Insert into a Binary Search Tree
+```javascript
+// Iterative
+var insertIntoBST = function(root, val) {
+    let curr = root
+    let parent = null
+    
+    while (curr) {
+        parent = curr
+        
+        if (val > curr.val) {
+            curr = curr.right
+        } else {
+            curr = curr.left
+        }
+    }
+    
+    const node = new TreeNode(val)
+    if (val > parent.val) {
+        parent.right = node
+    } else {
+        parent.left = node
+    }
+    
+    return root
+};
+
+// Recursive
+var insertIntoBST = function(root, val) {    
+    if (!root) return new TreeNode(val)
+
+    if (val > root.val) {
+        root.right = insertIntoBST(root.right, val)
+    } else {
+        root.left = insertIntoBST(root.left, val)
+    }
+
+    return root
+};
+```
