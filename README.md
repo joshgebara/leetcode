@@ -20472,3 +20472,22 @@ var deepestLeavesSum = function(root) {
     return levels[levels.length - 1].reduce((r, e) => r + e, 0)
 };
 ```
+
+## 1315. Sum of Nodes with Even-Valued Grandparent
+```javascript
+var sumEvenGrandparent = function(root) {
+    const dfs = (node, parent, grandparent) => {
+        if (!node) return
+        
+        if (grandparent && grandparent.val % 2 === 0)
+            sum += node.val
+        
+        dfs(node.left, node, parent)
+        dfs(node.right, node, parent)
+    }
+    
+    let sum = 0
+    dfs(root, null, null)
+    return sum
+};
+```
