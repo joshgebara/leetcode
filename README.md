@@ -20532,3 +20532,53 @@ var insertIntoBST = function(root, val) {
     return root
 };
 ```
+
+## 1261. Find Elements in a Contaminated Binary Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ */
+var FindElements = function(root) {
+    const decontaminate = root => {
+        if (!root) return
+        
+        this.values.add(root.val)
+        
+        if (root.left) {
+            root.left.val = 2 * root.val + 1
+            decontaminate(root.left)
+        }
+        
+        if (root.right) {
+            root.right.val = 2 * root.val + 2
+            decontaminate(root.right)
+        }
+    }
+    
+    root.val = 0
+    this.root = root
+    this.values = new Set()
+    decontaminate(root)
+};
+
+/** 
+ * @param {number} target
+ * @return {boolean}
+ */
+FindElements.prototype.find = function(target) {
+    return this.values.has(target)
+};
+
+/** 
+ * Your FindElements object will be instantiated and called as such:
+ * var obj = new FindElements(root)
+ * var param_1 = obj.find(target)
+ */
+```
