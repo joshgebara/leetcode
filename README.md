@@ -20623,6 +20623,7 @@ var pruneTree = function(root) {
 
 ## 721. Accounts Merge
 ```javascript
+// DFS
 var accountsMerge = function(accounts) {
     const [graph, emailToName] = buildGraph(accounts)
     
@@ -20671,5 +20672,101 @@ const buildGraph = (accounts) => {
     }
     
     return [graph, emailToName]
+}
+
+// Disjoint Set
+var accountsMerge = function(accounts) {
+    const set = new DisjointSet()
+    const emailToName = {}
+    
+    for (const [name, ...emails] of accounts) {
+        for (let i = 0; i < emails.length; i++) {
+            const firstEmail = emails[0]
+            const currEmail = emails[i]
+            
+            emailToName[currEmail] = name
+            set.makeSet(currEmail)
+            
+            if (i === 0) continue
+            
+            set.union(firstEmail, currEmail)
+        }
+    }
+    
+    const map = {}
+    for (const email of Object.keys(emailToName)) {
+        if (map[set.find(email)]) {
+            map[set.find(email)].push(email)
+        } else {
+            map[set.find(email)] = [email]
+        }
+    }
+    
+    const result = []
+    for (const emails of Object.values(map)) {
+        emails.sort()
+        result.push([emailToName[emails[0]], ...emails])
+    }
+    
+    return result
+};
+
+class DisjointSet {
+    constructor() {
+        this.numOfComponents = 0
+        this.componentSize = []
+        this.parent = []
+        this.map = {}
+        this.id = 0
+    }
+    
+    makeSet(p) {
+        if (this.map[p] !== undefined) 
+            return
+        
+        this.map[p] = this.id++
+        this.numOfComponents++
+        this.componentSize.push(1)
+        this.parent.push(this.map[p])
+    }
+    
+    find(p) {
+        if (this.map[p] === undefined) 
+            return null
+        
+        p = this.map[p]
+        
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === null || rootQ === null) return
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
 }
 ```
