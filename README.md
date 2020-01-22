@@ -20620,3 +20620,56 @@ var pruneTree = function(root) {
     return dfs(root)
 };
 ```
+
+## 721. Accounts Merge
+```javascript
+var accountsMerge = function(accounts) {
+    const [graph, emailToName] = buildGraph(accounts)
+    
+    const result = []
+    const seen = new Set()
+    
+    for (const vertex of Object.keys(graph)) {
+        if (seen.has(vertex)) continue
+        
+        seen.add(vertex)
+        const stack = [vertex]
+        const component = []
+        
+        while (stack.length) {
+            const curr = stack.pop()
+            component.push(curr)
+            for (const neighbor of graph[curr]) {
+                if (seen.has(neighbor)) continue
+                seen.add(neighbor)
+                stack.push(neighbor)
+            }
+        }
+        component.sort()
+        result.push([emailToName[vertex], ...component])
+    }
+    
+    return result
+};
+
+const buildGraph = (accounts) => {
+    const graph = {}
+    const emailToName = {}
+    
+    for (const [name, ...emails] of accounts) {
+        for (let i = 0; i < emails.length; i++) {
+            emailToName[emails[i]] = name
+            
+            if (!graph[emails[i]])
+                graph[emails[i]] = new Set()
+            
+            if (i === 0) continue
+            
+            graph[emails[0]].add(emails[i])
+            graph[emails[i]].add(emails[0])
+        }
+    }
+    
+    return [graph, emailToName]
+}
+```
