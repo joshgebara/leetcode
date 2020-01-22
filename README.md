@@ -20770,3 +20770,62 @@ class DisjointSet {
     }
 }
 ```
+
+## 947. Most Stones Removed with Same Row or Column
+```javascript
+var removeStones = function(stones) {
+    const set = new DisjointSet(stones.length)
+    
+    for (let i = 0; i < stones.length; i++) {
+       for (let j = i + 1; j < stones.length; j++) {
+            if (stones[i][0] === stones[j][0] || stones[i][1] === stones[j][1])
+                set.union(i, j)
+        }
+    }
+    
+    return stones.length - set.numOfComponents
+};
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
