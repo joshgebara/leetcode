@@ -21202,3 +21202,68 @@ const min = root => {
     return root
 }
 ```
+
+## 1135. Connecting Cities With Minimum Cost
+```javascript
+var minimumCost = function(N, connections) {
+    const set = new DisjointSet(N)
+    let totalCost = 0
+    
+    connections.sort((a, b) => a[2] - b[2])
+    for (const [start, end, cost] of connections) {
+        if (set.find(start) === set.find(end))
+            continue
+        
+        totalCost += cost
+        set.union(start, end)
+        
+        if (set.numOfComponents === 1) 
+            return totalCost
+    }
+    
+    return set.numOfComponents === 1 ? totalCost : -1
+};
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
