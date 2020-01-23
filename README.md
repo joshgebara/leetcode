@@ -16966,6 +16966,85 @@ const dfs = (board, row, col, visited) => {
     dfs(board, row, col - 1, visited)
     dfs(board, row, col + 1, visited)
 }
+
+// Union Find
+var solve = function(board) {
+    if (!board.length) return
+    
+    const n = board.length
+    const m = board[0].length
+    const set = new DisjointSet(n * m + 1)
+    
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < m; col++) {
+            if (board[row][col] !== 'O')
+                continue
+            
+            if (row === 0 || row === n - 1 || col === 0 || col === m - 1) {
+                set.union(row * m + col, n * m)
+                continue
+            }
+            
+            if (board[row - 1][col] === 'O')
+                set.union(row * m + col, (row - 1) * m + col)
+            if (board[row + 1][col] === 'O')
+                set.union(row * m + col, (row + 1) * m + col)
+            if (board[row][col - 1] === 'O')
+                set.union(row * m + col, row * m + (col - 1))
+            if (board[row][col + 1] === 'O')
+                set.union(row * m + col, row * m + (col + 1))
+        }
+    }
+
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < m; col++) {
+            if (set.find(row * m + col) !== set.find(n * m))
+                board[row][col]='X'
+        }
+    }
+};
+
+class DisjointSet {
+    constructor(N) {
+        this.numOfComponents = N
+        this.componentSize = Array(N).fill(1)
+        this.parent = []
+        
+        for (let i = 0; i < N; i++)
+            this.parent[i] = i
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root])
+            root = this.parent[root]
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
 ```
 
 ## 763. Partition Labels
