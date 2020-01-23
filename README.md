@@ -21123,3 +21123,25 @@ var decompressRLElist = function(nums) {
     return result
 };
 ```
+
+## 1180. Count Substrings with Only One Distinct Letter
+```javascript
+var countLetters = function(S) {
+    let count = 0
+    let i = 0
+    let j = 1
+    
+    while (i < S.length) {
+        if (S[i] === S[j]) {
+            j++
+            continue
+        }
+        
+        const n = j - i
+        count += Math.floor((n * (n + 1)) / 2)
+        i = j++
+    }
+    
+    return count
+};
+```
