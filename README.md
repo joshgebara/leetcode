@@ -20955,3 +20955,31 @@ var maxNumberOfApples = function(arr) {
     return count
 };
 ```
+
+## 1029. Two City Scheduling
+```javascript
+var twoCitySchedCost = function(costs) {
+    let cost = 0
+    let cityACount = 0
+    let cityBCount = 0
+    let n = Math.floor(costs.length / 2)
+    
+    costs.sort((a, b) => Math.abs(b[0] - b[1]) - Math.abs(a[0] - a[1]))
+    
+    for (const [cityACost, cityBCost] of costs) {
+        if (cityACount >= n) {
+            cost += cityBCost
+        } else if (cityBCount >= n) {
+            cost += cityACost
+        } else if (cityACost < cityBCost) {
+            cost += cityACost
+            cityACount++
+        } else {
+            cost += cityBCost
+            cityBCount++
+        }
+    }
+    
+    return cost
+};
+```
