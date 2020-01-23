@@ -21205,6 +21205,7 @@ const min = root => {
 
 ## 1135. Connecting Cities With Minimum Cost
 ```javascript
+// Kruskal's
 var minimumCost = function(N, connections) {
     const set = new DisjointSet(N)
     let totalCost = 0
@@ -21265,5 +21266,140 @@ class DisjointSet {
         
         this.numOfComponents--
     }
+}
+
+// Prim's
+var minimumCost = function(N, connections) {
+    const graph = buildGraph(connections)
+    const heap = new Heap([[N, 0]], (a, b) => a[1] < b[1])
+    const visited = new Set()
+    let totalCost = 0
+    
+    while (heap._elements.length && visited.size < N) {
+        const [vertex, cost] = heap.remove()
+        if (visited.has(vertex))
+            continue
+        
+        visited.add(vertex)
+        totalCost += cost
+        
+        if (graph[vertex]) {
+            for (const neighbor of graph[vertex]) {
+                if (!visited.has(neighbor[0]))
+                    heap.insert(neighbor)
+            }
+        }
+    }
+    return visited.size === N ? totalCost : -1
+};
+
+const buildGraph = connections => {
+    const graph = {}
+    
+    for (const [start, end, cost] of connections) {
+        if (graph[start]) {
+            graph[start].push([end, cost])
+        } else {
+            graph[start] = [[end, cost]]
+        }
+        
+        if (graph[end]) {
+            graph[end].push([start, cost])
+        } else {
+            graph[end] = [[start, cost]]
+        }
+    }
+    
+    return graph
+}
+
+class Heap {
+  constructor(elements, sort = ((a, b) => { return a < b })) {
+    this._elements = elements
+    this._sort = sort
+    this._heapify()
+  }
+  
+  _heapify() {
+    for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+      this._siftDown(i);
+    }
+  }
+  
+  _siftUp(index) {
+    let childIndex = index
+    let parentIndex = this._parentIndex(childIndex)
+    
+    while (childIndex > 0 && 
+           this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+      let temp = this._elements[childIndex]
+      this._elements[childIndex] = this._elements[parentIndex]
+      this._elements[parentIndex] = temp
+      
+      childIndex = parentIndex
+      parentIndex = this._parentIndex(childIndex)
+    }
+    
+  }
+  
+  _siftDown(index) {
+    let parentIndex = index
+    while (true) {
+      let leftIndex = this._leftChildIndex(parentIndex)
+      let rightIndex = this._rightChildIndex(parentIndex)
+      let candidate = parentIndex
+      
+      if (leftIndex < this._elements.length && 
+          this._sort(this._elements[leftIndex], this._elements[candidate])) {
+        candidate = leftIndex
+      }
+            
+      if (rightIndex < this._elements.length && 
+          this._sort(this._elements[rightIndex], this._elements[candidate])) {
+        candidate = rightIndex
+      }
+      
+      if (parentIndex === candidate) {
+        return
+      }
+      
+      let temp = this._elements[parentIndex]
+      this._elements[parentIndex] = this._elements[candidate]
+      this._elements[candidate] = temp
+      
+      parentIndex = candidate
+    }
+  }
+  
+  _leftChildIndex(parentIndex) {
+    return 2 * parentIndex + 1
+  }
+  
+  _rightChildIndex(parentIndex) {
+    return 2 * parentIndex + 2
+  }
+  
+  _parentIndex(childIndex) {
+    return Math.floor((childIndex - 1) / 2)
+  }
+  
+  insert(element) {
+    this._elements.push(element)
+    this._siftUp(this._elements.length - 1)
+  }
+  
+  remove() {
+    if (this._elements.length < 1) {
+      return null
+    }
+    
+    let temp = this._elements[0]
+    this._elements[0] = this._elements[this._elements.length - 1]
+    this._elements[this._elements.length - 1] = temp
+    
+    let element = this._elements.pop()
+    this._siftDown(0)
+    return element
+  }
 }
 ```
