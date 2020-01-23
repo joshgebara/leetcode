@@ -21107,3 +21107,19 @@ var maximum69Number  = function(num) {
     return sixBase !== -1 ? num + sixBase * 3 : num
 };
 ```
+
+## 1313. Decompress Run-Length Encoded List
+```javascript
+var decompressRLElist = function(nums) {
+    const result = []
+    
+    for (let i = 0; i < nums.length - 1; i += 2) {
+        let a = nums[i]
+        let b = nums[i + 1]
+        
+        while (a--) result.push(b)
+    }
+    
+    return result
+};
+```
