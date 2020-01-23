@@ -20853,16 +20853,18 @@ class DisjointSet {
 ## 947. Most Stones Removed with Same Row or Column
 ```javascript
 var removeStones = function(stones) {
-    const set = new DisjointSet(stones.length)
+    const set = new DisjointSet(20000)
     
-    for (let i = 0; i < stones.length; i++) {
-       for (let j = i + 1; j < stones.length; j++) {
-            if (stones[i][0] === stones[j][0] || stones[i][1] === stones[j][1])
-                set.union(i, j)
-        }
+    for (const [row, col] of stones) {
+        set.union(row, col + 10000)
     }
     
-    return stones.length - set.numOfComponents
+    const seen = new Set()
+    for (const [row, col] of stones) {
+        seen.add(set.find(row))
+    }
+    
+    return stones.length - seen.size
 };
 
 class DisjointSet {
