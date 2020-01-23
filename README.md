@@ -21145,3 +21145,22 @@ var countLetters = function(S) {
     return count
 };
 ```
+
+## 958. Check Completeness of a Binary Tree
+```javascript
+var isCompleteTree = function(root) {
+    let seenNull = false
+    const queue = [root]
+    while (queue.length) {
+        const node = queue.shift()
+        if (node === null) {
+            seenNull = true
+        } else {
+            if (seenNull) return false
+            queue.push(node.left)
+            queue.push(node.right)
+        }
+    }
+    return true
+};
+```
