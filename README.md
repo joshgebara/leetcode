@@ -21087,3 +21087,23 @@ class Heap {
   }
 }
 ```
+
+## 1323. Maximum 69 Number
+```javascript
+var maximum69Number  = function(num) {
+    let curr = num
+    let base = 1
+    let sixBase = -1
+    
+    while (curr > 1) {
+        if (curr % 10 === 6) {
+            sixBase = base
+        }
+        
+        base *= 10
+        curr = Math.floor(curr / 10)
+    }
+    
+    return sixBase !== -1 ? num + sixBase * 3 : num
+};
+```
