@@ -21678,3 +21678,36 @@ var maxPathSum = function(root) {
     return sum
 };
 ```
+
+## 99. Recover Binary Search Tree
+```javascript
+var recoverTree = function(root) {
+    const dfs = root => {
+        if (!root) return
+        dfs(root.left)
+        
+        if (prev && prev.val > root.val) {
+            if (first === null)
+                first = prev
+            
+            second = root
+        }
+        prev = root
+        
+        dfs(root.right)
+    }
+    
+    const swap = (node1, node2) => {
+        const temp = node1.val
+        node1.val = node2.val
+        node2.val = temp
+    }
+    
+    let first = null
+    let second = null
+    let prev = null
+    
+    dfs(root)
+    swap(first, second)
+};
+```
