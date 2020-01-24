@@ -21659,3 +21659,22 @@ var findBottomLeftValue = function(root) {
     return left
 };
 ```
+
+## 124. Binary Tree Maximum Path Sum
+```javascript
+var maxPathSum = function(root) {
+    const dfs = root => {
+        if (!root) return 0
+        
+        const left = Math.max(dfs(root.left), 0)
+        const right = Math.max(dfs(root.right), 0)
+        
+        sum = Math.max(sum, root.val + left + right)
+        return root.val + Math.max(left, right)
+    }
+    
+    let sum = -Number.MAX_VALUE
+    dfs(root)
+    return sum
+};
+```
