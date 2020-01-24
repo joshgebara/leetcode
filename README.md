@@ -21616,4 +21616,26 @@ var largestValues = function(root) {
 };
 
 // BFS
+var largestValues = function(root) {
+    if (!root) return []
+    
+    const levels = []
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        let max = -Number.MAX_VALUE
+        
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            max = Math.max(node.val, max)
+            
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+        }
+        levels.push(max)
+    }
+    
+    return levels
+};
 ```
