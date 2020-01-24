@@ -21040,6 +21040,63 @@ var maxNumberOfApples = function(arr) {
 
 ## 1029. Two City Scheduling
 ```javascript
+// Quick Select
+var twoCitySchedCost = function(costs) {
+    let cost = 0
+    const n = Math.floor(costs.length / 2)
+    quickSelect(costs, n)
+    
+    for (let i = 0; i < costs.length; i++) 
+        cost += i < n ? costs[i][0] : costs[i][1]
+    
+    return cost
+};
+
+const quickSelect = (arr, k) => {
+    const _quickSelect = (start, end) => {
+        if (start >= end) return start
+        
+        
+        const randomIndex = random(start, end)
+        swap(arr, randomIndex, end)
+        
+        const partitionIndex = partition(arr, start, end)
+        if (partitionIndex === k)
+            return k
+        
+        if (partitionIndex > k) {
+            return _quickSelect(start, partitionIndex - 1)
+        } else {
+            return _quickSelect(partitionIndex + 1, end)
+        }
+    }
+    
+    return _quickSelect(0, arr.length - 1)
+}
+
+const partition = (arr, start, end) => {
+    const pivotElement = arr[end][0] - arr[end][1]
+    let j = start - 1
+    
+    for (let i = start; i < end; i++) {
+        if (arr[i][0] - arr[i][1] <= pivotElement) {
+            swap(arr, i, ++j)
+        }
+    }
+    
+    swap(arr, ++j, end)
+    return j
+}
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
+
+// Sort
 var twoCitySchedCost = function(costs) {
     let cost = 0
     let cityACount = 0
