@@ -21639,3 +21639,23 @@ var largestValues = function(root) {
     return levels
 };
 ```
+
+## 513. Find Bottom Left Tree Value
+```javascript
+var findBottomLeftValue = function(root) {
+    let left = null
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            if (i === 0) left = node.val
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+        }
+    }
+    
+    return left
+};
+```
