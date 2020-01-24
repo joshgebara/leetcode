@@ -21592,3 +21592,28 @@ var sumNumbers = function(root) {
     return sum
 };
 ```
+
+## 515. Find Largest Value in Each Tree Row
+```javascript
+// DFS
+var largestValues = function(root) {
+    const dfs = (root, level) => {
+        if (!root) return
+        
+        if (levels[level] === undefined) {
+            levels[level] = root.val
+        } else {
+            levels[level] = Math.max(levels[level], root.val) 
+        }
+        
+        dfs(root.left, level + 1)
+        dfs(root.right, level + 1)
+    }
+    
+    const levels = []
+    dfs(root, 0)
+    return levels
+};
+
+// BFS
+```
