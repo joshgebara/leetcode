@@ -21568,3 +21568,27 @@ var lemonadeChange = function(bills) {
     return true
 };
 ```
+
+## 129. Sum Root to Leaf Numbers
+```javascript
+var sumNumbers = function(root) {
+    const dfs = (node, currNum) => {
+        if (!node) return
+        
+        currNum *= 10
+        currNum += node.val
+        
+        if (!node.left && !node.right) {
+            sum += currNum
+            return
+        }
+        
+        dfs(node.left, currNum)
+        dfs(node.right, currNum)
+    }
+    
+    let sum = 0
+    dfs(root, 0)
+    return sum
+};
+```
