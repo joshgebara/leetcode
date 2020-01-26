@@ -21711,3 +21711,56 @@ var recoverTree = function(root) {
     swap(first, second)
 };
 ```
+
+## 863. All Nodes Distance K in Binary Tree
+```javascript
+// BFS
+var distanceK = function(root, target, K) {
+    const graph = buildGraph(root)
+    const result = []
+    const queue = [target]
+    const visited = new Set([target])
+    
+    while (queue.length && K >= 0) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            
+            if (K === 0)
+                result.push(node.val)
+            
+            for (const neighbor of graph[node.val]) {
+                if (visited.has(neighbor)) continue
+
+                visited.add(neighbor)
+                queue.push(neighbor)
+            }
+        }
+        
+        K--
+    }
+    
+    return result
+};
+
+const buildGraph = root => {
+    const dfs = (node, parent) => {
+        if (!node) return
+        
+        if (!graph[node.val])
+            graph[node.val] = []
+        
+        if (parent) {
+            graph[node.val].push(parent)
+            graph[parent.val].push(node)
+        }
+        
+        dfs(node.left, node)
+        dfs(node.right, node)
+    }
+    
+    const graph = {}
+    dfs(root)
+    return graph
+}
+```
