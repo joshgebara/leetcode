@@ -21764,3 +21764,25 @@ const buildGraph = root => {
     return graph
 }
 ```
+
+## 1026. Maximum Difference Between Node and Ancestor
+```javascript
+var maxAncestorDiff = function(root) {
+    const dfs = (node, max, min) => {
+        if (!node) {
+            maxDiff = Math.max(maxDiff, max - min)
+            return
+        }
+        
+        max = Math.max(node.val, max)
+        min = Math.min(node.val, min)
+        
+        dfs(node.left, max, min)
+        dfs(node.right, max, min)
+    }
+    
+    let maxDiff = 0
+    dfs(root, root.val, root.val)
+    return maxDiff
+};
+```
