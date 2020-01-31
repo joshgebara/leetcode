@@ -21803,3 +21803,26 @@ var distributeCoins = function(root) {
     return moves
 };
 ```
+
+## 1123. Lowest Common Ancestor of Deepest Leaves
+```javascript
+var lcaDeepestLeaves = function(root) {
+    const dfs = root => {
+        if (!root) return [null, 0]
+        
+        const [lNode, lDepth] = dfs(root.left)
+        const [rNode, rDepth] = dfs(root.right)
+        
+        if (lDepth === rDepth)
+            return [root, lDepth + 1]
+        
+        if (lDepth > rDepth)
+            return [lNode, lDepth + 1]
+            
+        return [rNode, rDepth + 1]
+    }
+    
+    const [node, depth] = dfs(root)
+    return node
+};
+```
