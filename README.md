@@ -21787,7 +21787,7 @@ var maxAncestorDiff = function(root) {
 };
 ```
 
-### 979. Distribute Coins in Binary Tree
+## 979. Distribute Coins in Binary Tree
 ```javascript
 var distributeCoins = function(root) {
     const dfs = root => {
@@ -21881,4 +21881,30 @@ BSTIterator.prototype.hasNext = function() {
  * var param_1 = obj.next()
  * var param_2 = obj.hasNext()
  */
+```
+
+## 156. Binary Tree Upside Down
+```javascript
+var upsideDownBinaryTree = function(root) {
+    const dfs = node => {
+        if (!node) return null
+        
+        if (!node.left && !node.right) {
+            newRoot = node
+            return node
+        }
+        
+        const root = dfs(node.left)
+        root.left = node.right
+        root.right = node
+        
+        node.left = null
+        node.right = null
+        return node
+    }
+    
+    let newRoot = null
+    dfs(root)
+    return newRoot
+};
 ```
