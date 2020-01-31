@@ -21826,3 +21826,59 @@ var lcaDeepestLeaves = function(root) {
     return node
 };
 ```
+
+## 173. Binary Search Tree Iterator
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ */
+var BSTIterator = function(root) {
+    this.stack = []
+    this.root = root
+    
+    let curr = this.root
+    while (curr) {
+        this.stack.push(curr)
+        curr = curr.left
+    }
+};
+
+/**
+ * @return the next smallest number
+ * @return {number}
+ */
+BSTIterator.prototype.next = function() {    
+    const node = this.stack.pop()
+    if (node.right) {
+        let curr = node.right
+        while (curr) {
+            this.stack.push(curr)
+            curr = curr.left
+        }
+    }
+    
+    return node.val
+};
+
+/**
+ * @return whether we have a next smallest number
+ * @return {boolean}
+ */
+BSTIterator.prototype.hasNext = function() {
+    return this.stack.length !== 0
+};
+
+/** 
+ * Your BSTIterator object will be instantiated and called as such:
+ * var obj = new BSTIterator(root)
+ * var param_1 = obj.next()
+ * var param_2 = obj.hasNext()
+ */
+```
