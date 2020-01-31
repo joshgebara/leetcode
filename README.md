@@ -21786,3 +21786,20 @@ var maxAncestorDiff = function(root) {
     return maxDiff
 };
 ```
+
+### 979. Distribute Coins in Binary Tree
+```javascript
+var distributeCoins = function(root) {
+    const dfs = root => {
+        if (!root) return 0
+        
+        const left = dfs(root.left)
+        const right = dfs(root.right)
+        moves += Math.abs(left) + Math.abs(right)
+        return root.val + left + right - 1
+    }
+    let moves = 0
+    dfs(root)
+    return moves
+};
+```
