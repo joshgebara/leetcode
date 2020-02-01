@@ -21955,3 +21955,24 @@ var flatten = function(root) {
     }
 };
 ```
+
+## 1104. Path In Zigzag Labelled Binary Tree
+```javascript
+var pathInZigZagTree = function(label) {
+    const result = []
+    
+    let level = 1
+    while (label >= 2 ** level)
+        level++
+    
+    while (label !== 0) {
+        result.push(label)
+        max = 2 ** level - 1
+        min = 2 ** (level - 1)
+        label = Math.floor((max + min - label) / 2)
+        level--
+    }
+    
+    return result.reverse()
+};
+```
