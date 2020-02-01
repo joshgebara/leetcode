@@ -21997,3 +21997,32 @@ var maximumAverageSubtree = function(root) {
     return maxAvg
 };
 ```
+
+## 654. Maximum Binary Tree
+```javascript
+// O(n^2)
+var constructMaximumBinaryTree = function(nums) {
+    const _constructMaximumBinaryTree = (nums, start, end) => {
+        if (start > end) return null
+        
+        let max = -1
+        let maxIndex = -1
+        for (let i = start; i <= end; i++) {
+            if (nums[i] > max) {
+                max = nums[i]
+                maxIndex = i
+            }
+        }
+        
+        const node = new TreeNode(max)
+        node.left = _constructMaximumBinaryTree(nums, start, maxIndex - 1)
+        node.right = _constructMaximumBinaryTree(nums, maxIndex + 1, end)
+        return node
+    }
+    
+    return _constructMaximumBinaryTree(nums, 0, nums.length - 1)
+};
+
+// O(n)
+
+```
