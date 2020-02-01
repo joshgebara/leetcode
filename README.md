@@ -22063,3 +22063,25 @@ var flipEquiv = function(root1, root2) {
     return dfs(root1, root2)
 };
 ```
+
+## 865. Smallest Subtree with all the Deepest Nodes
+```javascript
+var subtreeWithAllDeepest = function(root) {
+    const dfs = root => {
+        if (!root) return [null, 0]
+        
+        const [leftNode, leftDepth] = dfs(root.left)
+        const [rightNode, rightDepth] = dfs(root.right)
+        
+        if (leftDepth === rightDepth)
+            return [root, leftDepth + 1]
+        
+        if (leftDepth > rightDepth)
+            return [leftNode, leftDepth + 1]
+        
+        return [rightNode, rightDepth + 1]
+    }
+    
+    return dfs(root)[0]
+};
+```
