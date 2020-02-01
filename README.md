@@ -22024,5 +22024,21 @@ var constructMaximumBinaryTree = function(nums) {
 };
 
 // O(n)
-
+var constructMaximumBinaryTree = function(nums) {
+    const stack = []
+    
+    for (let i = 0; i < nums.length; i++) {
+        const node = new TreeNode(nums[i])
+        
+        while (stack.length && stack[stack.length - 1].val < node.val)
+            node.left = stack.pop()
+        
+        if (stack.length)
+            stack[stack.length - 1].right = node
+        
+        stack.push(node)
+    }
+    
+    return stack.length ? stack[0] : null
+};
 ```
