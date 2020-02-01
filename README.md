@@ -21976,3 +21976,24 @@ var pathInZigZagTree = function(label) {
     return result.reverse()
 };
 ```
+
+## 1120. Maximum Average Subtree
+```javascript
+var maximumAverageSubtree = function(root) {
+    const dfs = root => {
+        if (!root) return [0, 0]
+        
+        const [leftSum, leftCount] = dfs(root.left)
+        const [rightSum, rightCount] = dfs(root.right)
+        const sum = root.val + leftSum + rightSum
+        const count = 1 + leftCount + rightCount
+        const avg = sum / count
+        maxAvg = Math.max(maxAvg, avg)
+        return [sum, count]
+    }
+    
+    let maxAvg = 0
+    dfs(root)
+    return maxAvg
+};
+```
