@@ -21908,3 +21908,26 @@ var upsideDownBinaryTree = function(root) {
     return newRoot
 };
 ```
+
+## 663. Equal Tree Partition
+```javascript
+var checkEqualTree = function(root) {
+    const sum = node => {
+        if (!node) return 0
+        
+        const left = sum(node.left)
+        const right = sum(node.right)
+        
+        node.sum = node.val + left + right
+        
+        if (node !== root)
+            seen.add(node.sum)
+        
+        return node.sum
+    }
+    
+    const seen = new Set()
+    const total = sum(root)    
+    return seen.has(total / 2)
+};
+```
