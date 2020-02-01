@@ -22042,3 +22042,24 @@ var constructMaximumBinaryTree = function(nums) {
     return stack.length ? stack[0] : null
 };
 ```
+
+## 951. Flip Equivalent Binary Trees
+```javascript
+var flipEquiv = function(root1, root2) {
+    const dfs = (node1, node2) => {
+        if (!node1 && !node2)
+            return true
+        
+        if (!node1 || !node2 || node1.val !== node2.val)
+            return false
+        
+        const node1Left = node1.left ? node1.left.val : null
+        const node2Left = node2.left ? node2.left.val : null
+        
+        return dfs(node1.left, node2.left) && dfs(node1.right, node2.right) ||
+               dfs(node1.left, node2.right) && dfs(node1.right, node2.left)
+    }
+    
+    return dfs(root1, root2)
+};
+```
