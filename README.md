@@ -21931,3 +21931,27 @@ var checkEqualTree = function(root) {
     return seen.has(total / 2)
 };
 ```
+
+## 114. Flatten Binary Tree to Linked List
+```javascript
+var flatten = function(root) {
+    if (!root) return
+    
+    const stack = [root]
+    
+    while (stack.length) {
+        const curr = stack.pop()
+        
+        if (curr.right)
+            stack.push(curr.right)
+        
+        if (curr.left)
+            stack.push(curr.left)
+        
+        if (stack.length)
+            curr.right = stack[stack.length - 1]
+        
+        curr.left = null
+    }
+};
+```
