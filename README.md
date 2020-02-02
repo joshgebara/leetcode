@@ -22085,3 +22085,32 @@ var subtreeWithAllDeepest = function(root) {
     return dfs(root)[0]
 };
 ```
+
+## 103. Binary Tree Zigzag Level Order Traversal
+```javascript
+var zigzagLevelOrder = function(root) {
+    if (!root) return []
+    
+    const levels = []
+    const deque = [root]
+    let flag = true
+
+    while (deque.length) {
+        const size = deque.length
+        const row = []
+
+        for (let i = 0; i < size; i++) {
+            const node = deque.shift()
+            flag ? row.push(node.val) : row.unshift(node.val)
+            
+            if (node.left) deque.push(node.left)
+            if (node.right) deque.push(node.right)
+        }
+        
+        flag = !flag
+        levels.push(row)
+    }
+    
+    return levels
+};
+```
