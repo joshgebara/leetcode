@@ -22230,3 +22230,31 @@ MyCircularDeque.prototype.isFull = function() {
  * var param_8 = obj.isFull()
  */
 ```
+
+## 247. Strobogrammatic Number II
+```javascript
+var findStrobogrammatic = function(n) {
+    const _findStrobogrammatic = (curr, low, high) => {
+        if (low > high) {
+            if (curr.length === 1 || curr[0] !== '0')
+                result.push(curr.join(''))
+            return
+        }
+        
+        for (const [key, value] of Object.entries(map)) {
+            if (low === high && key !== value) continue
+            
+            curr[low] = key
+            curr[high] = value
+            
+            _findStrobogrammatic(curr, low + 1, high - 1)
+        }
+    }
+    
+    const map = { '0': '0', '1': '1', '6': '9', '8': '8', '9': '6' }
+    const result = []
+    const curr = Array(n).fill(null)
+    _findStrobogrammatic(curr, 0, n - 1)
+    return result
+};
+```
