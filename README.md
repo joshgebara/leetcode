@@ -22258,3 +22258,54 @@ var findStrobogrammatic = function(n) {
     return result
 };
 ```
+
+## 1065. Index Pairs of a String
+```javascript
+var indexPairs = function(text, words) {
+    const trie = new Trie(words)
+    const result = []
+    
+    for (let i = 0; i < text.length; i++) {
+        let curr = trie.root
+        for (let j = i; j < text.length; j++) {
+            if (!curr.children[text[j]])
+                break
+            
+            curr = curr.children[text[j]]
+            if (curr.isEnd)
+                result.push([i, j])
+        }
+    }
+    
+    return result
+};
+
+class Trie {
+    constructor(words) {
+        this.root = new TrieNode()
+        
+        for (const word of words)
+            this.insert(word)
+    }
+
+    insert(word) {
+        let curr = this.root
+        for (const char of word) {
+            if (!curr.children[char])
+                curr.children[char] = new TrieNode(char)
+            
+            curr = curr.children[char]
+        }
+        
+        curr.isEnd = true
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
+```
