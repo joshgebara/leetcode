@@ -22358,3 +22358,25 @@ var buildTree = function(inorder, postorder) {
     return _buildTree(0, inorder.length - 1)
 };
 ```
+
+## 1008. Construct Binary Search Tree from Preorder Traversal
+```javascript
+var bstFromPreorder = function(preorder) {
+    const _bstFromPreorder = (low, high) => {
+        if (i >= preorder.length) return null
+        
+        const val = preorder[i]
+        if (val < low || val > high)
+            return null
+        
+        i++
+        const node = new TreeNode(val)
+        node.left = _bstFromPreorder(low, val)
+        node.right = _bstFromPreorder(val, high)
+        return node
+    }
+    
+    let i = 0
+    return _bstFromPreorder(Number.MIN_VALUE, Number.MAX_VALUE)
+};
+```
