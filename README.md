@@ -22309,3 +22309,28 @@ class TrieNode {
     }
 }
 ```
+
+## 105. Construct Binary Tree from Preorder and Inorder Traversal
+```javascript
+var buildTree = function(preorder, inorder) {
+    const _buildTree = (start, end) => {
+        if (start > end)
+            return null
+        
+        const val = preorder[i++]
+        const node = new TreeNode(val)
+        
+        const partitionIndex = map[val]
+        node.left = _buildTree(start, partitionIndex - 1)
+        node.right = _buildTree(partitionIndex + 1, end)
+        return node
+    }
+    
+    const map = {}
+    for (let i = 0; i < inorder.length; i++)
+        map[inorder[i]] = i
+    
+    let i = 0
+    return _buildTree(0, inorder.length - 1)
+};
+```
