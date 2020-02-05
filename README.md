@@ -22380,3 +22380,39 @@ var bstFromPreorder = function(preorder) {
     return _bstFromPreorder(Number.MIN_VALUE, Number.MAX_VALUE)
 };
 ```
+
+## 623. Add One Row to Tree
+```javascript
+var addOneRow = function(root, v, d) {
+    if (d === 1) {
+        const newRoot = new TreeNode(v)
+        newRoot.left = root
+        return newRoot
+    }
+    
+    const queue = [root]
+    let level = 1
+    
+    while (queue.length && level < d) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            
+            if (level === d - 1) {
+                const tempLeft = node.left
+                node.left = new TreeNode(v)
+                node.left.left = tempLeft
+                
+                const tempRight = node.right
+                node.right = new TreeNode(v)
+                node.right.right = tempRight
+            } else {
+                if (node.left) queue.push(node.left)
+                if (node.right) queue.push(node.right)
+            }
+        }
+        level++
+    }
+    return root
+};
+```
