@@ -22334,3 +22334,27 @@ var buildTree = function(preorder, inorder) {
     return _buildTree(0, inorder.length - 1)
 };
 ```
+
+## 106. Construct Binary Tree from Inorder and Postorder Traversal
+```javascript
+var buildTree = function(inorder, postorder) {
+    const _buildTree = (start, end) => {
+        if (start > end) return null
+        
+        const val = postorder[i--]
+        const node = new TreeNode(val)
+        
+        const partitionIndex = map[val]
+        node.right = _buildTree(partitionIndex + 1, end)
+        node.left = _buildTree(start, partitionIndex - 1)
+        return node
+    }
+    
+    const map = {}
+    for (let i = 0; i < inorder.length; i++)
+        map[inorder[i]] = i
+    
+    let i = postorder.length - 1
+    return _buildTree(0, inorder.length - 1)
+};
+```
