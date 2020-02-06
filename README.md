@@ -22438,3 +22438,66 @@ var largestBSTSubtree = function(root) {
     return _largestBSTSubtree(root)[0]
 };
 ```
+
+## 545. Boundary of Binary Tree
+```javascript
+var boundaryOfBinaryTree = function(root) {
+    if (!root) return []
+    
+    const seen = new Set([root])
+    const result = []
+    
+    return [root.val, 
+            ...getLeftPath(root.left, [], seen), 
+            ...getLeaves(root, [], seen), 
+            ...getRightPath(root.right, [], seen)]
+};
+
+const getLeftPath = (node, arr, seen) => {
+    if (!node) return arr
+
+    if (!seen.has(node)) {
+        arr.push(node.val)
+        seen.add(node)
+    }
+
+    if (node.left) {
+        getLeftPath(node.left, arr, seen)
+    } else {
+        getLeftPath(node.right, arr, seen)
+    }
+
+    return arr
+}
+
+const getRightPath = (node, arr, seen) => {
+    if (!node) return arr
+
+    if (node.right) {
+        getRightPath(node.right, arr, seen)
+    } else {
+        getRightPath(node.left, arr, seen)
+    }
+
+    if (!seen.has(node)) {
+        arr.push(node.val)
+        seen.add(node)
+    }
+
+    return arr
+}
+
+const getLeaves = (node, arr, seen) => {
+    if (!node) return arr
+
+    getLeaves(node.left, arr, seen)
+    getLeaves(node.right, arr, seen)
+
+    if (!seen.has(node) && !node.left && !node.right) {
+        arr.push(node.val)
+        seen.add(node)
+    }
+
+    return arr
+}
+```
