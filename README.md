@@ -22416,3 +22416,25 @@ var addOneRow = function(root, v, d) {
     return root
 };
 ```
+
+## 333. Largest BST Subtree
+```javascript
+var largestBSTSubtree = function(root) {
+    const _largestBSTSubtree = root => {
+        if (!root) return [0, true, Number.MAX_VALUE, -Number.MAX_VALUE]
+        
+        const [leftCount, leftValid, leftMin, leftMax] = _largestBSTSubtree(root.left)
+        const [rightCount, rightValid, rightMin, rightMax] = _largestBSTSubtree(root.right)
+        
+        if (!leftValid || !rightValid || leftMax >= root.val || rightMin <= root.val)
+            return [Math.max(leftCount, rightCount), false, 0, 0]
+        
+        return [leftCount + rightCount + 1, 
+                true, 
+                Math.min(leftMin, root.val),
+                Math.max(rightMax, root.val)]
+    }
+    
+    return _largestBSTSubtree(root)[0]
+};
+```
