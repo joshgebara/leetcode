@@ -22599,6 +22599,7 @@ const getNode = (node, k) => {
 
 ## 297. Serialize and Deserialize Binary Tree
 ```javascript
+// DFS
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -22654,6 +22655,85 @@ var deserialize = function(data) {
     let i = 0
     const nodes = data.split(',')
     return _deserialize()
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */
+
+// BFS
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function(root) {
+    if (!root) return []
+    
+    const result = []
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            
+            if (node === null) {
+                result.push('x')
+                continue
+            }
+            
+            result.push(node.val)
+            queue.push(node.left)
+            queue.push(node.right)
+        }
+    }
+    
+    return result.join(',')
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    if (!data.length) return null
+    
+    let i = 0
+    const nodes = data.split(',')
+    const root = new TreeNode(+nodes[i++])
+    const queue = [root]
+    
+    while (queue.length) {
+        const node = queue.shift()
+        
+        if (nodes[i] !== 'x') {
+            node.left = new TreeNode(+nodes[i])
+            queue.push(node.left)
+        }
+        i++
+
+        if (nodes[i] !== 'x') {
+            node.right = new TreeNode(+nodes[i])
+            queue.push(node.right)
+        }
+        i++
+    } 
+    
+    return root
 };
 
 /**
