@@ -22501,3 +22501,33 @@ const getLeaves = (node, arr, seen) => {
     return arr
 }
 ```
+
+## 662. Maximum Width of Binary Tree
+```javascript
+var widthOfBinaryTree = function(root) {
+    if (!root) return 0
+    
+    let maxWidth = 1
+    const queue = [[root, 1]]
+    
+    while (queue.length) {
+        const size = queue.length
+        
+        const offset = queue[0][1]
+        
+        if (size > 1)
+            maxWidth = Math.max(maxWidth, queue[size - 1][1] - offset + 1)
+        
+        for (let i = 0; i < size; i++) {
+            const [node, position] = queue.shift()
+            const currPosition = position - offset
+            
+            if (node.left) 
+                queue.push([node.left, currPosition * 2])
+            if (node.right) 
+                queue.push([node.right, currPosition * 2 + 1])
+        }
+    }
+    return maxWidth
+};
+```
