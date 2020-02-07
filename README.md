@@ -22531,3 +22531,65 @@ var widthOfBinaryTree = function(root) {
     return maxWidth
 };
 ```
+
+## 742. Closest Leaf in a Binary Tree
+```javascript
+// BFS
+var findClosestLeaf = function(root, k) {
+    const graph = buildGraph(root)
+    const nodeK = getNode(root, k)
+    const queue = [nodeK]
+    const seen = new Set([nodeK.val])
+
+    while (queue.length) {
+        const next = queue.shift()
+        
+        if (!next.left && !next.right)
+            return next.val
+        
+        for (const neighbor of graph[next.val]) {
+            if (seen.has(neighbor.val)) continue
+            seen.add(neighbor.val)
+            queue.push(neighbor)
+        }
+    }
+};
+
+const buildGraph = root => {
+    const dfs = (node, parent) => {
+        if (!node) return
+        
+        if (parent) {
+            if (!graph[node.val])
+                graph[node.val] = []
+
+            if (!graph[parent.val])
+                graph[parent.val] = []
+            
+            graph[node.val].push(parent)
+            graph[parent.val].push(node)
+        }
+        
+        dfs(node.left, node)
+        dfs(node.right, node)
+    }
+    
+    const graph = {}
+    dfs(root)
+    return graph
+}
+
+const getNode = (node, k) => {
+    if (!node)
+        return null
+    
+    if (node.val === k)
+        return node
+    
+    const left = getNode(node.left, k)
+    if (left) return left
+    
+    const right = getNode(node.right, k)
+    if (right) return right
+}
+```
