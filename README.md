@@ -22592,4 +22592,72 @@ const getNode = (node, k) => {
     const right = getNode(node.right, k)
     if (right) return right
 }
+
+// DFS
+
+```
+
+## 297. Serialize and Deserialize Binary Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function(root) {
+    const _serialize = root => {
+        if (!root) {
+            str.push('x')
+            return str
+        }
+        
+        str.push(root.val)
+        _serialize(root.left)
+        _serialize(root.right)
+        return str
+    }
+    
+    const str = []
+    _serialize(root)
+    console.log(str)
+    return str.join(',')
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    const _deserialize = () => {
+        if (i >= nodes.length || nodes[i] === 'x') {
+            i++
+            return null
+        }
+        
+        const node = new TreeNode(nodes[i++])
+        node.left = _deserialize()
+        node.right = _deserialize()
+        return node
+    }
+    
+    let i = 0
+    const nodes = data.split(',')
+    return _deserialize()
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */
 ```
