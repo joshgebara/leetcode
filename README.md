@@ -22741,3 +22741,30 @@ var deserialize = function(data) {
  * deserialize(serialize(root));
  */
 ```
+
+## 298. Binary Tree Longest Consecutive Sequence
+```javascript
+var longestConsecutive = function(root) {
+    const _longestConsecutive = (node, curr) => {
+        if (!node) return
+        
+        max = Math.max(max, curr)
+        
+        if (node.left && node.left.val === node.val + 1) {
+            _longestConsecutive(node.left, curr + 1)
+        } else {
+            _longestConsecutive(node.left, 1)
+        }
+        
+        if (node.right && node.right.val === node.val + 1) {
+            _longestConsecutive(node.right, curr + 1)
+        } else {
+            _longestConsecutive(node.right, 1)
+        }        
+    }
+    
+    let max = 0
+    _longestConsecutive(root, 1)
+    return max
+};
+```
