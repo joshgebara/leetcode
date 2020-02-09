@@ -22592,9 +22592,6 @@ const getNode = (node, k) => {
     const right = getNode(node.right, k)
     if (right) return right
 }
-
-// DFS
-
 ```
 
 ## 297. Serialize and Deserialize Binary Tree
