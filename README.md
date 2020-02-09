@@ -22768,3 +22768,73 @@ var longestConsecutive = function(root) {
     return max
 };
 ```
+
+## 428. Serialize and Deserialize N-ary Tree
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+class Codec {
+  	constructor() {
+        
+    }
+  
+    /** 
+     * @param {Node} root
+     * @return {string}
+     */
+    // Encodes a tree to a single string.
+    serialize = function(root) {
+        const _serialize = root => {
+            if (!root) return
+            
+            result.push(root.val)
+            result.push(root.children.length)
+            
+            for (const child of root.children) {
+                _serialize(child)
+            }
+        }
+        
+        const result = []
+        _serialize(root)
+        return result.join(',')
+    };
+
+    /** 
+     * @param {string} data 
+     * @return {Node}
+     */
+    // Decodes your encoded data to tree.
+    deserialize = function(data) {
+        const _deserialize = () => {
+            if (i >= nodes.length)
+                return null
+            
+            const val = nodes[i++]
+            const childCount = nodes[i++]
+            
+            const node = new Node(val)
+            node.children = []
+            for (let j = 0; j < childCount; j++) {
+                node.children.push(_deserialize())
+            }
+            
+            return node
+        }
+        
+        const nodes = data.split(',')
+        let i = 0
+        return _deserialize()
+    };
+
+}
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));
+```
