@@ -22838,3 +22838,64 @@ class Codec {
 // Codec codec = new Codec();
 // codec.deserialize(codec.serialize(root));
 ```
+
+## 449. Serialize and Deserialize BST
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function(root) {
+    const preOrder = root => {
+        if (!root) return
+        
+        result.push(root.val)
+        preOrder(root.left)
+        preOrder(root.right)
+    }
+    
+    const result = []
+    preOrder(root)
+    return result
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    const _deserialize = (low, high) => {
+        if (i >= data.length) return null
+        
+        const val = data[i]
+        if (val < low || val > high)
+            return null
+        
+        i++
+        const node = new TreeNode(val)
+        node.left = _deserialize(low, val)
+        node.right = _deserialize(val, high)
+        return node
+    }
+    
+    let i = 0
+    return _deserialize(-Number.MAX_VALUE, Number.MAX_VALUE)
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */
+```
