@@ -22920,4 +22920,30 @@ var findDuplicateSubtrees = function(root) {
     
     return result
 };
+
+// O(n)
+var findDuplicateSubtrees = function(root) {
+    const dfs = root => {
+        if (!root) return 0
+        
+        const serial = root.val + ',' + dfs(root.left) + ',' + dfs(root.right)
+        
+        if (!trees[serial]) trees[serial] = id++
+        const uid = trees[serial]
+        
+        counts[uid] = 1 + (counts[uid] || 0)
+        if (counts[uid] === 2)
+            result.push(root)
+        
+        return uid
+    }
+    
+    const trees = {}
+    const counts = {}
+    const result = []
+    let id = 1
+    
+    dfs(root)
+    return result
+};
 ```
