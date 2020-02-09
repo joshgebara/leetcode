@@ -22896,3 +22896,28 @@ var deserialize = function(data) {
  * deserialize(serialize(root));
  */
 ```
+
+## 652. Find Duplicate Subtrees
+```javascript
+// O(n^2)
+var findDuplicateSubtrees = function(root) {
+    const dfs = root => {
+        if (!root) return '#'
+        
+        const temp = `${root.val}` + dfs(root.left) + dfs(root.right)
+        
+        map[temp] = 1 + (map[temp] || 0)
+        
+        if (map[temp] === 2)
+            result.push(root)
+        
+        return temp
+    }
+    
+    const result = []
+    const map = {}
+    dfs(root)
+    
+    return result
+};
+```
