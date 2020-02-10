@@ -23021,3 +23021,35 @@ var numKLenSubstrNoRepeats = function(S, K) {
     return count
 };
 ```
+
+## 487. Max Consecutive Ones II
+```javascript
+// Sliding Window
+var findMaxConsecutiveOnes = function(nums) {
+    let length = 0
+    let zeroCount = 0
+    let left = 0
+    let right = 0
+    
+    while (right < nums.length) {
+        if (nums[right] === 0)
+            zeroCount++
+        
+        if (zeroCount === 2) {
+            length = Math.max(length, right - left)
+
+            while (zeroCount === 2) {
+                if (nums[left] === 0)
+                    zeroCount--
+                
+                left++
+            }
+        }
+        
+        right++
+    }
+    
+    length = Math.max(length, right - left)
+    return length
+};
+```
