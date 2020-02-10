@@ -22947,3 +22947,51 @@ var findDuplicateSubtrees = function(root) {
     return result
 };
 ```
+
+## 1245. Tree Diameter
+```javascript
+// DFS
+var treeDiameter = function(edges) {
+    const graph = buildGraph(edges)
+    const [, endNode] = longestPath(graph, 0)
+    const [length, ] = longestPath(graph, endNode)
+    return length
+};
+
+const longestPath = (graph, startNode) => {
+    const _longestPath = (vertex, parent, length) => {
+        if (length > maxLength) {
+            maxLength = length
+            endNode = vertex
+        }
+        
+        if (graph[vertex]) {
+            for (const neighbor of graph[vertex]) {
+                if (neighbor === parent) continue
+                _longestPath(neighbor, vertex, length + 1)
+            }
+        }
+    }
+    
+    let maxLength = 0
+    let endNode = null
+    _longestPath(startNode, null, 0)
+    return [maxLength, endNode]
+}
+
+const buildGraph = edges => {
+    const graph = {}
+    
+    for (const [v1, v2] of edges) {
+        if (!graph[v1]) graph[v1] = []
+        if (!graph[v2]) graph[v2] = []
+        
+        graph[v1].push(v2)
+        graph[v2].push(v1)
+    }
+    
+    return graph
+}
+
+// BFS
+```
