@@ -23076,3 +23076,33 @@ var findMaxConsecutiveOnes = function(nums) {
     return length
 };
 ```
+
+## 1004. Max Consecutive Ones III
+```javascript
+var longestOnes = function(A, K) {
+    let length = 0
+    let left = 0
+    let right = 0
+    let zeroCount = 0
+    
+    while (right < A.length) {
+        if (A[right] === 0)
+            zeroCount++
+        
+        if (zeroCount === K + 1) {
+            length = Math.max(right - left, length)
+            
+            while (zeroCount === K + 1) {
+                if (A[left] === 0)
+                    zeroCount--
+
+                left++
+            }
+        }
+        right++
+    }
+    
+    length = Math.max(right - left, length)
+    return length
+};
+```
