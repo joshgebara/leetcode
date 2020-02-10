@@ -22992,6 +22992,32 @@ const buildGraph = edges => {
     
     return graph
 }
+```
 
-// BFS
+## 1100. Find K-Length Substrings With No Repeated Characters
+```javascript
+var numKLenSubstrNoRepeats = function(S, K) {
+    if (S.length < K) return 0
+    
+    const seen = new Set()
+    let count = 0
+    let left = 0
+    let right = 0
+    
+    while (right < S.length) {
+        while (seen.has(S[right]))
+            seen.delete(S[left++])
+
+        seen.add(S[right])
+        
+        if (right - left + 1 === K) {
+            count++
+            seen.delete(S[left++])
+        }
+        
+        right++
+    }
+    
+    return count
+};
 ```
