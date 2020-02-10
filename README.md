@@ -23052,4 +23052,27 @@ var findMaxConsecutiveOnes = function(nums) {
     length = Math.max(length, right - left)
     return length
 };
+
+// Follow Up
+var findMaxConsecutiveOnes = function(nums) {
+    let length = 0
+    let lastZeroIndex = null
+    let left = 0
+    let right = 0
+    
+    while (right < nums.length) {
+        if (nums[right] === 0) {
+            if (lastZeroIndex !== null) {
+                length = Math.max(right - left, length)
+                left = lastZeroIndex + 1                
+            }
+            lastZeroIndex = right
+        }
+        
+        right++
+    }
+    
+    length = Math.max(right - left, length)
+    return length
+};
 ```
