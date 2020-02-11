@@ -23162,3 +23162,56 @@ var minWindow = function(s, t) {
     return minLength === -1 ? '' : s.slice(start, end + 1)
 };
 ```
+
+## 995. Minimum Number of K Consecutive Bit Flips
+```javascript
+// O(nk)
+// O(1)
+var minKBitFlips = function(A, K) {
+    let count = 0
+    for (let i = 0; i < A.length; i++) {
+        if (!A[i]) {
+            if (i + K - 1 >= A.length) 
+                return -1
+            
+            for (let j = i; j < i + K; j++)
+                A[j] ^= 1
+            
+            count++
+        }
+    }
+    
+    return count
+};
+```
+
+## 424. Longest Repeating Character Replacement
+```javascript
+var characterReplacement = function(s, k) {
+    const charCounts = {}
+    let maxLength = 0
+    let maxCount = 0
+    let left = 0
+    let right = 0
+    
+    while (right < s.length) {
+        const char = s[right]
+        
+        if (!charCounts[char])
+            charCounts[char] = 0
+        
+        charCounts[char]++
+        maxCount = Math.max(maxCount, charCounts[char])
+        
+        if (right - left + 1 - maxCount > k) {
+            const leftChar = s[left]
+            charCounts[leftChar]--
+            left++
+        }
+        maxLength = Math.max(maxLength, right - left + 1)
+        right++
+    }
+    
+    return maxLength
+};
+```
