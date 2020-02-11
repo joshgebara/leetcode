@@ -23124,3 +23124,41 @@ var longestOnes = function(A, K) {
     return right - left
 };
 ```
+
+## 76. Minimum Window Substring
+```javascript
+var minWindow = function(s, t) {
+    if (t.length > s.length || s.length === 0 || t.length === 0) return ''
+
+    const map = {}
+    for (const char of t)
+      map[char] = 1 + (map[char] || 0)
+
+    let minLength = -1
+    let start = 0
+    let end = 0
+
+    let count = t.length
+    let left = 0
+    for (let right = 0; right < s.length; right++) {
+        const char = s[right]
+        
+        if(map[char]-- > 0)
+            count--
+        
+        while (count === 0) {
+            if (minLength === -1 || right - left < minLength) {
+                minLength = right - left
+                start = left
+                end = right
+            }
+            
+            const char = s[left++]
+            if (map[char]++ === 0)
+                count++
+        }
+    }
+    
+    return minLength === -1 ? '' : s.slice(start, end + 1)
+};
+```
