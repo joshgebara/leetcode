@@ -23215,3 +23215,25 @@ var characterReplacement = function(s, k) {
     return maxLength
 };
 ```
+
+## 1151. Minimum Swaps to Group All 1's Together
+```javascript
+var minSwaps = function(data) {
+    let windowSize = 0
+    for (const num of data)
+        if (num) windowSize++
+    
+    let numOfZeros = 0
+    for (let i = 0; i < windowSize; i++)
+        if (!data[i]) numOfZeros++
+    
+    let minSwaps = numOfZeros
+    for (let i = windowSize; i < data.length; i++) {
+        if (!data[i - windowSize]) numOfZeros--
+        if (!data[i]) numOfZeros++
+        minSwaps = Math.min(minSwaps, numOfZeros)
+    }
+    
+    return minSwaps
+};
+```
