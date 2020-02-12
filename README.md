@@ -23237,3 +23237,38 @@ var minSwaps = function(data) {
     return minSwaps
 };
 ```
+
+## 567. Permutation in String
+```javascript
+var checkInclusion = function(s1, s2) {
+    const s1Map = {}
+    for (const char of s1)
+        s1Map[char] = 1 + (s1Map[char] || 0)
+    
+    const s2Map = {}
+    for (let i = 0; i < s1.length; i++)
+        s2Map[s2[i]] = 1 + (s2Map[s2[i]] || 0)
+    
+
+    for (let i = s1.length; i < s2.length; i++) {
+        if (isMatch(s1Map, s2Map)) 
+            return true
+
+        if (!s2Map[s2[i]])
+            s2Map[s2[i]] = 0
+        
+        s2Map[s2[i]]++
+        s2Map[s2[i - s1.length]]--
+    }
+    
+    return isMatch(s1Map, s2Map)
+};
+
+const isMatch = (map1, map2) => {
+    for (const key of Object.keys(map1)) {
+        if (map1[key] !== map2[key]) 
+            return false
+    }
+    return true
+}
+```
