@@ -23327,3 +23327,27 @@ const isMatch = (map1, map2) => {
     return true
 }
 ```
+
+## 1052. Grumpy Bookstore Owner
+```javascript
+var maxSatisfied = function(customers, grumpy, X) {
+    let s = 0
+    for (let i = 0; i < grumpy.length; i++) {
+        if (grumpy[i] === 0) {
+            s += customers[i]
+            customers[i] = 0
+        }
+    }
+    
+    let maxS = 0
+    let currS = 0
+    
+    for (let i = 0; i < customers.length; i++) {
+        currS += customers[i]
+        if (i >= X) currS -= customers[i - X]
+        maxS = Math.max(maxS, currS)
+    }
+    
+    return s + maxS
+};
+```
