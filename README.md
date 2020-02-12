@@ -23288,3 +23288,42 @@ var findOcurrences = function(text, first, second) {
     return result
 };
 ```
+
+## 438. Find All Anagrams in a String
+```javascript
+var findAnagrams = function(s, p) {
+    const result = []
+    
+    const pMap = {}
+    for (const char of p)
+        pMap[char] = 1 + (pMap[char] || 0)
+    
+    const sMap = {}
+    for (let i = 0; i < p.length; i++)
+        sMap[s[i]] = 1 + (sMap[s[i]] || 0)
+    
+    for (let i = p.length; i < s.length; i++) {
+        if (isMatch(pMap, sMap))
+            result.push(i - p.length)
+        
+        if (!sMap[s[i]])
+            sMap[s[i]] = 0
+        
+        sMap[s[i]]++
+        sMap[s[i - p.length]]--
+    }
+    
+    if (isMatch(pMap, sMap))
+        result.push(s.length - p.length)
+    
+    return result
+};
+
+const isMatch = (map1, map2) => {
+    for (const key of Object.keys(map1)) {
+        if (map1[key] !== map2[key])
+            return false
+    }
+    return true
+}
+```
