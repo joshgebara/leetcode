@@ -23351,3 +23351,25 @@ var maxSatisfied = function(customers, grumpy, X) {
     return s + maxS
 };
 ```
+
+## 1208. Get Equal Substrings Within Budget
+```javascript
+var equalSubstring = function(s, t, maxCost) {
+    let maxLength = 0
+    let left = 0
+    for (let right = 0; right < s.length; right++) {
+        maxCost -= distance(t[right], s[right])
+        
+        while (maxCost < 0) {
+            maxCost += distance(t[left], s[left])
+            left++
+        }
+        
+        maxLength = Math.max(maxLength, right - left + 1)
+    }
+    
+    return maxLength
+};
+
+const distance = (char1, char2) => Math.abs(char1.charCodeAt(0) - char2.charCodeAt(0))
+```
