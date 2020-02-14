@@ -23551,3 +23551,23 @@ var maxSlidingWindow = function(nums, k) {
     return result
 };
 ```
+
+## 995. Minimum Number of K Consecutive Bit Flips
+```javascript
+var minKBitFlips = function(A, K) {
+    let count = 0
+    const queue = []
+    
+    for (let i = 0; i < A.length; i++) {
+        if (A[i] !== queue.length % 2 ? 0 : 1) {
+            count++
+            queue.push(i + K - 1)
+        }
+        
+        if (queue.length && queue[0] <= i)
+            queue.shift()
+    }
+    
+    return queue.length ? -1 : count
+};
+```
