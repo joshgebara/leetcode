@@ -23612,3 +23612,39 @@ var canReach = function(arr, start) {
     return _canReach(start)
 };
 ```
+
+## 752. Open the Lock
+```javascript
+var openLock = function(deadends, target) {
+    const visited = new Set(deadends)
+    const queue = ['0000']
+    let moves = 0
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const lock = queue.shift()
+            
+            if (visited.has(lock)) continue
+            visited.add(lock)
+            
+            if (lock === target) return moves
+            
+            for (let i = 0; i < 4; i++) {
+                const nextPos1 = lock[i] === '9' ? 0 : +lock[i] + 1
+                const str1 = lock.slice(0, i) + nextPos1 + lock.slice(i + 1)
+                
+                const nextPos2 = lock[i] === '0' ? 9 : +lock[i] - 1
+                const str2 = lock.slice(0, i) + nextPos2 + lock.slice(i + 1)
+                
+                if (!visited.has(str1)) queue.push(str1)
+                if (!visited.has(str2)) queue.push(str2)       
+            }
+        }
+        
+        moves++
+    }
+    
+    return -1
+};
+```
