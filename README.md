@@ -23648,3 +23648,60 @@ var openLock = function(deadends, target) {
     return -1
 };
 ```
+
+## 934. Shortest Bridge
+```javascript
+var shortestBridge = function(A) {
+    const queue = []
+    let dist = 0
+    
+    outer : for (let row = 0; row < A.length; row++) {
+        for (let col = 0; col < A[0].length; col++) {
+            if (A[row][col]) {
+                dfs(A, row, col, queue)
+                break outer
+            }
+        }
+    }
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [x, y] = queue.shift()
+            
+            for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+                const nx = x + dx
+                const ny = y + dy
+                
+                if (nx < 0 || ny < 0 || 
+                    nx >= A.length || ny >= A[0].length || 
+                    A[nx][ny] === -1)
+                    continue
+                
+                if (A[nx][ny] === 1)
+                    return dist
+                
+                queue.push([nx, ny])
+                A[nx][ny] = -1
+            }
+        }
+        dist++
+    }
+    
+    return -1
+};
+
+const dfs = (graph, row, col, queue) => {
+    if (row < 0 || col < 0 || 
+        row >= graph.length || col >= graph[0].length || 
+        graph[row][col] === 0 || graph[row][col] === -1)
+    return
+    
+    queue.push([row, col])
+    graph[row][col] = -1
+    
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        dfs(graph, row + dx, col + dy, queue)
+    }
+}
+```
