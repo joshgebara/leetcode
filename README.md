@@ -23597,4 +23597,18 @@ var canReach = function(arr, start) {
     }
     return false
 };
+
+// DFS
+var canReach = function(arr, start) {
+    const _canReach = i => {
+        if (i < 0 || i >= arr.length || visited.has(i))
+            return false
+        
+        visited.add(i)
+        return arr[i] === 0 || _canReach(i + arr[i]) || _canReach(i - arr[i])
+    }
+    
+    const visited = new Set()
+    return _canReach(start)
+};
 ```
