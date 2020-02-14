@@ -23571,3 +23571,30 @@ var minKBitFlips = function(A, K) {
     return queue.length ? -1 : count
 };
 ```
+
+## 1306. Jump Game III
+```javascript
+// BFS
+var canReach = function(arr, start) {
+    const visited = new Set()
+    const queue = [start]
+    
+    while (queue.length) {
+        const next = queue.shift()
+        
+        if (arr[next] === 0)
+            return true
+        
+        visited.add(next)
+        
+        const left = next - arr[next] 
+        if (!visited.has(left) && left < arr.length)
+            queue.push(left)
+        
+        const right = next + arr[next]
+        if (!visited.has(right) && right >= 0)
+            queue.push(right)
+    }
+    return false
+};
+```
