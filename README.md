@@ -17299,6 +17299,28 @@ var longestConsecutive = function(nums) {
     
     return max
 };
+
+// Recursive DFS
+var longestConsecutive = function(nums) {
+    if (!nums.length) return 0
+    
+    const numSet = new Set(nums)
+    const visited = new Set()
+    let maxLength = 0
+    
+    for (const num of nums) {
+        if (visited.has(num)) continue
+        maxLength = Math.max(maxLength, dfs(num, numSet, visited))
+    }
+    
+    return maxLength
+};
+
+const dfs = (curr, graph, visited) => {
+    if (!graph.has(curr) || visited.has(curr)) return 0
+    visited.add(curr)
+    return 1 + dfs(curr - 1, graph, visited) + dfs(curr + 1, graph, visited)
+}
 ```
 
 ## 256. Paint House
