@@ -23705,3 +23705,31 @@ const dfs = (graph, row, col, queue) => {
     }
 }
 ```
+
+## 1236. Web Crawler
+```javascript
+var crawl = function(startUrl, htmlParser) {
+    const visited = new Set([startUrl])
+    const queue = [startUrl]
+    const hostname = getHostname(startUrl)
+    const result = []
+    
+    while (queue.length) {
+        const url = queue.shift()
+        result.push(url)
+        
+        for (const neighbor of htmlParser.getUrls(url)) {
+            if (visited.has(neighbor) || !neighbor.includes(hostname)) continue
+            visited.add(neighbor)
+            queue.push(neighbor)
+        }
+    }
+    
+    return result
+};
+
+const getHostname = str => {
+    const url = new URL(str)
+    return url.hostname
+}
+```
