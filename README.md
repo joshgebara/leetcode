@@ -23854,3 +23854,40 @@ var isBipartite = function(graph) {
     return true
 };
 ```
+
+## 1162. As Far from Land as Possible
+```javascript
+var maxDistance = function(grid) {
+    const queue = []
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === 1) {
+                queue.push([row, col])
+            }
+        }
+    }
+    
+    let dist = 0
+    while (queue.length) {
+        dist++
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col] = queue.shift()
+            
+            for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+                const nextRow = row + dx
+                const nextCol = col + dy
+                
+                if (nextRow < 0 || nextCol < 0 || 
+                    nextRow >= grid.length || nextCol >= grid[0].length || 
+                    grid[nextRow][nextCol] !== 0) continue
+                
+                queue.push([nextRow, nextCol])
+                grid[nextRow][nextCol] = dist
+            }
+        }
+    }
+    
+    return dist === 1 ? -1 : dist - 1
+};
+```
