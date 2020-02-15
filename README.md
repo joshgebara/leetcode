@@ -17300,6 +17300,37 @@ var longestConsecutive = function(nums) {
     return max
 };
 
+// Iterative DFS
+var longestConsecutive = function(nums) {
+    if (!nums.length) return 0
+    
+    const numSet = new Set(nums)
+    const visited = new Set()
+    let maxLength = 0
+    
+    for (const num of nums) {
+        if (visited.has(num)) continue
+        
+        let count = 0
+        const stack = [num]
+        while (stack.length) {
+            const curr = stack.pop()
+            visited.add(curr)
+            count++
+            
+            if (numSet.has(curr - 1) && !visited.has(curr - 1))
+                stack.push(curr - 1)
+                
+            
+            if (numSet.has(curr + 1) && !visited.has(curr + 1))
+                stack.push(curr + 1)
+        }
+        maxLength = Math.max(maxLength, count)    
+    }
+    
+    return maxLength
+};
+
 // Recursive DFS
 var longestConsecutive = function(nums) {
     if (!nums.length) return 0
