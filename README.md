@@ -23772,3 +23772,33 @@ var watchedVideosByFriends = function(watchedVideos, friends, id, level) {
     return result.map(([char, count]) => char)
 };
 ```
+
+## 785. Is Graph Bipartite?
+```javascript
+// BFS
+var isBipartite = function(graph) {
+    const color = {}
+    for (let node = 0; node < graph.length; node++) {
+        if (color[node]) continue
+        
+        color[node] = 0
+        const queue = [node]
+        
+        while (queue.length) {
+            const vertex = queue.shift()
+
+            for (const neighbor of graph[vertex]) {
+                if (!color[neighbor]) {
+                    color[neighbor] = 1 - color[vertex]
+                    queue.push(neighbor)
+                    continue
+                }
+                
+                if (color[neighbor] === color[vertex])
+                    return false
+            }
+        }
+    }
+    return true
+};
+```
