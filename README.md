@@ -23733,3 +23733,42 @@ const getHostname = str => {
     return url.hostname
 }
 ```
+
+## 1311. Get Watched Videos by Your Friends
+```javascript
+var watchedVideosByFriends = function(watchedVideos, friends, id, level) {
+    const visited = new Set([id])
+    const queue = [id]
+    let currLevel = 0
+    
+    while (queue.length && currLevel < level) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const vertex = queue.shift()
+            
+            for (const neighbor of friends[vertex]) {
+                if (visited.has(neighbor)) continue
+                queue.push(neighbor)
+                visited.add(neighbor)
+            }   
+        }
+        currLevel++
+    }
+    
+    const count = {}
+    for (const friend of queue) {
+        for (const movie of watchedVideos[friend]) {
+            count[movie] = 1 + (count[movie] || 0)
+        }
+    }
+    
+    const result = Object.entries(count)
+    result.sort(([aChar, aCount], [bChar, bCount]) => {
+        if (aCount < bCount) return -1
+        if (aCount > bCount) return 1
+        if (aChar < bChar) return -1
+        if (aChar > bChar) return 1
+    })
+    return result.map(([char, count]) => char)
+};
+```
