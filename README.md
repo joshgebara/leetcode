@@ -23981,3 +23981,37 @@ var shortestPathBinaryMatrix = function(grid) {
     return -1
 };
 ```
+
+## 127. Word Ladder
+```javascript
+// BFS
+var ladderLength = function(beginWord, endWord, wordList) {
+    wordList.push(beginWord)
+    const wordSet = new Set(wordList)
+    const queue = [[beginWord, 1]]
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [word, dist] = queue.shift()
+            
+            if (word === endWord) return dist
+            
+            for (let j = 0; j < word.length; j++) {
+                for (const letter of alphabet) {
+                    if (word[j] === letter) continue
+                    const nextWord = word.slice(0, j) + letter + word.slice(j + 1)
+                    
+                    if (wordSet.has(nextWord) && wordSet.has(nextWord)) {
+                        queue.push([nextWord, dist + 1])
+                        wordSet.delete(nextWord)
+                    }
+                }
+            }
+        }
+    }
+    
+    return 0
+};
+```
