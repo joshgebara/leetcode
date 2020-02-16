@@ -24015,3 +24015,39 @@ var ladderLength = function(beginWord, endWord, wordList) {
     return 0
 };
 ```
+
+## 1197. Minimum Knight Moves
+```javascript
+// BFS
+var minKnightMoves = function(x, y) {
+    const dirs = [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [1, -2], [-1, 2], [-1, -2]]
+    const queue = [[0, 0]]
+    const visited = new Set()
+    let dist = 0
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col] = queue.shift()
+            
+            if (row === x && col === y)
+                return dist
+            
+            for (const [dx, dy] of dirs) {
+                const nx = row + dx
+                const ny = col + dy
+                const key = `${nx}-${ny}`
+                
+                if (Math.abs(nx) + Math.abs(ny) > 300)
+			        continue
+                
+                if (visited.has(key)) continue
+                visited.add(key)
+                
+                queue.push([nx, ny])
+            }
+        }
+        dist++
+    }
+};
+```
