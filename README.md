@@ -23944,3 +23944,40 @@ var maxDistance = function(grid) {
     return dist === 1 ? -1 : dist - 1
 };
 ```
+
+## 1091. Shortest Path in Binary Matrix
+```javascript
+var shortestPathBinaryMatrix = function(grid) {
+    const queue = [[0, 0]]
+    const destination = [grid.length - 1, grid[0].length - 1]
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]
+    
+    let dist = 1
+    while (queue.length) {
+        const size = queue.length
+        
+        for (let i = 0; i < size; i++) {
+            const [x, y] = queue.shift()
+
+            if (x === destination[0] && y === destination[1])
+                return dist
+            
+            if (grid[x][y] === 1) continue
+            grid[x][y] = 1
+            
+            for (const [dx, dy] of dirs) {
+                const nx = dx + x
+                const ny = dy + y
+                
+                if (nx < 0 || ny < 0 || nx >= grid.length || ny >= grid[0].length || grid[nx][ny] === 1)
+                    continue
+                
+                queue.push([nx, ny])
+            }
+        }
+        dist++
+    }
+    
+    return -1
+};
+```
