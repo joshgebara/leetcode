@@ -24051,3 +24051,55 @@ var minKnightMoves = function(x, y) {
     }
 };
 ```
+
+## 909. Snakes and Ladders
+```javascript
+var snakesAndLadders = function(board) {
+    const n = board.length    
+    const lastPos = n * n - 1
+    
+    const arr = []
+    let reverse = true
+    let currRow = n - 1
+    let currCol = 0    
+    for (let index = 0; index < n * n; index++) {
+        arr[index] = board[currRow][currCol]
+        
+        if (reverse && currCol === n - 1) {
+            reverse = false
+            currRow--
+            continue
+        }
+        
+        if (!reverse && !currCol) {
+            reverse = true
+            currRow--
+            continue
+        }
+        
+        reverse ? currCol++ : currCol--
+    }
+    
+    const visited = Array(n * n).fill(false)
+    const startPos = arr[0] > -1 ? arr[0] - 1 : 0
+    const queue = [[startPos, 0]]
+    visited[startPos] = true
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [pos, steps] = queue.shift()
+            if (pos === lastPos)
+                return steps
+            
+            for (let nextPos = pos + 1; nextPos <= Math.min(pos + 6, lastPos); nextPos++) {
+                const endingPos = arr[nextPos] > -1 ? arr[nextPos] - 1 : nextPos
+                if (visited[endingPos]) continue
+                visited[endingPos] = true
+                queue.push([endingPos, steps + 1])
+            }
+        }
+    }
+    return -1
+};
+```
