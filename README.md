@@ -24103,3 +24103,38 @@ var snakesAndLadders = function(board) {
     return -1
 };
 ```
+
+## 542. 01 Matrix
+```javascript
+var updateMatrix = function(matrix) {
+    const queue = []
+    const visited = Array(matrix.length).fill(false).map(a => Array(matrix[0].length).fill(false))
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[0].length; j++) {
+            if (!matrix[i][j]) {
+                queue.push([i, j, 0])
+                visited[i][j] = true
+            }
+        }
+    }
+    
+    while (queue.length) {
+        const [row, col, dist] = queue.shift()
+        matrix[row][col] = dist
+        
+        for (const [x, y] of dirs) {
+            const nr = row + x
+            const nc = col + y
+            
+            if (nr < 0 || nc < 0 || nr >= matrix.length || nc >= matrix[0].length || visited[nr][nc])
+                continue
+            
+            visited[nr][nc] = true
+            queue.push([nr, nc, dist + 1])
+        }        
+    }
+    return matrix
+};
+```
