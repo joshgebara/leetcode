@@ -24172,8 +24172,7 @@ var findMinHeightTrees = function(n, edges) {
             if (!graph[vertex]) continue
             for (const neighbor of graph[vertex]) {
                 graph[neighbor].delete(+vertex)
-                graph[vertex].delete(+neighbor)
-                
+
                 if (graph[neighbor].size === 1) {
                     leaves.push(neighbor)
                 }
