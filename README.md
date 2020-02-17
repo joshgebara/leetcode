@@ -24182,4 +24182,54 @@ var findMinHeightTrees = function(n, edges) {
     
     return leaves
 };
+
+// DFS 
+var findMinHeightTrees = function(n, edges) {
+    if (n <= 1) return [0]
+    
+    const graph = {}
+    
+    for (const [u, v] of edges) {
+        if (!graph[u]) graph[u] = new Set()
+        if (!graph[v]) graph[v] = new Set()
+        graph[u].add(v)
+        graph[v].add(u)
+    }
+    
+    const x = maxPath(0, graph)[0]
+    const path = maxPath(x, graph)
+    
+    if (path.length % 2 === 0) {
+        return [path[Math.floor(path.length / 2) - 1], path[Math.floor(path.length / 2)]]
+    } else {
+        return [path[Math.floor(path.length / 2)]]
+    }
+};
+
+const maxPath = (vertex, graph) => {
+    const _maxPath = vertex => {
+        visited.add(vertex)
+        
+        if (!graph[vertex]) return []
+        
+        const paths = []
+        for (const neighbor of graph[vertex]) {
+            if (visited.has(neighbor)) continue
+            paths.push(_maxPath(neighbor))
+        }
+
+        let maxPath = []
+        for (const path of paths) {
+            if (maxPath.length < path.length) {
+                maxPath = path   
+            }
+        }
+        
+        maxPath.push(vertex)
+        return maxPath
+    }
+    
+    const visited = new Set([vertex])
+    return _maxPath(vertex)
+}
 ```
