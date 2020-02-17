@@ -24138,3 +24138,49 @@ var updateMatrix = function(matrix) {
     return matrix
 };
 ```
+
+## 310. Minimum Height Trees
+```javascript
+// TopSort BFS
+var findMinHeightTrees = function(n, edges) {
+    if (n <= 1) return [0]
+    
+    const graph = {}
+    
+    for (const [u, v] of edges) {
+        if (!graph[u]) graph[u] = new Set()
+        if (!graph[v]) graph[v] = new Set()
+        graph[u].add(v)
+        graph[v].add(u)
+    }
+    
+    const leaves = []
+    const pairs = Object.entries(graph)
+    for (const [vertex, neighbors] of pairs) {
+        if (neighbors.size === 1) {
+            leaves.push(vertex)
+        }
+    }
+    
+    let count = n
+    while (count > 2) {
+        const size = leaves.length
+        count -= size
+        for (let i = 0; i < size; i++) {
+            const vertex = leaves.shift()
+            
+            if (!graph[vertex]) continue
+            for (const neighbor of graph[vertex]) {
+                graph[neighbor].delete(+vertex)
+                graph[vertex].delete(+neighbor)
+                
+                if (graph[neighbor].size === 1) {
+                    leaves.push(neighbor)
+                }
+            }
+        }
+    }
+    
+    return leaves
+};
+```
