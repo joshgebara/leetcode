@@ -24404,3 +24404,59 @@ const adjMineCount = (board, row, col, dirs) => {
     return !count ? 'B' : `${count}`
 }
 ```
+
+## 417. Pacific Atlantic Water Flow
+```javascript
+var pacificAtlantic = function(matrix) {    
+    if (!matrix.length) return []
+    
+    const n = matrix.length
+    const m = matrix[0].length
+    const pVisited = Array(n).fill().map(a => Array(m).fill(false))
+    const aVisited = Array(n).fill().map(a => Array(m).fill(false))
+    
+    const pQueue = []
+    for (let row = 0; row < n; row++) pQueue.push([row, 0])
+    for (let col = 0; col < m; col++) pQueue.push([0, col])
+    bfs(pQueue, pVisited, matrix)
+        
+    const aQueue = []
+    for (let row = 0; row < n; row++) aQueue.push([row, m - 1])
+    for (let col = 0; col < m; col++) aQueue.push([n - 1, col])
+    bfs(aQueue, aVisited, matrix)
+    
+    return intersection(pVisited, aVisited)
+};
+
+const bfs = (queue, visited, matrix) => {
+    while (queue.length) {
+        const [row, col] = queue.shift()
+
+        if (visited[row][col]) continue
+        visited[row][col] = true
+
+        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+            const nr = dx + row
+            const nc = dy + col
+
+            if (isValid(nr, nc, matrix) && matrix[row][col] <= matrix[nr][nc])
+                queue.push([nr, nc])
+        }
+    }
+}
+
+const intersection = (m1, m2) => {
+    const result = []
+    for (let row = 0; row < m1.length; row++) {
+        for (let col = 0; col < m1[0].length; col++) {
+            if (m1[row][col] && m2[row][col])
+                result.push([row, col])
+        }
+    }
+    return result
+}
+
+const isValid = (row, col, matrix) => {
+    return row >= 0 && col >= 0 && row < matrix.length && col < matrix[0].length
+}
+```
