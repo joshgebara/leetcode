@@ -24275,3 +24275,54 @@ const isInvalid = (row, col, grid) => {
            grid[row][col] === 1
 }
 ```
+
+## 529. Minesweeper
+```javascript
+// BFS
+var updateBoard = function(board, click) {
+    const m = board.length
+    const n = board[0].length
+    
+    if (board[click[0]][click[1]] === 'M') {
+        board[click[0]][click[1]] = 'X'
+        return board
+    }
+    
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [-1, 1], [1, -1]]
+    const queue = [click]
+    
+    while (queue.length) {
+        const [row, col] = queue.shift()
+        
+        if (board[row][col] !== 'E') continue
+        
+        board[row][col] = adjMineCount(row, col, board, dirs)
+        if (board[row][col] !== 'B') continue
+        
+        for (const [dx, dy] of dirs) {
+            const nr = row + dx
+            const nc = col + dy
+            
+            if (nr < 0 || nc < 0 || nr >= m || nc >= n || board[nr][nc] !== 'E') continue
+            queue.push([nr, nc])
+        }
+    }
+    
+    return board
+};
+
+const adjMineCount = (row, col, board, dirs) => {
+    const m = board.length
+    const n = board[0].length
+    let count = 0
+    
+    for (const [dx, dy] of dirs) {
+        const nr = row + dx
+        const nc = col + dy
+
+        if (nr < 0 || nc < 0 || nr >= m || nc >= n || board[nr][nc] !== 'M') continue
+        count++
+    }
+    return !count ? 'B' : `${count}`
+}
+```
