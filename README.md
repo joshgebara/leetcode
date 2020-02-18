@@ -24325,4 +24325,46 @@ const adjMineCount = (row, col, board, dirs) => {
     }
     return !count ? 'B' : `${count}`
 }
+
+// DFS
+var updateBoard = function(board, click) {
+    const [cr, cc] = click
+    if (board[cr][cc] === 'M') {
+        board[cr][cc] = 'X'
+        return board
+    }
+    
+    const dirs = [[1, 0], [-1, 0], [0, -1], [0, 1], [1, 1], [-1, 1], [-1, -1], [1, -1]]
+    dfs(board, cr, cc, dirs)
+    return board
+};
+
+const dfs = (board, row, col, dirs) => {
+    if (board[row][col] !== 'E') return
+    
+    board[row][col] = adjMineCount(board, row, col, dirs)
+    if (board[row][col] !== 'B') return
+    
+    for (const [dx, dy] of dirs) {
+        const nr = row + dx
+        const nc = col + dy
+        if (isValid(board, nr, nc)) dfs(board, nr, nc, dirs)
+    }
+}
+
+const isValid = (board, row, col) => {
+    return row >= 0 && col >= 0 && row < board.length && col < board[0].length
+}
+
+const adjMineCount = (board, row, col, dirs) => {
+    let count = 0
+    
+    for (const [dx, dy] of dirs) {
+        const nr = row + dx
+        const nc = col + dy
+        if (isValid(board, nr, nc) && board[nr][nc] === 'M') count++
+    }
+    
+    return !count ? 'B' : `${count}`
+}
 ```
