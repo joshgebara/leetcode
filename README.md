@@ -24274,6 +24274,42 @@ const isInvalid = (row, col, grid) => {
            row >= grid.length || col >= grid[0].length || 
            grid[row][col] === 1
 }
+
+// DFS
+var hasPath = function(maze, start, destination) {
+    const _hasPath = (row, col) => {
+        if (row === dr && col === dc) return true
+        
+        for (const [dx, dy] of dirs) {
+            let nr = row
+            let nc = col
+
+            while (isValid(maze, nr, nc)) {
+                nr += dx
+                nc += dy
+            }
+            
+            nr -= dx
+            nc -= dy
+
+            if (maze[nr][nc] === -1) continue
+            maze[nr][nc] = -1
+            
+            if (_hasPath(nr, nc)) return true
+        }
+        return false
+    }
+    
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const [dr, dc] = destination
+    return _hasPath(start[0], start[1])
+};
+
+const isValid = (maze, row, col) => {
+    return row >= 0 && col >= 0 && 
+           row < maze.length && col < maze[0].length && 
+           maze[row][col] !== 1
+}
 ```
 
 ## 529. Minesweeper
