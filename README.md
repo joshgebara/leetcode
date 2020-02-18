@@ -24233,3 +24233,45 @@ const maxPath = (vertex, graph) => {
     return _maxPath(vertex)
 }
 ```
+
+## 490. The Maze
+```javascript
+// BFS
+var hasPath = function(maze, start, destination) {
+    const visited = Array(maze.length).fill(0).map(n => Array(maze[0].length).fill(false))
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const queue = [start]
+    
+    while (queue.length) {
+        const [row, col] = queue.shift()
+        
+        if (row === destination[0] && col === destination[1])
+            return true
+        
+        for (const [dx, dy] of dirs) {
+            let nr = row
+            let nc = col
+            
+            while (!isInvalid(nr, nc, maze)) {
+                nr += dx
+                nc += dy
+            } 
+            
+            nr -= dx
+            nc -= dy
+            
+            if (visited[nr][nc]) continue
+            visited[nr][nc] = true
+            queue.push([nr, nc])
+        }
+    }
+    
+    return false
+};
+
+const isInvalid = (row, col, grid) => {
+    return row < 0 || col < 0 || 
+           row >= grid.length || col >= grid[0].length || 
+           grid[row][col] === 1
+}
+```
