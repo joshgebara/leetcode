@@ -24460,3 +24460,49 @@ const isValid = (row, col, matrix) => {
     return row >= 0 && col >= 0 && row < matrix.length && col < matrix[0].length
 }
 ```
+
+## 1129. Shortest Path with Alternating Colors
+```javascript
+var shortestAlternatingPaths = function(n, red_edges, blue_edges) {
+    const rGraph = {}
+    const bGraph = {}
+    const bVisited = new Set()
+    const rVisited = new Set()
+    
+    for (let i = 0; i < n; i++) {
+        rGraph[i] = []
+        bGraph[i] = []
+    }
+    
+    for (const [u, v] of red_edges) rGraph[u].push(v)
+    for (const [u, v] of blue_edges) bGraph[u].push(v)
+    
+    const result = Array(n).fill(-1)
+    const queue = [[0, 1, 0], [0, 0, 0]]
+    bVisited.add(0)
+    rVisited.add(0)
+    
+    while (queue.length) {
+        const [vertex, color, dist] = queue.shift()
+
+        if (result[vertex] === -1 || result[vertex] > dist)
+            result[vertex] = dist
+        
+        if (color) {
+            for (const n of bGraph[vertex]) {
+                if (bVisited.has(n)) continue
+                bVisited.add(n)
+                queue.push([n, 0, dist + 1])
+            }
+        } else {
+            for (const n of rGraph[vertex]) {
+                if (rVisited.has(n)) continue
+                rVisited.add(n)
+                queue.push([n, 1, dist + 1])
+            }
+        }
+    }
+    
+    return result
+};
+```
