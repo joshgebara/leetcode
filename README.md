@@ -24506,3 +24506,51 @@ var shortestAlternatingPaths = function(n, red_edges, blue_edges) {
     return result
 };
 ```
+
+## 505. The Maze II
+```javascript
+// BFS
+var shortestDistance = function(maze, start, destination) {
+    const n = maze.length
+    const m = maze[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const dists = Array(n).fill(0).map(e => Array(m).fill(Infinity))
+    const queue = [[...start, 0]]
+    
+    while (queue.length) {
+        const [row, col, steps] = queue.shift()
+        
+        if (dists[row][col] <= steps) continue
+        dists[row][col] = steps
+        
+        if (row === destination[0] && col === destination[1]) continue
+        
+        for (const [dx, dy] of dirs) {
+            let nr = row + dx
+            let nc = col + dy
+            let currSteps = 1
+            
+            while (isValid(maze, nr, nc)) {
+                nr += dx
+                nc += dy
+                currSteps++
+            }
+            
+            nr -= dx
+            nc -= dy
+            currSteps--
+            
+            queue.push([nr, nc, currSteps + steps])
+        }
+    }
+    
+    const dist = dists[destination[0]][destination[1]]
+    return dist === Infinity ? -1 : dist 
+};
+
+const isValid = (maze, row, col) => {
+    return row >= 0 && col >= 0 && 
+           row < maze.length && col < maze[0].length && 
+           maze[row][col] !== 1
+}
+```
