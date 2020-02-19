@@ -24736,3 +24736,47 @@ var numBusesToDestination = function(routes, S, T) {
     return -1
 };
 ```
+
+## 1293. Shortest Path in a Grid with Obstacles Elimination
+```javascript
+var shortestPath = function(grid, k) {
+    const m = grid.length
+    const n = grid[0].length
+    const dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+    
+    const queue = [[0, 0, k]]
+    const seen = new Set()
+    let steps = 0
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col, breaks] = queue.shift()
+
+            if (row === m - 1 && col === n - 1) return steps
+            
+            const key = `${row}-${col}-${breaks}`
+            if (seen.has(key)) continue
+            seen.add(key)
+            
+            for (const [dx, dy] of dirs) {
+                const nr = row + dx
+                const nc = col + dy
+
+                if (isValid(m, n, nr, nc)) {
+                    if (grid[nr][nc]) {
+                        if (!breaks) continue
+                        queue.push([nr, nc, breaks - 1])
+                    } else {
+                        queue.push([nr, nc, breaks])   
+                    }
+                }
+            }   
+        }
+        steps++
+    }
+    return -1
+};
+
+const isValid = (m, n, row, col) => row >= 0 && col >= 0 && row < m && col < n
+```
