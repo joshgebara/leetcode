@@ -24745,31 +24745,28 @@ var shortestPath = function(grid, k) {
     const dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]]
     
     const queue = [[0, 0, k]]
-    const seen = new Set()
+    const dists = { '0-0': k }
     let steps = 0
     
     while (queue.length) {
         const size = queue.length
         for (let i = 0; i < size; i++) {
-            const [row, col, breaks] = queue.shift()
+            const [row, col, obCount] = queue.shift()
 
             if (row === m - 1 && col === n - 1) return steps
-            
-            const key = `${row}-${col}-${breaks}`
-            if (seen.has(key)) continue
-            seen.add(key)
             
             for (const [dx, dy] of dirs) {
                 const nr = row + dx
                 const nc = col + dy
 
                 if (isValid(m, n, nr, nc)) {
-                    if (grid[nr][nc]) {
-                        if (!breaks) continue
-                        queue.push([nr, nc, breaks - 1])
-                    } else {
-                        queue.push([nr, nc, breaks])   
-                    }
+                    const nextObCount = obCount - grid[nr][nc]
+                    const key = `${nr}-${nc}`
+                    
+                    if (dists[key] >= nextObCount || nextObCount < 0) continue
+                    dists[key] = nextObCount
+                    
+                    queue.push([nr, nc, nextObCount])
                 }
             }   
         }
