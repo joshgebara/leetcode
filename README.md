@@ -24701,3 +24701,38 @@ class Heap {
     }
 }
 ```
+
+## 815. Bus Routes
+```javascript
+var numBusesToDestination = function(routes, S, T) {
+    if (S === T) return 0
+    
+    const graph = {}
+    for (const [bus, route] of routes.entries()) {
+        for (const stop of route) {
+            if (!graph[stop]) {
+                graph[stop] = []
+            }
+            graph[stop].push(bus)
+        }
+    }
+    
+    const visited = new Set()
+    const queue = [[S, 0]]
+    
+    while (queue.length) {
+        const [stop, rides] = queue.shift()
+        
+        for (const bus of graph[stop]) {
+            if (visited.has(bus)) continue
+            visited.add(bus)
+            for (const stop of routes[bus]) {
+                if (stop === T) return rides + 1
+                queue.push([stop, rides + 1])
+            }
+        }    
+    }
+    
+    return -1
+};
+```
