@@ -24812,3 +24812,106 @@ var minJumps = function(arr) {
     }
 };
 ```
+
+## 353. Design Snake Game
+```javascript
+/**
+ * Initialize your data structure here.
+        @param width - screen width
+        @param height - screen height 
+        @param food - A list of food positions
+        E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0].
+ * @param {number} width
+ * @param {number} height
+ * @param {number[][]} food
+ */
+var SnakeGame = function(width, height, food) {
+    this.snakeBodySet = new Set(['0-0'])
+    this.snakeBodyDeque = [[0, 0]]
+    
+    this.score = 0
+    
+    this.width = width
+    this.height = height
+    
+    this.food = food
+};
+
+/**
+ * Moves the snake.
+        @param direction - 'U' = Up, 'L' = Left, 'R' = Right, 'D' = Down 
+        @return The game's score after the move. Return -1 if game over. 
+        Game over when snake crosses the screen boundary or bites its body. 
+ * @param {string} direction
+ * @return {number}
+ */
+SnakeGame.prototype.move = function(direction) {    
+    if (this.score === -1)
+        return this.score
+    
+    const nextPos = this.snakeBodyDeque[0].slice()
+    switch (direction) {
+        case 'U':
+            nextPos[0]--
+            break
+        case 'D':
+            nextPos[0]++
+            break
+        case 'L':
+            nextPos[1]--
+            break
+        case 'R':
+            nextPos[1]++
+            break
+    }
+    
+    const [tailRow, tailCol] = this.snakeBodyDeque.pop()
+    this.snakeBodySet.delete(`${tailRow}-${tailCol}`)
+    
+    if (!this.validMove(nextPos) || this.collision(nextPos)) {
+        this.score = -1
+        return this.score
+    }
+    
+    const [nextRow, nextCol] = nextPos
+    this.snakeBodyDeque.unshift(nextPos)
+    this.snakeBodySet.add(`${nextRow}-${nextCol}`)
+    
+    const [foodRow, foodCol] = this.currFoodPos() || [null, null]
+    if (foodRow === nextRow && foodCol === nextCol) {
+        this.snakeBodyDeque.push([tailRow, tailCol])
+        this.snakeBodySet.add(`${tailRow}-${tailCol}`)
+        
+        this.score++
+        this.food.shift()
+    }
+    
+    return this.score
+};
+
+/** 
+ * Your SnakeGame object will be instantiated and called as such:
+ * var obj = new SnakeGame(width, height, food)
+ * var param_1 = obj.move(direction)
+ */
+
+SnakeGame.prototype.currFoodPos = function() {
+    if (!this.food.length) return null
+    return this.food[0]
+}
+
+SnakeGame.prototype.validMove = function(pos) {
+    const [row, col] = pos
+    return row >= 0 && col >= 0 && row < this.height && col < this.width
+}
+
+SnakeGame.prototype.collision = function(pos) {
+    const [row, col] = pos
+    const key = `${row}-${col}`
+    
+    if (this.snakeBodySet.has(key))
+        return true
+    
+    return false
+}
+```
