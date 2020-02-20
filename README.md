@@ -24777,3 +24777,38 @@ var shortestPath = function(grid, k) {
 
 const isValid = (m, n, row, col) => row >= 0 && col >= 0 && row < m && col < n
 ```
+
+## 1345. Jump Game IV
+```javascript
+var minJumps = function(arr) {
+    const map = {}
+    for (const [index, num] of arr.entries()) {
+        if (!map[num]) map[num] = []
+        map[num].push(index)
+    }
+    
+    let steps = 0
+    const queue = [0]
+    const visited = new Set()
+    
+    while (queue) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const index = queue.shift()
+            
+            if (index === arr.length - 1)
+                return steps
+            
+            const neighbors = [index - 1, index + 1].concat(map[arr[index]] || [])
+            for (const neighbor of neighbors) {
+                if (neighbor < 0 || neighbor >= arr.length) continue
+                if (visited.has(neighbor)) continue
+                visited.add(neighbor)
+                queue.push(neighbor)
+            }
+            map[arr[index]] = []
+        }
+        steps++
+    }
+};
+```
