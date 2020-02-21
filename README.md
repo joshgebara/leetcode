@@ -25126,3 +25126,21 @@ class Heap {
     }
 }
 ```
+
+## 921. Minimum Add to Make Parentheses Valid
+```javascript
+var minAddToMakeValid = function(S) {
+    let balance = 0
+    let min = 0
+    
+    for (const s of S) {
+        s === '(' ? balance++ : balance--
+        if (balance < 0) {
+            balance++
+            min++
+        }        
+    }
+    
+    return min + balance
+};
+```
