@@ -24915,3 +24915,214 @@ SnakeGame.prototype.collision = function(pos) {
     return false
 }
 ```
+
+## 355. Design Twitter
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var Twitter = function() {
+    this.followMap = {}
+    this.userMap = {}
+    this.limit = 10
+};
+
+let timeStamp = 0
+
+class Tweet {
+    constructor(tweetId, userId) {
+        this.tweetId = tweetId
+        this.userId = userId
+        this.timeStamp = timeStamp++
+    }
+}
+
+/**
+ * Compose a new tweet. 
+ * @param {number} userId 
+ * @param {number} tweetId
+ * @return {void}
+ */
+Twitter.prototype.postTweet = function(userId, tweetId) {
+    const tweet = new Tweet(tweetId, userId)
+    
+    if (!this.userMap[userId])
+        this.createUser(userId)
+    
+    this.userMap[userId].unshift(tweet)
+    
+    if (this.userMap[userId].length > this.limit)
+        this.userMap[userId].pop()
+};
+
+/**
+ * Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. 
+ * @param {number} userId
+ * @return {number[]}
+ */
+Twitter.prototype.getNewsFeed = function(userId) {
+    const pq = new Heap([], (tweet1, tweet2) => tweet1.timeStamp < tweet2.timeStamp)
+    
+    
+    if (!this.followMap[userId]) return []
+    
+    for (const followId of this.followMap[userId]) {
+        if (!this.userMap[followId]) continue
+        for (const tweet of this.userMap[followId]) {
+            if (pq.length() < this.limit) {
+                pq.insert(tweet)
+            } else {
+                if (tweet.timeStamp <= pq.peek().timeStamp)
+                    break
+
+                pq.insert(tweet)
+                pq.remove()
+            }   
+        }
+    }
+    
+    const result = []
+    
+    while (result.length >= 0 && pq.length())
+        result.unshift(pq.remove().tweetId)
+    
+    return result
+};
+
+/**
+ * Follower follows a followee. If the operation is invalid, it should be a no-op. 
+ * @param {number} followerId 
+ * @param {number} followeeId
+ * @return {void}
+ */
+Twitter.prototype.follow = function(followerId, followeeId) {
+    if (!this.followMap[followerId])
+        this.followMap[followerId] = new Set([followerId])
+    
+    this.followMap[followerId].add(followeeId)
+};
+
+/**
+ * Follower unfollows a followee. If the operation is invalid, it should be a no-op. 
+ * @param {number} followerId 
+ * @param {number} followeeId
+ * @return {void}
+ */
+Twitter.prototype.unfollow = function(followerId, followeeId) {
+    if (!this.followMap[followerId] || followerId === followeeId) return
+    this.followMap[followerId].delete(followeeId)
+};
+
+Twitter.prototype.createUser = function(userId) {
+    if (!this.userMap[userId])
+        this.userMap[userId] = []
+    
+    this.follow(userId, userId)
+}
+
+/** 
+ * Your Twitter object will be instantiated and called as such:
+ * var obj = new Twitter()
+ * obj.postTweet(userId,tweetId)
+ * var param_2 = obj.getNewsFeed(userId)
+ * obj.follow(followerId,followeeId)
+ * obj.unfollow(followerId,followeeId)
+ */
+
+class Heap {
+    constructor(elements, sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    length() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
+```
