@@ -25144,3 +25144,32 @@ var minAddToMakeValid = function(S) {
     return min + balance
 };
 ```
+
+## 402. Remove K Digits
+```javascript
+var removeKdigits = function(num, k) {
+    if (num.length === k) return '0'
+    
+    const stack = []
+    
+    for (const char of num) {
+        while (k > 0 && stack.length && +char < +stack[stack.length - 1]) {
+            k--
+            stack.pop()
+        }
+        
+        stack.push(char)
+    }
+    
+    while (k-- > 0) stack.pop()
+    
+    const result = []
+    while (stack.length)
+        result.push(stack.pop())
+    
+    while (result.length > 1 && result[result.length - 1] === '0')
+        result.pop()
+
+    return result.reverse().join('')
+};
+```
