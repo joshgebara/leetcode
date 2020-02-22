@@ -25173,3 +25173,28 @@ var removeKdigits = function(num, k) {
     return result.reverse().join('')
 };
 ```
+
+## 636. Exclusive Time of Functions
+```javascript
+var exclusiveTime = function(n, logs) {
+    const stack = []
+    const arr = Array(n).fill(0)
+    
+    for (const log of logs) {
+        const [id, state, time] = log.split(':')
+        
+        if (state === 'start') {
+            stack.push([id, state, time])
+        } else {
+            const [pid, pstate, ptime] = stack.pop()
+            delta = time - ptime + 1
+            arr[id] += delta
+            
+            if (stack.length)
+                arr[stack[stack.length - 1][0]] -= delta
+        }
+    }
+    
+    return arr
+};
+```
