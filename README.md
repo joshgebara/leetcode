@@ -25198,3 +25198,40 @@ var exclusiveTime = function(n, logs) {
     return arr
 };
 ```
+
+## 394. Decode String
+```javascript
+var decodeString = function(s) {
+    const stack = []
+    let currString = []
+    let currCount = 0
+    
+    for (const char of s) {
+        if (char === '[') {
+            stack.push(currString)
+            stack.push(currCount)
+            currCount = 0
+            currString = []
+        } else if (char === ']') {
+            const prevCount = stack.pop()
+            const prevString = stack.pop()
+            
+            const result = [...prevString]
+            for (let i = 0; i < prevCount; i++) {
+                for (const char of currString) {
+                    result.push(char)
+                }
+            }
+            
+            currString = result
+        } else if (Number.isNaN(+char)) {
+            currString.push(char)
+        } else {
+            currCount *= 10
+            currCount += +char
+        }
+    }
+    
+    return currString.join('')
+};
+```
