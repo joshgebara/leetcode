@@ -25201,6 +25201,7 @@ var exclusiveTime = function(n, logs) {
 
 ## 394. Decode String
 ```javascript
+// Stack
 var decodeString = function(s) {
     const stack = []
     let currString = []
@@ -25216,15 +25217,14 @@ var decodeString = function(s) {
             const prevCount = stack.pop()
             const prevString = stack.pop()
             
-            const result = [...prevString]
             for (let i = 0; i < prevCount; i++) {
                 for (const char of currString) {
-                    result.push(char)
+                    prevString.push(char)
                 }
             }
             
-            currString = result
-        } else if (Number.isNaN(+char)) {
+            currString = prevString
+        } else if (isNaN(char)) {
             currString.push(char)
         } else {
             currCount *= 10
