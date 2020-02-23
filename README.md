@@ -25421,4 +25421,29 @@ var minRemoveToMakeValid = function(s) {
     }
     return result.reverse().join('')
 };
+
+// Solution 2
+var minRemoveToMakeValid = function(s) {
+    const str = s.split('')
+    const stack = []
+    
+    for (const [index, char] of str.entries()) {
+        if (char === '(') {
+            stack.push(index)
+        } else if (char === ')') {
+            if (!stack.length) {
+                str[index] = ''
+                continue
+            }
+            stack.pop()
+        }
+    }
+    
+    while (stack.length) {
+        const index = stack.pop()
+        str[index] = ''
+    }
+    
+    return str.join('')
+};
 ```
