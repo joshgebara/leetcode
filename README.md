@@ -25364,3 +25364,24 @@ var isValidSerialization = function(preorder) {
     return stack.length === 1 && stack[stack.length - 1] === '#'
 };
 ```
+
+## 71. Simplify Path
+```javascript
+var simplifyPath = function(path) {
+    const stack = []
+    for (const dir of path.split('/')) {
+        if (dir === '' || dir === '.') {
+            continue
+        }
+        
+        if (dir === '..') {
+            stack.pop()
+            continue
+        }
+        
+        stack.push(dir)
+    }
+    
+    return `/${stack.join('/')}`
+};
+```
