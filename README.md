@@ -25475,4 +25475,35 @@ const swap = (arr, start, end) => {
         end--
     }
 }
+
+// O(n)
+var reverseParentheses = function(s) {
+    const pairs = Array(s.length).fill(null)
+    const stack = []
+    
+    for (let i = 0; i < s.length; i++) {
+        const char = s[i]
+        if (char === '(') {
+            stack.push(i)
+        } else if (char === ')') {
+            const j = stack.pop()
+            pairs[i] = j
+            pairs[j] = i
+        }
+    }
+    
+    const result = []
+    let d = 1
+    for (let i = 0; i < s.length; i += d) {
+        const char = s[i]
+        if (char === '(' || char === ')') {
+            d = -d
+            i = pairs[i]
+        } else {
+            result.push(char)
+        }
+    }
+    
+    return result.join('')
+};
 ```
