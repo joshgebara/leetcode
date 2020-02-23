@@ -25346,4 +25346,21 @@ var isValidSerialization = function(preorder) {
     slots += (preorder[preorder.length - 1] === '#') ? -1 : 1
     return slots === 0
 };
+
+// Stack
+var isValidSerialization = function(preorder) {
+    const chars = preorder.split(',')
+    const stack = []
+    
+    for (const char of chars) {
+        while (char === '#' && stack.length && stack[stack.length - 1] === '#') {
+            stack.pop()
+            if (!stack.length) return false
+            stack.pop()
+        }
+        stack.push(char)
+    }
+    
+    return stack.length === 1 && stack[stack.length - 1] === '#'
+};
 ```
