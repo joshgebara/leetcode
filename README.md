@@ -25447,3 +25447,32 @@ var minRemoveToMakeValid = function(s) {
     return str.join('')
 };
 ```
+
+## 1190. Reverse Substrings Between Each Pair of Parentheses
+```javascript
+// O(n^2)
+var reverseParentheses = function(s) {
+    const result = []
+    const stack = []
+    for (const char of s) {
+        if (char === '(') {
+            stack.push(result.length)
+        } else if (char === ')') {
+            swap(result, stack.pop(), result.length - 1)
+        } else {
+            result.push(char)
+        }
+    }
+    
+    return result.join('')
+};
+
+const swap = (arr, start, end) => {
+    while (start < end) {
+        [arr[start], arr[end]] = [arr[end], arr[start]]
+        
+        start++
+        end--
+    }
+}
+```
