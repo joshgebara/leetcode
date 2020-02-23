@@ -25234,4 +25234,39 @@ var decodeString = function(s) {
     
     return currString.join('')
 };
+
+// DFS 
+var decodeString = function(s) {
+    const _decodeString = () => {
+        let multiplier = 0
+        let currString = []
+        
+        while (currIndex < s.length) {            
+            const char = s[currIndex]
+            
+            if (char === '[') {
+                currIndex++
+                const nextString = _decodeString()
+                for (let m = 0; m < multiplier; m++) {
+                    currString.push(nextString)
+                }
+                
+                multiplier = 0
+            } else if (char === ']') {
+                return currString.join('')
+            } else if (isNaN(char)) {
+                currString.push(char)
+            } else {
+                multiplier *= 10
+                multiplier += +char
+            }
+            currIndex++
+        }
+        
+        return currString.join('')
+    }
+    
+    let currIndex = 0
+    return _decodeString()
+};
 ```
