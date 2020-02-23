@@ -25270,3 +25270,39 @@ var decodeString = function(s) {
     return _decodeString()
 };
 ```
+
+## 150. Evaluate Reverse Polish Notation
+```javascript
+var evalRPN = function(tokens) {
+    const stack = []
+    let result = 0
+    
+    for (const token of tokens) {
+        const num = parseInt(token)
+        
+        if (!isNaN(num)) {
+            stack.push(num)
+        } else {
+            const num1 = stack.pop()
+            const num2 = stack.pop()
+            
+            switch(token) {
+                case '+':
+                    stack.push(num2 + num1)
+                    break
+                case '-':
+                    stack.push(num2 - num1)
+                    break
+                case '*':
+                    stack.push(num2 * num1)
+                    break
+                case '/':
+                    stack.push(Math.trunc(num2 / num1))
+                    break
+            }
+        }
+    }
+    
+    return stack.pop()
+};
+```
