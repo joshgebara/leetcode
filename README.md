@@ -25385,3 +25385,40 @@ var simplifyPath = function(path) {
     return `/${stack.join('/')}`
 };
 ```
+
+## 1249. Minimum Remove to Make Valid Parentheses
+```javascript
+// Solution 1
+var minRemoveToMakeValid = function(s) {
+    const result = []
+    const stack = []
+    let open = 0
+    let closed = 0
+    
+    for (const char of s) {
+        if (char === '(') {
+            open++
+        } else if (char === ')') {
+            closed++
+            
+            if (closed > open) {
+                closed--
+                continue
+            }
+        }
+        
+        stack.push(char)
+    }
+    
+    while (stack.length) {
+        const ele = stack.pop()
+        if (ele === '(' && open > closed) {
+            open--
+            continue
+        }
+        
+        result.push(ele)
+    }
+    return result.reverse().join('')
+};
+```
