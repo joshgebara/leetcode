@@ -25328,4 +25328,22 @@ var isValidSerialization = function(preorder) {
     
     return slots === 0
 };
+
+// Time O(n)
+// Space O(1)
+var isValidSerialization = function(preorder) {
+    let slots = 1
+    
+    for (let i = 0; i < preorder.length; i++) {
+        if (preorder[i] !== ',') continue
+        slots--
+
+        if (slots < 0) return false
+
+        if (preorder[i - 1] !== '#') slots += 2
+    }
+    
+    slots += (preorder[preorder.length - 1] === '#') ? -1 : 1
+    return slots === 0
+};
 ```
