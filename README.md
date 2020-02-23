@@ -25306,3 +25306,26 @@ var evalRPN = function(tokens) {
     return stack.pop()
 };
 ```
+
+## 331. Verify Preorder Serialization of a Binary Tree
+```javascript
+// Time - O(n)
+// Space - O(n)
+var isValidSerialization = function(preorder) {
+    const nodes = preorder.split(',')
+    
+    let slots = 1
+    
+    for (const node of nodes) {
+        slots--
+        
+        if (slots < 0) return false
+        
+        if (node !== '#') {
+            slots += 2
+        }
+    }
+    
+    return slots === 0
+};
+```
