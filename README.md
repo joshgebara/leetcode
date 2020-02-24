@@ -25507,3 +25507,21 @@ var reverseParentheses = function(s) {
     return result.join('')
 };
 ```
+
+## 946. Validate Stack Sequences
+```javascript
+var validateStackSequences = function(pushed, popped) {
+    const stack = []
+    let j = 0
+    for (const ele of pushed) {
+        stack.push(ele)
+        
+        while (stack.length && j < popped.length && stack[stack.length - 1] === popped[j]) {
+            stack.pop()
+            j++
+        }
+    }
+    
+    return j === popped.length
+};
+```
