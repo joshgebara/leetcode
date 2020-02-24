@@ -25510,6 +25510,7 @@ var reverseParentheses = function(s) {
 
 ## 946. Validate Stack Sequences
 ```javascript
+// O(n) Space
 var validateStackSequences = function(pushed, popped) {
     const stack = []
     let j = 0
@@ -25523,5 +25524,21 @@ var validateStackSequences = function(pushed, popped) {
     }
     
     return j === popped.length
+};
+
+// O(1) Space
+var validateStackSequences = function(pushed, popped) {
+    let i = 0
+    let j = 0
+    for (const ele of pushed) {
+        pushed[i++] = ele
+        
+        while (i > 0 && pushed[i - 1] === popped[j]) {
+            i--
+            j++
+        }
+    }
+    
+    return i === 0
 };
 ```
