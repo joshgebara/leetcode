@@ -25686,3 +25686,39 @@ NestedIterator.prototype.loadNext = function() {
  * while (i.hasNext()) a.push(i.next());
 */
 ```
+
+## 735. Asteroid Collision
+```javascript
+var asteroidCollision = function(asteroids) {
+    const stack = []
+    
+    for (const asteroid of asteroids) {
+        if (!stack.length || 
+            Math.sign(stack[stack.length - 1]) === Math.sign(asteroid) || 
+            Math.sign(stack[stack.length - 1]) === -1 && Math.sign(asteroid) === 1) {
+            stack.push(asteroid)
+            continue
+        }
+        
+        let flag = true
+        while (stack[stack.length - 1] && Math.sign(stack[stack.length - 1]) !== Math.sign(asteroid)) {
+            if (Math.abs(stack[stack.length - 1]) === Math.abs(asteroid)) {
+                stack.pop()
+                flag = false
+                break
+            }
+            
+            if (Math.abs(stack[stack.length - 1]) > Math.abs(asteroid)) {
+                flag = false
+                break
+            }
+            
+            stack.pop()
+        }
+        
+        if (flag) stack.push(asteroid)
+    }
+    
+    return stack
+};
+```
