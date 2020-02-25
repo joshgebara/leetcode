@@ -25774,4 +25774,36 @@ const fill = (grid, row, col) => {
 }
 
 // One Pass
+var closedIsland = function(grid) {
+    let count = 0
+    
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            if (!grid[i][j] && dfs(grid, i, j)) count++
+        }
+    }
+    
+    return count
+};
+
+const dfs = (grid, row, col) => {
+    if (row < 0 || col < 0 || 
+        row >= grid.length || col >= grid[0].length || 
+        grid[row][col] === 1) return true
+    
+    if (isBorder(grid, row, col)) return false
+    
+    grid[row][col] = 1
+    
+    let isClosed = true
+    isClosed &= dfs(grid, row + 1, col)
+    isClosed &= dfs(grid, row - 1, col)
+    isClosed &= dfs(grid, row, col + 1)
+    isClosed &= dfs(grid, row, col - 1)
+    return isClosed
+}
+
+const isBorder = (grid, row, col) => {
+    return row === 0 || row === grid.length - 1 || col === 0 || col === grid[0].length - 1
+}
 ```
