@@ -25722,3 +25722,56 @@ var asteroidCollision = function(asteroids) {
     return stack
 };
 ```
+
+## 1254. Number of Closed Islands
+```javascript
+// Two Pass
+var closedIsland = function(grid) {
+    let count = 0
+    fillBorder(grid)
+    
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] === 0) {
+                fill(grid, i, j)
+                count++
+            }
+        }
+    }
+    
+    return count
+};
+
+const fillBorder = grid => {
+    for (let i = 0; i < grid.length; i++) {
+        if (grid[i][0] === 0) 
+            fill(grid, i, 0)
+        
+        if (grid[i][grid[0].length - 1] === 0)
+            fill(grid, i, grid[0].length - 1)
+    }
+
+    for (let i = 0; i < grid[0].length - 1; i++) {
+        if (grid[0][i] === 0)
+            fill(grid, 0, i)
+        
+        if (grid[grid.length - 1][i] === 0)
+            fill(grid, grid.length - 1, i)
+    }
+}
+
+const fill = (grid, row, col) => {
+    if (row < 0 || col < 0 || 
+        row >= grid.length || col >= grid[0].length || 
+        grid[row][col] === 1) return
+    
+    grid[row][col] = 1
+    
+    fill(grid, row + 1, col)
+    fill(grid, row - 1, col)
+    fill(grid, row, col + 1)
+    fill(grid, row, col - 1)
+}
+
+// One Pass
+```
