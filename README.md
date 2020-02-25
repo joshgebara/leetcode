@@ -25800,3 +25800,42 @@ const isBorder = (grid, row, col) => {
     return row === 0 || row === grid.length - 1 || col === 0 || col === grid[0].length - 1
 }
 ```
+
+## 1020. Number of Enclaves
+```javascript
+var numEnclaves = function(A) {
+    let count = 0
+    
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < A[0].length; j++) {
+            if (!A[i][j]) continue
+            
+            const result = dfs(A, i, j)
+            if (result === Infinity) continue
+            count += result
+        }
+    }
+    
+    return count
+};
+
+const dfs = (grid, row, col) => {
+    if (isOutOfBounds(grid, row, col) || !grid[row][col]) return 0
+    if (isBorder(grid, row, col)) return Infinity
+    
+    grid[row][col] = 0
+    
+    return dfs(grid, row + 1, col) + 
+           dfs(grid, row - 1, col) + 
+           dfs(grid, row, col + 1) + 
+           dfs(grid, row, col - 1) + 1
+}
+
+const isOutOfBounds = (grid, row, col) => {
+    return row < 0 || col < 0 || row >= grid.length || col >= grid[0].length
+}
+
+const isBorder = (grid, row, col) => {
+    return row === 0 || col === 0 || row >= grid.length - 1 || col >= grid[0].length - 1
+}
+```
