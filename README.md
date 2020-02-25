@@ -15982,27 +15982,20 @@ var islandPerimeter = function(grid) {
 };
 
 const perimeter = (grid, row, col) => {
-    const _perimeter = (grid, row, col) => {
-        if (row < 0 || row >= grid.length || 
-            col < 0 || col >= grid[0].length || 
-            grid[row][col] !== 1) return
-        
-        grid[row][col] = 'X'
-        
-        if (row - 1 < 0 || !grid[row - 1][col]) p++
-        if (row + 1 >= grid.length || !grid[row + 1][col]) p++
-        if (col - 1 < 0 || !grid[row][col - 1]) p++
-        if (col + 1 >= grid[0].length || !grid[row][col + 1]) p++
+    if (row < 0 || row >= grid.length || 
+        col < 0 || col >= grid[0].length || grid[row][col] === 0) return 1
 
-        _perimeter(grid, row - 1, col)
-        _perimeter(grid, row + 1, col)
-        _perimeter(grid, row, col - 1)
-        _perimeter(grid, row, col + 1)
-    }
-    
-    let p = 0
-    _perimeter(grid, row, col)
-    return p
+    if (grid[row][col] === 'X')
+        return 0
+
+    grid[row][col] = 'X'
+
+    let count = 0
+    count += perimeter(grid, row - 1, col)
+    count += perimeter(grid, row + 1, col)
+    count += perimeter(grid, row, col - 1)
+    count += perimeter(grid, row, col + 1)
+    return count
 }
 ```
 
