@@ -25904,3 +25904,48 @@ var sufficientSubset = function(root, limit) {
 
 const isLeaf = node => !node.left && !node.right
 ```
+
+## 886. Possible Bipartition
+```javascript
+var possibleBipartition = function(N, dislikes) {
+    const graph = buildGraph(N, dislikes)
+    return colorGraph(N, graph)
+};
+
+const colorGraph = (N, graph) => {
+    const _colorGraph = v => {
+        for (const n of graph[v]) {
+            if (!colors[n]) {
+                colors[n] = 1 - colors[v]
+                if (!_colorGraph(n)) return false
+            } else if (colors[n] === colors[v]) {
+                return false
+            }
+        }
+        return true
+    }
+    
+    const colors = {}
+    for (let node = 1; node <= N; node++) {
+        if (colors[node]) continue
+        colors[node] = 0
+        if (!_colorGraph(node)) return false
+    }
+    return true
+}
+
+const buildGraph = (N, dislikes) => {
+    const graph = {}
+    
+    for (let i = 1; i <= N; i++) {
+        graph[i] = []
+    }
+    
+    for (const [u, v] of dislikes) {
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    
+    return graph
+}
+```
