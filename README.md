@@ -25854,14 +25854,12 @@ var loudAndRich = function(richer, quiet) {
 };
 
 const dfs = (graph, vertex, result, quiet) => {
-    if (result[vertex]) return vertex
+    if (result[vertex] !== null) return result[vertex]
     
     result[vertex] = vertex
     
     for (const n of graph[vertex]) {
-        dfs(graph, n, result, quiet)
-
-        if (quiet[result[n]] < quiet[result[vertex]]) {
+        if (quiet[dfs(graph, n, result, quiet)] < quiet[result[vertex]]) {
             result[vertex] = result[n]
         }
     }
