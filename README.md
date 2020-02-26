@@ -25949,3 +25949,43 @@ const buildGraph = (N, dislikes) => {
     return graph
 }
 ```
+
+## 802. Find Eventual Safe States
+```javascript
+var eventualSafeNodes = function(graph) {
+    const dfs = node => {
+        if (safeNodes.has(node)) return true
+        if (cycleNodes.has(node)) return false
+        
+        if (seen.has(node)) {
+            cycleNodes.add(node)
+            return false
+        }
+        
+        seen.add(node)
+        
+        if (graph[node]) {
+            for (const neighbor of graph[node]) {
+                if (!dfs(neighbor)) {
+                    cycleNodes.add(neighbor)
+                    return false
+                }
+            }
+        }
+        
+        safeNodes.add(node)
+        return true
+    }
+    
+    const seen = new Set()
+    const safeNodes = new Set()
+    const cycleNodes = new Set()
+    const result = []
+    
+    for (let node = 0; node < graph.length; node++) {
+        if (dfs(node)) result.push(node)
+    }
+    
+    return result
+};
+```
