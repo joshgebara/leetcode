@@ -25881,3 +25881,26 @@ const buildGraph = (edges, n) => {
     return graph
 }
 ```
+
+## 1080. Insufficient Nodes in Root to Leaf Paths
+```javascript
+var sufficientSubset = function(root, limit) {
+    const _sufficientSubset = (node, sum) => {
+        if (!node) return null
+        
+        sum += node.val
+        
+        if (isLeaf(node)) 
+            return sum < limit ? null : node
+        
+        node.left = _sufficientSubset(node.left, sum)
+        node.right = _sufficientSubset(node.right, sum)
+        
+        return isLeaf(node) ? null : node
+    }
+    
+    return _sufficientSubset(root, 0)
+};
+
+const isLeaf = node => !node.left && !node.right
+```
