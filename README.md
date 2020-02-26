@@ -25839,3 +25839,47 @@ const isBorder = (grid, row, col) => {
     return row === 0 || col === 0 || row >= grid.length - 1 || col >= grid[0].length - 1
 }
 ```
+
+## 851. Loud and Rich
+```javascript
+var loudAndRich = function(richer, quiet) {
+    const graph = buildGraph(richer, quiet.length)
+    const result = Array(quiet.length).fill(null)
+    
+    for (let vertex = 0; vertex < quiet.length; vertex++) {
+        dfs(graph, vertex, result, quiet)
+    }
+    
+    return result
+};
+
+const dfs = (graph, vertex, result, quiet) => {
+    if (result[vertex]) return vertex
+    
+    result[vertex] = vertex
+    
+    for (const n of graph[vertex]) {
+        dfs(graph, n, result, quiet)
+
+        if (quiet[result[n]] < quiet[result[vertex]]) {
+            result[vertex] = result[n]
+        }
+    }
+    
+    return result[vertex]
+}
+
+const buildGraph = (edges, n) => {
+    const graph = {}
+    
+    for (let i = 0; i < n; i++) {
+        graph[i] = []
+    }
+    
+    for (const [u, v] of edges) {
+        graph[v].push(u)
+    }
+    
+    return graph
+}
+```
