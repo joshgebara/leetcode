@@ -25989,3 +25989,48 @@ var eventualSafeNodes = function(graph) {
     return result
 };
 ```
+
+## 1059. All Paths from Source Lead to Destination
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
+var leadsToDestination = function(n, edges, source, destination) {
+    const graph = buildGraph(edges, n)
+    return dfs(graph, source, destination, n)
+};
+
+const dfs = (graph, source, destination, n) => {
+    const _dfs = vertex => {
+        if (!graph[vertex]) return vertex === destination
+        
+        colors[vertex] = 1
+        
+        for (const neighbor of graph[vertex]) {
+            if (colors[neighbor] === 1) return false
+            if (colors[neighbor] === 0 && !_dfs(neighbor)) return false
+        }
+        
+        colors[vertex] = 2
+        return true
+    }
+    
+    const colors = Array(n).fill(0)
+    return _dfs(source)
+}
+
+const buildGraph = (edges, n) => {
+    const graph = Array(n).fill(null)
+    
+    for (const [u, v] of edges) {
+        if (!graph[u]) graph[u] = []
+        graph[u].push(v)
+    }
+    
+    return graph
+}
+```
