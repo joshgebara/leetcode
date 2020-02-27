@@ -26065,3 +26065,33 @@ const buildGraph = (edges, n) => {
     return [graph, degrees]
 }
 ```
+
+## 971. Flip Binary Tree To Match Preorder Traversal
+```javascript
+var flipMatchVoyage = function(root, voyage) {
+    const dfs = node => {
+        if (!node) return
+        
+        if (node.val !== voyage[i++]) {
+            flipped = [-1]
+            return
+        }
+        
+        if (node.left && node.left.val != voyage[i]) {
+            flipped.push(node.val)
+            dfs(node.right)
+            dfs(node.left)
+        } else {
+            dfs(node.left)
+            dfs(node.right)
+        }
+    }
+    
+    let flipped = []
+    let i = 0
+    
+    dfs(root)
+    
+    return flipped
+};
+```
