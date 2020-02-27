@@ -26158,3 +26158,31 @@ var findLonelyPixel = function(picture) {
 // O(1) space
 
 ```
+
+## 439. Ternary Expression Parser
+```javascript
+// Stack
+var parseTernary = function(expression) {
+    const stack = []
+    
+    for (let i = expression.length - 1; i >= 0; i--) {
+        const char = expression[i]
+        
+        if (char === ':')
+            continue
+        
+        if (char === '?') {    
+            const bool = expression[--i]
+            const t = stack.pop()
+            const f = stack.pop()
+            
+            bool === 'T' ? stack.push(t) : stack.push(f)
+            continue
+        }
+        
+        stack.push(char)
+    }
+    
+    return stack.pop()
+};
+```
