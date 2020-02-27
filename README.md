@@ -26120,3 +26120,39 @@ var findSubsequences = function(nums) {
     return result
 };
 ```
+
+## 531. Lonely Pixel I
+```javascript
+// O(mn) space
+var findLonelyPixel = function(picture) {
+    const n = picture.length
+    const m = picture[0].length
+    
+    const rowCount = Array(n).fill(0)
+    const colCount = Array(m).fill(0)
+    
+    let count = 0
+    
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < m; col++) {
+            if (picture[row][col] === 'B') {
+                rowCount[row]++
+                colCount[col]++
+            }
+        }
+    }
+
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < m; col++) {
+            if (picture[row][col] === 'B' && rowCount[row] === 1 && colCount[col] === 1) {
+                count++
+            }
+        }
+    }
+    
+    return count
+};
+
+// O(1) space
+
+```
