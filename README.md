@@ -26123,7 +26123,7 @@ var findSubsequences = function(nums) {
 
 ## 531. Lonely Pixel I
 ```javascript
-// O(mn) space
+// Iterative O(mn) space
 var findLonelyPixel = function(picture) {
     const n = picture.length
     const m = picture[0].length
@@ -26143,9 +26143,11 @@ var findLonelyPixel = function(picture) {
     }
 
     for (let row = 0; row < n; row++) {
+        if (rowCount[row] !== 1) continue
         for (let col = 0; col < m; col++) {
-            if (picture[row][col] === 'B' && rowCount[row] === 1 && colCount[col] === 1) {
+            if (picture[row][col] === 'B' && colCount[col] === 1) {
                 count++
+                continue
             }
         }
     }
