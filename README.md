@@ -26095,3 +26095,28 @@ var flipMatchVoyage = function(root, voyage) {
     return flipped
 };
 ```
+
+## 491. Increasing Subsequences
+```javascript
+var findSubsequences = function(nums) {
+    const _findSubsequences = (curr, seq) => {
+        if (seq.length > 1) {
+            result.push(seq.slice())
+        }
+        
+        const seen = new Set()
+        for (let i = curr; i < nums.length; i++) {
+            if (nums[i] < seq[seq.length - 1]) continue
+            if (seen.has(nums[i])) continue
+            seen.add(nums[i])
+            seq.push(nums[i])
+            _findSubsequences(i + 1, seq)
+            seq.pop()
+        }
+    }
+    
+    const result = []
+    _findSubsequences(0, [])
+    return result
+};
+```
