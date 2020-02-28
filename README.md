@@ -26203,11 +26203,10 @@ var regionsBySlashes = function(grid) {
 };
 
 const fillSlashes = (matrix, grid) => {
-    let mRow = 0
-    let mCol = 0
-    
     for (let row = 0; row < grid.length; row++) {
-        for (let col = 0; col < grid[0].length; col++) {    
+        for (let col = 0; col < grid[0].length; col++) {
+            const mRow = row * 3
+            const mCol = col * 3
             if (grid[row][col] === '/') {
                 matrix[mRow][mCol + 2] = 0
                 matrix[mRow + 1][mCol + 1] = 0
@@ -26217,10 +26216,7 @@ const fillSlashes = (matrix, grid) => {
                 matrix[mRow + 1][mCol + 1] = 0
                 matrix[mRow + 2][mCol + 2] = 0
             }
-            mCol += 3
         }
-        mCol = 0
-        mRow += 3
     }
 }
 
@@ -26251,4 +26247,7 @@ const countComponents = matrix => {
     
     return count
 }
+
+// Union Find
+
 ```
