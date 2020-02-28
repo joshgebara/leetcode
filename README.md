@@ -26251,3 +26251,24 @@ const countComponents = matrix => {
 // Union Find
 
 ```
+
+## 988. Smallest String Starting From Leaf
+```javascript
+var smallestFromLeaf = function(root, path = []) {
+    if (!root) return '|'
+
+    path.push(String.fromCharCode(root.val + 97))
+
+    if (!root.left && !root.right) {
+        const str = path.slice().reverse().join('')
+        path.pop()
+        return str
+    }
+
+    const left = smallestFromLeaf(root.left, path)
+    const right = smallestFromLeaf(root.right, path)
+    path.pop()
+
+    return left < right ? left : right
+};
+```
