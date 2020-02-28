@@ -26185,4 +26185,70 @@ var parseTernary = function(expression) {
     
     return stack.pop()
 };
+
+// DFS
+
+```
+
+## 959. Regions Cut By Slashes
+```javascript
+// DFS
+var regionsBySlashes = function(grid) {
+    const n = grid.length
+    const m = grid[0].length
+    
+    const matrix = Array(n * 3).fill(0).map(row => Array(m * 3).fill(1))
+    fillSlashes(matrix, grid)
+    return countComponents(matrix)
+};
+
+const fillSlashes = (matrix, grid) => {
+    let mRow = 0
+    let mCol = 0
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {    
+            if (grid[row][col] === '/') {
+                matrix[mRow][mCol + 2] = 0
+                matrix[mRow + 1][mCol + 1] = 0
+                matrix[mRow + 2][mCol] = 0
+            } else if (grid[row][col] === '\\') {
+                matrix[mRow][mCol] = 0
+                matrix[mRow + 1][mCol + 1] = 0
+                matrix[mRow + 2][mCol + 2] = 0
+            }
+            mCol += 3
+        }
+        mCol = 0
+        mRow += 3
+    }
+}
+
+const countComponents = matrix => {
+    const fill = (row, col) => {
+        if (row < 0 || col < 0 || 
+            row >= matrix.length || col >= matrix[0].length ||
+            matrix[row][col] === 0) return
+        
+        matrix[row][col] = 0
+        
+        fill(row + 1, col)
+        fill(row - 1, col)
+        fill(row, col + 1)
+        fill(row, col - 1)
+    }
+    
+    let count = 0
+    
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[0].length; j++) {
+            if (matrix[i][j] === 1) {
+                count++
+                fill(i, j)
+            }
+        }
+    }
+    
+    return count
+}
 ```
