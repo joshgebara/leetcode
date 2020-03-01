@@ -26272,3 +26272,34 @@ var smallestFromLeaf = function(root, path = []) {
     return left < right ? left : right
 };
 ```
+
+## 1267. Count Servers that Communicate
+```javascript
+// Iterative
+var countServers = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    
+    const rowCounts = Array(m).fill(0)
+    const colCounts = Array(n).fill(0)
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col]) {
+                rowCounts[row]++
+                colCounts[col]++
+            }
+        }
+    }
+    
+    let count = 0
+    for (let row = 0; row < m; row++)
+        for (let col = 0; col < n; col++)
+            if (grid[row][col] && (rowCounts[row] > 1 || colCounts[col] > 1))
+                count++
+    
+    return count
+};
+
+// Union Find
+```
