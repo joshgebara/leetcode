@@ -26275,7 +26275,6 @@ var smallestFromLeaf = function(root, path = []) {
 
 ## 1267. Count Servers that Communicate
 ```javascript
-// Iterative
 var countServers = function(grid) {
     const m = grid.length
     const n = grid[0].length
@@ -26300,6 +26299,53 @@ var countServers = function(grid) {
     
     return count
 };
+```
 
-// Union Find
+## 399. Evaluate Division
+```javascript
+var calcEquation = function(equations, values, queries) {
+    const graph = buildGraph(equations, values)
+    
+    const result = []
+    for (const [u, v] of queries) {
+        result.push(dfs(graph, u, v))
+    }
+    return result
+};
+
+const buildGraph = (edges, weights) => {
+    const graph = {}
+    
+    for (let i = 0; i < edges.length; i++) {
+        const [u, v] = edges[i]
+        if (!graph[u]) graph[u] = []
+        if (!graph[v]) graph[v] = []
+        
+        graph[u].push([v, weights[i]])
+        graph[v].push([u, 1 / weights[i]])
+    }
+    
+    return graph
+}
+
+const dfs = (graph, start, end) => {
+    const _dfs = (vertex, product) => {
+        if (vertex === end) return product
+        
+        if (graph[vertex]) {
+            for (const [neighbor, weight] of graph[vertex]) {
+                if (seen.has(neighbor)) continue
+                seen.add(neighbor)
+                const result = _dfs(neighbor, product * weight)
+                if (result !== -1) return result
+            }
+        }
+        return -1
+    }
+    
+    if (!graph[start] || !graph[end]) return -1
+    
+    const seen = new Set([start])
+    return _dfs(start, 1)
+}
 ```
