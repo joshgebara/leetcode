@@ -26303,6 +26303,7 @@ var countServers = function(grid) {
 
 ## 399. Evaluate Division
 ```javascript
+// DFS
 var calcEquation = function(equations, values, queries) {
     const graph = buildGraph(equations, values)
     
@@ -26348,4 +26349,130 @@ const dfs = (graph, start, end) => {
     const seen = new Set([start])
     return _dfs(start, 1)
 }
+```
+
+## 1102. Path With Maximum Minimum Value
+```javascript
+// Greedy BFS
+var maximumMinimumPath = function(A) {
+    const m = A.length
+    const n = A[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    const heap = new Heap([], (a, b) => a[0] > b[0])
+    heap.insert([A[0][0], 0, 0])
+    let min = A[0][0]
+    
+    const seen = Array(m).fill(0).map(e => Array(n).fill(0))
+    while (heap.length()) {
+        const [val, row, col] = heap.remove()
+        min = Math.min(min, val)
+        
+        if (row === m - 1 && col === n - 1)
+            return min
+        
+        for (const [x, y] of dirs) {
+            const dx = x + row
+            const dy = y + col
+            
+            if (dx < 0 || dy < 0 || dx >= m || dy >= n) continue
+            
+            if (seen[dx][dy]) continue
+            seen[dx][dy] = 1
+            
+            heap.insert([A[dx][dy], dx, dy])
+        }
+    }
+    
+    return min
+};
+
+class Heap {
+    constructor(elements = [], sortBy = (a, b) => { a < b }) {
+        this.elements = elements
+        this.sortBy = sortBy
+        this.heapify()
+    }
+    
+    heapify() {
+        for (let i = Math.floor(this.elements.length / 2) - 1; 0 <= i; i--) {
+          this.siftDown(i)
+        }
+    }
+    
+    insert(val) {
+        this.elements.push(val)
+        this.siftUp()
+    }
+    
+    remove() {
+        if (!this.elements.length) return null
+        
+        const temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        const element = this.elements.pop()
+        this.siftDown()
+        return element
+    }
+    
+    siftDown(index = 0) {
+        let parent = index
+        while (true) {
+            const left = this.leftChildIndex(parent)
+            const right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate])) {
+                candidate = left
+            }
+            
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate])) {
+                candidate = right
+            }
+            
+            if (candidate === parent)
+                return
+            
+            const temp = this.elements[candidate]
+            this.elements[candidate] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            parent = candidate
+        }
+    }
+    
+    siftUp() {
+        let child = this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            const temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    leftChildIndex(index) {
+        return index * 2 + 1
+    }
+    
+    rightChildIndex(index) {
+        return index * 2 + 2
+    }
+    
+    parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+    
+    length() {
+        return this.elements.length
+    }
+}
+
+
 ```
