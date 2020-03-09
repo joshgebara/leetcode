@@ -26544,4 +26544,43 @@ var smallestCommonElement = function(mat) {
 };
 
 // Binary Search
+var smallestCommonElement = function(mat) {
+    for (let col = 0; col < mat[0].length; col++) {
+        const ele = mat[0][col]
+        
+        let found = true
+        for (let row = 1; row < mat.length; row++) {
+            if (binarySearch(mat[row], ele)) {
+                continue
+            } else {
+                found = false
+                break
+            }
+        }
+        
+        if (found) return ele
+    }
+    
+    return -1
+};
+
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        if (arr[mid] === target) {
+            return true
+        }
+        
+        if (arr[mid] > target) {
+            right = mid - 1
+        } else {
+            left = mid + 1
+        }
+    }
+    
+    return false
+}
 ```
