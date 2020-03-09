@@ -26349,6 +26349,58 @@ const dfs = (graph, start, end) => {
     const seen = new Set([start])
     return _dfs(start, 1)
 }
+
+// Path Compression
+var calcEquation = function(equations, values, queries) {
+    const graph = buildGraph(equations, values)
+    
+    const result = []
+    for (const [u, v] of queries) {
+        result.push(dfs(graph, u, v))
+    }
+    return result
+};
+
+const buildGraph = (edges, weights) => {
+    const graph = {}
+    
+    for (let i = 0; i < edges.length; i++) {
+        const [u, v] = edges[i]
+        if (!graph[u]) graph[u] = new Set()
+        if (!graph[v]) graph[v] = new Set()
+        
+        graph[u].add(JSON.stringify([v, weights[i]]))
+        graph[v].add(JSON.stringify([u, 1 / weights[i]]))
+    }
+    
+    return graph
+}
+
+const dfs = (graph, start, end) => {
+    const _dfs = (vertex, product) => {
+        if (vertex === end) {
+            graph[start].add(JSON.stringify([end, product]))
+            graph[end].add(JSON.stringify([start, 1 / product]))
+            return product
+        }
+        
+        if (graph[vertex]) {
+            for (const val of graph[vertex]) {
+                const [neighbor, weight] = JSON.parse(val)
+                if (seen.has(neighbor)) continue
+                seen.add(neighbor)
+                const result = _dfs(neighbor, product * weight)                
+                if (result !== -1) return result
+            }
+        }
+        return -1
+    }
+    
+    if (!graph[start] || !graph[end]) return -1
+    
+    const seen = new Set([start])
+    return _dfs(start, 1)
+}
 ```
 
 ## 1102. Path With Maximum Minimum Value
@@ -26473,6 +26525,5 @@ class Heap {
         return this.elements.length
     }
 }
-
-
 ```
+
