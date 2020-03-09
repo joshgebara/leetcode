@@ -26154,9 +26154,6 @@ var findLonelyPixel = function(picture) {
     
     return count
 };
-
-// O(1) space
-
 ```
 
 ## 439. Ternary Expression Parser
@@ -26527,3 +26524,24 @@ class Heap {
 }
 ```
 
+## 1198. Find Smallest Common Element in All Rows
+```javascript
+// Map
+var smallestCommonElement = function(mat) {
+    const map = Array(10 ** 4).fill(0)
+    
+    for (let j = 0; j < mat[0].length; j++) {
+        for (let i = 0; i < mat.length; i++) {
+            map[mat[i][j]]++
+            
+            if (map[mat[i][j]] === mat.length) {
+                return mat[i][j]
+            }
+        }
+    }
+    
+    return -1
+};
+
+// Binary Search
+```
