@@ -26584,3 +26584,23 @@ const binarySearch = (arr, target) => {
     return false
 }
 ```
+
+## 162. Find Peak Element
+```javascript
+var findPeakElement = function(nums) {
+    let left = 0
+    let right = nums.length - 1
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (nums[mid] < nums[mid + 1]) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return left
+};
+```
