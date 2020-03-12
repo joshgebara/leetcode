@@ -26732,3 +26732,33 @@ Solution.prototype.pickIndex = function() {
  * var param_1 = obj.pickIndex()
  */
 ```
+
+## 1283. Find the Smallest Divisor Given a Threshold
+```javascript
+var smallestDivisor = function(nums, threshold) {
+    let left = 0
+    let right = 10 ** 6
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (belowThreshold(nums, threshold, mid)) {
+            right = mid
+        } else {
+            left = mid + 1
+        }
+    }
+    
+    return left
+};
+
+const belowThreshold = (nums, threshold, divisor) => {
+    let sum = 0
+    
+    for (const num of nums) {
+        sum += Math.ceil(num / divisor)
+    }
+    
+    return sum <= threshold
+}
+```
