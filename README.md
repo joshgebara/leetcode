@@ -26690,3 +26690,45 @@ var search = function (reader, target) {
     return -1
 };
 ```
+
+## 528. Random Pick with Weight
+```javascript
+/**
+ * @param {number[]} w
+ */
+var Solution = function(w) {
+    this.sums = w
+    
+    for (let i = 1; i < this.sums.length; i++) {
+        this.sums[i] = this.sums[i - 1] + this.sums[i]
+    }
+};
+
+/**
+ * @return {number}
+ */
+Solution.prototype.pickIndex = function() {
+    const randomIndex = Math.floor(Math.random() * this.sums[this.sums.length - 1])
+    
+    let left = 0
+    let right = this.sums[this.sums.length - 1]
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (this.sums[mid] <= randomIndex) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return left
+};
+
+/** 
+ * Your Solution object will be instantiated and called as such:
+ * var obj = new Solution(w)
+ * var param_1 = obj.pickIndex()
+ */
+```
