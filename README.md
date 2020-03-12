@@ -26662,3 +26662,31 @@ var searchMatrix = function(matrix, target) {
     return false
 };
 ```
+
+## 702. Search in a Sorted Array of Unknown Size
+```javascript
+var search = function (reader, target) {
+    let left = 0
+    let right = 1
+    
+    while (reader.get(right) < target) {
+        left = right + 1
+        right *= 2
+    }
+    
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (reader.get(mid) === target)
+            return mid
+        
+        if (reader.get(mid) < target) {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return -1
+};
+```
