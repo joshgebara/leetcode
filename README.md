@@ -26762,3 +26762,33 @@ const belowThreshold = (nums, threshold, divisor) => {
     return sum <= threshold
 }
 ```
+
+## 1111. Maximum Nesting Depth of Two Valid Parentheses Strings
+```javascript
+var maxDepthAfterSplit = function(seq) {
+    const result = Array(seq.length).fill(0)
+    
+    let A = 0
+    let B = 0
+    
+    for (let i = 0; i < seq.length; i++) {
+        if (seq[i] === '(') {
+            if (A < B) {
+                A++
+                result[i] = 1
+            } else {
+                B++
+            }
+        } else {
+            if (A < B) {
+                B--
+            } else {
+                A--
+                result[i] = 1
+            }
+        }
+    }
+    
+    return result
+};
+```
