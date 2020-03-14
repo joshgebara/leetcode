@@ -26792,3 +26792,46 @@ var maxDepthAfterSplit = function(seq) {
     return result
 };
 ```
+
+## 1300. Sum of Mutated Array Closest to Target
+```javascript
+// Binary Search
+var findBestValue = function(arr, target) {
+    let left = 0
+    let right = target
+    
+    let diff = Infinity
+    let val = 0
+    
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        const currSum = sum(arr, mid)
+        const currDiff = Math.abs(currSum - target)
+        
+        if (currDiff < diff) {
+            diff = currDiff
+            val = mid
+        } 
+
+        if (currSum <= target) {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return val
+};
+
+const sum = (arr, val) => {
+    let result = 0
+    
+    for (const a of arr) {
+        result += a < val ? a : val
+    }
+    
+    return result
+}
+
+// Sorting
+```
