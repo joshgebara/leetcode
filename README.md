@@ -26960,3 +26960,91 @@ var groupThePeople = function(groupSizes) {
     return result
 };
 ```
+
+## 861. Score After Flipping Matrix
+```javascript
+var matrixScore = function(A) {
+    for (let row = 0; row < A.length; row++) {
+        if (A[row][0] === 0)
+            flipRow(A, row)
+    }
+    
+    for (let col = 1; col < A[0].length; col++) {
+        if (shouldFlip(A, col)) {
+            flipCol(A, col)
+        }
+    }
+    
+    let sum = 0
+    for (let row = 0; row < A.length; row++) {
+        sum += numFromBin(A, row)
+    }
+    
+    return sum
+};
+
+const numFromBin = (matrix, row) => {
+    let num = 0
+    
+    for (let col = 0; col < matrix[0].length; col++) {
+        if (matrix[row][col] === 1) {
+            num += Math.pow(2, matrix[0].length - col - 1)
+        }
+    }
+    
+    return num
+}
+
+const shouldFlip = (matrix, col) => {
+    let zeroCount = 0
+    let oneCount = 0
+    for (let row = 0; row < matrix.length; row++) {
+        if (matrix[row][col] === 1) {
+            oneCount++
+        } else {
+            zeroCount++
+        }
+    }
+    
+    return oneCount < zeroCount
+}
+
+const flipRow = (matrix, row) => {
+    for (let col = 0; col < matrix[0].length; col++) {
+        matrix[row][col] ^= 1
+    }
+}
+
+const flipCol = (matrix, col) => {
+    for (let row = 0; row < matrix.length; row++) {
+        matrix[row][col] ^= 1
+    }
+}
+```
+
+## 1296. Divide Array in Sets of K Consecutive Numbers
+```javascript
+var isPossibleDivide = function(nums, k) {
+    if (nums.length % k !== 0) return false
+    
+    const counts = {}
+    for (const num of nums) {
+        counts[num] = 1 + (counts[num] || 0)
+    }
+        
+    for (const key of Object.keys(counts)) {
+        const num = +key
+        const count = counts[num]
+        
+        if (count <= 0) continue
+        
+        const ocurr = count
+        for (let i = num; i < num + k; i++) {
+            counts[i] = (counts[i] || 0) - ocurr
+            
+            if (counts[i] < 0) return false
+        }
+    }
+    return true
+};
+```
