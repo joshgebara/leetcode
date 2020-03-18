@@ -26919,3 +26919,44 @@ var robotSim = function(commands, obstacles) {
     return maxDist
 };
 ```
+
+## 1282. Group the People Given the Group Size They Belong To
+```javascript
+// Two Pass
+var groupThePeople = function(groupSizes) {
+    const buckets = Array(groupSizes.length + 1).fill(0).map(a => Array(0).fill([]))
+    for (const [id, groupSize] of groupSizes.entries()) {
+        buckets[groupSize].push(id)
+    }
+    
+    const result = []
+    for (const [size, bucket] of buckets.entries()) {
+        for (let i = 0; i < bucket.length; i += size) {
+            result.push(bucket.slice(i, i + size))
+        }
+    }
+    
+    return result
+};
+
+// One Pass
+var groupThePeople = function(groupSizes) {
+    const buckets = {}
+    const result = []
+    
+    for (const [id, groupSize] of groupSizes.entries()) {
+        if (buckets[groupSize]) {
+            buckets[groupSize].push(id)
+        } else {
+            buckets[groupSize] = [id]
+        }
+        
+        if (buckets[groupSize].length === groupSize) {
+            result.push(buckets[groupSize])
+            buckets[groupSize] = []
+        }
+    }
+    
+    return result
+};
+```
