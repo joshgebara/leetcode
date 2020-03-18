@@ -26835,3 +26835,44 @@ const sum = (arr, val) => {
 
 // Sorting
 ```
+
+## 1351. Count Negative Numbers in a Sorted Matrix
+```javascript
+// O(mn)
+var countNegatives = function(grid) {
+    let count = 0
+    
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] < 0) count++
+        }
+    }
+    
+    return count
+};
+
+// O(mn) Optimized
+
+```
+
+## 455. Assign Cookies
+```javascript
+var findContentChildren = function(g, s) {
+    g.sort((a, b) => a - b)
+    s.sort((a, b) => a - b)
+
+    let p1 = 0
+    let p2 = 0
+    
+    while (p1 < g.length && p2 < s.length) {
+        if (g[p1] <= s[p2]) {
+            p1++
+            p2++
+        } else {
+            p2++
+        }
+    }
+    
+    return p1
+};
+```
