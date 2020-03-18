@@ -26876,3 +26876,46 @@ var findContentChildren = function(g, s) {
     return p1
 };
 ```
+
+## 874. Walking Robot Simulation
+```javascript
+var robotSim = function(commands, obstacles) {
+    const dirs = [[0, 1], [-1, 0], [0, -1], [1, 0]]
+    let dir = 0
+    
+    let pos = [0, 0]
+    let maxDist = 0
+    
+    const obs = new Set()
+    for (const obstacle of obstacles) {
+        obs.add(`${obstacle[0]}-${obstacle[1]}`)
+    }
+    
+    for (let command of commands) {
+        if (command === -2) {
+            dir = (dir + 1) % 4
+            continue
+        }
+        
+        if (command === -1) {
+            dir = ((dir - 1) + 4) % 4
+            continue
+        }
+        
+        let prev = pos
+        while (command--) {
+            prev = pos
+            pos = [pos[0] + dirs[dir][0], pos[1] + dirs[dir][1]]
+            
+            if (obs.has(`${pos[0]}-${pos[1]}`)) {
+                pos = prev
+                break
+            }
+        }
+        
+        maxDist = Math.max(maxDist, pos[0] ** 2 + pos[1] ** 2)
+    }
+    
+    return maxDist
+};
+```
