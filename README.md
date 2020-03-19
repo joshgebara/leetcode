@@ -27048,3 +27048,34 @@ var isPossibleDivide = function(nums, k) {
     return true
 };
 ```
+
+## 1253. Reconstruct a 2-Row Binary Matrix
+```javascript
+var reconstructMatrix = function(upper, lower, colsum) {
+    const result = Array(2).fill(0).map(n => Array(colsum.length).fill(0))
+    
+    for (let i = 0; i < colsum.length; i++) {
+        const sum = colsum[i]
+        
+        if (sum === 2) {
+            upper--
+            lower--
+            result[0][i] = 1
+            result[1][i] = 1
+        } else if (sum === 1) {
+            if (upper > lower) {
+                upper--
+                result[0][i] = 1
+            } else {
+                lower--
+                result[1][i] = 1
+            }
+        }
+        
+        if (upper < 0 || lower < 0) return []
+    }
+    
+    if (upper !== 0 || lower !== 0) return []
+    return result
+};
+```
