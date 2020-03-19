@@ -27101,3 +27101,28 @@ var findMinArrowShots = function(points) {
     return arrowCount
 };
 ```
+
+## 846. Hand of Straights
+```javascript
+var isNStraightHand = function(hand, W) {
+    if (hand.length % W !== 0) return false
+    
+    const counts = {}
+    for (const h of hand)
+        counts[h] = 1 + (counts[h] || 0)
+    
+    for (const key of Object.keys(counts)) {
+        if (!counts[key]) continue
+        
+        const occurr = counts[key]
+        for (let i = +key; i < +key + W; i++) {
+            if (!counts[i] || counts[i] < occurr) 
+                return false
+            
+            counts[i] -= occurr
+        }
+    }
+    
+    return true
+};
+```
