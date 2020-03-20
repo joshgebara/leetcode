@@ -27155,3 +27155,21 @@ var isNStraightHand = function(hand, W) {
     return true
 };
 ```
+
+## 1094. Car Pooling
+```javascript
+var carPooling = function(trips, capacity) {
+    const stops = Array(1001).fill(0)
+    for (const [count, start, end] of trips) {
+        stops[start] += count
+        stops[end] -= count
+    }
+    
+    for (const stop of stops) {
+        capacity -= stop
+        if (capacity < 0) return false
+    }
+    
+    return true
+};
+```
