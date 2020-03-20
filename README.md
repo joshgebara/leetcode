@@ -13226,6 +13226,11 @@ var rearrangeBarcodes = function(barcodes) {
 
 ## 253. Meeting Rooms II
 ```javascript
+/**
+ * @param {number[][]} intervals
+ * @return {number}
+ */
+
 class Heap {
     constructor(elements, sortBy) {
         this.elements = elements
@@ -13238,6 +13243,10 @@ class Heap {
     heapify() {
         for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
             this.siftDown(i)
+    }
+    
+    peek() {
+        return this.elements[0]
     }
     
     siftDown(index) {
@@ -13316,14 +13325,11 @@ var minMeetingRooms = function(intervals) {
     const heap = new Heap([intervals[0]], (a, b) => a[1] < b[1])
     
     for (let interval of intervals.slice(1)) {
-        let earliest = heap.remove()
+        if (interval[0] >= heap.peek()[1]) {
+            heap.remove()
+        }
         
-        if (interval[0] >= earliest[1]) {
-            earliest[1] = interval[1]
-        } else {
-            heap.insert(interval)
-        }   
-        heap.insert(earliest)
+        heap.insert(interval)
     }
     return heap.elements.length
 };
