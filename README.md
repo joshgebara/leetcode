@@ -27173,3 +27173,38 @@ var carPooling = function(trips, capacity) {
     return true
 };
 ```
+
+## 1338. Reduce Array Size to The Half
+```javascript
+var minSetSize = function(arr) {
+    const counts = {}
+    let maxNum = 0
+    for (const num of arr) {
+        counts[num] = 1 + (counts[num] || 0)
+        maxNum = Math.max(maxNum, counts[num])
+    }
+    
+    const buckets = Array(maxNum + 1).fill(0)
+    for (const val of Object.values(counts)) {
+        buckets[val] += 1
+    }
+    
+    const freqs = []
+    for (let i = buckets.length - 1; i >= 0; i--) {
+        while (buckets[i]--) {
+            freqs.push(i)
+        }
+    }
+    
+    let half = Math.floor(arr.length / 2)
+    let setSize = 0
+    for (const freq of freqs) {
+        setSize++
+        half -= freq
+        
+        if (half <= 0) break
+    }
+    
+    return setSize
+};
+```
