@@ -13226,6 +13226,7 @@ var rearrangeBarcodes = function(barcodes) {
 
 ## 253. Meeting Rooms II
 ```javascript
+// Heap
 /**
  * @param {number[][]} intervals
  * @return {number}
@@ -13332,6 +13333,28 @@ var minMeetingRooms = function(intervals) {
         heap.insert(interval)
     }
     return heap.elements.length
+};
+
+// Two Pointer
+var minMeetingRooms = function(intervals) {
+    const starts = intervals.map(i => i[0]).sort((a, b) => a - b)
+    const ends = intervals.map(i => i[1]).sort((a, b) => a - b)
+    
+    let s = 0
+    let e = 0
+    let rooms = 0
+    
+    while (s < intervals.length) {
+        if (starts[s] >= ends[e]) {
+            rooms--
+            e++
+        }
+        
+        rooms++
+        s++
+    }
+    
+    return rooms
 };
 ```
 
