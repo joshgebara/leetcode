@@ -27208,3 +27208,27 @@ var minSetSize = function(arr) {
     return setSize
 };
 ```
+
+## 1090. Largest Values From Labels
+```javascript
+var largestValsFromLabels = function(values, labels, num_wanted, use_limit) {
+    const pairs = []
+    for (let i = 0; i < values.length; i++) {
+        pairs.push([values[i], labels[i]])
+    }
+    
+    pairs.sort((a, b) => b[0] - a[0])
+    
+    const labelCount = {}
+    let sum = 0
+    for (const [val, label] of pairs) {
+        if (labelCount[label] >= use_limit) continue
+        labelCount[label] = (labelCount[label] || 0) + 1
+        
+        sum += val
+        if (--num_wanted === 0) break
+    }
+    
+    return sum
+};
+```
