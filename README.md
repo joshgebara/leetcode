@@ -27232,3 +27232,20 @@ var largestValsFromLabels = function(values, labels, num_wanted, use_limit) {
     return sum
 };
 ```
+
+## 930. Binary Subarrays With Sum
+```javascript
+// O(n) space
+var numSubarraysWithSum = function(A, S) {
+    const sumMap = { 0: 1 }
+    let result = 0
+    let currSum = 0
+    
+    for (const num of A) {
+        currSum += num
+        result += (sumMap[currSum - S] || 0)
+        sumMap[currSum] = (sumMap[currSum] || 0) + 1
+    }
+    return result
+};
+```
