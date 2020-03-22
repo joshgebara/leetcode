@@ -27249,3 +27249,39 @@ var numSubarraysWithSum = function(A, S) {
     return result
 };
 ```
+
+## 360. Sort Transformed Array
+```javascript
+var sortTransformedArray = function(nums, a, b, c) {
+    const result = Array(nums.length).fill(0)
+    let start = 0
+    let end = nums.length - 1
+    let i = a >= 0 ? nums.length - 1 : 0
+    
+    while (start <= end) {
+        const startNum = quad(nums[start], a, b, c)
+        const endNum = quad(nums[end], a, b, c)
+        if (a >= 0) {
+            if (startNum >= endNum) {
+                result[i--] = startNum
+                start++
+            } else {
+                result[i--] = endNum
+                end--
+            }
+        } else {
+            if (startNum <= endNum) {
+                result[i++] = startNum
+                start++
+            } else {
+                result[i++] = endNum
+                end--
+            }
+        }
+    }
+    
+    return result
+};
+
+const quad = (num, a, b, c) => (a * num ** 2) + (b * num) + c
+```
