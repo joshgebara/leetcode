@@ -27285,3 +27285,65 @@ var sortTransformedArray = function(nums, a, b, c) {
 
 const quad = (num, a, b, c) => (a * num ** 2) + (b * num) + c
 ```
+
+## 1093. Statistics from a Large Sample
+```javascript
+var sampleStats = function(count) {
+    let min
+    let max
+
+    let sum = 0
+    let numCount = 0
+    
+    let mode = 0
+    let modeCount = 0
+    
+    for (let i = 0; i < count.length; i++) {
+        if (!count[i]) continue
+        
+        if (min === undefined) min = i
+        max = i
+        
+        sum += i * count[i]
+        numCount += count[i]
+        
+        if (modeCount < count[i]) {
+            modeCount = count[i]
+            mode = i
+        }
+    }
+    
+    const mean = sum / numCount
+    
+    const isEven = numCount % 2 === 0
+    const mid = Math.floor(numCount / 2)
+    let v1 = -1
+    let v2 = -1
+    let k = 0
+    
+    for (let i = 0; i < count.length; i++) {
+        if (count[i] === 0) continue
+        
+        k += count[i]
+        
+        if (isEven) {
+            if (k >= mid && v1 === -1) {
+                v1 = i
+            }
+
+            if (k >= mid + 1) {
+                v2 = i
+                break
+            }
+        } else {
+            if (k >= mid) {
+                v1 = i
+                v2 = i
+                break
+            }            
+        }
+    }
+    const median = (v1 + v2) / 2
+    return [min, max, mean, median, mode]
+};
+```
