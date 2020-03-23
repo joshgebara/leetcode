@@ -27481,7 +27481,30 @@ var threeSumClosest = function(nums, target) {
     
     return closest
 };
+```
 
-// O(n^2) Hashing
-
+## 259. 3Sum Smaller
+```javascript
+var threeSumSmaller = function(nums, target) {
+    nums.sort((a, b) => a - b)
+    
+    let count = 0
+    
+    for (let i = 0; i < nums.length - 2; i++) {
+        let left = i + 1
+        let right = nums.length - 1
+        
+        while (left < right) {
+            const sum = nums[i] + nums[left] + nums[right]
+            if (sum >= target) {
+                right--
+            } else {
+                count += right - left
+                left++
+            }
+        }
+    }
+    
+    return count
+};
 ```
