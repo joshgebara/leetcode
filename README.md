@@ -27377,3 +27377,27 @@ var maxProfitAssignment = function(difficulty, profit, worker) {
     return sum
 };
 ```
+
+## 986. Interval List Intersections
+```javascript
+var intervalIntersection = function(A, B) {
+    const result = []
+    let i = 0
+    let j = 0
+    
+    while (i < A.length && j < B.length) {
+        const [aS, aE] = A[i]
+        const [bS, bE] = B[j]
+        
+        const start = Math.max(aS, bS)
+        const end = Math.min(aE, bE)
+        
+        if (start <= end)
+            result.push([start, end])
+
+        aE < bE ? i++ : j++
+    }
+    
+    return result
+};
+```
