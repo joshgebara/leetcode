@@ -27347,3 +27347,33 @@ var sampleStats = function(count) {
     return [min, max, mean, median, mode]
 };
 ```
+
+## 826. Most Profit Assigning Work
+```javascript
+var maxProfitAssignment = function(difficulty, profit, worker) {
+    const pairs = []
+    for (let i = 0; i < difficulty.length; i++) {
+        pairs.push([difficulty[i], profit[i]])
+    }
+    
+    pairs.sort((a, b) => a[0] - b[0])
+    worker.sort((a, b) => a - b)
+    
+    let sum = 0
+    let i = 0
+    let best = 0
+    
+    for (const w of worker) {
+        while (i < pairs.length && pairs[i][0] <= w) {
+            if (best < pairs[i][1]) {
+                best = pairs[i][1]
+            }
+            i++
+        }
+        
+        sum += best
+    }
+    
+    return sum
+};
+```
