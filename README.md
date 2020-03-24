@@ -27508,3 +27508,26 @@ var threeSumSmaller = function(nums, target) {
     return count
 };
 ```
+
+## 454. 4Sum II
+```javascript
+var fourSumCount = function(A, B, C, D) {
+    const freq = {}
+    let count = 0
+    for (const a of A) {
+        for (const b of B) {
+            const sum = a + b
+            freq[sum] = 1 + (freq[sum] || 0) 
+        }
+    }
+    
+    for (const c of C) {
+        for (const d of D) {
+            const sum = c + d
+            if (freq[-sum]) count += freq[-sum]
+        }
+    }
+    
+    return count
+};
+```
