@@ -27557,3 +27557,18 @@ var numSubarrayProductLessThanK = function(nums, k) {
     return count
 };
 ```
+
+## 80. Remove Duplicates from Sorted Array II
+```javascript
+var removeDuplicates = function(nums) {
+    let left = 2
+    
+    for (let right = 2; right < nums.length; right++) {
+        if (nums[right] !== nums[left - 2]) {
+            nums[left++] = nums[right]
+        }
+    }
+    
+    return left
+};
+```
