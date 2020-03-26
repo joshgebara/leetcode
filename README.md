@@ -27659,3 +27659,42 @@ PhoneDirectory.prototype.release = function(number) {
 // Linked List
 
 ```
+
+## 1352. Product of the Last K Numbers
+```javascript
+
+var ProductOfNumbers = function() {
+    this.p = []
+    this.add(0)
+};
+
+/** 
+ * @param {number} num
+ * @return {void}
+ */
+ProductOfNumbers.prototype.add = function(num) {
+    if (num < 1) {
+        this.p = [1]
+        return
+    }
+    
+    const last = this.p[this.p.length - 1]
+    this.p.push(num * last)
+};
+
+/** 
+ * @param {number} k
+ * @return {number}
+ */
+ProductOfNumbers.prototype.getProduct = function(k) {
+    if (k >= this.p.length) return 0
+    return this.p[this.p.length - 1] / this.p[this.p.length - k - 1]
+};
+
+/** 
+ * Your ProductOfNumbers object will be instantiated and called as such:
+ * var obj = new ProductOfNumbers()
+ * obj.add(num)
+ * var param_2 = obj.getProduct(k)
+ */
+```
