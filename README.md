@@ -27598,3 +27598,61 @@ const isMatch = (query, pattern) => {
     return p === pattern.length
 }
 ```
+
+## 379. Design Phone Directory
+```javascript
+// Set
+/**
+ * Initialize your data structure here
+        @param maxNumbers - The maximum numbers that can be stored in the phone directory.
+ * @param {number} maxNumbers
+ */
+var PhoneDirectory = function(maxNumbers) {
+    this.available = new Set()
+    for (let i = 0; i < maxNumbers; i++) {
+        this.available.add(i)
+    }
+};
+
+/**
+ * Provide a number which is not assigned to anyone.
+        @return - Return an available number. Return -1 if none is available.
+ * @return {number}
+ */
+PhoneDirectory.prototype.get = function() {
+    if (!this.available.size) return -1
+    
+    const num = this.available.values().next().value
+    this.available.delete(num)
+    return num
+};
+
+/**
+ * Check if a number is available or not. 
+ * @param {number} number
+ * @return {boolean}
+ */
+PhoneDirectory.prototype.check = function(number) {
+    return this.available.has(number)
+};
+
+/**
+ * Recycle or release a number. 
+ * @param {number} number
+ * @return {void}
+ */
+PhoneDirectory.prototype.release = function(number) {
+    this.available.add(number)
+};
+
+/** 
+ * Your PhoneDirectory object will be instantiated and called as such:
+ * var obj = new PhoneDirectory(maxNumbers)
+ * var param_1 = obj.get()
+ * var param_2 = obj.check(number)
+ * obj.release(number)
+ */
+
+// Linked List
+
+```
