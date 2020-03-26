@@ -27572,3 +27572,29 @@ var removeDuplicates = function(nums) {
     return left
 };
 ```
+
+## 1023. Camelcase Matching
+```javascript
+// Two Pointer
+var camelMatch = function(queries, pattern) {
+    return queries.map(query => isMatch(query, pattern))
+};
+
+const isMatch = (query, pattern) => {
+    let p = 0
+    for (const char of query) {
+        if (char === pattern[p]) {
+            p++
+            continue
+        }
+        
+        if (char >= 'a' && char <= 'z') {
+            continue
+        }
+        
+        return false
+    }
+    
+    return p === pattern.length
+}
+```
