@@ -27608,10 +27608,9 @@ const isMatch = (query, pattern) => {
  * @param {number} maxNumbers
  */
 var PhoneDirectory = function(maxNumbers) {
-    this.available = new Set()
-    for (let i = 0; i < maxNumbers; i++) {
-        this.available.add(i)
-    }
+    this.released = new Set()
+    this.max = maxNumbers
+    this.next = 0
 };
 
 /**
@@ -27620,11 +27619,15 @@ var PhoneDirectory = function(maxNumbers) {
  * @return {number}
  */
 PhoneDirectory.prototype.get = function() {
-    if (!this.available.size) return -1
+    if (this.next < this.max) {
+        const number = this.next++
+        return number
+    }
     
-    const num = this.available.values().next().value
-    this.available.delete(num)
-    return num
+    const number = this.released.values().next().value
+    if (number === undefined) return -1
+    this.released.delete(number)
+    return number
 };
 
 /**
@@ -27633,7 +27636,7 @@ PhoneDirectory.prototype.get = function() {
  * @return {boolean}
  */
 PhoneDirectory.prototype.check = function(number) {
-    return this.available.has(number)
+    return this.released.has(number) || (this.next <= number && number < this.max)
 };
 
 /**
@@ -27642,7 +27645,7 @@ PhoneDirectory.prototype.check = function(number) {
  * @return {void}
  */
 PhoneDirectory.prototype.release = function(number) {
-    this.available.add(number)
+    if (number < this.next) this.released.add(number)
 };
 
 /** 
