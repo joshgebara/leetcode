@@ -27725,3 +27725,26 @@ var sortString = function(s) {
 const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
 ```
+
+## 1356. Sort Integers by The Number of 1 Bits
+```javascript
+var sortByBits = function(arr) {
+    const memo = {}
+    return arr.sort((a, b) => numOfOnes(a, memo) - numOfOnes(b, memo) || a - b)
+};
+
+const numOfOnes = (num, memo) => {
+    if (memo[num]) return memo[num]
+    
+    let bin = num
+    let count = 0
+    
+    while (bin) {
+        count++
+        bin &= bin - 1
+    }
+    
+    memo[num] = count
+    return count
+}
+```
