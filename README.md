@@ -27777,3 +27777,13 @@ var diagonalSort = function(mat) {
     return mat
 };
 ```
+
+## 1333. Filter Restaurants by Vegan-Friendly, Price and Distance
+```javascript
+var filterRestaurants = function(restaurants, veganFriendly, maxPrice, maxDistance) {
+    return restaurants
+            .filter(([i, r, v, p, d]) => d <= maxDistance && p <= maxPrice && v >= veganFriendly)
+            .sort((r1, r2) => r2[1] - r1[1] || r2[0] - r1[0])
+            .map(r => r[0])
+};
+```
