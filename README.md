@@ -27748,3 +27748,32 @@ const numOfOnes = (num, memo) => {
     return count
 }
 ```
+
+## 1329. Sort the Matrix Diagonally
+```javascript
+var diagonalSort = function(mat) {
+    const diagonals = {}
+    
+    for (let row = 0; row < mat.length; row++) {
+        for (let col = 0; col < mat[0].length; col++) {
+            if (diagonals[row - col]) {
+                diagonals[row - col].push(mat[row][col])
+            } else {
+                diagonals[row - col] = [mat[row][col]]
+            }
+        }
+    }
+    
+    for (const arr of Object.values(diagonals)) {
+        arr.sort((a, b) => b - a)
+    }
+    
+    for (let row = 0; row < mat.length; row++) {
+        for (let col = 0; col < mat[0].length; col++) {
+            mat[row][col] = diagonals[row - col].pop()
+        }
+    }
+    
+    return mat
+};
+```
