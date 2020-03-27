@@ -27655,9 +27655,6 @@ PhoneDirectory.prototype.release = function(number) {
  * var param_2 = obj.check(number)
  * obj.release(number)
  */
-
-// Linked List
-
 ```
 
 ## 1352. Product of the Last K Numbers
@@ -27697,4 +27694,34 @@ ProductOfNumbers.prototype.getProduct = function(k) {
  * obj.add(num)
  * var param_2 = obj.getProduct(k)
  */
+```
+
+## 1370. Increasing Decreasing String
+```javascript
+var sortString = function(s) {
+    const charCounts = Array(26).fill(0)
+    for (const char of s) {
+        charCounts[posForChar(char)]++
+    }
+    
+    const result = []
+    while (result.length !== s.length) {
+        for (let i = 0; i < charCounts.length; i++) {
+            if (!charCounts[i]) continue
+            result.push(charForPos(i))
+            charCounts[i]--
+        }
+        
+        for (let i = charCounts.length - 1; i >= 0; i--) {
+            if (!charCounts[i]) continue
+            result.push(charForPos(i))
+            charCounts[i]--
+        }
+    }
+    
+    return result.join('')
+};
+
+const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
 ```
