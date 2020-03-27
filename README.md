@@ -27787,3 +27787,20 @@ var filterRestaurants = function(restaurants, veganFriendly, maxPrice, maxDistan
             .map(r => r[0])
 };
 ```
+
+## 274. H-Index
+```javascript
+// Comparison Sort
+var hIndex = function(citations) {    
+    citations.sort((a, b) => b - a)
+    
+    let h = 0
+    for (let i = 0; i < citations.length; i++) {
+        if (citations[i] > i) h++
+    }
+    
+    return h
+};
+
+
+```
