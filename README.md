@@ -27802,5 +27802,25 @@ var hIndex = function(citations) {
     return h
 };
 
-
+// Counting Sort
+var hIndex = function(citations) {
+    const n = citations.length
+    const counts = Array(n + 1).fill(0)
+    
+    for (const citation of citations) {
+        if (citation >= n) {
+            counts[n]++
+        } else {
+            counts[citation]++
+        }
+    }
+    
+    let count = 0
+    for (let i = counts.length - 1; i >= 0; i--) {
+        count += counts[i]
+        if (count >= i) return i
+    }
+    
+    return 0
+};
 ```
