@@ -27824,3 +27824,174 @@ var hIndex = function(citations) {
     return 0
 };
 ```
+
+## 1244. Design A Leaderboard
+```javascript
+// Object Sorting
+var Leaderboard = function() {
+    this.playerMap = {}
+    this.scoreMap = {}
+};
+
+/** 
+ * @param {number} playerId 
+ * @param {number} score
+ * @return {void}
+ */
+Leaderboard.prototype.addScore = function(playerId, score) {
+    this.removeOldScore(playerId)
+    this.playerMap[playerId] = score + (this.playerMap[playerId] || 0)
+    this.addNewScore(playerId)
+};
+
+/** 
+ * @param {number} K
+ * @return {number}
+ */
+Leaderboard.prototype.top = function(K) {
+    let sum = 0
+    let count = 0
+    
+    const scores = Object.entries(this.scoreMap)
+    for (let i = scores.length - 1; i >= 0; i--) {
+        const [score, players] = scores[i]
+        
+        sum += +score * players.size
+        count += players.size
+        
+        if (count > K) {
+            const diff = K - count
+            sum -= Math.abs(+score * diff)
+            break
+        }
+
+        if (count === K) break    
+    }
+    
+    return sum
+};
+
+/** 
+ * @param {number} playerId
+ * @return {void}
+ */
+Leaderboard.prototype.reset = function(playerId) {
+    this.removeOldScore(playerId)
+    this.playerMap[playerId] = 0
+    this.addNewScore(playerId)
+};
+
+Leaderboard.prototype.removeOldScore = function(playerId) {
+    const oldScore = this.playerMap[playerId]
+    if (this.scoreMap[oldScore])
+        this.scoreMap[oldScore].delete(playerId)
+}
+
+Leaderboard.prototype.addNewScore = function(playerId) {
+    const newScore = this.playerMap[playerId]
+    if (!this.scoreMap[newScore])
+        this.scoreMap[newScore] = new Set()
+    
+    this.scoreMap[newScore].add(playerId)
+}
+
+/** 
+ * Your Leaderboard object will be instantiated and called as such:
+ * var obj = new Leaderboard()
+ * obj.addScore(playerId,score)
+ * var param_2 = obj.top(K)
+ * obj.reset(playerId)
+ */
+
+// Quick Select
+
+var Leaderboard = function() {
+    this.map = {}
+};
+
+/** 
+ * @param {number} playerId 
+ * @param {number} score
+ * @return {void}
+ */
+Leaderboard.prototype.addScore = function(playerId, score) {
+    this.map[playerId] = score + (this.map[playerId] || 0)
+};
+
+/** 
+ * @param {number} K
+ * @return {number}
+ */
+Leaderboard.prototype.top = function(K) {
+    const scores = Object.entries(this.map)
+    const index = quickSelect(scores, scores.length - K)
+    
+    let sum = 0
+    for (let i = index; i < scores.length; i++) {
+        sum += scores[i][1]
+    }
+    return sum
+};
+
+/** 
+ * @param {number} playerId
+ * @return {void}
+ */
+Leaderboard.prototype.reset = function(playerId) {
+    this.map[playerId] = 0
+};
+
+const quickSelect = (arr, K) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left !== right) {
+        const randomIndex = random(left, right)
+        
+        swap(arr, randomIndex, right)
+        
+        const partitionIndex = partition(arr, left, right)
+        if (partitionIndex === K) return partitionIndex
+        
+        if (partitionIndex > K) {
+            right = partitionIndex - 1
+        } else {
+            left = partitionIndex + 1
+        }
+    }
+    
+    return left
+}
+
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+const partition = (arr, left, right) => {
+    let pivotElement = arr[right][1]
+    let i = left - 1
+    
+    for (let j = left; j < right; j++) {
+        if (arr[j][1] <= pivotElement) {
+            swap(arr, ++i, j)
+        }
+    }
+    
+    swap(arr, ++i, right)
+    return i
+}
+
+/** 
+ * Your Leaderboard object will be instantiated and called as such:
+ * var obj = new Leaderboard()
+ * obj.addScore(playerId,score)
+ * var param_2 = obj.top(K)
+ * obj.reset(playerId)
+ */
+```
