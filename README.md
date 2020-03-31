@@ -27995,3 +27995,33 @@ const partition = (arr, left, right) => {
  * obj.reset(playerId)
  */
 ```
+
+## 1366. Rank Teams by Votes
+```javascript
+var rankTeams = function(votes) {
+    const teams = {}
+    const result = []
+    const pos = votes[0].length
+    
+    for (const vote of votes) {
+        for (let i = 0; i < pos; i++) {
+            if (!teams[vote[i]]) teams[vote[i]] = Array(pos).fill(0)
+            teams[vote[i]][i] = 1 + (teams[vote[i]][i] || 0)
+        }
+    }
+    
+    const sortedTeams = Object.entries(teams)
+    sortedTeams.sort(([aName, aVotes], [bName, bVotes]) => {
+        for (let i = 0; i < pos; i++) {
+            if (aVotes[i] !== bVotes[i])
+                return bVotes[i] - aVotes[i]
+        }
+        
+        if (aName < bName) return -1
+        if (aName > bName) return 1
+        return 0
+    })
+    
+    return sortedTeams.map(t => t[0]).join('')
+};
+```
