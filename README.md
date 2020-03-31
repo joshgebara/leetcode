@@ -28025,3 +28025,85 @@ var rankTeams = function(votes) {
     return sortedTeams.map(t => t[0]).join('')
 };
 ```
+
+## 1387. Sort Integers by The Power Value
+```javascript
+/**
+ * @param {number} lo
+ * @param {number} hi
+ * @param {number} k
+ * @return {number}
+ */
+
+const dp = { 1: 0 }
+
+var getKth = function(lo, hi, k) {
+    const result = []
+    
+    while (lo <= hi) {
+        result.push([lo, power(lo++, dp)])
+    }
+    
+    return quickSelect(result, k - 1)
+};
+
+const power = (num, dp) => {
+    if (dp[num] || num === 1)
+        return dp[num]
+    
+    if (num % 2) {
+        dp[num] = 1 + power(3 * num + 1, dp)
+    } else {
+        dp[num] = 1 + power(Math.floor(num / 2), dp)
+    }
+    
+    return dp[num]
+}
+
+const quickSelect = (arr, k) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left !== right) {
+        const randomIndex = random(left, right)
+        swap(arr, randomIndex, right)
+        
+        const partitionIndex = partition(arr, left, right)
+        if (partitionIndex === k) {
+            return arr[partitionIndex][0]
+        }
+        
+        if (partitionIndex > k) {
+            right = partitionIndex - 1
+        } else {
+            left = partitionIndex + 1
+        }
+    }
+    
+    return arr[left][0]
+}
+
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const partition = (arr, start, end) => {
+    let pivot = arr[end]
+    
+    let i = start - 1
+    for (let j = start; j < end; j++) {
+        if (arr[j][1] < pivot[1] || (arr[j][1] === pivot[1] && arr[j][0] < pivot[0])) {
+            swap(arr, ++i, j)
+        }
+    }
+    
+    swap(arr, ++i, end)
+    return i
+}
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+```
