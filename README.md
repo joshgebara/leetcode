@@ -28107,3 +28107,66 @@ const swap = (arr, i, j) => {
     arr[j] = temp
 }
 ```
+
+## 1239. Maximum Length of a Concatenated String with Unique Characters
+```javascript
+// Backtracking + Set
+var maxLength = function(arr) {
+    const _maxLength = (currIndex, curr) => {
+        max = Math.max(curr.length, max)
+        
+        if (currIndex === arr.length) {    
+            return
+        }
+
+        for (let i = currIndex; i < arr.length; i++) {
+            const next = [...curr, ...arr[i]]
+            if (hasDuplicate(next)) continue
+            
+            _maxLength(i + 1, next)
+        }
+    }
+    
+    const hasDuplicate = eles => {
+        const unique = new Set(eles)
+        return eles.length !== unique.size
+    }
+    
+    const result = []
+    let max = 0
+    _maxLength(0, [])
+    return max
+};
+
+// Backtracking + Bit Set
+var maxLength = function(arr) {
+    const _maxLength = (currIndex, bitSet, currLength) => {
+        max = Math.max(currLength, max)
+        
+        if (currIndex === arr.length) {    
+            return
+        }
+
+        outer: for (let i = currIndex; i < arr.length; i++) {
+            let nextBitSet = bitSet
+            let nextLength = currLength
+            
+            for (const char of arr[i]) {
+                const pos = char.charCodeAt(0) - 'a'.charCodeAt(0)
+                
+                if (nextBitSet & (1 << pos)) 
+                    continue outer
+                
+                nextBitSet |= (1 << pos)
+                nextLength++
+            }
+            
+            _maxLength(i + 1, nextBitSet, nextLength)
+        }
+    }
+    
+    let max = 0
+    _maxLength(0, 0, 0)
+    return max
+};
+```
