@@ -15643,6 +15643,7 @@ var canConstruct = function(ransomNote, magazine) {
 
 ## 202. Happy Number
 ```javascript
+// Hash Set
 var isHappy = function(n) {
     const seen = new Set()
     let curr = n
@@ -15664,6 +15665,39 @@ var isHappy = function(n) {
     }    
     return true
 };
+
+// Hash Set + DP
+const dp = { 1: true }
+
+var isHappy = function(n) {
+    if (dp[n] !== undefined) return dp[n]
+    
+    const _isHappy = num => {
+        if (dp[num] || num === 1) return true
+        
+        if (seen.has(num)) return false
+        seen.add(num)
+        
+        const result = _isHappy(squareSum(num))
+        dp[num] = result
+        return result
+    }
+    
+    const seen = new Set()
+    _isHappy(n)
+    return dp[n]
+};
+
+const squareSum = num => {
+    let result = 0
+
+    while (num) {
+        result += (num % 10) ** 2
+        num = Math.floor(num / 10)
+    }
+
+    return result
+}
 ```
 
 ## 258. Add Digits
