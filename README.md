@@ -28231,4 +28231,27 @@ var countSteppingNumbers = function(low, high) {
 };
 
 // BFS
+var countSteppingNumbers = function(low, high) {
+    const result = []
+    const queue = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    
+    while (queue.length) {
+        const num = queue.shift()
+
+        if (low <= num && num <= high)
+            result.push(num)
+        
+        if (num > high || num === 0) continue
+        
+        const last = num % 10
+        const next = num * 10 + last + 1
+        const prev = num * 10 + last - 1
+        
+        if (last !== 0) queue.push(prev)
+        if (last !== 9) queue.push(next)
+    }
+    
+    result.sort((a, b) => a - b)
+    return result
+};
 ```
