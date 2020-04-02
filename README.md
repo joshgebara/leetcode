@@ -28204,3 +28204,31 @@ var maxLength = function(arr) {
     return max
 };
 ```
+
+## 1215. Stepping Numbers
+```javascript
+// DFS
+var countSteppingNumbers = function(low, high) {
+    const _countSteppingNumbers = num => {
+        if (num >= low && num <= high) result.push(num)
+        if (num > high || num === 0) return
+        
+        const last = num % 10
+        const next = num * 10 + last + 1
+        const prev = num * 10 + last - 1        
+        
+        if (last !== 0) _countSteppingNumbers(prev)
+        if (last !== 9) _countSteppingNumbers(next)
+    }
+    
+    const result = []
+    for (let i = 0; i <= 9; i++) {
+        _countSteppingNumbers(i)
+    }
+    
+    result.sort((a, b) => a - b)
+    return result
+};
+
+// BFS
+```
