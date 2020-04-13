@@ -5272,6 +5272,37 @@ var majorityElement = function(nums) {
 };
 
 majorityElement([2,1,2,4,7,7,7,7,7])
+
+// Divide And Conquer
+var majorityElement = function(nums) {
+    const _majorityElement = (nums, low, high) => {
+        if (low === high) return nums[low]
+        
+        const mid = Math.floor((high - low) / 2) + low
+        const left = _majorityElement(nums, low, mid)
+        const right = _majorityElement(nums, mid + 1, high)
+        
+        if (left === right)
+            return left
+        
+        const leftCount = countInRange(nums, left, low, high)
+        const rightCount = countInRange(nums, right, low, high)
+        
+        return leftCount > rightCount ? left : right
+    }
+    
+    const countInRange = (nums, ele, low, high) => {
+        let count = 0
+        for (const num of nums) {
+            if (num === ele) {
+                count++
+            }
+        }
+        return count
+    }
+    
+    return _majorityElement(nums, 0, nums.length - 1)
+};
 ```
 
 ## 217. Contains Duplicate
@@ -10378,6 +10409,37 @@ const swap = (arr, i, j) => {
     const temp = arr[i]
     arr[i] = arr[j]
     arr[j] = temp
+}
+
+// Counter
+var permuteUnique = function(nums) {
+    const _permuteUnique = (list) => {
+        if (list.length === nums.length) {
+            result.push(list.slice())
+            return
+        }
+        
+        for (const char of Object.keys(counter)) {
+            if (counter[char] <= 0) continue
+            counter[char]--
+            list.push(char)
+            _permuteUnique(list)
+            list.pop()
+            counter[char]++
+        }
+    }
+    
+    const result = []
+    const counter = count(nums)
+    _permuteUnique([])
+    return result
+};
+
+const count = nums => {
+    return nums.reduce((result, ele) => {
+        result[ele] = 1 + (result[ele] || 0)
+        return result
+    }, [])
 }
 ```
 
