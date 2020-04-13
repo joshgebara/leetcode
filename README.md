@@ -28412,3 +28412,33 @@ var splitIntoFibonacci = function(S) {
     return result
 };
 ```
+
+## 306. Additive Number
+```javascript
+var isAdditiveNumber = function(num) {
+    const _isAdditiveNumber = (list, currIndex) => {
+        if (currIndex === num.length) {
+            return list.length > 2
+        }
+        
+        let currNum = 0
+        for (let i = currIndex; i < num.length; i++) {
+            if (i > currIndex && currNum === 0) return false
+            
+            currNum *= 10
+            currNum += +num[i]
+
+            if (list.length < 2 || (list[list.length - 1] + list[list.length - 2] === currNum)) {
+                list.push(currNum)
+                if (_isAdditiveNumber(list, i + 1)) 
+                    return true
+                
+                list.pop()
+            }
+        }
+        return false
+    }
+    
+    return _isAdditiveNumber([], 0)
+};
+```
