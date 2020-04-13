@@ -28317,3 +28317,57 @@ var countSteppingNumbers = function(low, high) {
     return result
 };
 ```
+
+## 267. Palindrome Permutation II
+```javascript
+var generatePalindromes = function(s) {
+    const map = Array(256).fill(0)
+    
+    let oddCount = 0
+    for (const char of s) {
+        const pos = char.charCodeAt(0)
+        map[pos] = 1 + (map[pos] || 0)
+        map[pos] & 1 ? oddCount++ : oddCount--
+    }
+    
+    if (!s.length || oddCount > 1) return []
+    
+    const str = []
+    let oddChar = ''
+    
+    for (let i = 0; i < 256; i++) {
+        if (map[i] & 1) {
+            oddChar = String.fromCharCode(i)
+            map[i]--
+        }
+        
+        if (!map[i]) continue
+        const half = map[i] / 2
+        for (let j = 0; j < half; j++) {
+            str.push(String.fromCharCode(i))
+            map[i]--
+        }
+    }
+        
+    const result = []
+    _generatePalindromes(result, str, map, oddChar, [])
+    return result
+};
+
+const _generatePalindromes = (result, str, map, oddChar, curr) => {
+    if (str.length === curr.length) {
+        const palindrome = [...curr, oddChar, ...curr.slice().reverse()]
+        result.push(palindrome.join(''))
+        return
+    }
+    
+    for (let i = 0; i < 256; i++) {
+        if (map[i] <= 0) continue
+        map[i]--
+        curr.push(String.fromCharCode(i))
+        _generatePalindromes(result, str, map, oddChar, curr)
+        curr.pop()
+        map[i]++
+    }
+}
+```
