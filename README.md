@@ -28371,3 +28371,44 @@ const _generatePalindromes = (result, str, map, oddChar, curr) => {
     }
 }
 ```
+
+## 842. Split Array into Fibonacci Sequence
+```javascript
+/**
+ * @param {string} S
+ * @return {number[]}
+ */
+var splitIntoFibonacci = function(S) {
+    const _splitIntoFibonacci = currIndex => {
+        if (currIndex === S.length) {
+            return result.length > 2 ? true : false
+        }
+        
+        let currNum = 0
+        for (let i = currIndex; i < S.length; i++) {
+            if (i > currIndex && currNum === 0) return false
+            
+            currNum *= 10
+            currNum += +S[i]
+            
+            if (currNum > max) return false
+
+            if (result.length < 2 || result[result.length - 1] + result[result.length - 2] === currNum) {
+                result.push(currNum)
+
+                if (_splitIntoFibonacci(i + 1)) 
+                    return true
+
+                result.pop(currNum)
+            }
+        }
+        
+        return false
+    }
+    
+    const max = Math.pow(2, 31) - 1
+    const result = []
+    _splitIntoFibonacci(0)
+    return result
+};
+```
