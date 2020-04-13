@@ -28452,7 +28452,7 @@ var numberOfSteps  = function(num) {
         if (num & 1) {
             num--            
         } else {
-            num >>>= 1    
+            num >>= 1    
         }
         
         steps++
