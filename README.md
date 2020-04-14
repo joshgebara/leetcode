@@ -28620,3 +28620,26 @@ var countSegments = function(s) {
     return count
 };
 ```
+
+## 1324. Print Words Vertically
+```javascript
+var printVertically = function(s) {
+    const matrix = s.split(' ')
+    const maxCol = Math.max(...matrix.map(word => word.length))
+    const result = []
+    
+    for (let col = 0; col < maxCol; col++) {
+        const word = []
+        for (let row = 0; row < matrix.length; row++) {
+            !matrix[row][col] ? word.push(' ') : word.push(matrix[row][col])
+        }
+        
+        while (word[word.length - 1] === ' ') 
+            word.pop()
+        
+        result.push(word.join(''))
+    }
+    
+    return result
+};
+```
