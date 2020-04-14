@@ -28650,3 +28650,12 @@ var generateTheString = function(n) {
     return n & 1 ? 'a'.repeat(n) : 'a'.repeat(n - 1) + 'b'
 };
 ```
+
+## 1332. Remove Palindromic Subsequences
+```javascript
+var removePalindromeSub = function(s) {
+    if (!s.length) return 0
+    if (s === s.split('').reverse().join('')) return 1
+    return 2
+};
+```
