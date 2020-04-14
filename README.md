@@ -28560,3 +28560,21 @@ CustomStack.prototype.increment = function(k, val) {
  * obj.increment(k,val)
  */
 ```
+
+## 1003. Check If Word Is Valid After Substitutions
+```javascript
+var isValid = function(S) {
+    const stack = []
+    
+    for (const char of S) {
+        if (char === 'c') {
+            if (!stack.length || stack.pop() !== 'b') return false
+            if (!stack.length || stack.pop() !== 'a') return false
+        } else {
+            stack.push(char)
+        }
+    }
+    
+    return !stack.length
+};
+```
