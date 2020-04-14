@@ -28643,3 +28643,10 @@ var printVertically = function(s) {
     return result
 };
 ```
+
+## 1374. Generate a String With Characters That Have Odd Counts
+```javascript
+var generateTheString = function(n) {    
+    return n & 1 ? 'a'.repeat(n) : 'a'.repeat(n - 1) + 'b'
+};
+```
