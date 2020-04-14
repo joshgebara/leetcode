@@ -28578,3 +28578,31 @@ var isValid = function(S) {
     return !stack.length
 };
 ```
+
+## 848. Shifting Letters
+```javascript
+/**
+ * @param {string} S
+ * @param {number[]} shifts
+ * @return {string}
+ */
+var shiftingLetters = function(S, shifts) {
+    const str = S.split('')
+    
+    let sum = 0
+    for (let i = shifts.length - 1; i >= 0; i--) {
+        sum += shifts[i]
+        str[i] = letterFromShift(str[i], sum)
+    }
+
+    return str.join('')
+};
+
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
+const letterFromShift = (letter, shift) => {
+    const index = letter.charCodeAt(0) - 'a'.charCodeAt(0)
+    const shiftIndex = (index + shift) % 26
+    return alphabet[shiftIndex]
+}
+```
