@@ -28507,5 +28507,56 @@ CustomStack.prototype.increment = function(k, val) {
  */
 
  // Lazy Inc
+/**
+ * @param {number} maxSize
+ */
+var CustomStack = function(maxSize) {
+    this.maxSize = maxSize
+    this.stack = []
+    this.inc = Array(maxSize).fill(0)
+};
 
+/** 
+ * @param {number} x
+ * @return {void}
+ */
+CustomStack.prototype.push = function(x) {
+    if (this.stack.length < this.maxSize)
+        this.stack.push(x)
+};
+
+/**
+ * @return {number}
+ */
+CustomStack.prototype.pop = function() {
+    const i = this.stack.length - 1
+    
+    if (i < 0)
+        return -1
+    
+    if (i > 0)
+        this.inc[i - 1] += this.inc[i]
+    
+    const result = this.stack.pop() + this.inc[i]
+    this.inc[i] = 0
+    return result
+};
+
+/** 
+ * @param {number} k 
+ * @param {number} val
+ * @return {void}
+ */
+CustomStack.prototype.increment = function(k, val) {
+    const i = Math.min(this.stack.length, k) - 1
+    this.inc[i] += val
+};
+
+/** 
+ * Your CustomStack object will be instantiated and called as such:
+ * var obj = new CustomStack(maxSize)
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * obj.increment(k,val)
+ */
 ```
