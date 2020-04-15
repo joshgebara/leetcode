@@ -5387,6 +5387,46 @@ var maxSubArray = function(nums) {
     }
     return globalMax
 };
+
+// Divide And Conquer
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function(nums) {
+    const _maxSubArray = (left, right) => {
+        if (left === right) return nums[left]
+        
+        const mid = Math.floor((right - left) / 2) + left
+        const leftMax = _maxSubArray(left, mid)
+        const rightMax = _maxSubArray(mid + 1, right)
+        const crossMax = _maxCrossing(left, right, mid)
+        
+        return Math.max(leftMax, rightMax, crossMax)
+    }
+    
+    const _maxCrossing = (left, right, mid) => {
+        if (left === right) return nums[left]
+        
+        let leftSum = -Number.MAX_VALUE
+        let currSum = 0
+        for (let i = mid; i > left - 1; i--) {
+          currSum += nums[i]
+          leftSum = Math.max(leftSum, currSum)
+        }
+
+        let rightSum = -Number.MAX_VALUE
+        currSum = 0
+        for (let i = mid + 1; i < right + 1; i++) {
+          currSum += nums[i]
+          rightSum = Math.max(rightSum, currSum)
+        }
+
+        return leftSum + rightSum
+    }
+    
+    return _maxSubArray(0, nums.length - 1)
+};
 ```
 
 ## 1128. Number of Equivalent Domino Pairs
