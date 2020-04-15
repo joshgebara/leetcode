@@ -28659,3 +28659,26 @@ var removePalindromeSub = function(s) {
     return 2
 };
 ```
+
+## Product of Array Except Self
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelf = function(nums) {
+    const result = Array(nums.length).fill(1)
+    
+    for (let i = 1; i < nums.length; i++) {
+        result[i] = nums[i - 1] * result[i - 1]
+    }
+
+    let product = 1
+    for (let i = result.length - 1; i >= 0; i--) {
+        result[i] *= product
+        product *= nums[i]
+    }
+    
+    return result
+};
+```
