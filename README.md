@@ -28722,3 +28722,31 @@ var productExceptSelf = function(nums) {
     return result
 };
 ```
+
+## 276. Paint Fence
+```javascript
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+var numWays = function(n, k) {
+    if (n === 0) return 0
+    if (n === 1) return k
+    
+    let same = k
+    let different = k * (k - 1)
+    
+    let prevSame = same
+    let prevDifferent = different
+    
+    for (let i = 3; i <= n; i++) {
+        same = prevDifferent
+        different = (prevSame + prevDifferent) * (k - 1)
+        prevSame = same
+        prevDifferent = different
+    }
+    
+    return same + different
+};
+```
