@@ -15427,6 +15427,87 @@ var numIslands = function(grid) {
     }
     return numOfIslands
 };
+
+// Union Find
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var numIslands = function(grid) {
+    if (!grid.length) return 0
+    
+    const m = grid.length
+    const n = grid[0].length
+    let count = 0
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === '1') {
+                count++
+            }
+        }
+    }
+    
+    const set = new DisjointSet(m, n, count)
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === '1') {
+                if (row + 1 < m && grid[row + 1][col] == '1') 
+                    set.union(row * n + col, (row + 1) * n + col)
+                if (col + 1 < n && grid[row][col + 1] == '1') 
+                    set.union(row * n + col, row * n + col + 1)
+            }
+        }
+    }
+    
+    return set.numOfComponents
+};
+
+class DisjointSet {
+    constructor(row, col, count) {
+        this.numOfComponents = count
+        
+        this.sizes = []
+        this.parent = []
+        
+        for (let i = 0; i < row * col; i++) {
+            this.parent.push(i)
+            this.sizes.push(1)
+        }
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root])
+            root = this.parent[root]
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return 
+        
+        if (this.sizes[rootP] < this.sizes[rootQ]) {
+            this.sizes[rootQ] += this.sizes[rootP]
+            this.parent[rootP] = rootQ
+        } else {
+            this.sizes[rootP] += this.sizes[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
 ```
 
 ## Bucket Sort
