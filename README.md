@@ -28750,3 +28750,30 @@ var numWays = function(n, k) {
     return same + different
 };
 ```
+
+## 523. Continuous Subarray Sum
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var checkSubarraySum = function(nums, k) {
+    const map = { 0: -1 }
+    
+    let sum = 0
+    for (const [index, num] of nums.entries()) {
+        sum += num
+        
+        if (k) sum %= k
+        
+        if (map[sum] !== undefined) {
+            if (index - map[sum] > 1) return true
+        } else {
+            map[sum] = index
+        }
+    } 
+    
+    return false
+};
+```
