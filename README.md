@@ -28880,5 +28880,17 @@ var minCostClimbingStairs = function(cost) {
     return Math.min(_minCostClimbingStairs(n - 1), _minCostClimbingStairs(n - 2))
 };
 
-
+// Bottom-Up DP
+var minCostClimbingStairs = function(cost) {
+    let step1 = cost[0]
+    let step2 = cost[1]
+    
+    for (let i = 2; i < cost.length; i++) {
+        const curr = cost[i] + Math.min(step1, step2)
+        step1 = step2
+        step2 = curr
+    }
+    
+    return Math.min(step1, step2)
+};
 ```
