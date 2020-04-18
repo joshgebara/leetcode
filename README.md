@@ -28858,3 +28858,27 @@ var checkSubarraySum = function(nums, k) {
     return false
 };
 ```
+
+## 746. Min Cost Climbing Stairs
+```javascript
+// Top Down DP
+/**
+ * @param {number[]} cost
+ * @return {number}
+ */
+var minCostClimbingStairs = function(cost) {    
+    const _minCostClimbingStairs = i => {        
+        if (i < 0) return 0
+        if (memo[i]) return memo[i]
+
+    	memo[i] = cost[i] + Math.min(_minCostClimbingStairs(i - 1), _minCostClimbingStairs(i - 2))
+        return memo[i]
+    }
+    
+    const memo = {}
+    const n = cost.length
+    return Math.min(_minCostClimbingStairs(n - 1), _minCostClimbingStairs(n - 2))
+};
+
+
+```
