@@ -28894,3 +28894,35 @@ var minCostClimbingStairs = function(cost) {
     return Math.min(step1, step2)
 };
 ```
+
+## 1025. Divisor Game
+```javascript
+// Top Down DP
+/**
+ * @param {number} N
+ * @return {boolean}
+ */
+
+const cache = {}
+
+var divisorGame = function(N) {
+    if (N <= 1) return false
+
+    if (cache[N]) return cache[N]
+
+    for (let i = 1; i < Math.floor(N / 2) + 1; i++) {
+        if (N % i === 0) {
+            if (!divisorGame(N - i)) {
+                cache[N] = true
+                return true
+            }
+        }
+    }
+
+    cache[N] = false
+    return false
+};
+
+// Bottom Up DP
+
+```
