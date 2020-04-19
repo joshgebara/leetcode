@@ -29036,7 +29036,7 @@ var uniquePaths = function(m, n) {
 
 ## 63. Unique Paths II
 ```javascript
-// Top Down DP
+// Top Down DP (TLE)
 /**
  * @param {number[][]} obstacleGrid
  * @return {number}
@@ -29062,5 +29062,30 @@ var uniquePathsWithObstacles = function(obstacleGrid) {
     return _uniquePathsWithObstacles(0, 0)
 };
 
-
+// Bottom Up DP
+var uniquePathsWithObstacles = function(obstacleGrid) {
+    const m = obstacleGrid.length
+    const n = obstacleGrid[0].length
+    const dp = Array(m).fill(0).map(a => Array(n).fill(0))
+    
+    for (let row = 0; row < m; row++) {
+        if (obstacleGrid[row][0] === 1) break
+        dp[row][0] = 1
+    }
+    
+    for (let col = 0; col < n; col++) {
+        if (obstacleGrid[0][col] === 1) break
+        dp[0][col] = 1
+    }
+    
+    for (let row = 1; row < m; row++) {
+        for (let col = 1; col < n; col++) {
+            if (obstacleGrid[row][col] === 1) continue
+            dp[row][col] = dp[row - 1][col] + dp[row][col - 1]
+        }
+    }
+    
+    
+    return dp[m - 1][n - 1]
+};
 ```
