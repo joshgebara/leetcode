@@ -28946,3 +28946,36 @@ var divisorGame = function(N) {
     return dp[N]
 };
 ```
+
+## 64. Minimum Path Sum
+```javascript
+// Top Down DP
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+    const _minPathSum = (row, col) => {    
+        if (row >= m || col >= n)
+            return Infinity
+            
+        if (row === m - 1 && col === n - 1)
+            return grid[row][col]
+        
+        if (memo[row][col])
+            return memo[row][col]
+        
+        memo[row][col] = grid[row][col] + Math.min(_minPathSum(row + 1, col), _minPathSum(row, col + 1))
+        return memo[row][col]
+    }
+    
+    if (!grid.length) return 0
+    
+    const m = grid.length
+    const n = grid[0].length
+    const memo = Array(m).fill(0).map(n => Array(n).fill(0))
+    return _minPathSum(0, 0)
+};
+
+// Bottom Up DP
+```
