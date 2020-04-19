@@ -28924,5 +28924,25 @@ var divisorGame = function(N) {
 };
 
 // Bottom Up DP
-
+/**
+ * @param {number} N
+ * @return {boolean}
+ */
+var divisorGame = function(N) {
+    const dp = Array(N + 1).fill(false)
+    
+    dp[0] = false
+    dp[1] = false
+    
+    for (let num = 2; num <= N; num++) {
+        for (let div = 1; div < Math.floor(num / 2) + 1; div++) {
+            if (num % div === 0 && !dp[num - div]) {
+                dp[num] = true
+                break
+            }
+        }
+    }
+    
+    return dp[N]
+};
 ```
