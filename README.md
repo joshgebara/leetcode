@@ -28979,3 +28979,59 @@ var minPathSum = function(grid) {
 
 // Bottom Up DP
 ```
+
+## 62. Unique Paths
+```javascript
+// Top Down DP
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function(m, n) {
+    const _uniquePaths = (row, col) => {        
+        if (row >= n || col >= m)
+            return 0
+        
+        if (row === n - 1 && col === m - 1)
+            return 1
+        
+        if (memo[row][col])
+            return memo[row][col]
+        
+        memo[row][col] = _uniquePaths(row + 1, col) + _uniquePaths(row, col + 1)
+        return memo[row][col]
+    }
+    
+    const memo = Array(n).fill(0).map(n => Array(m).fill(0))
+    return _uniquePaths(0, 0)
+};
+
+// Bottom Up DP
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function(m, n) {
+    const dp = Array(n).fill(0).map(a => Array(m).fill(0))
+
+    for (let row = 0; row < n; row++) {
+        dp[row][0] = 1
+    }
+    
+    for (let col = 0; col < m; col++) {
+        dp[0][col] = 1
+    }
+    
+    for (let row = 1; row < n; row++) {
+        for (let col = 1; col < m; col++) {
+            dp[row][col] = dp[row - 1][col] + dp[row][col - 1]
+        }
+    }
+    
+    return dp[n - 1][m - 1]
+};
+
+
+```
