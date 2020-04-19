@@ -29032,6 +29032,35 @@ var uniquePaths = function(m, n) {
     
     return dp[n - 1][m - 1]
 };
+```
+
+## 63. Unique Paths II
+```javascript
+// Top Down DP
+/**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function(obstacleGrid) {
+    const _uniquePathsWithObstacles = (row, col) => {
+        if (row >= m || col >= n || obstacleGrid[row][col] === 1)
+            return 0
+        
+        if (row === m - 1 && col === n - 1)
+            return 1
+        
+        if (memo[row][col])
+            return memo[row][col]
+        
+        memo[row][col] = _uniquePathsWithObstacles(row + 1, col) + _uniquePathsWithObstacles(row, col + 1)
+        return memo[row][col]
+    }
+    
+    const m = obstacleGrid.length
+    const n = obstacleGrid[0].length
+    const memo = Array(m).fill(0).map(n => Array(n).fill(0))
+    return _uniquePathsWithObstacles(0, 0)
+};
 
 
 ```
