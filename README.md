@@ -29113,7 +29113,32 @@ var uniquePaths = function(m, n) {
 };
 
 // Bottom UP DP N Space
-
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function(m, n) {
+    const dp = Array(n).fill(0)
+    
+    dp[0][0] = 1
+    
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < m; col++) {
+            if (!row && !col) {
+                dp[col] = 1
+            } else if (!row) {
+                dp[col] = dp[col - 1]
+            } else if (!col) {
+                dp[col] = dp[0]
+            } else {
+                dp[col] = dp[col] + dp[col - 1]
+            }
+        }
+    }
+    
+    return dp[m - 1]
+};
 ```
 
 ## 63. Unique Paths II
