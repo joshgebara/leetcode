@@ -29226,3 +29226,34 @@ var uniquePathsWithObstacles = function(grid) {
 };
 ```
 
+## 91. Decode Ways
+```javascript
+// Top Down DP
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numDecodings = function(s) {
+    const _numDecodings = i => {
+        if (i === s.length) 
+            return 1
+        
+        if (memo[i]) 
+            return memo[i]
+        
+        let ways = 0
+        if (s[i] > 0) 
+            ways = _numDecodings(i + 1)
+
+        const num = s.slice(i, i + 2)
+        if (num > 9 && num < 27)
+            ways += _numDecodings(i + 2)
+        
+        memo[i] = ways
+        return ways
+    }
+    
+    const memo = {}
+    return _numDecodings(0)
+};
+```
