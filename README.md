@@ -29086,7 +29086,7 @@ var uniquePaths = function(m, n) {
     return _uniquePaths(0, 0)
 };
 
-// Bottom Up DP
+// Bottom Up DP N^2 Space
 /**
  * @param {number} m
  * @param {number} n
@@ -29111,6 +29111,9 @@ var uniquePaths = function(m, n) {
     
     return dp[n - 1][m - 1]
 };
+
+// Bottom UP DP N Space
+
 ```
 
 ## 63. Unique Paths II
@@ -29141,7 +29144,7 @@ var uniquePathsWithObstacles = function(obstacleGrid) {
     return _uniquePathsWithObstacles(0, 0)
 };
 
-// Bottom Up DP
+// Bottom Up DP N^2 Space
 var uniquePathsWithObstacles = function(obstacleGrid) {
     const m = obstacleGrid.length
     const n = obstacleGrid[0].length
@@ -29166,6 +29169,35 @@ var uniquePathsWithObstacles = function(obstacleGrid) {
     
     
     return dp[m - 1][n - 1]
+};
+
+// Bottom Up DP N space
+/**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function(grid) {
+    const r = grid.length
+    const c = grid[0].length
+    const dp = Array(r).fill(0)
+    
+    if (grid[0][0]) return 0
+    
+    for (let row = 0; row < r; row++) {
+        for (let col = 0; col < c; col++) {
+            if (!row && !col) {
+                dp[col] = 1
+            } else if (!row) {
+                dp[col] = grid[row][col] ? 0 : dp[col - 1]
+            } else if (!col) {
+                dp[col] = grid[row][col] ? 0 : dp[0]
+            } else {
+                dp[col] = grid[row][col] ? 0 : dp[col] + dp[col - 1]
+            }
+        }
+    }
+    
+    return dp[c - 1]
 };
 ```
 
