@@ -28977,7 +28977,35 @@ var minPathSum = function(grid) {
     return _minPathSum(0, 0)
 };
 
-// Bottom Up DP
+// Bottom Up DP N^2 Space
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+    const r = grid.length
+    const c = grid[0].length
+    const dp = Array(r).fill(0).map(n => Array(c).fill(0))
+    dp[0][0] = grid[0][0]
+    
+    for (let row = 1; row < r; row++) {
+        dp[row][0] = grid[row][0] + dp[row - 1][0]
+    }
+    
+    for (let col = 1; col < c; col++) {
+        dp[0][col] = grid[0][col] + dp[0][col - 1]
+    }
+    
+    for (let row = 1; row < r; row++) {
+        for (let col = 1; col < c; col++) {
+            dp[row][col] = grid[row][col] + Math.min(dp[row - 1][col], dp[row][col - 1])
+        }
+    }
+    
+    return dp[r - 1][c - 1]
+};
+
+
 ```
 
 ## 62. Unique Paths
@@ -29089,3 +29117,4 @@ var uniquePathsWithObstacles = function(obstacleGrid) {
     return dp[m - 1][n - 1]
 };
 ```
+
