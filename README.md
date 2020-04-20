@@ -29005,7 +29005,34 @@ var minPathSum = function(grid) {
     return dp[r - 1][c - 1]
 };
 
+// Bottom Up DP N Space
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+    const r = grid.length
+    const c = grid[0].length
+    const dp = Array(r).fill(0)
+    
+    for (let row = 0; row < r; row++) {
+        for (let col = 0; col < c; col++) {
+            if (row === 0 && col === 0) {
+                dp[col] = grid[row][col]
+            } else if (row === 0) {
+                dp[col] = grid[row][col] + dp[col - 1]
+            } else if (col === 0) {
+                dp[col] = grid[row][col] + dp[0]
+            } else {
+                dp[col] = grid[row][col] + Math.min(dp[col], dp[col - 1])
+            }
+        }
+    }
+    
+    return dp[c - 1]
+};
 
+// Bottom Up DP Constant Space
 ```
 
 ## 62. Unique Paths
