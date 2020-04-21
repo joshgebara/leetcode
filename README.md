@@ -29285,5 +29285,32 @@ var numDecodings = function(s) {
 };
 
 // Bottom Up DP O(1) space
-
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numDecodings = function(s) {
+    if (!s.length) return 0
+    
+    let prevWays = 1
+    let currWays = s[0] == 0 ? 0 : 1
+    
+    for (let i = 2; i <= s.length; i++) {
+        const oneDigit = s[i - 1]
+        const twoDigit = s.slice(i - 2, i)
+        
+        let numOfWays = 0
+        
+        if (oneDigit > 0)
+            numOfWays += currWays
+        
+        if (twoDigit >= 10 && twoDigit <= 26)
+            numOfWays += prevWays
+        
+        prevWays = currWays
+        currWays = numOfWays
+    }
+    
+    return currWays
+};
 ```
