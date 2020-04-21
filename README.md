@@ -29256,4 +29256,34 @@ var numDecodings = function(s) {
     const memo = {}
     return _numDecodings(0)
 };
+
+// Bottom Up DP O(n) space
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numDecodings = function(s) {
+    if (!s.length) return 0
+    
+    const dp = Array(s.length + 1).fill(0)
+    dp[0] = 1
+    dp[1] = s[0] == 0 ? 0 : 1
+    
+    for (let i = 2; i <= s.length; i++) {
+        const oneDigit = s[i - 1]
+        const twoDigit = s.slice(i - 2, i)
+        
+        if (oneDigit > 0)
+            dp[i] += dp[i - 1]
+        
+        if (twoDigit >= 10 && twoDigit <= 26)
+            dp[i] += dp[i - 2]
+        
+    }
+    
+    return dp[dp.length - 1]
+};
+
+// Bottom Up DP O(1) space
+
 ```
