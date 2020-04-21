@@ -29314,3 +29314,38 @@ var numDecodings = function(s) {
     return currWays
 };
 ```
+
+## 1277. Count Square Submatrices with All Ones
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+var countSquares = function(matrix) {
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    const dp = Array(m).fill(0).map(arr => Array(n).fill(0))
+    let count = 0
+    
+    for (let row = 0; row < m; row++) {
+        dp[row][0] = matrix[row][0]
+        count += dp[row][0]
+    }
+    
+    for (let col = 1; col < n; col++) {
+        dp[0][col] = matrix[0][col]
+        count += dp[0][col]
+    }
+    
+    for (let row = 1; row < m; row++) {
+        for (let col = 1; col < n; col++) {
+            if (matrix[row][col] === 0) continue
+            dp[row][col] = Math.min(dp[row - 1][col], dp[row][col - 1], dp[row - 1][col - 1]) + 1
+            count += dp[row][col]
+        }
+    }
+    
+    return count
+};
+```
