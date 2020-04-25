@@ -29349,3 +29349,28 @@ var countSquares = function(matrix) {
     return count
 };
 ```
+
+## 370. Range Addition
+```javascript
+/**
+ * @param {number} length
+ * @param {number[][]} updates
+ * @return {number[]}
+ */
+var getModifiedArray = function(length, updates) {
+    const arr = Array(length).fill(0)
+    
+    for (const [start, end, inc] of updates) {
+        arr[start] += inc
+        
+        if (end < length - 1)
+            arr[end + 1] -= inc
+    }
+    
+    for (let i = 1; i < arr.length; i++) {
+        arr[i] += arr[i - 1]
+    }
+    
+    return arr
+};
+```
