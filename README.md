@@ -29395,3 +29395,102 @@ var maxCount = function(m, n, ops) {
     return rowMin * colMin
 };
 ```
+
+## 307. Range Sum Query - Mutable
+```javascript
+/**
+ * @param {number[]} nums
+ */
+var NumArray = function(nums) {
+    this.tree = new SegmentTree(nums)
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} val
+ * @return {void}
+ */
+NumArray.prototype.update = function(i, val) {
+    this.tree.update(val, i)
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} j
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function(i, j) {
+    return this.tree.query(i, j)
+};
+
+/** 
+ * Your NumArray object will be instantiated and called as such:
+ * var obj = new NumArray(nums)
+ * obj.update(i,val)
+ * var param_2 = obj.sumRange(i,j)
+ */
+
+class SegmentTree {
+    constructor(arr) {
+        this.arr = arr
+        this.elements = Array(4 * arr.length).fill(0)
+        
+        if (this.arr.length > 0)
+            this.buildTree(arr, 0, arr.length - 1, 0)
+    }
+    
+    buildTree(arr, start, end, pos) {
+        if (start === end) {
+            this.elements[pos] = arr[start]
+            return
+        }
+                    
+        const mid = Math.floor((end - start) / 2) + start
+        
+        this.buildTree(arr, start, mid, 2*pos+1)
+        this.buildTree(arr, mid+1, end, 2*pos+2)
+        
+        this.elements[pos] = this.elements[2*pos+1] + this.elements[2*pos+2]
+    }
+    
+    query(qStart, qEnd) {
+        const _query = (qStart, qEnd, start, end, pos) => {
+            if (qStart <= start && qEnd >= end)
+                return this.elements[pos]
+            
+            if (qStart > end || qEnd < start)
+                return 0
+            
+            const mid = Math.floor((end - start) / 2) + start
+
+            const q1 = _query(qStart, qEnd, start, mid, 2*pos+1)
+            const q2 = _query(qStart, qEnd, mid+1, end, 2*pos+2)
+            return q1 + q2
+        }
+        
+        return _query(qStart, qEnd, 0, this.arr.length - 1, 0)
+    }
+    
+    update(val, idx) {
+        const _update = (val, idx, pos, start, end) => {
+            if (idx < start || idx > end)
+                return
+            
+            if (start === end) {
+                this.arr[idx] = val
+                this.elements[pos] = val
+                return
+            }
+            
+            const mid = Math.floor((end - start) / 2) + start
+
+            _update(val, idx, 2*pos+1, start, mid)
+            _update(val, idx, 2*pos+2, mid+1, end)
+            
+            this.elements[pos] = this.elements[2*pos+1] + this.elements[2*pos+2]
+        }
+        
+        _update(val, idx, 0, 0, this.arr.length - 1)
+    }
+}
+```
