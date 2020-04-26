@@ -29374,3 +29374,24 @@ var getModifiedArray = function(length, updates) {
     return arr
 };
 ```
+
+## 598. Range Addition II
+```javascript
+/**
+ * @param {number} m
+ * @param {number} n
+ * @param {number[][]} ops
+ * @return {number}
+ */
+var maxCount = function(m, n, ops) {
+    let rowMin = m
+    let colMin = n
+    
+    for (const [row, col] of ops) {
+        rowMin = Math.min(rowMin, row)
+        colMin = Math.min(colMin, col)
+    }
+    
+    return rowMin * colMin
+};
+```
