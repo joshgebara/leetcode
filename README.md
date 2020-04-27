@@ -29631,3 +29631,32 @@ const charToNum = char => {
     }
 }
 ```
+
+## 1318. Minimum Flips to Make a OR b Equal to c
+```javascript
+/**
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @return {number}
+ */
+var minFlips = function(a, b, c) {
+    let flips = 0
+    
+    while (a || b || c) {
+        const x = a & 1
+        const y = b & 1
+        const z = c & 1
+        
+        if ((x | y) !== z) {
+            flips += (x && y) ? 2 : 1
+        }
+        
+        a >>= 1
+        b >>= 1
+        c >>= 1
+    }
+        
+    return flips
+};
+```
