@@ -29584,3 +29584,50 @@ var numSteps = function(s) {
     return steps
 };
 ```
+
+## 187. Repeated DNA Sequences
+```javascript
+// Bit Manipulation when L <= 16
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var findRepeatedDnaSequences = function(s, l = 10) {
+    const seq = s.split('').map(char => charToNum(char))
+    const result = new Set()
+    const seen = new Set()
+    
+    let mask = 0
+    for (let i = 0; i < l; i++) {
+        mask <<= 2
+        mask |= seq[i]
+    }
+    
+    for (let i = l; i < s.length + 1; i++) {
+        if (seen.has(mask)) {
+            result.add(s.slice(i - l, i))
+        } else {
+            seen.add(mask)
+        }
+        
+        mask <<= 2
+        mask |= seq[i]
+        mask &= ~(-1 << (2 * l))
+    }
+    
+    return Array.from(result)
+};
+
+const charToNum = char => {
+    switch(char) {
+        case 'A':
+            return 0
+        case 'C':
+            return 1
+        case 'G':
+            return 2
+        case 'T':
+            return 3
+    }
+}
+```
