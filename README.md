@@ -29552,3 +29552,35 @@ var xorQueries = function(arr, queries) {
     return ans
 };
 ```
+
+## 1404. Number of Steps to Reduce a Number in Binary Representation to One
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numSteps = function(s) {
+    const num = s.split('')
+    let steps = 0
+    
+    outer : while (num.length > 1) {
+        steps++
+        
+        if (num[num.length - 1] === '0') {
+            num.pop()
+        } else {
+            for (let i = num.length - 1; i >= 0; i--) {
+                if (num[i] === '1') {
+                    num[i] = '0'
+                } else {
+                    num[i] = '1'
+                    continue outer
+                }
+            }
+            num.unshift('1')
+        }
+    }
+    
+    return steps
+};
+```
