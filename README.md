@@ -29529,3 +29529,26 @@ var rangeBitwiseAnd = function(m, n) {
     return m << count
 };
 ```
+
+## 1310. XOR Queries of a Subarray
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number[][]} queries
+ * @return {number[]}
+ */
+var xorQueries = function(arr, queries) {
+    const prefix = Array(arr.length).fill(0)
+    
+    for (const [index, ele] of arr.entries()) {
+        prefix[index] = ele ^ prefix[index - 1]
+    }
+    
+    const ans = []
+    for (const [left, right] of queries) {
+        ans.push(prefix[right] ^ prefix[left - 1])
+    }
+    
+    return ans
+};
+```
