@@ -29660,3 +29660,32 @@ var minFlips = function(a, b, c) {
     return flips
 };
 ```
+
+## 477. Total Hamming Distance
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var totalHammingDistance = function(nums) {
+    let count = 0
+    
+    for (let i = 0; i < 32; i++) {
+        let zeroCount = 0
+        let oneCount = 0
+        
+        const mask = 1 << i
+        for (const num of nums) {
+            if (num & mask) {
+                oneCount++
+            } else {
+                zeroCount++
+            }
+        }
+        
+        count += oneCount * zeroCount
+    }
+    
+    return count
+};
+```
