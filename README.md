@@ -29757,3 +29757,43 @@ var maxFreq = function(s, maxLetters, minSize, maxSize) {
     return max
 };
 ```
+
+## 1169. Invalid Transactions
+```javascript
+/**
+ * @param {string[]} transactions
+ * @return {string[]}
+ */
+var invalidTransactions = function(transactions) {
+    const invalid = new Set()
+
+    transactions.sort((a, b) => {
+        const aName = a.split(',')[0]
+        const bName = b.split(',')[0]
+        
+        if (aName < bName) return -1
+        if (aName > bName) return 1
+        return 0
+    })
+    
+    for (let i = 0; i < transactions.length; i++) {
+        const [name, time, amount, city] = transactions[i].split(',')
+        
+        if (amount > 1000)
+            invalid.add(transactions[i])
+        
+        for (let j = i + 1; j < transactions.length; j++) {    
+            const [jName, jTime, jAmount, jCity] = transactions[j].split(',')
+            
+            if (jName !== name) break
+            
+            if (name === jName && Math.abs(time - jTime) <= 60 && city !== jCity) {
+                invalid.add(transactions[i])
+                invalid.add(transactions[j])
+            }
+        }
+    }
+    
+    return Array.from(invalid)
+};
+```
