@@ -29689,3 +29689,71 @@ var totalHammingDistance = function(nums) {
     return count
 };
 ```
+
+## 1297. Maximum Number of Occurrences of a Substring
+```javascript
+// Hash Map
+/**
+ * @param {string} s
+ * @param {number} maxLetters
+ * @param {number} minSize
+ * @param {number} maxSize
+ * @return {number}
+ */
+var maxFreq = function(s, maxLetters, minSize, maxSize) {
+    const freq = {}
+    let max = 0
+    
+    for (let i = 0; i < s.length - minSize + 1; i++) {
+        const str = s.slice(i, i + minSize)
+        if (isValid(str, maxLetters)) {
+            freq[str] = 1 + (freq[str] || 0)
+            max = Math.max(max, freq[str])
+        }
+    }
+    
+    return max
+};
+
+const isValid = (str, maxLetters) => {
+    const set = new Set(str)
+    return set.size <= maxLetters
+}
+
+// BitMap
+/**
+ * @param {string} s
+ * @param {number} maxLetters
+ * @param {number} minSize
+ * @param {number} maxSize
+ * @return {number}
+ */
+var maxFreq = function(s, maxLetters, minSize, maxSize) {
+    const freq = {}
+    let max = 0
+    
+    outer : for (let i = 0; i < s.length - minSize + 1; i++) {
+        const str = s.slice(i, i + minSize)
+        let bitMap = 0
+        let uniqueCharCount = 0
+        
+        for (const char of str) {
+            const pos = char.charCodeAt(0) - 'a'.charCodeAt(0)
+            
+            const isSet = bitMap & 1 << pos
+            if (!isSet)
+                uniqueCharCount++
+            
+            if (uniqueCharCount > maxLetters)
+                continue outer
+            
+            bitMap |= 1 << pos
+        }
+        
+        freq[str] = 1 + (freq[str] || 0)
+        max = Math.max(max, freq[str])   
+    }
+    
+    return max
+};
+```
