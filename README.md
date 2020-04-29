@@ -29797,3 +29797,49 @@ var invalidTransactions = function(transactions) {
     return Array.from(invalid)
 };
 ```
+
+## 1399. Count Largest Group
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+
+const memo = {}
+
+var countLargestGroup = function(n) {
+    const map = Array(37).fill(0)
+    let maxSize = 0
+    
+    for (let i = 1; i <= n; i++) {
+        const sum = getSum(i)
+        map[sum]++
+        
+        maxSize = Math.max(maxSize, map[sum])
+    }
+    
+    let count = 0
+    for (const size of map) {
+        if (size === maxSize)
+            count++
+    }
+    
+    return count
+};
+
+const getSum = num => {
+    if (memo[num]) return memo[num]
+    
+    let sum = 0
+    let n = num
+    
+    while (n) {
+        const digit = n % 10
+        sum += digit
+        n = Math.floor(n / 10)
+    }
+    
+    memo[num] = sum
+    return memo[num]
+}
+```
