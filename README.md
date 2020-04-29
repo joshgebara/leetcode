@@ -29843,3 +29843,48 @@ const getSum = num => {
     return memo[num]
 }
 ```
+
+## 157. Read N Characters Given Read4
+```javascript
+/**
+ * Definition for read4()
+ * 
+ * @param {character[]} buf Destination buffer
+ * @return {number} The number of actual characters read
+ * read4 = function(buf) {
+ *     ...
+ * };
+ */
+
+/**
+ * @param {function} read4()
+ * @return {function}
+ */
+var solution = function(read4) {
+    /**
+     * @param {character[]} buf Destination buffer
+     * @param {number} n Number of characters to read
+     * @return {number} The number of actual characters read
+     */
+    return function(buf, n) {
+        let idx = 0
+        
+        while (n > 0) {
+            let buf4 = Array(4).fill('')
+            let count = read4(buf4)
+            
+            if (count === 0) 
+                return idx
+            
+            const end = Math.min(count, n)
+            for (let i = 0; i < end; i++) {
+                buf[idx] = buf4[i]
+                idx++
+                n--
+            }
+        }
+        
+        return idx
+    };
+};
+```
