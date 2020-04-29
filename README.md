@@ -29906,3 +29906,31 @@ var replaceElements = function(arr) {
     return arr
 };
 ```
+
+## 884. Uncommon Words from Two Sentences
+```javascript
+/**
+ * @param {string} A
+ * @param {string} B
+ * @return {string[]}
+ */
+var uncommonFromSentences = function(A, B) {
+    const map = {}
+    
+    for (const a of A.split(' ')) {
+        map[a] = 1 + (map[a] || 0)
+    }
+    
+    for (const b of B.split(' ')) {
+        map[b] = 1 + (map[b] || 0)
+    }
+    
+    const uncommon = []
+    for (const [word, count] of Object.entries(map)) {
+        if (count === 1)
+            uncommon.push(word)
+    }
+    
+    return uncommon
+};
+```
