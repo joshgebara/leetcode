@@ -29934,3 +29934,33 @@ var uncommonFromSentences = function(A, B) {
     return uncommon
 };
 ```
+
+## 1200. Minimum Absolute Difference
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[][]}
+ */
+var minimumAbsDifference = function(arr) {
+    arr.sort((a, b) => a - b)
+    
+    const map = {}
+    let minDiff = Number.MAX_VALUE
+    let result = []
+    
+    for (let i = 0; i < arr.length - 1; i++) {
+        const diff = arr[i+1] - arr[i]
+        
+        if (diff < minDiff) {
+            result = []
+            minDiff = diff
+        }
+        
+        if (diff === minDiff) {
+            result.push([arr[i], arr[i+1]])
+        }
+    }
+    
+    return result
+};
+```
