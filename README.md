@@ -29987,3 +29987,33 @@ var smallestRangeI = function(A, K) {
     return max - min
 };
 ```
+
+## 1365. How Many Numbers Are Smaller Than the Current Number
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var smallerNumbersThanCurrent = function(nums) {
+    const buckets = Array(101).fill(0)
+    
+    for (const num of nums) {
+        buckets[num]++
+    }
+    
+    for (let i = 1; i < buckets.length; i++) {
+        buckets[i] += buckets[i - 1]
+    }
+    
+    const result = []
+    for (const num of nums) {
+        if (num === 0) {
+            result.push(0)
+        } else {
+            result.push(buckets[num - 1])
+        } 
+    }
+    
+    return result
+};
+```
