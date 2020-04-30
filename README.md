@@ -30069,3 +30069,28 @@ var freqAlphabets = function(s) {
     return result.join('')
 };
 ```
+
+## 1304. Find N Unique Integers Sum up to Zero
+```javascript
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var sumZero = function(n) {
+    const result = []
+    
+    const isOdd = n & 1
+    if (isOdd) n--
+    
+    let num = 1
+    while (n) {
+        result.push(num)
+        result.push(-num)
+        num++
+        n -= 2
+    }
+    
+    if (isOdd) result.push(0)
+    return result
+};
+```
