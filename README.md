@@ -30150,3 +30150,24 @@ var minStartValue = function(nums) {
     return start
 };
 ```
+
+## 1331. Rank Transform of an Array
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var arrayRankTransform = function(arr) {
+    const sorted = arr.slice().sort((a, b) => a - b)
+    const map = {}
+    
+    let rank = 1
+    for (const s of sorted) {
+        if (map[s]) continue
+        map[s] = rank
+        rank++
+    }
+    
+    return arr.map(num => map[num])
+};
+```
