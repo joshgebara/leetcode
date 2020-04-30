@@ -30129,3 +30129,24 @@ var luckyNumbers  = function(matrix) {
     return result
 };
 ```
+
+## 1413. Minimum Value to Get Positive Step by Step Sum
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minStartValue = function(nums) {
+    let start = 1
+    let sum = 0
+    
+    for (const num of nums) {
+        sum += num
+        
+        if (sum < 1)
+            start = Math.max(1 - sum, start)
+    }
+    
+    return start
+};
+```
