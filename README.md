@@ -30044,3 +30044,28 @@ var isArmstrong = function(N) {
     return N === sum
 };
 ```
+
+## 1309. Decrypt String from Alphabet to Integer Mapping
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var freqAlphabets = function(s) {
+    const result = []
+    const map = ' abcdefghijklmnopqrstuvwxyz'
+    
+    let i = 0
+    while (i < s.length) {
+       if (s[i + 2] === '#') {
+           result.push(map[s[i] + s[i+1]])
+           i += 3
+        } else {
+            result.push(map[s[i]])
+            i++    
+        }
+    }
+    
+    return result.join('')
+};
+```
