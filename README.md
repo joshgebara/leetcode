@@ -29964,3 +29964,26 @@ var minimumAbsDifference = function(arr) {
     return result
 };
 ```
+
+## 908. Smallest Range I
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} K
+ * @return {number}
+ */
+var smallestRangeI = function(A, K) {
+    let max = -Number.MAX_VALUE
+    let min = Number.MAX_VALUE
+    
+    for (const a of A) {
+        max = Math.max(max, a)
+        min = Math.min(min, a)
+    }
+
+    max -= Math.min(max - min, K)
+    min += Math.min(max - min, K)
+
+    return max - min
+};
+```
