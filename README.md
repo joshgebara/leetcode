@@ -30094,3 +30094,38 @@ var sumZero = function(n) {
     return result
 };
 ```
+
+## 1380. Lucky Numbers in a Matrix
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var luckyNumbers  = function(matrix) {
+    if (!matrix.length) return []
+    
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    const minRows = Array(m).fill(Number.MAX_VALUE)
+    const maxCols = Array(n).fill(-Number.MAX_VALUE)
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            minRows[row] = Math.min(minRows[row], matrix[row][col])
+            maxCols[col] = Math.max(maxCols[col], matrix[row][col])
+        }
+    }
+
+    const result = []
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (minRows[row] === maxCols[col]) {
+                result.push(minRows[row])
+            }
+        }
+    }
+    
+    return result
+};
+```
