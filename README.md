@@ -30171,3 +30171,25 @@ var arrayRankTransform = function(arr) {
     return arr.map(num => map[num])
 };
 ```
+
+## 1009. Complement of Base 10 Integer
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var bitwiseComplement = function(N) {
+    if (N === 0) return 1
+    
+    let num = 0
+    let pos = 0
+    
+    while (N) {
+        const bit = N & 1
+        num |= (!bit << pos++)
+        N >>= 1
+    }
+    
+    return num
+}
+```
