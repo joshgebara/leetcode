@@ -30193,3 +30193,37 @@ var bitwiseComplement = function(N) {
     return num
 }
 ```
+
+## 1417. Reformat The String
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reformat = function(s) {
+    const digits = []
+    const letters = []
+    
+    for (const char of s) {
+        if (isNaN(+char)) {
+            letters.push(char)
+        } else {
+            digits.push(char)
+        }
+    }
+    
+    if (Math.abs(digits.length - letters.length) > 1)
+        return ''
+    
+    const max = digits.length > letters.length ? digits : letters
+    const min = digits.length > letters.length ? letters : digits
+    
+    const result = []
+    for (let i = 0; i < s.length; i += 2) {
+        result.push(max.pop())
+        result.push(min.pop())
+    }
+    
+    return result.join('')
+};
+```
