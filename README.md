@@ -30017,3 +30017,30 @@ var smallerNumbersThanCurrent = function(nums) {
     return result
 };
 ```
+
+## 1134. Armstrong Number
+```javascript
+/**
+ * @param {number} N
+ * @return {boolean}
+ */
+var isArmstrong = function(N) {
+    let k = 0
+    
+    let num = N
+    while (num) {
+        num = Math.floor(num / 10)
+        k++
+    }
+    
+    let sum = 0
+    num = N
+    while (num) {
+        const digit = num % 10
+        sum += (digit ** k)
+        num = Math.floor(num / 10)
+    }
+    
+    return N === sum
+};
+```
