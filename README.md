@@ -30270,3 +30270,32 @@ var findLHS = function(nums) {
     return max
 };
 ```
+
+## 1317. Convert Integer to the Sum of Two No-Zero Integers
+```javascript
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var getNoZeroIntegers = function(n) {
+    for (let i = 1; i <= Math.ceil(n / 2); i++) {
+        if (hasZero(i) || hasZero(n - i))
+            continue
+        
+        return [i, n - i]
+    }
+};
+
+const hasZero = num => {
+    if (num === 0) return true
+    
+    while (num) {
+        if (num % 10 === 0) 
+            return true
+        
+        num = Math.floor(num / 10)
+    }
+    
+    return false
+}
+```
