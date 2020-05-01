@@ -30247,3 +30247,26 @@ var checkIfExist = function(arr) {
     return false
 };
 ```
+
+## 594. Longest Harmonious Subsequence
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findLHS = function(nums) {
+    const map = {}
+    
+    for (const num of nums) {
+        map[num] = 1 + (map[num] || 0)
+    }
+    
+    let max = 0
+    for (const num of nums) {
+        if (!map[num + 1]) continue
+        max = Math.max(max, map[num] + map[num + 1])
+    }
+    
+    return max
+};
+```
