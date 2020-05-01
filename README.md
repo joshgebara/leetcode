@@ -30299,3 +30299,33 @@ const hasZero = num => {
     return false
 }
 ```
+
+## 1424. Diagonal Traverse II
+```javascript
+/**
+ * @param {number[][]} nums
+ * @return {number[]}
+ */
+var findDiagonalOrder = function(nums) {
+    const levels = []
+    
+    for (let row = 0; row < nums.length; row++) {
+        for (let col = 0; col < nums[row].length; col++) {
+            const index = row + col
+            if (!levels[index]) 
+                levels[index] = []
+            
+            levels[index].push(nums[row][col])
+        }
+    }
+    
+    const result = []
+    for (let i = 0; i < levels.length; i++) {
+        for (let j = levels[i].length - 1; j >= 0; j--) {
+            result.push(levels[i][j])
+        }
+    }
+    
+    return result
+};
+```
