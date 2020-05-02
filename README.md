@@ -30329,3 +30329,35 @@ var findDiagonalOrder = function(nums) {
     return result
 };
 ```
+
+##
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var maxIncreaseKeepingSkyline = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    
+    const maxRow = Array(m).fill(0)
+    const maxCol = Array(n).fill(0)
+    
+    let sum = 0
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            maxRow[row] = Math.max(maxRow[row], grid[row][col])
+            maxCol[col] = Math.max(maxCol[col], grid[row][col])
+        }
+    }
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            sum += Math.min(maxRow[row], maxCol[col]) - grid[row][col]
+        }
+    }
+    
+    return sum
+};
+```
