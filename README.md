@@ -30395,3 +30395,34 @@ var minSubsequence = function(nums) {
     return result
 };
 ```
+
+## 893. Groups of Special-Equivalent Strings
+```javascript
+/**
+ * @param {string[]} A
+ * @return {number}
+ */
+var numSpecialEquivGroups = function(A) {
+    const groups = new Set()
+    
+    for (const a of A)
+        groups.add(sortChars(a))
+    
+    return groups.size
+};
+
+const sortChars = str => {
+    const evens = []
+    const odds = []
+    
+    for (let i = 0; i < str.length; i++) {
+        const char = str[i]
+        i % 2 ? odds.push(char) : evens.push(char)
+    }
+    
+    evens.sort()
+    odds.sort()
+
+    return [...evens, ...odds].join('')
+}
+```
