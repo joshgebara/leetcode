@@ -30361,3 +30361,37 @@ var maxIncreaseKeepingSkyline = function(grid) {
     return sum
 };
 ```
+
+## 1403. Minimum Subsequence in Non-Increasing Order
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var minSubsequence = function(nums) {
+    const buckets = Array(101).fill(0)
+    let sum = 0
+    
+    for (const num of nums) {
+        buckets[num]++
+        sum += num
+    }
+
+    const result = []
+    let subSum = 0
+    
+    outer : for (let i = buckets.length - 1; i >= 0; i--) {
+        let bucket = buckets[i]
+        
+        while (bucket--) {
+            subSum += i
+            sum -= i
+            result.push(i)
+            
+            if (subSum > sum) break outer
+        }
+    }
+    
+    return result
+};
+```
