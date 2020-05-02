@@ -30426,3 +30426,16 @@ const sortChars = str => {
     return [...evens, ...odds].join('')
 }
 ```
+
+## 575. Distribute Candies
+```javascript
+/**
+ * @param {number[]} candies
+ * @return {number}
+ */
+var distributeCandies = function(candies) {
+    const kinds = new Set(candies)
+    const count = candies.length / 2
+    return Math.min(kinds.size, count)
+};
+```
