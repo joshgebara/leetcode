@@ -30439,3 +30439,33 @@ var distributeCandies = function(candies) {
     return Math.min(kinds.size, count)
 };
 ```
+
+## 1243. Array Transformation
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var transformArray = function(arr) {
+    let changed = true
+    
+    while (changed) {
+        const temp = arr.slice()
+        changed = false
+        
+        for (let i = 1; i < arr.length - 1; i++) {    
+            if (arr[i] < arr[i-1] && arr[i] < arr[i+1]) {
+                temp[i]++
+                changed = true
+            } else if (arr[i] > arr[i-1] && arr[i] > arr[i+1]) {
+                temp[i]--
+                changed = true
+            }
+        }
+        
+        arr = temp
+    }
+    
+    return arr
+};
+```
