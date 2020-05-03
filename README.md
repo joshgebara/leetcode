@@ -30559,3 +30559,20 @@ const smooth = (grid, row, col, r, c) => {
     return Math.floor(sum / count)
 }
 ```
+
+## 492. Construct the Rectangle
+```javascript
+/**
+ * @param {number} area
+ * @return {number[]}
+ */
+var constructRectangle = function(area) {
+    let result = []
+    let maxDiff = Number.MAX_VALUE
+    
+    for (let i = Math.floor(Math.sqrt(area)); i >= 0; i--) {
+        if (area % i === 0)
+            return [area / i, i]
+    }
+};
+```
