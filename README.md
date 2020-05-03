@@ -30469,3 +30469,50 @@ var transformArray = function(arr) {
     return arr
 };
 ```
+
+## 661. Image Smoother
+```javascript
+// O(m) space
+/**
+ * @param {number[][]} M
+ * @return {number[][]}
+ */
+var imageSmoother = function(M) {
+    const r = M.length
+    const c = M[0].length
+    
+    const result = Array(r).fill(0).map(a => Array(c).fill([])) 
+    
+    for (let row = 0; row < r; row++) {
+        for (let col = 0; col < c; col++) {
+            result[row][col] = smooth(M, row, col, r, c)
+        }
+    }
+    
+    return result
+};
+
+const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [-1, -1], [-1, 1], [1, -1], [1, 1]]
+
+const smooth = (grid, row, col, r, c) => {
+    let sum = grid[row][col]
+    let count = 1
+    
+    for (const [dRow, dCol] of dirs) {
+        const newRow = row + dRow
+        const newCol = col + dCol
+        
+        if (newRow < 0 || newRow >= r || newCol < 0 || newCol >= c)
+            continue
+        
+        sum += grid[newRow][newCol]
+        count++
+    }
+    
+    return Math.floor(sum / count)
+}
+
+
+// O(1) space
+
+```
