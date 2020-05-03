@@ -30576,3 +30576,24 @@ var constructRectangle = function(area) {
     }
 };
 ```
+
+## 1436. Destination City
+```javascript
+/**
+ * @param {string[][]} paths
+ * @return {string}
+ */
+var destCity = function(paths) {
+    const graph = {}
+    
+    for (const [start, end] of paths) {
+        if (!graph[start]) graph[start] = 0
+        if (!graph[end]) graph[end] = 0
+        graph[start]++
+    }
+    
+    for (const [vertex, edges] of Object.entries(graph)) {
+        if (!edges) return vertex
+    }
+};
+```
