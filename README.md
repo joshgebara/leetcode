@@ -30597,3 +30597,116 @@ var destCity = function(paths) {
     }
 };
 ```
+
+## 146. LRU Cache
+```javascript
+/**
+ * @param {number} capacity
+ */
+var LRUCache = function(capacity) {
+    this.map = new Map()
+    this.list = new LinkedList()
+    this.capacity = capacity
+};
+
+/** 
+ * @param {number} key
+ * @return {number}
+ */
+LRUCache.prototype.get = function(key) {
+    const node = this.map.get(key)
+    if (!node) return -1
+    
+    this.list.moveToHead(node)
+    return node.val
+};
+
+/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+LRUCache.prototype.put = function(key, value) {
+    const node = this.map.get(key)
+    if (node) {
+        node.val = value
+        this.list.moveToHead(node)
+        return
+    }
+    
+    if (this.list.length === this.capacity) {
+        const tail = this.list.removeTail()
+        this.map.delete(tail.key)
+    }
+    
+    const head = this.list.add(key, value)
+    this.map.set(key, head)
+};
+
+/** 
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = new LRUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
+
+class LinkedList {
+    constructor() {
+        this.length = 0
+        this.dummyHead = new Node()
+        this.dummyTail = new Node()
+        
+        this.dummyHead.next = this.dummyTail
+        this.dummyTail.prev = this.dummyHead
+    }
+    
+    moveToHead(node) {
+        this.remove(node)
+        this.addNode(node)
+    }
+    
+    removeTail() {
+        return this.remove(this.dummyTail.prev)
+    }
+    
+    remove(node) {
+        const prevNode = node.prev
+        const nextNode = node.next
+        
+        nextNode.prev = prevNode
+        prevNode.next = nextNode
+        
+        this.length--
+        
+        return node
+    }
+    
+    add(key, value) {
+        const node = new Node(key, value)
+        return this.addNode(node)
+    }
+    
+    addNode(node) {
+        this.length++
+        
+        const nextNode = this.dummyHead.next
+        
+        this.dummyHead.next = node
+        node.prev = this.dummyHead
+        node.next = nextNode
+        
+        nextNode.prev = node
+        
+        return node  
+    }
+}
+
+class Node {
+    constructor(key, val) {
+        this.key = key
+        this.val = val
+        this.prev = null
+        this.next = null
+    }
+}
+```
