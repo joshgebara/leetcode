@@ -30710,3 +30710,28 @@ class Node {
     }
 }
 ```
+
+## 422. Valid Word Square
+```javascript
+/**
+ * @param {string[]} words
+ * @return {boolean}
+ */
+var validWordSquare = function(words) {
+    let col = 0
+    let row = 0
+    
+    for (let i = 0; i < words.length; i++) {
+        for (let j = 0; j < words[i].length; j++) {
+            if (j >= words.length)
+                return false
+            if (words[j].length <= i)
+                return false
+            if (words[i][j] !== words[j][i])
+                return false
+        }
+    }
+    
+    return true
+};
+```
