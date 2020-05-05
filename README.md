@@ -30735,3 +30735,30 @@ var validWordSquare = function(words) {
     return true
 };
 ```
+
+## 859. Buddy Strings
+```javascript
+/**
+ * @param {string} A
+ * @param {string} B
+ * @return {boolean}
+ */
+var buddyStrings = function(A, B) {
+    if (A.length !== B.length)
+        return false
+    
+    const unique = new Set(A)
+
+    const diff = []
+    for (let i = 0; i < A.length; i++) {
+        if (A[i] !== B[i]) {
+            diff.push(i)
+        }
+    }
+    
+    const [i, j] = diff
+    
+    return diff.length == 2 && A[i] == B[j] && B[i] == A[j] ||
+        diff.length == 0 && unique.size < A.length
+};
+```
