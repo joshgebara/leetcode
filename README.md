@@ -30880,7 +30880,7 @@ HAVING unit >= 100
 ```javascript
 # Write your MySQL query statement below
 SELECT ad_id AS ad_id,
-       IFNULL(ROUND(AVG(100 * (ACTION = 'Clicked') / (ACTION <> 'Ignored')), 2), 0) as ctr
+       IFNULL(ROUND(AVG(100 * (ACTION = 'Clicked') / (ACTION <> 'Ignored')), 2), 0) AS ctr
 FROM Ads
 GROUP BY ad_id
 ORDER BY ctr DESC, ad_ID
