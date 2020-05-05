@@ -30852,3 +30852,14 @@ LEFT JOIN Departments as D
 ON S.department_id = D.id
 WHERE D.name IS NULL
 ```
+
+## 1407. Top Travellers
+```javascript
+# Write your MySQL query statement below
+SELECT name, SUM(IFNULL(distance, 0)) as travelled_distance
+FROM Users as U
+LEFT JOIN Rides as R
+ON U.id = R.user_id
+GROUP BY U.id
+ORDER BY travelled_distance DESC, name
+```
