@@ -30875,3 +30875,13 @@ WHERE MONTH(order_date) = 2 AND YEAR(order_date) = 2020
 GROUP BY product_name
 HAVING unit >= 100
 ```
+
+## 1322. Ads Performance
+```javascript
+# Write your MySQL query statement below
+SELECT ad_id AS ad_id,
+       IFNULL(ROUND(AVG(100 * (ACTION = 'Clicked') / (ACTION <> 'Ignored')), 2), 0) as ctr
+FROM Ads
+GROUP BY ad_id
+ORDER BY ctr DESC, ad_ID
+```
