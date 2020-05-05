@@ -30908,3 +30908,42 @@ var minTimeToVisitAllPoints = function(points) {
     return dist
 };
 ```
+
+## 1275. Find Winner on a Tic Tac Toe Game
+```javascript
+/**
+ * @param {number[][]} moves
+ * @return {string}
+ */
+var tictactoe = function(moves, n = 3) {
+    const isValid = (row, col, n) => {
+        return rows[row] == n || cols[col] == n || diag == n || revDiag == n
+    }
+    
+    const rows = Array(n).fill(0)
+    const cols = Array(n).fill(0)
+    let diag = 0
+    let revDiag = 0
+    
+    for (let i = 0; i < moves.length; i++) {
+        const [row, col] = moves[i]
+        if (i & 1) {
+            rows[row]--
+            cols[col]--
+            if (row === col) diag--
+            if (row === n - col - 1) revDiag--
+            
+            if (isValid(row, col, -n)) return 'B'
+        } else {
+            rows[row]++
+            cols[col]++
+            if (row === col) diag++
+            if (row === n - col - 1) revDiag++
+            
+            if (isValid(row, col, n)) return 'A'
+        }
+    }
+    
+    return moves.length < n**2 ? "Pending" : "Draw"
+};
+```
