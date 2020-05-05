@@ -30775,3 +30775,34 @@ var kidsWithCandies = function(candies, extraCandies) {
     return candies.map(candy => candy + extraCandies >= max)
 };
 ```
+
+## 1427. Perform String Shifts
+```javascript
+/**
+ * @param {string} s
+ * @param {number[][]} shift
+ * @return {string}
+ */
+var stringShift = function(s, shift) {
+    let diff = 0
+    let dir = 0
+    
+    for (const [direction, amount] of shift) {
+        diff += !direction ? amount : -amount
+        diff < 0 ? dir = 1 : dir = 0
+    }
+    
+    if (!diff) return s
+    
+    let amount = Math.abs(diff)
+    let index = amount % s.length
+    if (!dir) index = s.length - index
+    
+    const result = Array(s.length).fill('')
+    for (const char of s) {
+        result[index++ % s.length] = char
+    } 
+    
+    return result.join('')
+};
+```
