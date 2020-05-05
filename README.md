@@ -30762,3 +30762,16 @@ var buddyStrings = function(A, B) {
         diff.length == 0 && unique.size < A.length
 };
 ```
+
+## 1431. Kids With the Greatest Number of Candies
+```javascript
+/**
+ * @param {number[]} candies
+ * @param {number} extraCandies
+ * @return {boolean[]}
+ */
+var kidsWithCandies = function(candies, extraCandies) {
+    const max = Math.max(...candies)
+    return candies.map(candy => candy + extraCandies >= max)
+};
+```
