@@ -30863,3 +30863,15 @@ ON U.id = R.user_id
 GROUP BY U.id
 ORDER BY travelled_distance DESC, name
 ```
+
+## 1327. List the Products Ordered in a Period
+```sql
+# Write your MySQL query statement below
+SELECT product_name, SUM(unit) as unit
+FROM Orders
+LEFT JOIN Products
+USING(product_id)
+WHERE MONTH(order_date) = 2 AND YEAR(order_date) = 2020
+GROUP BY product_name
+HAVING unit >= 100
+```
