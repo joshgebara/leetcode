@@ -30833,3 +30833,12 @@ var projectionArea = function(grid) {
     return result
 };
 ```
+
+## 1378. Replace Employee ID With The Unique Identifier
+```sql
+# Write your MySQL query statement below
+SELECT unique_id, name 
+FROM Employees
+LEFT JOIN EmployeeUNI
+USING(id)
+```
