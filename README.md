@@ -30885,3 +30885,26 @@ FROM Ads
 GROUP BY ad_id
 ORDER BY ctr DESC, ad_ID
 ```
+
+## 1266. Minimum Time Visiting All Points
+```javascript
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var minTimeToVisitAllPoints = function(points) {
+    let dist = 0
+    
+    for (let i = 1; i < points.length; i++) {
+        const [x1, y1] = points[i - 1]
+        const [x2, y2] = points[i]
+        
+        const deltaX = Math.abs(x1 - x2)
+        const deltaY = Math.abs(y1 - y2)
+        
+        dist += Math.max(deltaX, deltaY)
+    }
+    
+    return dist
+};
+```
