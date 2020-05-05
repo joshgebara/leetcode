@@ -30806,3 +30806,30 @@ var stringShift = function(s, shift) {
     return result.join('')
 };
 ```
+
+## 883. Projection Area of 3D Shapes
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var projectionArea = function(grid) {
+    let result = 0
+    
+    for (let row = 0; row < grid.length; row++) {
+        let maxRow = 0
+        let maxCol = 0
+        
+        for (let col = 0; col < grid.length; col++) {
+            if (grid[row][col] > 0) result++
+            
+            maxRow = Math.max(maxRow, grid[row][col])
+            maxCol = Math.max(maxCol, grid[col][row])
+        }
+        
+        result += maxRow + maxCol
+    }
+    
+    return result
+};
+```
