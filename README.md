@@ -30842,3 +30842,13 @@ FROM Employees
 LEFT JOIN EmployeeUNI
 USING(id)
 ```
+
+## 1350. Students With Invalid Departments
+```sql
+# Write your MySQL query statement below
+SELECT S.id, S.name
+FROM Students as S
+LEFT JOIN Departments as D
+ON S.department_id = D.id
+WHERE D.name IS NULL
+```
