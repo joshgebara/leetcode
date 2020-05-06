@@ -31036,3 +31036,25 @@ var isBoomerang = function(points) {
     return ((y3 - y2) * (x3 - x1)) !== ((y3 - y1) * (x3 - x2))
 };
 ```
+
+## 888. Fair Candy Swap
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @return {number[]}
+ */
+var fairCandySwap = function(A, B) {
+    const aSum = A.reduce((result, num) => result + num, 0)
+    const bSum = B.reduce((result, num) => result + num, 0)
+    const delta = (bSum - aSum) / 2
+    
+    const bSet = new Set(B)
+    
+    for (const x of A) {
+        if (bSet.has(x + delta))
+            return [x, x + delta]
+    }
+    return []
+};
+```
