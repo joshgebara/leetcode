@@ -30998,3 +30998,26 @@ StringIterator.prototype.hasNext = function() {
  * var param_2 = obj.hasNext()
  */
 ```
+
+## 1232. Check If It Is a Straight Line
+```javascript
+/**
+ * @param {number[][]} coordinates
+ * @return {boolean}
+ */
+var checkStraightLine = function(coordinates) {
+    if (coordinates.length === 2) 
+        return true
+    
+    const [x1, y1] = coordinates[0]
+    const [x2, y2] = coordinates[1]
+    
+    for (let i = 2; i < coordinates.length; i++) {
+        const [x3, y3] = coordinates[i]
+        if (((y3 - y2) * (x3 - x1)) !== ((y3 - y1) * (x3 - x2)))
+            return false
+    }
+    
+    return true
+};
+```
