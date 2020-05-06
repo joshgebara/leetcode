@@ -30947,3 +30947,54 @@ var tictactoe = function(moves, n = 3) {
     return moves.length < n**2 ? "Pending" : "Draw"
 };
 ```
+
+## 604. Design Compressed String Iterator
+```javascript
+/**
+ * @param {string} compressedString
+ */
+var StringIterator = function(compressedString) {
+    this.str = compressedString
+    this.char = ' '
+    this.num = 0
+    this.index = 0
+};
+
+/**
+ * @return {character}
+ */
+StringIterator.prototype.next = function() {
+    if (!this.hasNext()) return ' '
+    
+    if (!this.num) {
+        this.char = this.str[this.index]
+        this.index++
+        
+        while (this.index < this.str.length) {
+            const digit = +this.str[this.index]
+            if (isNaN(digit)) break
+            
+            this.num *= 10
+            this.num += digit
+            this.index++
+        }
+    }
+        
+    this.num--
+    return this.char
+};
+
+/**
+ * @return {boolean}
+ */
+StringIterator.prototype.hasNext = function() {
+    return this.index < this.str.length || this.num > 0
+};
+
+/** 
+ * Your StringIterator object will be instantiated and called as such:
+ * var obj = new StringIterator(compressedString)
+ * var param_1 = obj.next()
+ * var param_2 = obj.hasNext()
+ */
+```
