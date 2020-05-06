@@ -31058,3 +31058,59 @@ var fairCandySwap = function(A, B) {
     return []
 };
 ```
+
+## 840. Magic Squares In Grid
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var numMagicSquaresInside = function(grid) {
+    let magicSquares = 0
+    
+    for (let i = 0; i < grid.length - 2; i++) {
+        for (let j = 0; j < grid[0].length - 2; j++) {
+            magicSquares += isMagicSquare(grid, i, j)
+        }
+    }
+    
+    return magicSquares
+};
+
+const isMagicSquare = (grid, i, j) => {
+    let seen = 0
+    const colSums = Array(3).fill(0)
+    const rowSums = Array(3).fill(0)
+
+    for (let row = i; row < i + 3; row++) {
+        for (let col = j; col < j + 3; col++) {
+            const num = grid[row][col]
+            if (seen & 1 << (num - 1)) 
+                return 0
+            
+            seen |= 1 << (num - 1)
+            
+            rowSums[row - i] += num
+            colSums[col - j] += num
+        }
+    }
+    
+    if (seen !== 511) return 0
+    
+    const diag1 = grid[i][j] + grid[i+1][j+1] + grid[i+2][j+2] 
+    const diag2 = grid[i][j+2] + grid[i+1][j+1] + grid[i+2][j]
+    
+    for (const col of colSums) {
+        if (col !== 15) return 0
+    }
+    
+    for (const row of rowSums) {
+        if (row !== 15) return 0
+    }
+    
+    if (diag1 !== 15 || diag2 !== 15)
+        return 0
+    
+    return 1
+}
+```
