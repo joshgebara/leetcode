@@ -31167,3 +31167,30 @@ var countBinarySubstrings = function(s) {
     return count + Math.min(prevBlock, currBlock)
 };
 ```
+
+## 459. Repeated Substring Pattern
+```javascript
+// O(n^2) Brute Force
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var repeatedSubstringPattern = function(s) {
+    const len = s.length
+    
+    for (let i = 0; i <= Math.floor(len / 2); i++) {
+        if (len % i !== 0) continue
+        
+        const repeats = Math.floor(len / i)
+        const substr = s.slice(0, i)
+        const str = substr.repeat(repeats)
+        
+        if (s === str)
+            return true
+    }
+    
+    return false
+};
+
+
+```
