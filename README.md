@@ -31141,3 +31141,29 @@ var shiftGrid = function(grid, k) {
     return result
 };
 ```
+
+## 696. Count Binary Substrings
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var countBinarySubstrings = function(s) {
+    let prevBlock = 0
+    let currBlock = 1
+    let count = 0
+    
+    for (let i = 1; i < s.length; i++) {
+        if (s[i] === s[i-1]) {
+            currBlock++
+        } else {
+            count += Math.min(prevBlock, currBlock)
+            
+            prevBlock = currBlock
+            currBlock = 1
+        }
+    }
+    
+    return count + Math.min(prevBlock, currBlock)
+};
+```
