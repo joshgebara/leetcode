@@ -31114,3 +31114,30 @@ const isMagicSquare = (grid, i, j) => {
     return 1
 }
 ```
+
+## 1260. Shift 2D Grid
+```javascript
+/**
+ * @param {number[][]} grid
+ * @param {number} k
+ * @return {number[][]}
+ */
+var shiftGrid = function(grid, k) {
+    const m = grid.length
+    const n = grid[0].length
+    
+    const result = Array(m).fill(0).map(arr => Array(n).fill(0))
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            const inc = Math.floor((col + k) / n)
+            const nRow = (row + inc) % m
+            const nCol = (col + k) % n
+
+            result[nRow][nCol] = grid[row][col]
+        }
+    }
+    
+    return result
+};
+```
