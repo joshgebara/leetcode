@@ -31178,7 +31178,7 @@ var countBinarySubstrings = function(s) {
 var repeatedSubstringPattern = function(s) {
     const len = s.length
     
-    for (let i = 0; i <= Math.floor(len / 2); i++) {
+    for (let i = 1; i <= Math.floor(len / 2); i++) {
         if (len % i !== 0) continue
         
         const repeats = Math.floor(len / i)
