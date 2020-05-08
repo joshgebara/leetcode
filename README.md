@@ -31211,3 +31211,39 @@ var prefixesDivBy5 = function(A) {
     return result
 };
 ```
+
+## 800. Similar RGB Color
+```javascript
+/**
+ * @param {string} color
+ * @return {string}
+ */
+var similarRGB = function(color) {
+    const colors = ['00', '11', '22', '33', '44', '55', '66', '77', '88', '99', 
+                    'aa', 'bb', 'cc', 'dd', 'ee', 'ff']
+    
+    const result = ['#']
+    
+    for (let i = 1; i < color.length; i += 2) {
+        let max = -Number.MAX_VALUE
+        let rgb = ''
+        
+        const hex = color.slice(i, i + 2)
+        const hexVal = parseInt(hex, 16)
+        
+        for (const c of colors) {
+            const cand = parseInt(c, 16)
+            const candVal = -((cand - hexVal) ** 2)
+            
+            if (candVal > max) {
+                max = candVal
+                rgb = c
+            }
+        }
+        
+        result.push(rgb)
+    }
+    
+    return result.join('')
+};
+```
