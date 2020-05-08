@@ -31191,6 +31191,23 @@ var repeatedSubstringPattern = function(s) {
     
     return false
 };
+```
 
-
+## 1018. Binary Prefix Divisible By 5
+```javascript
+/**
+ * @param {number[]} A
+ * @return {boolean[]}
+ */
+var prefixesDivBy5 = function(A) {
+    const result = []
+    let num = 0
+    
+    for (const bit of A) {
+        num = (2 * (num % 5) + bit) % 5
+        result.push(num % 5 === 0)
+    }
+    
+    return result
+};
 ```
