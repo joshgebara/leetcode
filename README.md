@@ -31247,3 +31247,34 @@ var similarRGB = function(color) {
     return result.join('')
 };
 ```
+
+## 949. Largest Time for Given Digits
+```javascript
+/**
+ * @param {number[]} A
+ * @return {string}
+ */
+var largestTimeFromDigits = function(A) {
+    const result = []
+    
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < A.length; j++) {
+            for (let k = 0; k < A.length; k++) {
+                if (i === k || j === k || i === j) continue
+                
+                const l = 6 - i - j - k
+                
+                const hours = `${A[i]}${A[j]}`
+                const mins = `${A[k]}${A[l]}`
+
+                if (hours >= '24' || mins >= '60') continue
+
+                result.push(`${hours}:${mins}`)
+            }
+        }
+    }
+    
+    result.sort()
+    return result[result.length - 1] || ''
+};
+```
