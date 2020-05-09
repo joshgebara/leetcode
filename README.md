@@ -31341,3 +31341,42 @@ const area = (p1, p2, p3) => {
     return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) * 0.5)
 }
 ```
+
+## 447. Number of Boomerangs
+```javascript
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var numberOfBoomerangs = function(points) {
+    let result = 0
+    
+    for (let i = 0; i < points.length; i++) {
+        const map = {}
+        
+        for (let j = 0; j < points.length; j++) {
+            if (i === j) continue
+            
+            const dist = distance(points[i], points[j])
+            
+            if (!map[dist]) 
+                map[dist] = 0
+            
+            map[dist]++
+        }
+        
+        for (const val of Object.values(map)) {
+            result += val * (val - 1)
+        }
+    }
+    
+    return result
+};
+
+const distance = (p1, p2) => {
+    const [x1, y1] = p1
+    const [x2, y2] = p2
+    
+    return (x2 - x1) ** 2 + (y2 - y1) ** 2
+}
+```
