@@ -31380,3 +31380,29 @@ const distance = (p1, p2) => {
     return (x2 - x1) ** 2 + (y2 - y1) ** 2
 }
 ```
+
+## 475. Heaters
+```javascript
+/**
+ * @param {number[]} houses
+ * @param {number[]} heaters
+ * @return {number}
+ */
+var findRadius = function(houses, heaters) {
+    houses.sort((a, b) => a - b)
+    heaters.sort((a, b) => a - b)
+    
+    let max = 0
+    let i = 0
+    
+    for (const house of houses) {
+        while (i < heaters.length - 1 && Math.abs(heaters[i] - house) >= Math.abs(heaters[i+1] - house)) {
+            i++
+        }
+        
+        max = Math.max(max, Math.abs(heaters[i] - house))
+    }
+    
+    return max
+};
+```
