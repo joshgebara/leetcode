@@ -31406,3 +31406,23 @@ var findRadius = function(houses, heaters) {
     return max
 };
 ```
+
+## 1118. Number of Days in a Month
+```javascript
+/**
+ * @param {number} Y
+ * @param {number} M
+ * @return {number}
+ */
+var numberOfDays = function(Y, M) {
+    const daysPerMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    
+    let result = daysPerMonth[M - 1]
+    if (isLeapYear(Y) && M === 2)
+        result++
+    
+    return result
+};
+
+const isLeapYear = y => y % 4 == 0 && y % 100 != 0 || y % 400 == 0
+```
