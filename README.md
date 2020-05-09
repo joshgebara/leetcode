@@ -31278,3 +31278,37 @@ var largestTimeFromDigits = function(A) {
     return result[result.length - 1] || ''
 };
 ```
+
+## 408. Valid Word Abbreviation
+```javascript
+/**
+ * @param {string} word
+ * @param {string} abbr
+ * @return {boolean}
+ */
+var validWordAbbreviation = function(word, abbr) {
+    let i = 0
+    let j = 0
+    
+    while (i < word.length && j < abbr.length) {
+        if (word[i] === abbr[j]) {
+            i++
+            j++
+            continue
+        }
+        
+        if (abbr[j] <= '0' || abbr[j] > '9')
+            return false
+        
+        const start = j
+        while (j < abbr.length && !isNaN(abbr[j])) {
+            j++
+        }
+        
+        const num = +abbr.slice(start, j)
+        i += num
+    }
+
+    return i === word.length && j === abbr.length
+};
+```
