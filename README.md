@@ -31553,4 +31553,21 @@ var minMoves = function(nums) {
     
     return count
 };
+
+// O(n)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minMoves = function(nums) {
+    let min = Number.MAX_VALUE
+    let sum = 0
+    
+    for (const num of nums) {
+        min = Math.min(num, min)
+        sum += num
+    }
+    
+    return sum - min * nums.length
+};
 ```
