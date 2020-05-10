@@ -31570,4 +31570,24 @@ var minMoves = function(nums) {
     
     return sum - min * nums.length
 };
+
+// O(n) avoiding integer overflow
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minMoves = function(nums) {
+    let min = Number.MAX_VALUE
+    let moves = 0
+    
+    for (const num of nums) {
+        min = Math.min(num, min)
+    }
+    
+    for (const num of nums) {
+        moves += num - min
+    }
+    
+    return moves
+};
 ```
