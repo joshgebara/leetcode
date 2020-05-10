@@ -31426,3 +31426,31 @@ var numberOfDays = function(Y, M) {
 
 const isLeapYear = y => y % 4 == 0 && y % 100 != 0 || y % 400 == 0
 ```
+
+## 1154. Day of the Year
+```javascript
+/**
+ * @param {string} date
+ * @return {number}
+ */
+var dayOfYear = function(date) {
+    const daysPerMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    
+    let [year, month, day] = date.split('-')
+    year = +year
+    month = +month
+    day = +day
+    
+    if (isLeapYear(year))
+        daysPerMonth[1] = 29
+    
+    let days = 0
+    for (let i = 0; i < month - 1; i++) {
+        days += daysPerMonth[i]
+    }
+    
+    return days + day
+};
+
+const isLeapYear = y => y % 4 == 0 && y % 100 != 0 || y % 400 == 0
+```
