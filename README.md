@@ -31509,3 +31509,28 @@ var daysBetweenDates = function(date1, date2) {
     return millisecondsBetween / (1000 * 60 * 60 * 24)
 }
 ```
+
+## 1441. Build an Array With Stack Operations
+```javascript
+/**
+ * @param {number[]} target
+ * @param {number} n
+ * @return {string[]}
+ */
+var buildArray = function(target, n) {
+    let i = 0
+    const result = []
+    
+    for (let j = 1; j <= n && i < target.length; j++) {
+        result.push('Push')
+        
+        if (target[i] === j) {
+            i++
+        } else {
+            result.push('Pop')   
+        }
+    }
+    
+    return result
+};
+```
