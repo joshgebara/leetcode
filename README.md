@@ -31454,3 +31454,43 @@ var dayOfYear = function(date) {
 
 const isLeapYear = y => y % 4 == 0 && y % 100 != 0 || y % 400 == 0
 ```
+
+## 1360. Number of Days Between Two Dates
+```javascript
+/**
+ * @param {string} date1
+ * @param {string} date2
+ * @return {number}
+ */
+
+const daysOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+var daysBetweenDates = function(date1, date2) {
+    const [y1, m1, d1] = date1.split('-')
+    const [y2, m2, d2] = date2.split('-')
+    
+    const days1 = daysFrom1970(+y1, +m1, +d1)
+    const days2 = daysFrom1970(+y2, +m2, +d2)
+
+    return Math.abs(days1 - days2)
+}
+
+const isLeapYear = y => y % 4 === 0 && y % 100 !== 0 || y % 400 === 0
+
+const daysFrom1970 = (y, m, d) => {
+    let days = 0
+    
+    for (let currY = 1970; currY < y; currY++) {
+        days += isLeapYear(currY) ? 366 : 365    
+    }
+    
+    for (let currM = 1; currM < m; currM++) {
+        days += daysOfMonth[currM - 1]
+        
+        if (isLeapYear(y) && currM === 2)
+            days++
+    }
+    
+    return days + d
+}
+```
