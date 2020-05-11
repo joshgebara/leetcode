@@ -31683,3 +31683,22 @@ const buildGraph = (n, edges) => {
     return graph
 }
 ```
+
+## 1103. Distribute Candies to People
+```javascript
+/**
+ * @param {number} candies
+ * @param {number} num_people
+ * @return {number[]}
+ */
+var distributeCandies = function(candies, num_people) {
+    const result = Array(num_people).fill(0)
+    
+    for (let i = 0; candies > 0; i++) {
+        result[i % num_people] += Math.min(candies, i + 1)
+        candies -= i + 1
+    }
+    
+    return result
+};
+```
