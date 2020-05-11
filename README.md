@@ -31702,3 +31702,39 @@ var distributeCandies = function(candies, num_people) {
     return result
 };
 ```
+
+## 892. Surface Area of 3D Shapes
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var surfaceArea = function(grid) {
+    const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+    let total = 0
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            const cubes = grid[row][col]
+            
+            if (cubes === 0) continue
+            
+            total += cubes * 4 + 2
+            
+            for (const [dx, dy] of dirs) {
+                const nRow = row + dx
+                const nCol = col + dy
+                
+                if (nRow < 0 || nRow >= grid.length || 
+                    nCol < 0 || nCol >= grid[0].length || 
+                    grid[nRow][nCol] === 0)
+                    continue
+                
+                total -= Math.min(cubes, grid[nRow][nCol])
+            }
+        }
+    }
+    
+    return total
+};
+```
