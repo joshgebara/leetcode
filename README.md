@@ -31638,3 +31638,48 @@ var numMovesStones = function(a, b, c) {
     return [min, max]
 };
 ```
+
+## 1443. Minimum Time to Collect All Apples in a Tree
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {boolean[]} hasApple
+ * @return {number}
+ */
+var minTime = function(n, edges, hasApple) {
+    const _dfs = (node) => {
+        let apple = hasApple[node]
+        
+        if (graph[node]) {
+            for (const vertex of graph[node]) {
+                if (_dfs(vertex)) 
+                    apple = true
+            }
+        }
+        
+        if (apple && node !== 0) 
+            min += 2
+        
+        return apple
+    }
+    
+    const graph = buildGraph(n, edges)
+    let min = 0
+    _dfs(0)
+    return min
+};
+
+const buildGraph = (n, edges) => {
+    const graph = Array(n).fill()
+
+    for (const [start, end] of edges) {
+        if (!graph[start])
+            graph[start] = []
+        
+        graph[start].push(end)
+    }
+    
+    return graph
+}
+```
