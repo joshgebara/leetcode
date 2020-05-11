@@ -31615,3 +31615,26 @@ var minCostToMoveChips = function(chips) {
     return Math.min(odd, even)
 };
 ```
+
+## 1033. Moving Stones Until Consecutive
+```javascript
+/**
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @return {number[]}
+ */
+var numMovesStones = function(a, b, c) {
+    const s = [a, b, c]
+    s.sort((a, b) => a - b)
+    
+    if (s[2] - s[0] === 2)
+        return [0, 0]
+    
+    const minDist = Math.min(s[1] - s[0], s[2] - s[1])
+    const min = minDist <= 2 ? 1 : 2
+    const max = s[2] - s[0] - 2
+    
+    return [min, max]
+};
+```
