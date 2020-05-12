@@ -31741,7 +31741,7 @@ var surfaceArea = function(grid) {
 
 ## 1071. Greatest Common Divisor of Strings
 ```javascript
-// Recursive
+// Recursive O(n^2)
 /**
  * @param {string} str1
  * @param {string} str2
@@ -31760,5 +31760,26 @@ var gcdOfStrings = function(str1, str2) {
     return gcdOfStrings(str1.slice(str2.length), str2)
 };
 
+// Iterative O(n)
+/**
+ * @param {string} str1
+ * @param {string} str2
+ * @return {string}
+ */
+var gcdOfStrings = function(str1, str2) {
+    const length = gcd(str1.length, str2.length)
+    const gcdStr = str1.slice(0, length)
+    const s1 = gcdStr.repeat(str1.length / length)
+    const s2 = gcdStr.repeat(str2.length / length)
+    
+    if (s1 === str1 && s2 === str2)
+        return gcdStr
+    
+    return ''
+};
 
+const gcd = (a, b) => {
+    if (a < b) return gcd(b, a)
+    return a % b === 0 ? b : gcd(b, a % b)
+}
 ```
