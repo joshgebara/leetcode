@@ -31783,3 +31783,51 @@ const gcd = (a, b) => {
     return a % b === 0 ? b : gcd(b, a % b)
 }
 ```
+
+## 172. Factorial Trailing Zeroes
+```javascript
+
+```
+
+## 758. Bold Words in String
+```javascript
+/**
+ * @param {string[]} words
+ * @param {string} S
+ * @return {string}
+ */
+var boldWords = function(words, S) {
+    const marked = Array(S.length).fill(false)
+    
+    for (const word of words) {
+        mark(word, marked, S)
+    }
+    
+    const result = []
+    
+    for (let i = 0; i < S.length; i++) {
+        if (marked[i] && (i == 0 || !marked[i - 1]))
+            result.push("<b>")
+        
+        result.push(S[i])
+        
+        if (marked[i] && (i == S.length - 1 || !marked[i + 1]))
+            result.push("</b>")
+    }
+    
+    return result.join('')
+};
+
+const mark = (word, marked, S) => {
+    for (let end = word.length; end <= S.length; end++) {
+        const start = end - word.length
+        const str = S.slice(start, end)
+        
+        if (word !== str) continue
+        
+        for (let j = start; j < end; j++) {
+            marked[j] = true
+        }
+    }
+}
+```
