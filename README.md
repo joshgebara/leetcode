@@ -31899,3 +31899,25 @@ SELECT '15 or more' AS bin,
        SUM(CASE WHEN duration/60 >= 15 THEN 1 ELSE 0 END) as total
 FROM Sessions
 ```
+
+## 665. Non-decreasing Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var checkPossibility = function(nums) {
+    let count = 0
+    for (const [i, num] of nums.entries()) {
+        if (num > nums[i + 1]) {
+            count++
+            
+            if (count > 1 || nums[i - 1] > nums[i + 1] && nums[i + 2] < nums[i]) {
+                return false
+            }
+        }
+    }
+    
+    return true
+};
+```
