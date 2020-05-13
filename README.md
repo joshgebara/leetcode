@@ -31831,3 +31831,51 @@ const mark = (word, marked, S) => {
     }
 }
 ```
+
+## 1175. Prime Arrangements
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+
+var numPrimeArrangements = function(n) {
+    const MOD = BigInt(10 ** 9 + 7)
+    const primes = countPrimes(n)
+    return factorial(primes) * factorial(n - primes) % MOD
+};
+
+const countPrimes = n => {
+    const isPrime = Array(n + 1).fill(true)
+    isPrime[0] = false
+    isPrime[1] = false
+    
+    for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (!isPrime[i]) continue
+        
+        for (let multiple = 2; i * multiple <= n; multiple++) {
+            isPrime[i * multiple] = false
+        }
+    }
+    
+    let count = 0
+    
+    for (const prime of isPrime) {
+        if (prime) count++
+    }
+    
+    return count
+}
+
+const factorial = num => {
+    const MOD = BigInt(10 ** 9 + 7)
+    let result = 1n
+    
+    for (let i = 2n; i <= num; i++) {
+        result *= i
+        result %= MOD
+    }
+    
+    return result
+}
+```
