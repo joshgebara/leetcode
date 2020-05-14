@@ -31784,11 +31784,6 @@ const gcd = (a, b) => {
 }
 ```
 
-## 172. Factorial Trailing Zeroes
-```javascript
-
-```
-
 ## 758. Bold Words in String
 ```javascript
 /**
@@ -31971,4 +31966,54 @@ var maximumProduct = function(nums) {
 
     return Math.max(max1 * min1 * min2, max1 * max2 * max3)
 };
+```
+
+## 751. IP to CIDR
+```javascript
+/**
+ * @param {string} ip
+ * @param {number} n
+ * @return {string[]}
+ */
+var ipToCIDR = function(ip, n) {
+    const result = []
+    let ipNum = ipStrToNum(ip)
+
+    while (n > 0) {
+        let zeros = numOfTrailingZeros(ipNum)
+        
+        while (2 ** zeros > n)
+            zeros--
+        
+        const numOfAddresses = 2 ** zeros        
+        const prefixLength = 32 - zeros
+        
+        result.push(`${ipNumToStr(ipNum)}/${prefixLength}`)
+        
+        n -= numOfAddresses
+        ipNum += numOfAddresses
+    }
+    
+    return result
+};
+
+const numOfTrailingZeros = bin => {
+    let zeros = 0
+    
+    while (bin && !(bin & 1)) {
+        zeros++
+        bin >>>= 1
+    }
+    
+    return zeros
+}
+
+const ipStrToNum = str => {
+    const ipAddress = str.split('.')
+    return +ipAddress[0] << 24 | +ipAddress[1] << 16 | +ipAddress[2] << 8 | +ipAddress[3]
+}
+
+const ipNumToStr = num => {
+    return `${num >>> 24}.${num >>> 16 & 0xFF}.${num >>> 8 & 0xFF}.${num & 0xFF}`  
+} 
 ```
