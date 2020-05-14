@@ -32035,3 +32035,41 @@ var trailingZeroes = function(n) {
     return zeros
 };
 ```
+
+## 1389. Create Target Array in the Given Order
+```javascript
+// O(n^2) splice
+/**
+ * @param {number[]} nums
+ * @param {number[]} index
+ * @return {number[]}
+ */
+var createTargetArray = function(nums, index) {
+    const result = []
+    
+    for (let i = 0; i < nums.length; i++) {
+        const idx = index[i]
+        const num = nums[i]
+        
+        result.splice(idx, 0, num)
+    }
+    
+    return result
+};
+
+// O(n^2)
+/**
+ * @param {number[]} nums
+ * @param {number[]} index
+ * @return {number[]}
+ */
+var createTargetArray = function(nums, index) {
+    let result = []
+    
+    for (let i = 0; i < nums.length; i++) {
+        result = [...result.slice(0, index[i]), nums[i], ...result.slice(index[i])]
+    }
+    
+    return result
+};
+```
