@@ -32017,3 +32017,21 @@ const ipNumToStr = num => {
     return `${num >>> 24}.${num >>> 16 & 0xFF}.${num >>> 8 & 0xFF}.${num & 0xFF}`  
 } 
 ```
+
+## 172. Factorial Trailing Zeroes
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var trailingZeroes = function(n) {
+    let zeros = 0
+    
+    while (n > 0) {
+        zeros += Math.floor(n / 5)
+        n = Math.floor(n / 5)
+    }
+    
+    return zeros
+};
+```
