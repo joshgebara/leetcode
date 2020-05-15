@@ -32177,3 +32177,38 @@ var getTargetCopy = function(original, cloned, target) {
     return dfs(original, cloned)
 };
 ```
+
+## 1314. Matrix Block Sum
+```javascript
+/**
+ * @param {number[][]} mat
+ * @param {number} K
+ * @return {number[][]}
+ */
+var matrixBlockSum = function(mat, K) {
+    const m = mat.length
+    const n = mat[0].length
+    
+    const prefix = Array(m+1).fill(0).map(a => Array(n+1).fill(0))
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            prefix[row+1][col+1] = mat[row][col] + prefix[row+1][col] + prefix[row][col+1] - prefix[row][col]
+        }
+    }
+
+    const result = Array(m).fill(0).map(a => Array(n).fill(0))
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            const r1 = Math.max(0, row - K)
+            const r2 = Math.min(m - 1, row + K)            
+            const c1 = Math.max(0, col - K)
+            const c2 = Math.min(n - 1, col + K)
+
+            result[row][col] = prefix[r2+1][c2+1] - prefix[r2 + 1][c1] - prefix[r1][c2 + 1] + prefix[r1][c1]
+        }
+    }
+    
+    return result
+};
+```
