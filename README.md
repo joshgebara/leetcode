@@ -32150,3 +32150,30 @@ var verticalOrder = function(root) {
     return result
 };
 ```
+
+## 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} original
+ * @param {TreeNode} cloned
+ * @param {TreeNode} target
+ * @return {TreeNode}
+ */
+
+var getTargetCopy = function(original, cloned, target) {
+    const dfs = (n1, n2) => {
+        if (!n1 || !2) return 
+        if (n1 === target) return n2
+        return dfs(n1.left, n2.left) || dfs(n1.right, n2.right)
+    }
+    
+    return dfs(original, cloned)
+};
+```
