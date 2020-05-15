@@ -32072,4 +32072,33 @@ var createTargetArray = function(nums, index) {
     
     return result
 };
+
+// O(n^2) shift only when need to
+/**
+ * @param {number[]} nums
+ * @param {number[]} index
+ * @return {number[]}
+ */
+var createTargetArray = function(nums, index) {
+    const result = Array(nums.length).fill(-1)
+    
+    for (let i = 0; i < nums.length; i++) {
+        const num = nums[i]
+        const idx = index[i]
+        
+        if (result[idx] !== -1) {
+            shiftElements(result, idx)
+        }
+        
+        result[idx] = num
+    }
+    
+    return result
+};
+
+const shiftElements = (arr, i) => {
+    for (let j = arr.length - 1; j > i; j--) {
+        arr[j] = arr[j - 1]
+    } 
+}
 ```
