@@ -32364,6 +32364,7 @@ class LinkedList {
 
 // Chaining (AVL Tree) + Rehash & Load Factor
 
+
 // Open Addressing (Linear Probing) + Rehash & Load Factor + Lazy Deletion
 /**
  * Initialize your data structure here.
@@ -32469,7 +32470,7 @@ MyHashMap.prototype.rehash = function() {
 var MyHashMap = function() {
     this.buckets = Array(10_000).fill(null)
     this.size = 0
-    this.loadFactorThreshold = 0.75
+    this.loadFactorThreshold = 0.49
 };
 
 /**
