@@ -32215,12 +32215,14 @@ var matrixBlockSum = function(mat, K) {
 
 ## 706. Design HashMap
 ```javascript
-// Linked List Chaining (Open Hashing)
+// Linked List - Chaining + Rehash & Load Factor
 /**
  * Initialize your data structure here.
  */
 var MyHashMap = function() {
     this.buckets = Array(10_000).fill(null)
+    this.size = 0
+    this.loadFactorThreshold = 0.75
 };
 
 /**
@@ -32232,11 +32234,9 @@ var MyHashMap = function() {
 MyHashMap.prototype.put = function(key, value) {
     const index = this.hash(key)
     
-    if (!this.buckets[index]) {
+    if (!this.buckets[index])
         this.buckets[index] = new LinkedList()
-        this.buckets[index].add(key, value)
-    }
-    
+        
     const node = this.buckets[index].find(key)
     if (node) {
         node.val = value
@@ -32244,6 +32244,11 @@ MyHashMap.prototype.put = function(key, value) {
     }
     
     this.buckets[index].add(key, value)
+    this.size++
+    
+    const loadFactor = this.size / this.buckets.length
+    if (loadFactor > this.loadFactorThreshold)
+        this.rehash()
 };
 
 /**
@@ -32272,7 +32277,8 @@ MyHashMap.prototype.remove = function(key) {
     if (!this.buckets[index])
         return
     
-    this.buckets[index].remove(key)
+    const result = this.buckets[index].remove(key)
+    if (result) this.size--
 };
 
 /** 
@@ -32285,6 +32291,22 @@ MyHashMap.prototype.remove = function(key) {
 
 MyHashMap.prototype.hash = function(ele) {
    return ele % this.buckets.length
+}
+
+MyHashMap.prototype.rehash = function() {
+    const temp = this.buckets
+    this.buckets = Array(this.buckets.length * 2).fill(null)
+    this.size = 0
+    
+    for (const list of temp) {
+        if (!list) continue
+        
+        let curr = list.head
+        while (curr) {
+            this.put(curr.key, curr.val)
+            curr = curr.next
+        }
+    }
 }
 
 class Node {
@@ -32321,22 +32343,24 @@ class LinkedList {
         let prev = this.head
         let curr = this.head
         
-        if (!curr) return
+        if (!curr) return false
                 
         if (curr.key === key) {
             this.head = curr.next
-            return
+            return true
         }
         
         curr = curr.next
         while (curr) {
             if (curr.key === key) {
                 prev.next = curr.next
-                break
+                return true
             }
             curr = curr.next
             prev = prev.next
         } 
     }
 }
+
+
 ```
