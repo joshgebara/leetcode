@@ -32639,3 +32639,29 @@ FROM Queries
 LEFT JOIN NPV
 USING(id, year)
 ```
+
+## 797. All Paths From Source to Target
+```javascript
+/**
+ * @param {number[][]} graph
+ * @return {number[][]}
+ */
+var allPathsSourceTarget = function(graph) {
+    const dfs = (vertex, path, seen) => {
+        if (vertex === graph.length - 1) {
+            result.push(path.slice())
+            return
+        }
+        
+        for (const neighbor of graph[vertex]) {
+            path.push(neighbor)
+            dfs(neighbor, path, seen)
+            path.pop()
+        }
+    }
+    
+    const result = []
+    dfs(0, [0])
+    return result
+};
+```
