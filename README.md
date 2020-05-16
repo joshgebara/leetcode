@@ -32567,3 +32567,15 @@ MyHashMap.prototype.rehash = function() {
     }
 }
 ```
+
+## 1445. Apples & Oranges
+```sql
+# Write your MySQL query statement below
+SELECT sale_date, 
+       apples.sold_num - oranges.sold_num AS diff 
+FROM
+(SELECT * FROM Sales WHERE fruit = 'apples') AS apples
+INNER JOIN
+(SELECT * FROM Sales WHERE fruit = 'oranges') AS oranges
+USING(sale_date)
+```
