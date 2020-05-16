@@ -32630,3 +32630,12 @@ var minSteps = function(s, t) {
     return steps
 };
 ```
+
+## 1421. NPV Queries
+```sql
+# Write your MySQL query statement below
+SELECT id, year, IFNULL(npv, 0) AS npv
+FROM Queries
+LEFT JOIN NPV
+USING(id, year)
+```
