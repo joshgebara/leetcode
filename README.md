@@ -32215,7 +32215,7 @@ var matrixBlockSum = function(mat, K) {
 
 ## 706. Design HashMap
 ```javascript
-// Linked List - Chaining + Rehash & Load Factor
+// Chaining (Linked List) + Rehash & Load Factor
 /**
  * Initialize your data structure here.
  */
@@ -32362,5 +32362,106 @@ class LinkedList {
     }
 }
 
+// Chaining (AVL Tree) + Rehash & Load Factor
+
+// Open Addressing (Linear Probing) + Rehash & Load Factor + Lazy Deletion
+/**
+ * Initialize your data structure here.
+ */
+var MyHashMap = function() {
+    this.buckets = Array(10_000).fill(null)
+    this.size = 0
+    this.loadFactorThreshold = 0.75
+};
+
+/**
+ * value will always be non-negative. 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+MyHashMap.prototype.put = function(key, value) {
+    let index = this.hash(key)
+    
+    while (this.buckets[index] !== null) {
+        if (this.buckets[index][0] === key) {
+            this.buckets[index][1] = value
+            return
+        }
+        
+        index++
+        index %= this.buckets.length
+    }
+    
+    this.buckets[index] = [key, value]
+    this.size++
+    
+    const loadFactor = this.size / this.buckets.length
+    if (loadFactor > this.loadFactorThreshold) {
+        this.rehash()
+    }
+};
+
+/**
+ * Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key 
+ * @param {number} key
+ * @return {number}
+ */
+MyHashMap.prototype.get = function(key) {
+    let index = this.hash(key)
+    
+    while (this.buckets[index] !== null) {
+        if (this.buckets[index][0] === key)
+            return this.buckets[index][1]
+        
+        index++
+        index %= this.buckets.length
+    }
+    
+    return -1
+};
+
+/**
+ * Removes the mapping of the specified value key if this map contains a mapping for the key 
+ * @param {number} key
+ * @return {void}
+ */
+MyHashMap.prototype.remove = function(key) {
+    let index = this.hash(key)
+    
+    while (this.buckets[index] !== null) {
+        if (this.buckets[index][0] === key) {
+            this.buckets[index] = [-1, -1]
+            return 
+        }
+        
+        index++
+        index %= this.buckets.length
+    }
+};
+
+/** 
+ * Your MyHashMap object will be instantiated and called as such:
+ * var obj = new MyHashMap()
+ * obj.put(key,value)
+ * var param_2 = obj.get(key)
+ * obj.remove(key)
+ */
+
+MyHashMap.prototype.hash = function(ele) {
+   return ele % this.buckets.length
+}
+
+MyHashMap.prototype.rehash = function() {
+    const temp = this.buckets
+    this.buckets = Array(this.buckets.length * 2).fill(null)
+    this.size = 0
+    
+    for (const [key, val] of temp) {
+        this.put(key, val)
+    }
+}
+
+// Open Addressing (Quadratic Probing) + Rehash & Load Factor + Lazy Deletion
 
 ```
