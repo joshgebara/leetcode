@@ -32212,3 +32212,131 @@ var matrixBlockSum = function(mat, K) {
     return result
 };
 ```
+
+## 706. Design HashMap
+```javascript
+// Linked List Chaining (Open Hashing)
+/**
+ * Initialize your data structure here.
+ */
+var MyHashMap = function() {
+    this.buckets = Array(10_000).fill(null)
+};
+
+/**
+ * value will always be non-negative. 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+MyHashMap.prototype.put = function(key, value) {
+    const index = this.hash(key)
+    
+    if (!this.buckets[index]) {
+        this.buckets[index] = new LinkedList()
+        this.buckets[index].add(key, value)
+    }
+    
+    const node = this.buckets[index].find(key)
+    if (node) {
+        node.val = value
+        return
+    }
+    
+    this.buckets[index].add(key, value)
+};
+
+/**
+ * Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key 
+ * @param {number} key
+ * @return {number}
+ */
+MyHashMap.prototype.get = function(key) {
+    const index = this.hash(key)
+    
+    if (!this.buckets[index])
+        return -1
+    
+    const node = this.buckets[index].find(key)
+    return node ? node.val : -1
+};
+
+/**
+ * Removes the mapping of the specified value key if this map contains a mapping for the key 
+ * @param {number} key
+ * @return {void}
+ */
+MyHashMap.prototype.remove = function(key) {
+    const index = this.hash(key)
+    
+    if (!this.buckets[index])
+        return
+    
+    this.buckets[index].remove(key)
+};
+
+/** 
+ * Your MyHashMap object will be instantiated and called as such:
+ * var obj = new MyHashMap()
+ * obj.put(key,value)
+ * var param_2 = obj.get(key)
+ * obj.remove(key)
+ */
+
+MyHashMap.prototype.hash = function(ele) {
+   return ele % this.buckets.length
+}
+
+class Node {
+    constructor(key, val) {
+        this.key = key
+        this.val = val
+        this.next = null
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this.head = null
+    }
+    
+    find(key) {
+        let curr = this.head
+        
+        while (curr) {
+            if (curr.key === key)
+                return curr
+            
+            curr = curr.next
+        }
+    }
+    
+    add(key, val) {
+        const newHead = new Node(key, val)
+        newHead.next = this.head
+        this.head = newHead
+    }
+    
+    remove(key) {
+        let prev = this.head
+        let curr = this.head
+        
+        if (!curr) return
+                
+        if (curr.key === key) {
+            this.head = curr.next
+            return
+        }
+        
+        curr = curr.next
+        while (curr) {
+            if (curr.key === key) {
+                prev.next = curr.next
+                break
+            }
+            curr = curr.next
+            prev = prev.next
+        } 
+    }
+}
+```
