@@ -32601,3 +32601,32 @@ HAVING SUM(product_name = "A") > 0 AND
        SUM(product_name = "B") > 0 AND 
        SUM(product_name = "C") = 0
 ```
+
+## 1347. Minimum Number of Steps to Make Two Strings Anagram
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {number}
+ */
+var minSteps = function(s, t) {
+    const counter = Array(26).fill(0)
+    let steps = 0
+    
+    for (const char of s) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        counter[index]++
+    }
+    
+    for (const char of t) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        counter[index]--
+    }
+    
+    for (const count of counter) {
+        if (count > 0) steps += count
+    }
+    
+    return steps
+};
+```
