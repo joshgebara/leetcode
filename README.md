@@ -32831,3 +32831,25 @@ const indexForChar = char => {
     return char.charCodeAt(0) - 'a'.charCodeAt(0)
 }
 ```
+
+## 1437. Check If All 1's Are at Least Length K Places Away
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var kLengthApart = function(nums, k) {
+    let j = null 
+    for (let i = 0; i < nums.length; i++) {
+        if (!nums[i]) continue
+
+        if (j !== null && i - j - 1 < k)
+            return false
+        
+        j = i
+    }
+    
+    return true
+};
+```
