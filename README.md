@@ -32853,3 +32853,23 @@ var kLengthApart = function(nums, k) {
     return true
 };
 ```
+
+## 1355. Activity Participants
+```sql
+# Write your MySQL query statement below
+SELECT activity
+FROM Friends
+GROUP BY activity
+HAVING COUNT(*) NOT IN
+(
+    SELECT MAX(cnt)
+    FROM (SELECT activity, COUNT(*) AS cnt
+          FROM Friends
+          GROUP BY activity) as d1
+    UNION
+    SELECT MIN(cnt)
+    FROM (SELECT activity, COUNT(*) AS cnt
+          FROM Friends
+          GROUP BY activity) as d2
+)
+```
