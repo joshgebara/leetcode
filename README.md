@@ -32665,3 +32665,46 @@ var allPathsSourceTarget = function(graph) {
     return result
 };
 ```
+
+## 890. Find and Replace Pattern
+```javascript
+/**
+ * @param {string[]} words
+ * @param {string} pattern
+ * @return {string[]}
+ */
+var findAndReplacePattern = function(words, pattern) {
+    const result = []
+    
+    for (const word of words) {
+        if (isMatch(word, pattern)) {
+            result.push(word)
+        }
+    }
+    
+    return result
+};
+
+const isMatch = (word, pattern) => {
+    if (word.length !== pattern.length)
+        return false
+    
+    const pMap = {}
+    const wMap = {}
+    
+    for (let i = 0; i < word.length; i++) {
+        const wChar = word[i]
+        const pChar = pattern[i]
+        
+        if (!pMap[pChar] && !wMap[wChar]) {
+            pMap[pChar] = wChar
+            wMap[wChar] = pChar
+        } else if (pMap[pChar] === wChar && wMap[wChar] === pChar) {
+            continue
+        } else {
+            return false
+        }
+    }
+    return true
+}
+```
