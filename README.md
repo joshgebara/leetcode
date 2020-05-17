@@ -32708,3 +32708,17 @@ const isMatch = (word, pattern) => {
     return true
 }
 ```
+
+## 1440. Evaluate Boolean Expression
+```sql
+# Write your MySQL query statement below
+SELECT left_operand, operator, right_operand,
+    CASE WHEN operator = '>' AND v1.value > v2.value THEN 'true'
+         WHEN operator = '<' AND v1.value < v2.value THEN 'true'
+         WHEN operator = '=' AND v1.value = v2.value THEN 'true'
+         ELSE 'false'
+         END AS value
+FROM Expressions AS e
+JOIN Variables AS v1 ON v1.name = left_operand
+JOIN Variables AS v2 ON v2.name = right_operand
+```
