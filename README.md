@@ -32722,3 +32722,25 @@ FROM Expressions AS e
 JOIN Variables AS v1 ON v1.name = left_operand
 JOIN Variables AS v2 ON v2.name = right_operand
 ```
+
+## 419. Battleships in a Board
+```javascript
+/**
+ * @param {character[][]} board
+ * @return {number}
+ */
+var countBattleships = function(board) {
+    let count = 0
+    
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[0].length; col++) {
+            if (board[row][col] === '.') continue
+            if (row > 0 && board[row - 1][col] === 'X') continue
+            if (col > 0 && board[row][col - 1] === 'X') continue
+            count++
+        }
+    }
+    
+    return count
+};
+```
