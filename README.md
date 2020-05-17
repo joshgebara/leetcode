@@ -32812,15 +32812,14 @@ var customSortString = function(S, T) {
     
     for (const char of S) {
         const index = indexForChar(char)
-        for (let i = 0; i < count[index]; i++) {
+        while (count[index]-- > 0) {
             result.push(char)
         }
-        count[index] = 0
     }
     
     for (const char of T) {
         const index = indexForChar(char)
-        if (count[index]) {
+        if (count[index]-- > 0) {
             result.push(char)
         }
     }
