@@ -32792,3 +32792,43 @@ var numOfSubarrays = function(arr, k, threshold) {
     return count
 };
 ```
+
+## 791. Custom Sort String
+```javascript
+/**
+ * @param {string} S
+ * @param {string} T
+ * @return {string}
+ */
+var customSortString = function(S, T) {
+    const count = Array(26).fill(0)
+    
+    for (const char of T) {
+        const index = indexForChar(char)
+        count[index]++
+    }
+    
+    const result = []
+    
+    for (const char of S) {
+        const index = indexForChar(char)
+        for (let i = 0; i < count[index]; i++) {
+            result.push(char)
+        }
+        count[index] = 0
+    }
+    
+    for (const char of T) {
+        const index = indexForChar(char)
+        if (count[index]) {
+            result.push(char)
+        }
+    }
+    
+    return result.join('')
+};
+
+const indexForChar = char => {
+    return char.charCodeAt(0) - 'a'.charCodeAt(0)
+}
+```
