@@ -32873,3 +32873,23 @@ HAVING COUNT(*) NOT IN
           GROUP BY activity) as d2
 )
 ```
+
+## 950. Reveal Cards In Increasing Order
+```javascript
+/**
+ * @param {number[]} deck
+ * @return {number[]}
+ */
+var deckRevealedIncreasing = function(deck) {
+    deck.sort((a, b) => a - b)
+    
+    const result = [deck.pop()]
+    
+    while (deck.length) {
+        result.unshift(result.pop())
+        result.unshift(deck.pop())
+    }
+    
+    return result
+};
+```
