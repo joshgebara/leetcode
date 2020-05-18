@@ -32971,3 +32971,50 @@ var queensAttacktheKing = function(queens, king) {
     return result
 };
 ```
+
+## 1357. Apply Discount Every n Orders
+```javascript
+/**
+ * @param {number} n
+ * @param {number} discount
+ * @param {number[]} products
+ * @param {number[]} prices
+ */
+var Cashier = function(n, discount, products, prices) {
+    this.n = n
+    this.discount = discount
+    this.priceMap = {}
+    this.customerNumber = 0
+    
+    for (let i = 0; i < products.length; i++) {
+        this.priceMap[products[i]] = prices[i]
+    }
+};
+
+/** 
+ * @param {number[]} product 
+ * @param {number[]} amount
+ * @return {number}
+ */
+Cashier.prototype.getBill = function(product, amount) {
+    let total = 0
+    
+    for (let i = 0; i < product.length; i++) {
+        total += this.priceMap[product[i]] * amount[i]
+    } 
+    
+    if (this.customerNumber === this.n - 1) {
+        this.customerNumber = 0
+        return total - (this.discount * total) / 100
+    }
+    
+    this.customerNumber++
+    return total
+};
+
+/** 
+ * Your Cashier object will be instantiated and called as such:
+ * var obj = new Cashier(n, discount, products, prices)
+ * var param_1 = obj.getBill(product,amount)
+ */
+```
