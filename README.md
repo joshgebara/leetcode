@@ -32933,3 +32933,41 @@ const bucketSort = str => {
     return result.join('')
 }
 ```
+
+## 1222. Queens That Can Attack the King
+```javascript
+/**
+ * @param {number[][]} queens
+ * @param {number[]} king
+ * @return {number[][]}
+ */
+var queensAttacktheKing = function(queens, king) {
+    const seen = Array(8).fill(0).map(arr => Array(8).fill(false))
+    for (const [row, col] of queens) {
+        seen[row][col] = true
+    }
+    
+    const result = []
+    const dirs = [-1, 0, 1]
+    
+    for (const dx of dirs) {
+        for (const dy of dirs) {
+            if (!dx && !dy) continue
+            
+            let [row, col] = king
+            
+            while (row >= 0 && row < 8 && col >= 0 && col < 8) {
+                if (seen[row][col]) {
+                    result.push([row, col])
+                    break
+                }
+                
+                row += dx
+                col += dy
+            }
+        }   
+    }
+    
+    return result
+};
+```
