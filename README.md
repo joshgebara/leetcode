@@ -33041,3 +33041,55 @@ var sortArray = function(nums) {
     return result
 };
 ```
+
+## 362. Design Hit Counter
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var HitCounter = function() {
+    this.interval = 300
+    this.times = Array(this.interval).fill(0)
+    this.hits = Array(this.interval).fill(0)
+};
+
+/**
+ * Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). 
+ * @param {number} timestamp
+ * @return {void}
+ */
+HitCounter.prototype.hit = function(timestamp) {
+    const index = timestamp % this.interval
+    if (this.times[index] !== timestamp) {
+        this.times[index] = timestamp
+        this.hits[index] = 1
+    } else {
+        this.hits[index]++
+    }
+};
+
+/**
+ * Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). 
+ * @param {number} timestamp
+ * @return {number}
+ */
+HitCounter.prototype.getHits = function(timestamp) {
+    let hits = 0
+    for (let i = 0; i < this.interval; i++) {
+        if (this.interval > timestamp - this.times[i]) {
+            hits += this.hits[i]
+        }
+    }
+    
+    return hits
+};
+
+/** 
+ * Your HitCounter object will be instantiated and called as such:
+ * var obj = new HitCounter()
+ * obj.hit(timestamp)
+ * var param_2 = obj.getHits(timestamp)
+ */
+```
