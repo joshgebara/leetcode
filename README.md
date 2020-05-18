@@ -33178,3 +33178,26 @@ const buildTree = (nodes, parent) => {
     return tree
 }
 ```
+
+## 413. Arithmetic Slices
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var numberOfArithmeticSlices = function(A) {
+    let result = 0
+    let count = 0
+    
+    for (let i = 2; i < A.length; i++) {
+        if (A[i] - A[i - 1] === A[i - 1] - A[i - 2]) {
+            count++
+            result += count
+        } else {
+            count = 0
+        }
+    }
+    
+    return result
+};
+```
