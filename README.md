@@ -32893,3 +32893,43 @@ var deckRevealedIncreasing = function(deck) {
     return result
 };
 ```
+
+## 1433. Check If a String Can Break Another String
+```javascript
+/**
+ * @param {string} s1
+ * @param {string} s2
+ * @return {boolean}
+ */
+var checkIfCanBreak = function(s1, s2) {
+    s1 = bucketSort(s1)
+    s2 = bucketSort(s2)
+    
+    let notBroken1 = true
+    let notBroken2 = true
+    for (let i = 0; i < s1.length; i++) {
+        if (s1[i] > s2[i]) notBroken1 = false
+        if (s1[i] < s2[i]) notBroken2 = false
+    }
+    
+    return notBroken1 || notBroken2
+};
+
+const bucketSort = str => {
+    const buckets = Array(26).fill(0)
+    
+    for (const char of str) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        buckets[index]++
+    }
+    
+    const result = []
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
+            result.push(String.fromCharCode(i + 'a'.charCodeAt(0)))
+        }
+    }
+    
+    return result.join('')
+}
+```
