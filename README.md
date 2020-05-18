@@ -33018,3 +33018,26 @@ Cashier.prototype.getBill = function(product, amount) {
  * var param_1 = obj.getBill(product,amount)
  */
 ```
+
+## 912. Sort an Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var sortArray = function(nums) {
+    const buckets = Array(50_001 * 2).fill(0)
+    for (const num of nums) {
+        buckets[num + 50_001]++
+    }
+    
+    const result = []
+    for (let [i, bucket] of buckets.entries()) {
+        while (bucket--) {
+            result.push(i - 50_001)
+        }
+    }
+    
+    return result
+};
+```
