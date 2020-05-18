@@ -33123,3 +33123,14 @@ var goodNodes = function(root) {
     return count
 };
 ```
+
+## 319. Bulb Switcher
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var bulbSwitch = function(n) {
+    return Math.floor(Math.sqrt(n))
+};
+```
