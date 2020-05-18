@@ -33134,3 +33134,47 @@ var bulbSwitch = function(n) {
     return Math.floor(Math.sqrt(n))
 };
 ```
+
+## 1273. Delete Tree Nodes
+```javascript
+/**
+ * @param {number} nodes
+ * @param {number[]} parent
+ * @param {number[]} value
+ * @return {number}
+ */
+var deleteTreeNodes = function(nodes, parent, value) {
+    const dfs = node => {
+        let sum = value[node]
+        let count = 1
+        
+        if (tree[node]) {
+            for (const neighbor of tree[node]) {
+                const [subSum, subCount] = dfs(neighbor)
+                sum += subSum
+                count += subCount
+            }
+        }
+        
+        if (sum === 0) count = 0
+        return [sum, count]
+    }
+    
+    const tree = buildTree(nodes, parent)
+    return dfs(0)[1]
+};
+
+const buildTree = (nodes, parent) => {
+    const tree = {}
+    
+    for (let i = 0; i < parent.length; i++) {
+        const p = parent[i]
+        if (p === -1) continue
+        
+        if (!tree[p]) tree[p] = []
+        tree[p].push(i)
+    }
+    
+    return tree
+}
+```
