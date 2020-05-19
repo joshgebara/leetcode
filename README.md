@@ -7512,6 +7512,13 @@ var defangIPaddr = function(address) {
         return result
     }, []).join('')
 };
+
+// Map
+var defangIPaddr = function(address) {
+    return address.split('').map(char => {
+        return char === '.' ? '[.]' : char
+    }).join('')
+};
 ```
 
 ## 804. Unique Morse Code Words
