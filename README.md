@@ -30008,21 +30008,15 @@ var smallerNumbersThanCurrent = function(nums) {
         buckets[num]++
     }
     
-    for (let i = 1; i < buckets.length; i++) {
-        buckets[i] += buckets[i - 1]
+    let count = 0
+    for (let i = 0; i < buckets.length; i++) {
+        const temp = buckets[i]
+        buckets[i] = count
+        count += temp
     }
     
-    const result = []
-    for (const num of nums) {
-        if (num === 0) {
-            result.push(0)
-        } else {
-            result.push(buckets[num - 1])
-        } 
-    }
-    
-    return result
-};
+    return nums.map(num => buckets[num])
+}
 ```
 
 ## 1134. Armstrong Number
@@ -33214,3 +33208,4 @@ var numberOfArithmeticSlices = function(A) {
     return result
 };
 ```
+
