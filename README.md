@@ -17077,6 +17077,31 @@ var arraysIntersection = function(arr1, arr2, arr3) {
         return result
     }, [])
 };
+
+var arraysIntersection = function(arr1, arr2, arr3) {
+    const buckets = Array(2001).fill(0)
+    
+    for (const num of arr1) {
+        buckets[num]++
+    }
+    
+    for (const num of arr2) {
+        buckets[num]++
+    }
+    
+    for (const num of arr3) {
+        buckets[num]++
+    }
+    
+    const result = []
+    for (let num = 0; num < buckets.length; num++) {
+        if (buckets[num] === 3) {
+            result.push(num)
+        }
+    }
+    
+    return result
+};
 ```
 
 ## 599. Minimum Index Sum of Two Lists
