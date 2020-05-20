@@ -14811,17 +14811,20 @@ var uniqueOccurrences = function(arr) {
 
 ## 760. Find Anagram Mappings
 ```javascript
+/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @return {number[]}
+ */
+
 var anagramMappings = function(A, B) {
     const map = {}
-    const result = []
     
-    for (let i = 0; i < B.length; i++)
-        map[B[i]] = i
+    for (const [index, b] of B.entries()) {
+        map[b] = index
+    }
     
-    for (let a of A)
-        result.push(map[a])
-    
-    return result
+    return A.map(a => map[a])
 };
 ```
 
