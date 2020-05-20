@@ -7640,6 +7640,27 @@ var toLowerCase = function(str) {
     }
     return result.join('')
 };
+
+/**
+ * @param {string} str
+ * @return {string}
+ */
+var toLowerCase = function(str) {
+    const result = []
+    
+    for (const char of str) {
+        if (char < 'A' || char > 'Z') {
+            result.push(char)
+            continue
+        }
+        
+        const pos = char.charCodeAt(0) - 'A'.charCodeAt(0)
+        const code = pos + 'a'.charCodeAt(0)
+        result.push(String.fromCharCode(code))
+    }
+    
+    return result.join('')
+};
 ```
 
 ## 977. Squares of a Sorted Array
