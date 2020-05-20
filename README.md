@@ -17078,6 +17078,7 @@ var arraysIntersection = function(arr1, arr2, arr3) {
     }, [])
 };
 
+// Bucket Sort
 var arraysIntersection = function(arr1, arr2, arr3) {
     const buckets = Array(2001).fill(0)
     
@@ -17098,6 +17099,38 @@ var arraysIntersection = function(arr1, arr2, arr3) {
         if (buckets[num] === 3) {
             result.push(num)
         }
+    }
+    
+    return result
+};
+
+// Constant Space
+/**
+ * @param {number[]} arr1
+ * @param {number[]} arr2
+ * @param {number[]} arr3
+ * @return {number[]}
+ */
+var arraysIntersection = function(arr1, arr2, arr3) {
+    let p1 = 0
+    let p2 = 0
+    let p3 = 0
+    
+    const result = []
+    
+    while (p1 < arr1.length && p2 < arr2.length && p3 < arr3.length) {
+        if (arr1[p1] === arr2[p2] && arr1[p1] === arr3[p3]) {
+            result.push(arr1[p1])
+            p1++
+            p2++
+            p3++
+            continue
+        }
+        
+        const max = Math.max(arr1[p1], arr2[p2], arr3[p3])
+        if (arr1[p1] !== max) p1++
+        if (arr2[p2] !== max) p2++
+        if (arr3[p3] !== max) p3++
     }
     
     return result
