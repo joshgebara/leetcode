@@ -33343,4 +33343,49 @@ var increasingTriplet = function(nums) {
 
    return false
 };
+
+// Binary Search Solution O(n) time O(1) space
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var increasingTriplet = function(nums) {
+   const dp = []
+   
+   for (const num of nums) {
+       if (!dp.length || num > dp[dp.length - 1]) {
+           dp.push(num)
+           
+           if (dp.length === 3) {
+               return true
+           }
+           
+           continue
+       }
+       
+       const index = binarySearch(dp, num)
+       dp[index] = num
+   }
+   
+   return false
+};
+
+const binarySearch = (arr, target) => {
+    let low = 0
+    let high = arr.length - 1
+    
+    while (low < high) {
+        const mid = Math.floor((high - low) / 2) + low
+        
+        if (arr[mid] === target) {
+            return mid
+        } else if (arr[mid] > target) {
+            high = mid - 1
+        } else {
+            low = mid + 1
+        }
+    }
+    
+    return low
+}
 ```
