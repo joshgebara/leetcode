@@ -33427,3 +33427,45 @@ const binarySearch = (arr, target) => {
     return low
 }
 ```
+
+## 251. Flatten 2D Vector
+```javascript
+/**
+ * @param {number[][]} v
+ */
+var Vector2D = function(v) {
+    this.v = v
+    this.i = 0
+    this.a = 0
+};
+
+/**
+ * @return {number}
+ */
+Vector2D.prototype.next = function() {
+    this.nextAvailableIndex()
+    return this.v[this.a][this.i++]
+};
+
+/**
+ * @return {boolean}
+ */
+Vector2D.prototype.hasNext = function() {
+    this.nextAvailableIndex()
+    return this.a < this.v.length
+};
+
+/** 
+ * Your Vector2D object will be instantiated and called as such:
+ * var obj = new Vector2D(v)
+ * var param_1 = obj.next()
+ * var param_2 = obj.hasNext()
+ */
+
+Vector2D.prototype.nextAvailableIndex = function() {
+    while (this.a < this.v.length && this.i >= this.v[this.a].length) {
+        this.a++
+        this.i = 0
+    }
+};
+```
