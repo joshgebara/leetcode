@@ -33577,3 +33577,63 @@ var maxChunksToSorted = function(arr) {
     return chunks
 };
 ```
+
+## 244. Shortest Word Distance II
+```javascript
+/**
+ * @param {string[]} words
+ */
+var WordDistance = function(words) {
+    this.memo = {}
+    this.indices = {}
+    this.words = words
+    
+    for (let i = 0; i < words.length; i++) {
+        const word = words[i]
+        if (!this.indices[word])
+            this.indices[word] = []
+        
+        this.indices[word].push(i)
+    }
+};
+
+/** 
+ * @param {string} word1 
+ * @param {string} word2
+ * @return {number}
+ */
+WordDistance.prototype.shortest = function(word1, word2) {
+    const key1 = `${word1}-${word2}`
+    const key2 = `${word2}-${word1}`
+    
+    if (this.memo[key1])
+        return this.memo[key1]
+    
+    const dist = this.shortestWordDistance(word1, word2)
+    this.memo[key1] = dist
+    this.memo[key2] = dist
+    return dist
+};
+
+/** 
+ * Your WordDistance object will be instantiated and called as such:
+ * var obj = new WordDistance(words)
+ * var param_1 = obj.shortest(word1,word2)
+ */
+
+WordDistance.prototype.shortestWordDistance = function(word1, word2) {
+    let dist = this.words.length
+    
+    const arr1 = this.indices[word1]
+    const arr2 = this.indices[word2]
+    let p = 0
+    let q = 0
+
+    while (p < arr1.length && q < arr2.length) {
+        dist = Math.min(dist, Math.abs(arr1[p] - arr2[q]))
+        arr1[p] > arr2[q] ? q++ : p++
+    }
+    
+    return dist
+}
+```
