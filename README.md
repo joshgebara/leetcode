@@ -30195,6 +30195,26 @@ var isArmstrong = function(N) {
     
     return N === sum
 };
+
+// Log base 10 to n to get k
+/**
+ * @param {number} N
+ * @return {boolean}
+ */
+var isArmstrong = function(N) {
+    const k = Math.floor(Math.log10(N)) + 1
+    let sum = 0
+    
+    let num = N
+    while (num && sum < N) {
+        const digit = num % 10
+        const result = digit ** k
+        sum += result
+        num = Math.floor(num / 10)
+    }
+    
+    return sum === N
+};
 ```
 
 ## 1309. Decrypt String from Alphabet to Integer Mapping
