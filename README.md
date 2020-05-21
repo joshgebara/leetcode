@@ -33293,6 +33293,7 @@ var numberOfArithmeticSlices = function(A) {
 
 ## 300. Longest Increasing Subsequence
 ```javascript
+// O(n^2) time O(n) space
 /**
  * @param {number[]} nums
  * @return {number}
@@ -33314,5 +33315,32 @@ var lengthOfLIS = function(nums) {
     }
     
     return max
+};
+
+// O(n log n) time O(n) space
+
+```
+
+## 334. Increasing Triplet Subsequence
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var increasingTriplet = function(nums) {
+   let first = Number.MAX_VALUE
+   let second = Number.MAX_VALUE
+   
+   for (const num of nums) {
+       if (num <= first) {
+           first = num
+       } else if (num <= second) {
+           second = num
+       } else {
+           return true
+       }
+   }
+
+   return false
 };
 ```
