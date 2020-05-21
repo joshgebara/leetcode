@@ -16870,6 +16870,7 @@ var addStrings = function(num1, num2) {
 
 ## 1252. Cells with Odd Values in a Matrix
 ```javascript
+// Simulation
 var oddCells = function(n, m, indices) {
     const matrix = Array(n).fill(false).map(e => Array(m).fill(false))
     
@@ -16897,6 +16898,35 @@ const fillCol = (matrix, col, n) => {
         matrix[row][col] ^= true
     }
 }
+
+// Accumulate
+/**
+ * @param {number} n
+ * @param {number} m
+ * @param {number[][]} indices
+ * @return {number}
+ */
+var oddCells = function(n, m, indices) {
+    const rows = Array(n).fill(0)
+    const cols = Array(m).fill(0)
+    
+    for (const [row, col] of indices) {
+        rows[row]++
+        cols[col]++
+    }
+    
+    let odd = 0
+    
+    for (const row of rows) {
+        for (const col of cols) {
+            odd += isOdd(row + col)
+        }
+    }
+    
+    return odd
+};
+
+const isOdd = num => num & 1
 ```
 
 ## 73. Set Matrix Zeroes
