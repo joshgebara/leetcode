@@ -6510,6 +6510,45 @@ var highFive = function(items) {
         return result
     }, []) 
 };
+
+// Counting Sort
+var highFive = function(items) {
+    const map = {}
+    
+    const buckets = Array(101).fill(null)
+    
+    for (const [id, score] of items) {
+        if (!buckets[score]) buckets[score] = []
+        buckets[score].push([id, score])
+    }
+    
+    for (const scores of buckets) {
+        if (!scores) continue
+        for (const [id, score] of scores) {
+            if (!map[id]) map[id] = []
+            map[id].push(score)
+        }
+    }
+
+    const result = []
+    
+    for (const [id, scores] of Object.entries(map)) {
+        const avg = getAvg(scores)
+        result.push([id, avg])
+    }
+    
+    return result
+};
+
+const getAvg = scores => {
+    let sum = 0
+    
+    for (let i = scores.length - 1; i >= scores.length - 5; i--) {
+        sum += scores[i]
+    }
+    
+    return Math.floor(sum / 5)
+}
 ```
 
 ## 349. Intersection of Two Arrays
