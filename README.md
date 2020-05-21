@@ -33558,3 +33558,22 @@ Vector2D.prototype.nextAvailableIndex = function() {
     }
 };
 ```
+
+## 769. Max Chunks To Make Sorted
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var maxChunksToSorted = function(arr) {
+    let chunks = 0
+    let max = 0
+    
+    for (let i = 0; i < arr.length; i++) {
+        max = Math.max(max, arr[i])
+        if (max === i) chunks++
+    }
+    
+    return chunks
+};
+```
