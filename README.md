@@ -33637,3 +33637,37 @@ WordDistance.prototype.shortestWordDistance = function(word1, word2) {
     return dist
 }
 ```
+
+## 245. Shortest Word Distance III
+```javascript
+/**
+ * @param {string[]} words
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var shortestWordDistance = function(words, word1, word2) {
+    let i1 = -1
+    let i2 = -1
+    const same = word1 === word2
+    let dist = words.length
+    
+    for (const [index, word] of words.entries()) {
+        if (word === word1) {
+            if (same) {
+                i1 = i2
+                i2 = index
+            } else {
+                i1 = index
+            }
+        } else if (word === word2) {
+            i2 = index
+        }
+        
+        if (i1 !== -1 && i2 !== -1)
+            dist = Math.min(dist, Math.abs(i1 - i2))
+    }
+    
+    return dist    
+};
+```
