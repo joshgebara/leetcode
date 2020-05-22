@@ -21761,6 +21761,28 @@ var countLetters = function(S) {
     
     return count
 };
+
+/**
+ * @param {string} S
+ * @return {number}
+ */
+var countLetters = function(S) {
+    let count = 0
+    let prevChar = ''
+    let i = 0
+    
+    for (let j = 0; j < S.length; j++) {
+        const char = S[j]
+        if (prevChar !== char) {
+            i = j
+            prevChar = char
+        }
+        
+        count += j - i + 1
+    }
+    
+    return count
+};
 ```
 
 ## 958. Check Completeness of a Binary Tree
