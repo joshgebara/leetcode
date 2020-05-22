@@ -30273,18 +30273,16 @@ var freqAlphabets = function(s) {
 var sumZero = function(n) {
     const result = []
     
-    const isOdd = n & 1
-    if (isOdd) n--
-    
-    let num = 1
-    while (n) {
-        result.push(num)
-        result.push(-num)
-        num++
-        n -= 2
+    if (n & 1) {
+        result.push(0)
+        n--
     }
     
-    if (isOdd) result.push(0)
+    for (let i = 1; i <= Math.floor(n / 2); i++) {
+        result.push(i)
+        result.push(-i)
+    }
+    
     return result
 };
 ```
