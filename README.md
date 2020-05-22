@@ -33815,3 +33815,38 @@ PeekingIterator.prototype.hasNext = function() {
  * var param_3 = obj.hasNext()
  */
 ```
+
+## 540. Single Element in a Sorted Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var singleNonDuplicate = function(nums) {
+    let left = 0
+    let right = nums.length - 1
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        const isEven = (right - mid) % 2 === 0
+        
+        if (nums[mid] === nums[mid - 1]) {
+            if (isEven) {
+                right = mid - 2
+            } else {
+                left = mid + 1
+            }
+        } else if (nums[mid] === nums[mid + 1]) {
+            if (isEven) {
+                left = mid + 2
+            } else {
+                right = mid - 1
+            }
+        } else {
+            return nums[mid]
+        }
+    }
+    
+    return nums[left]
+};
+```
