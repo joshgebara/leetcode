@@ -33671,3 +33671,58 @@ var shortestWordDistance = function(words, word1, word2) {
     return dist    
 };
 ```
+
+## 281. Zigzag Iterator
+```javascript
+/**
+ * @constructor
+ * @param {Integer[]} v1
+ * @param {Integer[]} v1
+ */
+var ZigzagIterator = function ZigzagIterator(v1, v2) {
+    this.k = 2
+    this.lists = []
+    this.indices = []
+    
+    if (v1.length) {
+        this.lists.push(v1)
+        this.indices.push(0)
+    }
+    
+    if (v2.length) {
+        this.lists.push(v2)
+        this.indices.push(0)
+    }
+};
+
+/**
+ * @this ZigzagIterator
+ * @returns {boolean}
+ */
+ZigzagIterator.prototype.hasNext = function hasNext() {
+    return this.lists.length
+};
+
+/**
+ * @this ZigzagIterator
+ * @returns {integer}
+ */
+ZigzagIterator.prototype.next = function next() {
+    const currList = this.lists.shift()
+    let currIndex = this.indices.shift()
+    const result = currList[currIndex++]
+    
+    if (currIndex < currList.length) {
+        this.lists.push(currList)
+        this.indices.push(currIndex)
+    }
+    
+    return result
+};
+
+/**
+ * Your ZigzagIterator will be called like this:
+ * var i = new ZigzagIterator(v1, v2), a = [];
+ * while (i.hasNext()) a.push(i.next());
+*/
+```
