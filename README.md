@@ -33995,3 +33995,35 @@ const sumOfKDivisors = (num, k) => {
     return count === k ? sum : 0
 }
 ```
+
+## 1328. Break a Palindrome
+```javascript
+/**
+ * @param {string} palindrome
+ * @return {string}
+ */
+var breakPalindrome = function(palindrome) {
+    if (palindrome.length <= 1) return ''
+    
+    const p = palindrome.split('')
+    
+    let i = 0
+    let j = p.length - 1
+    
+    while (i < j) {
+        const char1 = p[i]
+        const char2 = p[j]
+        
+        if (char1 !== 'a') {
+            p[i] = 'a'
+            return p.join('')
+        }
+        
+        i++
+        j--
+    }
+    
+    p[p.length - 1] = 'b'
+    return p.join('')
+};
+```
