@@ -33914,3 +33914,44 @@ var summaryRanges = function(nums) {
     return result
 };
 ```
+
+## 163. Missing Ranges
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} lower
+ * @param {number} upper
+ * @return {string[]}
+ */
+var findMissingRanges = function(nums, lower, upper) {
+    if (!nums.length) {
+        return [strForRange(lower, upper)]
+    }
+    
+    const result = []
+    
+    if (nums[0] > lower) {
+        result.push(strForRange(lower, nums[0] - 1))
+    }
+    
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] - 1 !== nums[i - 1] && nums[i] !== nums[i - 1]) {
+            result.push(strForRange(nums[i - 1] + 1, nums[i] - 1))
+        }
+    }
+    
+    if (nums[nums.length - 1] < upper) {
+        result.push(strForRange(nums[nums.length - 1] + 1, upper))
+    }
+    
+    return result
+};
+    
+const strForRange = (start, end) => {
+    if (start === end) {
+        return `${start}`
+    } else {
+        return `${start}->${end}`
+    }
+}
+```
