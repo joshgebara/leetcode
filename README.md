@@ -33880,3 +33880,37 @@ var longestCommonSubsequence = function(text1, text2) {
     return lCS(text1.length - 1, text2.length - 1)
 };
 ```
+
+## 228. Summary Ranges
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {string[]}
+ */
+var summaryRanges = function(nums) {
+    if (!nums.length) return []
+    
+    const result = []
+    
+    let start = nums[0]
+    let end = nums[0]
+    
+    for (let i = 1; i <= nums.length; i++) {
+        if (nums[i] - 1 === nums[i - 1]) {
+            end = nums[i] 
+            continue
+        }
+        
+        if (start === end) {
+            result.push(`${start}`)
+        } else {
+            result.push(`${start}->${end}`) 
+        }
+        
+        start = nums[i]
+        end = nums[i]
+    }
+    
+    return result
+};
+```
