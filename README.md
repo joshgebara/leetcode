@@ -33955,3 +33955,43 @@ const strForRange = (start, end) => {
     }
 }
 ```
+
+## 1390. Four Divisors
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+
+var sumFourDivisors = function(nums) {
+    let sum = 0
+    
+    for (const num of nums) {
+        sum += sumOfKDivisors(num, 4)
+    }
+    
+    return sum
+};
+
+const sumOfKDivisors = (num, k) => {
+    let sum = num + 1
+    let count = 2
+    
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i !== 0) continue
+        
+        if (num / i === i) {
+            sum += i
+            count += 1              
+        } else {
+            sum += num / i
+            sum += i
+            count += 2    
+        }
+        
+        if (count > k) break
+    }
+    
+    return count === k ? sum : 0
+}
+```
