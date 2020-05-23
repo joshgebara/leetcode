@@ -33850,3 +33850,33 @@ var singleNonDuplicate = function(nums) {
     return nums[left]
 };
 ```
+
+## 1143. Longest Common Subsequence
+```javascript
+// Top-Down Recursive
+/**
+ * @param {string} text1
+ * @param {string} text2
+ * @return {number}
+ */
+var longestCommonSubsequence = function(text1, text2) {
+    const lCS = (i, j) => {
+        if (i < 0 || j < 0) 
+            return 0
+        
+        if (memo[i][j] !== -1) 
+            return memo[i][j]
+        
+        if (text1[i] === text2[j]) {
+            memo[i][j] = 1 + lCS(i - 1, j - 1)
+        } else {
+            memo[i][j] = Math.max(lCS(i - 1, j), lCS(i, j - 1))
+        }
+        
+        return memo[i][j]
+    }
+    
+    const memo = Array(text1.length).fill(0).map(a => Array(text2.length).fill(-1))
+    return lCS(text1.length - 1, text2.length - 1)
+};
+```
