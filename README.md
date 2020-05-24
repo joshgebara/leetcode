@@ -34213,4 +34213,44 @@ const floodFill = (grid, originRow, originCol, path) => {
     _floodFill(originRow, originCol)
     return path.join('')
 }
+
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var numDistinctIslands = function(grid) {
+    const islands = new Set()
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (!grid[row][col]) continue
+            const shape = floodFill(grid, row, col, [])
+            islands.add(shape)
+        }
+    }
+    
+    return islands.size
+};
+
+const floodFill = (grid, originRow, originCol, path) => {
+    const _floodFill = (row, col, dir) => {
+        if (row < 0 || col < 0 || 
+            row >= grid.length || col >= grid[0].length || 
+            grid[row][col] === 0) return
+        
+        grid[row][col] = 0
+        
+        path.push(dir)
+
+        _floodFill(row + 1, col, 'D')
+        _floodFill(row - 1, col, 'U')
+        _floodFill(row, col + 1, 'R')
+        _floodFill(row, col - 1, 'L')
+        
+        path.push('E')
+    }
+    
+    _floodFill(originRow, originCol, 'S')
+    return path.join('')
+}
 ```
