@@ -34067,3 +34067,31 @@ var compareVersion = function(version1, version2) {
     return 0
 };
 ```
+
+## 573. Squirrel Simulation
+```javascript
+/**
+ * @param {number} height
+ * @param {number} width
+ * @param {number[]} tree
+ * @param {number[]} squirrel
+ * @param {number[][]} nuts
+ * @return {number}
+ */
+var minDistance = function(height, width, tree, squirrel, nuts) {
+    let dist = 0
+    let savings = -Number.MAX_VALUE
+    
+    for (const nut of nuts) {
+        const currDist = distance(nut, tree)
+        dist += currDist * 2
+        savings = Math.max(savings, currDist - distance(nut, squirrel))
+    }
+    
+    return dist - savings
+};
+
+const distance = (a, b) => {
+    return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1])
+}
+```
