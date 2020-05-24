@@ -34027,3 +34027,43 @@ var breakPalindrome = function(palindrome) {
     return p.join('')
 };
 ```
+
+## 165. Compare Version Numbers
+```javascript
+/**
+ * @param {string} version1
+ * @param {string} version2
+ * @return {number}
+ */
+var compareVersion = function(version1, version2) {
+    let p = 0
+    let q = 0
+    let pNum = 0
+    let qNum = 0
+    
+    while (p < version1.length || q < version2.length) {    
+        while (p < version1.length && version1[p] !== '.') {
+            pNum *= 10
+            pNum += +version1[p++]
+        }
+        
+        while (q < version2.length && version2[q] !== '.') {
+            qNum *= 10
+            qNum += +version2[q++]
+        }
+        
+        if (pNum > qNum) {
+            return 1
+        } else if (pNum < qNum) {
+            return -1
+        }
+        
+        p++
+        q++
+        pNum = 0
+        qNum = 0
+    }
+    
+    return 0
+};
+```
