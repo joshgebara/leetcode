@@ -34173,3 +34173,44 @@ var maxVowels = function(s, k) {
     return max
 };
 ```
+
+## 694. Number of Distinct Islands
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var numDistinctIslands = function(grid) {
+    const islands = new Set()
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (!grid[row][col]) continue
+            const shape = floodFill(grid, row, col, [])
+            islands.add(shape)
+        }
+    }
+    
+    return islands.size
+};
+
+const floodFill = (grid, originRow, originCol, path) => {
+    const _floodFill = (row, col) => {
+        if (row < 0 || col < 0 || 
+            row >= grid.length || col >= grid[0].length || 
+            grid[row][col] === 0) return
+        
+        grid[row][col] = 0
+        
+        path.push(row - originRow, col - originCol)
+
+        _floodFill(row + 1, col)
+        _floodFill(row - 1, col)
+        _floodFill(row, col + 1)
+        _floodFill(row, col - 1)
+    }
+    
+    _floodFill(originRow, originCol)
+    return path.join('')
+}
+```
