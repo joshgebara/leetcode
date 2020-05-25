@@ -34404,3 +34404,42 @@ var pseudoPalindromicPaths  = function(root) {
     return count
 };
 ```
+
+## 161. One Edit Distance
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isOneEditDistance = function(s1, s2) {
+    if (!s1.length && !s2.length) return 0
+    
+    const long = s1.length < s2.length ? s2 : s1
+    const short = s1.length < s2.length ? s1 : s2
+    const diff = long.length - short.length
+    if (diff > 1) return false
+    
+    let mismatch = 0
+    let l = 0
+    let s = 0
+    
+    while (l < long.length || s < short.length) {
+        if (long[l] !== short[s]) {
+            mismatch++
+            
+            if (mismatch > 1) return false
+            
+            if (diff > 0) {
+                l++
+                continue
+            }
+        }
+        
+        l++
+        s++
+    }
+
+    return mismatch === 1
+};
+```
