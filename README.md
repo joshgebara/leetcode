@@ -7873,34 +7873,38 @@ var sortArrayByParity = function(A) {
 };
 
 // Two Pointers
-const isEven = num => (num & 1) === 0
-
+/**
+ * @param {number[]} A
+ * @return {number[]}
+ */
 var sortArrayByParity = function(A) {
     let i = 0
-    let j = 1
+    let j = A.length - 1
     
-    while (j < A.length) {
-        if (isEven(A[i])) {
+    while (i < j) {
+        while (i < j && isEven(A[i])) {
             i++
-            j++
-            continue
         }
         
-        if (!isEven(A[j])) {
-            j++
-            continue
+        while (j > i && !isEven(A[j])) {
+            j--
         }
         
-        let temp = A[j]
-        A[j] = A[i]
-        A[i] = temp    
-        
+        swap(A, i, j)
         i++
-        j++
+        j--
     }
     
     return A
 };
+
+const isEven = num => num % 2 === 0
+
+const swap = (A, i, j) => {
+    const temp = A[i]
+    A[i] = A[j]
+    A[j] = temp
+}
 ```
 
 ## 561. Array Partition I
