@@ -7831,6 +7831,39 @@ var flipAndInvertImage = function(A) {
     }
     return A
 };
+
+/**
+ * @param {number[][]} A
+ * @return {number[][]}
+ */
+var flipAndInvertImage = function(A) {
+    for (let row = 0; row < A.length; row++) {
+        reverse(A[row])
+    }
+    
+    return A
+};
+
+const reverse = arr => {
+    let i = 0
+    let j = arr.length - 1
+    
+    while (i < j) {
+        const temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+        
+        arr[i] ^= 1
+        arr[j] ^= 1
+        
+        i++
+        j--
+    }
+
+    if (i === j) {
+        arr[i] ^= 1
+    }
+}
 ```
 
 ## 905. Sort Array By Parity
