@@ -34367,3 +34367,40 @@ RandomizedSet.prototype.random = function(start, end) {
     return Math.floor(Math.random() * (end - start + 1)) + start
 };
 ```
+
+## 1457. Pseudo-Palindromic Paths in a Binary Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var pseudoPalindromicPaths  = function(root) {
+    const dfs = (node, bin) => {
+        if (!node) return
+        
+        bin ^= 1 << (node.val - 1)
+        
+        if (!node.left && !node.right) {    
+            if ((bin & (bin - 1)) === 0)
+                count++
+            
+            return
+        }
+        
+        dfs(node.left, bin)
+        dfs(node.right, bin)
+    }
+    
+    let count = 0
+    dfs(root, 0)
+    return count
+};
+```
