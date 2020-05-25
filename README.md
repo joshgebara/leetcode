@@ -34443,3 +34443,22 @@ var isOneEditDistance = function(s1, s2) {
     return mismatch === 1
 };
 ```
+
+## 1295. Find Numbers with Even Number of Digits
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findNumbers = function(nums) {
+    let count = 0
+    
+    for (const num of nums) {
+        count += isEven(Math.floor(Math.log10(num)) + 1)
+    }
+    
+    return count
+};
+
+const isEven = num => num % 2 === 0
+```
