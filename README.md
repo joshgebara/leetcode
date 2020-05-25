@@ -34254,3 +34254,51 @@ const floodFill = (grid, originRow, originCol, path) => {
     return path.join('')
 }
 ```
+
+## 670. Maximum Swap
+```javascript
+/**
+ * @param {number} num
+ * @return {number}
+ */
+var maximumSwap = function(num) {
+    let nums = []
+    let maxes = []
+    let maxNum = -1
+    let maxIdx = -1
+    let idx = 0
+    
+    while (num) {
+        const digit = num % 10
+        nums.push(digit)
+        maxes.push([maxNum, maxIdx])
+        
+        if (maxNum < digit) {
+            maxNum = digit
+            maxIdx = idx
+        }
+        
+        idx++
+        num = Math.floor(num / 10)
+    }
+    
+    for (let i = nums.length - 1; i >= 0; i--) {
+        const [mNum, mIdx] = maxes[i]
+        
+        if (nums[i] < mNum) {
+            const temp = nums[i]
+            nums[i] = nums[mIdx]
+            nums[mIdx] = temp
+            break
+        }
+    }
+    
+    let result = 0
+    for (let i = nums.length - 1; i >= 0; i--) {
+        result *= 10
+        result += nums[i]
+    }
+    
+    return result
+};
+```
