@@ -18288,6 +18288,45 @@ var selfDividingNumbers = function(left, right) {
     
     return result
 };
+
+/**
+ * @param {number} left
+ * @param {number} right
+ * @return {number[]}
+ */
+
+const memo = {}
+
+var selfDividingNumbers = function(left, right) {
+    const result = []
+    
+    for (let i = left; i <= right; i++) {
+        if (valid(i)) {
+            result.push(i)
+        }
+    }
+    
+    return result
+};
+
+const valid = num => {
+    if (memo[num]) return memo[num]
+    
+    let n = num
+    while (n) {
+        const digit = n % 10
+        
+        if (digit === 0 || num % digit !== 0) {
+            memo[num] = false
+            return memo[num]
+        }
+        
+        n = Math.floor(n / 10)
+    }
+    
+    memo[num] = true
+    return memo[num]
+}
 ```
 
 ## 9. Palindrome Number
