@@ -9595,6 +9595,43 @@ var mergeTrees = function(t1, t2) {
     t1.right = mergeTrees(t1.right, t2.right)
     return t1
 };
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} t1
+ * @param {TreeNode} t2
+ * @return {TreeNode}
+ */
+var mergeTrees = function(t1, t2) {
+    const dfs = (t1, t2) => {
+        let node = null
+        
+        if (t1 && !t2) {
+            node = new TreeNode(t1.val)
+            node.left = dfs(t1.left, null)
+            node.right = dfs(t1.right, null)
+        } else if (!t1 && t2) {
+            node = new TreeNode(t2.val)
+            node.left = dfs(null, t2.left)
+            node.right = dfs(null, t2.right)
+        } else if (t1 && t2) {
+            node = new TreeNode(t1.val + t2.val)
+            node.left = dfs(t1.left, t2.left)
+            node.right = dfs(t1.right, t2.right)
+        }
+        
+        return node
+    }
+    
+    return dfs(t1, t2)
+};
 ```
 
 ## 700. Search in a Binary Search Tree
