@@ -14879,41 +14879,16 @@ var largestNumber = function(nums) {
 
 ## 961. N-Repeated Element in Size 2N Array
 ```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
 var repeatedNTimes = function(A) {
-    const map = new Map()
+    const unique = new Set()
     
-    for (let a of A) {
-        if (map.get(a) === undefined) {
-            map.set(a, 1)
-        } else {
-            map.set(a, map.get(a) + 1)
-        }
-    }
-    
-    for (let [key, val] of map.entries()) {
-        if (val === Math.floor(A.length / 2)) {
-            return key
-        }
-    }
-};
-
-var repeatedNTimes = function(A) {
-    A.sort((a, b) => a - b)
-    
-    let val = 0
-    let valCount = 0
-    
-    for (let a of A) {
-        if (a === val) {
-            valCount++
-            if (valCount === Math.floor(A.length / 2))
-                return val
-            
-            continue
-        }
-        
-        val = a
-        valCount = 1
+    for (const a of A) {
+        if (unique.has(a)) return a
+        unique.add(a)
     }
 };
 ```
