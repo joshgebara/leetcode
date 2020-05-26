@@ -34493,3 +34493,77 @@ var findNumbers = function(nums) {
 
 const isEven = num => num % 2 === 0
 ```
+
+## 1146. Snapshot Array
+```javascript
+/**
+ * @param {number} length
+ */
+var SnapshotArray = function(length) {
+    this.arr = Array(length).fill(0).map(a => [])
+    this.currSnap = 0
+};
+
+/** 
+ * @param {number} index 
+ * @param {number} val
+ * @return {void}
+ */
+SnapshotArray.prototype.set = function(i, val) {
+    const last = this.arr[i].length - 1
+    if (!this.arr[i].length || this.arr[i][last][0] !== this.currSnap) {
+        this.arr[i].push([this.currSnap, val])
+    } else {
+        this.arr[i][last][1] = val
+    }
+};
+
+/**
+ * @return {number}
+ */
+SnapshotArray.prototype.snap = function() {
+   return this.currSnap++
+};
+
+/** 
+ * @param {number} index 
+ * @param {number} snap_id
+ * @return {number}
+ */
+SnapshotArray.prototype.get = function(i, snap_id) {
+    const elements = this.arr[i]
+    if (!elements.length) return 0
+    
+    const index = this.binarySearch(elements, snap_id)
+    if (index === -1) return 0
+    
+    return elements[index][1]
+};
+
+/** 
+ * Your SnapshotArray object will be instantiated and called as such:
+ * var obj = new SnapshotArray(length)
+ * obj.set(index,val)
+ * var param_2 = obj.snap()
+ * var param_3 = obj.get(index,snap_id)
+ */
+
+SnapshotArray.prototype.binarySearch = function(arr, target) {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid][0] === target) {
+            return mid
+        } else if (arr[mid][0] < target) {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return right
+};
+```
