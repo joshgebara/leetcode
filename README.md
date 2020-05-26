@@ -34567,3 +34567,23 @@ SnapshotArray.prototype.binarySearch = function(arr, target) {
     return right
 };
 ```
+
+## 771. Jewels and Stones
+```javascript
+/**
+ * @param {string} J
+ * @param {string} S
+ * @return {number}
+ */
+var numJewelsInStones = function(J, S) {
+    const jewels = new Set(J)
+    
+    let count = 0
+    
+    for (const s of S) {
+        count += jewels.has(s)
+    }
+    
+    return count
+};
+```
