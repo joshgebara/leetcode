@@ -30753,25 +30753,23 @@ var maxIncreaseKeepingSkyline = function(grid) {
  */
 var minSubsequence = function(nums) {
     const buckets = Array(101).fill(0)
-    let sum = 0
-    
+    let totalSum = 0
     for (const num of nums) {
         buckets[num]++
-        sum += num
+        totalSum += num
     }
-
-    const result = []
-    let subSum = 0
     
-    outer : for (let i = buckets.length - 1; i >= 0; i--) {
-        let bucket = buckets[i]
+    const result = []
+    let sum = 0
+    for (let i = buckets.length - 1; i >= 0; i--) {
+        if (buckets[i] === 0) continue
         
-        while (bucket--) {
-            subSum += i
-            sum -= i
+        while (buckets[i]--) {
             result.push(i)
+            sum += i
+            totalSum -= i
             
-            if (subSum > sum) break outer
+            if (sum > totalSum) return result
         }
     }
     
@@ -34747,3 +34745,4 @@ var numJewelsInStones = function(J, S) {
     return count
 };
 ```
+
