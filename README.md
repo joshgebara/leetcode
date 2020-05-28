@@ -4806,42 +4806,31 @@ console.log(count)
 
 ## 1051. Height Checker
 ```javascript
-// Counting Sort
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
 var heightChecker = function(heights) {
-    let counts = Array(101).fill(0)
-    for (let height of heights) counts[height]++
+    const buckets = Array(101).fill(0)
+    for (const height of heights) {
+        buckets[height]++
+    }
     
-    let sortedHeights = []
-    for (let i = 0; i < counts.length; i++) {
-        while (counts[i] > 0) {
+    const sortedHeights = []
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
             sortedHeights.push(i)
-            counts[i]--
         }
     }
     
-    let i = 0
-    let j = 0
-    let count = 0
-    while (i < heights.length && j < sortedHeights.length) {
-        if (heights[i] !== sortedHeights[j]) count++
-        i++
-        j++
+    let diff = 0
+    for (let i = 0; i < heights.length; i++) {
+        if (sortedHeights[i] !== heights[i])
+            diff++
     }
-    return count
+    
+    return diff
 };
-
-// N Log N Sort
-var heightChecker = function(heights) {
-  let sortedHeights = heights.map((num) => num).sort((a, b) => a - b)
-  let count = 0
-  for (let i = 0; i < heights.length; i++) {
-    if (heights[i] !== sortedHeights[i]) count++
-  }
-  return count
-};
-
-heightChecker([10,6,6,10,10,9,8,8,3,3,8,2,1,5,1,9,5,2,7,4,7,7])
-
 ```
 
 ## 922. Sort Array By Parity II
