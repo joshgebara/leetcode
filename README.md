@@ -18997,21 +18997,23 @@ var diStringMatch = function(S) {
 
 ## 944. Delete Columns to Make Sorted
 ```javascript
+/**
+ * @param {string[]} A
+ * @return {number}
+ */
 var minDeletionSize = function(A) {
-    if (!A.length) return 0
-    const N = A[0].length
+    let d = 0
     
-    let count = 0
-    for (let col = 0; col < N; col++) {
+    for (let col = 0; col < A[0].length; col++) {
         for (let row = 0; row < A.length - 1; row++) {
             if (A[row][col] > A[row + 1][col]) {
-                count++
+                d++
                 break
             }
         }
     }
     
-    return count
+    return d
 };
 ```
 
