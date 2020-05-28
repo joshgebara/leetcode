@@ -9300,6 +9300,34 @@ var preorder = function(root) {
     
     return result
 };
+
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number[]}
+ */
+var preorder = function(root) {
+    const _preorder = node => {
+        if (!node) return
+
+        result.push(node.val)
+
+        for (const child of node.children) {
+            _preorder(child)
+        }
+    }
+    
+    const result = []
+    _preorder(root)
+    return result
+};
 ```
 
 ## 590. N-ary Tree Postorder Traversal
