@@ -6225,6 +6225,96 @@ class Queue {
         return this.leftStack.length + this.rightStack.length
     }
 }
+
+/**
+ * Initialize your data structure here.
+ * @param {number} size
+ */
+var MovingAverage = function(size) {
+    this.windowSize = size
+    this.runningSum = 0
+    this.window = new Queue()
+};
+
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+MovingAverage.prototype.next = function(val) {
+    this.window.enqueue(val)
+    
+    if (this.window.length() > this.windowSize) {
+        this.runningSum -= this.window.dequeue()
+    }
+    
+    this.runningSum += val
+    return this.runningSum / this.window.length()
+};
+
+/** 
+ * Your MovingAverage object will be instantiated and called as such:
+ * var obj = new MovingAverage(size)
+ * var param_1 = obj.next(val)
+ */
+
+class Queue {
+    constructor() {
+        this.elements = new LinkedList()
+    }
+    
+    enqueue(val) {
+        this.elements.push(val)
+    }
+    
+    dequeue() {
+        return this.elements.popHead().val
+    }
+    
+    length() {
+        return this.elements.length
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this.head = null
+        this.tail = null
+        this.length = 0
+    }
+    
+    push(val) {
+        const newNode = new Node(val)
+        
+        if (!this.head) {
+            this.head = newNode
+            this.tail = this.head
+        } else {
+            this.tail.next = newNode
+            this.tail = this.tail.next
+        }
+        
+        this.length++
+    }
+    
+    popHead() {
+        const node = this.head
+        this.head = this.head.next
+        
+        if (!this.head) {
+            this.tail = null
+        }
+        
+        this.length--
+        return node
+    }
+}
+
+class Node {
+    constructor(val) {
+        this.val = val
+        this.next = null
+    }
+}
 ```
 
 ## 1021. Remove Outermost Parentheses
