@@ -6175,9 +6175,9 @@ RecentCounter.prototype.ping = function(t) {
  * @param {number} size
  */
 var MovingAverage = function(size) {
-    this.queue = []
-    this.sum = 0
-    this.size = size
+    this.windowSize = size
+    this.runningSum = 0
+    this.window = new Queue()
 };
 
 /** 
@@ -6185,14 +6185,14 @@ var MovingAverage = function(size) {
  * @return {number}
  */
 MovingAverage.prototype.next = function(val) {
-    if (this.queue.length === this.size) {
-        this.sum -= this.queue.shift()
+    this.window.enqueue(val)
+    
+    if (this.window.length() > this.windowSize) {
+        this.runningSum -= this.window.dequeue()
     }
     
-    this.queue.push(val)
-    this.sum += val
-    
-    return this.sum / this.queue.length
+    this.runningSum += val
+    return this.runningSum / this.window.length()
 };
 
 /** 
@@ -6200,6 +6200,31 @@ MovingAverage.prototype.next = function(val) {
  * var obj = new MovingAverage(size)
  * var param_1 = obj.next(val)
  */
+
+class Queue {
+    constructor() {
+        this.leftStack = []
+        this.rightStack = []
+    }
+    
+    enqueue(val) {
+        this.leftStack.push(val)
+    }
+    
+    dequeue() {
+        if (!this.rightStack.length) {
+            while (this.leftStack.length) {
+                this.rightStack.push(this.leftStack.pop())
+            }
+        }
+        
+        return this.rightStack.pop()
+    }
+    
+    length() {
+        return this.leftStack.length + this.rightStack.length
+    }
+}
 ```
 
 ## 1021. Remove Outermost Parentheses
