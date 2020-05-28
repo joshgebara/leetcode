@@ -14982,6 +14982,20 @@ var uniqueOccurrences = function(arr) {
     const unique = new Set(counts)
     return unique.size === counts.length
 };
+
+/**
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+var uniqueOccurrences = function(arr) {
+    const map = new Map()
+    for (const a of arr) {
+        map.set(a, 1 + (map.get(a) || 0))
+    }
+    
+    const unique = new Set(map.values())
+    return map.size === unique.size
+};
 ```
 
 ## 760. Find Anagram Mappings
