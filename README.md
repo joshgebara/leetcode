@@ -6315,6 +6315,93 @@ class Node {
         this.next = null
     }
 }
+
+/**
+ * Initialize your data structure here.
+ * @param {number} size
+ */
+var MovingAverage = function(size) {
+    this.windowSize = size
+    this.runningSum = 0
+    this.window = new Queue(size)
+};
+
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+MovingAverage.prototype.next = function(val) {
+    if (this.window.length() >= this.windowSize) {
+        this.runningSum -= this.window.dequeue()
+    }
+    
+    this.window.enqueue(val)
+    
+    this.runningSum += val
+    return this.runningSum / this.window.length()
+};
+
+/** 
+ * Your MovingAverage object will be instantiated and called as such:
+ * var obj = new MovingAverage(size)
+ * var param_1 = obj.next(val)
+ */
+
+class Queue {
+    constructor(size) {
+        this.elements = new RingBuffer(size)
+    }
+    
+    enqueue(val) {
+        this.elements.insert(val)
+    }
+    
+    dequeue() {
+        return this.elements.remove()
+    }
+    
+    length() {
+        return this.elements.length()
+    }
+}
+
+class RingBuffer {
+    constructor(size) {
+        this.elements = Array(size).fill(NaN)
+        this.size = size
+        this.writeIndex = 0
+        this.readIndex = 0
+    }
+    
+    insert(val) {
+        if (this.canWrite()) {
+            this.elements[this.writeIndex % this.size] = val
+            this.writeIndex++
+        }
+    }
+    
+    remove() {
+        if (this.canRead()) {
+            const element = this.elements[this.readIndex % this.size]
+            this.readIndex++
+            return element
+        } else {
+            return null
+        }
+    }
+    
+    length() {
+        return this.writeIndex - this.readIndex
+    }
+    
+    canWrite() {
+        return this.writeIndex - this.readIndex < this.size
+    }
+    
+    canRead() {
+        return this.readIndex < this.writeIndex
+    }
+}
 ```
 
 ## 1021. Remove Outermost Parentheses
