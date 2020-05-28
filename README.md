@@ -9348,6 +9348,36 @@ var postorder = function(root) {
     
     return result.reverse()
 };
+
+/**
+ * // Definition for a Node.
+ * function Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number[]}
+ */
+var postorder = function(root) {
+    if (!root) return []
+    
+    const result = []
+    const stack = [root]
+    
+    while (stack.length) {
+        const top = stack.pop()
+        result.push(top.val)
+        
+        for (const child of top.children) {
+            stack.push(child)
+        }
+    }
+    
+    return result.reverse()
+}
 ```
 
 ## 559. Maximum Depth of N-ary Tree
