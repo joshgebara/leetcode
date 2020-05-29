@@ -18576,7 +18576,6 @@ var binaryGap = function(N) {
 
 ## 586. Customer Placing the Largest Number of Orders
 ```sql
-
 SELECT customer_number 
 FROM orders
 GROUP BY customer_number
@@ -35013,3 +35012,34 @@ var numJewelsInStones = function(J, S) {
 };
 ```
 
+## 359. Logger Rate Limiter
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var Logger = function() {
+    this.log = {}
+};
+
+/**
+ * Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity. 
+ * @param {number} timestamp 
+ * @param {string} message
+ * @return {boolean}
+ */
+Logger.prototype.shouldPrintMessage = function(timestamp, message) {
+    if (this.log[message] === undefined || this.log[message] + 10 <= timestamp) {
+        this.log[message] = timestamp
+        return true
+    }
+    return false
+};
+
+/** 
+ * Your Logger object will be instantiated and called as such:
+ * var obj = new Logger()
+ * var param_1 = obj.shouldPrintMessage(timestamp,message)
+ */
+```
