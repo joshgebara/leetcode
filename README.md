@@ -35043,3 +35043,35 @@ Logger.prototype.shouldPrintMessage = function(timestamp, message) {
  * var param_1 = obj.shouldPrintMessage(timestamp,message)
  */
 ```
+
+## 811. Subdomain Visit Count
+```javascript
+/**
+ * @param {string[]} cpdomains
+ * @return {string[]}
+ */
+var subdomainVisits = function(cpdomains) {
+    const map = {}
+    
+    for (const cpdomain of cpdomains) {
+        const [visits, domain] = cpdomain.split(' ')
+        
+        let validSubdomain = true
+        for (let i = 0; i < domain.length; i++) {
+            if (validSubdomain) {
+                const subdomain = domain.slice(i)
+                
+                if (!map[subdomain]) 
+                    map[subdomain] = 0
+                
+                map[subdomain] += +visits
+                validSubdomain = false
+            }
+            
+            validSubdomain = domain[i] === '.'
+        }
+    }
+    
+    return Object.entries(map).map(pair => `${pair[1]} ${pair[0]}`)
+};
+```
