@@ -19146,10 +19146,11 @@ HAVING COUNT(*) >= 3
 
 ## 613. Shortest Distance in a Line
 ```sql
-SELECT MIN(ABS(p1.x - p2.x)) as shortest
-FROM point as p1
-JOIN point as p2
-ON p1.x != p2.x
+# Write your MySQL query statement below
+SELECT MIN(ABS(p1.x - p2.x)) AS shortest
+FROM point AS p1
+JOIN point AS p2 
+ON p1.x <> p2.x
 ```
 
 ## 1251. Average Selling Price
