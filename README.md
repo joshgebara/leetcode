@@ -18770,7 +18770,6 @@ GROUP BY product_id
 
 ## 511. Game Play Analysis I
 ```sql
-
 SELECT player_id, MIN(event_date) as first_login
 FROM ACTIVITY
 GROUP BY player_id
@@ -18778,7 +18777,6 @@ GROUP BY player_id
 
 ## 1173. Immediate Food Delivery I
 ```sql
-
 SELECT ROUND(100 * AVG(order_date = customer_pref_delivery_date), 2) AS immediate_percentage 
 FROM Delivery
 ```
@@ -32536,21 +32534,13 @@ const factorial = num => {
 ## 1435. Create a Session Bar Chart
 ```javascript
 # Write your MySQL query statement below
-SELECT '[0-5>' AS bin,
-       SUM(CASE WHEN duration/60 BETWEEN 0 AND 5 THEN 1 ELSE 0 END) as total
-FROM Sessions
+SELECT '[0-5>' AS bin, SUM(duration/60 BETWEEN 0 AND 5) AS total FROM Sessions
 UNION ALL
-SELECT '[5-10>' AS bin,
-       SUM(CASE WHEN duration/60 BETWEEN 5 AND 10 THEN 1 ELSE 0 END) as total
-FROM Sessions
+SELECT '[5-10>' AS bin, SUM(duration/60 BETWEEN 5 AND 10) AS total FROM Sessions
 UNION ALL
-SELECT '[10-15>' AS bin,
-       SUM(CASE WHEN duration/60 BETWEEN 10 AND 15 THEN 1 ELSE 0 END) as total
-FROM Sessions
+SELECT '[10-15>' AS bin, SUM(duration/60 BETWEEN 10 AND 15) AS total FROM Sessions
 UNION ALL
-SELECT '15 or more' AS bin,
-       SUM(CASE WHEN duration/60 >= 15 THEN 1 ELSE 0 END) as total
-FROM Sessions
+SELECT '15 or more' AS bin, SUM(duration/60 >= 15) AS total FROM Sessions
 ```
 
 ## 665. Non-decreasing Array
