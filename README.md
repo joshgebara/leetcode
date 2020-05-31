@@ -35099,3 +35099,26 @@ var maxProduct = function(nums) {
     return (max1 - 1) * (max2 - 1)
 };
 ```
+
+## 1460. Make Two Arrays Equal by Reversing Sub-arrays
+```javascript
+/**
+ * @param {number[]} target
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+var canBeEqual = function(target, arr) {
+    const buckets = Array(1001).fill(0)
+    
+    for (let i = 0; i < target.length; i++) {
+        buckets[target[i]]++
+        buckets[arr[i]]--
+    }
+    
+    for (const bucket of buckets) {
+        if (bucket !== 0) return false
+    }
+    
+    return true
+};
+```
