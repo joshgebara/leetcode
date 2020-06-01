@@ -35125,6 +35125,7 @@ var canBeEqual = function(target, arr) {
 
 ## 406. Queue Reconstruction by Height
 ```javascript
+// O(n^2)
 /**
  * @param {number[][]} people
  * @return {number[][]}
@@ -35142,4 +35143,55 @@ var reconstructQueue = function(people) {
     
     return result
 };
+```
+
+## 1237. Find Positive Integer Solution for a Given Equation
+```javascript
+/**
+ * // This is the CustomFunction's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * function CustomFunction() {
+ *     @param {integer, integer} x, y
+ *     @return {integer}
+ *     this.f = function(x, y) {
+ *         ...
+ *     };
+ * };
+ */
+
+/**
+ * @param {CustomFunction} customfunction
+ * @param {integer} z
+ * @return {integer[][]}
+ */
+var findSolution = function(customfunction, z) {
+    const pairs = []
+    
+    for (let x = 1; x <= 1000; x++) {
+        const y = binarySearch(customfunction, x, z)
+        if (y === -1) continue
+        pairs.push([x, y])
+    }
+    
+    return pairs
+};
+
+const binarySearch = (customfunction, x, target) => {
+    let left = 1
+    let right = 1000
+    
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        const result = customfunction.f(x, mid)
+        if (result === target) {
+            return mid
+        } else if (result < target) {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return -1
+}
 ```
