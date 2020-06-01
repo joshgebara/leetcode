@@ -35122,3 +35122,24 @@ var canBeEqual = function(target, arr) {
     return true
 };
 ```
+
+## 406. Queue Reconstruction by Height
+```javascript
+/**
+ * @param {number[][]} people
+ * @return {number[][]}
+ */
+var reconstructQueue = function(people) {
+    people.sort((a, b) => {
+        return a[0] === b[0] ? a[1] - b[1] : b[0] - a[0]
+    })
+    
+    const result = []
+    
+    for (const [height, order] of people) {
+        result.splice(order, 0, [height, order])
+    }
+    
+    return result
+};
+```
