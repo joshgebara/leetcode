@@ -7818,6 +7818,56 @@ var numUniqueEmails = function(emails) {
   const uniqueEmails = new Set(actualEmail)
   return uniqueEmails.size
 };
+
+// One pass
+/**
+ * @param {string[]} emails
+ * @return {number}
+ */
+var numUniqueEmails = function(emails) {
+    const unqiueEmails = new Set()
+    
+    for (const email of emails) {
+        const result = filterEmail(email)
+        unqiueEmails.add(result)
+    }
+    
+    return unqiueEmails.size
+};
+
+const filterEmail = email => {
+    const result = []
+    
+    let isLocal = true
+    let hasPlus = false
+    for (let i = 0; i < email.length; i++) {
+        if (email[i] === '@') {
+            isLocal = false
+            result.push(email[i])
+            continue
+        }
+        
+        if (isLocal && email[i] === '.') {
+            continue
+        }
+        
+        if (isLocal && email[i] === '+') {
+            hasPlus = true
+            continue
+        }
+        
+        if (isLocal && !hasPlus) {
+            result.push(email[i])
+            continue
+        }
+        
+        if (!isLocal) {
+            result.push(email[i])
+        }
+    }
+    
+    return result.join('')
+}
 ```
 
 ## 557. Reverse Words in a String III
@@ -35313,3 +35363,4 @@ const binarySearch = arr => {
     return left
 }
 ```
+
