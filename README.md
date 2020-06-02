@@ -35364,3 +35364,23 @@ const binarySearch = arr => {
 }
 ```
 
+## 48. Rotate Image
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function(matrix) {
+    const n = matrix.length
+    
+    for (let layer = 0; layer < Math.floor(n / 2); layer++) {
+        for (let i = layer; i < n - layer - 1; i++) {
+            const top = matrix[layer][i]
+            matrix[layer][i] = matrix[n - i - 1][layer]
+            matrix[n - i - 1][layer] = matrix[n - 1 - layer][n - i - 1]
+            matrix[n - 1 - layer][n - i - 1] = matrix[i][n - layer - 1]
+            matrix[i][n - layer - 1] = top
+        }
+    }
+};
+```
