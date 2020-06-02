@@ -35195,3 +35195,49 @@ const binarySearch = (customfunction, x, target) => {
     return -1
 }
 ```
+
+## 96. Unique Binary Search Trees
+```javascript
+// Top Down Recursion
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numTrees = function(n) {
+    const _numTrees = n => {
+        if (memo[n]) return memo[n]
+        
+        let sum = 0
+        for (let i = 1; i <= n; i++) {
+            sum += numTrees(i - 1) * numTrees(n - i)
+        }
+        
+        memo[n] = sum
+        return memo[n]
+    }
+    
+    const memo = {}
+    memo[0] = 1
+    memo[1] = 1
+    return _numTrees(n)
+};
+
+// Bottom Up DP
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numTrees = function(n) {
+    const dp = Array(n + 1).fill(0)
+    dp[0] = 1
+    dp[1] = 1
+    
+    for (let i = 2; i <= n; i++) {
+        for (let mid = 1; mid <= i; mid++) {
+            dp[i] += dp[mid - 1] * dp[i - mid]
+        }
+    }
+    
+    return dp[n]
+};
+```
