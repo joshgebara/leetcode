@@ -21967,18 +21967,32 @@ class Heap {
 
 ## 1196. How Many Apples Can You Put into the Basket
 ```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
 var maxNumberOfApples = function(arr) {
-    arr.sort((a, b) => a - b)
-    let sum = 0
-    let count = 0
+    const buckets = Array(1001).fill(0)
     for (const a of arr) {
-        if (sum + a >= 5000)
-            break
-
-        sum += a
-        count++
+        buckets[a]++
     }
-    return count
+    
+    let max = 0
+    let currWeight = 0
+    
+    for (let i = 0; i < buckets.length; i++) {
+        if (buckets[i] === 0) continue
+        
+        while (buckets[i]) {
+            if (currWeight + i > 5000) return max
+            currWeight += i
+            max++
+            buckets[i]--
+        }
+        
+    }
+    
+    return max
 };
 ```
 
