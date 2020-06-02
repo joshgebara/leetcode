@@ -35255,3 +35255,61 @@ var numTrees = function(n) {
     return dp[n]
 };
 ```
+
+## 1337. The K Weakest Rows in a Matrix
+```javascript
+/**
+ * @param {number[][]} mat
+ * @param {number} k
+ * @return {number[]}
+ */
+var kWeakestRows = function(mat, k) {
+    const counts = getCounts(mat)
+    
+    const buckets = Array(101).fill(null)
+    for (const [row, count] of counts) {
+        if (!buckets[count]) buckets[count] = []
+        buckets[count].push(row)
+    }
+    
+    const result = []
+    for (let i = 0; i < buckets.length; i++) {
+        if (buckets[i] === null) continue
+        
+        for (let j = 0; j < buckets[i].length; j++) {
+            result.push(buckets[i][j])
+            if (result.length === k) return result
+        }
+    }
+    
+    return result
+};
+
+const getCounts = matrix => {
+    const counts = []
+    
+    for (let row = 0; row < matrix.length; row++) {
+        const count = binarySearch(matrix[row])
+        counts.push([row, count])
+    }
+    
+    return counts
+}
+
+const binarySearch = arr => {
+    let left = 0
+    let right = arr.length
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid] === 1) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return left
+}
+```
