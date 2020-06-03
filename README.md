@@ -8286,17 +8286,24 @@ var countCharacters = function(words, chars) {
 
 ## 1133. Largest Unique Number
 ```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
 var largestUniqueNumber = function(A) {
-    const counts = A.reduce((result, num) => {
-        result[num] = 1 + (result[num] || 0)
-        return result
-    }, {})
+    const buckets = Array(1001).fill(0)
     
-    let max = -1
-    for (let [num, count] of Object.entries(counts)) {
-        if (count === 1) max = Math.max(max, num)
+    for (const a of A) {
+        buckets[a]++
     }
-    return max
+    
+    for (let num = buckets.length - 1; num >= 0; num--) {
+        if (buckets[num] !== 1) continue
+        
+        return num
+    }
+    
+    return -1
 };
 ```
 
