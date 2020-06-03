@@ -35605,4 +35605,36 @@ var mincostTickets = function(days, costs) {
 };
 
 // Bottom Up
+/**
+ * @param {number[]} days
+ * @param {number[]} costs
+ * @return {number}
+ */
+var mincostTickets = function(days, costs) {
+    const travelDays = new Set(days)
+    const dp = Array(366).fill(Number.MAX_VALUE)
+    dp[0] = 0
+    
+    for (let day = 1; day <= 365; day++) {
+        if (!travelDays.has(day)) {
+            dp[day] = dp[day - 1]
+        } else {
+            dp[day] = Math.min(dp[day], dp[day - 1] + costs[0])
+            
+            if (day - 7 >= 0) {
+                dp[day] = Math.min(dp[day], dp[day - 7] + costs[1])
+            } else {
+                dp[day] = Math.min(dp[day], costs[1])
+            }
+            
+            if (day - 30 >= 0) {
+                dp[day] = Math.min(dp[day], dp[day - 30] + costs[2])
+            } else {
+                dp[day] = Math.min(dp[day], costs[2])
+            }
+        }
+    }
+    
+    return dp[365]
+};
 ```
