@@ -5732,6 +5732,53 @@ var commonChars = function(A) {
         return result.concat(Array(value).fill(key))
     }, [])
 };
+
+/**
+ * @param {string[]} A
+ * @return {string[]}
+ */
+var commonChars = function(A) {
+    const counts = count(A[0])
+    
+    for (let i = 1; i < A.length; i++) {
+        const wordCounts = count(A[i])
+        merge(counts, wordCounts)
+    }
+    
+    const result = []
+    
+    for (let i = 0; i < counts.length; i++) {
+        while (counts[i]--) {
+            result.push(charFromIndex(i))
+        }
+    }
+    
+    return result
+};
+
+const count = str => {
+    const counts = Array(26).fill(0)
+    
+    for (const char of str) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        counts[index]++
+    }
+    
+    return counts
+}
+
+const merge = (counts, wordCounts) => {
+    for (let j = 0; j < wordCounts.length; j++) {
+        if (!wordCounts[j] && counts[j]) {
+            counts[j] = 0
+            continue
+        }
+
+        counts[j] = Math.min(counts[j], wordCounts[j])
+    }
+}
+
+const charFromIndex = i => String.fromCharCode(i + 'a'.charCodeAt(0))
 ```
 
 ## 1170. Compare Strings by Frequency of the Smallest Character
