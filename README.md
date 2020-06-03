@@ -8212,6 +8212,34 @@ var countCharacters = function(words, chars) {
     
     return sum
 };
+
+/**
+ * @param {string[]} words
+ * @param {string} chars
+ * @return {number}
+ */
+var countCharacters = function(words, chars) {
+    const map = {}
+    for (const char of chars) {
+        map[char] = 1 + (map[char] || 0)
+    }
+    
+    let sum = 0
+    
+    outer : for (const word of words) {
+        const wordMap = {}
+        for (const char of word) {
+            wordMap[char] = 1 + (wordMap[char] || 0)
+            
+            if (!map[char] || wordMap[char] > map[char]) 
+                continue outer
+        }
+        
+        sum += word.length
+    }
+    
+    return sum
+};
 ```
 
 ## 1133. Largest Unique Number
