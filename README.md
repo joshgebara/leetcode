@@ -35574,3 +35574,35 @@ var coinChange = function(coins, amount) {
     return -1
 };
 ```
+
+## 983. Minimum Cost For Tickets
+```javascript
+// Top Down
+/**
+ * @param {number[]} days
+ * @param {number[]} costs
+ * @return {number}
+ */
+var mincostTickets = function(days, costs) {
+    const _mincostTickets = day => {
+        if (day <= 0) return 0
+        if (memo[day]) return memo[day]
+        
+        if (travelDays.has(day)) {
+            memo[day] = Math.min(_mincostTickets(day - 1) + costs[0],
+                                 _mincostTickets(day - 7) + costs[1],
+                                 _mincostTickets(day - 30) + costs[2])
+        } else {
+            memo[day] = Math.min(_mincostTickets(day - 1))
+        }
+        
+        return memo[day]
+    }
+    
+    const travelDays = new Set(days)
+    const memo = {}
+    return _mincostTickets(365)
+};
+
+// Bottom Up
+```
