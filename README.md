@@ -35388,6 +35388,11 @@ var rotate = function(matrix) {
 ## 322. Coin Change
 ```javascript
 // Top Down
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
 var coinChange = function(coins, amount) {
     const _coinChange = (coins, amount) => {
         if (memo[amount]) return memo[amount]
@@ -35412,5 +35417,57 @@ var coinChange = function(coins, amount) {
     const memo = {}
     const min = _coinChange(coins, amount)
     return min === Infinity ? -1 : min
+};
+
+// Bottom Up
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
+var coinChange = function(coins, amount) {
+    const dp = Array(amount + 1).fill(Number.MAX_VALUE)
+    dp[0] = 0
+    
+    for (let i = 1; i <= amount; i++) {
+        for (const coin of coins) {
+            if (i - coin < 0) continue
+            dp[i] = Math.min(dp[i], dp[i - coin] + 1)
+        }
+    }
+    
+    return dp[amount] === Number.MAX_VALUE ? -1 : dp[amount] 
+};
+
+// BFS
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
+var coinChange = function(coins, amount) {
+    const queue = [0]
+    let level = 0
+    const visited = new Set()
+    while (queue.length) {
+        const length = queue.length
+        for (let i = 0; i < length; i++) {
+            const curr = queue.shift()
+            
+            if (curr === amount)
+                return level
+            
+            for (const coin of coins) {
+                if (visited.has(curr + coin)) continue
+                if (curr + coin > amount) continue
+                queue.push(curr + coin)
+                visited.add(curr + coin)
+            }
+        }
+        
+        level++
+    }
+    
+    return -1
 };
 ```
