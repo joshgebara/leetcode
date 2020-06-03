@@ -5769,11 +5769,6 @@ const count = str => {
 
 const merge = (counts, wordCounts) => {
     for (let j = 0; j < wordCounts.length; j++) {
-        if (!wordCounts[j] && counts[j]) {
-            counts[j] = 0
-            continue
-        }
-
         counts[j] = Math.min(counts[j], wordCounts[j])
     }
 }
