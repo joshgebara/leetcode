@@ -35384,3 +35384,33 @@ var rotate = function(matrix) {
     }
 };
 ```
+
+## 322. Coin Change
+```javascript
+// Top Down
+var coinChange = function(coins, amount) {
+    const _coinChange = (coins, amount) => {
+        if (memo[amount]) return memo[amount]
+
+        if (amount < 0) {
+            return Infinity
+        }
+
+        if (amount === 0) {
+            return 0
+        }
+
+        let count = Infinity
+        for (const coin of coins) {
+            count = Math.min(count, _coinChange(coins, amount - coin) + 1)
+        }
+
+        memo[amount] = count
+        return memo[amount]
+    }
+    
+    const memo = {}
+    const min = _coinChange(coins, amount)
+    return min === Infinity ? -1 : min
+};
+```
