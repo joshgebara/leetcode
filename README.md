@@ -35711,3 +35711,25 @@ var shortestToChar = function(S, C) {
     return result
 };
 ```
+
+## 1394. Find Lucky Integer in an Array
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var findLucky = function(arr) {
+    const buckets = Array(501).fill(0)
+    
+    for (const a of arr) {
+        buckets[a]++
+    }
+    
+    for (let i = buckets.length - 1; i > 0; i--) {
+        if (buckets[i] === i)
+            return i
+    }
+    
+    return -1
+};
+```
