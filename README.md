@@ -35768,3 +35768,52 @@ var getLonelyNodes = function(root) {
     return lonely
 };
 ```
+
+## 1048. Longest String Chain
+```javascript
+/**
+ * @param {string[]} words
+ * @return {number}
+ */
+var longestStrChain = function(words) {
+    const set = new Set(words)
+    const graph = buildGraph(words, set)
+    const dp = {}
+    
+    let result = 1
+    for (const [vertex, edges] of Object.entries(graph)) {
+        if (dp[vertex]) continue
+        longest(vertex, graph, dp)
+    }
+    
+    return Math.max(result, ...Object.values(dp))
+};
+
+const longest = (vertex, graph, dp) => {
+    if (dp[vertex]) return dp[vertex]
+    
+    dp[vertex] = 1
+    if (graph[vertex]) {
+        for (const neighbor of graph[vertex]) {
+           dp[vertex] = Math.max(dp[vertex], 1 + longest(neighbor, graph, dp)) 
+        }
+    }
+    
+    return dp[vertex]
+}
+
+const buildGraph = (words, set) => {
+    const graph = {}
+    
+    for (const word of words) {
+        for (let i = 0; i < word.length; i++) {
+            const neighbor = word.slice(0, i) + word.slice(i + 1)
+            if (!set.has(neighbor)) continue
+            if (!graph[word]) graph[word] = []
+            graph[word].push(neighbor)
+        }
+    }
+    
+    return graph
+}
+```
