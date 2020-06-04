@@ -31227,25 +31227,28 @@ var minSubsequence = function(nums) {
 var numSpecialEquivGroups = function(A) {
     const groups = new Set()
     
-    for (const a of A)
-        groups.add(sortChars(a))
+    for (const a of A) {
+        const word = sort(a)
+        groups.add(word)
+    }
     
     return groups.size
 };
 
-const sortChars = str => {
-    const evens = []
-    const odds = []
+const sort = str => {
+    const odds = Array(26).fill(0)
+    const evens = Array(26).fill(0)
     
     for (let i = 0; i < str.length; i++) {
-        const char = str[i]
-        i % 2 ? odds.push(char) : evens.push(char)
+        const index = str[i].charCodeAt(0) - 'a'.charCodeAt(0)
+        if (i % 2 === 0) {
+            evens[index]++
+        } else {
+            odds[index]++
+        }
     }
     
-    evens.sort()
-    odds.sort()
-
-    return [...evens, ...odds].join('')
+    return [...odds, ...evens].join('')
 }
 ```
 
