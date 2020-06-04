@@ -35736,3 +35736,35 @@ var findLucky = function(arr) {
     return -1
 };
 ```
+
+## 1469. Find All the Lonely Nodes
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var getLonelyNodes = function(root) {
+    const dfs = (node, isLonely) => {
+        if (!node) return
+        
+        if (isLonely) {
+            lonely.push(node.val)
+        }
+        
+        dfs(node.left, !node.right)
+        dfs(node.right, !node.left)
+    }
+    
+    const lonely = []
+    dfs(root)
+    return lonely
+};
+```
