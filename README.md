@@ -35681,3 +35681,33 @@ const capture = (board, row, col) => {
     return captured
 }
 ```
+
+## 821. Shortest Distance to a Character
+```javascript
+/**
+ * @param {string} S
+ * @param {character} C
+ * @return {number[]}
+ */
+var shortestToChar = function(S, C) {
+    const result = Array(S.length).fill(0)
+    
+    let prev = Number.MAX_VALUE
+    for (let i = 0; i < S.length; i++) {
+        if (S[i] === C) 
+            prev = i
+        
+        result[i] = Math.abs(i - prev)
+    }
+    
+    prev = Number.MAX_VALUE
+    for (let i = S.length - 1; i >= 0; i--) {
+        if (S[i] === C) 
+            prev = i
+        
+        result[i] = Math.min(result[i], Math.abs(i - prev))
+    }
+    
+    return result
+};
+```
