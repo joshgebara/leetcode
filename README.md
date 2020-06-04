@@ -35638,3 +35638,46 @@ var mincostTickets = function(days, costs) {
     return dp[365]
 };
 ```
+
+## 999. Available Captures for Rook
+```javascript
+/**
+ * @param {character[][]} board
+ * @return {number}
+ */
+var numRookCaptures = function(board) {
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            if (board[row][col] === 'R') {
+                return capture(board, row, col)
+            }
+        }
+    }
+    
+    return 0
+};
+
+const capture = (board, row, col) => {
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    let captured = 0
+    
+    for (const [dRow, dCol] of dirs) {
+        let currRow = row + dRow
+        let currCol = col + dCol
+        
+        while (currRow >= 0 && currRow < 8 && currCol >= 0 && currCol < 8) {
+            if (board[currRow][currCol] === 'p') {
+                captured++
+                break
+            }
+            
+            if (board[currRow][currCol] === 'B') break
+            
+            currRow += dRow
+            currCol += dCol    
+        }
+    }
+    
+    return captured
+}
+```
