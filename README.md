@@ -15056,6 +15056,39 @@ const enqueue = (queue, R, C, currR, currC, visited) => {
         visited[currR][currC] = true
     }    
 }
+
+/**
+ * @param {number} R
+ * @param {number} C
+ * @param {number} r0
+ * @param {number} c0
+ * @return {number[][]}
+ */
+var allCellsDistOrder = function(R, C, r0, c0) {
+    const result = []
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    const queue = [[r0, c0]]
+    const visited = new Set()
+    visited.add(`${r0}-${c0}`)
+    
+    while (queue.length) {
+        const [row, col] = queue.shift()
+        result.push([row, col])
+        
+        for (const [dRow, dCol] of dirs) {
+            const nRow = row + dRow 
+            const nCol = col + dCol
+            
+            if (nRow < 0 || nRow >= R || nCol < 0 || nCol >= C) continue
+            if (visited.has(`${nRow}-${nCol}`)) continue
+            visited.add(`${nRow}-${nCol}`)
+            queue.push([nRow, nCol])
+        }
+    }
+    
+    return result
+};
 ```
 
 ## 853. Car Fleet
