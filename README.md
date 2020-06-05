@@ -14992,27 +14992,38 @@ const manhattanDist = (p1, p2) => {
 ## 1030. Matrix Cells in Distance Order
 ```javascript
 // Counting Sort
-const dist = (p1, p2) => {
-    return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1])
-}
-
-var allCellsDistOrder = function(R, C, r0, c0) {
-    let buckets = Array(R + C + 1).fill(null).map(() => [])
-    for (let row = 0; row < R; row++) {
-        for (let column = 0; column < C; column++) {
-            let cellDist = dist([row, column], [r0, c0])
-            buckets[cellDist].push([row, column])
+/**
+ * @param {number} R
+ * @param {number} C
+ * @param {number} r0
+ * @param {number} c0
+ * @return {number[][]}
+ */
+var allCellsDistOrder = function(R, C, r1, c1) {
+    const buckets = Array(R + C + 1).fill(null)
+    
+    for (let r2 = 0; r2 < R; r2++) {
+        for (let c2 = 0; c2 < C; c2++) {
+            const dist = manhattan(r1, c1, r2, c2)
+            if (!buckets[dist]) buckets[dist] = []
+            buckets[dist].push([r2, c2])
         }
     }
     
-    let result = []
-    for (let bucket of buckets) {
-        for (let cell of bucket) {
-            result.push(cell)
+    const result = []
+    for (const bucket of buckets) {
+        if (!bucket) continue
+        for (const point of bucket) {
+            result.push(point)
         }
     }
+    
     return result
 };
+
+const manhattan = (r1, c1, r2, c2) => {
+    return Math.abs(r1 - r2) + Math.abs(c1 - c2)
+}
 
 // BFS
 var allCellsDistOrder = function(R, C, r0, c0) {
