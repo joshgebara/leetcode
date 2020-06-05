@@ -30756,21 +30756,18 @@ var uncommonFromSentences = function(A, B) {
  */
 var minimumAbsDifference = function(arr) {
     arr.sort((a, b) => a - b)
-    
-    const map = {}
-    let minDiff = Number.MAX_VALUE
+
     let result = []
+    let minDiff = Number.MAX_VALUE
     
     for (let i = 0; i < arr.length - 1; i++) {
-        const diff = arr[i+1] - arr[i]
+        const diff = arr[i + 1] - arr[i]
         
         if (diff < minDiff) {
-            result = []
             minDiff = diff
-        }
-        
-        if (diff === minDiff) {
-            result.push([arr[i], arr[i+1]])
+            result = [[arr[i], arr[i + 1]]]
+        } else if (diff === minDiff) {
+            result.push([arr[i], arr[i + 1]])
         }
     }
     
@@ -35817,3 +35814,4 @@ const buildGraph = (words, set) => {
     return graph
 }
 ```
+
