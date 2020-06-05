@@ -30783,18 +30783,15 @@ var minimumAbsDifference = function(arr) {
  * @return {number}
  */
 var smallestRangeI = function(A, K) {
-    let max = -Number.MAX_VALUE
     let min = Number.MAX_VALUE
+    let max = -Number.MAX_VALUE
     
     for (const a of A) {
-        max = Math.max(max, a)
-        min = Math.min(min, a)
+        min = Math.min(a, min)
+        max = Math.max(a, max)
     }
-
-    max -= Math.min(max - min, K)
-    min += Math.min(max - min, K)
-
-    return max - min
+    
+    return Math.max((max - K) - (min + K), 0)
 };
 ```
 
