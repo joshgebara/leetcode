@@ -35927,5 +35927,31 @@ var longestPalindromeSubseq = function(s) {
     return _longestPalindromeSubseq(0, s.length - 1)
 };
 
-
+// Bottom Up DP
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestPalindromeSubseq = function(s) {
+    const dp = Array(s.length).fill(0).map(a => Array(s.length).fill(0))
+    
+    for (let length = 1; length <= s.length; length++) {
+        for (let start = 0; start < s.length - length + 1; start++) {
+            const end = length + start - 1
+            if (start === end) {
+                dp[start][end] = 1
+                continue
+            }
+            
+            if (s[start] === s[end]) {
+                dp[start][end] = 2 + dp[start + 1][end - 1]
+                continue
+            }
+            
+            dp[start][end] = Math.max(dp[start + 1][end], dp[start][end - 1])
+        }
+    }
+    
+    return dp[0][s.length - 1]
+};
 ```
