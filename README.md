@@ -35897,3 +35897,35 @@ var maxProduct = function(nums) {
     return max
 };
 ```
+
+## 516. Longest Palindromic Subsequence
+```javascript
+// Top Down DP
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestPalindromeSubseq = function(s) {
+    const _longestPalindromeSubseq = (start, end) => {
+        if (memo[start][end]) 
+            return memo[start][end]
+        
+        if (start === end) return 1
+        if (start > end) return 0
+        
+        if (s[start] === s[end]) {
+            memo[start][end] = 2 + _longestPalindromeSubseq(start + 1, end - 1)
+        } else {
+            memo[start][end] = Math.max(_longestPalindromeSubseq(start + 1, end), 
+                                        _longestPalindromeSubseq(start, end - 1))
+        }
+        
+        return memo[start][end]
+    }
+    
+    const memo = Array(s.length).fill(0).map(a => Array(s.length).fill(0))
+    return _longestPalindromeSubseq(0, s.length - 1)
+};
+
+
+```
