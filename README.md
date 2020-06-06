@@ -35875,3 +35875,25 @@ var maxDepth = function(root) {
     return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
 };
 ```
+
+## 152. Maximum Product Subarray
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxProduct = function(nums) {
+    let maxP = 1
+    let minP = 1
+    let max = nums[0]
+    
+    for (const num of nums) {
+        const temp = maxP * num
+        maxP = Math.max(maxP * num, minP * num, num)
+        minP = Math.min(temp, minP * num, num)
+        max = Math.max(maxP, max)
+    }
+    
+    return max
+};
+```
