@@ -36078,5 +36078,54 @@ class Node {
 }
 
 // O(1) Array with Bound
+/**
+ * @param {string} homepage
+ */
+var BrowserHistory = function(homepage) {
+    this.history = [homepage]
+    this.bound = 0
+    this.curr = 0
+};
 
+/** 
+ * @param {string} url
+ * @return {void}
+ */
+BrowserHistory.prototype.visit = function(url) {
+    this.curr++
+    
+    if (this.curr === this.history.length) {
+        this.history.push(url)
+    } else {
+        this.history[this.curr] = url
+    }
+    
+    this.bound = this.curr
+};
+
+/** 
+ * @param {number} steps
+ * @return {string}
+ */
+BrowserHistory.prototype.back = function(steps) {
+    this.curr = Math.max(this.curr - steps, 0)
+    return this.history[this.curr]
+};
+
+/** 
+ * @param {number} steps
+ * @return {string}
+ */
+BrowserHistory.prototype.forward = function(steps) {
+    this.curr = Math.min(this.curr + steps, this.bound)
+    return this.history[this.curr]
+};
+
+/** 
+ * Your BrowserHistory object will be instantiated and called as such:
+ * var obj = new BrowserHistory(homepage)
+ * obj.visit(url)
+ * var param_2 = obj.back(steps)
+ * var param_3 = obj.forward(steps)
+ */
 ```
