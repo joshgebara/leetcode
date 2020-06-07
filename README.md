@@ -35983,3 +35983,100 @@ var shuffle = function(nums, n) {
     return nums
 };
 ```
+
+## 1472. Design Browser History
+```javascript
+// Doubly Linked List
+/**
+ * @param {string} homepage
+ */
+var BrowserHistory = function(homepage) {
+    this.history = new LinkedList()
+    this.history.add(homepage)
+};
+
+/**
+ * @param {string} url
+ * @return {void}
+ */
+BrowserHistory.prototype.visit = function(url) {
+    this.history.add(url)
+};
+
+/** 
+ * @param {number} steps
+ * @return {string}
+ */
+BrowserHistory.prototype.back = function(steps) {
+    return this.history.getReverse(steps)
+};
+
+/** 
+ * @param {number} steps
+ * @return {string}
+ */
+BrowserHistory.prototype.forward = function(steps) {
+    return this.history.getForward(steps)
+};
+
+/** 
+ * Your BrowserHistory object will be instantiated and called as such:
+ * var obj = new BrowserHistory(homepage)
+ * obj.visit(url)
+ * var param_2 = obj.back(steps)
+ * var param_3 = obj.forward(steps)
+ */
+
+class LinkedList {
+    constructor() {
+        this.head = null
+        this.tail = null
+        this.curr = null
+    }
+    
+    add(val) {
+        const newNode = new Node(val)
+        
+        if (!this.head) {
+            this.head = newNode
+            this.tail = this.head
+            this.curr = this.head
+            return
+        }
+        
+        this.curr.next = newNode
+        newNode.prev = this.curr
+        this.curr = this.curr.next
+        this.tail = this.curr
+    }
+    
+    getReverse(steps) {
+        while (steps > 0 && this.curr.prev) {
+            this.curr = this.curr.prev
+            steps--
+        }
+        
+        return this.curr.val
+    }
+    
+    getForward(steps) {
+        while (steps > 0 && this.curr.next) {
+            this.curr = this.curr.next
+            steps--
+        }
+        
+        return this.curr.val
+    }
+}
+
+class Node {
+    constructor(val) {
+        this.val = val
+        this.next = null
+        this.prev = null
+    }
+}
+
+// O(1) Array with Bound
+
+```
