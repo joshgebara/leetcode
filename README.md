@@ -36310,3 +36310,43 @@ const capitalize = word => {
     return chars.join('')
 }
 ```
+
+## 1432. Max Difference You Can Get From Changing an Integer
+```javascript
+/**
+ * @param {number} num
+ * @return {number}
+ */
+var maxDiff = function(num) {
+    const a = `${num}`.split('')
+    const b = `${num}`.split('')
+    
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] <= 1) continue
+        
+        if (i === 0) {
+            replace(a, a[i], 1)
+        } else {
+            replace(a, a[i], 0)
+        }
+        
+        break
+    }
+    
+    for (let i = 0; i < b.length; i++) {
+        if (b[i] == 9) continue
+        replace(b, b[i], 9)
+        break
+    }
+    
+    return +b.join('') - +a.join('')
+};
+
+const replace = (arr, prev, next) => {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === prev) {
+            arr[i] = next
+        }
+    }
+}
+```
