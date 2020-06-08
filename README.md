@@ -8832,11 +8832,37 @@ var findPairs = function(nums, k) {
 
 ## 1185. Day of the Week
 ```javascript
+/**
+ * @param {number} day
+ * @param {number} month
+ * @param {number} year
+ * @return {string}
+ */
 var dayOfTheWeek = function(day, month, year) {
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    const date = new Date(year, month - 1, day)
-    return days[date.getDay()]
+    const days = daysFrom1971(day, month, year)
+    const week = ["Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"]
+    return week[days % 7]
 };
+
+const isLeapYear = y => y % 4 === 0 && y % 100 !== 0 || y % 400 === 0
+
+const daysFrom1971 = (d, m, y) => {
+    const daysOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    let days = 0
+    
+    for (let currY = 1971; currY < y; currY++) {
+        days += isLeapYear(currY) ? 366 : 365    
+    }
+    
+    for (let currM = 1; currM < m; currM++) {
+        days += daysOfMonth[currM - 1]
+        
+        if (isLeapYear(y) && currM === 2)
+            days++
+    }
+    
+    return days + d
+}
 ```
 
 ## 498. Diagonal Traverse
