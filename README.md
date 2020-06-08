@@ -35434,6 +35434,47 @@ var reconstructQueue = function(people) {
 
 ## 1237. Find Positive Integer Solution for a Given Equation
 ```javascript
+// Linear
+/**
+ * // This is the CustomFunction's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * function CustomFunction() {
+ *     @param {integer, integer} x, y
+ *     @return {integer}
+ *     this.f = function(x, y) {
+ *         ...
+ *     };
+ * };
+ */
+
+/**
+ * @param {CustomFunction} customfunction
+ * @param {integer} z
+ * @return {integer[][]}
+ */
+var findSolution = function(customfunction, z) {
+    const pairs = []
+    
+    let x = 1
+    let y = 1000
+    
+    while (x <= 1000 && y >= 1) {
+        const result = customfunction.f(x, y)
+        if (result > z) {
+            y--
+        } else if (result < z) {
+            x++
+        } else {
+            pairs.push([x, y])
+            x++
+            y--
+        }
+    }
+    
+    return pairs
+};
+
+// Binary Search
 /**
  * // This is the CustomFunction's API interface.
  * // You should not implement it, or speculate about its implementation
