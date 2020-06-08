@@ -9287,6 +9287,59 @@ const _getLeaves = (node, result) => {
     _getLeaves(node.left, result)
     _getLeaves(node.right, result)
 }
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root1
+ * @param {TreeNode} root2
+ * @return {boolean}
+ */
+var leafSimilar = function(root1, root2) {
+    const dfs = (node) => {
+        if (!node) return true
+        
+        if (!node.left && !node.right) {
+            if (i >= l1.length || node.val !== l1[i]) {
+                return false
+            }
+            
+            i++
+            return true
+        }
+        
+        return dfs(node.left) && dfs(node.right)
+    }
+    
+    
+    const l1 = getLeaves(root1)
+    let i = 0
+    return dfs(root2)
+};
+
+const getLeaves = node => {
+    const _getLeaves = node => {
+        if (!node) return
+
+        if (!node.left && !node.right) {
+            leaves.push(node.val)
+            return
+        }
+
+        _getLeaves(node.left)
+        _getLeaves(node.right)
+    }
+    
+    const leaves = []
+    _getLeaves(node)
+    return leaves
+}
 ```
 
 ## 112. Path Sum
