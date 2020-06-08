@@ -36160,5 +36160,33 @@ const capitalize = word => {
 }
 
 // O(n) map
+/**
+ * @param {string} text
+ * @return {string}
+ */
+var arrangeWords = function(text) {
+    const words = text.split(' ')
+    words[0] = words[0].toLowerCase()
+    
+    const map = {}
+    for (const word of words) {
+        if (!map[word.length]) map[word.length] = []
+        map[word.length].push(word)
+    }
+    
+    const result = []
+    for (const [key, val] of Object.entries(map)) {
+        for (const word of val) {
+            result.push(word)
+        }
+    }
+    result[0] = capitalize(result[0])
+    return result.join(' ')
+};
 
+const capitalize = word => {
+    const chars = word.split('')
+    chars[0] = chars[0].toUpperCase() 
+    return chars.join('')
+}
 ```
