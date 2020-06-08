@@ -36129,3 +36129,36 @@ BrowserHistory.prototype.forward = function(steps) {
  * var param_3 = obj.forward(steps)
  */
 ```
+
+## 1451. Rearrange Words in a Sentence
+```javascript
+// O(n log n) custom sort
+/**
+ * @param {string} text
+ * @return {string}
+ */
+var arrangeWords = function(text) {
+    const words = text.split(' ')
+    words[0] = words[0].toLowerCase()
+    
+    const sortedWords = []
+    for (const [index, word] of words.entries()) {
+        sortedWords.push([word, index, word.length])
+    }
+    
+    sortedWords.sort((a, b) => a[2] - b[2] || a[1] - a[1])
+    
+    const result = sortedWords.map(word => word[0])
+    result[0] = capitalize(result[0])
+    return result.join(' ')
+};
+
+const capitalize = word => {
+    const chars = word.split('')
+    chars[0] = chars[0].toUpperCase() 
+    return chars.join('')
+}
+
+// O(n) map
+
+```
