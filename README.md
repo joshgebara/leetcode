@@ -17286,24 +17286,27 @@ var findErrorNums = function(nums) {
 
 ## 500. Keyboard Row
 ```javascript
+/**
+ * @param {string[]} words
+ * @return {string[]}
+ */
 var findWords = function(words) {
-    const keyboard = { 'A' : 1, 'B' : 2, 'C' : 2, 'D' : 1, 'E' : 0, 'F' : 1,
-                       'G' : 1, 'H' : 1, 'I' : 0, 'J' : 1, 'K' : 1, 'L' : 1,
-                       'M' : 2, 'N' : 2, 'O' : 0, 'P' : 0, 'Q' : 0, 'R' : 0,
-                       'S' : 1, 'T' : 0, 'U' : 0, 'V' : 2, 'W' : 0, 'X' : 2,
-                       'Y' : 0, 'Z' : 2 }
+    const keyboard = [1,2,2,1,0,1,1,1,0,1,1,1,2,2,0,0,0,0,1,0,0,2,0,2,0,2]
     
     return words.filter(word => {
-        let row = null
+        let prevRow = null
         
-        for (let char of word) {
-            let charRow = keyboard[char.toUpperCase()]
-            if (row === null) {
-                row = charRow
-            } else if (row !== charRow) {
+        for (const char of word) {
+            const index = char.toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0)
+            const currRow = keyboard[index]
+            
+            if (prevRow !== null && prevRow !== currRow) {
                 return false
             }
+            
+            prevRow = currRow
         }
+        
         return true
     })
 };
