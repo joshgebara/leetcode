@@ -36350,3 +36350,30 @@ const replace = (arr, prev, next) => {
     }
 }
 ```
+
+## 799. Champagne Tower
+```javascript
+/**
+ * @param {number} poured
+ * @param {number} query_row
+ * @param {number} query_glass
+ * @return {number}
+ */
+var champagneTower = function(poured, query_row, query_glass) {
+    let prevRow = [poured]
+    for (let i = 0; i < query_row; i++) {
+        const nextRow = Array(prevRow.length + 1).fill(0)
+        
+        for (let j = 0; j < prevRow.length; j++) {
+            const amount = (prevRow[j] - 1) / 2
+            if (amount <= 0) continue
+            nextRow[j] += amount
+            nextRow[j + 1] += amount
+        }
+        
+        prevRow = nextRow
+    }
+    
+    return Math.min(prevRow[query_glass], 1)  
+};
+```
