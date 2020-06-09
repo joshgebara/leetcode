@@ -5056,48 +5056,88 @@ var sumEvenAfterQueries = function(A, queries) {
 
 ## 766. Toeplitz Matrix
 ```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {boolean}
+ */
 var isToeplitzMatrix = function(matrix) {
-
     for (var i = 0; i < matrix.length - 1; i++) {
         for (var j = 0; j < matrix[0].length - 1; j++) {
             if (matrix[i][j] != matrix[i+1][j+1]) {
                 return false;
             }   
         }   
-    }   
+    }
 
     return true;
 };
-```
-## 766. Toeplitz Matrix Followup
 
-```javascript
-function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length != b.length) return false;
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
+// Follow Up 1
+/**
+ * @param {number[][]} matrix
+ * @return {boolean}
+ */
+var isToeplitzMatrix = function(matrix) {
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    let prevRow = null
+    for (let row = 0; row < m; row++) {
+        const currRow = matrix[row].slice(1)
+        if (prevRow && !equal(prevRow, currRow)) {
+            return false
+        }
+        
+        prevRow = matrix[row].slice(0, n - 1) 
+    }
+    
+    return true
 }
 
-var isToeplitzMatrix = function(matrix) {
-  let curr = matrix[0].slice(0, matrix[0].length - 1)
-  for (let row = 1; row < matrix.length; row++) {
-    if (!arraysEqual(curr, matrix[row].slice(1))) return false
-    curr = matrix[row].slice(0, matrix[row].length - 1)
-  }
-  return true
-};
+const equal = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false
+    
+    for (let i = 0; i < arr1.lenght; i++) {
+        if (arr1[i] !== arr2[i]) return false
+    }
+    
+    return true
+}
 
-const matrix = [
-  [1,2,3,4],
-  [5,1,2,3],
-  [9,5,1,2]
-]
-isToeplitzMatrix(matrix)
+// Follow Up 2
+var isToeplitzMatrix = function(matrix) {
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    let prevCol = null
+    for (let col = 0; col < n; col++) {
+        const currCol = []
+        for (let row = 1; row < m; row++) {
+            currCol.push(matrix[row][col])
+        }
+        
+        if (prevCol && !equal(prevCol, currCol)) {
+            return false
+        }
+        
+        prevCol = []
+        for (let row = 0; row < m - 1; row++) {
+            prevCol.push(matrix[row][col])
+        }
+    }
+    
+    return true
+}
+
+const equal = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false
+    
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false
+    }
+    
+    return true
+}
 ```
 
 ## 1099. Two Sum Less Than K
