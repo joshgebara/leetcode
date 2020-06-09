@@ -30740,39 +30740,38 @@ var invalidTransactions = function(transactions) {
  * @param {number} n
  * @return {number}
  */
-
-const memo = {}
-
 var countLargestGroup = function(n) {
-    const map = Array(37).fill(0)
-    let maxSize = 0
-    
-    for (let i = 1; i <= n; i++) {
-        const sum = getSum(i)
-        map[sum]++
-        
-        maxSize = Math.max(maxSize, map[sum])
-    }
-    
+    const memo = Array(10_001).fill(0)
+    const map = {}
+    let max = 0
     let count = 0
-    for (const size of map) {
-        if (size === maxSize)
-            count++
+    
+    for (let num = 1; num <= n; num++) {
+        const sum = sumOfDigits(num, memo)
+
+        if (!map[sum]) map[sum] = []
+        map[sum].push(num)
+
+        if (max < map[sum].length) {
+            max = map[sum].length
+            count = 0
+        }
+
+        if (map[sum].length === max) count++
     }
     
     return count
 };
 
-const getSum = num => {
+const sumOfDigits = (num, memo) => {
     if (memo[num]) return memo[num]
     
     let sum = 0
-    let n = num
     
-    while (n) {
-        const digit = n % 10
+    while (num) {
+        const digit = num % 10
         sum += digit
-        n = Math.floor(n / 10)
+        num = Math.floor(num / 10)
     }
     
     memo[num] = sum
