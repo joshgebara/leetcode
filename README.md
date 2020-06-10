@@ -36480,4 +36480,22 @@ var numSquares = function(n) {
     const memo = {}
     return _numSquares(n)
 };
+
+// Bottom Up DP
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numSquares = function(n) {
+    const dp = Array(n + 1).fill(Infinity)
+    dp[0] = 0
+    
+    for (let num = 1; num <= n; num++) {
+        for (let square = 1; square ** 2 <= num; square++) {
+            dp[num] = Math.min(dp[num], 1 + dp[num - square ** 2])
+        }
+    }
+    
+    return dp[n]
+};
 ```
