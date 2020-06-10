@@ -36499,6 +36499,29 @@ var numSquares = function(n) {
     return dp[n]
 };
 
+// Bottom Up DP with global cache
+/**
+ * @param {number} n
+ * @return {number}
+ */
+
+const dp = [0, 1]
+
+var numSquares = function(n) {
+    while (dp.length <= n) {
+        const m = dp.length
+        let result = Infinity
+        
+        for (let i = 1; i ** 2 <= m; i++) {
+            result = Math.min(result, 1 + dp[m - i ** 2])
+        }
+        
+        dp.push(result)
+    }
+    
+    return dp[n]
+};
+
 // BFS
 /**
  * @param {number} n
