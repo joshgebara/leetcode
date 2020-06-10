@@ -16950,6 +16950,7 @@ const area = (grid, row, col) => {
 
 ## 463. Island Perimeter
 ```javascript
+// DFS
 var islandPerimeter = function(grid) {
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[0].length; col++) {
@@ -16976,6 +16977,47 @@ const perimeter = (grid, row, col) => {
     count += perimeter(grid, row, col - 1)
     count += perimeter(grid, row, col + 1)
     return count
+}
+
+// BFS
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var islandPerimeter = function(grid) {
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col])
+                return perimeter(grid, row, col)
+        }
+    }
+};
+
+const perimeter = (grid, row, col) => {
+    let result = 0
+    const queue = [[row, col]]
+    grid[row][col] = 'X'
+
+    while (queue.length) {
+        const [currRow, currCol] = queue.shift()
+        for (const [dRow, dCol] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+            const newRow = currRow + dRow
+            const newCol = currCol + dCol
+
+            if (newRow < 0 || newRow >= grid.length || 
+                newCol < 0 || newCol >= grid[0].length || 
+                grid[newRow][newCol] === 0) {
+                result++
+                continue
+            }
+            
+            if (grid[newRow][newCol] === 'X') continue
+            grid[newRow][newCol] = 'X'
+            queue.push([newRow, newCol])
+        }
+    }
+    
+    return result
 }
 ```
 
