@@ -32589,20 +32589,14 @@ var minMoves = function(nums) {
  * @return {number}
  */
 var minCostToMoveChips = function(chips) {
-    let odd = 0
-    let even = 0
+    let evens = 0
+    let odds = 0
     
     for (let i = 0; i < chips.length; i++) {
-        const chip = chips[i]
-        
-        if (chip % 2 === 0) {
-            even++
-        } else {
-            odd++
-        }
+        chips[i] & 1 ? odds++ : evens++
     }
     
-    return Math.min(odd, even)
+    return Math.min(evens, odds)
 };
 ```
 
@@ -34213,27 +34207,22 @@ var lengthOfLIS = function(nums) {
 // O(n log n) time O(n) space
 /**
  * @param {number[]} nums
- * @return {boolean}
+ * @return {number}
  */
-var increasingTriplet = function(nums) {
+var lengthOfLIS = function(nums) {
    const dp = []
    
    for (const num of nums) {
        if (!dp.length || num > dp[dp.length - 1]) {
-           dp.push(num)
-           
-           if (dp.length === 3) {
-               return true
-           }
-           
+           dp.push(num)           
            continue
        }
        
        const index = binarySearch(dp, num)
        dp[index] = num
    }
-   
-   return false
+    
+   return dp.length
 };
 
 const binarySearch = (arr, target) => {
