@@ -11265,6 +11265,11 @@ var plusOne = function(head) {
 
 ## 496. Next Greater Element I
 ```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
 var nextGreaterElement = function(nums1, nums2) {
     const map = {}
     
@@ -11276,7 +11281,7 @@ var nextGreaterElement = function(nums1, nums2) {
         stack.push(num)
     }
     
-    return nums1.map(num => map[num] === undefined ? -1 : map[num])
+    return nums1.map(num => map[num] || -1)
 };
 ```
 
