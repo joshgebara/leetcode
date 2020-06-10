@@ -36498,4 +36498,43 @@ var numSquares = function(n) {
     
     return dp[n]
 };
+
+// BFS
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numSquares = function(n) {
+    const squares = []
+    for (let i = 1; i ** 2 <= n; i++) {
+        squares.push(i ** 2)
+    }
+    
+    const queue = [0]
+    const visited = new Set()
+    let level = 0
+    
+    while (queue.length) {
+        const size = queue.length
+        
+        for (let i = 0; i < size; i++) {
+            const num = queue.shift()
+            
+            if (num === n)
+                return level
+            
+            if (num > n) continue
+            
+            for (const square of squares) {
+                if (visited.has(num + square)) continue
+                visited.add(num + square)
+                queue.push(num + square)
+            }
+        }
+        
+        level++
+    }
+    
+    return level
+};
 ```
