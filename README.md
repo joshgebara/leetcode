@@ -36455,3 +36455,29 @@ var champagneTower = function(poured, query_row, query_glass) {
     return Math.min(prevRow[query_glass], 1)  
 };
 ```
+
+## 279. Perfect Squares
+```javascript
+// Top Down DP
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numSquares = function(n) {
+    const _numSquares = (n) => {
+        if (n <= 0) return 0
+        if (memo[n]) return memo[n]
+        
+        memo[n] = Infinity
+        
+        for (let square = 1; square ** 2 <= n; square++) {
+            memo[n] = Math.min(memo[n], 1 + _numSquares(n - square ** 2))
+        }
+        
+        return memo[n]
+    }
+    
+    const memo = {}
+    return _numSquares(n)
+};
+```
