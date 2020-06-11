@@ -9981,6 +9981,19 @@ var firstUniqChar = function(s) {
 
 ## 226. Invert Binary Tree
 ```javascript
+// Recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
 var invertTree = function(root) {
     if (!root) return root
     
@@ -9989,6 +10002,38 @@ var invertTree = function(root) {
     
     root.left = right
     root.right = left
+    
+    return root
+};
+
+// Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var invertTree = function(root) {
+    const stack = [root]
+    
+    while (stack.length) {
+        const node = stack.pop()
+        
+        if (!node) continue
+        
+        const temp = node.left
+        node.left = node.right
+        node.right = temp
+        
+        stack.push(node.right)
+        stack.push(node.left)
+    }   
     
     return root
 };
