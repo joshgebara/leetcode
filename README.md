@@ -18865,24 +18865,29 @@ var isPowerOfThree = function(n) {
 
 ## 824. Goat Latin
 ```javascript
+/**
+ * @param {string} S
+ * @return {string}
+ */
 var toGoatLatin = function(S) {
-    const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'])
+    const result = []
+    const vowels = new Set('aeiouAEIOU')
+    const words = S.split(' ')
     
-    return S.split(' ').map((word, i) => {
-        const wordResult = []
+    for (let [index, word] of words.entries()) {
+        word = word.split('')
         
-        if (vowels.has(word[0])) {
-            wordResult.push(word)
-        } else {
-            wordResult.push(word.slice(1))
-            wordResult.push(word[0])
+        if (!vowels.has(word[0])) {
+            word.push(word[0])
+            word[0] = ''   
         }
         
-        wordResult.push('ma')
-        wordResult.push('a'.repeat(i + 1))
-        
-        return wordResult.join('')
-    }).join(' ')
+        word.push('ma')
+        word.push('a'.repeat(index + 1))
+        result.push(word.join(''))
+    }
+    
+    return result.join(' ')
 };
 ```
 
