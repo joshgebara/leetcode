@@ -7709,33 +7709,56 @@ var singleNumber = function(nums) {
 
 ## 762. Prime Number of Set Bits in Binary Representation
 ```javascript
-const numOfSetBits = bin => {
-  let count = 0
-  while (bin) {
-    if (bin & 1) count++
-    bin >>= 1
-  }
-  return count
-}
+/**
+ * @param {number} L
+ * @param {number} R
+ * @return {number}
+ */
 
-const isPrime = num => {
-  if (num === 1) return false
-  for (let i = 2; i <= Math.floor(num / 2); i++) {
-    if (num % i === 0) return false
-  }
-  return true
-}
+const bitMemo = {}
+const primeMemo = {}
 
 var countPrimeSetBits = function(L, R) {
-  let count = 0
-  let memo = {}
-  for (let num = L; num <= R; num++) {
-      let setBits = numOfSetBits(num)
-      if (memo[setBits] === undefined) memo[setBits] = isPrime(setBits)
-      if (memo[setBits]) count++
-  }
-  return count
+    let count = 0
+    
+    for (let num = L; num <= R; num++) {
+        const countOfSetBits = getCount(num)
+        count += isPrime(countOfSetBits)
+    }
+    
+    return count
 };
+
+const isPrime = num => {
+    if (primeMemo[num]) return primeMemo[num]
+    
+    if (num === 1) return false
+    
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) {
+            primeMemo[num] = false
+            return primeMemo[num]
+        }
+    }
+    
+    primeMemo[num] = true
+    return primeMemo[num]
+}
+
+const getCount = num => {
+    if (bitMemo[num] !== undefined) 
+        return bitMemo[num]
+    
+    let count = 0
+    
+    while (num) {
+        num &= (num - 1)
+        count++
+    }
+    
+    bitMemo[num] = count
+    return bitMemo[num]
+}
 ```
 
 ## 389. Find the Difference
