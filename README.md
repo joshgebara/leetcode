@@ -36561,3 +36561,40 @@ var numSquares = function(n) {
     return level
 };
 ```
+
+## 1474. Delete N Nodes After M Nodes of a Linked List
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} m
+ * @param {number} n
+ * @return {ListNode}
+ */
+var deleteNodes = function(head, m, n) {
+    let curr = head
+    
+    while (curr) {
+        let i = m - 1
+        while (i-- && curr) {
+            curr = curr.next
+        }
+        
+        let prev = curr
+        let j = n + 1
+        while (j-- && curr) {
+            curr = curr.next
+        }
+        
+        if (prev) prev.next = curr
+    }
+    
+    return head
+};
+```
