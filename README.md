@@ -5962,6 +5962,7 @@ var middleNode = function(head) {
 
 ## 206. Reverse Linked List
 ```javascript
+// Iterative
 var reverseList = function(head) {
     let current = head
     let previous = null
@@ -5974,6 +5975,29 @@ var reverseList = function(head) {
         current = next
     }
     return previous
+};
+
+// Recursive
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+    if (!head) return null
+    if (!head.next) return head
+    
+    const node = reverseList(head.next)
+    head.next.next = head
+    head.next = null
+    
+    return node
 };
 ```
 
