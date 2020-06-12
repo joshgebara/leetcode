@@ -18036,6 +18036,24 @@ var canPermutePalindrome = function(s) {
 
     return oddCount <= 1
 };
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var canPermutePalindrome = function(s) {
+    const charCounts = {}
+    
+    let odds = 0
+    for (const char of s) {
+        charCounts[char] = 1 + (charCounts[char] || 0)
+        isEven(charCounts[char]) ? odds-- : odds++         
+    }
+    
+    return odds <= 1
+};
+
+const isEven = num => num % 2 === 0
 ```
 
 ## 285. Inorder Successor in BST
