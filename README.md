@@ -10328,25 +10328,33 @@ var averageOfLevels = function(root) {
 };
 
 // Recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
 var averageOfLevels = function(root) {
-    const _averageOfLevels = (root, level = 0) => {
-        if (!root) return
+    const dfs = (node, level) => {
+        if (!node) return
         
-        levels[level] = levels[level] ? levels[level] + root.val : root.val
-        counts[level] = counts[level] ? counts[level] + 1 : 1
-
-        _averageOfLevels(root.left, level + 1)
-        _averageOfLevels(root.right, level + 1)   
+        if (!levels[level]) levels[level] = [0, 0]
+        levels[level][0] += node.val
+        levels[level][1]++
+        
+        dfs(node.left, level + 1)
+        dfs(node.right, level + 1)
     }
     
     const levels = []
-    const counts = []
-    _averageOfLevels(root)
-    
-    for (let i = 0; i < levels.length; i++)
-        levels[i] = levels[i] / counts[i]
-    
-    return levels
+    dfs(root, 0)
+    return levels.map(val => val[0] / val[1])
 };
 ```
 
@@ -12301,8 +12309,6 @@ var mergeKLists = function(lists) {
 
 ## 1046. Last Stone Weight
 ```javascript
-
-
 // O(n log n)
 class Heap {
     constructor(elements, sortBy) {
