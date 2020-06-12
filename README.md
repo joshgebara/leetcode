@@ -5038,6 +5038,11 @@ transpose([[1,2,3],[4,5,6],[7,8,9]])
 
 ## 985. Sum of Even Numbers After Queries
 ```javascript
+/**
+ * @param {number[]} A
+ * @param {number[][]} queries
+ * @return {number[]}
+ */
 const isEven = num => (num & 1) === 0
 
 var sumEvenAfterQueries = function(A, queries) {
@@ -5046,10 +5051,16 @@ var sumEvenAfterQueries = function(A, queries) {
   let sum = A.reduce((result, num) => isEven(num) ? result + num : result, 0)
   
   return queries.reduce((result, [value, index]) => {
-    if (isEven(A[index])) sum -= A[index]
-    A[index] += value
-    if (isEven(A[index])) sum += A[index]
-    return result.concat([sum])
+      if (isEven(A[index])) 
+          sum -= A[index]
+      
+      A[index] += value
+      
+      if (isEven(A[index])) 
+          sum += A[index]
+      
+      result.push(sum)
+      return result
   }, [])
 };
 ```
