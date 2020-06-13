@@ -36771,3 +36771,41 @@ var fizzBuzz = function(n) {
     return result
 };
 ```
+
+## 265. Paint House II
+```javascript
+// Top Down DP
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCostII = function(costs) {
+    const _minCostII = (house, color) => {
+        if (memo[house][color] !== Infinity) 
+            return memo[house][color]
+        
+        if (house === costs.length - 1) 
+            return costs[house][color]
+        
+        let min = Infinity
+        for (let i = 0; i < costs[house].length; i++) {
+            if (color === i) continue
+            min = Math.min(min, _minCostII(house + 1, i))
+        }
+        
+        memo[house][color] = costs[house][color] + min
+        return memo[house][color]
+    }
+    
+    if (!costs.length) return 0
+    
+    const memo = Array(costs.length).fill(0).map(a => Array(costs[0].length).fill(Infinity))
+    
+    let min = Infinity
+    for (let color = 0; color < costs[0].length; color++) {
+        min = Math.min(min, _minCostII(0, color))
+    }
+    
+    return min
+};
+```
