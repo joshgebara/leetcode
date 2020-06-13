@@ -36809,7 +36809,7 @@ var minCostII = function(costs) {
     return min
 };
 
-// Bottom Up DP
+// Bottom Up DP O(N*K) Space
 /**
  * @param {number[][]} costs
  * @return {number}
