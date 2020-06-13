@@ -36838,4 +36838,37 @@ var minCostII = function(costs) {
     
     return Math.min(...dp[dp.length - 1])
 };
+
+// Bottom Up DP O(K) Space
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCostII = function(costs) {
+    if (!costs.length) return 0
+    
+    const houses = costs.length
+    const colors = costs[0].length
+    
+    let prevRow = costs[0]
+    
+    for (let house = 1; house < houses; house++) {
+        const currRow = Array(colors).fill(0)
+        
+        for (let color = 0; color < colors; color++) {
+            let min = Infinity
+            
+            for (let prevColor = 0; prevColor < colors; prevColor++) {
+                if (color === prevColor) continue
+                min = Math.min(min, prevRow[prevColor])
+            }
+            
+            currRow[color] = costs[house][color] + min
+        }
+        
+        prevRow = currRow
+    }
+    
+    return Math.min(...prevRow)
+};
 ```
