@@ -36871,6 +36871,106 @@ var minCostII = function(costs) {
     
     return Math.min(...prevRow)
 };
+// Bottom Up DP O(n*k) time O(k) space
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCostII = function(costs) {
+    if (!costs.length) return 0
+    
+    const houses = costs.length
+    const colors = costs[0].length
+    
+    let prevRow = costs[0]
+    
+    for (let house = 1; house < houses; house++) {
+        let min1 = -1
+        let min2 = -1
+        for (let color = 0; color < colors; color++) {
+            const cost = prevRow[color]
+            
+            if (min1 === -1 || cost < prevRow[min1]) {
+                min2 = min1
+                min1 = color
+            } else if (min2 === -1 || cost < prevRow[min2]) {
+                min2 = color
+            }
+        }
+
+        const currRow = Array(colors).fill(0)
+        for (let color = 0; color < colors; color++) {
+            if (color === min1) {
+                currRow[color] = costs[house][color] + prevRow[min2]
+            } else {
+                currRow[color] = costs[house][color] + prevRow[min1]
+            }
+        }
+
+        prevRow = currRow
+    }
+    
+    return Math.min(...prevRow)
+};
+
+// Bottom Up DP O(n*k) time O(1) space
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCostII = function(costs) {
+    if (!costs.length) return 0
+    
+    const houses = costs.length
+    const colors = costs[0].length
+    
+    let prevMin1 = -1
+    let prevMin2 = -1
+    let prevMin1Color = -1
+    
+    for (let color = 0; color < colors; color++) {
+        const cost = costs[0][color]
+        
+        if (prevMin1 === -1 || cost < prevMin1) {
+            prevMin2 = prevMin1
+            prevMin1 = cost
+            prevMin1Color = color
+        } else if (prevMin2 === -1 || cost < prevMin2) {
+            prevMin2 = cost
+        }
+        
+    }
+    
+    for (let house = 1; house < houses; house++) {
+        let min1 = -1
+        let min2 = -1
+        let min1Color = -1
+        
+        for (let color = 0; color < colors; color++) {
+            let cost = costs[house][color]
+            
+            if (color === prevMin1Color) {
+                cost += prevMin2
+            } else {
+                cost += prevMin1
+            }
+            
+            if (min1 === -1 || cost < min1) {
+                min2 = min1
+                min1Color = color
+                min1 = cost
+            } else if (min2 === -1 || cost < min2) {
+                min2 = cost
+            }
+        }
+
+        prevMin1 = min1
+        prevMin2 = min2
+        prevMin1Color = min1Color
+    }
+    
+    return prevMin1
+};
 ```
 
 ## 5453. Running Sum of 1d Array
