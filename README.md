@@ -36774,7 +36774,7 @@ var fizzBuzz = function(n) {
 
 ## 265. Paint House II
 ```javascript
-// Top Down DP
+// Top Down DP O(k^2 * n) Time O(N*K) Space
 /**
  * @param {number[][]} costs
  * @return {number}
@@ -36809,7 +36809,7 @@ var minCostII = function(costs) {
     return min
 };
 
-// Bottom Up DP O(N*K) Space
+// Bottom Up DP O(k^2 * n) Time O(N*K) Space
 /**
  * @param {number[][]} costs
  * @return {number}
@@ -36839,7 +36839,7 @@ var minCostII = function(costs) {
     return Math.min(...dp[dp.length - 1])
 };
 
-// Bottom Up DP O(K) Space
+// Bottom Up DP O(k^2 * n) Time O(K) Space
 /**
  * @param {number[][]} costs
  * @return {number}
