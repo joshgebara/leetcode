@@ -32323,6 +32323,35 @@ var shiftGrid = function(grid, k) {
     
     return result
 };
+
+// In Place
+/**
+ * @param {number[][]} grid
+ * @param {number} k
+ * @return {number[][]}
+ */
+var shiftGrid = function(grid, k) {
+    const m = grid.length
+    const n = grid[0].length
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            const shiftRow = (row + (Math.floor((col + k) / n))) % m
+            const shiftCol = (col + k) % n
+            
+            const bin = grid[row][col] <<= 16
+            grid[shiftRow][shiftCol] |= bin
+        }
+    }
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            grid[row][col] >>= 16
+        }
+    }
+    
+    return grid
+};
 ```
 
 ## 696. Count Binary Substrings
@@ -36987,3 +37016,4 @@ var runningSum = function(nums) {
     return nums
 };
 ```
+
