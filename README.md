@@ -37088,3 +37088,46 @@ var minimumTotal = function(triangle) {
     return Math.min(...prevRow)
 };
 ```
+
+## 95. Unique Binary Search Trees II
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number} n
+ * @return {TreeNode[]}
+ */
+var generateTrees = function(n) {
+    const _generateTrees = (start, end) => {
+        const nodes = []
+        
+        if (start > end) {
+            nodes.push(null)
+            return nodes
+        }
+        
+        for (let rootVal = start; rootVal <= end; rootVal++) {
+            const leftNodes = _generateTrees(start, rootVal - 1)
+            const rightNodes = _generateTrees(rootVal + 1, end)
+            
+            for (const left of leftNodes) {
+                for (const right of rightNodes) {
+                    const root = new TreeNode(rootVal, left, right)
+                    nodes.push(root)
+                }
+            }
+        }
+        
+        return nodes
+    }
+    
+    if (n === 0) return []
+    return _generateTrees(1, n)
+};
+```
