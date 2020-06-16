@@ -37041,4 +37041,50 @@ var minimumTotal = function(triangle) {
     
     return _minimumTotal(0, 0)
 };
+
+// Bottom Up DP O(n^2) Space
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function(triangle) {
+    const dp = Array(triangle.length).fill(0)
+    for (let i = 0; i < triangle.length; i++) {
+        dp[i] = Array(triangle[i].length).fill(Infinity)
+    }
+    
+    dp[0][0] = triangle[0][0]
+    
+    for (let i = 0; i < dp.length - 1; i++) {
+        for (let j = 0; j < dp[i].length; j++) {
+            dp[i + 1][j] = Math.min(dp[i + 1][j], triangle[i + 1][j] + dp[i][j])
+            dp[i + 1][j + 1] = Math.min(dp[i + 1][j + 1], triangle[i + 1][j + 1] + dp[i][j])
+        }
+    }
+    
+    return Math.min(...dp[dp.length - 1])
+};
+
+// Bottom Up DP O(n) Space
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function(triangle) {
+    let prevRow = Array(triangle.length).fill(Infinity)
+    prevRow[0] = triangle[0][0]
+    
+    for (let i = 0; i < triangle.length - 1; i++) {
+        const currRow = Array(triangle.length).fill(Infinity)
+        
+        for (let j = 0; j < triangle[i].length; j++) {
+            currRow[j] = Math.min(currRow[j], triangle[i + 1][j] + prevRow[j])
+            currRow[j + 1] = Math.min(currRow[j + 1], triangle[i + 1][j + 1] + prevRow[j])
+        }
+        
+        prevRow = currRow
+    }
+    
+    return Math.min(...prevRow)
+};
 ```
