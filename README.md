@@ -37017,3 +37017,28 @@ var runningSum = function(nums) {
 };
 ```
 
+## 120. Triangle
+```javascript
+// Top Down DP
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function(triangle) {
+    const _minimumTotal = (row, col) => {
+        if (row >= triangle.length) return 0
+        if (memo[row][col]) return memo[row][col]
+        
+        memo[row][col] = triangle[row][col] + Math.min(_minimumTotal(row + 1, col), 
+                                                       _minimumTotal(row + 1, col + 1))
+        return memo[row][col]
+    }
+    
+    const memo = Array(triangle.length).fill(0)
+    for (let i = 0; i < memo.length; i++) {
+        memo[i] = Array(triangle[i].length).fill(0)
+    }
+    
+    return _minimumTotal(0, 0)
+};
+```
