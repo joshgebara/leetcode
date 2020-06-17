@@ -5701,6 +5701,40 @@ const search = (nums, target) => {
 
 ## 1150. Check If a Number Is Majority Element in a Sorted Array
 ```javascript
+// Two Binary Searches
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {boolean}
+ */
+var isMajorityElement = function(nums, target) {
+    const firstIndex = binarySearch(nums, target)
+    
+    if (nums[firstIndex] !== target) 
+        return false
+    
+    const lastIndex = binarySearch(nums, target + 1)
+    return (lastIndex - firstIndex) + 1 > nums.length / 2
+};
+
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid] < target) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return left
+}
+
+// One Binary Searches
 const binarySearch = (arr, target) => {
     let left = 0
     let right = arr.length
