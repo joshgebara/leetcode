@@ -37131,3 +37131,28 @@ var generateTrees = function(n) {
     return _generateTrees(1, n)
 };
 ```
+
+## 213. House Robber II
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var rob = function(nums) {
+    if (nums.length === 1) return nums[0]
+    return Math.max(robHouses(0, nums.length - 2, nums), robHouses(1, nums.length - 1, nums))
+};
+
+const robHouses = (start, end, nums) => {
+    let prev = 0
+    let curr = 0
+    
+    for (let i = start; i <= end; i++) {
+        const temp = curr
+        curr = Math.max(nums[i] + prev, curr)
+        prev = temp
+    }
+    
+    return curr
+}
+```
