@@ -16514,27 +16514,22 @@ var delNodes = function(root, to_delete) {
 ```
 ## 293. Flip Game
 ```javascript
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
 var generatePossibleNextMoves = function(s) {
+    const charArr = s.split('')
     const result = []
-    const str = s.split('')
     
-    let i = 1
-    while (i < s.length) {
-        if (s[i] === '-') {
-            i += 2
-            continue
+    for (let i = 1; i < s.length; i++) {
+        if (charArr[i - 1] === '+' && charArr[i] === '+') {
+            charArr[i - 1] = '-'
+            charArr[i] = '-'
+            result.push(charArr.join(''))
+            charArr[i - 1] = '+'
+            charArr[i] = '+'
         }
-        
-        if (s[i] === '+' && s[i - 1] === '+') {
-            str[i] = '-'
-            str[i - 1] = '-'
-            result.push(str.join(''))
-            
-            str[i] = '+'
-            str[i - 1] = '+'
-        }
-        
-        i += 1
     }
     
     return result
