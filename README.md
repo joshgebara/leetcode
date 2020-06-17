@@ -5184,19 +5184,37 @@ var twoSumLessThanK = function(A, K) {
 
 ## 566. Reshape the Matrix
 ```javascript
+/**
+ * @param {number[][]} nums
+ * @param {number} r
+ * @param {number} c
+ * @return {number[][]}
+ */
 var matrixReshape = function(nums, r, c) {
-    if (r * c !== nums.length * nums[0].length) return nums
+    const m = nums.length
+    const n = nums[0].length
     
-    const m = Array(r).fill(null).map(() => [])
-    let i = 0
+    if (m * n !== r * c) {
+        return nums
+    }
+
+    const matrix = Array(r).fill(0).map(a => Array(c).fill(0))
+    let currRow = 0
+    let currCol = 0
     
-    for (let row = 0; row < nums.length; row++) {
-        for (let col = 0; col < nums[0].length; col++) {
-            if (m[i].length >= c) i++
-            m[i].push(nums[row][col])
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            matrix[currRow][currCol] = nums[row][col]
+            currCol++
+            
+            if (currCol === c) {
+                currCol = 0
+                currRow++
+            }
         }
     }
-    return m
+    
+    return matrix
 };
 ```
 
