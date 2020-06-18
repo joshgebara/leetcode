@@ -37203,3 +37203,26 @@ const robHouses = (start, end, nums) => {
     return curr
 }
 ```
+
+## 1426. Counting Elements
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var countElements = function(arr) {
+    const buckets = Array(1001).fill(0)
+    for (const a of arr) {
+        buckets[a]++
+    }
+    
+    let count = 0
+    for (let i = 0; i < buckets.length - 1; i++) {
+        if (buckets[i + 1] !== 0) {
+            count += buckets[i]
+        }
+    }
+    
+    return count
+};
+```
