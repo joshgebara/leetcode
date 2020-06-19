@@ -29993,11 +29993,30 @@ var generateTheString = function(n) {
 
 ## 1332. Remove Palindromic Subsequences
 ```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
 var removePalindromeSub = function(s) {
     if (!s.length) return 0
-    if (s === s.split('').reverse().join('')) return 1
-    return 2
+    return isPalindrome(s) ? 1 : 2
 };
+
+const isPalindrome = s => {
+    let left = 0
+    let right = s.length - 1
+    
+    while (left < right) {
+        if (s[left] !== s[right]) {
+            return false
+        }
+        
+        left++
+        right--
+    }
+    
+    return true
+}
 ```
 
 ## 238. Product of Array Except Self
