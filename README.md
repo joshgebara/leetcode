@@ -32963,32 +32963,29 @@ var distributeCandies = function(candies, num_people) {
  * @return {number}
  */
 var surfaceArea = function(grid) {
-    const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]]
-    let total = 0
+    const n = grid.length
+    let area = 0
     
-    for (let row = 0; row < grid.length; row++) {
-        for (let col = 0; col < grid[0].length; col++) {
-            const cubes = grid[row][col]
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < n; col++) {
+            const cube = grid[row][col]
+            if (cube === 0) continue
             
-            if (cubes === 0) continue
+            area += cube * 4 + 2
             
-            total += cubes * 4 + 2
+            if (col - 1 >= 0) {
+                const leftCube = grid[row][col - 1]
+                area -= Math.min(cube, leftCube) * 2
+            }
             
-            for (const [dx, dy] of dirs) {
-                const nRow = row + dx
-                const nCol = col + dy
-                
-                if (nRow < 0 || nRow >= grid.length || 
-                    nCol < 0 || nCol >= grid[0].length || 
-                    grid[nRow][nCol] === 0)
-                    continue
-                
-                total -= Math.min(cubes, grid[nRow][nCol])
+            if (row - 1 >= 0) {
+                const topCube = grid[row - 1][col]
+                area -= Math.min(cube, topCube) * 2
             }
         }
     }
     
-    return total
+    return area
 };
 ```
 
