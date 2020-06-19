@@ -5332,6 +5332,10 @@ var majorityElement = function(nums) {
 majorityElement([2,1,2,4,7,7,7,7,7])
 
 // Divide And Conquer
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var majorityElement = function(nums) {
     const _majorityElement = (nums, low, high) => {
         if (low === high) return nums[low]
@@ -5351,8 +5355,8 @@ var majorityElement = function(nums) {
     
     const countInRange = (nums, ele, low, high) => {
         let count = 0
-        for (const num of nums) {
-            if (num === ele) {
+        for (let i = low; low <= high; low++) {
+            if (nums[low] === ele) {
                 count++
             }
         }
