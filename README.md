@@ -17896,36 +17896,39 @@ var lengthOfLastWord = function(s) {
 
 ## 917. Reverse Only Letters
 ```javascript
+/**
+ * @param {string} S
+ * @return {string}
+ */
 var reverseOnlyLetters = function(S) {
     const charArr = S.split('')
-    
     let left = 0
-    let right = S.length - 1
+    let right = charArr.length - 1
     
     while (left < right) {
-        const lCode = isLetter(charArr[left])
-        const rCode = isLetter(charArr[right])
-        
-        if (lCode && rCode) {
-            [charArr[left], charArr[right]] = [charArr[right], charArr[left]] 
+        if (!isChar(charArr[left])) {
             left++
-            right--
-        } else if (lCode) {
-            right--
-        } else if (rCode) {
-            left++
-        } else {
-            left++
-            right--
+            continue
         }
+        
+        if (!isChar(charArr[right])) {
+            right--
+            continue
+        }
+        
+        const temp = charArr[left]
+        charArr[left] = charArr[right]
+        charArr[right] = temp
+        
+        left++
+        right--
     }
     
     return charArr.join('')
 };
-    
-const isLetter = char => {
-    let lowercase = char.toLowerCase()
-    return lowercase >= 'a' && lowercase <= 'z'
+
+const isChar = char => {
+    return char.toLowerCase() >= 'a' && char.toLowerCase() <= 'z'
 }
 ```
 
