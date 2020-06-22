@@ -37249,3 +37249,47 @@ var countElements = function(arr) {
     return count
 };
 ```
+
+## 788. Rotated Digits
+```javascript
+// Brute Force
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var rotatedDigits = function(N) {
+    let count = 0
+    
+    for (let num = 1; num <= N; num++) {
+        count += isGoodNumber(num)
+    }
+    
+    return count
+};
+
+const map = { 0: 0, 1: 1, 8: 8, 2: 5, 5: 2, 6: 9, 9: 6 }
+const memo = {}
+
+const isGoodNumber = num => {
+    if (memo[num]) return memo[num]
+    
+    let flipNum = 0
+    let place = 1
+    let n = num
+    
+    while (n > 0) {
+        let digit = map[n % 10]
+        if (digit === undefined) return false
+        
+        digit *= place
+        place *= 10
+        
+        flipNum += digit
+        n = Math.floor(n / 10)
+    }
+    
+    
+    memo[num] = flipNum !== num
+    return memo[num]
+}
+```
