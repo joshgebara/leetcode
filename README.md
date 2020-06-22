@@ -10194,14 +10194,36 @@ var rangeSumBST = function(root, L, R) {
 
 ## 1137. N-th Tribonacci Number
 ```javascript
+// Top Down
 const memo = {}
 
 var tribonacci = function(n) {
     if (memo[n]) return memo[n]
-    if (n <= 1) return n
-    if (n === 2) return 1
+    if (n <= 0) return 0
+    if (n <= 2) return 1
+
     memo[n] = tribonacci(n - 3) + tribonacci(n - 2) + tribonacci(n - 1)
     return memo[n]
+};
+
+// Bottom DP
+var tribonacci = function(n) {
+    if (n <= 0) return 0
+    if (n <= 2) return 1
+    
+    let dp1 = 0
+    let dp2 = 1
+    let dp3 = 1
+    
+    for (let i = 3; i <= n; i++) {
+        const next = dp1 + dp2 + dp3
+        
+        dp1 = dp2
+        dp2 = dp3
+        dp3 = next
+    }
+    
+    return dp3
 };
 ```
 
