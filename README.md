@@ -22643,26 +22643,22 @@ const swap = (arr, i, j) => {
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
 
 // Sort
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
 var twoCitySchedCost = function(costs) {
+    costs.sort((a, b) => {
+        const diffA = a[0] - a[1]
+        const diffB = b[0] - b[1]
+        return diffA - diffB
+    })
+    
     let cost = 0
-    let cityACount = 0
-    let cityBCount = 0
-    let n = Math.floor(costs.length / 2)
-    
-    costs.sort((a, b) => Math.abs(b[0] - b[1]) - Math.abs(a[0] - a[1]))
-    
-    for (const [cityACost, cityBCost] of costs) {
-        if (cityACount >= n) {
-            cost += cityBCost
-        } else if (cityBCount >= n) {
-            cost += cityACost
-        } else if (cityACost < cityBCost) {
-            cost += cityACost
-            cityACount++
-        } else {
-            cost += cityBCost
-            cityBCount++
-        }
+    let i = 0
+    for (let j = costs.length / 2; j < costs.length; j++) {
+        cost += costs[i++][0]
+        cost += costs[j][1]
     }
     
     return cost
