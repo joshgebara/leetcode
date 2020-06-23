@@ -37344,3 +37344,36 @@ var sortedArrayToBST = function(nums) {
     return _sortedArrayToBST(nums, 0, nums.length - 1)
 };
 ```
+
+## 377. Combination Sum IV
+```javascript
+// Top Down DP
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var combinationSum4 = function(nums, target) {
+    const _combinationSum4 = (sum) => {
+        if (memo[sum] !== undefined)
+            return memo[sum]
+
+        if (sum > target)
+            return 0
+        
+        if (sum === target)
+            return 1
+        
+        memo[sum] = 0
+        for (let i = 0; i < nums.length; i++) {
+            memo[sum] += _combinationSum4(sum + nums[i])
+        }
+        
+        return memo[sum]
+    }
+    
+    if (!nums.length) return 0
+    const memo = Array(target + 1).fill()
+    return _combinationSum4(0)
+};
+```
