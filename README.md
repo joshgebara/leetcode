@@ -37361,8 +37361,8 @@ var combinationSum4 = function(nums, target) {
             return 1
         
         memo[sum] = 0
-        for (let i = 0; i < nums.length; i++) {
-            memo[sum] += _combinationSum4(sum + nums[i])
+        for (const num of nums) {
+            memo[sum] += _combinationSum4(sum + num)
         }
         
         return memo[sum]
@@ -37371,5 +37371,25 @@ var combinationSum4 = function(nums, target) {
     if (!nums.length) return 0
     const memo = Array(target + 1).fill()
     return _combinationSum4(0)
+};
+
+// Bottom Up DP
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var combinationSum4 = function(nums, target) {
+    const dp = Array(target + 1).fill(0)
+    dp[0] = 1
+    
+    for (let i = 1; i <= target; i++) {
+        for (const num of nums) {
+            if (i < num) continue
+            dp[i] = dp[i] + dp[i - num]
+        }
+    }
+    
+    return dp[target]
 };
 ```
