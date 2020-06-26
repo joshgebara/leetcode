@@ -37422,4 +37422,24 @@ var change = function(amount, coins) {
     const memo = Array(amount).fill().map(a => Array(coins.length).fill())
     return _change(0, 0)
 };
+
+Bottom Up DP
+/**
+ * @param {number} amount
+ * @param {number[]} coins
+ * @return {number}
+ */
+var change = function(amount, coins) {
+    const dp = Array(amount + 1).fill(0)
+    dp[0] = 1
+    
+    for (const coin of coins) {
+        for (let i = 1; i <= amount; i++) {
+            if (i < coin) continue
+            dp[i] += dp[i - coin]
+        }
+    }
+    
+    return dp[amount]
+};
 ```
