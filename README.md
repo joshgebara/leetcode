@@ -37393,3 +37393,33 @@ var combinationSum4 = function(nums, target) {
     return dp[target]
 };
 ```
+
+## 518. Coin Change 2
+```javascript
+// Top Down DP
+/**
+ * @param {number} amount
+ * @param {number[]} coins
+ * @return {number}
+ */
+var change = function(amount, coins) {
+    const _change = (sum, i) => {
+        if (sum === amount)
+            return 1
+        
+        if (i >= coins.length || sum > amount) 
+            return 0
+        
+        if (memo[sum][i] !== undefined) 
+            return memo[sum][i]
+        
+        memo[sum][i] = 0
+        memo[sum][i] += _change(sum + coins[i], i)
+        memo[sum][i] += _change(sum, i + 1)
+        return memo[sum][i]
+    }
+    
+    const memo = Array(amount).fill().map(a => Array(coins.length).fill())
+    return _change(0, 0)
+};
+```
