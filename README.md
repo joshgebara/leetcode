@@ -37486,3 +37486,31 @@ WHERE content_type = 'Movies'
     AND YEAR(program_date) = 2020
     AND Kids_content = 'Y'
 ```
+
+## 1493. Longest Subarray of 1's After Deleting One Element
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestSubarray = function(nums) {
+    let i = 0
+    let deletes = 0
+    let count = 0
+    let max = 0
+    
+    nums[i] ? count++ : deletes++
+    
+    for (let j = 1; j < nums.length; j++) {
+        nums[j] ? count++ : deletes++
+        max = Math.max(max, count)
+        
+        while (deletes > 1 && i < nums.length) {
+            nums[i] ? count-- : deletes--
+            i++
+        }
+    }
+    
+    return max - (count === nums.length)
+};
+```
