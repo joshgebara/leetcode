@@ -37514,3 +37514,24 @@ var longestSubarray = function(nums) {
     return max - (count === nums.length)
 };
 ```
+
+## 1491. Average Salary Excluding the Minimum and Maximum Salary
+```javascript
+/**
+ * @param {number[]} salary
+ * @return {number}
+ */
+var average = function(salary) {
+    let sum = 0
+    let max = salary[0]
+    let min = salary[0]
+    
+    for (const num of salary) {
+        sum += num
+        max = Math.max(max, num)
+        min = Math.min(min, num)
+    }
+    
+    return (sum - max - min) / (salary.length - 2)
+};
+```
