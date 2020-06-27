@@ -37471,4 +37471,18 @@ var findTargetSumWays = function(nums, S) {
 };
 
 // Bottom Up DP
+
+```
+
+## 1495. Friendly Movies Streamed Last Month
+```sql
+# Write your MySQL query statement below
+SELECT DISTINCT title
+FROM Content
+JOIN TVProgram
+USING(content_id)
+WHERE content_type = 'Movies'
+    AND MONTH(program_date) = 6
+    AND YEAR(program_date) = 2020
+    AND Kids_content = 'Y'
 ```
