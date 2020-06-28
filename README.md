@@ -37535,3 +37535,40 @@ var average = function(salary) {
     return (sum - max - min) / (salary.length - 2)
 };
 ```
+
+## 1496. Path Crossing
+```javascript
+/**
+ * @param {string} path
+ * @return {boolean}
+ */
+var isPathCrossing = function(path) {
+    const set = new Set()
+    let curr = [0, 0]
+    set.add(curr.toString())
+    
+    for (const p of path) {
+        switch (p) {
+            case 'N':
+                curr[0]++
+                break
+            case 'S':
+                curr[0]--
+                break
+            case 'E':
+                curr[1]++
+                break
+            case 'W':
+                curr[1]--
+                break
+        }
+        
+        if (set.has(curr.toString()))
+            return true
+            
+        set.add(curr.toString())
+    }
+    
+    return false
+};
+```
