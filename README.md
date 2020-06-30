@@ -37572,3 +37572,9 @@ var isPathCrossing = function(path) {
     return false
 };
 ```
+
+0/1 Knapsack
+Unbounded Knapsack
+Shortest Path (eg: Unique Paths I/II)
+Fibonacci Sequence (eg: House Thief, Jump Game)
+Longest Common Substring/Subsequeunce
