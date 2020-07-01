@@ -18990,30 +18990,48 @@ var rob = function(nums) {
 
 ## 953. Verifying an Alien Dictionary
 ```javascript
+/**
+ * @param {string[]} words
+ * @param {string} order
+ * @return {boolean}
+ */
 var isAlienSorted = function(words, order) {
-    const map = {}
-    for (let i = 0; i < order.length; i++) {
-        map[order[i]] = i
-    } 
+    const dict = {}
     
-    search: for (let i = 1; i < words.length; i++) {
-        const currWord = words[i]
-        const prevWord = words[i - 1]
+    for (let i = 0; i < order.length; i++) {
+        dict[order[i]] = i
+    }
+    
+    for (let i = 0; i < words.length - 1; i++) {
+        const curr = words[i]
+        const next = words[i + 1]
         
-        for (let j = 0; j < Math.min(currWord.length, prevWord.length); j++) {
-            if (currWord[j] === prevWord[j]) continue
-            
-            if (map[prevWord[j]] > map[currWord[j]])
-                return false
-                
-            continue search
-        }
-        
-        if (prevWord.length > currWord.length)
+        if (!inOrder(curr, next, dict))
             return false
     }
+    
     return true
 };
+
+const inOrder = (w1, w2, dict) => {
+    let i = 0
+    let j = 0
+    
+    while (i < w1.length && j < w2.length) {
+        const char1 = dict[w1[i]]
+        const char2 = dict[w2[j]]
+        
+        if (char1 === char2) {
+            i++
+            j++
+            continue
+        }
+        
+        return char1 < char2
+    }
+    
+    return w1.length <= w2.length
+}
 ```
 
 ## 326. Power of Three
@@ -37601,3 +37619,4 @@ var romanToInt = function(s) {
     return result
 };
 ```
+
