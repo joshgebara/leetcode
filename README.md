@@ -5253,22 +5253,21 @@ isMonotonic([6,5,4,4])
 
 ## 485. Max Consecutive Ones
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var findMaxConsecutiveOnes = function(nums) {
+    let count = 0
     let max = 0
-    let curr = 0
+    
     for (const num of nums) {
-        if (num === 1) {
-            curr++
-            continue
-        }
-        max = Math.max(curr, max)
-        curr = 0
+        count += num ? 1 : -count
+        max = Math.max(max, count)
     }
-    max = Math.max(curr, max)
+    
     return max
 };
-
-findMaxConsecutiveOnes([1,1,0,1,1,1])
 ```
 
 
@@ -37578,3 +37577,4 @@ Unbounded Knapsack
 Shortest Path (eg: Unique Paths I/II)
 Fibonacci Sequence (eg: House Thief, Jump Game)
 Longest Common Substring/Subsequeunce
+
