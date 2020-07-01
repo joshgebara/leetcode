@@ -37733,5 +37733,37 @@ var canPartition = function(nums) {
 };
 
 // Bottom Up DP - O(n) space
-
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function(nums) {
+    let sum = 0
+    for (const num of nums) {
+        sum += num
+    }
+    
+    if (sum % 2 !== 0)
+        return false
+    
+    const target = sum / 2
+    let prev = Array(target + 1).fill(false)
+    prev[0] = true
+    
+    for (let i = 1; i <= nums.length; i++) {
+        const curr = Array(target + 1).fill(false)
+        curr[0] = true
+        
+        for (let j = 1; j <= target; j++) {
+            curr[j] = prev[j]
+            
+            if (j < nums[i - 1]) continue
+            curr[j] = prev[j] || prev[j - nums[i - 1]]
+        }
+        
+        prev = curr
+    }
+    
+    return prev[target]
+};
 ```
