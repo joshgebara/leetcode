@@ -37620,3 +37620,45 @@ var romanToInt = function(s) {
 };
 ```
 
+## 1184. Distance Between Bus Stops
+```javascript
+/**
+ * @param {number[]} distance
+ * @param {number} start
+ * @param {number} destination
+ * @return {number}
+ */
+var distanceBetweenBusStops = function(distance, start, destination) {
+    const graph = {}
+    for (let i = 0; i < distance.length; i++) {
+        const i2 = (i + 1) % distance.length
+        
+        if (!graph[i]) graph[i] = []
+        if (!graph[i2]) graph[i2] = []
+        
+        graph[i].push([i2, distance[i]])
+        graph[i2].push([i, distance[i]])
+    }
+    
+    return dfs(graph, start, destination)
+};
+
+const dfs = (graph, start, destination) => {
+    const _dfs = (vertex, prev, dist) => {
+        if (vertex === destination) {
+            return dist
+        }
+        
+        let min = Infinity
+        
+        for (const [neighbor, weight] of graph[vertex]) {
+            if (neighbor === prev) continue
+            min = Math.min(min, _dfs(neighbor, vertex, dist + weight))
+        }
+        
+        return min
+    }
+    
+    return _dfs(start, start, 0)
+}
+```
