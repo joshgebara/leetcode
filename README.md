@@ -37662,3 +37662,38 @@ const dfs = (graph, start, destination) => {
     return _dfs(start, start, 0)
 }
 ```
+
+## 416. Partition Equal Subset Sum
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function(nums) {
+    const _canPartition = (sum, i) => {
+        if (sum === target)
+            return true
+        
+        if (sum > target || i >= nums.length)
+            return false
+        
+        if (memo[sum][i] !== undefined) 
+            return memo[sum][i]
+        
+        memo[sum][i] = _canPartition(sum, i + 1) || _canPartition(sum + nums[i], i + 1)
+        return memo[sum][i]
+    }
+    
+    let sum = 0
+    for (const num of nums) {
+        sum += num
+    }
+    
+    if (sum % 2 !== 0)
+        return false
+    
+    const target = sum / 2
+    const memo = new Array(target + 1).fill().map(a => Array(nums.length).fill())
+    return _canPartition(0, 0)
+};
+```
