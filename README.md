@@ -37665,6 +37665,7 @@ const dfs = (graph, start, destination) => {
 
 ## 416. Partition Equal Subset Sum
 ```javascript
+// Top Down DP
 /**
  * @param {number[]} nums
  * @return {boolean}
@@ -37696,4 +37697,41 @@ var canPartition = function(nums) {
     const memo = new Array(target + 1).fill().map(a => Array(nums.length).fill())
     return _canPartition(0, 0)
 };
+
+// Bottom Up DP - O(mn) space
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function(nums) {
+    let sum = 0
+    
+    for (const num of nums) {
+        sum += num
+    }
+    
+    if (sum % 2 !== 0)
+        return false
+    
+    const target = sum / 2
+    
+    const dp = Array(nums.length + 1).fill().map(a => Array(target + 1).fill(false))
+    for (let i = 0; i < dp.length; i++) {
+        dp[i][0] = true
+    }
+    
+    for (let i = 1; i < dp.length; i++) {
+        for (let j = 1; j <= target; j++) {
+            dp[i][j] = dp[i - 1][j]
+            
+            if (j < nums[i - 1]) continue
+            dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]]
+        }
+    }
+    
+    return dp[nums.length][target]
+};
+
+// Bottom Up DP - O(n) space
+
 ```
