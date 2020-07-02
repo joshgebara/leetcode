@@ -37865,7 +37865,7 @@ var maxScore = function(s) {
     }
     
     let leftScore = 0
-    for (let i = 0; i < s.length -1; i++) {
+    for (let i = 0; i < s.length - 1; i++) {
         +s[i] ? rightScore-- : leftScore++
         max = Math.max(max, leftScore + rightScore)
     }
@@ -37873,3 +37873,4 @@ var maxScore = function(s) {
     return max
 };
 ```
+
