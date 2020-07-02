@@ -37850,3 +37850,26 @@ var canPartition = function(nums) {
     return prev[target]
 };
 ```
+
+## 1422. Maximum Score After Splitting a String
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maxScore = function(s) {
+    let max = 0
+    let rightScore = 0
+    for (const char of s) {
+        rightScore += +char
+    }
+    
+    let leftScore = 0
+    for (let i = 0; i < s.length -1; i++) {
+        +s[i] ? rightScore-- : leftScore++
+        max = Math.max(max, leftScore + rightScore)
+    }
+    
+    return max
+};
+```
