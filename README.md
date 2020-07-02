@@ -11198,8 +11198,8 @@ var floodFill = function(image, sr, sc, newColor) {
     const dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
     const stack = [[sr, sc]]
     
-    outer : while (stack.length) {
-        const [cr, cc] = stack[stack.length - 1]
+    while (stack.length) {
+        const [cr, cc] = stack.pop()
         
         image[cr][cc] = newColor
         
@@ -11212,10 +11212,7 @@ var floodFill = function(image, sr, sc, newColor) {
                 image[nr][nc] !== oldColor) continue
             
             stack.push([nr, nc])
-            continue outer
         }
-        
-        stack.pop()
     }
     
     return image
