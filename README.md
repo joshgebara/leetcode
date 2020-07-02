@@ -11117,23 +11117,107 @@ var increasingBST = function(root) {
 
 ## 733. Flood Fill
 ```javascript
+// BFS
+/**
+ * @param {number[][]} image
+ * @param {number} sr
+ * @param {number} sc
+ * @param {number} newColor
+ * @return {number[][]}
+ */
 var floodFill = function(image, sr, sc, newColor) {
-    const _floodFill = (image, cr, cc, startColor, newColor) => {
-        if (cr >= image.length || cr < 0) return
-        if (cc >= image[0].length || cc < 0) return
-        if (image[cr][cc] !== startColor) return
+    const oldColor = image[sr][sc]
+    if (oldColor === newColor) return image
+    
+    const queue = [[sr, sc]]
+    const dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+    
+    while (queue.length) {
+        const [cr, cc] = queue.shift()
+        image[cr][cc] = newColor
+        
+        for (const [dr, dc] of dirs) {
+            const nr = cr + dr
+            const nc = cc + dc
+            
+            if (nr < 0 || nr >= image.length || 
+                nc < 0 || nc >= image[0].length || 
+                image[nr][nc] !== oldColor) continue
+            
+            queue.push([nr, nc])
+        }
+    }
+    
+    return image
+};
+
+// Recursive DFS
+/**
+ * @param {number[][]} image
+ * @param {number} sr
+ * @param {number} sc
+ * @param {number} newColor
+ * @return {number[][]}
+ */
+var floodFill = function(image, sr, sc, newColor) {
+    const _floodFill = (cr, cc) => {
+        image[cr][cc] = newColor
+        
+        for (const [dr, dc] of dirs) {
+            const nr = cr + dr
+            const nc = cc + dc
+            
+            if (nr < 0 || nr >= image.length || 
+                nc < 0 || nc >= image[0].length || 
+                image[nr][nc] !== oldColor) continue
+            
+            _floodFill(nr, nc)
+        }
+    }
+    
+    const oldColor = image[sr][sc]
+    if (oldColor === newColor) return image
+    
+    const dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+    _floodFill(sr, sc)
+    return image
+};
+
+// Iterative DFS
+/**
+ * @param {number[][]} image
+ * @param {number} sr
+ * @param {number} sc
+ * @param {number} newColor
+ * @return {number[][]}
+ */
+var floodFill = function(image, sr, sc, newColor) {
+    const oldColor = image[sr][sc]
+    if (oldColor === newColor) return image
+    
+    const dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+    const stack = [[sr, sc]]
+    
+    outer : while (stack.length) {
+        const [cr, cc] = stack[stack.length - 1]
         
         image[cr][cc] = newColor
         
-        _floodFill(image, cr + 1, cc, startColor, newColor)
-        _floodFill(image, cr - 1, cc, startColor, newColor)
-        _floodFill(image, cr, cc + 1, startColor, newColor)
-        _floodFill(image, cr, cc - 1, startColor, newColor)
+        for (const [dr, dc] of dirs) {
+            const nr = cr + dr
+            const nc = cc + dc
+            
+            if (nr < 0 || nr >= image.length || 
+                nc < 0 || nc >= image[0].length || 
+                image[nr][nc] !== oldColor) continue
+            
+            stack.push([nr, nc])
+            continue outer
+        }
+        
+        stack.pop()
     }
     
-    if (!image || image[sr][sc] === newColor) return image
-    let startColor = image[sr][sc]
-    _floodFill(image, sr, sc, startColor, newColor)
     return image
 };
 ```
