@@ -8532,9 +8532,12 @@ var sumEvenAfterQueries = function(A, queries) {
 
 ## 1013. Partition Array Into Three Parts With Equal Sum
 ```javascript
+/**
+ * @param {number[]} A
+ * @return {boolean}
+ */
 var canThreePartsEqualSum = function(A) {
     const sum = A.reduce((result, num) => result + num, 0)
-    console.log(sum, sum % 3, sum / 3)
     if (sum % 3 !== 0) return false
     
     let count = 0
@@ -8545,10 +8548,9 @@ var canThreePartsEqualSum = function(A) {
             currSum = 0
             count++
         }
-        
-        if (count === 2) return true
     }
-    return count === 3
+    
+    return count >= 3
 };
 ```
 
