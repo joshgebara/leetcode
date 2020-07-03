@@ -18970,34 +18970,29 @@ var depthSumInverse = function(nestedList) {
 
 ## 937. Reorder Data in Log Files
 ```javascript
-var reorderLogFiles = function(logs) {
-    const letterLogs = []
-    const digitLogs = []
-    
-    for (const log of logs) {
-        if (Number.isNaN(+log[log.length - 1])) {
-            letterLogs.push(log)
-        } else {
-            digitLogs.push(log)
-        }
-    }
-    
-    letterLogs.sort((a, b) => {
-        let [aId, ...aWord] = a.split(' ')
-        let [bId, ...bWord] = b.split(' ')
-        aWord = aWord.join(' ')
-        bWord = bWord.join(' ')
+/**
+ * @param {string[]} logs
+ * @return {string[]}
+ */
+var reorderLogFiles = function(logs) {    
+    logs.sort((a, b) => {
+        if (isDigit(a) || isDigit(b))
+            return isDigit(a) - isDigit(b)
         
-        let result = aWord.localeCompare(bWord)
-        
-        if (!result) 
-            result = aId.localeCompare(bId)
-        
-        return result
+        return word(a).localeCompare(word(b))
     })
     
-    return letterLogs.concat(digitLogs)
+    return logs
 };
+
+const isDigit = log => !isNaN(+log[log.length - 1])
+
+const word = log => {
+    const words = log.split(' ')
+    const result = words.slice(1)
+    result.push(words[0])
+    return result.join(' ')
+}
 ```
 
 ## 170. Two Sum III - Data structure design
