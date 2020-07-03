@@ -19036,14 +19036,19 @@ var convertToTitle = function(n) {
 
 ## 171. Excel Sheet Column Number
 ```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
 var titleToNumber = function(s) {
-    let power = 0
     let result = 0
+    let power = s.length - 1
     const aCode = 'A'.charCodeAt(0)
-    for (let i = s.length - 1; i >= 0; i--) {
-        const code = s[i].charCodeAt(0) - aCode + 1
-        result += (code * (26 ** power))
-        power++
+    
+    for (const letter of s) {
+        const letterVal = letter.charCodeAt(0) - aCode + 1
+        result += letterVal * (26 ** power)
+        power--
     }
     
     return result
