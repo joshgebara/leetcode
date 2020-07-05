@@ -37874,3 +37874,46 @@ var maxScore = function(s) {
 };
 ```
 
+## 304. Range Sum Query 2D - Immutable
+```javascript
+/**
+ * @param {number[][]} matrix
+ */
+var NumMatrix = function(matrix) {
+    if (!matrix.length) return
+    
+    const rowSize = matrix.length + 1
+    const colSize = matrix[0].length + 1
+    
+    this.sumMatrix = Array(rowSize).fill().map(a => Array(colSize).fill(0))
+    
+    for (let row = 1; row < rowSize; row++) {
+        for (let col = 1; col < colSize; col++) {
+            this.sumMatrix[row][col] = this.sumMatrix[row - 1][col] + 
+                                       this.sumMatrix[row][col - 1] -
+                                       this.sumMatrix[row - 1][col - 1] + 
+                                       matrix[row - 1][col - 1]
+        }
+    }
+};
+
+/** 
+ * @param {number} row1 
+ * @param {number} col1 
+ * @param {number} row2 
+ * @param {number} col2
+ * @return {number}
+ */
+NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
+    return this.sumMatrix[row2 + 1][col2 + 1] - 
+           this.sumMatrix[row1][col2 + 1] - 
+           this.sumMatrix[row2 + 1][col1] + 
+           this.sumMatrix[row1][col1]
+};
+
+/** 
+ * Your NumMatrix object will be instantiated and called as such:
+ * var obj = new NumMatrix(matrix)
+ * var param_1 = obj.sumRegion(row1,col1,row2,col2)
+ */
+```
