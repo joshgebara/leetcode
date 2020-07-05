@@ -37917,3 +37917,41 @@ NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
  * var param_1 = obj.sumRegion(row1,col1,row2,col2)
  */
 ```
+
+## 718. Maximum Length of Repeated Subarray
+```javascript
+// Top Down DP
+/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @return {number}
+ */
+var findLength = function(A, B) {
+    const _findLength = (i, j, length) => {
+        if (i < 0 || j < 0) {
+            return length
+        }
+        
+        if (memo[i][j][length] !== undefined)
+            return memo[i][j][length]
+        
+        let lcs1 = length
+        if (A[i] === B[j])
+            lcs1 = _findLength(i - 1, j - 1, length + 1)
+        
+        memo[i][j][length] = Math.max(lcs1, _findLength(i, j - 1, 0), _findLength(i - 1, j, 0))
+        return memo[i][j][length]
+    }
+    
+    const aLen = A.length + 1
+    const bLen = B.length + 1
+    const memo = Array(aLen).fill()
+                    .map(a => Array(bLen).fill()
+                    .map(a => Array(Math.max(aLen, bLen)).fill()))
+    
+    return _findLength(A.length - 1, B.length - 1, 0)
+};
+
+// Bottom Up DP
+
+```
