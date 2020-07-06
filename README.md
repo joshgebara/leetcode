@@ -10080,20 +10080,25 @@ var climbStairs = function(n) {
 
 ## 387. First Unique Character in a String
 ```javascript
-const counts = s => {
-    return s.split('').reduce((result, element) => {
-        result[element] = 1 + (result[element] || 0)
-        return result
-    }, {})
-}
-
+/**
+ * @param {string} s
+ * @return {number}
+ */
 var firstUniqChar = function(s) {
-    const count = counts(s)
+    const map = Array(26).fill(0)
+    for (const char of s) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        map[index]++
+    }
     
     for (let i = 0; i < s.length; i++) {
-        if (count[s[i]] > 1) continue
-        return i
+        const char = s[i]
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        if (map[index] === 1) {
+            return i
+        } 
     }
+    
     return -1
 };
 ```
