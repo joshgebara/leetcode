@@ -32298,36 +32298,28 @@ var minTimeToVisitAllPoints = function(points) {
  * @param {number[][]} moves
  * @return {string}
  */
-var tictactoe = function(moves, n = 3) {
-    const isValid = (row, col, n) => {
-        return rows[row] == n || cols[col] == n || diag == n || revDiag == n
-    }
-    
+var tictactoe = function(moves) {
+    const n = 3
     const rows = Array(n).fill(0)
     const cols = Array(n).fill(0)
-    let diag = 0
-    let revDiag = 0
+    let diag1 = 0
+    let diag2 = 0
     
-    for (let i = 0; i < moves.length; i++) {
-        const [row, col] = moves[i]
-        if (i & 1) {
-            rows[row]--
-            cols[col]--
-            if (row === col) diag--
-            if (row === n - col - 1) revDiag--
-            
-            if (isValid(row, col, -n)) return 'B'
-        } else {
-            rows[row]++
-            cols[col]++
-            if (row === col) diag++
-            if (row === n - col - 1) revDiag++
-            
-            if (isValid(row, col, n)) return 'A'
-        }
+    let player = 1
+    for (const [row, col] of moves) {
+        rows[row] += player
+        cols[col] += player
+        if (row === col) diag1 += player
+        if (row === n - 1 - col) diag2 += player
+        
+        const score = n * player
+        if (rows[row] === score || cols[col] === score || diag1 === score || diag2 === score)
+            return score < 0 ? 'B' : 'A'
+        
+        player *= -1
     }
     
-    return moves.length < n**2 ? "Pending" : "Draw"
+    return moves.length === n * n ? 'Draw' : 'Pending'
 };
 ```
 
