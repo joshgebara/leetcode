@@ -37953,3 +37953,23 @@ var findLength = function(A, B) {
 // Bottom Up DP
 
 ```
+
+## 1218. Longest Arithmetic Subsequence of Given Difference
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} difference
+ * @return {number}
+ */
+var longestSubsequence = function(arr, difference) {
+    const map = {}
+    let max = 1
+    
+    for (let i = 0; i < arr.length; i++) {
+        map[arr[i]] = 1 + (map[arr[i] - difference] || 0)
+        max = Math.max(max, map[arr[i]])
+    }
+    
+    return max
+};
+```
