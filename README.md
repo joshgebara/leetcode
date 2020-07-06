@@ -37986,8 +37986,9 @@ var longestArithSeqLength = function(A) {
     for (let i = 0; i < A.length; i++) {
         for (let j = i + 1; j < A.length; j++) {
             const diff = A[i] - A[j]
-            map[`${j}-${diff}`] = (map[`${i}-${diff}`] || 1) + 1
-            max = Math.max(max, map[`${j}-${diff}`])
+            const count = (map[`${i}-${diff}`] || 1) + 1
+            map[`${j}-${diff}`] = count
+            max = Math.max(max, count)
         }
     }
     
