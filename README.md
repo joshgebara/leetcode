@@ -32161,26 +32161,27 @@ var kidsWithCandies = function(candies, extraCandies) {
  * @return {string}
  */
 var stringShift = function(s, shift) {
-    let diff = 0
-    let dir = 0
-    
-    for (const [direction, amount] of shift) {
-        diff += !direction ? amount : -amount
-        diff < 0 ? dir = 1 : dir = 0
+    let shifts = 0
+    for (const [dir, amount] of shift) {
+        if (dir) {
+            shifts += amount
+        } else {
+            shifts -= amount
+        }
     }
     
-    if (!diff) return s
+    const dir = shifts < 0 ? 'left' : 'right'
+    let amount = Math.abs(shifts) % s.length
     
-    let amount = Math.abs(diff)
-    let index = amount % s.length
-    if (!dir) index = s.length - index
+    if (dir === 'left')
+        amount = s.length - amount
     
-    const result = Array(s.length).fill('')
-    for (const char of s) {
-        result[index++ % s.length] = char
-    } 
+    const str = Array(s.length).fill()
+    for (let i = 0; i < s.length; i++) {
+        str[(i + amount) % s.length] = s[i]
+    }
     
-    return result.join('')
+    return str.join('')
 };
 ```
 
