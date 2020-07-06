@@ -37973,3 +37973,24 @@ var longestSubsequence = function(arr, difference) {
     return max
 };
 ```
+
+## 1027. Longest Arithmetic Sequence
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var longestArithSeqLength = function(A) {
+    const map = {}
+    let max = 2
+    for (let i = 0; i < A.length; i++) {
+        for (let j = i + 1; j < A.length; j++) {
+            const diff = A[i] - A[j]
+            map[`${j}-${diff}`] = (map[`${i}-${diff}`] || 1) + 1
+            max = Math.max(max, map[`${j}-${diff}`])
+        }
+    }
+    
+    return max
+};
+```
