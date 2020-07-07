@@ -18800,6 +18800,36 @@ const dfs = (curr, graph, visited) => {
 
 ## 256. Paint House
 ```javascript
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCost = function(costs) {
+    const _minCost = (house, prevColor) => {
+        if (house >= houses) return 0
+        
+        if (memo[house][prevColor]) 
+            return memo[house][prevColor]
+        
+        memo[house][prevColor] = Infinity
+        for (let color = 0; color <= 2; color++) {
+            if (color === prevColor) continue
+            memo[house][prevColor] = Math.min(memo[house][prevColor], 
+                                              costs[house][color] + _minCost(house + 1, color))
+        }
+        
+        return memo[house][prevColor]
+    }
+    
+    if (!costs.length) return 0
+    const houses = costs.length
+    const colors = costs[0].length
+    const memo = Array(houses).fill().map(a => Array(colors).fill())
+    return _minCost(0, -1)
+};
+
+
+
 var minCost = function(costs) {
     if (!costs || costs.length < 1) return 0
     
