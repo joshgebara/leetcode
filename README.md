@@ -9614,46 +9614,27 @@ var binaryTreePaths = function(root) {
 
 ## 100. Same Tree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {boolean}
+ */
 var isSameTree = function(p, q) {
     if (!p && !q) return true
-    return isEqual(preOrder(p), preOrder(q))
+    if (!p || !q) return false
+    
+    return p.val === q.val && 
+           isSameTree(p.left, q.left) && 
+           isSameTree(p.right, q.right)
 };
-
-const isEqual = (a, b) => {
-    if (a.length !== b.length) return false
-    
-    let i = 0
-    let j = 0
-    
-    while (i < a.length && j < b.length) {
-        if (a[i++] !== b[j++]) return false
-    }
-    return true
-}
-
-const preOrder = node => {
-    const result = []
-    return _preOrder(node, result)
-}
-
-const _preOrder = (node, result) => {
-    if (!node) return result
-    result.push(node.val)
-    
-    if (node.left) {
-        _preOrder(node.left, result)  
-    } else {
-        result.push(null) 
-    }
-    
-    if (node.right) {
-      _preOrder(node.right, result)  
-    } else {
-        result.push(null) 
-    }
-    
-    return result
-}
 ```
 
 ## 144. Binary Tree Preorder Traversal
