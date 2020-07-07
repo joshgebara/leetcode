@@ -9339,6 +9339,50 @@ var isSymmetric = function(root) {
 
 ## 993. Cousins in Binary Tree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} x
+ * @param {number} y
+ * @return {boolean}
+ */
+var isCousins = function(root, x, y) {
+    const dfs = (node, parent, depth) => {
+        if (!node) return
+        
+        if (node.val === x) {
+            xParent = parent
+            xDepth = depth
+            return
+        }
+        
+        if (node.val === y) {
+            yParent = parent
+            yDepth = depth
+            return
+        }
+        
+        dfs(node.left, node, depth + 1)
+        dfs(node.right, node, depth + 1)
+    }
+    
+    let xParent = null
+    let xDepth = -1
+    let yParent = null
+    let yDepth = -1
+    
+    dfs(root, null, 0)
+    return xParent !== yParent && xDepth === yDepth
+};
+
+// BFS
 var isCousins = function(root, x, y) {
     if (!root) return false
     
