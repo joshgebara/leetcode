@@ -18800,6 +18800,7 @@ const dfs = (curr, graph, visited) => {
 
 ## 256. Paint House
 ```javascript
+// Top Down DP
 /**
  * @param {number[][]} costs
  * @return {number}
@@ -18828,7 +18829,32 @@ var minCost = function(costs) {
     return _minCost(0, -1)
 };
 
+// Bottom Up DP
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCost = function(costs) {
+    if (!costs.length) return 0
+    
+    let prevRow = costs[0]
+    
+    for (let house = 1; house < costs.length; house++) {
+        const currRow = Array(costs[0].length).fill(Infinity)
+        for (let color = 0; color < costs[0].length; color++) {
+            for (let prevColor = 0; prevColor < costs[0].length; prevColor++) {
+                if (color === prevColor) continue
+                currRow[color] = Math.min(currRow[color], prevRow[prevColor])
+            }
 
+            currRow[color] += costs[house][color]
+        }
+        
+        prevRow = currRow
+    }
+    
+    return Math.min(...prevRow)
+};
 
 var minCost = function(costs) {
     if (!costs || costs.length < 1) return 0
