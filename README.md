@@ -38101,4 +38101,26 @@ var toHexspeak = function(num) {
     
     return hex.join('')
 };
+
+/**
+ * @param {string} num
+ * @return {string}
+ */
+var toHexspeak = function(num) {
+    const hex = []
+    const hexMap = 'OI23456789ABCDEF'
+    
+    while (num) {
+        const digit = num % 16
+        
+        if (digit >= 2 && digit <= 9)
+            return 'ERROR'
+        
+        hex.push(hexMap[digit])
+        num = Math.floor(num / 16)
+    }
+    
+    hex.reverse()
+    return hex.join('')
+};
 ```
