@@ -8943,26 +8943,31 @@ var validMountainArray = function(A) {
 
 ## 697. Degree of an Array
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var findShortestSubArray = function(nums) {
+    const map = {}
     let degree = 0
-    let min = Number.MAX_VALUE
     
-    const count = nums.reduce((result, num, i) => {
-        if (!result[num]) {
-            result[num] = [1, i, i]
-        } else {
-            result[num] = [1 + result[num][0], result[num][1], i]
-        }
-        degree = Math.max(degree, result[num][0])
-        return result
-    }, {})
-    
-    
-    for (let value of Object.values(count)) {
-        if (value[0] !== degree) continue
-        min = Math.min(value[2] - value[1] + 1, min)
+    for (let i = 0; i < nums.length; i++) {
+        const num = nums[i]
+        if (!map[num]) map[num] = [0, i, i]
+        map[num][0]++
+        map[num][2] = i
+        
+        degree = Math.max(degree, map[num][0])
     }
-    return min
+    
+    let length = Infinity
+    for (const [count, start, end] of Object.values(map)) {
+        if (count === degree) {
+            length = Math.min(length, end - start + 1)
+        }
+    }
+    
+    return length
 };
 ```
 
