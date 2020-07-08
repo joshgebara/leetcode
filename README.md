@@ -7355,22 +7355,21 @@ var search = function(nums, target) {
 
 // Recursive
 var search = function(nums, target) {
-    const _search = (nums, target, left, right) => {
+    const _search = (left, right) => {
         if (left > right) return -1
         
         const mid = Math.floor((right - left) / 2) + left
         
-        if (nums[mid] === target) return mid
-        
-        if (nums[mid] > target) {
-            return _search(nums, target, left, mid - 1)
+        if (nums[mid] === target) {
+            return mid
+        } else if (nums[mid] < target) {
+            return _search(mid + 1, right)
         } else {
-            return _search(nums, target, mid + 1, right)
+            return _search(left, mid - 1)
         }
-        
-        return -1
     }
-    return _search(nums, target, 0, nums.length - 1)
+    
+    return _search(0, nums.length - 1)
 };
 ```
 
