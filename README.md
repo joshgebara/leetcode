@@ -11066,23 +11066,41 @@ var longestUnivaluePath = function(root) {
 
 ## 606. Construct String from Binary Tree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} t
+ * @return {string}
+ */
 var tree2str = function(t) {
-    const _tree2str = (root, isRoot = true) => {
-        if (!root) return
+    const dfs = (node) => {
+        if (!node) return null
         
-        if (!isRoot) s.push('(')
-        s.push(root.val)
+        str.push(node.val)
         
-        if (!root.left && root.right) s.push('()')
-        _tree2str(root.left, false)
-        _tree2str(root.right, false)
+        if (!node.left && !node.right)
+            return
         
-        if (!isRoot) s.push(')')
+        str.push('(')
+        dfs(node.left)
+        str.push(')')
+        
+        if (node.right) {
+            str.push('(')
+            dfs(node.right)
+            str.push(')')
+        }
     }
     
-    const s = []
-    _tree2str(t)
-    return s.join('')
+    const str = []
+    dfs(t)
+    return str.join('')
 };
 ```
 
