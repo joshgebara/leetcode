@@ -38076,3 +38076,29 @@ var longestArithSeqLength = function(A) {
     return max
 };
 ```
+
+## 1271. Hexspeak
+```javascript
+/**
+ * @param {string} num
+ * @return {string}
+ */
+var toHexspeak = function(num) {
+    const set = new Set("ABCDEFIO")
+    const hex = (+num).toString(16).toUpperCase().split('')
+    
+    for (let i = 0; i < hex.length; i++) {
+        if (hex[i] == 0) {
+            hex[i] = 'O'
+        } else if (hex[i] == 1) {
+            hex[i] = 'I'
+        }
+    }
+    
+    for (const char of hex) {
+        if (!set.has(char)) return "ERROR"
+    }
+    
+    return hex.join('')
+};
+```
