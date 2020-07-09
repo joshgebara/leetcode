@@ -38229,3 +38229,30 @@ var toHexspeak = function(num) {
 };
 ```
 
+## 997. Find the Town Judge
+```javascript
+/**
+ * @param {number} N
+ * @param {number[][]} trust
+ * @return {number}
+ */
+var findJudge = function(N, trust) {
+    const map = {}
+    
+    for (let i = 1; i <= N; i++) {
+        map[i] = [0, 0]
+    }
+    
+    for (const [start, end] of trust) {
+        map[start][1]++
+        map[end][0]++
+    }
+    
+    for (const [key, val] of Object.entries(map)) {
+        if (val[0] === N - 1 && val[1] === 0)
+            return key
+    }
+    
+    return -1
+};
+```
