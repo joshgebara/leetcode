@@ -9280,6 +9280,36 @@ var minDepth = function(root) {
 
 ## 107. Binary Tree Level Order Traversal II
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrderBottom = function(root) {
+    const dfs = (node, level) => {
+        if (!node) return
+        
+        dfs(node.left, level + 1)
+        dfs(node.right, level + 1)
+        
+        if (!result[level]) result[level] = []
+        result[level].push(node.val)
+        
+    }
+    
+    const result = []
+    dfs(root, 0)
+    return result.reverse()
+};
+
+// BFS
 var levelOrderBottom = function(root) {
     if (!root) return []
     
@@ -38196,3 +38226,4 @@ var toHexspeak = function(num) {
     return hex.join('')
 };
 ```
+
