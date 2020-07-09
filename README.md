@@ -32078,25 +32078,27 @@ const smooth = (grid, row, col, r, c) => {
  * @param {number[][]} M
  * @return {number[][]}
  */
+/**
+ * @param {number[][]} M
+ * @return {number[][]}
+ */
 var imageSmoother = function(M) {
     const r = M.length
     const c = M[0].length
     
-    const result = Array(r).fill(0).map(a => Array(c).fill([])) 
-    
     for (let row = 0; row < r; row++) {
         for (let col = 0; col < c; col++) {
-            result[row][col] |= (smooth(M, row, col, r, c) << 8)
+            M[row][col] |= (smooth(M, row, col, r, c) << 8)
         }
     }
     
     for (let row = 0; row < r; row++) {
         for (let col = 0; col < c; col++) {
-            result[row][col] >>= 8
+            M[row][col] >>= 8
         }
     }
     
-    return result
+    return M
 };
 
 const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [-1, -1], [-1, 1], [1, -1], [1, 1]]
@@ -32112,7 +32114,7 @@ const smooth = (grid, row, col, r, c) => {
         if (newRow < 0 || newRow >= r || newCol < 0 || newCol >= c)
             continue
         
-        sum += grid[newRow][newCol]
+        sum += (grid[newRow][newCol] & 255)
         count++
     }
     
