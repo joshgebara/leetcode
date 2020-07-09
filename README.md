@@ -38293,3 +38293,52 @@ var largest1BorderedSquare = function(grid) {
     return max * max
 };
 ```
+
+## 764. Largest Plus Sign
+```javascript
+/**
+ * @param {number} N
+ * @param {number[][]} mines
+ * @return {number}
+ */
+var orderOfLargestPlusSign = function(N, mines) {
+    const dp = Array(N).fill().map(a => Array(N).fill(1))
+    let max = 0
+    
+    const banned = new Set()
+    for (const [row, col] of mines) {
+        banned.add(row * N + col)
+    }
+    
+    for (let row = 0; row < N; row++) {  
+        let count = 0
+        for (let col = 0; col < N; col++) {
+            count = banned.has(row * N + col) ? 0 : count + 1
+            dp[row][col] = count
+        }
+        
+        count = 0
+        for (let col = N - 1; col >= 0; col--) {
+            count = banned.has(row * N + col) ? 0 : count + 1
+            dp[row][col] = Math.min(dp[row][col], count)
+        }
+    }
+    
+    for (let col = 0; col < N; col++) {  
+        let count = 0
+        for (let row = 0; row < N; row++) {
+            count = banned.has(row * N + col) ? 0 : count + 1
+            dp[row][col] = Math.min(dp[row][col], count)
+        }
+        
+        count = 0
+        for (let row = N - 1; row >= 0; row--) {
+            count = banned.has(row * N + col) ? 0 : count + 1
+            dp[row][col] = Math.min(dp[row][col], count)
+            max = Math.max(dp[row][col], max)
+        }
+    }
+    
+    return max
+};
+```
