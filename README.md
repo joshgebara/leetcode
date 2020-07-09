@@ -38256,3 +38256,40 @@ var findJudge = function(N, trust) {
     return -1
 };
 ```
+
+## 1139. Largest 1-Bordered Square
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var largest1BorderedSquare = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    
+    const dp = Array(m + 1).fill(0)
+                .map(a => Array(n + 1).fill(0)
+                .map(a => Array(2).fill(0)))
+    
+    let max = 0
+    for (let row = 1; row <= m; row++) {
+        for (let col = 1; col <= n; col++) {
+            if (grid[row - 1][col - 1] === 0) continue
+            dp[row][col][0] = dp[row - 1][col][0] + 1
+            dp[row][col][1] = dp[row][col - 1][1] + 1
+            
+            const len = Math.min(dp[row][col][0], dp[row][col][1])
+            if (len <= max) continue
+            
+            for (let k = len; k > max; k--) {
+                if (dp[row - k + 1][col][1] >= k && dp[row][col - k + 1][0] >= k) {
+                    max = Math.max(max, k)
+                    break
+                }
+            }
+        }
+    }
+    
+    return max * max
+};
+```
