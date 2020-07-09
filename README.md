@@ -22884,6 +22884,51 @@ var twoCitySchedCost = function(costs) {
 
 ## 1005. Maximize Sum Of Array After K Negations
 ```javascript
+// Counting Sort
+/**
+ * @param {number[]} A
+ * @param {number} K
+ * @return {number}
+ */
+var largestSumAfterKNegations = function(A, K) {
+    const buckets = Array(201).fill(0)
+    for (const num of A) {
+        buckets[num + 100]++
+    }
+    
+    const sortedA = []
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
+            sortedA.push(i - 100)
+        }
+    }
+    
+    let i = 0
+    for (i = 0; i < sortedA.length; i++) {
+        if (sortedA[i] >= 0 || K <= 0)
+            break
+        
+        sortedA[i] *= -1
+        K--
+    }
+    
+    if (i > 0 && sortedA[i] > sortedA[i - 1])
+        i--
+    
+    while (K > 0) {
+        sortedA[i] *= -1
+        K--
+    }
+    
+    let sum = 0
+    for (const num of sortedA) {
+        sum += num
+    }
+    
+    return sum
+};
+
+// Heap
 var largestSumAfterKNegations = function(A, K) {
     const heap = new Heap(A)
     
