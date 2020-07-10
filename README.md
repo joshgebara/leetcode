@@ -38342,3 +38342,32 @@ var orderOfLargestPlusSign = function(N, mines) {
     return max
 };
 ```
+
+## 506. Relative Ranks
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {string[]}
+ */
+var findRelativeRanks = function(nums) {
+    const sorted = nums.slice().sort((a, b) => b - a)
+    const map = {}
+    for (let i = 0; i < sorted.length; i++) {
+        switch (i) {
+            case 0:
+                map[sorted[i]] = 'Gold Medal'
+                break
+            case 1:
+                map[sorted[i]] = 'Silver Medal'
+                break
+            case 2:
+                map[sorted[i]] = 'Bronze Medal'
+                break
+            default:
+                map[sorted[i]] = `${i + 1}`
+        }
+    }
+    
+    return nums.map(num => map[num])
+};
+```
