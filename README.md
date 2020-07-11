@@ -38371,3 +38371,64 @@ var findRelativeRanks = function(nums) {
     return nums.map(num => map[num])
 };
 ```
+
+## 750. Number Of Corner Rectangles
+```javascript
+// Brute Force - n^2 * m^2
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var countCornerRectangles = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    let count = 0
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] !== 1) continue
+            
+            for (let i = row - 1; i >= 0; i--) {
+                if (grid[i][col] !== 1) continue
+                
+                for (let j = col - 1; j >= 0; j--) {
+                    if (grid[row][j] !== 1) continue
+                    
+                    if (grid[i][j] === 1) {
+                        count++
+                    }
+                }
+            }
+        }
+    }
+    
+    return count
+};
+
+// Combinations - m^2 * 2
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var countCornerRectangles = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    let result = 0
+    
+    for (let row1 = 0; row1 < m; row1++) {
+        for (let row2 = row1 + 1; row2 < m; row2++) {
+            let count = 0
+            
+            for (let col = 0; col < n; col++) {
+                count += grid[row1][col] & grid[row2][col]
+            }
+            
+            result += (count * (count - 1)) / 2
+        }
+    }
+    
+    return result
+};
+
+
+```
