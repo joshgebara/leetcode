@@ -38455,3 +38455,40 @@ var countCornerRectangles = function(grid) {
     return result
 };
 ```
+
+## 650. 2 Keys Keyboard
+```javascript
+// Top Down DP
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var minSteps = function(n) {
+    const _minSteps = (length, clipboard) => {
+        if (length > n)
+            return Infinity
+        
+        if (length === n)
+            return 0
+        
+        if (memo[length][clipboard] !== undefined)
+            return memo[length][clipboard]
+        
+        memo[length][clipboard] = Infinity
+        
+        if (clipboard === 0) {
+            memo[length][clipboard] = 1 + _minSteps(length, length)
+        } else if (clipboard === length) {
+            memo[length][clipboard] = 1 + _minSteps(length + clipboard, clipboard)
+        } else {
+            memo[length][clipboard] = 1 + Math.min(_minSteps(length + clipboard, clipboard), 
+                                                   _minSteps(length, length))
+        }
+        
+        return memo[length][clipboard]
+    }
+    
+    const memo = Array(n).fill().map(a => Array(n).fill())
+    return _minSteps(1, 0)
+};
+```
