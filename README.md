@@ -38430,5 +38430,28 @@ var countCornerRectangles = function(grid) {
     return result
 };
 
+// Bottom Up DP O(m * n^2)
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var countCornerRectangles = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    let result = 0
+    const dp = Array(n).fill().map(a => Array(n).fill(0))
 
+    for (let row = 0; row < m; row++) {
+        for (let col1 = 0; col1 < n; col1++) {
+            if (grid[row][col1] === 0) continue
+            
+            for (let col2 = col1 + 1; col2 < n; col2++) {
+                if (grid[row][col2] === 0) continue
+                result += dp[col1][col2]++
+            }   
+        }
+    }
+    
+    return result
+};
 ```
