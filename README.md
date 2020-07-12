@@ -38491,4 +38491,46 @@ var minSteps = function(n) {
     const memo = Array(n).fill().map(a => Array(n).fill())
     return _minSteps(1, 0)
 };
+
+// Bottom Up DP
+```
+
+## 935. Knight Dialer
+```javascript
+// Top Down DP
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var knightDialer = function(N) {
+    const _knightDialer = (num, N) => {
+        if (N === 0) return 1
+        if (memo[num][N] !== undefined) return memo[num][N]
+        
+        memo[num][N] = 0
+        for (const neighbor of graph[num]) {
+            memo[num][N] += _knightDialer(neighbor, N - 1)
+            memo[num][N] %= MOD
+        }
+        
+        return memo[num][N]
+    }
+    
+    if (N === 1) return 10
+    
+    const graph = [[4,6], [6,8], [7,9], [4,8], [0,3,9], [], [0,1,7], [2,6], [1,3], [4,2]]
+    const memo = Array(10).fill().map(a => Array(N).fill())
+    const MOD = 10 ** 9 + 7
+    
+    let result = 0
+    for (let num = 0; num <= 9; num++) {
+        result += _knightDialer(num, N - 1)
+        result %= MOD
+    }
+    
+    return result
+};
+
+// Bottom Up DP
+
 ```
