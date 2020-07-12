@@ -38534,3 +38534,39 @@ var knightDialer = function(N) {
 // Bottom Up DP
 
 ```
+
+## 139. Word Break
+```javascript
+// Top Down DP
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {boolean}
+ */
+var wordBreak = function(s, wordDict) {
+    const _wordBreak = (start, end) => {
+        if (start > end)
+            return false
+        
+        if (dict.has(s.slice(start, end + 1)))
+            return true
+        
+        if (memo[start][end] !== undefined) 
+            return memo[start][end]
+        
+        memo[start][end] = false
+        for (let k = start; k < end; k++) {
+            if (_wordBreak(start, k) && _wordBreak(k + 1, end)) {
+                memo[start][end] = true
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    const memo = Array(s.length).fill().map(a => Array(s.length).fill())
+    const dict = new Set(wordDict)
+    return _wordBreak(0, s.length - 1)
+};
+```
