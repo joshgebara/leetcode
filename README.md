@@ -9649,6 +9649,42 @@ var hasPathSum = function(root, sum) {
 
 ## 257. Binary Tree Paths
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {string[]}
+ */
+var binaryTreePaths = function(root) {
+    const dfs = (node, path) => {
+        if (!node) return
+        
+        path.push(node.val)
+        
+        if (!node.left && !node.right) {
+            result.push(path.join('->'))
+            path.pop()
+            return
+        }
+        
+        dfs(node.left, path)
+        dfs(node.right, path)
+        
+        path.pop()
+    }
+    
+    const result = []
+    dfs(root, [])
+    return result
+};
+
+// Iterative
 var binaryTreePaths = function(root) {
     if (!root) return []
     
@@ -38476,15 +38512,10 @@ var minSteps = function(n) {
         
         memo[length][clipboard] = Infinity
         
-        if (clipboard === 0) {
-            memo[length][clipboard] = 1 + _minSteps(length, length)
-        } else if (clipboard === length) {
-            memo[length][clipboard] = 1 + _minSteps(length + clipboard, clipboard)
-        } else {
-            memo[length][clipboard] = 1 + Math.min(_minSteps(length + clipboard, clipboard), 
-                                                   _minSteps(length, length))
-        }
+        const copy = 2 + _minSteps(length + length, length)
+        const paste = 1 + _minSteps(length + clipboard, clipboard)
         
+        memo[length][clipboard] = Math.min(copy, paste)
         return memo[length][clipboard]
     }
     
