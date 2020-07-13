@@ -18780,19 +18780,30 @@ var getFactors = function(n) {
 
 ## 409. Longest Palindrome
 ```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
 var longestPalindrome = function(s) {
     const counts = {}
     
-    for (let char of s) {
+    for (const char of s) {
         counts[char] = 1 + (counts[char] || 0)
     }
     
+    let usedOne = false
     let count = 0
-    for (let [key, val] of Object.entries(counts)) {    
-        count += (Math.floor(val / 2) * 2)
+    
+    for (const val of Object.values(counts)) {
+            count += (2 * Math.floor(val / 2))
+        
+            if (val % 2 !== 0 && !usedOne) {
+                count++
+                usedOne = true
+            }
     }
     
-    return Math.min(count + 1, s.length)
+    return count
 };
 ```
 
