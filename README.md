@@ -38692,3 +38692,56 @@ var wordBreak = function(s, wordDict) {
     return dp[s.length]
 };
 ```
+
+## 474. Ones and Zeroes
+```javascript
+// Top Down DP
+/**
+ * @param {string[]} strs
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var findMaxForm = function(strs, m, n) {
+    const _findMaxForm = (index, m, n) => {
+        if (index >= strs.length) return 0
+        
+        if (memo[index][m][n] !== undefined)
+            return memo[index][m][n]
+        
+        const [mCount, nCount] = count(strs[index], index, cache)
+        
+        let max = 0
+        if (mCount <= m && nCount <= n) {
+            max = 1 + _findMaxForm(index + 1, m - mCount, n - nCount)
+        }
+        
+        max = Math.max(max, _findMaxForm(index + 1, m, n))
+        memo[index][m][n] = max
+        return max
+        
+    }
+    
+    const cache = Array(strs.length).fill()
+    const memo = Array(strs.length).fill()
+                    .map(a => Array(m + 1).fill()
+                    .map(a => Array(n + 1).fill()))
+    
+    return _findMaxForm(0, m, n)
+};
+
+const count = (str, index, cache) => {
+    if (cache[index] !== undefined)
+        return cache[index]
+    
+    let m = 0
+    let n = 0
+    
+    for (const char of str) {
+        char === '1' ? n++ : m++
+    }
+    
+    cache[index] = [m, n]
+    return cache[index]
+}
+```
