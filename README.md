@@ -28686,23 +28686,29 @@ var countNegatives = function(grid) {
 
 ## 455. Assign Cookies
 ```javascript
+/**
+ * @param {number[]} g
+ * @param {number[]} s
+ * @return {number}
+ */
 var findContentChildren = function(g, s) {
     g.sort((a, b) => a - b)
     s.sort((a, b) => a - b)
-
-    let p1 = 0
-    let p2 = 0
     
-    while (p1 < g.length && p2 < s.length) {
-        if (g[p1] <= s[p2]) {
-            p1++
-            p2++
-        } else {
-            p2++
-        }
+    let count = 0
+    
+    let j = 0
+    for (let i = 0; i < g.length; i++) {
+        while (j < s.length && s[j] < g[i]) j++
+        
+        if (j >= s.length)
+            return count
+        
+        count++
+        j++
     }
     
-    return p1
+    return count
 };
 ```
 
@@ -30468,18 +30474,22 @@ var checkSubarraySum = function(nums, k) {
  * @param {number[]} cost
  * @return {number}
  */
-var minCostClimbingStairs = function(cost) {    
-    const _minCostClimbingStairs = i => {        
-        if (i < 0) return 0
-        if (memo[i]) return memo[i]
-
-    	memo[i] = cost[i] + Math.min(_minCostClimbingStairs(i - 1), _minCostClimbingStairs(i - 2))
-        return memo[i]
+var minCostClimbingStairs = function(cost) {
+    const minCost = index => {
+        if (index >= cost.length) 
+            return 0
+        
+        if (memo[index] !== undefined)
+            return memo[index]
+        
+        memo[index] = cost[index] + Math.min(minCost(index + 1), 
+                                             minCost(index + 2))
+        
+        return memo[index]
     }
     
-    const memo = {}
-    const n = cost.length
-    return Math.min(_minCostClimbingStairs(n - 1), _minCostClimbingStairs(n - 2))
+    const memo = Array(cost.length).fill()
+    return Math.min(minCost(0), minCost(1))
 };
 
 // Bottom-Up DP
