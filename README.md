@@ -38545,6 +38545,23 @@ var minSteps = function(n) {
 };
 
 // Bottom Up DP
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var minSteps = function(n) {
+    const dp = Array(n + 1).fill(0)
+    
+    for (let i = 2; i <= n; i++) {
+        dp[i] = i
+        for (let j = Math.floor(i / 2); j >= 1; j--) {
+            if (i % j !== 0) continue
+            dp[i] = Math.min(dp[i], dp[j] + i / j)
+        }
+    }
+    
+    return dp[n]
+};
 ```
 
 ## 935. Knight Dialer
@@ -38674,6 +38691,4 @@ var wordBreak = function(s, wordDict) {
     
     return dp[s.length]
 };
-
-
 ```
