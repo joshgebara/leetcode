@@ -38773,3 +38773,25 @@ var reformatDate = function(date) {
     return `${year}-${months[month]}-${dayNum.join('')}`
 };
 ```
+
+## 1512. Number of Good Pairs
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var numIdenticalPairs = function(nums) {
+    const buckets = Array(101).fill(0)
+    for (const num of nums) {
+        buckets[num]++
+    }
+    
+    let count = 0
+    for (let i = 0; i < buckets.length; i++) {
+        if (!buckets[i]) continue
+        count += (buckets[i] * (buckets[i] - 1)) / 2
+    }
+    
+    return count
+};
+```
