@@ -38898,3 +38898,42 @@ var numIdenticalPairs = function(nums) {
 };
 ```
 
+## 576. Out of Boundary Paths
+```javascript
+// Top Down DP
+/**
+ * @param {number} m
+ * @param {number} n
+ * @param {number} N
+ * @param {number} i
+ * @param {number} j
+ * @return {number}
+ */
+var findPaths = function(m, n, N, i, j) {
+    const _findPaths = (row, col, steps) => {
+        if (steps < 0)
+            return 0
+        
+        if (row < 0 || row >= m || col < 0 || col >= n)
+            return 1
+        
+        if (memo[row][col][steps] !== undefined)
+            return memo[row][col][steps]
+        
+        memo[row][col][steps] = 0
+        for (const [dRow, dCol] of dirs) {
+            memo[row][col][steps] += _findPaths(row + dRow, col + dCol, steps - 1)
+            memo[row][col][steps] %= MOD
+        }
+        
+        return memo[row][col][steps]
+    }
+    
+    const MOD = 10 ** 9 + 7
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    const memo = Array(m + 1).fill().map(a => Array(n + 1).fill().map(a => Array(N + 1).fill()))
+    return _findPaths(i, j, N)
+};
+
+// Bottom Up DP
+```
