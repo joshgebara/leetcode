@@ -8653,6 +8653,30 @@ var isOneBitCharacter = function(bits) {
     }
     return i === bits.length - 1
 };
+
+/**
+ * @param {number[]} bits
+ * @return {boolean}
+ */
+var isOneBitCharacter = function(bits) {
+    if (bits.length === 1 || bits[bits.length - 2] === 0) 
+        return true
+    
+    let i = 0
+    while (i < bits.length) {
+        if (bits[i] === 1) {
+            i += 2
+            continue
+        }
+        
+        if (i === bits.length - 1)
+            return true
+        
+        i++
+    }
+    
+    return false
+};
 ```
 
 ## 1. Two Sum
