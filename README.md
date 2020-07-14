@@ -5401,18 +5401,24 @@ missingNumber([3,0,1])
 
 ## 830. Positions of Large Groups
 ```javascript
+/**
+ * @param {string} S
+ * @return {number[][]}
+ */
 var largeGroupPositions = function(S) {
-    let start = 0
-    let result = []
+    const result = []
     
+    let start = 0
     for (let i = 1; i <= S.length; i++) {
-        if (S[i] !== S[i - 1]) {
-            if (i - start > 2) {
-                result.push([start, i - 1])   
-            }
-            start = i
+        if (S[i - 1] === S[i]) continue
+        
+        if (i - start >= 3) {
+            result.push([start, i - 1])
         }
+        
+        start = i
     }
+    
     return result
 };
 ```
