@@ -8646,6 +8646,10 @@ var twoSum = function(numbers, target) {
 
 ## 717. 1-bit and 2-bit Characters
 ```javascript
+/**
+ * @param {number[]} bits
+ * @return {boolean}
+ */
 var isOneBitCharacter = function(bits) {
     let i = 0
     while (i < bits.length - 1) {
