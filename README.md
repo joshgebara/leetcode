@@ -38776,7 +38776,44 @@ const count = (str, index, cache) => {
 }
 
 // Bottom Up DP
-
+/**
+ * @param {string[]} strs
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var findMaxForm = function(strs, m, n) {
+    const dp = Array(strs.length + 1).fill(0)
+                                     .map(a => Array(m + 1).fill(0)
+                                     .map(a => Array(n + 1).fill(0)))
+    
+    for (let i = 1; i <= strs.length; i++) {
+        const [mCount, nCount] = count(strs[i - 1], i)
+        
+        for (let j = 0; j <= m; j++) {
+            for (let k = 0; k <= n; k++) {
+                if (j >= mCount && k >= nCount) {
+                    dp[i][j][k] = Math.max(dp[i - 1][j][k], 1 + dp[i - 1][j - mCount][k - nCount])
+                } else {
+                    dp[i][j][k] = dp[i - 1][j][k]
+                }
+            }
+        }
+    }
+    
+    return dp[strs.length][m][n]
+};
+    
+const count = (str, index) => {
+    let m = 0
+    let n = 0
+    
+    for (const char of str) {
+        char === '1' ? n++ : m++
+    }
+    
+    return [m, n]
+}
 ```
 
 ## 1507. Reformat Date
