@@ -38775,7 +38775,7 @@ const count = (str, index, cache) => {
     return cache[index]
 }
 
-// Bottom Up DP
+// Bottom Up DP O(l * m * n) Space
 /**
  * @param {string[]} strs
  * @param {number} m
@@ -38802,6 +38802,41 @@ var findMaxForm = function(strs, m, n) {
     }
     
     return dp[strs.length][m][n]
+};
+    
+const count = (str, index) => {
+    let m = 0
+    let n = 0
+    
+    for (const char of str) {
+        char === '1' ? n++ : m++
+    }
+    
+    return [m, n]
+}
+
+// Bottom Up DP O(m * n) Space
+/**
+ * @param {string[]} strs
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var findMaxForm = function(strs, m, n) {
+    const dp = Array(m + 1).fill(0).map(a => Array(n + 1).fill(0))
+                                     
+    
+    for (let i = 1; i <= strs.length; i++) {
+        const [mCount, nCount] = count(strs[i - 1], i)
+        
+        for (let j = m; j >= mCount; j--) {
+            for (let k = n; k >= nCount; k--) {
+                dp[j][k] = Math.max(dp[j][k], 1 + dp[j - mCount][k - nCount])           
+            }
+        }
+    }
+    
+    return dp[m][n]
 };
     
 const count = (str, index) => {
