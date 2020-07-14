@@ -32186,12 +32186,8 @@ const smooth = (grid, row, col, r, c) => {
  * @return {number[]}
  */
 var constructRectangle = function(area) {
-    let result = []
-    let maxDiff = Number.MAX_VALUE
-    
     for (let i = Math.floor(Math.sqrt(area)); i >= 0; i--) {
-        if (area % i === 0)
-            return [area / i, i]
+        if (area % i === 0) return [area / i, i]
     }
 };
 ```
@@ -38795,3 +38791,4 @@ var numIdenticalPairs = function(nums) {
     return count
 };
 ```
+
