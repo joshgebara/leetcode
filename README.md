@@ -38937,3 +38937,56 @@ var findPaths = function(m, n, N, i, j) {
 
 // Bottom Up DP
 ```
+
+## 1042. Flower Planting With No Adjacent
+```javascript
+/**
+ * @param {number} N
+ * @param {number[][]} paths
+ * @return {number[]}
+ */
+var gardenNoAdj = function(N, paths) {
+    const graph = buildGraph(N, paths)
+    const result = Array(N + 1).fill()
+    
+    for (let vertex = 1; vertex <= N; vertex++) {
+        color(graph, vertex, result)
+    }
+    
+    return result.slice(1)
+};
+
+const color = (graph, vertex, result) => {
+    const colors = [0, 1, 2, 3, 4]
+    
+    if (graph[vertex]) {
+        for (const neighbor of graph[vertex]) {
+            if (result[neighbor] === undefined) continue
+            colors[result[neighbor]] = 0
+        }
+    }
+    
+    let pickedColor = 0
+    for (const c of colors) {
+        if (!c) continue
+        pickedColor = c
+        break
+    }
+    
+    result[vertex] = pickedColor 
+}
+
+const buildGraph = (N, paths) => {
+    const graph = Array(N + 1).fill()
+    
+    for (const [v1, v2] of paths) {
+        if (!graph[v1]) graph[v1] = []
+        if (!graph[v2]) graph[v2] = []
+        
+        graph[v1].push(v2)
+        graph[v2].push(v1)
+    }
+    
+    return graph
+}
+```
