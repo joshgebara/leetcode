@@ -32668,6 +32668,35 @@ var checkStraightLine = function(coordinates) {
     
     return true
 };
+
+/**
+ * @param {number[][]} coordinates
+ * @return {boolean}
+ */
+var checkStraightLine = function(coordinates) {
+    let slope = null
+    
+    for (let i = 0; i < coordinates.length - 1; i++) {
+        const [x1, y1] = coordinates[i]
+        const [x2, y2] = coordinates[i + 1]
+        
+        if (slope === null) {
+            slope = getSlope(x1, y1, x2, y2)
+            continue
+        }
+        
+        if (slope !== getSlope(x1, y1, x2, y2)) {
+            return false
+        }
+    }
+    
+    return true
+};
+
+const getSlope = (x1, y1, x2, y2) => {
+    if (x2 - x1 === 0) return undefined
+    return (y2 - y1) / (x2 - x1)
+}
 ```
 
 ## 1037. Valid Boomerang
