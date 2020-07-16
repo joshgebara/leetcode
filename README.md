@@ -39056,5 +39056,28 @@ var minFallingPathSum = function(A) {
     return min
 };
 
-
+// Bottom Up DP
+/**
+ * @param {number[][]} A
+ * @return {number}
+ */
+var minFallingPathSum = function(A) {
+    const m = A.length
+    const n = A[0].length
+    let prevRow = A[0]
+    
+    for (let row = 1; row < m; row++) {
+        const currRow = Array(m).fill()
+        for (let col = 0; col < n; col++) {
+            currRow[col] = A[row][col]
+            currRow[col] += Math.min(prevRow[col - 1] || Infinity, 
+                                     prevRow[col] || Infinity, 
+                                     prevRow[col + 1] || Infinity)
+        }
+        
+        prevRow = currRow
+    }
+    
+    return Math.min(...prevRow)
+};
 ```
