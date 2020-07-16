@@ -39018,3 +39018,43 @@ const buildGraph = (N, paths) => {
 }
 ```
 
+## 931. Minimum Falling Path Sum
+```javascript
+// Top Down DP
+/**
+ * @param {number[][]} A
+ * @return {number}
+ */
+var minFallingPathSum = function(A) {
+    const _minFallingPathSum = (row, col) => {
+        if (col < 0 || col >= n)
+            return Infinity
+        
+        if (row === A.length)
+            return 0
+        
+        if (memo[row][col] !== undefined)
+            return memo[row][col]
+        
+        memo[row][col] = A[row][col]
+        memo[row][col] += Math.min(_minFallingPathSum(row + 1, col - 1),
+                                  _minFallingPathSum(row + 1, col),
+                                  _minFallingPathSum(row + 1, col + 1))
+        
+        return memo[row][col]
+    }
+    
+    const m = A.length
+    const n = A[0].length
+    const memo = Array(m).fill().map(a => Array(n).fill())
+    
+    let min = Infinity
+    for (let col = 0; col < m; col++) {
+        min = Math.min(min, _minFallingPathSum(0, col))
+    }
+    
+    return min
+};
+
+
+```
