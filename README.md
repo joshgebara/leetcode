@@ -33111,25 +33111,23 @@ const isLeapYear = y => y % 4 == 0 && y % 100 != 0 || y % 400 == 0
  * @return {number}
  */
 var dayOfYear = function(date) {
-    const daysPerMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    const [dateYear, dateMonth, dateDay] = date.split('-')
+    const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     
-    let [year, month, day] = date.split('-')
-    year = +year
-    month = +month
-    day = +day
+    let day = 0
     
-    if (isLeapYear(year))
-        daysPerMonth[1] = 29
-    
-    let days = 0
-    for (let i = 0; i < month - 1; i++) {
-        days += daysPerMonth[i]
+    for (let month = 1; month < +dateMonth; month++) {
+        if (month === 2 && isLeapYear(+dateYear)) {
+            day += 29
+        } else {
+            day += months[month - 1]
+        }
     }
     
-    return days + day
+    return day + +dateDay
 };
 
-const isLeapYear = y => y % 4 == 0 && y % 100 != 0 || y % 400 == 0
+const isLeapYear = y => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0
 ```
 
 ## 1360. Number of Days Between Two Dates
@@ -38990,3 +38988,4 @@ const buildGraph = (N, paths) => {
     return graph
 }
 ```
+
