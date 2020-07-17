@@ -5523,6 +5523,29 @@ var numEquivDominoPairs = function(dominoes) {
   }
   return pairCount
 };
+
+/**
+ * @param {number[][]} dominoes
+ * @return {number}
+ */
+var numEquivDominoPairs = function(dominoes) {
+    const seen = {}
+    
+    for (let i = 0; i < dominoes.length; i++) {
+        const [a, b] = dominoes[i]
+        const key = `${Math.min(a, b)}-${Math.max(a, b)}`
+        
+        if (!seen[key]) seen[key] = []
+        seen[key].push(i)
+    }
+    
+    let count = 0
+    for (const [key, val] of Object.entries(seen)) {
+        count += val.length * (val.length - 1) / 2
+    }
+    
+    return count
+};
 ```
 
 ## 674. Longest Continuous Increasing Subsequence
@@ -37868,7 +37891,7 @@ var findTargetSumWays = function(nums, S) {
     }
     
     const memo = Array(nums.length).fill().map(a => Array(2001).fill(0))
-    return _findTargetSumWays(0, 0, [])
+    return _findTargetSumWays(0, 0)
 };
 
 // Bottom Up DP
