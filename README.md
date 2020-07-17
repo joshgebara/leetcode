@@ -5968,6 +5968,34 @@ var removeElement = function(nums, val) {
     }
     return i
 };
+
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function(nums, val) {
+    let i = 0
+    let j = nums.length - 1
+    
+    while (i <= j) {
+        if (nums[j] === val) {
+            j--
+            continue
+        }
+        
+        if (nums[i] !== val) {
+            i++
+            continue
+        }
+        
+        nums[i] = nums[j]
+        i++
+        j--
+    }
+    
+    return i
+};
 ```
 
 ## 35. Search Insert Position
