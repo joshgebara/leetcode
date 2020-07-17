@@ -38826,7 +38826,35 @@ var knightDialer = function(N) {
 };
 
 // Bottom Up DP
-
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var knightDialer = function(N) {
+    const graph = [[4,6], [6,8], [7,9], [4,8], [0,3,9], [], [0,1,7], [2,6], [1,3], [4,2]]
+    const MOD = 10 ** 9 + 7
+    let prevRow = Array(10).fill(1)
+    
+    for (let i = 1; i < N; i++) {
+        const currRow = Array(10).fill(0)
+        
+        for (let key = 0; key <= 9; key++) {
+            for (const neighbor of graph[key]) {
+                currRow[neighbor] += prevRow[key]
+                currRow[neighbor] %= MOD
+            }
+        }
+        
+        prevRow = currRow
+    }
+    
+    let result = 0
+    for (const num of prevRow) {
+        result += num
+        result %= MOD
+    }
+    return result
+};
 ```
 
 ## 139. Word Break
