@@ -16498,6 +16498,72 @@ var longestWord = function(words) {
     
     return trie.longestWord()
 };
+
+/**
+ * @param {string[]} words
+ * @return {string}
+ */
+var longestWord = function(words) {
+    const trie = new Trie()
+    for (const word of words) {
+        trie.insert(word)
+    }
+    
+    return trie.longestWord()
+};
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode()
+    }
+    
+    longestWord() {
+        const dfs = (node, currWord) => {
+            if (!node) return
+            if (node !== this.root && !node.isEnd) return
+            
+            if (currWord.length > maxWord.length) {
+                maxWord = currWord.join('')
+            }
+            
+            for (let i = 0; i < 26; i++) {
+                const child = node.children[i]
+                if (child === undefined) continue
+                
+                currWord.push(child.key)
+                dfs(child, currWord)
+                currWord.pop()
+            }
+        }
+        
+        let maxWord = ''
+        dfs(this.root, [])
+        return maxWord
+    }
+    
+    insert(word) {
+        let curr = this.root
+        
+        for (const char of word) {
+            const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+            if (curr.children[index] === undefined) {
+                curr.children[index] = new TrieNode(char)
+            }
+            
+            curr = curr.children[index]
+        }
+        
+        curr.isEnd = true
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = Array(26).fill()
+        this.isEnd = false
+    }
+}
 ```
 
 ## 79. Word Search
