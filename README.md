@@ -37988,8 +37988,59 @@ var findTargetSumWays = function(nums, S) {
     return _findTargetSumWays(0, 0)
 };
 
-// Bottom Up DP
+// Bottom Up DP O(n^2) Space
+/**
+ * @param {number[]} nums
+ * @param {number} S
+ * @return {number}
+ */
+var findTargetSumWays = function(nums, S) {
+    if (S > 1000) return 0
+    
+    const dp = Array(nums.length).fill().map(a => Array(2001).fill(0))
+    dp[0][nums[0] + 1000] += 1
+    dp[0][-nums[0] + 1000] += 1
+    
+    for (let i = 1; i < nums.length; i++) {
+        for (let sum = -1000; sum <= 1000; sum++) {
+            if (dp[i - 1][sum + 1000] > 0) {
+                dp[i][sum + nums[i] + 1000] += dp[i - 1][sum + 1000]
+                dp[i][sum - nums[i] + 1000] += dp[i - 1][sum + 1000]
+            }
+        }
+    }
+    
+    return dp[nums.length - 1][S + 1000]
+};
 
+// Bottom Up DP O(n) Space
+/**
+ * @param {number[]} nums
+ * @param {number} S
+ * @return {number}
+ */
+var findTargetSumWays = function(nums, S) {
+    if (S > 1000) return 0
+    
+    let prevRow = Array(2001).fill(0)
+    prevRow[nums[0] + 1000] += 1
+    prevRow[-nums[0] + 1000] += 1
+    
+    for (let i = 1; i < nums.length; i++) {
+        const currRow = Array(2001).fill(0)
+        
+        for (let sum = -1000; sum <= 1000; sum++) {
+            if (prevRow[sum + 1000] > 0) {
+                currRow[sum + nums[i] + 1000] += prevRow[sum + 1000]
+                currRow[sum - nums[i] + 1000] += prevRow[sum + 1000]
+            }
+        }
+        
+        prevRow = currRow
+    }
+    
+    return prevRow[S + 1000]
+};
 ```
 
 ## 1495. Friendly Movies Streamed Last Month
@@ -39198,3 +39249,4 @@ var minFallingPathSum = function(A) {
     return Math.min(...prevRow)
 };
 ```
+
