@@ -33046,6 +33046,26 @@ var prefixesDivBy5 = function(A) {
     
     return result
 };
+
+/**
+ * @param {number[]} A
+ * @return {boolean[]}
+ */
+var prefixesDivBy5 = function(A) {
+    const result = []
+    let num = 0
+    
+    for (const bit of A) {
+        num |= bit
+        num %= 5
+        
+        result.push(num % 5 === 0)
+        
+        num <<= 1
+    }
+    
+    return result
+};
 ```
 
 ## 800. Similar RGB Color
