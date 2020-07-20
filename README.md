@@ -8661,22 +8661,25 @@ var thirdMax = function(nums) {
 
 ## 119. Pascal's Triangle II
 ```javascript
+/**
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
 var getRow = function(rowIndex) {
-    let result = [1]
+    let prevRow = [1]
     
     for (let i = 1; i <= rowIndex; i++) {
-        let row = new Array(i+1)
-        for (let j = 0; j < i + 1; j++) {
-            if (j <= 0 || j >= i) {
-                row[j] = 1
-                continue
-            }
-            row[j] = result[j] + result[j-1]
+        const currRow = [1]
+        
+        for (let j = 1; j < prevRow.length; j++) {
+            currRow.push(prevRow[j - 1] + prevRow[j])
         }
-        result = row
+        
+        currRow.push(1)
+        prevRow = currRow
     }
     
-    return result
+    return prevRow
 };
 ```
 
