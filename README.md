@@ -39311,3 +39311,36 @@ var minFallingPathSum = function(A) {
 };
 ```
 
+## 401. Binary Watch
+```javascript
+/**
+ * @param {number} num
+ * @return {string[]}
+ */
+var readBinaryWatch = function(num) {
+    const _readBinaryWatch = (n, hourIndex, minIndex, hours, mins) => {
+        if (n === 0) {
+            if (hours <= 11 && mins <= 59) {
+                if (mins < 10) mins = `${0}${mins}`
+                
+                const time = `${hours}:${mins}`
+                times.push(time)
+            }
+            
+            return
+        }
+        
+        for (let i = hourIndex; i < 4; i++) {
+            _readBinaryWatch(n - 1, i + 1, minIndex, hours | 1 << i, mins)
+        }
+        
+        for (let i = minIndex; i < 6; i++) {
+            _readBinaryWatch(n - 1, 4, i + 1, hours, mins | 1 << i)
+        }
+    }
+    
+    const times = []
+    _readBinaryWatch(num, 0, 0, 0, 0)
+    return times
+};
+```
