@@ -19762,17 +19762,27 @@ const valid = num => {
 
 ## 9. Palindrome Number
 ```javascript
+/**
+ * @param {number} x
+ * @return {boolean}
+ */
 var isPalindrome = function(x) {
-    if (0 <= x && x <= 9) return true
+    if (x >= 0 && x <= 9) return true
     if (x < 0 || x % 10 === 0) return false
     
-    let r = 0
-    while (x > r) {
-        r = r * 10 + x % 10
-        x = Math.floor(x / 10)
+    let reversed = 0
+    let n = x
+    while (n) {
+        const digit = n % 10
+        
+        reversed *= 10
+        reversed += digit
+        
+        
+        n = Math.floor(n / 10)
     }
     
-    return x === r || x ===  Math.floor(r / 10)
+    return reversed === x
 };
 ```
 
