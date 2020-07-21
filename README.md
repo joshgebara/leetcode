@@ -39409,3 +39409,54 @@ var addStrings = function(num1, num2) {
     return result.reverse().join('')
 };
 ```
+
+## 838. Push Dominoes
+```javascript
+/**
+ * @param {string} dominoes
+ * @return {string}
+ */
+var pushDominoes = function(dominoes) {
+    const n = dominoes.length
+    const result = []
+    const forces = Array(n).fill(0)
+    
+    let currForce = 0
+    for (let i = 0; i < n; i++) {
+        if (dominoes[i] === 'L') {
+            currForce = 0
+        } else if (dominoes[i] === 'R') {
+            currForce = n
+        } else {
+            currForce = Math.max(currForce - 1, 0)
+        }
+        
+        forces[i] += currForce
+    }
+    
+    currForce = 0
+    for (let i = n - 1; i >= 0; i--) {
+        if (dominoes[i] === 'L') {
+            currForce = n
+        } else if (dominoes[i] === 'R') {
+            currForce = 0
+        } else {
+            currForce = Math.max(currForce - 1, 0)
+        }
+        
+        forces[i] -= currForce
+    }
+    
+    for (const force of forces) {
+        if (force < 0) {
+            result.push('L')
+        } else if (force > 0) {
+            result.push('R')
+        } else {
+            result.push('.')
+        }
+    }
+    
+    return result.join('')
+};
+```
