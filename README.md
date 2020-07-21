@@ -10240,24 +10240,55 @@ var reverseKGroup = function(head, k) {
 
 ## 70. Climbing Stairs
 ```javascript
-const memo = {}
-
+/**
+ * @param {number} n
+ * @return {number}
+ */
 var climbStairs = function(n) {
-    if (n <= 2) return n
-    if (!memo[n-1]) memo[n-1] = climbStairs(n-1)
-    if (!memo[n-2]) memo[n-2] = climbStairs(n-2)
-    return memo[n-1] + memo[n-2]
+    const _climbStairs = n => {
+        if (n <= 1) return 1
+        if (memo[n] !== undefined)
+            return memo[n]
+        
+        memo[n] = _climbStairs(n - 1) + _climbStairs(n - 2)
+        return memo[n]
+    }
+    
+    const memo = Array(n + 1).fill()
+    return _climbStairs(n)
 };
 
-// Dynamic Programming
+/**
+ * @param {number} n
+ * @return {number}
+ */
 var climbStairs = function(n) {
-    const steps = [0, 1]
+    const dp = Array(n).fill()
+    dp[0] = 1
+    dp[1] = 1
     
-    while (n) {
-        [steps[0], steps[1]] = [steps[1], steps[0] + steps[1]]
-        n--
+    for (let i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2]
     }
-    return steps[1]
+    
+    return dp[n]
+};
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function(n) {
+    let dp1 = 1
+    let dp2 = 1
+    
+    for (let i = 2; i <= n; i++) {
+        const temp = dp1 + dp2
+        dp2 = dp1
+        dp1 = temp
+    }
+    
+    return dp1
 };
 ```
 
