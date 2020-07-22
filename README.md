@@ -18846,6 +18846,45 @@ var mostCommonWord = function(paragraph, banned) {
     
     return maxWord
 };
+
+/**
+ * @param {string} paragraph
+ * @param {string[]} banned
+ * @return {string}
+ */
+var mostCommonWord = function(paragraph, banned) {
+    const bannedWords = new Set(banned)
+    const counts = {}
+    
+    let word = []
+    for (let i = 0; i <= paragraph.length; i++) {
+        const char = i >= paragraph.length ? "" : paragraph[i].toLowerCase()
+        
+        if (char < 'a' || char > 'z') {
+            const str = word.join('')
+            
+            if (!bannedWords.has(str) && word.length) {
+                counts[str] = 1 + (counts[str] || 0)
+            }
+            
+            word = []
+            continue
+        }
+        
+        word.push(char)        
+    }
+    
+    let maxWord = ''
+    let maxCount = 0
+    for (const [key, val] of Object.entries(counts)) {
+        if (maxCount < val) {
+            maxWord = key
+            maxCount = val
+        }
+    }
+    
+    return maxWord
+};
 ```
 
 ## 1265. Print Immutable Linked List in Reverse
