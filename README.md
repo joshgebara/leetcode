@@ -11312,23 +11312,42 @@ var subarraySum = function(nums, k) {
 
 ## 437. Path Sum III
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {number}
+ */
 var pathSum = function(root, sum) {
-    const _pathSum = (root, currSum, sum, map) => {
-        if (!root) return 0
+    const dfs = (node, currSum) => {
+        if (!node) return
         
-        currSum += root.val
-        paths = map[currSum - sum] || 0
-        map[currSum] = 1 + (map[currSum] || 0)
+        currSum += node.val
         
-        paths += _pathSum(root.left, currSum, sum, map)
-        paths += _pathSum(root.right, currSum, sum, map)
+        if (currSum === sum) {
+            count++
+        }
         
-        map[currSum] = map[currSum] ? map[currSum] - 1 : 0
-        return paths
+        count += prefixSums[currSum - sum] || 0
+        prefixSums[currSum] = 1 + (prefixSums[currSum] || 0)
+        
+        dfs(node.left, currSum)
+        dfs(node.right, currSum)
+        
+        prefixSums[currSum] = (prefixSums[currSum] || 0) - 1 
     }
     
-    const map = { 0: 1 }
-    return _pathSum(root, 0, sum, map)
+    const prefixSums = {}
+    let count = 0
+    dfs(root, 0)
+    return count
 };
 ```
 
