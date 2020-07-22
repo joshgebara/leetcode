@@ -39518,3 +39518,73 @@ var pushDominoes = function(dominoes) {
     return result.join('')
 };
 ```
+
+## 361. Bomb Enemy
+```javascript
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var maxKilledEnemies = function(grid) {
+    if (!grid.length) return 0
+    
+    const m = grid.length
+    const n = grid[0].length
+    
+    const dp = Array(m).fill().map(a => Array(n).fill(0))
+    let max = 0
+    
+    for (let col = 0; col < n; col++) {
+        let enemies = 0
+        for (let row = 0; row < m; row++) {
+            if (grid[row][col] === 'E') {
+                enemies++
+            } else if (grid[row][col] === 'W') {
+                enemies = 0
+            }
+            
+            dp[row][col] += enemies
+        }
+        
+        enemies = 0
+        for (let row = m - 1; row >= 0; row--) {
+            if (grid[row][col] === 'E') {
+                enemies++
+            } else if (grid[row][col] === 'W') {
+                enemies = 0
+            }
+            
+            dp[row][col] += enemies
+        }
+    }
+    
+    for (let row = 0; row < m; row++) {
+        let enemies = 0
+        for (let col = n - 1; col >= 0; col--) {
+            if (grid[row][col] === 'E') {
+                enemies++
+            } else if (grid[row][col] === 'W') {
+                enemies = 0
+            }
+            
+            dp[row][col] += enemies
+        }
+        
+        enemies = 0
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === 'E') {
+                enemies++
+            } else if (grid[row][col] === 'W') {
+                enemies = 0
+            }
+            
+            dp[row][col] += enemies
+            
+            if (grid[row][col] !== '0') continue
+            max = Math.max(max, dp[row][col])
+        }
+    }
+    
+    return max
+};
+```
