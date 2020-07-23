@@ -32152,16 +32152,14 @@ var checkIfExist = function(arr) {
  * @return {number}
  */
 var findLHS = function(nums) {
-    const map = {}
-    
-    for (const num of nums) {
-        map[num] = 1 + (map[num] || 0)
-    }
-    
+    const counts = {}
     let max = 0
+    
     for (const num of nums) {
-        if (!map[num + 1]) continue
-        max = Math.max(max, map[num] + map[num + 1])
+        counts[num] = 1 + (counts[num] || 0)
+        max = Math.max(max, 
+                       counts[num] + counts[num - 1] || 0, 
+                       counts[num] + counts[num + 1] || 0)
     }
     
     return max
