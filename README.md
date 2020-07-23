@@ -9449,23 +9449,38 @@ var isSymmetric = function(root) {
 };
 
 // Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
 var isSymmetric = function(root) {
     if (!root) return true
     
-    const queue = [root, root]
+    const queue = []
+    queue.push(root.left)
+    queue.push(root.right)
     
     while (queue.length) {
-        const t1 = queue.shift()
-        const t2 = queue.shift()
+        const node1 = queue.shift()
+        const node2 = queue.shift()
         
-        if (!t1 && !t2) continue
-        if (!t1 || !t2) return false
-        if (t1.val !== t2.val) return false
+        if (!node1 && !node2) continue
+        if (!node1 || !node2) return false
+        if (node1.val !== node2.val) return false
         
-        queue.push(t1.left)
-        queue.push(t2.right)
-        queue.push(t1.right)
-        queue.push(t2.left)
+        queue.push(node1.left)
+        queue.push(node2.right)
+        
+        queue.push(node1.right)
+        queue.push(node2.left)
     }
     
     return true
