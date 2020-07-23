@@ -9422,18 +9422,31 @@ var levelOrderBottom = function(root) {
 ## 101. Symmetric Tree
 ```javascript
 // Recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
 var isSymmetric = function(root) {
+    const _isSymmetric = (node1, node2) => {
+        if (!node1 && !node2) return true
+        if (!node1 || !node2) return false
+        
+        return node1.val === node2.val &&
+               _isSymmetric(node1.left, node2.right) &&
+               _isSymmetric(node1.right, node2.left)
+    }
+    
     if (!root) return true
     return _isSymmetric(root.left, root.right)
 };
-
-const _isSymmetric = (left, right) => {
-    if (!left && !right) return true
-    if (!left || !right) return false
-    return left.val === right.val &&
-        _isSymmetric(left.left, right.right) && 
-        _isSymmetric(left.right, right.left)
-}
 
 // Iterative
 var isSymmetric = function(root) {
