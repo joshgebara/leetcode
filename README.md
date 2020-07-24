@@ -17546,6 +17546,31 @@ var licenseKeyFormatting = function(S, K) {
 
     return result.join('-')  
 };
+
+/**
+ * @param {string} S
+ * @param {number} K
+ * @return {string}
+ */
+var licenseKeyFormatting = function(S, K) {
+    const result = []
+    
+    let size = 0
+    for (let i = S.length - 1; i >= 0; i--) {
+        if (S[i] === '-') continue
+        
+        if (size === K) {
+            result.push('-')
+            size = 0
+        }
+        
+        result.push(S[i].toUpperCase())
+        size++
+    }
+    
+    result.reverse()
+    return result.join('')
+};
 ```
 
 ## 415. Add Strings
