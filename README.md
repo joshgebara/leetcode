@@ -11004,6 +11004,34 @@ var isBalanced = function(root) {
     }
     return _isBalanced(root) !== -1
 };
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function(root) {
+    const _isBalanced = (node) => {
+        if (!node) return -1
+        
+        const leftHeight = _isBalanced(node.left)
+        const rightHeight = _isBalanced(node.right)
+        
+        const diff = Math.abs(leftHeight - rightHeight)
+        if (diff > 1) return Infinity
+        
+        return Math.max(leftHeight, rightHeight) + 1
+    }
+    
+    return _isBalanced(root) !== Infinity
+};
 ```
 
 ## 543. Diameter of Binary Tree
