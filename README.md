@@ -11019,7 +11019,7 @@ var isBalanced = function(root) {
  */
 var isBalanced = function(root) {
     const _isBalanced = (node) => {
-        if (!node) return -1
+        if (!node) return 0
         
         const leftHeight = _isBalanced(node.left)
         const rightHeight = _isBalanced(node.right)
