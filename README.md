@@ -39765,3 +39765,41 @@ ON country_code = ccode
 GROUP BY name
 HAVING AVG(duration) > (SELECT AVG(duration) FROM calls)
 ```
+
+## 1490. Clone N-ary Tree
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val === undefined ? 0 : val;
+ *    this.children = children === undefined ? [] : children;
+ * };
+ */
+
+/**
+ * @param {Node} node
+ * @return {Node}
+ */
+var cloneTree = function(root) {
+    if (!root) return null
+    
+    const map = new Map()
+    map.set(root, new Node(root.val))
+    
+    const queue = [root]
+    while (queue.length) {
+        const node = queue.shift()
+        
+        for (const neighbor of node.children) {
+            if (!map.get(neighbor)) {
+                map.set(neighbor, new Node(neighbor.val, []))
+                queue.push(neighbor)    
+            }
+            
+            map.get(node).children.push(map.get(neighbor))
+        }
+    }
+    
+    return map.get(root)
+};
+```
