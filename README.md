@@ -39844,3 +39844,11 @@ var restoreString = function(s, indices) {
     return result.join('')
 };
 ```
+
+## 1527. Patients With a Condition
+```javascript
+# Write your MySQL query statement below
+SELECT *
+FROM Patients
+WHERE conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%'
+```
