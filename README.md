@@ -39818,3 +39818,11 @@ FROM (SELECT customer_id, name
 GROUP BY customer_id
 HAVING COUNT(*) = 2
 ```
+
+## 1517. Find Users With Valid E-Mails
+```javascript
+# Write your MySQL query statement below
+SELECT *
+FROM Users
+WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9\_\.\-]*@leetcode\.com'
+```
