@@ -39744,3 +39744,17 @@ var isPowerOfTwo = function(n) {
     return n > 0 && (n & (n - 1)) === 0
 };
 ```
+
+## 1501. Countries You Can Safely Invest In
+```javascript
+# Write your MySQL query statement below
+SELECT name AS country
+FROM Country
+JOIN (SELECT duration, LEFT(phone_number, 3) AS ccode
+      FROM Calls
+      JOIN Person
+      ON id IN (caller_id, callee_id)) as t1
+ON country_code = ccode
+GROUP BY name
+HAVING AVG(duration) > (SELECT AVG(duration) FROM calls)
+```
