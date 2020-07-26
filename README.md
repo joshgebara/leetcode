@@ -18033,29 +18033,36 @@ var removeDuplicates = function(s, k) {
 
 ## 133. Clone Graph
 ```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val, neighbors) {
+ *    this.val = val === undefined ? 0 : val;
+ *    this.neighbors = neighbors === undefined ? [] : neighbors;
+ * };
+ */
+
+/**
+ * @param {Node} node
+ * @return {Node}
+ */
 var cloneGraph = function(node) {
-    const graph = {}
+    if (!node) return null
     
-    const visited = new Set()
-    visited.add(node.val)
+    const graph = {}
+    graph[node.val] = new Node(node.val, [])
     
     const queue = [node]
+    
     while (queue.length) {
         const source = queue.shift()
         
-        if (!graph[source.val])
-            graph[source.val] = new Node(source.val, [])    
-        
-        for (let neighbor of source.neighbors) {
-            if (!graph[neighbor.val])
+        for (const neighbor of source.neighbors) {
+            if (!graph[neighbor.val]) {
                 graph[neighbor.val] = new Node(neighbor.val, [])
-            
-            graph[source.val].neighbors.push(graph[neighbor.val])
-            
-            if (!visited.has(neighbor.val)) {
-                visited.add(neighbor.val)
                 queue.push(neighbor)
             }
+            
+            graph[source.val].neighbors.push(graph[neighbor.val])
         }
     }
     
