@@ -39852,3 +39852,44 @@ SELECT *
 FROM Patients
 WHERE conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%'
 ```
+
+## 1522. Diameter of N-Ary Tree
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val === undefined ? 0 : val;
+ *    this.children = children === undefined ? [] : children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number}
+ */
+var diameter = function(root) {
+    const dfs = node => {
+        if (!node) return 0
+        
+        let max1 = 0
+        let max2 = 0
+        
+        for (const child of node.children) {
+            const height = dfs(child)
+            if (max1 < height) {
+                max2 = max1
+                max1 = height
+            } else if (max2 < height) {
+                max2 = height
+            }
+        }
+        
+        max = Math.max(max, max1 + max2)
+        return max1 + 1
+    }
+    
+    let max = 0
+    dfs(root)
+    return max
+};
+```
