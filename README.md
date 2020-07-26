@@ -39893,3 +39893,26 @@ var diameter = function(root) {
     return max
 };
 ```
+
+## 1513. Number of Substrings With Only 1s
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numSub = function(s) {
+    const MOD = 10 ** 9 + 7
+    let count = 0
+    
+    let start = 0
+    for (let end = 0; end <= s.length; end++) {
+        if (s[end] === '0' || end === s.length) {
+            const n = end - start
+            count += (n * (n + 1) / 2) % MOD
+            start = end + 1
+        }
+    }
+    
+    return count
+};
+```
