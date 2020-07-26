@@ -39803,3 +39803,18 @@ var cloneTree = function(root) {
     return map.get(root)
 };
 ```
+
+## 1511. Customer Order Frequency
+```javascript
+# Write your MySQL query statement below
+SELECT customer_id, name
+FROM (SELECT customer_id, name
+      FROM Orders
+      JOIN Product USING(product_id)
+      JOIN Customers USING(customer_id)
+      WHERE MONTH(order_date) IN (6, 7)
+      GROUP BY customer_id, MONTH(order_date)
+      HAVING SUM(quantity * price) >= 100) AS t
+GROUP BY customer_id
+HAVING COUNT(*) = 2
+```
