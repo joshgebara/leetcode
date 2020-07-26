@@ -39826,3 +39826,21 @@ SELECT *
 FROM Users
 WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9\_\.\-]*@leetcode\.com'
 ```
+
+## 1528. Shuffle String
+```javascript
+/**
+ * @param {string} s
+ * @param {number[]} indices
+ * @return {string}
+ */
+var restoreString = function(s, indices) {
+    const result = Array(s.length).fill()
+    
+    for (let i = 0; i < s.length; i++) {
+        result[indices[i]] = s[i]
+    }
+    
+    return result.join('')
+};
+```
