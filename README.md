@@ -22686,35 +22686,30 @@ class DisjointSet {
 
 ## 734. Sentence Similarity
 ```javascript
+/**
+ * @param {string[]} words1
+ * @param {string[]} words2
+ * @param {string[][]} pairs
+ * @return {boolean}
+ */
 var areSentencesSimilar = function(words1, words2, pairs) {
     if (words1.length !== words2.length)
         return false
     
-    const map = {}
-    
-    for (const [word1, word2] of pairs) {
-        if (!map[word1]) {
-            map[word1] = new Set([word2])
-        } else {
-            map[word1].add(word2)
-        }
-        
-        if (!map[word2]) {
-            map[word2] = new Set([word1])
-        } else {
-            map[word2].add(word1)
-        }
+    const wordsSet = new Set()
+    for (const [a, b] of pairs) {
+        wordsSet.add(`${a}#${b}`)
     }
     
     for (let i = 0; i < words1.length; i++) {
         const word1 = words1[i]
         const word2 = words2[i]
         
-        if (word1 === word2) 
-            continue
-        
-        if (!map[word1] || !map[word1].has(word2)) 
+        if (word1 !== word2 && 
+            !wordsSet.has(`${word1}#${word2}`) && 
+            !wordsSet.has(`${word2}#${word1}`)) {
             return false
+        }
     }
     
     return true
