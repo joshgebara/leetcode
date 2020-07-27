@@ -5571,19 +5571,26 @@ var findLengthOfLCIS = function(nums) {
 
 ## 66. Plus One
 ```javascript
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
 var plusOne = function(digits) {
+    const result = []
     let carry = 1
-    let result = []
     
     for (let i = digits.length - 1; i >= 0; i--) {
-        let sum = digits[i] + carry
-        carry = Math.floor(sum / 10)
+        const sum = digits[i] + carry
         result.push(sum % 10)
+        carry = Math.floor(sum / 10)
     }
     
-    if (carry) result.push(carry)
+    if (carry > 0) {
+        result.push(carry)
+    }
     
-    return result.reverse()
+    result.reverse()
+    return result
 };
 ```
 
