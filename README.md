@@ -19713,10 +19713,35 @@ const inOrder = (w1, w2, dict) => {
 
 ## 326. Power of Three
 ```javascript
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
 var isPowerOfThree = function(n) {
-    const regex = /^10*$/
-    return regex.test(n.toString(3))
+    let count = 0
+    
+    while (n > 0) {
+        const digit = n % 3
+        count += digit
+        n = Math.floor(n / 3)
+    }
+    
+    return count === 1
 };
+
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPowerOfThree = function(n) {
+    if (n === 0) return false
+    const log = Math.round(getBaseLog(3, n))
+    return 3 ** log === n
+};
+
+function getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x)
+}
 ```
 
 ## 824. Goat Latin
