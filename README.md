@@ -40135,14 +40135,13 @@ var singleNumber = function(nums) {
     let result = 0
     
     for (let i = 0; i < 32; i++) {
+        const mask = 1 << i
         let count = 0
         for (const num of nums) {
-            if (num & 1 << i) count++
+            if (num & mask) count++
         }
         
-        if (count % 3 !== 0) {
-            result |= 1 << i
-        }
+        if (count % 3) result |= mask
     }
     
     return result
