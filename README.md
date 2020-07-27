@@ -11361,6 +11361,50 @@ var findMode = function(root) {
     
     return result
 };
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var findMode = function(root) {
+    const inOrder = node => {
+        if (!node) return
+        
+        inOrder(node.left)
+        
+        if (node.val === currVal) {
+            currCount++
+        } else {
+            currVal = node.val
+            currCount = 1
+        }
+        
+        if (maxCount === currCount) {
+            result.push(node.val)
+        } else if (maxCount < currCount) {
+            result = [node.val]
+            maxCount = currCount            
+        }
+        
+        inOrder(node.right)
+    }
+    
+    let result = []
+    let currVal = null
+    let currCount = 0
+    let maxCount = 0
+    
+    inOrder(root)
+    return result
+};
 ```
 
 ## 687. Longest Univalue Path
@@ -40080,3 +40124,4 @@ var getHint = function(secret, guess) {
     return `${bulls}A${cows}B`
 };
 ```
+
