@@ -33885,6 +33885,33 @@ var numMovesStones = function(a, b, c) {
     
     return [min, max]
 };
+
+/**
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @return {number[]}
+ */
+var numMovesStones = function(a, b, c) {
+    const [x, y, z] = [a, b, c].sort((a, b) => a - b)
+    
+    const diff1 = y - x - 1
+    const diff2 = z - y - 1
+    
+    if (diff1 === 0 && diff2 === 0) {
+        return [0, 0]
+    }
+    
+    if (diff1 === 0 || diff2 === 0) {
+        return [1, Math.max(diff1, diff2)]
+    }
+    
+    if (diff1 === 1 || diff2 === 1) {
+        return [1, diff1 + diff2]
+    }
+    
+    return [2, diff1 + diff2]
+};
 ```
 
 ## 1443. Minimum Time to Collect All Apples in a Tree
