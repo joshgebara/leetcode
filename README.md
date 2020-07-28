@@ -40288,3 +40288,32 @@ var singleNumber = function(nums) {
 };
 ```
 
+## 186. Reverse Words in a String II
+```javascript
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+var reverseWords = function(s) {
+    s.reverse()
+    
+    let left = 0
+    for (let right = 1; right <= s.length; right++) {
+        if (right === s.length || s[right] === ' ') {
+            reverse(s, left, right - 1)
+            left = right + 1
+        }
+    }
+};
+
+const reverse = (arr, left, right) => {
+    while (left < right) {
+        const temp = arr[left]
+        arr[left] = arr[right]
+        arr[right] = temp
+        
+        left++
+        right--
+    }
+}
+```
