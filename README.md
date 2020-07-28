@@ -19695,6 +19695,28 @@ var titleToNumber = function(s) {
 
 ## 198. House Robber
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var rob = function(nums) {
+    if (!nums.length) return 0
+    
+    const dp = Array(nums.length).fill(0)
+    dp[0] = nums[0]
+    dp[1] = Math.max(nums[0], nums[1])
+    
+    for (let i = 2; i < nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i])
+    }
+    
+    return dp[nums.length - 1]
+};
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var rob = function(nums) {
     let prev = 0
     let curr = 0
@@ -40147,3 +40169,4 @@ var singleNumber = function(nums) {
     return result
 };
 ```
+
