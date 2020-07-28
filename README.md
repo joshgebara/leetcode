@@ -5694,6 +5694,11 @@ const isPermutation2 = (str1, str2) => {
 
 ## 643. Maximum Average Subarray I
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 var findMaxAverage = function(nums, k) {
     let maxAvg = 0
     let currSum = 0
@@ -5706,6 +5711,27 @@ var findMaxAverage = function(nums, k) {
         currSum += nums[i]
         maxAvg = Math.max(currSum / k, maxAvg)
     }
+    return maxAvg
+};
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findMaxAverage = function(nums, k) {
+    let maxAvg = -Infinity
+    let sum = 0
+    
+    for (let i = 0; i < nums.length; i++) {
+        sum += nums[i]
+        
+        if (i < k - 1) continue
+        
+        sum -= nums[i - k] || 0
+        maxAvg = Math.max(maxAvg, sum / k)
+    }
+    
     return maxAvg
 };
 ```
