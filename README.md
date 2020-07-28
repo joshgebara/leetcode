@@ -7586,25 +7586,35 @@ const kmp = (str, pattern) => {
 
 ## 367. Valid Perfect Square
 ```javascript
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
 var isPerfectSquare = function(num) {
-    if (!num) return false
-    if (num === 1) return true
-    
-    let left = 2
-    let right = Math.floor(num / 2) + 1
+    const squareRoot = num ** 0.5
+    return Math.round(squareRoot) === squareRoot
+};
+
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
+var isPerfectSquare = function(num) {
+    let left = 1
+    let right = Math.ceil(num / 2)
     
     while (left <= right) {
-        let mid = Math.floor((right - left) / 2) + left
-        let square = mid * mid
-        
-        if (square === num) return true
-        
-        if (square > num) {
-            right = mid - 1
-        } else {
+        const mid = Math.floor((right - left) / 2) + left
+        const squared = mid * mid
+        if (squared === num) {
+            return mid
+        } else if (squared < num) {
             left = mid + 1
+        } else {
+            right = mid - 1
         }
     }
+    
     return false
 };
 ```
