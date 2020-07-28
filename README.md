@@ -7607,7 +7607,7 @@ var isPerfectSquare = function(num) {
         const mid = Math.floor((right - left) / 2) + left
         const squared = mid * mid
         if (squared === num) {
-            return mid
+            return true
         } else if (squared < num) {
             left = mid + 1
         } else {
@@ -8037,9 +8037,39 @@ var toHex = function(num) {
 
 ## 342. Power of Four
 ```javascript
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
 var isPowerOfFour = function(num) {
     if (num < 1) return false
     return (num & (num - 1)) === 0 && (num & 0x55555555) === num
+};
+
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
+var isPowerOfFour = function(num) {
+    let count = 0
+    
+    while (num > 0) {
+        const digit = num % 4
+        count += digit
+        num = Math.floor(num / 4)
+    }
+    
+    return count === 1
+};
+
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
+var isPowerOfFour = function(num) {
+    if (num === 0) return false
+    const log = Math.round(Math.log(num) / Math.log(4))
+    return 4 ** log === num
 };
 ```
 
