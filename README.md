@@ -19960,26 +19960,28 @@ var countAndSay = function(n) {
 
 ## 443. String Compression
 ```javascript
+/**
+ * @param {character[]} chars
+ * @return {number}
+ */
 var compress = function(chars) {
-    if (chars.length <= 1) return chars.length
-    
-    let val = chars[0]
-    let count = 1
     let write = 0
+    let count = 1
     
     for (let read = 1; read <= chars.length; read++) {
-        if (chars[read] === val) {
+        if (chars[read] === chars[read - 1]) {
             count++
             continue
         }
         
-        chars[write++] = `${val}`
+        chars[write++] = chars[read - 1]
         
-        if (count !== 1)
-            for (const c of `${count}`)
-                chars[write++] = c
+        if (count > 1) {
+            for (const digit of `${count}`) {
+                chars[write++] = digit
+            }
+        }
         
-        val = chars[read]
         count = 1
     }
     
