@@ -40317,3 +40317,33 @@ const reverse = (arr, left, right) => {
     }
 }
 ```
+
+## 1257. Smallest Common Region
+```javascript
+/**
+ * @param {string[][]} regions
+ * @param {string} region1
+ * @param {string} region2
+ * @return {string}
+ */
+var findSmallestRegion = function(regions, region1, region2) {
+    const parents = {}
+    for (const region of regions) { 
+        for (let i = 1; i < region.length; i++) {
+            parents[region[i]] = region[0]
+        }
+    }
+    
+    const seen = new Set()
+    while (region1) {
+        seen.add(region1)
+        region1 = parents[region1]
+    }
+    
+    while (!seen.has(region2)) {
+        region2 = parents[region2]
+    }
+    
+    return region2
+};
+```
