@@ -40369,3 +40369,24 @@ JOIN Points AS p2
 ON p1.id < p2.id AND p1.x_value <> p2.x_value AND p1.y_value <> p2.y_value
 ORDER BY AREA DESC, P1, P2
 ```
+
+## 1341. Movie Rating
+```sql
+# Write your MySQL query statement below
+(SELECT name AS results
+ FROM Movie_Rating
+ JOIN Users
+ USING(user_id)
+ GROUP BY name
+ ORDER BY COUNT(*) DESC, name
+ LIMIT 1)
+UNION
+(SELECT title AS results
+ FROM Movie_Rating
+ JOIN Movies
+ USING(movie_id)
+ WHERE MONTH(created_at) = 2 AND YEAR(created_at) = 2020
+ GROUP BY title
+ ORDER BY AVG(rating) DESC, title
+ LIMIT 1)
+```
