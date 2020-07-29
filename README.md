@@ -40347,3 +40347,25 @@ var findSmallestRegion = function(regions, region1, region2) {
     return region2
 };
 ```
+
+## 1459. Rectangles Area
+```sql
+# Write your MySQL query statement below
+SELECT p1.id AS P1, 
+       p2.id AS P2, 
+       ABS(p1.y_value - p2.y_value) * ABS(p1.x_value - p2.x_value) AS AREA
+FROM Points AS p1
+JOIN Points AS p2
+ON p1.id < p2.id
+HAVING AREA <> 0
+ORDER BY AREA DESC, P1, P2
+
+# Write your MySQL query statement below
+SELECT p1.id AS P1, 
+       p2.id AS P2, 
+       ABS(p1.y_value - p2.y_value) * ABS(p1.x_value - p2.x_value) AS AREA
+FROM Points AS p1
+JOIN Points AS p2
+ON p1.id < p2.id AND p1.x_value <> p2.x_value AND p1.y_value <> p2.y_value
+ORDER BY AREA DESC, P1, P2
+```
