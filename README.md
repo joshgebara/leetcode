@@ -40390,3 +40390,32 @@ UNION
  ORDER BY AVG(rating) DESC, title
  LIMIT 1)
 ```
+
+## 738. Monotone Increasing Digits
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var monotoneIncreasingDigits = function(N) {
+    const str = `${N}`.split('')
+    
+    let i = 1
+    while (i < str.length && str[i - 1] <= str[i]) {
+        i++
+    }
+    
+    if (i >= str.length) return N
+    
+    while (i >= 0 && str[i - 1] > str[i]) {
+        i--
+        str[i]--
+    }
+    
+    for (let j = i + 1; j < str.length; j++) {
+        str[j] = 9
+    }
+    
+    return +str.join('')
+};
+```
