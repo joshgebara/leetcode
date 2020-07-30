@@ -40550,3 +40550,39 @@ var lenLongestFibSubseq = function(A) {
     return max
 };
 ```
+
+## 6. ZigZag Conversion
+```javascript
+/**
+ * @param {string} s
+ * @param {number} numRows
+ * @return {string}
+ */
+var convert = function(s, numRows) {
+    if (numRows === 1) return s
+    
+    const map = {}
+    let currRow = 0
+    let goingDown = false
+    
+    for (const char of s) {
+        if (!map[currRow]) map[currRow] = []
+        map[currRow].push(char)
+        
+        if (currRow === 0 || currRow === numRows - 1) {
+            goingDown = !goingDown
+        }
+        
+        currRow += goingDown ? 1 : -1
+    }
+    
+    const result = Array(s.length)
+    for (const row of Object.values(map)) {
+        for (const char of row) {
+            result.push(char)
+        }
+    }
+    
+    return result.join('')
+};
+```
