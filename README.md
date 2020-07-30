@@ -7346,8 +7346,8 @@ var merge = function(nums1, m, nums2, n) {
     let write = nums1.length - 1
     
     while (p >= 0 || q >= 0) {
-        const num1 = nums1[p] !== undefined ? nums1[p] : -Infinity
-        const num2 = nums2[q] !== undefined ? nums2[q] : -Infinity
+        const num1 = p >= 0 ? nums1[p] : -Infinity
+        const num2 = q >= 0 ? nums2[q] : -Infinity
         
         if (num1 < num2) {
             nums1[write] = num2
