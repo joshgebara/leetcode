@@ -40521,3 +40521,32 @@ var maxDistance = function(arrays) {
     return result
 };
 ```
+
+## 873. Length of Longest Fibonacci Subsequence
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var lenLongestFibSubseq = function(A) {
+    const map = {}
+    for (let i = 0; i < A.length; i++) {
+        map[A[i]] = i
+    }
+    
+    const dp = Array.from(Array(A.length), () => Array(A.length).fill(2))
+    let max = 0
+    
+    for (let i = 0; i < A.length; i++) {
+        for (let j = i + 1; j < A.length; j++) {
+            const nextIndex = map[A[i] + A[j]]
+            if (nextIndex === undefined) continue
+            
+            dp[j][nextIndex] = Math.max(dp[j][nextIndex], dp[i][j] + 1)
+            max = Math.max(max, dp[j][nextIndex])
+        }
+    }
+    
+    return max
+};
+```
