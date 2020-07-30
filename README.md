@@ -40586,3 +40586,44 @@ var convert = function(s, numRows) {
     return result.join('')
 };
 ```
+
+## 616. Add Bold Tag in String
+```javascript
+/**
+ * @param {string} s
+ * @param {string[]} dict
+ * @return {string}
+ */
+var addBoldTag = function(s, dict) {
+    const marked = Array(s.length).fill(false)
+    
+    for (let i = 0; i < s.length; i++) {
+        for (const word of dict) {
+            const candidate = s.slice(i, i + word.length)
+            if (candidate === word) {
+                mark(marked, i, i + word.length)
+            }
+        } 
+    }
+    
+    const result = []
+    for (let i = 0; i < s.length; i++) {
+        if (marked[i] && (i == 0 || !marked[i - 1]))
+            result.push("<b>")
+        
+        result.push(s[i])
+        
+        if (marked[i] && (i == s.length - 1 || !marked[i + 1]))
+            result.push("</b>")
+    }
+    
+    return result.join('')
+};
+
+const mark = (marked, start, end) => {
+    while (start < end) {
+        marked[start] = true
+        start++
+    }
+}
+```
