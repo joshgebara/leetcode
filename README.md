@@ -40627,3 +40627,30 @@ const mark = (marked, start, end) => {
     }
 }
 ```
+
+## 388. Longest Absolute File Path
+```javascript
+/**
+ * @param {string} input
+ * @return {number}
+ */
+var lengthLongestPath = function(input) {
+    const map = { '-1': 0 }
+    let max = 0
+    
+    for (const line of input.split('\n')) {
+        let path = line.split('\t')
+        path = path[path.length - 1]
+        
+        const depth = line.length - path.length
+        
+        if (path.includes('.')) {
+            max = Math.max(max, map[depth - 1] + path.length)
+        } else {
+            map[depth] = map[depth - 1] + path.length + 1
+        }
+    }
+    
+    return max
+};
+```
