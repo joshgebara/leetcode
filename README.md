@@ -20841,6 +20841,10 @@ var checkRecord = function(s) {
 
 ## 849. Maximize Distance to Closest Person
 ```javascript
+/**
+ * @param {number[]} seats
+ * @return {number}
+ */
 var maxDistToClosest = function(seats) {
     const indices = []
     for (let i = 0; i < seats.length; i++) {
@@ -20863,6 +20867,32 @@ var maxDistToClosest = function(seats) {
     }
     
     return max
+};
+
+/**
+ * @param {number[]} seats
+ * @return {number}
+ */
+var maxDistToClosest = function(seats) {
+    const dists = Array(seats.length).fill(Infinity)
+    
+    for (let i = 0; i < seats.length; i++) {
+        if (seats[i] === 1) {
+            dists[i] = 0
+        } else if (i > 0) {
+            dists[i] = dists[i - 1] + 1
+        }
+    }
+    
+    for (let i = seats.length - 1; i >= 0; i--) {
+        if (seats[i] === 1) {
+            dists[i] = 0
+        } else if (i < seats.length - 1) {
+            dists[i] = Math.min(dists[i + 1] + 1, dists[i])
+        }
+    }
+    
+    return Math.max(...dists)
 };
 ```
 
@@ -40419,3 +40449,4 @@ var monotoneIncreasingDigits = function(N) {
     return +str.join('')
 };
 ```
+
