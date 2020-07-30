@@ -40496,3 +40496,28 @@ var powerfulIntegers = function(x, y, bound) {
     return Array.from(result)
 };
 ```
+
+## 624. Maximum Distance in Arrays
+```javascript
+/**
+ * @param {number[][]} arrays
+ * @return {number}
+ */
+var maxDistance = function(arrays) {
+    let result = 0
+    let max = arrays[0][arrays[0].length - 1]
+    let min = arrays[0][0]
+    
+    for (let i = 1; i < arrays.length; i++) {
+        const arr = arrays[i]
+        const arrMin = arr[0]
+        const arrMax = arr[arr.length - 1]
+        
+        result = Math.max(result, Math.abs(max - arrMin), Math.abs(min - arrMax))
+        max = Math.max(max, arrMax)
+        min = Math.min(min, arrMin)
+    }
+    
+    return result
+};
+```
