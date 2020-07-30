@@ -7333,17 +7333,32 @@ var reverseVowels = function(s) {
 
 ## 88. Merge Sorted Array
 ```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
 var merge = function(nums1, m, nums2, n) {
-    let curr = nums1.length - 1
-    let mI = m - 1
-    let nI = n - 1
+    let p = nums1.length - 1 - n
+    let q = nums2.length - 1
+    let write = nums1.length - 1
     
-    while (mI >= 0 && nI >= 0) {
-        nums1[curr--] = nums1[mI] < nums2[nI] ? nums2[nI--] : nums1[mI--]
+    while (p >= 0 || q >= 0) {
+        const num1 = nums1[p] !== undefined ? nums1[p] : -Infinity
+        const num2 = nums2[q] !== undefined ? nums2[q] : -Infinity
+        
+        if (num1 < num2) {
+            nums1[write] = num2
+            q--
+        } else {
+            nums1[write] = num1
+            p--
+        }
+        
+        write--
     }
-    
-    while (nI >= 0) nums1[curr--] = nums2[nI--]
-    return nums1
 };
 ```
 
