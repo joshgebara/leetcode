@@ -40450,3 +40450,34 @@ var monotoneIncreasingDigits = function(N) {
 };
 ```
 
+## 970. Powerful Integers
+```javascript
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {number} bound
+ * @return {number[]}
+ */
+var powerfulIntegers = function(x, y, bound) {
+    const result = new Set()
+    
+    let maxI = x
+    let maxJ = y
+    if (x !== 1) maxI = Math.log(bound) / Math.log(x)
+    if (y !== 1) maxJ = Math.log(bound) / Math.log(y)
+    
+    for (let i = 0; i <= maxI; i++) {
+        for (let j = 0; j <= maxJ; j++) {
+            const num = x**i + y**j
+            if (num <= bound) {
+                result.add(num)
+                continue
+            }
+            
+            break    
+        }
+    }
+    
+    return Array.from(result)
+};
+```
