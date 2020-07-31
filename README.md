@@ -9388,6 +9388,38 @@ var longestCommonPrefix = function(strs) {
     }
     return prefix.join('')
 };
+
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs) {
+    if (!strs.length) return ''
+    
+    const prefix = []
+    let i = 0
+    
+    outer : while (true) {
+        let commonChar = ''
+        for (const str of strs) {
+            if (i >= str.length) break outer
+            
+            if (commonChar === '') {
+                commonChar = str[i]
+                continue
+            }
+            
+            if (str[i] !== commonChar) {
+                break outer
+            }
+        }
+        
+        i++
+        prefix.push(commonChar)
+    }
+    
+    return prefix.join('')
+};
 ```
 
 ## 209. Minimum Size Subarray Sum
