@@ -40783,3 +40783,39 @@ Solution.prototype.shuffle = function() {
  * var param_2 = obj.shuffle()
  */
 ```
+
+## 398. Random Pick Index
+```javascript
+/**
+ * @param {number[]} nums
+ */
+var Solution = function(nums) {
+    this.nums = nums
+};
+
+/** 
+ * @param {number} target
+ * @return {number}
+ */
+Solution.prototype.pick = function(target) {
+    let result = -1
+    let count = 0
+    
+    for (let i = 0; i < this.nums.length; i++) {
+        if (this.nums[i] !== target) continue
+        
+        const random = Math.floor(Math.random() * (count + 1))
+        count++
+        
+        if (random === 0) result = i
+    }
+    
+    return result
+};
+
+/** 
+ * Your Solution object will be instantiated and called as such:
+ * var obj = new Solution(nums)
+ * var param_1 = obj.pick(target)
+ */
+```
