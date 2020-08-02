@@ -24604,26 +24604,36 @@ var maximumAverageSubtree = function(root) {
 ## 654. Maximum Binary Tree
 ```javascript
 // O(n^2)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
 var constructMaximumBinaryTree = function(nums) {
-    const _constructMaximumBinaryTree = (nums, start, end) => {
-        if (start > end) return null
+    const _constructMaximumBinaryTree = (left, right) => {
+        if (left > right) return null
         
-        let max = -1
-        let maxIndex = -1
-        for (let i = start; i <= end; i++) {
-            if (nums[i] > max) {
-                max = nums[i]
+        let maxIndex = left
+        for (let i = left + 1; i <= right; i++) {
+            if (nums[maxIndex] < nums[i]) {
                 maxIndex = i
             }
         }
         
-        const node = new TreeNode(max)
-        node.left = _constructMaximumBinaryTree(nums, start, maxIndex - 1)
-        node.right = _constructMaximumBinaryTree(nums, maxIndex + 1, end)
-        return node
+        const root = new TreeNode(nums[maxIndex])
+        root.left = _constructMaximumBinaryTree(left, maxIndex - 1)
+        root.right = _constructMaximumBinaryTree(maxIndex + 1, right)
+        return root
     }
     
-    return _constructMaximumBinaryTree(nums, 0, nums.length - 1)
+    return _constructMaximumBinaryTree(0, nums.length - 1)
 };
 
 // O(n)
@@ -40865,5 +40875,59 @@ Solution.prototype.getRandom = function() {
  * Your Solution object will be instantiated and called as such:
  * var obj = new Solution(head)
  * var param_1 = obj.getRandom()
+ */
+```
+
+## 348. Design Tic-Tac-Toe
+```javascript
+/**
+ * Initialize your data structure here.
+ * @param {number} n
+ */
+var TicTacToe = function(n) {
+    this.n = n
+    this.rows = Array(n).fill(0)
+    this.cols = Array(n).fill(0)
+    this.diags = Array(2).fill(0)
+};
+
+/**
+ * Player {player} makes a move at ({row}, {col}).
+        @param row The row of the board.
+        @param col The column of the board.
+        @param player The player, can be either 1 or 2.
+        @return The current winning condition, can be either:
+                0: No one wins.
+                1: Player 1 wins.
+                2: Player 2 wins. 
+ * @param {number} row 
+ * @param {number} col 
+ * @param {number} player
+ * @return {number}
+ */
+TicTacToe.prototype.move = function(row, col, player) {
+    const currMove = player === 1 ? -1 : 1
+    
+    this.rows[row] += currMove
+    this.cols[col] += currMove
+    
+    if (row === col) 
+        this.diags[0] += currMove
+    if (row === this.n - col - 1) 
+        this.diags[1] += currMove
+    
+    if (Math.abs(this.rows[row]) === this.n || 
+        Math.abs(this.cols[col]) === this.n || 
+        Math.abs(this.diags[0]) === this.n || 
+        Math.abs(this.diags[1]) === this.n)
+        return player
+    
+    return 0
+};
+
+/** 
+ * Your TicTacToe object will be instantiated and called as such:
+ * var obj = new TicTacToe(n)
+ * var param_1 = obj.move(row,col,player)
  */
 ```
