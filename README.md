@@ -33293,41 +33293,54 @@ var tictactoe = function(moves) {
  */
 var StringIterator = function(compressedString) {
     this.str = compressedString
-    this.char = ' '
-    this.num = 0
-    this.index = 0
+    
+    this.currChar = ' '
+    this.currCount = 0
+    this.currIndex = 0
+    
+    this.getNextChar()
+    this.getNextCount()
 };
 
 /**
  * @return {character}
  */
 StringIterator.prototype.next = function() {
-    if (!this.hasNext()) return ' '
-    
-    if (!this.num) {
-        this.char = this.str[this.index]
-        this.index++
-        
-        while (this.index < this.str.length) {
-            const digit = +this.str[this.index]
-            if (isNaN(digit)) break
-            
-            this.num *= 10
-            this.num += digit
-            this.index++
-        }
+    if (this.currCount <= 0) {
+        this.getNextChar()
+        this.getNextCount()
     }
-        
-    this.num--
-    return this.char
+    
+    this.currCount--
+    return this.currChar
 };
 
 /**
  * @return {boolean}
  */
 StringIterator.prototype.hasNext = function() {
-    return this.index < this.str.length || this.num > 0
+    return this.currIndex < this.str.length || this.currCount > 0
 };
+
+StringIterator.prototype.getNextChar = function() {
+    if (this.currIndex >= this.str.length) {
+        this.currChar = ' '
+    } else {
+        this.currChar = this.str[this.currIndex++]
+    }
+}
+
+StringIterator.prototype.getNextCount = function() {
+    this.currCount = 0
+    
+    while (this.currIndex < this.str.length && isNum(this.str[this.currIndex])) {
+        this.currCount *= 10
+        this.currCount += +this.str[this.currIndex]
+        this.currIndex++
+    }
+}
+
+const isNum = char => !isNaN(+char)
 
 /** 
  * Your StringIterator object will be instantiated and called as such:
