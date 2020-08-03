@@ -33681,27 +33681,67 @@ var similarRGB = function(color) {
  * @return {string}
  */
 var largestTimeFromDigits = function(A) {
-    const result = []
+    let time = ''
     
     for (let i = 0; i < A.length; i++) {
         for (let j = 0; j < A.length; j++) {
+            if (i === j) continue
             for (let k = 0; k < A.length; k++) {
-                if (i === k || j === k || i === j) continue
-                
-                const l = 6 - i - j - k
-                
-                const hours = `${A[i]}${A[j]}`
-                const mins = `${A[k]}${A[l]}`
+                if (i === k || j === k) continue
+                for (let l = 0; l < A.length; l++) {
+                    if (i === l || j === l || k === l) continue
+                    const hours = `${A[i]}${A[j]}`
+                    const mins = `${A[k]}${A[l]}`
 
-                if (hours >= '24' || mins >= '60') continue
+                    if (hours >= 24 || mins >= 60) continue
 
-                result.push(`${hours}:${mins}`)
+                    const currTime = hours + ':' + mins
+                    if (time === '' || time < currTime) time = currTime
+                }
             }
         }
     }
     
-    result.sort()
-    return result[result.length - 1] || ''
+    return time
+};
+
+/**
+ * @param {number[]} A
+ * @return {string}
+ */
+var largestTimeFromDigits = function(A) {
+    const _largestTimeFromDigits = (curr) => {
+        if (seen === 15) {
+            const hours = `${curr[0]}${curr[1]}`
+            const mins = `${curr[2]}${curr[3]}`
+            
+            if (hours >= 24 || mins >= 60) return
+            const currTime = hours + ':' + mins
+            
+            if (time === '' || time < currTime) 
+                time = currTime
+            
+            return
+        }
+        
+        for (let index = 0; index < A.length; index++) {
+            const mask = 1 << index
+            if (seen & mask) continue
+            
+            curr.push(A[index])
+            seen |= mask
+            
+            _largestTimeFromDigits(curr)
+            
+            curr.pop()
+            seen &= ~mask
+        }
+    }
+    
+    let time = ''
+    let seen = 0
+    _largestTimeFromDigits([])
+    return time
 };
 ```
 
