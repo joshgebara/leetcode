@@ -33297,9 +33297,6 @@ var StringIterator = function(compressedString) {
     this.currChar = ' '
     this.currCount = 0
     this.currIndex = 0
-    
-    this.getNextChar()
-    this.getNextCount()
 };
 
 /**
