@@ -41099,3 +41099,57 @@ var isValidSudoku = function(board) {
     return true
 };
 ```
+
+## 923. 3Sum With Multiplicity
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} target
+ * @return {number}
+ */
+var threeSumMulti = function(A, target) {
+    const MOD = 10 ** 9 + 7
+    A.sort((a, b) => a - b)
+    
+    let count = 0
+    
+    for (let i = 0; i < A.length; i++) {
+        const t = target - A[i]
+        let left = i + 1
+        let right = A.length - 1
+        
+        while (left < right) {
+            const sum = A[left] + A[right]
+            if (sum < t) {
+                left++
+            } else if (sum > t) {
+                right--
+            } else if (A[left] !== A[right]) {
+                let leftCount = 1
+                let rightCount = 1
+                
+                while (left + 1 < right && A[left] === A[left + 1]) {
+                    left++
+                    leftCount++
+                }
+                
+                while (right - 1 > left && A[right] === A[right - 1]) {
+                    right--
+                    rightCount++
+                }
+                
+                count += leftCount * rightCount
+                count %= MOD
+                left++
+                right--
+            } else {
+                count += (right - left + 1) * (right - left) / 2
+                count %= MOD
+                break
+            }
+        }
+    }
+    
+    return count
+};
+```
