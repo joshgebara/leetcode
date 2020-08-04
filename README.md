@@ -41069,3 +41069,33 @@ const count = (board) => {
     return [xCount, oCount]
 }
 ```
+
+## 36. Valid Sudoku
+```javascript
+/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var isValidSudoku = function(board) {
+    const seen = new Set()
+    
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board.length; col++) {
+            if (board[row][col] === '.') continue
+            
+            const rowVal = `row-${row}-${board[row][col]}`
+            const colVal = `col-${col}-${board[row][col]}`
+            const boxVal = `box-${Math.floor(row / 3) * 3 + Math.floor(col / 3)}-${board[row][col]}`
+            
+            if (seen.has(rowVal) || seen.has(colVal) || seen.has(boxVal))
+                return false
+            
+            seen.add(rowVal)
+            seen.add(colVal)
+            seen.add(boxVal)
+        } 
+    }
+    
+    return true
+};
+```
