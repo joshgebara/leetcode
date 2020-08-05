@@ -9118,16 +9118,19 @@ var rotate = function(nums, k) {
 
 ## 605. Can Place Flowers
 ```javascript
+/**
+ * @param {number[]} flowerbed
+ * @param {number} n
+ * @return {boolean}
+ */
 var canPlaceFlowers = function(flowerbed, n) {
-    let plants = 0
-    
-    for (let i = 0; i < flowerbed.length; i++) {        
+    for (let i = 0; i < flowerbed.length; i++) {
         if (flowerbed[i] === 0 && (flowerbed[i-1] || 0) === 0 && (flowerbed[i+1] || 0) === 0) {
-            plants++
             flowerbed[i] = 1
+            n--
         }
-
-        if (plants >= n) return true
+        
+        if (n <= 0) return true
     }
     
     return false
@@ -20204,21 +20207,26 @@ var findNumbers = function(nums) {
 
 ## 633. Sum of Square Numbers
 ```javascript
+/**
+ * @param {number} c
+ * @return {boolean}
+ */
 var judgeSquareSum = function(c) {
     let left = 0
-    let right = Math.ceil(Math.sqrt(c))
+    let right = Math.floor(Math.sqrt(c))
     
     while (left <= right) {
-        const sum = (left ** 2) + (right ** 2)
+        const sum = left ** 2 + right ** 2
         
         if (sum === c) {
             return true
-        } else if (sum > c) {
-            right--
-        } else {
+        } else if (sum < c) {
             left++
+        } else {
+            right--
         }
     }
+    
     return false
 };
 ```
