@@ -41183,3 +41183,43 @@ var threeSumMulti = function(A, target) {
     return count
 };
 ```
+
+## 581. Shortest Unsorted Continuous Subarray
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findUnsortedSubarray = function(nums) {
+    let min = Infinity
+    let max = -Infinity
+    
+    let flag = false
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] < nums[i - 1])
+            flag = true
+        if (flag)
+            min = Math.min(min, nums[i])
+    }
+    
+    flag = false
+    for (let i = nums.length - 2; i >= 0; i--) {
+        if (nums[i + 1] < nums[i])
+            flag = true
+        if (flag)
+            max = Math.max(max, nums[i])
+    }
+    
+    let left = 0
+    for (left; left < nums.length; left++) {
+        if (min < nums[left]) break
+    }
+    
+    let right = nums.length - 1
+    for (right; right >= 0; right--) {
+        if (max > nums[right]) break
+    }
+    
+    return right - left < 0 ? 0 : right - left + 1
+};
+```
