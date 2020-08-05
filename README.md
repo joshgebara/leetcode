@@ -9233,6 +9233,11 @@ var findShortestSubArray = function(nums) {
 
 ## 532. K-diff Pairs in an Array
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 var findPairs = function(nums, k) {
     if (k < 0) return 0
 
@@ -9242,9 +9247,9 @@ var findPairs = function(nums, k) {
     }, {})
 
     let pairs = 0
-    for (let [num, count] of Object.entries(counts)) {
+    for (const [num, count] of Object.entries(counts)) {
         if (k === 0) {
-            if (counts[num] >= 2) pairs++
+            if (count >= 2) pairs++
         } else if (counts[+num + k]) {
             pairs++
         }
