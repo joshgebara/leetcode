@@ -7486,7 +7486,7 @@ var isPalindrome = function(s) {
     if (!s.length) return true
     s = s.toLowerCase()
     
-    var regex = /\w/
+    var regex = /[^\W_]/
     let left = 0
     let right = s.length - 1
     
