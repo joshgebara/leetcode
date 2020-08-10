@@ -41303,3 +41303,30 @@ var getRandom = function() {
  * decode(encode(url));
  */
 ```
+
+## 1525. Number of Good Ways to Split a String
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numSplits = function(s) {
+    let count = 0
+    
+    const suffixSum = Array(s.length).fill(0)
+    const suffixSeen = new Set()
+    for (let i = s.length - 1; i >= 0; i--) {
+        suffixSeen.add(s[i])
+        suffixSum[i] = suffixSeen.size
+    }
+    
+    
+    const prefixSeen = new Set()
+    for (let i = 0; i < s.length; i++) {
+        prefixSeen.add(s[i])
+        count += suffixSum[i + 1] === prefixSeen.size
+    }
+    
+    return count
+};
+```
