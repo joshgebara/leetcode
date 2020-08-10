@@ -41223,3 +41223,34 @@ var findUnsortedSubarray = function(nums) {
     return right - left < 0 ? 0 : right - left + 1
 };
 ```
+
+## 1506. Find Root of N-Ary Tree
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val === undefined ? 0 : val;
+ *    this.children = children === undefined ? [] : children;
+ * };
+ */
+
+/**
+ * @param {Node[]} tree
+ * @return {Node}
+ */
+var findRoot = function(tree) {
+    let rootVal = 0
+    
+    for (const node of tree) {
+        rootVal ^= node.val
+        
+        for (const child of node.children) {
+            rootVal ^= child.val
+        }
+    }
+    
+    for (const node of tree) {
+        if (rootVal === node.val) return node
+    }
+};
+```
