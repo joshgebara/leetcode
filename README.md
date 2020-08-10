@@ -41254,3 +41254,52 @@ var findRoot = function(tree) {
     }
 };
 ```
+
+## 535. Encode and Decode TinyURL
+```javascript
+/**
+ * Encodes a URL to a shortened URL.
+ *
+ * @param {string} longUrl
+ * @return {string}
+ */
+
+const map = new Map()
+const alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+var encode = function(longUrl) {
+    let encodedKey = getRandom()
+    while (map.get(encodedKey)) {
+        encodedKey = getRandom()
+    }
+    
+    map.set(encodedKey, longUrl)
+    return 'tinyurl.com/' + encodedKey
+};
+
+/**
+ * Decodes a shortened URL to its original URL.
+ *
+ * @param {string} shortUrl
+ * @return {string}
+ */
+var decode = function(shortUrl) {
+    return map.get(shortUrl.replace('tinyurl.com/', ''))
+};
+
+var getRandom = function() {
+    let result = []
+    
+    for (let i = 0; i <= 6; i++) {
+        const randomIndex = Math.floor(Math.random() * alphabet.length)
+        result.push(alphabet[randomIndex])
+    }
+    
+    return result.join('')
+}
+
+/**
+ * Your functions will be called as such:
+ * decode(encode(url));
+ */
+```
