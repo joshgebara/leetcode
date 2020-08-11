@@ -41330,3 +41330,31 @@ var numSplits = function(s) {
     return count
 };
 ```
+
+## 825. Friends Of Appropriate Ages
+```javascript
+/**
+ * @param {number[]} ages
+ * @return {number}
+ */
+var numFriendRequests = function(ages) {
+    let count = 0
+    
+    const ageGroups = Array(121).fill(0)
+    for (const age of ages) {
+        ageGroups[age]++
+    }
+    
+    for (let i = 1; i < ageGroups.length; i++) {
+        ageGroups[i] += ageGroups[i - 1]
+    }
+    
+    for (let i = 15; i < ageGroups.length; i++) {
+        const currCount = ageGroups[i] - ageGroups[i - 1]
+        const validCount = ageGroups[i] - ageGroups[Math.floor(i * 0.5 + 7)]
+        count += currCount * validCount - currCount
+    }
+    
+    return count
+};
+```
