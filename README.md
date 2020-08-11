@@ -41416,11 +41416,11 @@ var gameOfLife = function(board) {
             }
             
             if (board[row][col] === 0 && liveCellCount === 3) {
-                board[row][col] |= 1 << 1
+                board[row][col] |= 2
             }
             
             if (board[row][col] === 1 && liveCellCount >= 2 && liveCellCount <= 3) {
-                board[row][col] |= 1 << 1
+                board[row][col] |= 2
             }
         }
     }
