@@ -38842,12 +38842,6 @@ var isPathCrossing = function(path) {
 };
 ```
 
-0/1 Knapsack
-Unbounded Knapsack
-Shortest Path (eg: Unique Paths I/II)
-Fibonacci Sequence (eg: House Thief, Jump Game)
-Longest Common Substring/Subsequeunce
-
 ## 13. Roman to Integer
 ```javascript
 /**
@@ -41394,5 +41388,47 @@ var leftMostColumnWithOne = function(binaryMatrix) {
     }
     
     return currCol === col - 1 ? -1 : currCol + 1
+};
+```
+
+## 289. Game of Life
+```javascript
+/**
+ * @param {number[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var gameOfLife = function(board) {
+    const m = board.length
+    const n = board[0].length
+    const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0], [-1, -1], [-1, 1], [1, -1], [1, 1]]
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            let liveCellCount = 0
+            for (const [dRow, dCol] of dirs) {
+                const nextRow = row + dRow
+                const nextCol = col + dCol
+                
+                if (nextRow < 0 || nextRow >= m || 
+                    nextCol < 0 || nextCol >= n) continue
+                
+                liveCellCount += board[nextRow][nextCol] & 1
+            }
+            
+            if (board[row][col] === 0 && liveCellCount === 3) {
+                board[row][col] |= 1 << 1
+            }
+            
+            if (board[row][col] === 1 && liveCellCount >= 2 && liveCellCount <= 3) {
+                board[row][col] |= 1 << 1
+            }
+        }
+    }
+    
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            board[i][j] >>= 1
+        }
+    }
 };
 ```
