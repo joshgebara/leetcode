@@ -41358,3 +41358,41 @@ var numFriendRequests = function(ages) {
     return count
 };
 ```
+
+## 1428. Leftmost Column with at Least a One
+```javascript
+/**
+ * // This is the BinaryMatrix's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * function BinaryMatrix() {
+ *     @param {integer} row, col
+ *     @return {integer}
+ *     this.get = function(row, col) {
+ *         ...
+ *     };
+ *
+ *     @return {[integer, integer]}
+ *     this.dimensions = function() {
+ *         ...
+ *     };
+ * };
+ */
+
+/**
+ * @param {BinaryMatrix} binaryMatrix
+ * @return {number}
+ */
+var leftMostColumnWithOne = function(binaryMatrix) {
+    const [row, col] = binaryMatrix.dimensions()
+    
+    let currRow = 0
+    let currCol = col - 1
+    let minCol = -1
+    
+    while (currRow < row && currCol >= 0) {
+        binaryMatrix.get(currRow, currCol) === 0 ? currRow++ : currCol--
+    }
+    
+    return currCol === col - 1 ? -1 : currCol + 1
+};
+```
