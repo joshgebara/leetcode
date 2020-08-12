@@ -38333,7 +38333,7 @@ var minCostII = function(costs) {
 };
 ```
 
-## 5453. Running Sum of 1d Array
+## 1480. Running Sum of 1d Array
 ```javascript
 /**
  * @param {number[]} nums
