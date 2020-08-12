@@ -41464,3 +41464,43 @@ var maxPower = function(s) {
     return power
 };
 ```
+
+## 1455. Check If a Word Occurs As a Prefix of Any Word in a Sentence
+```javascript
+/**
+ * @param {string} sentence
+ * @param {string} searchWord
+ * @return {number}
+ */
+var isPrefixOfWord = function(sentence, searchWord) {
+    let i = 0
+    let j = 0
+    let wordIndex = 1
+    
+    while (j < sentence.length) {
+        if (sentence[j] === ' ') {
+            wordIndex++
+            i = 0
+            j++
+            continue
+        }
+        
+        if (sentence[j] === searchWord[i]) {
+            i++
+            j++
+            
+            if (i >= searchWord.length) {
+                return wordIndex
+            }
+            
+            continue
+        }
+        
+        while (j < sentence.length && sentence[j] !== ' ') {
+            j++
+        }
+    }
+    
+    return -1
+};
+```
