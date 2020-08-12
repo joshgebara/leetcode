@@ -41519,3 +41519,25 @@ var isPrefixOfWord = function(sentence, searchWord) {
     return -1
 };
 ```
+
+## 1518. Water Bottles
+```javascript
+/**
+ * @param {number} numBottles
+ * @param {number} numExchange
+ * @return {number}
+ */
+var numWaterBottles = function(numBottles, numExchange) {
+    let bottlesDrunk = 0
+    let emptyBottles = 0
+    
+    while (numBottles >= 1) {
+        bottlesDrunk += numBottles
+        emptyBottles += numBottles
+        numBottles = Math.floor(emptyBottles / numExchange)
+        emptyBottles %= numExchange
+    }
+    
+    return bottlesDrunk
+};
+```
