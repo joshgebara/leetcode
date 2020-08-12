@@ -41557,3 +41557,57 @@ var countOdds = function(low, high) {
     return Math.floor((high - low) / 2) + 1
 };
 ```
+
+## 1544. Make The String Great
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var makeGood = function(s) {
+    const stack = []
+    
+    for (const char of s) {
+        if (!stack.length) {
+            stack.push(char)
+            continue
+        }
+        
+        const top = stack[stack.length - 1]
+        if (top !== char && top.toLowerCase() === char.toLowerCase()) {
+            stack.pop()
+            continue
+        }
+        
+        stack.push(char)
+    }
+    
+    return stack.join('')
+};
+```
+
+## 1534. Count Good Triplets
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @return {number}
+ */
+var countGoodTriplets = function(arr, a, b, c) {
+    let triplets = 0
+    
+    for (let i = 0; i < arr.length - 2; i++) {
+        for (let j = i + 1; j < arr.length - 1; j++) {
+            for (let k = j + 1; k < arr.length; k++) {
+                triplets += Math.abs(arr[i] - arr[j]) <= a &&
+                            Math.abs(arr[j] - arr[k]) <= b &&
+                            Math.abs(arr[i] - arr[k]) <= c
+            }
+        }
+    }
+    
+    return triplets
+};
+```
