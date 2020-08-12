@@ -37671,6 +37671,21 @@ var shuffle = function(nums, n) {
     
     return nums
 };
+
+/**
+ * @param {number[]} nums
+ * @param {number} n
+ * @return {number[]}
+ */
+var shuffle = function(nums, n) {
+    const arr = []
+    for (let x = 0; x < n; x++) {
+        arr.push(nums[x])
+        arr.push(nums[x + n])
+    }
+    
+    return arr
+};
 ```
 
 ## 1472. Design Browser History
