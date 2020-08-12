@@ -7025,42 +7025,52 @@ var highFive = function(items) {
 };
 
 // Counting Sort
+/**
+ * @param {number[][]} items
+ * @return {number[][]}
+ */
 var highFive = function(items) {
     const map = {}
     
-    const buckets = Array(101).fill(null)
-    
     for (const [id, score] of items) {
-        if (!buckets[score]) buckets[score] = []
-        buckets[score].push([id, score])
+        if (!map[id]) map[id] = []
+        map[id].push(score)
     }
     
-    for (const scores of buckets) {
-        if (!scores) continue
-        for (const [id, score] of scores) {
-            if (!map[id]) map[id] = []
-            map[id].push(score)
-        }
-    }
-
-    const result = []
-    
-    for (const [id, scores] of Object.entries(map)) {
-        const avg = getAvg(scores)
-        result.push([id, avg])
-    }
-    
-    return result
+    return Object.entries(map).map(pair => {
+        const [id, scores] = pair
+        const sortedScores = sort(scores)
+        const avg = getAvg(sortedScores.slice(0, 5))
+        return [id, avg]
+    })
 };
 
 const getAvg = scores => {
     let sum = 0
     
-    for (let i = scores.length - 1; i >= scores.length - 5; i--) {
-        sum += scores[i]
+    for (const score of scores) {
+        sum += score
     }
     
-    return Math.floor(sum / 5)
+    return Math.floor(sum / scores.length)
+}
+
+const sort = scores => {
+    const buckets = Array(101).fill(0)
+    
+    for (const score of scores) {
+        buckets[score]++
+    }
+    
+    const result = []
+    
+    for (let i = buckets.length - 1; i >= 0; i--) {
+        while (buckets[i]--) {
+            result.push(i)
+        }
+    }
+    
+    return result
 }
 ```
 
