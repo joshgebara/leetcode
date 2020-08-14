@@ -41531,7 +41531,7 @@ var numWaterBottles = function(numBottles, numExchange) {
     let bottlesDrunk = 0
     let emptyBottles = 0
     
-    while (numBottles >= 1) {
+    while (numBottles > 0) {
         bottlesDrunk += numBottles
         emptyBottles += numBottles
         numBottles = Math.floor(emptyBottles / numExchange)
