@@ -41629,3 +41629,31 @@ var canJump = function(nums) {
     return true
 };
 ```
+
+## 1502. Can Make Arithmetic Progression From Sequence
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+var canMakeArithmeticProgression = function(arr) {
+    const set = new Set()
+    
+    let a = arr[0]
+    let lastNum = arr[0]
+    
+    for (const num of arr) {
+        a = Math.min(a, num)
+        lastNum = Math.max(lastNum, num)
+        set.add(num)
+    }
+    
+    const d = (lastNum - a) / (arr.length - 1)
+    for (let i = 1; i <= arr.length; i++) {
+        const term = a + (i - 1) * d
+        if (!set.has(term)) return false
+    }
+    
+    return true
+};
+```
