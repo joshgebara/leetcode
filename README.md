@@ -41675,3 +41675,16 @@ var xorOperation = function(n, start) {
     return result
 };
 ```
+
+## 1503. Last Moment Before All Ants Fall Out of a Plank
+```javascript
+/**
+ * @param {number} n
+ * @param {number[]} left
+ * @param {number[]} right
+ * @return {number}
+ */
+var getLastMoment = function(n, left, right) {
+    return Math.max(Math.max(...left), n - Math.min(...right))
+};
+```
