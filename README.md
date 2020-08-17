@@ -41688,3 +41688,55 @@ var getLastMoment = function(n, left, right) {
     return Math.max(Math.max(...left), n - Math.min(...right))
 };
 ```
+
+## 658. Find K Closest Elements
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @param {number} x
+ * @return {number[]}
+ */
+var findClosestElements = function(arr, k, x) {
+    const index = binarySearch(arr, x)
+    let i = index
+    let j = index
+    
+    while (j - i <= k) {
+        if (i < 0) {
+            j++
+        } else if (j >= arr.length) {
+            i--
+        } else if (Math.abs(arr[i] - x) <= Math.abs(arr[j] - x)) {
+            i--
+        } else {
+            j++
+        }
+    }
+    
+    const result = []
+    for (let m = i + 1; m <= j - 1; m++) {
+        result.push(arr[m])
+    }
+    return result
+};
+
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (right - left > 1) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid] === target) {
+            return mid
+        } else if (arr[mid] < target) {
+            left = mid
+        } else {
+            right = mid
+        }
+    }
+    
+    return Math.abs(arr[left] - target) <= Math.abs(arr[right] - target) ? left : right
+}
+```
