@@ -41740,3 +41740,44 @@ const binarySearch = (arr, target) => {
     return Math.abs(arr[left] - target) <= Math.abs(arr[right] - target) ? left : right
 }
 ```
+
+## 1182. Shortest Distance to Target Color
+```javascript
+/**
+ * @param {number[]} colors
+ * @param {number[][]} queries
+ * @return {number[]}
+ */
+var shortestDistanceColor = function(colors, queries) {
+    const map = {}
+    for (let i = 0; i < colors.length; i++) {
+        if (!map[colors[i]]) map[colors[i]] = []
+        map[colors[i]].push(i)
+    }
+    
+    return queries.map(pair => closest(pair[0], map[pair[1]]))
+};
+
+const closest = (index, indices) => {
+    if (!indices || !indices.length) return -1
+    
+    let left = 0
+    let right = indices.length - 1
+    
+    while (right - left > 1) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (indices[mid] === index) {
+            return 0
+        } else if (indices[mid] < index) {
+            left = mid
+        } else {
+            right = mid
+        }   
+    }
+    
+    const leftDist = Math.abs(indices[left] - index)
+    const rightDist = Math.abs(indices[right] - index)
+    return leftDist <= rightDist ? leftDist : rightDist
+}
+```
