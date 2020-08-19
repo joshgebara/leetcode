@@ -41803,3 +41803,22 @@ var finalPrices = function(prices) {
     return result
 };
 ```
+
+## 1550. Three Consecutive Odds
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+var threeConsecutiveOdds = function(arr) {
+    for (let i = 0; i < arr.length - 2; i++) {
+        if (isOdd(arr[i]) && isOdd(arr[i + 1]) && isOdd(arr[i + 2])) {
+            return true
+        }
+    }
+    
+    return false
+};
+
+const isOdd = num => num & 1
+```
