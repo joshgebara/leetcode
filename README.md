@@ -41781,3 +41781,25 @@ const closest = (index, indices) => {
     return leftDist <= rightDist ? leftDist : rightDist
 }
 ```
+
+## 1475. Final Prices With a Special Discount in a Shop
+```javascript
+/**
+ * @param {number[]} prices
+ * @return {number[]}
+ */
+var finalPrices = function(prices) {
+    const result = prices.slice()
+    const stack = []
+    
+    for (let i = 0; i < prices.length; i++) {
+        while (stack.length && prices[stack[stack.length - 1]] >= prices[i]) {
+            result[stack.pop()] -= prices[i]
+        }
+        
+        stack.push(i)
+    }
+    
+    return result
+};
+```
