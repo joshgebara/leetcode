@@ -20641,9 +20641,9 @@ HAVING MIN(sale_date) >= '2019-01-01' AND MAX(sale_date) <= '2019-03-31'
 
 ## 620. Not Boring Movies
 ```sql
-SELECT *
+SELECT * 
 FROM cinema
-WHERE description != 'boring' AND mod(id, 2) = 1
+WHERE MOD(id, 2) <> 0 AND description <> 'boring'
 ORDER BY rating DESC
 ```
 
