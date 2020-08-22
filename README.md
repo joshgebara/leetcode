@@ -20741,7 +20741,7 @@ WHERE bonus < 1000 OR bonus IS NULL
 
 ## 1075. Project Employees I
 ```sql
-SELECT project_id, ROUND(AVG(experience_years), 2) as average_years
+SELECT project_id, ROUND(AVG(experience_years), 2) AS average_years
 FROM Project
 LEFT JOIN Employee
 USING(employee_id)
@@ -41821,4 +41821,14 @@ var threeConsecutiveOdds = function(arr) {
 };
 
 const isOdd = num => num & 1
+```
+
+## 1484. Group Sold Products By The Date
+```sql
+# Write your MySQL query statement below
+SELECT sell_date, 
+       COUNT(DISTINCT product) AS num_sold,
+       GROUP_CONCAT(DISTINCT product ORDER BY product) AS products
+FROM Activities
+GROUP BY sell_date
 ```
