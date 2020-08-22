@@ -20361,16 +20361,15 @@ head -n 10 file.txt | tail -n +10
 
 ## 175. Combine Two Tables
 ```sql
-
+# Write your MySQL query statement below
 SELECT FirstName, LastName, City, State
 FROM Person
 LEFT JOIN Address
-ON Person.PersonId = Address.PersonId
+USING(PersonId)
 ```
 
 ## 1068. Product Sales Analysis I
 ```sql
-
 SELECT product_name, year, price
 FROM Sales
 INNER JOIN Product
@@ -20379,7 +20378,6 @@ USING(product_id)
 
 ## 1069. Product Sales Analysis II
 ```sql
-
 SELECT product_id, SUM(quantity) as total_quantity
 FROM Sales
 GROUP BY product_id 
