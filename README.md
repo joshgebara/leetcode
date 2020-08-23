@@ -41869,3 +41869,32 @@ const counts = word => {
     return charMap
 }
 ```
+
+## 1556. Thousand Separator
+```javascript
+/**
+ * @param {number} n
+ * @return {string}
+ */
+var thousandSeparator = function(n) {
+    if (n < 1000) return `${n}`
+    
+    const result = []
+    
+    let place = 0
+    while (n) {
+        if (place === 3) {
+            result.push('.')
+            place = 0
+        }
+        
+        const digit = n % 10
+        result.push(digit)
+        n = Math.floor(n / 10)
+        place++
+    }
+    
+    result.reverse()
+    return result.join('')
+};
+```
