@@ -41830,3 +41830,42 @@ SELECT sell_date,
 FROM Activities
 GROUP BY sell_date
 ```
+
+## 916. Word Subsets
+```javascript
+/**
+ * @param {string[]} A
+ * @param {string[]} B
+ * @return {string[]}
+ */
+var wordSubsets = function(A, B) {
+    const bMap = Array(26).fill(0)
+    for (const b of B) {
+        const currCounts = counts(b)
+        for (let i = 0; i < 26; i++) {
+            bMap[i] = Math.max(bMap[i], currCounts[i])
+        }
+    }
+    
+    return A.filter(a => {
+        const aMap = counts(a)
+        
+        for (let i = 0; i < 26; i++) {
+            if (aMap[i] < bMap[i]) return false
+        }
+        
+        return true
+    })
+};
+
+const counts = word => {
+    const charMap = Array(26).fill(0)
+    
+    for (const char of word) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        charMap[index]++
+    }
+    
+    return charMap
+}
+```
