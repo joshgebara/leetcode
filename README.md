@@ -34727,14 +34727,14 @@ var matrixBlockSum = function(mat, K) {
 
 ## 706. Design HashMap
 ```javascript
-// Chaining (Linked List) + Rehash & Load Factor
+// Separate Chaining (Linked List) + Rehash & Load Factor
 /**
  * Initialize your data structure here.
  */
 var MyHashMap = function() {
-    this.buckets = Array(10_000).fill(null)
-    this.size = 0
-    this.loadFactorThreshold = 0.75
+    this.elements = Array(10_000).fill().map(a => new LinkedList())
+    this.loadFactor = 0.75
+    this.count = 0
 };
 
 /**
@@ -34745,22 +34745,12 @@ var MyHashMap = function() {
  */
 MyHashMap.prototype.put = function(key, value) {
     const index = this.hash(key)
+    this.elements[index].insert(key, value)
+    this.count++
     
-    if (!this.buckets[index])
-        this.buckets[index] = new LinkedList()
-        
-    const node = this.buckets[index].find(key)
-    if (node) {
-        node.val = value
-        return
-    }
-    
-    this.buckets[index].add(key, value)
-    this.size++
-    
-    const loadFactor = this.size / this.buckets.length
-    if (loadFactor > this.loadFactorThreshold)
+    if (this.shouldRehash()) {
         this.rehash()
+    }
 };
 
 /**
@@ -34770,12 +34760,7 @@ MyHashMap.prototype.put = function(key, value) {
  */
 MyHashMap.prototype.get = function(key) {
     const index = this.hash(key)
-    
-    if (!this.buckets[index])
-        return -1
-    
-    const node = this.buckets[index].find(key)
-    return node ? node.val : -1
+    return this.elements[index].get(key)
 };
 
 /**
@@ -34785,12 +34770,9 @@ MyHashMap.prototype.get = function(key) {
  */
 MyHashMap.prototype.remove = function(key) {
     const index = this.hash(key)
-    
-    if (!this.buckets[index])
-        return
-    
-    const result = this.buckets[index].remove(key)
-    if (result) this.size--
+    if (this.elements[index].remove(key)) {
+        this.count--
+    }
 };
 
 /** 
@@ -34801,31 +34783,25 @@ MyHashMap.prototype.remove = function(key) {
  * obj.remove(key)
  */
 
-MyHashMap.prototype.hash = function(ele) {
-   return ele % this.buckets.length
+MyHashMap.prototype.hash = function(key) {
+    return key % this.elements.length
+}
+
+MyHashMap.prototype.shouldRehash = function() {
+    return this.count / this.elements.length >= this.loadFactor
 }
 
 MyHashMap.prototype.rehash = function() {
-    const temp = this.buckets
-    this.buckets = Array(this.buckets.length * 2).fill(null)
-    this.size = 0
+    const prevElements = this.elements
+    this.elements = Array(prevElements.length * 2).fill().map(a => new LinkedList())
+    this.count = 0
     
-    for (const list of temp) {
-        if (!list) continue
-        
-        let curr = list.head
-        while (curr) {
-            this.put(curr.key, curr.val)
-            curr = curr.next
+    for (const list of prevElements) {
+        let head = list.head
+        while (head) {
+            this.put(head.key, head.val)
+            head = head.next
         }
-    }
-}
-
-class Node {
-    constructor(key, val) {
-        this.key = key
-        this.val = val
-        this.next = null
     }
 }
 
@@ -34834,43 +34810,62 @@ class LinkedList {
         this.head = null
     }
     
-    find(key) {
+    get(key) {
         let curr = this.head
-        
         while (curr) {
-            if (curr.key === key)
-                return curr
-            
+            if (curr.key === key) {
+                return curr.val
+            }
             curr = curr.next
         }
+        
+        return -1
     }
     
-    add(key, val) {
-        const newHead = new Node(key, val)
-        newHead.next = this.head
-        this.head = newHead
+    insert(key, val) {
+        if (this.get(key) === -1) {
+            const node = new Node(key, val)
+            node.next = this.head
+            this.head = node
+            return
+        }
+        
+        let curr = this.head
+        while (curr) {
+            if (curr.key === key) {
+                curr.val = val
+                return
+            }
+            curr = curr.next
+        }
     }
     
     remove(key) {
-        let prev = this.head
-        let curr = this.head
+        if (!this.head) return false
         
-        if (!curr) return false
-                
-        if (curr.key === key) {
-            this.head = curr.next
-            return true
+        if (this.head.key === key) {
+            this.head = this.head.next
+            return
         }
-        
-        curr = curr.next
-        while (curr) {
-            if (curr.key === key) {
-                prev.next = curr.next
+
+        let curr = this.head
+        while (curr.next) {
+            if (curr.next.key === key) {
+                curr.next = curr.next.next
                 return true
             }
+            
             curr = curr.next
-            prev = prev.next
-        } 
+        }
+        
+        return false
+    }
+}
+
+class Node {
+    constructor(key, val) {
+        this.key = key
+        this.val = val
     }
 }
 
