@@ -20562,6 +20562,15 @@ HAVING COUNT(employee_id) =
 
 ## 596. Classes More Than 5 Students
 ```sql
+-- Having
+# Write your MySQL query statement below
+SELECT class
+FROM Courses
+GROUP BY class
+HAVING COUNT(DISTINCT student) >= 5
+
+-- Subquery
+# Write your MySQL query statement below
 SELECT class
 FROM (SELECT class, COUNT(DISTINCT student) as count
       FROM courses
@@ -41902,3 +41911,4 @@ var thousandSeparator = function(n) {
     return result.join('')
 };
 ```
+
