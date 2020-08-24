@@ -20504,6 +20504,15 @@ WHERE product_name = 'S8'
 AND buyer_id NOT IN (SELECT buyer_id
                      FROM sales JOIN product USING(product_id)
                      WHERE product_name = 'iPhone');
+
+-- HAVING
+# Write your MySQL query statement below
+SELECT DISTINCT buyer_id
+FROM Sales AS s
+JOIN Product AS p
+USING(product_id)
+GROUP BY buyer_id
+HAVING SUM(product_name = 'S8') > 0 AND SUM(product_name = 'iPhone') = 0
 ```
 
 ## 619. Biggest Single Number
