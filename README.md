@@ -19878,7 +19878,8 @@ TwoSum.prototype.find = function(value) {
 ## 168. Excel Sheet Column Title
 ```javascript
 var convertToTitle = function(n) {
-    const map = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',                  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    const map = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     const result = []
     
     while (n) {
@@ -33468,6 +33469,18 @@ var isBoomerang = function(points) {
     
     return ((y3 - y2) * (x3 - x1)) !== ((y3 - y1) * (x3 - x2))
 };
+
+/**
+ * @param {number[][]} points
+ * @return {boolean}
+ */
+var isBoomerang = function(points) {
+    const [x1, y1] = points[0]
+    const [x2, y2] = points[1]
+    const [x3, y3] = points[2]
+    
+    return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) * 0.5) !== 0
+};
 ```
 
 ## 888. Fair Candy Swap
@@ -41912,3 +41925,13 @@ var thousandSeparator = function(n) {
 };
 ```
 
+## 1543. Fix Product Name Format
+```sql
+# Write your MySQL query statement below
+SELECT LOWER(TRIM(product_name)) AS product_name,
+       DATE_FORMAT(sale_date,'%Y-%m') AS sale_date,
+       COUNT(*) AS total
+FROM Sales
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
