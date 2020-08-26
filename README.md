@@ -35031,9 +35031,9 @@ MyHashMap.prototype.shouldRehash = function() {
  * Initialize your data structure here.
  */
 var MyHashMap = function() {
-    this.buckets = Array(10_000).fill(null)
-    this.size = 0
-    this.loadFactorThreshold = 0.49
+    this.elements = Array(10_000).fill(null)
+    this.loadFactor = 0.49
+    this.count = 0
 };
 
 /**
@@ -35044,24 +35044,22 @@ var MyHashMap = function() {
  */
 MyHashMap.prototype.put = function(key, value) {
     let index = this.hash(key)
-    let quadNum = 1
+    let base = 0
     
-    while (this.buckets[index] !== null) {
-        if (this.buckets[index][0] === key) {
-            this.buckets[index][1] = value
-            return
-        }
-        
-        index = quadNum ** 2
-        quadNum++
-        index %= this.buckets.length
+    while (this.elements[index] !== null) {
+        if (this.elements[index][0] === key) break
+        index += base ** 2
+        index %= this.elements.length
+        base++
     }
     
-    this.buckets[index] = [key, value]
-    this.size++
+    if (this.elements[index] === null) {
+        this.count++
+    }
     
-    const loadFactor = this.size / this.buckets.length
-    if (loadFactor > this.loadFactorThreshold) {
+    this.elements[index] = [key, value]
+    
+    if (this.shouldRehash()) {
         this.rehash()
     }
 };
@@ -35073,18 +35071,35 @@ MyHashMap.prototype.put = function(key, value) {
  */
 MyHashMap.prototype.get = function(key) {
     let index = this.hash(key)
-    let quadNum = 1
+    let base = 0
+    let firstLazyIndex = null
     
-    while (this.buckets[index] !== null) {
-        if (this.buckets[index][0] === key)
-            return this.buckets[index][1]
+    while (this.elements[index] !== null) {
+        if (this.elements[index][0] === key) {
+            break
+        }
         
-        index = quadNum ** 2
-        quadNum++
-        index %= this.buckets.length
+        if (this.elements[index][0] === -1 && firstLazyIndex === null) {
+            firstLazyIndex = index
+        }
+        
+        index += base ** 2
+        index %= this.elements.length
+        base++
     }
     
-    return -1
+    if (this.elements[index] === null)
+        return -1
+    
+    const value = this.elements[index][1]
+    
+    if (firstLazyIndex !== null) {
+        this.elements[firstLazyIndex] = [this.elements[index][0], 
+                                         this.elements[index][1]]
+        this.elements[index] = [-1, -1]
+    }
+    
+    return value
 };
 
 /**
@@ -35094,19 +35109,38 @@ MyHashMap.prototype.get = function(key) {
  */
 MyHashMap.prototype.remove = function(key) {
     let index = this.hash(key)
-    let quadNum = 1
+    let base = 0
     
-    while (this.buckets[index] !== null) {
-        if (this.buckets[index][0] === key) {
-            this.buckets[index] = [-1, -1]
-            return 
+    while (this.elements[index] !== null) {
+        if (this.elements[index][0] === key) {
+            this.elements[index] = [-1, -1]
+            this.count--
+            return
         }
         
-        index = quadNum ** 2
-        quadNum++
-        index %= this.buckets.length
-    }
+        index += base ** 2
+        index %= this.elements.length
+        base++
+    }  
 };
+
+MyHashMap.prototype.hash = function(key) {
+    return key % this.elements.length
+}
+
+MyHashMap.prototype.rehash = function() {
+    const prevElements = this.elements
+    this.elements = Array(this.elements.length * 2).fill(null)
+    
+    for (let i = 0; i < prevElements.length; i++) {
+        if (prevElements[i] === null || prevElements[i][0] === -1) continue
+        this.put(prevElements[i][0], prevElements[i][1])
+    }
+}
+
+MyHashMap.prototype.shouldRehash = function() {
+    return this.count / this.elements.length >= this.loadFactor
+}
 
 /** 
  * Your MyHashMap object will be instantiated and called as such:
@@ -35115,20 +35149,6 @@ MyHashMap.prototype.remove = function(key) {
  * var param_2 = obj.get(key)
  * obj.remove(key)
  */
-
-MyHashMap.prototype.hash = function(ele) {
-   return ele % this.buckets.length
-}
-
-MyHashMap.prototype.rehash = function() {
-    const temp = this.buckets
-    this.buckets = Array(this.buckets.length * 2).fill(null)
-    this.size = 0
-    
-    for (const [key, val] of temp) {
-        this.put(key, val)
-    }
-}
 ```
 
 ## 1445. Apples & Oranges
