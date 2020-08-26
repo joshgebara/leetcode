@@ -41980,3 +41980,114 @@ FROM Sales
 GROUP BY 1, 2
 ORDER BY 1, 2
 ```
+
+## 705. Design HashSet
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var MyHashSet = function() {
+    this.elements = Array(10_000).fill(null)
+    this.loadFactor = 0.75
+    this.count = 0
+};
+
+/** 
+ * @param {number} key
+ * @return {void}
+ */
+MyHashSet.prototype.add = function(key) {
+    let index = this.hash(key)
+    
+    while (this.elements[index] !== null) {
+        if (this.elements[index] === key) return
+        index++
+        index %= this.elements.length
+    }
+    
+    this.elements[index] = key
+    this.count++
+        
+    if (this.shouldRehash()) {
+        this.rehash()
+    }
+};
+
+/** 
+ * @param {number} key
+ * @return {void}
+ */
+MyHashSet.prototype.remove = function(key) {
+    let index = this.hash(key)
+    
+    while (this.elements[index] !== null) {
+        if (this.elements[index] === key) {
+            this.elements[index] = -1
+            this.count--
+            return
+        }
+        
+        index++
+        index %= this.elements.length
+    }
+};
+
+/**
+ * Returns true if this set contains the specified element 
+ * @param {number} key
+ * @return {boolean}
+ */
+MyHashSet.prototype.contains = function(key) {
+    let index = this.hash(key)
+    let firstLazyIndex = null
+    
+    while (this.elements[index] !== null) {
+        if (this.elements[index] === key) {
+            break
+        }
+        
+        if (this.elements[index] === -1 && firstLazyIndex === null) {
+            firstLazyIndex = index
+        }
+        
+        index++
+        index %= this.elements.length
+    }
+    
+    if (this.elements[index] === null)
+        return false
+    
+    if (firstLazyIndex !== null) {
+        this.elements[firstLazyIndex] = this.elements[index]
+        this.elements[index] = -1
+    }
+    
+    return true
+};
+
+MyHashSet.prototype.hash = function(key) {
+    return key % this.elements.length
+}
+
+MyHashSet.prototype.rehash = function() {
+    const prevElements = this.elements
+    this.elements = Array(this.elements.length * 2).fill(null)
+    
+    for (let i = 0; i < prevElements.length; i++) {
+        if (prevElements[i] === null || prevElements[i] === -1) continue
+        this.add(prevElements[i])
+    }
+}
+
+MyHashSet.prototype.shouldRehash = function() {
+    return this.count / this.elements.length >= this.loadFactor
+}
+
+/** 
+ * Your MyHashSet object will be instantiated and called as such:
+ * var obj = new MyHashSet()
+ * obj.add(key)
+ * obj.remove(key)
+ * var param_3 = obj.contains(key)
+ */
+```
