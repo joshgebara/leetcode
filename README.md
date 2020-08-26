@@ -34911,7 +34911,7 @@ class Node {
  * Initialize your data structure here.
  */
 var MyHashMap = function() {
-    this.elements = Array(5).fill(null)
+    this.elements = Array(10_000).fill(null)
     this.loadFactor = 0.75
     this.count = 0
 };
