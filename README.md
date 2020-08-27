@@ -41669,9 +41669,9 @@ var countGoodTriplets = function(arr, a, b, c) {
     
     for (let i = 0; i < arr.length - 2; i++) {
         for (let j = i + 1; j < arr.length - 1; j++) {
+            if (Math.abs(arr[i] - arr[j]) > a) continue
             for (let k = j + 1; k < arr.length; k++) {
-                triplets += Math.abs(arr[i] - arr[j]) <= a &&
-                            Math.abs(arr[j] - arr[k]) <= b &&
+                triplets += Math.abs(arr[j] - arr[k]) <= b &&
                             Math.abs(arr[i] - arr[k]) <= c
             }
         }
