@@ -42091,3 +42091,32 @@ MyHashSet.prototype.shouldRehash = function() {
  * var param_3 = obj.contains(key)
  */
 ```
+
+## 1060. Missing Element in Sorted Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var missingElement = function(nums, k) {
+    const missingNums = index => {
+        return nums[index] - nums[0] - index
+    }
+    
+    let left = 0
+    let right = nums.length
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (missingNums(mid) < k) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return nums[left - 1] + k - missingNums(left - 1)
+};
+```
