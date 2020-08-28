@@ -42120,3 +42120,25 @@ var missingElement = function(nums, k) {
     return nums[left - 1] + k - missingNums(left - 1)
 };
 ```
+
+## 1010. Pairs of Songs With Total Durations Divisible by 60
+```javascript
+/**
+ * @param {number[]} time
+ * @return {number}
+ */
+var numPairsDivisibleBy60 = function(time) {
+    const map = {}
+    let count = 0
+    
+    for (const t of time) {
+        let mod = t % 60
+        const diff = 60 - mod
+        count += (map[diff] || 0)
+        if (mod === 0) mod = 60
+        map[mod] = 1 + (map[mod] || 0)
+    }
+    
+    return count
+};
+```
