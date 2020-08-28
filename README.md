@@ -42142,3 +42142,36 @@ var numPairsDivisibleBy60 = function(time) {
     return count
 };
 ```
+
+## 1539. Kth Missing Positive Number
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number}
+ */
+var findKthPositive = function(arr, k) {
+    const missingNums = index => {
+        return arr[index] - 1 - index
+    }
+    
+    if (missingNums(0) >= k) {
+        return k
+    }
+    
+    let left = 0
+    let right = arr.length
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (missingNums(mid) < k) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return arr[left - 1] + k - missingNums(left - 1)
+};
+```
