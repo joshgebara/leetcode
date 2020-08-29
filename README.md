@@ -7446,48 +7446,70 @@ var strStr = function(haystack, needle) {
 };
 
 // Rabin-Karp
-var rkSearch = function (text, pattern) {
-  const tLength = text.length
-  const pLength = pattern.length
-  
-  if (tLength === 0 || pLength === 0 || tLength < pLength) 
-    return null
-  
-  const textArr = text.split('').map(char => char.charCodeAt(0) - "0".charCodeAt(0))
-  const patternArr = pattern.split('').map(char => char.charCodeAt(0) - "0".charCodeAt(0))
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
+var strStr = function(haystack, needle) {
+    if (!needle.length) return 0
+    return rkSearch(haystack, needle)
+};
 
-  const base = 256
-  const prime = 101
-  
-  let textHash = 0
-  let patternHash = 0
-  
-  for (let i = 0; i < pLength; i++) {
-    patternHash = (base * patternHash + patternArr[i]) % prime
-    textHash = (base * textHash + textArr[i]) % prime
-  }
-  
-  const indices = []
-  
-  for (let i = 0; i <= tLength - pLength; i++) {
-    if (textHash === patternHash) {
-      if (text.substring(i, i + pLength) === pattern) {
-        indices.push(i)
-      }
+var rkSearch = function (text, pattern) {
+    if (text.length === 0 || pattern.length === 0 || text.length < pattern.length)
+        return -1
+
+    const base = 256
+    const prime = 101
+
+    let textHash = 0
+    let patternHash = 0
+    
+    let baseToMaxPow = 1
+    for (let i = 0; i < pattern.length - 1; i++) {
+        baseToMaxPow = (baseToMaxPow * base) % prime
     }
     
-    let h = Math.pow(base, pLength - 1) % prime
-    let nextCharCode = textArr[i + pLength]
-    textHash = (base * (textHash - textArr[i] * h) + nextCharCode) % prime
+    for (let i = 0; i < pattern.length; i++) {
+        patternHash *= base
+        patternHash += pattern[i].charCodeAt(0)
+        patternHash %= prime
+        
+        textHash *= base
+        textHash += text[i].charCodeAt(0)
+        textHash %= prime
+    }
     
-    if (textHash < 0)
-      textHash += prime 
-  }
-  
-  return indices.length ? indices : null
+    for (let i = 0; i <= text.length - pattern.length; i++) {
+        if (textHash === patternHash && text.substring(i, i + pattern.length) === pattern) {
+            return i
+        }
+        
+        if (i < text.length - pattern.length) {
+            const prevCode = text[i].charCodeAt(0)
+            const nextCode = text[i + pattern.length].charCodeAt(0)
+            
+            textHash -= prevCode * baseToMaxPow
+            textHash %= prime
+            
+            textHash *= base
+            textHash %= prime
+            
+            textHash += nextCode
+            textHash %= prime
+            
+            if (textHash < 0) textHash += prime 
+        }
+    }
+    
+    return -1
 }
-
-rkSearch("aabaaabaaac", "aab")
 ```
 
 ## 125. Valid Palindrome
