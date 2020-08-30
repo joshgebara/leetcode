@@ -42208,3 +42208,20 @@ FROM orders
 WHERE invoice > 20
 GROUP BY 1
 ```
+
+## 1555. Bank Account Summary
+```sql
+# Write your MySQL query statement below
+SELECT user_id, user_name, 
+       credit + IFNULL(in_cash, 0) - IFNULL(out_cash, 0) AS credit,
+       IF(credit + IFNULL(in_cash, 0) - IFNULL(out_cash, 0) >= 0, 'No', 'Yes') AS credit_limit_breached
+FROM Users
+LEFT JOIN (SELECT paid_by, SUM(amount) as out_cash
+           FROM transactions
+           GROUP BY paid_by) AS d1
+ON user_id = paid_by
+LEFT JOIN (SELECT paid_to, SUM(amount) as in_cash
+           FROM transactions
+           GROUP BY paid_to) AS d2
+ON user_id = paid_to
+```
