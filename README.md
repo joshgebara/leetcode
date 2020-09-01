@@ -42276,3 +42276,18 @@ const gcd = (a, b) => {
     return a
 }
 ```
+
+## 1344. Angle Between Hands of a Clock
+```javascript
+/**
+ * @param {number} hour
+ * @param {number} minutes
+ * @return {number}
+ */
+var angleClock = function(hour, minutes) {
+    const h = 30 * (hour % 12) + 0.5 * minutes
+    const m = 6 * minutes
+    const angle = Math.abs(h - m)
+    return Math.min(angle, 360 - angle)
+};
+```
