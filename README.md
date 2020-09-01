@@ -42316,4 +42316,28 @@ var verifyPreorder = function(preorder) {
     
     return true
 };
+
+// O(1) Space
+/**
+ * @param {number[]} preorder
+ * @return {boolean}
+ */
+var verifyPreorder = function(preorder) {
+    let low = -Infinity
+    let i = -1
+    
+    for (const p of preorder) {
+        if (p < low) {
+            return false
+        }
+        
+        while (i >= 0 && preorder[i] < p) {
+            low = preorder[i--]
+        }
+        
+        preorder[++i] = p
+    }
+    
+    return true
+};
 ```
