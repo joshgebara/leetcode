@@ -42291,3 +42291,29 @@ var angleClock = function(hour, minutes) {
     return Math.min(angle, 360 - angle)
 };
 ```
+
+## 255. Verify Preorder Sequence in Binary Search Tree
+```javascript
+/**
+ * @param {number[]} preorder
+ * @return {boolean}
+ */
+var verifyPreorder = function(preorder) {
+    const stack = []
+    let low = -Infinity
+    
+    for (const p of preorder) {
+        if (p < low) {
+            return false
+        }
+        
+        while (stack.length && stack[stack.length - 1] < p) {
+            low = stack.pop()
+        }
+        
+        stack.push(p)
+    }
+    
+    return true
+};
+```
