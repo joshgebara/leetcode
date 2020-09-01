@@ -10771,8 +10771,7 @@ var minDiffInBST = function(root) {
     let stack = []
     let prev = null 
     let min = Number.MAX_VALUE
-    
-    
+  
     while (root || stack.length) {
         if (root) {
             stack.push(root)
@@ -42224,4 +42223,56 @@ LEFT JOIN (SELECT paid_to, SUM(amount) as in_cash
            FROM transactions
            GROUP BY paid_to) AS d2
 ON user_id = paid_to
+```
+
+## 1447. Simplified Fractions
+```javascript
+// Set
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var simplifiedFractions = function(n) {
+    const result = []
+    const seen = new Set()
+    for (let numerator = 1; numerator < n; numerator++) {
+        for (let denominator = numerator + 1; denominator <= n; denominator++) {
+            const decimal = numerator / denominator
+            if (seen.has(decimal)) continue
+            seen.add(decimal)
+            result.push(`${numerator}/${denominator}`)
+        }
+    }
+    
+    return result
+};
+
+// GCD
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var simplifiedFractions = function(n) {
+    const result = []
+    
+    for (let numerator = 1; numerator < n; numerator++) {
+        for (let denominator = numerator + 1; denominator <= n; denominator++) {
+            if (gcd(numerator, denominator) === 1) {
+                result.push(`${numerator}/${denominator}`)
+            }
+        }
+    }
+    
+    return result
+};
+
+const gcd = (a, b) => {
+    while (b) {
+        const temp = a
+        a = b
+        b = temp % b
+    }
+    
+    return a
+}
 ```
