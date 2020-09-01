@@ -42386,3 +42386,44 @@ const swap = (arr, i, j) => {
     arr[j] = temp
 }
 ```
+
+## 1466. Reorder Routes to Make All Paths Lead to the City Zero
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} connections
+ * @return {number}
+ */
+var minReorder = function(n, connections) {
+    const graph = buildGraph(n, connections)
+    const visited = new Set([0])
+    return dfs(0, graph, visited)
+};
+
+const dfs = (vertex, graph, visited) => {
+    let count = 0
+
+    for (const [neighbor, dir] of graph[vertex]) {
+        if (visited.has(neighbor)) continue
+        visited.add(neighbor)
+
+        count += dir
+        count += dfs(neighbor, graph, visited)
+    }
+    
+    return count
+}
+
+const buildGraph = (n, connections) => {
+    const graph = Array(n).fill()
+    
+    for (const [vertex, neighbor] of connections) {
+        if (!graph[vertex]) graph[vertex] = []
+        if (!graph[neighbor]) graph[neighbor] = []
+        graph[vertex].push([neighbor, 1])
+        graph[neighbor].push([vertex, 0])
+    }
+    
+    return graph
+}
+```
