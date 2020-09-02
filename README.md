@@ -37285,6 +37285,40 @@ const binarySearch = arr => {
     
     return left
 }
+
+// Linear Scan
+/**
+ * @param {number[][]} mat
+ * @param {number} k
+ * @return {number[]}
+ */
+var kWeakestRows = function(mat, k) {
+    const rowLength = mat.length
+    const colLength = mat[0].length
+    
+    const result = []
+    
+    for (let col = 0; col < colLength; col++) {
+        for (let row = 0; row < rowLength; row++) {
+            if (mat[row][col] === 0 && (col === 0 || mat[row][col - 1] === 1)) {
+                result.push(row)
+                if (result.length === k) return result
+            }
+        }
+    }
+    
+    if (result.length < k) {
+        for (let row = 0; row < rowLength; row++) {
+            if (mat[row][colLength - 1] === 1) {
+                result.push(row)
+                
+                if (result.length === k) return result
+            }
+        }
+    }
+    
+    return result
+};
 ```
 
 ## 48. Rotate Image
