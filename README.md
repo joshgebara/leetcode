@@ -18366,6 +18366,31 @@ var findErrorNums = function(nums) {
     
     return [repeat, sum - (currSum - repeat)]
 };
+
+// O(1) Space
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findErrorNums = function(nums) {
+    let dup = 0
+    for (const num of nums) {
+        if (nums[Math.abs(num) - 1] < 0) {
+            dup = Math.abs(num)
+        } else {
+            nums[Math.abs(num) - 1] *= -1
+        }
+    }
+    
+    let missingNum = 0
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] > 0) {
+            missingNum = i + 1
+        }
+    }
+    
+    return [dup, missingNum]
+};
 ```
 
 ## 500. Keyboard Row
@@ -42463,3 +42488,4 @@ const buildGraph = (n, connections) => {
     return graph
 }
 ```
+
