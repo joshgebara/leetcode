@@ -42509,7 +42509,6 @@ var largestRectangleArea = function(heights) {
             
             let area = 0
             if (stack.length) {
-                console.log(stack[stack.length - 1], barIndex - 1)
                 area = heights[barIndex] * (i - 1 - stack[stack.length - 1])
             } else {
                 area = heights[barIndex] * i
