@@ -42489,3 +42489,49 @@ const buildGraph = (n, connections) => {
 }
 ```
 
+## 84. Largest Rectangle in Histogram
+```javascript
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
+var largestRectangleArea = function(heights) {
+    const stack = []
+    let max = 0
+    let i = 0
+    
+    while (i < heights.length) {
+        if (!stack.length || heights[stack[stack.length - 1]] <= heights[i]) {
+            stack.push(i)
+            i++
+        } else {
+            const barIndex = stack.pop()
+            
+            let area = 0
+            if (stack.length) {
+                console.log(stack[stack.length - 1], barIndex - 1)
+                area = heights[barIndex] * (i - 1 - stack[stack.length - 1])
+            } else {
+                area = heights[barIndex] * i
+            }
+            
+            max = Math.max(max, area)
+        }
+    }
+    
+    while (stack.length) {
+        const barIndex = stack.pop()
+        
+        let area = 0
+        if (stack.length) {
+            area = heights[barIndex] * (i - 1 - stack[stack.length - 1])
+        } else {
+            area = heights[barIndex] * i
+        }
+        
+        max = Math.max(max, area)
+    }
+    
+    return max
+};
+```
