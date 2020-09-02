@@ -20400,14 +20400,14 @@ USING(product_id)
 
 ## 1069. Product Sales Analysis II
 ```sql
-SELECT product_id, SUM(quantity) as total_quantity
+SELECT product_id, SUM(quantity) AS total_quantity
 FROM Sales
 GROUP BY product_id 
 ```
 
 ## 511. Game Play Analysis I
 ```sql
-SELECT player_id, MIN(event_date) as first_login
+SELECT player_id, MIN(event_date) AS first_login
 FROM ACTIVITY
 GROUP BY player_id
 ```
@@ -42183,15 +42183,17 @@ var missingElement = function(nums, k) {
  * @return {number}
  */
 var numPairsDivisibleBy60 = function(time) {
-    const map = {}
-    let count = 0
-    
+    const map = Array(60).fill(0)
     for (const t of time) {
-        let mod = t % 60
-        const diff = 60 - mod
-        count += (map[diff] || 0)
-        if (mod === 0) mod = 60
-        map[mod] = 1 + (map[mod] || 0)
+        map[t % 60]++
+    }
+    
+    let count = 0
+    count += (map[0] * (map[0] - 1)) / 2
+    count += (map[30] * (map[30] - 1)) / 2
+    
+    for (let i = 1; i < 30; i++) {
+        count += map[i] * map[60 - i]
     }
     
     return count
