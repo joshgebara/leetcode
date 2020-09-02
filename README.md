@@ -33280,9 +33280,9 @@ WHERE department_id NOT IN
 ## 1407. Top Travellers
 ```javascript
 # Write your MySQL query statement below
-SELECT name, SUM(IFNULL(distance, 0)) as travelled_distance
-FROM Users as U
-LEFT JOIN Rides as R
+SELECT name, SUM(IFNULL(distance, 0)) AS travelled_distance
+FROM Users AS U
+LEFT JOIN Rides AS R
 ON U.id = R.user_id
 GROUP BY U.id
 ORDER BY travelled_distance DESC, name
