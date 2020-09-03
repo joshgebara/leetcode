@@ -42534,3 +42534,46 @@ var largestRectangleArea = function(heights) {
     return max
 };
 ```
+
+## 5. Longest Palindromic Substring
+```javascript
+// Expand From Center O(n^2) O(1)
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+    let start = 0
+    let end = 0
+    let maxLen = 0
+    
+    for (let i = 0; i < s.length; i++) {
+        const [l1, r1] = palindrome(s, i, i)
+        const len1 = r1 - l1 + 1
+        if (maxLen < len1) {
+            start = l1
+            end = r1
+            maxLen = len1
+        }
+        
+        const [l2, r2] = palindrome(s, i, i + 1)
+        const len2 = r2 - l2 + 1
+        if (maxLen < len2) {
+            start = l2
+            end = r2
+            maxLen = len2
+        }
+    }
+    
+    return s.slice(start, end + 1)
+};
+
+const palindrome = (s, left, right) => {
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+        left--
+        right++
+    }
+    
+    return [left + 1, right - 1]
+}
+```
