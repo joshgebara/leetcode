@@ -42538,7 +42538,44 @@ var largestRectangleArea = function(heights) {
 ## 5. Longest Palindromic Substring
 ```javascript
 // Dynammic Programming Time: O(n^2) Space: O(n^2)
-
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+    const dp = Array(s.length).fill().map(a => Array(s.length).fill(false))
+    let maxStart = 0
+    let maxEnd = 0
+    
+    for (let i = 0; i < s.length; i++) {
+        dp[i][i] = true
+    }
+    
+    for (let i = 0; i < s.length - 1; i++) {
+        if (s[i] === s[i + 1]) {
+            dp[i][i + 1] = true
+            maxStart = i
+            maxEnd = i + 1
+        }
+    }
+    
+    for (let currLen = 3; currLen <= s.length; currLen++) {
+        for (let start = 0; start < s.length - currLen + 1; start++) {
+            const end = start + currLen - 1
+            if (s[start] === s[end] && dp[start + 1][end - 1]) {
+                dp[start][end] = true
+                
+                if (end - start + 1 > maxEnd - maxStart + 1) {
+                    maxStart = start
+                    maxEnd = end
+                }
+                
+            }
+        }
+    }
+    
+    return s.slice(maxStart, maxEnd + 1)  
+};
 
 // Expand From Center Time: O(n^2) Space: O(1)
 /**
