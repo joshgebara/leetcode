@@ -42617,3 +42617,42 @@ const palindrome = (s, left, right) => {
     return [left + 1, right - 1]
 }
 ```
+
+## 131. Palindrome Partitioning
+```javascript
+/**
+ * @param {string} s
+ * @return {string[][]}
+ */
+var partition = function(s) {
+    const _partition = (baseIndex, curr) => {
+        if (baseIndex >= s.length) {
+            result.push(curr.slice())
+            return
+        }
+        
+        for (let i = baseIndex; i < s.length; i++) {
+            if (!isPalindrome(s, baseIndex, i)) continue
+            const str = s.slice(baseIndex, i + 1)
+            curr.push(str)
+            _partition(i + 1, curr)
+            curr.pop()
+        }
+    }
+    
+    const result = []
+    _partition(0, [])
+    return result
+};
+
+const isPalindrome = (s, left, right) => {
+    while (left < right) {
+        if (s[left] !== s[right]) return false
+        
+        left++
+        right--
+    }
+    
+    return true
+}
+```
