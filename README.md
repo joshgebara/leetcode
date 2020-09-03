@@ -42537,7 +42537,10 @@ var largestRectangleArea = function(heights) {
 
 ## 5. Longest Palindromic Substring
 ```javascript
-// Expand From Center O(n^2) O(1)
+// Dynammic Programming Time: O(n^2) Space: O(n^2)
+
+
+// Expand From Center Time: O(n^2) Space: O(1)
 /**
  * @param {string} s
  * @return {string}
