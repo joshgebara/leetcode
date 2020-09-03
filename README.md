@@ -42620,6 +42620,8 @@ const palindrome = (s, left, right) => {
 
 ## 131. Palindrome Partitioning
 ```javascript
+// Time: O(2^n * n)
+// Space: O(n)
 /**
  * @param {string} s
  * @return {string[][]}
