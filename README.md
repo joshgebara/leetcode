@@ -42658,3 +42658,43 @@ const isPalindrome = (s, left, right) => {
     return true
 }
 ```
+
+## 140. Word Break II
+```javascript
+// Top Down + Memoization
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {string[]}
+ */
+var wordBreak = function(s, wordDict) {
+    const _wordBreak = (baseIndex, curr) => {
+        if (memo[baseIndex]) return memo[baseIndex]
+        
+        if (baseIndex === s.length) {
+            return ['']
+        }
+        
+        const list = []
+        
+        for (let i = baseIndex; i < s.length; i++) {
+            const word = s.slice(baseIndex, i + 1)
+            if (!dict.has(word)) continue
+            const rest = _wordBreak(i + 1)
+            for (const comb of rest) {
+                list.push(word + (comb === '' ? '' : ' ') + comb)
+            }
+        }
+        
+        memo[baseIndex] = list
+        return list
+    }
+    
+    const memo = {}
+    const dict = new Set(wordDict)
+    return _wordBreak(0)
+};
+
+// Bottom Up DP
+
+```
