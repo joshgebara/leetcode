@@ -42695,6 +42695,28 @@ var wordBreak = function(s, wordDict) {
     return _wordBreak(0)
 };
 
-// Bottom Up DP
-
+// Bottom Up DP - Doesn't Run, Takes Too Much Memory
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {string[]}
+ */
+var wordBreak = function(s, wordDict) {
+    const words = new Set(wordDict)
+    const dp = Array(s.length + 1).fill().map(a => [])
+    dp[0] = ['']
+    
+    for (let i = 1; i <= s.length; i++) {
+        for (let j = 0; j < i; j++) {
+            const str = s.slice(j, i)
+            
+            if (!words.has(str)) continue
+            for (const prefix of dp[j]) {
+                dp[i].push(prefix + (prefix === '' ? '' : ' ') + str)
+            }
+        }
+    }
+    
+    return dp[s.length]
+};
 ```
