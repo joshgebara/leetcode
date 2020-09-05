@@ -42777,3 +42777,70 @@ const binarySearch = (arr, target) => {
     return left === 0 ? -1 : left - 1
 }
 ```
+
+## 37. Sudoku Solver
+```javascript
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solveSudoku = function(board) {
+    const _solveSudoku = (row, col) => {
+        if (col === 9) {
+            col = 0
+            row++
+        }
+        
+        if (row === 9) 
+            return true
+        
+        if (board[row][col] === '.') {
+            for (let num = 1; num <= 9; num++) {
+                if (isValid(set, row, col, num)) 
+                    continue
+                
+                addNum(board, set, row, col, num)
+                
+                if (_solveSudoku(row, col + 1)) 
+                    return true
+                
+                removeNum(board, set, row, col, num)
+            }
+        } else if (_solveSudoku(row, col + 1)) {
+            return true
+        }
+        
+        return false
+    }
+    
+    const set = new Set()
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[0].length; col++) {
+            if (board[row][col] === '.') continue
+            addNum(board, set, row, col, board[row][col])
+        }
+    }
+    
+    _solveSudoku(0, 0)
+};
+
+const addNum = (board, set, row, col, num) => {
+    set.add(`r${row}v${num}`)
+    set.add(`c${col}v${num}`)
+    set.add(`s${Math.floor(row / 3) * 3 + Math.floor(col / 3)}v${num}`)
+    board[row][col] = `${num}`
+}
+
+const removeNum = (board, set, row, col, num) => {
+    set.delete(`r${row}v${num}`)
+    set.delete(`c${col}v${num}`)
+    set.delete(`s${Math.floor(row / 3) * 3 + Math.floor(col / 3)}v${num}`)
+    board[row][col] = '.'
+}
+
+const isValid = (set, row, col, num) => {
+    return set.has(`r${row}v${num}`) ||
+           set.has(`c${col}v${num}`) ||
+           set.has(`s${Math.floor(row / 3) * 3 + Math.floor(col / 3)}v${num}`)
+}
+```
