@@ -42720,3 +42720,60 @@ var wordBreak = function(s, wordDict) {
     return dp[s.length]
 };
 ```
+
+## 981. Time Based Key-Value Store
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var TimeMap = function() {
+    this.map = {}
+};
+
+/** 
+ * @param {string} key 
+ * @param {string} value 
+ * @param {number} timestamp
+ * @return {void}
+ */
+TimeMap.prototype.set = function(key, value, timestamp) {
+    if (!this.map[key]) this.map[key] = []
+    this.map[key].push([value, timestamp])
+};
+
+/** 
+ * @param {string} key 
+ * @param {number} timestamp
+ * @return {string}
+ */
+TimeMap.prototype.get = function(key, timestamp) {
+    const entries = this.map[key]
+    const index = binarySearch(entries, timestamp)
+    if (index === -1) return ''
+    return entries[index][0]
+};
+
+/** 
+ * Your TimeMap object will be instantiated and called as such:
+ * var obj = new TimeMap()
+ * obj.set(key,value,timestamp)
+ * var param_2 = obj.get(key,timestamp)
+ */
+
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid][1] <= target) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return left === 0 ? -1 : left - 1
+}
+```
