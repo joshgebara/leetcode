@@ -43006,3 +43006,42 @@ class Trie {
     }
 }
 ```
+
+## 52. N-Queens II
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var totalNQueens = function(n) {
+    const _totalNQueens = (row, placements) => {
+        if (row === n) {
+            count++
+            return
+        }
+                
+        for (let col = 0; col < n; col++) {
+            if (cols.has(col) || diags1.has(row - col) || diags2.has(row + col))
+                continue
+            
+            cols.add(col)
+            diags1.add(row - col)
+            diags2.add(row + col)
+            
+            _totalNQueens(row + 1, placements)
+            
+            cols.delete(col)
+            diags1.delete(row - col)
+            diags2.delete(row + col)
+        }
+    }
+    
+    const cols = new Set()
+    const diags1 = new Set()
+    const diags2 = new Set()
+    
+    let count = 0
+    _totalNQueens(0, [])
+    return count
+};
+```
