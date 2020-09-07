@@ -42844,3 +42844,31 @@ const isValid = (set, row, col, num) => {
            set.has(`s${Math.floor(row / 3) * 3 + Math.floor(col / 3)}v${num}`)
 }
 ```
+
+## 1576. Replace All ?'s to Avoid Consecutive Repeating Characters
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var modifyString = function(s) {
+    const result = s.split('')
+    
+    for (let i = 0; i < result.length; i++) {
+        if (result[i] !== '?') continue
+        
+        const leftNeighbor = result[i - 1]
+        const rightNeighbor = result[i + 1]
+        
+        for (const char of 'abc') {
+            if (leftNeighbor === char || rightNeighbor === char)
+                continue
+            
+            result[i] = char
+            break
+        }
+    }
+    
+    return result.join('')
+};
+```
