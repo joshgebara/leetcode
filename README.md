@@ -43021,24 +43021,24 @@ var totalNQueens = function(n) {
         }
                 
         for (let col = 0; col < n; col++) {
-            if (cols.has(col) || diags1.has(row - col) || diags2.has(row + col))
+            if (cols[col] || diags1[row - col] || diags2[row + col])
                 continue
             
-            cols.add(col)
-            diags1.add(row - col)
-            diags2.add(row + col)
+            cols[col] = true
+            diags1[row - col] = true
+            diags2[row + col] = true
             
             _totalNQueens(row + 1, placements)
             
-            cols.delete(col)
-            diags1.delete(row - col)
-            diags2.delete(row + col)
+            cols[col] = false
+            diags1[row - col] = false
+            diags2[row + col] = false
         }
     }
     
-    const cols = new Set()
-    const diags1 = new Set()
-    const diags2 = new Set()
+    const cols = Array(n).fill(false)
+    const diags1 = Array(2 * n - 1).fill(false)
+    const diags2 = Array(2 * n - 1).fill(false)
     
     let count = 0
     _totalNQueens(0, [])
