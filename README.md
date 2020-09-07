@@ -43013,8 +43013,12 @@ class Trie {
  * @param {number} n
  * @return {number}
  */
+/**
+ * @param {number} n
+ * @return {number}
+ */
 var totalNQueens = function(n) {
-    const _totalNQueens = (row, placements) => {
+    const _totalNQueens = row => {
         if (row === n) {
             count++
             return
@@ -43028,7 +43032,7 @@ var totalNQueens = function(n) {
             diags1[row - col] = true
             diags2[row + col] = true
             
-            _totalNQueens(row + 1, placements)
+            _totalNQueens(row + 1)
             
             cols[col] = false
             diags1[row - col] = false
