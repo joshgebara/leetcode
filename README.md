@@ -8719,19 +8719,33 @@ var fib = function(N, memo = {}) {
     if (N < 2) return N
     if (memo[N]) return memo[N]
     
-    let result = fib(N - 1, memo) + fib(N - 2, memo)
-    memo[N] = result
-    return result
+    memo[N] = fib(N - 1, memo) + fib(N - 2, memo)
+    return memo[N]
 };
 
-// Iterative
+// DP O(n) Space
 var fib = function(N) {
+    const dp = Array(N + 1).fill()
+    dp[0] = 0
+    dp[1] = 1
+    
+    for (let i = 2; i < dp.length; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2]
+    }
+    
+    return dp[N]
+};
+
+// DP O(1) Space
+var fib = function(N) {
+    if (N <= 1) return N
+    
     let fibs = [0, 1]
     
-    for (let i = 0; i < N; i++) {
+    for (let i = 2; i <= N; i++) {
         fibs = [fibs[1], fibs[0] + fibs[1]]
     }
-    return fibs[0]
+    return fibs[1]
 };
 ```
 
@@ -42903,3 +42917,4 @@ var diagonalSum = function(mat) {
     return sum
 };
 ```
+
