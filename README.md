@@ -42872,3 +42872,14 @@ var modifyString = function(s) {
     return result.join('')
 };
 ```
+
+## 1571. Warehouse Manager
+```sql
+# Write your MySQL query statement below
+SELECT name AS warehouse_name, SUM(volume * units) AS volume
+FROM Warehouse
+LEFT JOIN (SELECT product_id, Width * Length * Height AS volume
+           FROM Products) AS t
+USING (product_id)
+GROUP BY name
+```
