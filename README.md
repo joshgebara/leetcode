@@ -43049,3 +43049,45 @@ var totalNQueens = function(n) {
     return count
 };
 ```
+
+## 51. N-Queens
+```javascript
+/**
+ * @param {number} n
+ * @return {string[][]}
+ */
+var solveNQueens = function(n) {
+    const _solveNQueens = (row, curr) => {
+        if (row === n) {
+            result.push(curr.map(r => r.join('')))
+            return
+        }
+                
+        for (let col = 0; col < n; col++) {
+            if (cols[col] || diags1[row - col] || diags2[row + col])
+                continue
+            
+            cols[col] = true
+            diags1[row - col] = true
+            diags2[row + col] = true
+            curr[row][col] = 'Q'
+            
+            _solveNQueens(row + 1, curr)
+            
+            cols[col] = false
+            diags1[row - col] = false
+            diags2[row + col] = false
+            curr[row][col] = '.'
+        }
+    }
+    
+    const cols = Array(n).fill(false)
+    const diags1 = Array(2 * n - 1).fill(false)
+    const diags2 = Array(2 * n - 1).fill(false)
+    
+    const result = []
+    const board = Array(n).fill().map(a => Array(n).fill('.'))
+    _solveNQueens(0, board)
+    return result
+};
+```
