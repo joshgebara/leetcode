@@ -42918,3 +42918,91 @@ var diagonalSum = function(mat) {
 };
 ```
 
+## 212. Word Search II
+```javascript
+/**
+ * @param {character[][]} board
+ * @param {string[]} words
+ * @return {string[]}
+ */
+var findWords = function(board, words) {
+    const result = []
+    const trie = new Trie(words)
+    
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[0].length; col++) {
+            const letter = board[row][col]
+            if (!trie.root.children[letter]) continue
+            dfs(result, board, row, col, trie.root.children[letter])
+        }
+    }
+    
+    return result
+};
+
+const dfs = (result, board, row, col, root) => {
+    const _dfs = (row, col, root, word) => {
+        if (root.isEnd) {
+            result.push(word.join(''))
+            root.isEnd = false
+        }
+        
+        for (const [dRow, dCol] of dirs) {
+            const nRow = dRow + row
+            const nCol = dCol + col
+            
+            if (nRow < 0 || nRow >= board.length || 
+                nCol < 0 || nCol >= board[0].length ||
+                root.children[board[nRow][nCol]] === undefined || 
+                board[nRow][nCol] === '1') {
+                continue
+            }
+            
+            const char = board[nRow][nCol]            
+            word.push(char)
+            board[nRow][nCol] = '1'
+            
+            _dfs(nRow, nCol, root.children[char], word)
+            
+            board[nRow][nCol] = char
+            word.pop()
+        }
+    }
+    
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const char = board[row][col]
+    board[row][col] = '1'
+    _dfs(row, col, root, [char])
+    board[row][col] = char
+}
+
+class TrieNode {
+    constructor(key = '') {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
+
+class Trie {
+    constructor(words) {
+        this.root = new TrieNode()
+        
+        for (const word of words) {
+            this.insert(word)
+        }
+    }
+    
+    insert(word) {
+        let curr = this.root
+        for (const char of word) {
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            curr = curr.children[char]
+        }
+        
+        curr.isEnd = true
+    }
+}
+```
