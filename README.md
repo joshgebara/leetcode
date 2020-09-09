@@ -10806,11 +10806,24 @@ var minDiffInBST = function(root) {
 
 ## 617. Merge Two Binary Trees
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} t1
+ * @param {TreeNode} t2
+ * @return {TreeNode}
+ */
 var mergeTrees = function(t1, t2) {
     if (!t1) return t2
     if (!t2) return t1
-    
-    t1.val = t1.val + t2.val
+
+    t1.val += t2.val
     t1.left = mergeTrees(t1.left, t2.left)
     t1.right = mergeTrees(t1.right, t2.right)
     return t1
@@ -10830,27 +10843,30 @@ var mergeTrees = function(t1, t2) {
  * @return {TreeNode}
  */
 var mergeTrees = function(t1, t2) {
-    const dfs = (t1, t2) => {
-        let node = null
+    if (!t1) return t2
+    
+    const stack = [[t1, t2]]
+    
+    while (stack.length) {
+        const [node1, node2] = stack.pop()
+        if (!node1 || !node2) continue
         
-        if (t1 && !t2) {
-            node = new TreeNode(t1.val)
-            node.left = dfs(t1.left, null)
-            node.right = dfs(t1.right, null)
-        } else if (!t1 && t2) {
-            node = new TreeNode(t2.val)
-            node.left = dfs(null, t2.left)
-            node.right = dfs(null, t2.right)
-        } else if (t1 && t2) {
-            node = new TreeNode(t1.val + t2.val)
-            node.left = dfs(t1.left, t2.left)
-            node.right = dfs(t1.right, t2.right)
+        node1.val += node2.val
+        
+        if (!node1.left) {
+            node1.left = node2.left
+        } else {
+            stack.push([node1.left, node2.left])
         }
         
-        return node
+        if (!node1.right) {
+            node1.right = node2.right
+        } else {
+            stack.push([node1.right, node2.right])
+        }
     }
     
-    return dfs(t1, t2)
+    return t1
 };
 ```
 
@@ -43091,3 +43107,4 @@ var solveNQueens = function(n) {
     return result
 };
 ```
+
