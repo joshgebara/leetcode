@@ -23261,6 +23261,41 @@ var deepestLeavesSum = function(root) {
     dfs(root)
     return levels[levels.length - 1].reduce((r, e) => r + e, 0)
 };
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var deepestLeavesSum = function(root) {
+    const dfs = (node, level) => {
+        if (!node) return
+        
+        if (!node.left && !node.right) {
+            if (maxLevel === level) {
+                sum += node.val
+            } else if (maxLevel < level) {
+                sum = node.val
+                maxLevel = level
+            }
+        }
+        
+        dfs(node.left, level + 1)
+        dfs(node.right, level + 1)
+    }
+    
+    let maxLevel = 0
+    let sum = 0
+    dfs(root, 0)
+    return sum
+};
 ```
 
 ## 1315. Sum of Nodes with Even-Valued Grandparent
