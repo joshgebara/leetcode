@@ -29670,20 +29670,22 @@ var groupThePeople = function(groupSizes) {
 };
 
 // One Pass
+/**
+ * @param {number[]} groupSizes
+ * @return {number[][]}
+ */
 var groupThePeople = function(groupSizes) {
-    const buckets = {}
     const result = []
+    const map = {}
     
-    for (const [id, groupSize] of groupSizes.entries()) {
-        if (buckets[groupSize]) {
-            buckets[groupSize].push(id)
-        } else {
-            buckets[groupSize] = [id]
-        }
+    for (let i = 0; i < groupSizes.length; i++) {
+        const size = groupSizes[i]
+        if (!map[size]) map[size] = []
+        map[size].push(i)
         
-        if (buckets[groupSize].length === groupSize) {
-            result.push(buckets[groupSize])
-            buckets[groupSize] = []
+        if (map[size].length === size) {
+            result.push(map[size])
+            map[size] = []
         }
     }
     
