@@ -34826,7 +34826,7 @@ var verticalOrder = function(root) {
 
 var getTargetCopy = function(original, cloned, target) {
     const dfs = (n1, n2) => {
-        if (!n1 || !2) return 
+        if (!n1 || !n2) return 
         if (n1 === target) return n2
         return dfs(n1.left, n2.left) || dfs(n1.right, n2.right)
     }
