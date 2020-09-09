@@ -9838,6 +9838,42 @@ function getImportance(employees, id) {
 
     return sum;
 }
+
+/**
+ * Definition for Employee.
+ * function Employee(id, importance, subordinates) {
+ *     this.id = id;
+ *     this.importance = importance;
+ *     this.subordinates = subordinates;
+ * }
+ */
+
+/**
+ * @param {Employee[]} employees
+ * @param {number} id
+ * @return {number}
+ */
+var GetImportance = function(employees, id) {
+    const tree = {}
+    
+    for (const {id, importance, subordinates} of employees) {
+        tree[id] = {importance, subordinates}
+    }
+    
+    return dfs(tree, id)
+};
+
+const dfs = (tree, id) => {
+    if (tree[id] === undefined)
+        return 0
+    
+    let sum = tree[id].importance
+    for (const subordinate of tree[id].subordinates) {
+        sum += dfs(tree, subordinate)
+    }
+    
+    return sum
+}
 ```
 
 ## 872. Leaf-Similar Trees
