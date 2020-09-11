@@ -43218,3 +43218,59 @@ var solveNQueens = function(n) {
 };
 ```
 
+## 1395. Count Number of Teams
+```javascript
+// O(n^3)
+/**
+ * @param {number[]} rating
+ * @return {number}
+ */
+var numTeams = function(rating) {
+    let count = 0
+    
+    for (let i = 0; i < rating.length; i++) {
+        for (let j = i + 1; j < rating.length; j++) {
+            for (let k = j + 1; k < rating.length; k++) {
+                if (rating[i] < rating[j] && rating[j] < rating[k] ||
+                    rating[i] > rating[j] && rating[j] > rating[k]) {
+                    count++
+                }
+            }
+        }
+    }
+    
+    return count
+};
+
+// O(n^2)
+/**
+ * @param {number[]} rating
+ * @return {number}
+ */
+var numTeams = function(rating) {
+    let count = 0
+    
+    for (let j = 1; j < rating.length - 1; j++) {
+        let leftSmaller = 0
+        let leftLarger = 0
+        let rightSmaller = 0
+        let rightLarger = 0
+        
+        for (let i = 0; i < j; i++) {
+            leftSmaller += rating[i] < rating[j]
+            leftLarger += rating[i] > rating[j]
+        }
+        
+        for (let k = j + 1; k < rating.length; k++) {
+            rightSmaller += rating[k] < rating[j]
+            rightLarger += rating[k] > rating[j]
+        }
+        
+        count += leftSmaller * rightLarger + leftLarger * rightSmaller
+    }
+    
+    return count
+};
+
+
+```
