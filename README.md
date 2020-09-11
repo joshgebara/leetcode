@@ -43271,6 +43271,4 @@ var numTeams = function(rating) {
     
     return count
 };
-
-
 ```
