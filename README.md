@@ -43272,3 +43272,42 @@ var numTeams = function(rating) {
     return count
 };
 ```
+
+## 1289. Minimum Falling Path Sum II
+```javascript
+/**
+ * @param {number[][]} arr
+ * @return {number}
+ */
+var minFallingPathSum = function(arr) {
+    let prevRow = arr[0]
+    
+    for (let i = 1; i < arr.length; i++) {
+        const currRow = arr[i].slice()
+        
+        let min1Col = -1
+        let min2Col = -1
+        
+        for (let j = 0; j < arr.length; j++) {
+            if (min1Col === -1 || prevRow[min1Col] > prevRow[j]) {
+                min2Col = min1Col
+                min1Col = j
+            } else if (min2Col === -1 || prevRow[min2Col] > prevRow[j]) {
+                min2Col = j
+            }
+        }
+        
+        for (let j = 0; j < arr.length; j++) {
+            if (min1Col === j) {
+                currRow[j] += prevRow[min2Col]
+            } else {
+                currRow[j] += prevRow[min1Col]
+            }
+        }
+        
+        prevRow = currRow
+    }
+    
+    return Math.min(...prevRow)
+};
+```
