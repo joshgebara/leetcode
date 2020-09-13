@@ -43311,3 +43311,32 @@ var minFallingPathSum = function(arr) {
     return Math.min(...prevRow)
 };
 ```
+
+## 1582. Special Positions in a Binary Matrix
+```javascript
+/**
+ * @param {number[][]} mat
+ * @return {number}
+ */
+var numSpecial = function(mat) {
+    const matRow = Array(mat.length).fill(0)
+    const matCol = Array(mat[0].length).fill(0)
+    
+    for (let row = 0; row < mat.length; row++) {
+        for (let col = 0; col < mat[0].length; col++) {
+            if (!mat[row][col]) continue
+            matRow[row]++
+            matCol[col]++
+        }
+    }
+    
+    let count = 0
+    for (let row = 0; row < mat.length; row++) {
+        for (let col = 0; col < mat[0].length; col++) {
+            count += mat[row][col] && matRow[row] === 1 && matCol[col] === 1
+        }
+    }
+    
+    return count
+};
+```
