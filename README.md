@@ -43340,3 +43340,20 @@ var numSpecial = function(mat) {
     return count
 };
 ```
+
+## 1581. Customer Who Visited but Did Not Make Any Transactions
+```sql
+-- Sub-query
+SELECT customer_id, COUNT(*) AS count_no_trans
+FROM Visits
+WHERE visit_id NOT IN (SELECT visit_id FROM Transactions)
+GROUP BY customer_id
+
+-- Left JOIN
+SELECT customer_id, COUNT(*) AS count_no_trans
+FROM Visits AS v
+LEFT JOIN Transactions AS t
+USING(visit_id)
+WHERE transaction_id IS NULL
+GROUP BY customer_id
+```
