@@ -43523,3 +43523,35 @@ const bucketSort = arr => {
     return result
 }
 ```
+
+## 72. Edit Distance
+```javascript
+// Top Down DP
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var minDistance = function(word1, word2) {
+    const _minDistance = (i, j) => {
+        if (i === word1.length) {
+            return word2.length - j
+        }
+        
+        if (j === word2.length) {
+            return word1.length - i
+        }
+        
+        if (memo[i][j] !== undefined)
+            return memo[i][j]
+        
+        memo[i][j] = Math.min(1 + _minDistance(i + 1, j),
+                              1 + _minDistance(i, j + 1), 
+                              (word1[i] === word2[j] ? 0 : 1) + _minDistance(i + 1, j + 1))
+        return memo[i][j]
+    }
+    
+    const memo = Array(word1.length).fill().map(a => Array(word2.length).fill())
+    return _minDistance(0, 0)
+};
+```
