@@ -33456,13 +33456,13 @@ ORDER BY travelled_distance DESC, name
 ## 1327. List the Products Ordered in a Period
 ```sql
 # Write your MySQL query statement below
-SELECT product_name, SUM(unit) as unit
-FROM Orders
-LEFT JOIN Products
+SELECT product_name, SUM(unit) AS unit
+FROM Products
+JOIN Orders
 USING(product_id)
 WHERE MONTH(order_date) = 2 AND YEAR(order_date) = 2020
-GROUP BY product_name
-HAVING unit >= 100
+GROUP BY (product_id)
+HAVING SUM(unit) >= 100
 ```
 
 ## 1322. Ads Performance
@@ -43356,4 +43356,47 @@ LEFT JOIN Transactions AS t
 USING(visit_id)
 WHERE transaction_id IS NULL
 GROUP BY customer_id
+```
+
+## 10. Regular Expression Matching
+```javascript
+// Top Down DP
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {boolean}
+ */
+var isMatch = function(s, p) {
+    const _isMatch = (i, j) => {
+        if (i < -1 || j < -1) 
+            return false
+        
+        if (i === -1 && j === -1)
+            return true
+        
+        if (j === -1)
+            return false
+        
+        if (memo[i + 1][j + 1])
+            return memo[i + 1][j + 1]
+        
+        if (s[i] === p[j] || p[j] === '.') {
+            memo[i + 1][j + 1] = _isMatch(i - 1, j - 1)
+        } else if (p[j] === '*') {
+            memo[i + 1][j + 1] = _isMatch(i, j - 2)
+            if (p[j - 1] === s[i] || p[j - 1] === '.') {
+                memo[i + 1][j + 1] = memo[i + 1][j + 1] || _isMatch(i - 1, j)
+            }
+        }
+        
+        return memo[i + 1][j + 1]
+    }
+    
+    const memo = Array(s.length + 1).fill()
+                    .map(a => Array(p.length + 1).fill(false))
+    return _isMatch(s.length - 1, p.length - 1)
+};
+
+// Bottom Up DP
+
 ```
