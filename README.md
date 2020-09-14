@@ -8751,13 +8751,22 @@ var fib = function(N) {
 
 ## 867. Transpose Matrix
 ```javascript
+/**
+ * @param {number[][]} A
+ * @return {number[][]}
+ */
 var transpose = function(A) {
-    const matrix = Array(A[0].length).fill(null).map(() => [])
-    for (let column = 0; column < A[0].length; column++) {
-        for (let row = 0; row < A.length; row++) {
-            matrix[column].push(A[row][column])
+    const rowLen = A.length
+    const colLen = A[0].length
+    
+    const matrix = Array(colLen).fill().map(a => Array(rowLen).fill())
+    
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            matrix[col][row] = A[row][col]
         }
     }
+    
     return matrix
 };
 ```
