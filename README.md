@@ -43409,3 +43409,93 @@ var isMatch = function(s, p) {
 // Bottom Up DP
 
 ```
+
+## 1385. Find the Distance Value Between Two Arrays
+```javascript
+/**
+ * @param {number[]} arr1
+ * @param {number[]} arr2
+ * @param {number} d
+ * @return {number}
+ */
+var findTheDistanceValue = function(arr1, arr2, d) {
+    let count = 0
+    arr2.sort((a, b) => a - b)
+    
+    for (const num of arr1) {
+        const closest = binarySearch(arr2, num)
+        count += Math.abs(num - closest) > d
+    }
+    
+    return count
+};
+
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (right - left > 1) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid] < target) {
+            left = mid
+        } else {
+            right = mid
+        }
+    }
+    
+    const leftDiff = Math.abs(arr[left] - target)
+    const rightDiff = Math.abs(arr[right] - target)
+    return leftDiff < rightDiff ? arr[left] : arr[right]
+}
+
+// Linear
+/**
+ * @param {number[]} arr1
+ * @param {number[]} arr2
+ * @param {number} d
+ * @return {number}
+ */
+var findTheDistanceValue = function(arr1, arr2, d) {
+    const sortedArr1 = bucketSort(arr1)
+    const sortedArr2 = bucketSort(arr2)
+    
+    let count = 0
+    
+    let p = 0
+    let q = 0
+    while (p < sortedArr1.length && q < sortedArr2.length) {
+        const diff = Math.abs(sortedArr1[p] - sortedArr2[q])
+        
+        if (diff > d) {
+            if (sortedArr1[p] > sortedArr2[q]) {
+                q++
+            } else {
+                p++
+                count++
+            }
+        } else {
+            p++
+        }
+    }
+    
+    count += sortedArr1.length - p
+    return count
+};
+
+const bucketSort = arr => {
+    const buckets = Array(2001).fill(0)
+    for (const num of arr) {
+        buckets[num + 1000]++
+    }
+    
+    const result = []
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
+            result.push(i - 1000)
+        }
+    }
+    
+    return result
+}
+```
