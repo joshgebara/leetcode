@@ -43554,4 +43554,38 @@ var minDistance = function(word1, word2) {
     const memo = Array(word1.length).fill().map(a => Array(word2.length).fill())
     return _minDistance(0, 0)
 };
+
+// Bottom Up DP
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var minDistance = function(word1, word2) {
+    const dp = Array(word1.length + 1).fill().map(a => Array(word2.length + 1).fill(0))
+    dp[0][0] = 0
+    
+    for (let i = 1; i <= word1.length; i++) {
+        dp[i][0] = i
+    }
+    
+    for (let i = 1; i <= word2.length; i++) {
+        dp[0][i] = i
+    }
+    
+    for (let i = 1; i <= word1.length; i++) {
+        for (let j = 1; j <= word2.length; j++) {
+            dp[i][j] = Math.min(1 + dp[i][j - 1],
+                                1 + dp[i - 1][j],
+                                (word1[i - 1] === word2[j - 1] ? 0 : 1) + dp[i - 1][j - 1])
+        }
+    }
+    
+    return dp[word1.length][word2.length]
+};
+```
+
+## 660. Remove 9
+```javascript
+
 ```
