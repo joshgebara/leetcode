@@ -38452,6 +38452,28 @@ var fizzBuzz = function(n) {
     
     return result
 };
+
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var fizzBuzz = function(n) {
+    const result = []
+    const map = { 15: 'FizzBuzz', 3: 'Fizz', 5: 'Buzz' }
+    
+    for (let i = 1; i <= n; i++) {
+        let curr = ''
+        for (const [key, val] of Object.entries(map)) {
+            if (i % +key === 0) {
+                curr = val
+            }
+        }
+        
+        curr === '' ? result.push(`${i}`) : result.push(curr)
+    }
+    
+    return result
+};
 ```
 
 ## 265. Paint House II
