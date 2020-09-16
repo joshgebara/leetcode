@@ -19688,6 +19688,35 @@ const dfs = (curr, graph, visited) => {
     visited.add(curr)
     return 1 + dfs(curr - 1, graph, visited) + dfs(curr + 1, graph, visited)
 }
+
+// Top Down DP
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestConsecutive = function(nums) {
+    let max = 0
+    const map = {}
+    for (const num of nums) {
+        map[num] = 1
+    }
+    
+    for (const num of nums) {
+        max = Math.max(max, dfs(map, num))
+    }
+    
+    return max
+};
+
+const dfs = (map, num) => {
+    if (map[num] === undefined)
+        return 0
+    
+    if (map[num] > 1) return map[num]
+    
+    map[num] = dfs(map, num + 1) + 1
+    return map[num]
+}
 ```
 
 ## 256. Paint House
