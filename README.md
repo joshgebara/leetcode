@@ -19717,6 +19717,89 @@ const dfs = (map, num) => {
     map[num] = dfs(map, num + 1) + 1
     return map[num]
 }
+
+// Union Find
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestConsecutive = function(nums) {
+    if (!nums.length) return 0
+    
+    const unionFind = new UnionFind(nums)
+    
+    for (const num of nums) {
+        unionFind.union(num, num + 1)
+    }
+    
+    return unionFind.maxComponentSize
+};
+
+class UnionFind {
+    constructor(nums) {
+        this.map = {}
+        let i = 0
+        for (const num of nums) {
+            if (this.map[num] === undefined) {
+                this.map[num] = i
+                i++
+            }
+        }
+        
+        this.sizes = Array(nums.length).fill(1)
+        this.parent = Array(nums.length).fill()
+        for (let i = 0; i < nums.length; i++) {
+            this.parent[i] = i
+        }
+        
+        this.numOfComponents = nums.length
+        this.maxComponentSize = 1
+    }
+    
+    find(vertex) {
+        let p = this.map[vertex]
+        if (p === undefined)
+            return null
+        
+        let root = p
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (root !== p) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(vertex1, vertex2) {
+        if (this.map[vertex1] === undefined || this.map[vertex2] === undefined) {
+            return
+        }
+        
+        const parentP = this.find(vertex1)
+        const parentQ = this.find(vertex2)
+        
+        if (parentP === parentQ) {
+            return
+        }
+        
+        if (this.sizes[parentP] < this.sizes[parentQ]) {
+            this.sizes[parentQ] += this.sizes[parentP]
+            this.parent[parentP] = parentQ
+            this.maxComponentSize = Math.max(this.maxComponentSize, this.sizes[parentQ])
+        } else {
+            this.sizes[parentP] += this.sizes[parentQ]
+            this.parent[parentQ] = parentP
+            this.maxComponentSize = Math.max(this.maxComponentSize, this.sizes[parentP])
+        }
+        
+        this.numOfComponents--
+    }
+}
 ```
 
 ## 256. Paint House
