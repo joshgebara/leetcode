@@ -43799,3 +43799,95 @@ class UnionFind {
     }
 }
 ```
+
+## 778. Swim in Rising Water
+```javascript
+// Union Find Gird Percolation - Time: O(n^2) Space: O(n^2)
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var swimInWater = function(grid) {
+    const n = grid.length
+    const map = Array(n).fill()
+    const unionFind = new UnionFind(n * n)
+    const dirs = [[1, 0], [-1, 0], [0, -1], [0, 1]]
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            map[grid[row][col]] = [row, col]
+        }
+    }
+    
+    for (let t = 0; t < n * n; t++) {
+        const [row, col] = map[t]
+        for (const [deltaRow, deltaCol] of dirs) {
+            const neighborRow = deltaRow + row
+            const neighborCol = deltaCol + col
+            
+            if (!isValid(grid, neighborRow, neighborCol, n, t)) continue
+            
+            const curr = row * n + col
+            const neighbor = neighborRow * n + neighborCol
+            unionFind.union(curr, neighbor)
+        }
+        
+        const start = 0
+        const end = n * n - 1
+        if (unionFind.connected(start, end))
+            return t
+    }
+    
+    return n - 1
+};
+
+const isValid = (grid, row, col, n, time) => {
+    return row >= 0 && row < n && col >= 0 && col < n && grid[row][col] <= time
+}
+
+class UnionFind {
+    constructor(n) {
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        
+        for (let i = 0; i < n; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    connected(a, b) {
+        return this.find(a) === this.find(b) 
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB)
+            return
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+    }
+    
+    find(a) {
+        let root = this.parents[a]
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (root !== a) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+}
+```
