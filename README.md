@@ -43723,3 +43723,79 @@ var minDistance = function(word1, word2) {
 ```javascript
 
 ```
+
+## 839. Similar String Groups
+```javascript
+/**
+ * @param {string[]} A
+ * @return {number}
+ */
+var numSimilarGroups = function(A) {
+    const unionFind = new UnionFind(A.length)
+    
+    for (let i = 0; i < A.length; i++) {
+        for (let j = i + 1; j < A.length; j++) {
+            if (!isSimilar(A[i], A[j])) continue
+            unionFind.union(i, j)
+            
+            if (unionFind.numOfComponents === 1)
+                return 1
+        }
+    }
+    
+    return unionFind.numOfComponents
+};
+
+const isSimilar = (word1, word2) => {
+    let diff = 0
+    for (let i = 0; i < word1.length && diff <= 2; i++) {
+        diff += word1[i] !== word2[i]
+    }
+    return diff <= 2
+}
+
+class UnionFind {
+    constructor(n) {
+        this.sizes = Array(n).fill(1)
+        this.parent = Array(n).fill()
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i
+        }
+        
+        this.numOfComponents = n
+    }
+    
+    find(a) {
+        let root = this.parent[a]
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parent[a]
+            this.parent[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB)
+            return
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parent[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parent[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
