@@ -18614,26 +18614,25 @@ var wallsAndGates = function(rooms) {
 
 ## 3. Longest Substring Without Repeating Characters
 ```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
 var lengthOfLongestSubstring = function(s) {
-    if (s.length <= 1) return s.length
-    
     const seen = new Set()
-    let maxLength = 0
-
-    let j = 0
-    for (let i = 0; i < s.length; i++) {
-        if (seen.has(s[i])) {
-            while (s[j] !== s[i])
-                seen.delete(s[j++])
-                
-            seen.delete(s[j++])
+    let max = 0
+    let start = 0
+    for (let end = 0; end < s.length; end++) {
+        while (seen.has(s[end])) {
+            seen.delete(s[start])
+            start++
         }
         
-        seen.add(s[i])
-        maxLength = Math.max(maxLength, i - j)
+        seen.add(s[end])
+        max = Math.max(max, end - start + 1)
     }
     
-    return maxLength + 1
+    return max
 };
 ```
 
