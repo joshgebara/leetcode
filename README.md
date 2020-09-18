@@ -26964,19 +26964,27 @@ var shortestPathBinaryMatrix = function(grid) {
 
 ## 127. Word Ladder
 ```javascript
-// BFS
+// BFS Dist Outside Of Queue
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {number}
+ */
 var ladderLength = function(beginWord, endWord, wordList) {
     wordList.push(beginWord)
     const wordSet = new Set(wordList)
-    const queue = [[beginWord, 1]]
+    const queue = [beginWord]
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    let dist = 1
     
     while (queue.length) {
         const size = queue.length
         for (let i = 0; i < size; i++) {
-            const [word, dist] = queue.shift()
+            const word = queue.shift()
             
-            if (word === endWord) return dist
+            if (word === endWord) 
+                return dist
             
             for (let j = 0; j < word.length; j++) {
                 for (const letter of alphabet) {
@@ -26984,9 +26992,45 @@ var ladderLength = function(beginWord, endWord, wordList) {
                     const nextWord = word.slice(0, j) + letter + word.slice(j + 1)
                     
                     if (wordSet.has(nextWord) && wordSet.has(nextWord)) {
-                        queue.push([nextWord, dist + 1])
+                        queue.push(nextWord)
                         wordSet.delete(nextWord)
                     }
+                }
+            }
+        }
+        
+        dist++
+    }
+    
+    return 0
+};
+
+// BFS Passing Dist in Queue
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {number}
+ */
+var ladderLength = function(beginWord, endWord, wordList) {
+    wordList.push(beginWord)
+    const wordSet = new Set(wordList)
+    const queue = [[beginWord, 1]]
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    
+    while (queue.length) {
+        const [word, dist] = queue.shift()
+
+        if (word === endWord) return dist
+
+        for (let j = 0; j < word.length; j++) {
+            for (const letter of alphabet) {
+                if (word[j] === letter) continue
+                const nextWord = word.slice(0, j) + letter + word.slice(j + 1)
+
+                if (wordSet.has(nextWord) && wordSet.has(nextWord)) {
+                    queue.push([nextWord, dist + 1])
+                    wordSet.delete(nextWord)
                 }
             }
         }
