@@ -22106,27 +22106,32 @@ WHERE (grouping) IN
 
 ## 22. Generate Parentheses
 ```javascript
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
 var generateParenthesis = function(n) {
-    const generateParenthesis = (curr, opened, closed) => {
-        if (closed > opened || opened > n)
-            return
+    const _generateParenthesis = (i, curr, balance) => {
+        if (balance > n || balance < 0) return
         
-        if (closed === n) {
-            result.push(curr.join(''))
+        if (i === 2 * n) {
+            if (balance == 0) {
+                result.push(curr.join(''))
+            }
             return
         }
         
         curr.push('(')
-        generateParenthesis(curr, opened + 1, closed)
-        curr.pop()            
+        _generateParenthesis(i + 1, curr, balance + 1)
+        curr.pop()
         
         curr.push(')')
-        generateParenthesis(curr, opened, closed + 1)
+        _generateParenthesis(i + 1, curr, balance - 1)
         curr.pop()
     }
     
     const result = []
-    generateParenthesis([], 0, 0)
+    _generateParenthesis(0, [], 0)
     return result
 };
 ```
