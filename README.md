@@ -18574,28 +18574,42 @@ var dailyTemperatures = function(T) {
 
 ## 286. Walls and Gates
 ```javascript
+/**
+ * @param {number[][]} rooms
+ * @return {void} Do not return anything, modify rooms in-place instead.
+ */
 var wallsAndGates = function(rooms) {
+    const queue = []
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    const EMPTY = 2147483647
+    
     for (let row = 0; row < rooms.length; row++) {
         for (let col = 0; col < rooms[0].length; col++) {
             if (rooms[row][col] === 0) {
-                dfs(rooms, row, col)
+                queue.push([row, col, 0])
             }
         }
     }
-    return rooms
+    
+    while (queue.length) {
+        const [row, col, dist] = queue.shift()
+        
+        if (rooms[row][col] === EMPTY) {
+            rooms[row][col] = dist
+        }
+        
+        for (const [deltaRow, deltaCol] of dirs) {
+            const newRow = deltaRow + row
+            const newCol = deltaCol + col
+            
+            if (newRow < 0 || newRow >= rooms.length || 
+                newCol < 0 || newCol >= rooms[0].length ||
+                rooms[newRow][newCol] !== EMPTY) continue
+            
+            queue.push([newRow, newCol, dist + 1])
+        }
+    }
 };
-
-const dfs = (rooms, row, col, dist = 0) => {
-    if (row < 0 || row >= rooms.length || col < 0 || col >= rooms[0].length || 
-        rooms[row][col] === -1 || rooms[row][col] < dist) return
-
-    rooms[row][col] = dist
-
-    dfs(rooms, row - 1, col, dist + 1)
-    dfs(rooms, row + 1, col, dist + 1)
-    dfs(rooms, row, col - 1, dist + 1)
-    dfs(rooms, row, col + 1, dist + 1)
-}
 ```
 
 ## 3. Longest Substring Without Repeating Characters
