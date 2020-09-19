@@ -43953,3 +43953,94 @@ class UnionFind {
     }
 }
 ```
+
+## 924. Minimize Malware Spread
+```javascript
+/**
+ * @param {number[][]} graph
+ * @param {number[]} initial
+ * @return {number}
+ */
+var minMalwareSpread = function(graph, initial) {
+    const n = graph.length
+    const unionFind = new UnionFind(n)
+    const infected = Array(n).fill(0)
+    
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < n; col++) {
+            if (graph[row][col] !== 1) continue
+            unionFind.union(row, col)
+        }
+    }
+    
+    for (const node of initial) {
+        infected[unionFind.find(node)]++
+    }
+    
+    let maxSize = 0
+    let i = Math.min(...initial)
+    
+    for (const node of initial) {
+        if (infected[unionFind.find(node)] !== 1) continue
+        const size = unionFind.size(node)
+        if (size > maxSize) {
+            maxSize = size
+            i = node
+        } else if (size === maxSize && i > node) {
+            i = node
+        }
+    }
+    
+    return i
+};
+
+class UnionFind {
+    constructor(n) {
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        for (let i = 0; i < n; i++) {
+            this.parents[i] = i
+        }
+        
+        this.numOfComponents = n
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) {
+            return
+        }
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+    
+    find(a) {
+        let root = this.parents[a]
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    size(a) {
+        return this.sizes[this.find(a)]
+    }
+}
+```
