@@ -44077,3 +44077,29 @@ var maxSumRangeQuery = function(nums, requests) {
     return sum
 };
 ```
+
+## 1109. Corporate Flight Bookings
+```javascript
+/**
+ * @param {number[][]} bookings
+ * @param {number} n
+ * @return {number[]}
+ */
+var corpFlightBookings = function(bookings, n) {
+    const seats = Array(n).fill(0)
+    
+    for (let [start, end, count] of bookings) {
+        start = start - 1
+        end = end - 1
+        
+        seats[start] += count
+        if (end + 1 < n) seats[end + 1] -= count
+    }
+    
+    for (let i = 1; i < seats.length; i++) {
+        seats[i] += seats[i - 1]
+    }
+    
+    return seats
+};
+```
