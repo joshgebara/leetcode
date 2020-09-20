@@ -44114,3 +44114,51 @@ USING(account)
 GROUP BY account
 HAVING SUM(amount) > 10000
 ```
+
+## 1594. Maximum Non Negative Product in a Matrix
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var maxProductPath = function(grid) {
+    const MOD = 10 ** 9 + 7
+    const m = grid.length
+    const n = grid[0].length
+    
+    grid[0][0] = [grid[0][0], grid[0][0]]
+    
+    for (let row = 1; row < m; row++) {
+        const num = grid[row][0]
+        const max = Math.max(num * grid[row - 1][0][0], num * grid[row - 1][0][1])
+        const min = Math.min(num * grid[row - 1][0][0], num * grid[row - 1][0][1])
+        grid[row][0] = [max, min]
+    }
+    
+    for (let col = 1; col < n; col++) {
+        const num = grid[0][col]
+        const max = Math.max(num * grid[0][col - 1][0], num * grid[0][col - 1][1])
+        const min = Math.min(num * grid[0][col - 1][0], num * grid[0][col - 1][1])
+        grid[0][col] = [max, min]
+    }
+    
+    for (let row = 1; row < m; row++) {
+        for (let col = 1; col < n; col++) {
+            const num = grid[row][col]
+            const max = Math.max(num * grid[row - 1][col][0], 
+                                 num * grid[row - 1][col][1],
+                                 num * grid[row][col - 1][0],
+                                 num * grid[row][col - 1][1])
+            
+            const min = Math.min(num * grid[row - 1][col][0], 
+                                 num * grid[row - 1][col][1],
+                                 num * grid[row][col - 1][0],
+                                 num * grid[row][col - 1][1])
+            grid[row][col] = [max, min]
+        }
+    }
+    
+    const max = grid[m - 1][n - 1][0] % MOD
+    return max >= 0 ? max : -1
+};
+```
