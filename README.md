@@ -44044,3 +44044,36 @@ class UnionFind {
     }
 }
 ```
+
+## 1589. Maximum Sum Obtained of Any Permutation
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number[][]} requests
+ * @return {number}
+ */
+var maxSumRangeQuery = function(nums, requests) {
+    const MOD = 10 ** 9 + 7
+    const counts = Array(nums.length).fill(0)
+    
+    for (const [start, end] of requests) {
+        counts[start]++
+        if (end + 1 < counts.length) counts[end + 1]--
+    }
+    
+    for (let i = 1; i < nums.length; i++) {
+        counts[i] += counts[i - 1]
+    }
+    
+    nums.sort((a, b) => b - a)
+    counts.sort((a, b) => b - a)
+    
+    let sum = 0
+    for (let i = 0; i < nums.length; i++) {
+        sum += nums[i] * counts[i]
+        sum %= MOD
+    }
+    
+    return sum
+};
+```
