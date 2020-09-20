@@ -44103,3 +44103,14 @@ var corpFlightBookings = function(bookings, n) {
     return seats
 };
 ```
+
+## 1587. Bank Account Summary II
+```sql
+# Write your MySQL query statement below
+SELECT name, SUM(amount) as balance
+FROM Users
+JOIN Transactions
+USING(account)
+GROUP BY account
+HAVING SUM(amount) > 10000
+```
