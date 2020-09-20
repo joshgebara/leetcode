@@ -44162,3 +44162,32 @@ var maxProductPath = function(grid) {
     return max >= 0 ? max : -1
 };
 ```
+
+## 1593. Split a String Into the Max Number of Unique Substrings
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maxUniqueSplit = function(s) {
+    const _maxUniqueSplit = (i, count) => {
+        if (i === s.length) {
+            max = Math.max(max, count)
+            return
+        }
+        
+        for (let index = i + 1; index <= s.length; index++) {
+            const word = s.slice(i, index)
+            if (seen.has(word)) continue
+            seen.add(word)
+            _maxUniqueSplit(index, count + 1)
+            seen.delete(word)
+        }
+    }
+    
+    let max = 0
+    const seen = new Set()
+    _maxUniqueSplit(0, 0)
+    return max
+};
+```
