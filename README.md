@@ -33507,9 +33507,6 @@ class Node {
  * @return {boolean}
  */
 var validWordSquare = function(words) {
-    let col = 0
-    let row = 0
-    
     for (let i = 0; i < words.length; i++) {
         for (let j = 0; j < words[i].length; j++) {
             if (j >= words.length)
@@ -44302,3 +44299,4 @@ var reorderSpaces = function(text) {
     return result.join('')
 };
 ```
+
