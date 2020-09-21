@@ -44259,3 +44259,46 @@ const middleJustify = (words, diff, i, j) => {
     return line.join('')
 }
 ```
+
+## 1592. Rearrange Spaces Between Words
+```javascript
+/**
+ * @param {string} text
+ * @return {string}
+ */
+var reorderSpaces = function(text) {
+    const words = []
+    let currWord = []
+    let spaces = 0
+    for (let i = 0; i < text.length; i++) {
+        if (text[i] === ' ') {
+            spaces++
+            
+            if (currWord.length) {
+                words.push(currWord.join(''))
+                currWord = []    
+            }
+            
+            continue
+        }
+        
+        currWord.push(text[i])
+    }
+    
+    if (currWord.length) {
+        words.push(currWord.join(''))
+    }
+    
+    const result = [words[0]]
+    const spacesBetween = words.length <= 1 ? 0 : Math.floor(spaces / (words.length - 1))
+    const spacesEnd = words.length <= 1 ? spaces : spaces % (words.length - 1)
+    
+    for (let i = 1; i < words.length; i++) {
+        result.push(' '.repeat(spacesBetween))
+        result.push(words[i])
+    }
+    
+    result.push(' '.repeat(spacesEnd))
+    return result.join('')
+};
+```
