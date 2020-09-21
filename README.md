@@ -44191,3 +44191,71 @@ var maxUniqueSplit = function(s) {
     return max
 };
 ```
+
+## 68. Text Justification
+```javascript
+/**
+ * @param {string[]} words
+ * @param {number} maxWidth
+ * @return {string[]}
+ */
+var fullJustify = function(words, maxWidth) {
+    const result = []
+    
+    let i = 0
+    while (i < words.length) {
+        let j = i + 1
+        let lineLength = words[i].length
+        
+        while (j < words.length && lineLength + words[j].length + j - i - 1 < maxWidth) {
+            lineLength += words[j].length
+            j++
+        }
+        
+        const diff = maxWidth - lineLength
+        const wordCount = j - i
+        
+        if (wordCount === 1 || j >= words.length) {
+            result.push(leftJustify(words, diff, i, j))
+        } else {
+            result.push(middleJustify(words, diff, i, j))
+        }
+        
+        i = j
+    }
+    
+    return result
+};
+
+const leftJustify = (words, diff, i, j) => {
+    const line = [words[i]]
+    const spacesOnRight = diff - (j - i - 1)
+    
+    for (let k = i + 1; k < j; k++) {
+        line.push(' ')
+        line.push(words[k])
+    }
+    
+    line.push(' '.repeat(spacesOnRight))
+    return line.join('')
+}
+
+const middleJustify = (words, diff, i, j) => {
+    const line = [words[i]]
+    const spacesNeeded = j - i - 1
+    const spaceBetween = Math.floor(diff / spacesNeeded)
+    let spaceExtra = diff % spacesNeeded
+    
+    for (let k = i + 1; k < j; k++) {
+        if (spaceExtra > 0) {
+            line.push(' ')
+            spaceExtra--
+        }
+        
+        line.push(' '.repeat(spaceBetween))
+        line.push(words[k])
+    }
+    
+    return line.join('')
+}
+```
