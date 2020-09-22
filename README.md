@@ -44300,3 +44300,71 @@ var reorderSpaces = function(text) {
 };
 ```
 
+## 421. Maximum XOR of Two Numbers in an Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMaximumXOR = function(nums) {
+    const trie = new Trie(nums)
+    let max = 0
+    
+    for (const num of nums) {
+        max = Math.max(max, trie.maxNum(num))
+    }
+    
+    return max
+};
+
+class Trie {
+    constructor(nums) {
+        this.root = new TrieNode(NaN)
+        
+        for (const num of nums) {
+            this.insert(num)
+        }
+    }
+    
+    insert(num) {
+        let curr = this.root
+        
+        for (let i = 30; i >= 0; i--) {
+            const bit = num >> i & 1
+            
+            if (!curr.children[bit]) {
+                curr.children[bit] = new TrieNode(bit)
+            }
+
+            curr = curr.children[bit]
+        }
+    }
+    
+    maxNum(num) {
+        let max = 0
+        let curr = this.root
+        
+        for (let i = 30; i >= 0; i--) {
+            const bit = num >> i & 1
+            const oppositeBit = bit ^ 1
+            
+            if (curr.children[oppositeBit]) {
+                max |= (oppositeBit << i)
+                curr = curr.children[oppositeBit]
+            } else {
+                max |= (bit << i)
+                curr = curr.children[bit]
+            }
+        }
+        
+        return max ^ num
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+    }
+}
+```
