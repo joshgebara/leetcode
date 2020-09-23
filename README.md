@@ -13925,50 +13925,56 @@ var findKthLargest = function(nums, k) {
 };
 
 // Quick Select
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 var findKthLargest = function(nums, k) {
-    const index = quickSelect(nums, 0, nums.length - 1, nums.length - k)
-    return nums[index]
+    return quickSelect(nums, k)
 };
 
-const quickSelect = (nums, start, end, k) => {
-    if (start >= end) return start
+const quickSelect = (arr, k) => {
+    const target = arr.length - k
+    let left = 0
+    let right = arr.length - 1
     
-    let randomIndex = random(start, end)
-    let temp = nums[randomIndex]
-    nums[randomIndex] = nums[end]
-    nums[end] = temp
-    
-    let pivot = partition(nums, start, end)
-    if (pivot === k) return pivot
-    
-    if (pivot > k) {
-        return quickSelect(nums, start, pivot - 1, k)
-    } else {
-        return quickSelect(nums, pivot + 1, end, k)
-    }
-}
-
-const partition = (nums, start, end) => {
-    let pivot = nums[end]
-    let i = start - 1
-    for (let j = start; j < end; j++) {
-        if (nums[j] <= pivot) {
-            i++
-            let temp = nums[i]
-            nums[i] = nums[j]
-            nums[j] = temp
+    while (left <= right) {
+        const randomIndex = random(left, right)
+        const temp = arr[randomIndex]
+        arr[randomIndex] = arr[right]
+        arr[right] = temp
+        
+        const partitionIndex = partition(arr, left, right)
+        if (partitionIndex === target) {
+            return arr[partitionIndex]
+        } else if (partitionIndex < target) {
+            left = partitionIndex + 1
+        } else {
+            right = partitionIndex - 1
         }
     }
-
-    i++
-    let temp = nums[i]
-    nums[i] = nums[end]
-    nums[end] = temp
-    return i
 }
 
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const partition = (arr, left, right) => {
+    const pivot = arr[right]
+    let i = left - 1
+    
+    for (let j = left; j <= right; j++) {
+        if (arr[j] <= pivot) {
+            i++
+            
+            const temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp
+        }
+    }
+    
+    return i
 }
 
 // Counting Sort
