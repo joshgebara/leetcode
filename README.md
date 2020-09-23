@@ -13874,6 +13874,121 @@ const partition = (arr, left, right) => {
     
     return i
 }
+
+// Heap
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKFrequent = function(nums, k) {
+    const heap = new Heap((a, b) => a[1] < b[1])
+    
+    const freq = {}
+    for (const num of nums) {
+        freq[num] = 1 + (freq[num] || 0)
+    }
+    
+    for (const [key, val] of Object.entries(freq)) {
+        if (heap.size() < k) {
+            heap.insert([key, val])
+        } else if (val > heap.peek()[1]) {
+            heap.remove()
+            heap.insert([key, val])
+        }    
+    }
+    
+    const result = []
+    for (const [key, val] of heap.elements) {
+        result.push(key)
+    }
+    return result
+};
+
+class Heap {
+    constructor(sortBy) {
+        this.elements = []
+        this.sortBy = sortBy
+    }
+    
+    insert(val) {
+        this.elements.push(val)
+        this.siftUp()
+    }
+    
+    remove() {
+        if (!this.elements.length)
+            return null
+        
+        const temp = this.elements[0]
+        this.elements[0] = this.elements[this.elements.length - 1]
+        this.elements[this.elements.length - 1] = temp
+        
+        const val = this.elements.pop()
+        this.siftDown()
+        return val
+    }
+    
+    siftUp() {
+        let child = this.elements.length - 1
+        let parent = this.parentIndex(child)
+        
+        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
+            const temp = this.elements[child]
+            this.elements[child] = this.elements[parent]
+            this.elements[parent] = temp
+            
+            child = parent
+            parent = this.parentIndex(child)
+        }
+    }
+    
+    siftDown() {
+        let parent = 0
+        while (true) {
+            const left = this.leftChildIndex(parent)
+            const right = this.rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate])) {
+                candidate = left
+            }
+                
+            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate])) {
+                candidate = right
+            }
+            
+            if (candidate === parent) {
+                return
+            }
+            
+            const temp = this.elements[parent]
+            this.elements[parent] = this.elements[candidate]
+            this.elements[candidate] = temp
+            parent = candidate
+        }
+    }
+    
+    leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+    
+    rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+    
+    parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+    
+    peek() {
+        return this.elements[0]
+    }
+    
+    size() {
+        return this.elements.length
+    }
+}
 ```
 
 ## 215. Kth Largest Element in an Array
