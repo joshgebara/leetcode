@@ -4505,7 +4505,7 @@ const swap = (arr, i, j) => {
 }
 
 const random = (min, max) => {
-  return Math.floor(Math.random() * (max - min - 1)) + min
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 const partition = (arr, start, end) => { 
@@ -13813,6 +13813,67 @@ var topKFrequent = function(nums, k) {
 
     return result    
 };
+
+// Quick Select
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKFrequent = function(nums, k) {
+    const freq = {}
+    for (const num of nums) {
+        freq[num] = 1 + (freq[num] || 0)
+    }
+    
+    const counts = Object.entries(freq)
+    const index = quickSelect(counts, k)
+    const kFrequent = counts.slice(index)
+    return kFrequent.map(pair => pair[0])
+};
+
+const quickSelect = (arr, k) => {
+    const target = arr.length - k
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left <= right) {
+        const randomIndex = random(left, right)
+        const temp = arr[randomIndex]
+        arr[randomIndex] = arr[right]
+        arr[right] = temp
+        
+        const partitionIndex = partition(arr, left, right)
+        if (partitionIndex === target) {
+            return partitionIndex
+        } else if (partitionIndex < target) {
+            left = partitionIndex + 1
+        } else {
+            right = partitionIndex - 1
+        }
+    }
+}
+
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const partition = (arr, left, right) => {
+    const pivot = arr[right][1]
+    let i = left - 1
+    
+    for (let j = left; j <= right; j++) {
+        if (arr[j][1] <= pivot) {
+            i++
+            
+            const temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp
+        }
+    }
+    
+    return i
+}
 ```
 
 ## 215. Kth Largest Element in an Array
