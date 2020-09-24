@@ -44550,3 +44550,107 @@ class TrieNode {
     }
 }
 ```
+
+## 642. Design Search Autocomplete System
+```javascript
+/**
+ * @param {string[]} sentences
+ * @param {number[]} times
+ */
+var AutocompleteSystem = function(sentences, times) {
+    this.currSearch = []
+    this.trie = new Trie()
+    for (let i = 0; i < sentences.length; i++) {
+        this.trie.insert(sentences[i], times[i])
+    }
+};
+
+/** 
+ * @param {character} c
+ * @return {string[]}
+ */
+AutocompleteSystem.prototype.input = function(c) {
+    if (c === '#') {
+        this.trie.insert(this.currSearch.join(''), 1)
+        this.currSearch = []
+        return []
+    }
+    
+    this.currSearch.push(c)
+    return this.trie.search(this.currSearch.join(''))
+};
+
+/** 
+ * Your AutocompleteSystem object will be instantiated and called as such:
+ * var obj = new AutocompleteSystem(sentences, times)
+ * var param_1 = obj.input(c)
+ */
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode('')
+    }
+    
+    insert(sentence, times) {
+        let curr = this.root
+        
+        for (const char of sentence) {
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            
+            curr = curr.children[char]
+        }
+        
+        curr.sentence = sentence
+        curr.times += times
+        
+        let node = this.root
+        for (const char of sentence) {
+            node = node.children[char]
+            node.insertHot(curr)
+        }
+    }
+    
+    search(searchTerm) {
+        let curr = this.root
+        for (const char of searchTerm) {
+            if (!curr.children[char]) {
+                return []
+            }
+            
+            curr = curr.children[char]
+        }
+        
+        return curr.hot.map(node => node.sentence)
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.times = 0
+        this.sentence = ''
+        this.children = {}
+        this.hot = []
+    }
+    
+    insertHot(node) {
+        if (!this.hot.includes(node)) {
+            this.hot.push(node)
+        }
+        
+        this.hot.sort((a, b) => {
+            if (a.times === b.times) {
+                return a.sentence.localeCompare(b.sentence)
+            }
+            
+            return b.times - a.times
+        })
+        
+        if (this.hot.length > 3) {
+            this.hot.pop()
+        }
+    }
+}
+```
