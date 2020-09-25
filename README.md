@@ -44654,3 +44654,54 @@ class TrieNode {
     }
 }
 ```
+
+## 1361. Validate Binary Tree Nodes
+```javascript
+/**
+ * @param {number} n
+ * @param {number[]} leftChild
+ * @param {number[]} rightChild
+ * @return {boolean}
+ */
+var validateBinaryTreeNodes = function(n, leftChild, rightChild) {
+    const indegrees = {}
+    for (let i = 0; i < n; i++) {
+        indegrees[i] = 0
+    }
+    
+    for (let i = 0; i < n; i++) {
+        if (leftChild[i] !== -1 && ++indegrees[leftChild[i]] > 1) {
+            return false
+        }
+        
+        if (rightChild[i] !== -1 && ++indegrees[rightChild[i]] > 1) {
+            return false
+        }   
+    }
+    
+    const queue = []
+    for (let i = 0; i < n; i++) {
+        if (indegrees[i] === 0) {
+            queue.push(i)
+            
+            if (queue.length > 1) return false
+        }
+    }
+    
+    const result = []
+    while (queue.length) {
+        const node = queue.shift()
+        result.push(node)
+        
+        if (leftChild[node] !== -1 && --indegrees[leftChild[node]] === 0) {
+            queue.push(leftChild[node])
+        }
+        
+        if (rightChild[node] !== -1 && --indegrees[rightChild[node]] === 0) {
+            queue.push(rightChild[node])
+        }
+    }
+    
+    return result.length === n
+};
+```
