@@ -45121,3 +45121,98 @@ var wordPatternMatch = function(pattern, str) {
     return _wordPatternMatch(0, 0)
 };
 ```
+
+## 425. Word Squares
+```javascript
+/**
+ * @param {string[]} words
+ * @return {string[][]}
+ */
+var wordSquares = function(words) {
+    const _wordSquares = (curr, i) => {
+        if (curr.length === max) {
+            result.push(curr.slice())
+            return
+        }
+        
+        let prefix = []
+        for (const word of curr) {
+            prefix.push(word[i])
+        }
+        prefix = prefix.join('')
+        
+        for (const word of trie.wordsForPrefix(prefix)) {
+            curr.push(word)
+            _wordSquares(curr, i + 1)
+            curr.pop()
+        }
+    }
+    
+    const max = words[0].length
+    const trie = new Trie(words)
+    const result = []
+    _wordSquares([], 0)
+    return result
+};
+
+class Trie {
+    constructor(words) {
+        this.root = new TrieNode(null)
+        
+        for (const word of words) {
+            this.insert(word)
+        }
+    }
+    
+    insert(word) {
+        let curr = this.root
+        
+        for (const char of word) {
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            
+            curr = curr.children[char]
+        }
+        
+        curr.isEnd = true
+    }
+    
+    wordsForPrefix(prefix) {
+        let curr = this.root
+        for (const char of prefix) {
+            if (!curr.children[char]) {
+                return []
+            }
+            
+            curr = curr.children[char]
+        }
+        
+        const result = []
+        this.getWords(curr, [prefix], result)
+        return result
+    }
+    
+    getWords(node, word, result) {
+        const children = Object.values(node.children)
+        if (!children.length) {
+            result.push(word.join(''))
+            return
+        }
+        
+        for (const child of children) {
+            word.push(child.key)
+            this.getWords(child, word, result)
+            word.pop()
+        }
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
+```
