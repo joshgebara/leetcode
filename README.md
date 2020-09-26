@@ -44995,3 +44995,81 @@ const topSort = (nodes, graph, indegrees) => {
     return result
 }
 ```
+
+## 745. Prefix and Suffix Search
+```javascript
+/**
+ * @param {string[]} words
+ */
+var WordFilter = function(words) {
+    const wrappedWords = []
+    
+    for (const [weight, word] of words.entries()) {
+        for (let i = word.length - 1; i >= 0; i--) {
+            const wrappedWord = word.slice(i) + '#' + word
+            wrappedWords.push([wrappedWord, weight])
+        }
+    }
+    
+    this.prefixTrie = new Trie(wrappedWords)
+};
+
+/** 
+ * @param {string} prefix 
+ * @param {string} suffix
+ * @return {number}
+ */
+WordFilter.prototype.f = function(prefix, suffix) {
+    return this.prefixTrie.search(suffix + '#' + prefix)
+};
+
+/** 
+ * Your WordFilter object will be instantiated and called as such:
+ * var obj = new WordFilter(words)
+ * var param_1 = obj.f(prefix,suffix)
+ */
+
+class Trie {
+    constructor(words) {
+        this.root = new TrieNode('')
+
+        for (const [word, weight] of words) {
+            this.insert(word, weight)
+        }
+    }
+    
+    insert(word, weight) {
+        let curr = this.root
+        for (const char of word) {
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            
+            curr = curr.children[char]
+            curr.weight = weight
+        }
+    }
+    
+    search(word) {
+        let curr = this.root
+        
+        for (const char of word) {
+            if (!curr.children[char]) {
+                return -1
+            }
+            
+            curr = curr.children[char]
+        }
+        
+        return curr.weight
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.weight = -1
+    }
+}
+```
