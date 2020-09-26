@@ -44705,3 +44705,83 @@ var validateBinaryTreeNodes = function(n, leftChild, rightChild) {
     return result.length === n
 };
 ```
+
+## 1032. Stream of Characters
+```javascript
+/**
+ * @param {string[]} words
+ */
+var StreamChecker = function(words) {
+    this.queryString = []
+    this.maxWordLength = 0
+    this.trie = new Trie()
+    for (const word of words) {
+        this.trie.insert(word)
+        this.maxWordLength = Math.max(this.maxWordLength, word.length)
+    }
+};
+
+/** 
+ * @param {character} letter
+ * @return {boolean}
+ */
+StreamChecker.prototype.query = function(letter) {
+    this.queryString.push(letter)
+    
+    if (this.queryString.length > this.maxWordLength) {
+        this.queryString.shift()
+    }
+    
+    return this.trie.search(this.queryString)
+};
+
+/** 
+ * Your StreamChecker object will be instantiated and called as such:
+ * var obj = new StreamChecker(words)
+ * var param_1 = obj.query(letter)
+ */
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode('')
+    }
+    
+    insert(word) {
+        let curr = this.root
+        for (let i = word.length; i >= 0; i--) {
+            const char = word[i]
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            
+            curr = curr.children[char]
+        }
+        
+        curr.isEnd = true
+    }
+    
+    search(word) {
+        let curr = this.root
+        for (let i = word.length; i >= 0; i--) {
+            const char = word[i]
+            if (!curr.children[char]) {
+                return false
+            }
+            curr = curr.children[char]
+            if (curr.isEnd) {
+                return true
+            }
+        }
+        
+        return false
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
+```
