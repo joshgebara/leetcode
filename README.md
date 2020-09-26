@@ -45073,3 +45073,51 @@ class TrieNode {
     }
 }
 ```
+
+## 291. Word Pattern II
+```javascript
+/**
+ * @param {string} pattern
+ * @param {string} str
+ * @return {boolean}
+ */
+/**
+ * @param {string} pattern
+ * @param {string} str
+ * @return {boolean}
+ */
+var wordPatternMatch = function(pattern, str) {
+    const _wordPatternMatch = (i, j) => {
+        if (i === pattern.length && j === str.length) {
+            return true
+        }
+        
+        const word = map.get(pattern[i])    
+        if (word) {
+            const nextWord = str.slice(j, j + word.length)
+            return nextWord === word && _wordPatternMatch(i + 1, j + word.length)
+        }
+        
+        for (let k = j; k < str.length; k++) {
+            const nextWord = str.slice(j, k + 1)
+
+            if (seen.has(nextWord)) continue
+            seen.add(nextWord)
+            map.set(pattern[i], nextWord)
+
+            if (_wordPatternMatch(i + 1, k + 1)) {
+                return true
+            }
+            
+            seen.delete(nextWord)
+            map.delete(pattern[i])
+        }
+        
+        return false
+    }
+    
+    const seen = new Set()
+    const map = new Map()
+    return _wordPatternMatch(0, 0)
+};
+```
