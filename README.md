@@ -44785,3 +44785,93 @@ class TrieNode {
     }
 }
 ```
+
+## 336. Palindrome Pairs
+```javascript
+/**
+ * @param {string[]} words
+ * @return {number[][]}
+ */
+var palindromePairs = function(words) {
+    const trie = new Trie()
+    for (let i = 0; i < words.length; i++) {
+        const reversedWord = words[i].split('').reverse().join('')
+        trie.insert(reversedWord, i)
+    }
+    
+    const pairs = []
+    for (let i = 0; i < words.length; i++) {
+        trie.search(pairs, words[i], i)
+    }
+    return pairs
+};
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode()
+    }
+    
+    insert(word, index) {
+        let curr = this.root
+        for (let i = 0; i < word.length; i++) {
+            const char = word[i]
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            
+            if (isPalindrome(word, i)) {
+                curr.palindromes.push(index)
+            }
+            
+            curr = curr.children[char]
+        }
+        
+        curr.index = index
+    }
+    
+    search(pairs, word, index) {
+        let curr = this.root
+        for (let i = 0; i < word.length; i++) {
+            const char = word[i]
+            if (curr.index !== -1 && isPalindrome(word, i)) {
+                pairs.push([index, curr.index])
+            }
+            
+            if (!curr.children[char]) return
+            curr = curr.children[char]
+        }
+        
+        if (curr.index !== -1 && curr.index !== index) {
+            pairs.push([index, curr.index])
+        }
+        
+        for (const palindrome of curr.palindromes) {
+            pairs.push([index, palindrome])
+        }
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.index = -1
+        this.palindromes = []
+    }
+}
+
+const isPalindrome = (arr, i) => {
+    let j = arr.length - 1
+    
+    while (i < j) {
+        if (arr[i] !== arr[j]) {
+            return false
+        }
+        
+        i++
+        j--
+    }
+    
+    return true
+}
+```
