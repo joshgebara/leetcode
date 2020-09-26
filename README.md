@@ -45246,3 +45246,34 @@ var canWin = function(s) {
     return _canWin()
 };
 ```
+
+## 357. Count Numbers with Unique Digits
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var countNumbersWithUniqueDigits = function(n) {
+    const _countNumbersWithUniqueDigits = (curr, used) => {
+        count += curr < m
+        if (curr >= m) return
+        
+        for (let num = 0; num <= 9; num++) {
+            if (curr === 0 && num === 0 || used & 1 << num) continue
+            
+            curr *= 10
+            curr += num
+            
+            _countNumbersWithUniqueDigits(curr, used | 1 << num)
+            
+            curr -= num
+            curr = Math.floor(curr / 10)            
+        }
+    }
+    
+    const m = 10 ** n
+    let count = 0
+    _countNumbersWithUniqueDigits(0, 0)
+    return count
+};
+```
