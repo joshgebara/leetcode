@@ -44875,3 +44875,123 @@ const isPalindrome = (arr, i) => {
     return true
 }
 ```
+
+## 1203. Sort Items by Groups Respecting Dependencies
+```javascript
+/**
+ * @param {number} n
+ * @param {number} m
+ * @param {number[]} group
+ * @param {number[][]} beforeItems
+ * @return {number[]}
+ */
+var sortItems = function(numOfItems, numOfGroups, itemToGroupMap, beforeItems) {
+    const groupToItemMap = {}
+    let groupID = numOfGroups
+    for (let i = 0; i < numOfItems; i++) {
+        if (itemToGroupMap[i] === -1) {
+            itemToGroupMap[i] = groupID
+            groupID++
+        }
+        
+        const itemGroup = itemToGroupMap[i]
+        if (!groupToItemMap[itemGroup]) 
+            groupToItemMap[itemGroup] = []
+        
+        groupToItemMap[itemGroup].push(i)
+    }
+    
+    const itemGraph = {}
+    const itemIndegree = {}
+    for (const [item, befores] of beforeItems.entries()) {
+        const itemGroup = itemToGroupMap[item]
+        for (const before of befores) {
+            const beforeGroup = itemToGroupMap[before]
+            if (beforeGroup !== itemGroup) continue
+            if (!itemGraph[before]) {
+                itemGraph[before] = []
+            }
+            
+            if (!itemIndegree[item]) {
+                itemIndegree[item] = 0
+            }
+            
+            itemGraph[before].push(item)
+            itemIndegree[item]++
+        }
+    }
+    
+    for (const [group, items] of Object.entries(groupToItemMap)) {
+        const sortedItems = topSort(items, itemGraph, itemIndegree)
+        
+        if (sortedItems.length !== items.length)
+            return []
+        
+        groupToItemMap[group] = sortedItems
+    }
+    
+    const groupGraph = {}
+    const groupIndegree = {}
+    for (const [item, befores] of beforeItems.entries()) {
+        const itemGroup = itemToGroupMap[item]
+        for (const before of befores) {
+            const beforeGroup = itemToGroupMap[before]
+            if (beforeGroup === itemGroup) continue
+            if (!groupGraph[beforeGroup]) {
+                groupGraph[beforeGroup] = []
+            }
+            
+            if (!groupIndegree[itemGroup]) {
+                groupIndegree[itemGroup] = 0
+            }
+            
+            groupGraph[beforeGroup].push(itemGroup)
+            groupIndegree[itemGroup]++
+        }
+    }
+    
+    const uniqueGroups = new Set(itemToGroupMap)
+    const groups = Array.from(uniqueGroups)
+    const sortedGroups = topSort(groups, groupGraph, groupIndegree)
+    if (sortedGroups.length !== groups.length) {
+        return []
+    }
+    
+    let result = []
+    for (const group of sortedGroups) {
+        for (const node of groupToItemMap[group]) {
+            result.push(node)
+        }
+    }
+    
+    return result
+};
+
+const topSort = (nodes, graph, indegrees) => {
+    const result = []
+    const queue = []
+    
+    for (const node of nodes) {
+        if (!indegrees[node]) {
+            queue.push(node)
+        }
+    }
+    
+    while (queue.length) {
+        const node = queue.shift()
+        result.push(node)
+        
+        if (graph[node]) {
+            for (const neighbor of graph[node]) {
+                indegrees[neighbor]--
+                
+                if (indegrees[neighbor] === 0) {
+                    queue.push(neighbor)
+                }
+            }
+        }
+    }
+    
+    return result
+}
+```
