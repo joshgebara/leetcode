@@ -45216,3 +45216,33 @@ class TrieNode {
     }
 }
 ```
+
+## 294. Flip Game II
+```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var canWin = function(s) {
+    const _canWin = () => {
+        for (let i = 1; i < board.length; i++) {
+            if (board[i] === '+' && board[i - 1] === '+') {
+                board[i] = '-'
+                board[i - 1] = '-'
+                
+                const result = !_canWin()
+
+                board[i] = '+'
+                board[i - 1] = '+'
+                
+                if (result) return true
+            }
+        }
+        
+        return false
+    }
+    
+    const board = s.split('')
+    return _canWin()
+};
+```
