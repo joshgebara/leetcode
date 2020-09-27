@@ -45372,3 +45372,68 @@ class UnionFind {
     }
 }
 ```
+
+## 827. Making A Large Island
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var largestIsland = function(grid) {
+    let max = 0
+    const map = {}
+    
+    let islandID = 2
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === 1) {
+                const size = getIslandSize(grid, row, col, islandID)
+                max = Math.max(max, size)
+                map[islandID] = size
+                islandID++
+            }
+        }
+    }
+    
+    const dirs = [[1, 0], [-1, 0], [0, -1], [0, 1]]
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === 0) {
+                const ids = new Set()
+                for (const [deltaRow, deltaCol] of dirs) {
+                    const nextRow = deltaRow + row
+                    const nextCol = deltaCol + col
+                    
+                    if (nextRow < 0 || nextCol < 0 || 
+                        nextRow >= grid.length || nextCol >= grid[0].length)
+                        continue
+                    
+                    ids.add(grid[nextRow][nextCol])
+                }
+                
+                let size = 1
+                for (const id of ids) {
+                    size += (map[id] || 0)
+                }
+                
+                max = Math.max(max, size)
+            }
+        }
+    }
+    
+    return max
+};
+
+const getIslandSize = (grid, row, col, islandID) => {
+    if (row < 0 || col < 0 || 
+        row >= grid.length || col >= grid[0].length || 
+        grid[row][col] !== 1) return 0
+    
+    grid[row][col] = islandID
+    
+    return 1 + getIslandSize(grid, row + 1, col, islandID) + 
+               getIslandSize(grid, row - 1, col, islandID) + 
+               getIslandSize(grid, row, col + 1, islandID) + 
+               getIslandSize(grid, row, col - 1, islandID)
+}
+```
