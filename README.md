@@ -45277,3 +45277,98 @@ var countNumbersWithUniqueDigits = function(n) {
     return count
 };
 ```
+
+## 305. Number of Islands II
+```javascript
+/**
+ * @param {number} m
+ * @param {number} n
+ * @param {number[][]} positions
+ * @return {number[]}
+ */
+var numIslands2 = function(m, n, positions) {
+    const result = []
+    const unionFind = new UnionFind()
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    for (const [row, col] of positions) {
+        unionFind.add([row, col])
+        
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = deltaRow + row
+            const nextCol = deltaCol + col
+            
+            if (nextRow < 0 || nextCol < 0 || nextRow >= m || nextCol >= n)
+                continue
+            
+            unionFind.union([row, col], [nextRow, nextCol])
+        }
+        
+        result.push(unionFind.numOfComponents)
+    }
+    
+    return result
+};
+
+class UnionFind {
+    constructor() {
+        this.numOfComponents = 0
+        this.sizes = []
+        this.parents = []
+        this.map = {}
+    }
+    
+    add(a) {
+        if (this.map[a] !== undefined)
+            return
+        
+        this.sizes.push(1)
+        const id = this.parents.length
+        this.parents.push(id)
+        this.map[a] = id
+        this.numOfComponents++
+    }
+    
+    find(a) {
+        if (this.map[a] === undefined) {
+            return null
+        }
+        
+        let start = this.map[a]
+        let root = start
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (start !== root) {
+            const next = this.parents[start]
+            this.parents[start] = root
+            start = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === null || parentB === null)
+            return
+        
+        if (parentA === parentB) {
+            return
+        }
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
