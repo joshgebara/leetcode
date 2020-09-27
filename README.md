@@ -45498,3 +45498,89 @@ class DisjointSet {
     }
 }
 ```
+
+## 1584. Min Cost to Connect All Points
+```javascript
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var minCostConnectPoints = function(points) {
+    const unionFind = new UnionFind(points.length)
+    let minCost = 0
+    
+    const edges = []
+    for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+            const edge = [i, j, dist(points[i], points[j])]
+            edges.push(edge)
+        }
+    }
+    
+    edges.sort((a, b) => a[2] - b[2])
+    
+    for (const [x, y, dist] of edges) {
+        if (unionFind.find(x) === unionFind.find(y)) {
+            continue
+        }
+        
+        minCost += dist
+        unionFind.union(x, y)
+        
+        if (unionFind.numOfComponents === 1) break
+    }
+    
+    return minCost
+};
+
+const dist = (p1, p2) => {
+    const [x1, y1] = p1
+    const [x2, y2] = p2
+    return Math.abs(x1 - x2) + Math.abs(y1 - y2)
+}
+
+class UnionFind {
+    constructor(n) {
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill(0)
+        for (let i = 0; i < n; i++) {
+            this.parents[i] = i
+        }
+        
+        this.numOfComponents = n
+    }
+    
+    find(a) {
+        let root = a
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB)
+            return
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
