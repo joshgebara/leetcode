@@ -45437,3 +45437,64 @@ const getIslandSize = (grid, row, col, islandID) => {
                getIslandSize(grid, row, col - 1, islandID)
 }
 ```
+
+## 684. Redundant Connection
+```javascript
+/**
+ * @param {number[][]} edges
+ * @return {number[]}
+ */
+var findRedundantConnection = function(edges) {
+    const set = new DisjointSet(edges.length + 1)
+    
+    for (const [start, end] of edges) {
+        if (set.find(start) === set.find(end))
+            return [start, end]
+            
+        set.union(start, end)
+    }
+};
+
+class DisjointSet {
+    constructor(n) {
+        this.numOfComponents = n
+        this.componentSize = Array(n).fill(0)
+        this.parent = []
+        
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i
+        }
+    }
+    
+    find(p) {
+        let root = p
+        while (root !== this.parent[root])
+            root = this.parent[root]
+        
+        while (p !== root) {
+            const next = this.parent[p]
+            this.parent[p] = root
+            p = next
+        }
+        
+        return root
+    }
+    
+    union(p, q) {
+        const rootP = this.find(p)
+        const rootQ = this.find(q)
+        
+        if (rootP === rootQ) return
+        
+        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
+            this.componentSize[rootQ] += this.componentSize[rootP]
+            this.parent[rootP] = rootQ 
+        } else {
+            this.componentSize[rootP] += this.componentSize[rootQ]
+            this.parent[rootQ] = rootP
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
