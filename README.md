@@ -30915,26 +30915,36 @@ const numOfOnes = (num, memo) => {
 
 ## 1329. Sort the Matrix Diagonally
 ```javascript
+/**
+ * @param {number[][]} mat
+ * @return {number[][]}
+ */
 var diagonalSort = function(mat) {
-    const diagonals = {}
+    const map = {}
     
     for (let row = 0; row < mat.length; row++) {
         for (let col = 0; col < mat[0].length; col++) {
-            if (diagonals[row - col]) {
-                diagonals[row - col].push(mat[row][col])
-            } else {
-                diagonals[row - col] = [mat[row][col]]
-            }
+            const diagID = row - col
+            if (!map[diagID]) map[diagID] = Array(101).fill(0)
+            map[diagID][mat[row][col]]++
         }
     }
     
-    for (const arr of Object.values(diagonals)) {
-        arr.sort((a, b) => b - a)
+    for (const [key, buckets] of Object.entries(map)) {
+        const sortedArr = []
+        for (let num = buckets.length - 1; num >= 0; num--) {
+            while (buckets[num]--) {
+                sortedArr.push(num)
+            }
+        }
+        
+        map[key] = sortedArr
     }
     
     for (let row = 0; row < mat.length; row++) {
         for (let col = 0; col < mat[0].length; col++) {
-            mat[row][col] = diagonals[row - col].pop()
+            const diagID = row - col
+            mat[row][col] = map[diagID].pop()
         }
     }
     
