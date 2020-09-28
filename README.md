@@ -5803,7 +5803,7 @@ const binarySearch = (arr, target) => {
     return left
 }
 
-// One Binary Searches
+// One Binary Search
 const binarySearch = (arr, target) => {
     let left = 0
     let right = arr.length
@@ -45593,4 +45593,27 @@ class UnionFind {
         this.numOfComponents--
     }
 }
+```
+
+## 1598. Crawler Log Folder
+```javascript
+/**
+ * @param {string[]} logs
+ * @return {number}
+ */
+var minOperations = function(logs) {
+    let depth = 0
+    
+    for (const log of logs) {
+        if (log === './') continue
+        
+        if (log === '../') {
+            if (depth > 0) depth--
+        } else {
+            depth++
+        }
+    }
+    
+    return depth
+};
 ```
