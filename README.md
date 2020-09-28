@@ -35812,7 +35812,7 @@ USING(id, year)
  * @return {number[][]}
  */
 var allPathsSourceTarget = function(graph) {
-    const dfs = (vertex, path, seen) => {
+    const dfs = (vertex, path) => {
         if (vertex === graph.length - 1) {
             result.push(path.slice())
             return
@@ -35820,7 +35820,7 @@ var allPathsSourceTarget = function(graph) {
         
         for (const neighbor of graph[vertex]) {
             path.push(neighbor)
-            dfs(neighbor, path, seen)
+            dfs(neighbor, path)
             path.pop()
         }
     }
