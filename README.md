@@ -46005,3 +46005,36 @@ class UnionFind {
     }
 }
 ```
+
+## 41. First Missing Positive
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var firstMissingPositive = function(nums) {
+    if (!nums.length) return 1
+    let hasOne = false
+    
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] === 1) {
+            hasOne = true
+        } else if (nums[i] <= 0 || nums[i] > nums.length) {
+            nums[i] = 1
+        }
+    }
+    
+    if (!hasOne) return 1
+    
+    for (let i = 0; i < nums.length; i++) {
+        const index = Math.abs(nums[i]) - 1
+        nums[index] = -1 * Math.abs(nums[index])
+    }
+    
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] > 0) return i + 1
+    }
+    
+    return nums.length + 1
+};
+```
