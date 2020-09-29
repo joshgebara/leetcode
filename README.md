@@ -45826,3 +45826,85 @@ class UnionFind {
     }
 }
 ```
+
+## 1168. Optimize Water Distribution in a Village
+```javascript
+/**
+ * @param {number} n
+ * @param {number[]} wells
+ * @param {number[][]} pipes
+ * @return {number}
+ */
+var minCostToSupplyWater = function(n, wells, pipes) {
+    const unionFind = new UnionFind(n + 1)
+    const edges = []
+    for (let i = 0; i < wells.length; i++) {
+        edges.push([0, i + 1, wells[i]])
+    }
+    
+    for (const pipe of pipes) {
+        edges.push(pipe)
+    }
+    
+    edges.sort((a, b) => a[2] - b[2])
+    let minCost = 0
+    
+    for (const [start, end, cost] of edges) {
+        if (unionFind.connected(start, end)) continue
+        unionFind.union(start, end)
+        minCost += cost
+    }
+    
+    return minCost
+};
+
+class UnionFind {
+    constructor(n) {
+        this.numOfComponents = n
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        for (let i = 0; i < this.parents.length; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    find(a) {
+        let root = a
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) {
+            return
+        }
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+        
+    }
+    
+    connected(a, b) {
+        return this.find(a) === this.find(b)
+    }
+}
+```
