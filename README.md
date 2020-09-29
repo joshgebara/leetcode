@@ -45712,3 +45712,117 @@ class UnionFind {
     }
 }
 ```
+
+## 803. Bricks Falling When Hit
+```javascript
+/**
+ * @param {number[][]} grid
+ * @param {number[][]} hits
+ * @return {number[]}
+ */
+var hitBricks = function(grid, hits) {
+    const m = grid.length
+    const n = grid[0].length
+    const unionFind = new UnionFind(m * n + 1)
+    
+    for (const [row, col] of hits) {
+        if (grid[row][col] === 1) {
+            grid[row][col] = -1
+        }
+    }
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === 1) {
+                unionFind.unionAround(row, col, grid)
+            }
+        }
+    }
+    
+    const result = Array(hits.length).fill(0)
+    for (let i = hits.length - 1; i >= 0; i--) {
+        const [row, col] = hits[i]
+        if (grid[row][col] !== -1)
+            continue
+        
+        grid[row][col] = 1
+        
+        const prevRoofSize = unionFind.size(m * n)
+        unionFind.unionAround(row, col, grid)
+        const newRoofSize = unionFind.size(m * n)
+        
+        const count = newRoofSize - prevRoofSize - 1
+        if (count > 0) result[i] = count
+    }
+    
+    return result
+};
+
+class UnionFind {
+    constructor(n) {
+        this.numOfComponents = n
+        this.roof = n - 1
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        for (let i = 0; i < this.parents.length; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    size(a) {
+        return this.sizes[this.find(a)]
+    }
+    
+    find(a) {
+        let root = a
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) {
+            return
+        }
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+    
+    unionAround(row, col, grid) {
+        const rowIndex = row * grid[0].length + col 
+        
+        for (const [deltaRow, deltaCol] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+            const nextRow = deltaRow + row
+            const nextCol = deltaCol + col
+            
+            if (nextRow < 0 || nextCol < 0 || 
+                nextRow >= grid.length || nextCol >= grid[0].length || 
+                grid[nextRow][nextCol] !== 1) continue
+            
+            const nextIndex = nextRow * grid[0].length + nextCol
+            this.union(rowIndex, nextIndex)
+        }
+        
+        if (row === 0) this.union(rowIndex, this.roof)
+    }
+}
+```
