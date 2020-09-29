@@ -45617,3 +45617,98 @@ var minOperations = function(logs) {
     return depth
 };
 ```
+
+## 952. Largest Component Size by Common Factor
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var largestComponentSize = function(A) {
+    const unionFind = new UnionFind()
+    
+    for (const a of A) {
+        unionFind.add(a)
+        
+        for (let i = 2; i <= Math.sqrt(a); i++) {
+            if (a % i === 0) {
+                unionFind.add(i)
+                unionFind.add(a / i)
+                
+                unionFind.union(a, i)
+                unionFind.union(a, a / i)
+            }
+        }
+    }
+    
+    const groups = {}
+    let count = 0
+    
+    for (const a of A) {
+        const id = unionFind.find(a)
+        groups[id] = 1 + (groups[id] || 0)
+        count = Math.max(count, groups[id])
+    }
+    
+    return count
+};
+
+class UnionFind {
+    constructor() {
+        this.map = {}
+        this.parents = []
+        this.sizes = []
+        this.numOfComponents = 0
+    }
+    
+    add(num) {
+        if (this.map[num] !== undefined)
+            return
+        
+        const id = this.parents.length
+        this.map[num] = id
+        this.parents.push(id)
+        this.sizes.push(1)
+        this.numOfComponents++
+    }
+    
+    find(a) {
+        if (this.map[a] === undefined) {
+            return null
+        }
+        
+        let id = this.map[a]
+        let root = this.parents[id]
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (id !== root) {
+            const next = this.parents[id]
+            this.parents[id] = root
+            id = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === null || parentB === null || parentA === parentB) {
+            return
+        }
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+}
+```
