@@ -45908,3 +45908,100 @@ class UnionFind {
     }
 }
 ```
+
+## 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {number}
+ */
+var maxNumEdgesToRemove = function(n, edges) {
+    const unionFindA = new UnionFind(n + 1)
+    const unionFindB = new UnionFind(n + 1)
+    
+    let count = 0
+    for (const [type, start, end] of edges) {
+        if (type !== 3) continue
+        
+        if (unionFindA.connected(start, end)) continue
+        unionFindA.union(start, end)
+        unionFindB.union(start, end)
+        count++
+        
+        if (unionFindA.numOfComponents === 1 && unionFindB.numOfComponents === 1) {
+            return edges.length - count
+        }
+    }
+    
+    for (const [type, start, end] of edges) {
+        if (type === 3) continue
+        
+        if (type === 1) {
+            if (unionFindA.connected(start, end)) continue
+            unionFindA.union(start, end)
+            count++
+        } else if (type === 2) {
+            if (unionFindB.connected(start, end)) continue
+            unionFindB.union(start, end)
+            count++
+        }
+        
+        if (unionFindA.numOfComponents === 1 && unionFindB.numOfComponents === 1) {
+            return edges.length - count
+        }
+    }
+    
+    return -1
+};
+
+class UnionFind {
+    constructor(n) {
+        this.numOfComponents = n - 1
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        for (let i = 0; i < this.parents.length; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    find(a) {
+        let root = a
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) {
+            return
+        }
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+        
+    }
+    
+    connected(a, b) {
+        return this.find(a) === this.find(b)
+    }
+}
+```
