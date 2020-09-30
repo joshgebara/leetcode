@@ -46087,3 +46087,64 @@ var getAllElements = function(root1, root2) {
     return result
 };
 ```
+
+## 928. Minimize Malware Spread II
+```javascript
+/**
+ * @param {number[][]} graph
+ * @param {number[]} initial
+ * @return {number}
+ */
+var minMalwareSpread = function(graph, initial) {
+    const infected = new Set(initial)
+    let maxSaved = -1
+    let result = Math.min(...initial)
+    
+    for (const i of initial) {
+        const saved = dfs(i, graph, infected)
+        
+        if (maxSaved < saved) {
+            result = i
+            maxSaved = Math.max(maxSaved, saved)
+        } else if (maxSaved === saved) {
+            result = Math.min(result, i)
+        } 
+    }
+    
+    return result
+};
+
+const dfs = (i, graph, infected) => {
+    const _dfs = node => {
+        if (visited.has(node)) return 0
+        if (infected.has(node)) return -1
+        visited.add(node)
+            
+        let saved = 1
+        for (let j = 0; j < graph[node].length; j++) {
+            if (node === j || graph[node][j] !== 1) continue
+            const result = _dfs(j)
+            if (result === -1) {
+                infected.add(node)
+                return -1
+            }
+            saved += result
+        }
+        
+        return saved
+    }
+    
+    const visited = new Set([i])
+    
+    let saved = 0
+    for (let j = 0; j < graph[i].length; j++) {
+        if (i === j || graph[i][j] !== 1) continue
+        const result = _dfs(j)
+        if (result === -1) continue
+        saved += result
+        
+    }
+    
+    return saved
+}
+```
