@@ -46038,3 +46038,52 @@ var firstMissingPositive = function(nums) {
     return nums.length + 1
 };
 ```
+
+## 1305. All Elements in Two Binary Search Trees
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root1
+ * @param {TreeNode} root2
+ * @return {number[]}
+ */
+var getAllElements = function(root1, root2) {
+    const result = []
+    const stack1 = []
+    const stack2 = []
+    let curr1 = root1
+    let curr2 = root2
+    
+    while (curr1 || curr2 || stack1.length || stack2.length) {
+        while (curr1) {
+            stack1.push(curr1)
+            curr1 = curr1.left
+        }
+        
+        while (curr2) {
+            stack2.push(curr2)
+            curr2 = curr2.left
+        }
+        
+        if (!stack2.length || 
+            stack1.length && stack1[stack1.length - 1].val <= stack2[stack2.length - 1].val) {
+            curr1 = stack1.pop()
+            result.push(curr1.val)
+            curr1 = curr1.right
+        } else {
+            curr2 = stack2.pop()
+            result.push(curr2.val)
+            curr2 = curr2.right
+        }
+    }
+    
+    return result
+};
+```
