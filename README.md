@@ -46212,3 +46212,35 @@ const getNeighbors = (S, B) => {
     return result
 }
 ```
+
+## 765. Couples Holding Hands
+```javascript
+/**
+ * @param {number[]} row
+ * @return {number}
+ */
+var minSwapsCouples = function(row) {
+    let result = 0
+    
+    const map = {}
+    for (let i = 0; i < row.length; i++) {
+        map[row[i]] = i
+    }
+    
+    for (let i = 0; i < row.length; i += 2) {
+        const x = row[i]
+        const target = x & 1 ? x - 1 : x + 1
+        
+        if (row[i + 1] === target) continue
+        result++
+        
+        const targetIndex = map[target]
+        row[targetIndex] = row[i + 1]
+        row[i + 1] = target
+        map[row[targetIndex]] = targetIndex
+        map[row[i + 1]] = i + 1
+    }
+    
+    return result
+};
+```
