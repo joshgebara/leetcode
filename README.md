@@ -46090,6 +46090,7 @@ var getAllElements = function(root1, root2) {
 
 ## 928. Minimize Malware Spread II
 ```javascript
+// DFS
 /**
  * @param {number[][]} graph
  * @param {number[]} initial
@@ -46146,5 +46147,68 @@ const dfs = (i, graph, infected) => {
     }
     
     return saved
+}
+
+// Union Find
+
+```
+
+## 854. K-Similar Strings
+```javascript
+/**
+ * @param {string} A
+ * @param {string} B
+ * @return {number}
+ */
+var kSimilarity = function(A, B) {
+    if (A === B) return 0
+    
+    const queue = [A]
+    const visited = new Set([A])
+    let level = 0
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            if (node === B) return level
+            
+            for (const neighbour of getNeighbors(node, B)) {
+                if (visited.has(neighbour)) continue
+                queue.push(neighbour)
+                visited.add(neighbour)
+            }
+        }
+        
+        level++
+    }
+    
+    return -1
+};
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+const getNeighbors = (S, B) => {
+    const result = []
+    const charArr = S.split('')
+    
+    let i = 0
+    while (i < charArr.length && charArr[i] === B[i]) {
+        i++
+    }
+    
+    for (let j = i + 1; j < charArr.length; j++) { 
+        if (charArr[j] === B[i]) {
+            swap(charArr, i, j)     
+            result.push(charArr.join(''))
+            swap(charArr, i, j)
+        }
+    }
+    
+    return result
 }
 ```
