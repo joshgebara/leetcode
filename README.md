@@ -46244,3 +46244,43 @@ var minSwapsCouples = function(row) {
     return result
 };
 ```
+
+## 1602. Find Nearest Right Node in Binary Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} u
+ * @return {TreeNode}
+ */
+var findNeartestRightNode = function(root, u) {
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        let isLevel = false
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()            
+            if (isLevel) return node
+            
+            if (node.val === u.val) {
+                isLevel = true
+            }
+            
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+        }
+        
+        if (isLevel) break
+    }
+    
+    return null
+};
+```
