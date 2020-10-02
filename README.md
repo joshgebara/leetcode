@@ -46284,3 +46284,21 @@ var findNeartestRightNode = function(root, u) {
     return null
 };
 ```
+
+## 1217. Minimum Cost to Move Chips to The Same Position
+```javascript
+/**
+ * @param {number[]} chips
+ * @return {number}
+ */
+var minCostToMoveChips = function(chips) {
+    let evens = 0
+    let odds = 0
+    
+    for (let i = 0; i < chips.length; i++) {
+        chips[i] & 1 ? odds++ : evens++
+    }
+    
+    return Math.min(evens, odds)
+};
+```
