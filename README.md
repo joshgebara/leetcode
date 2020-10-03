@@ -46374,3 +46374,28 @@ const minsBetween = (start, end) => {
     return Math.abs(eMins - sMins)
 }
 ```
+
+## 1605. Find Valid Matrix Given Row and Column Sums
+```javascript
+/**
+ * @param {number[]} rowSum
+ * @param {number[]} colSum
+ * @return {number[][]}
+ */
+var restoreMatrix = function(rowSum, colSum) {
+    const n = rowSum.length
+    const m = colSum.length
+    const matrix = Array(n).fill(0).map(a => Array(m).fill(0))
+
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < m && rowSum[row] > 0; col++) {
+            matrix[row][col] = Math.min(rowSum[row], colSum[col])
+            rowSum[row] -= matrix[row][col]
+            colSum[col] -= matrix[row][col]
+            
+        }
+    }
+    
+    return matrix
+};
+```
