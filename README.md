@@ -46377,6 +46377,7 @@ const minsBetween = (start, end) => {
 
 ## 1605. Find Valid Matrix Given Row and Column Sums
 ```javascript
+// Time: O(n * m)
 /**
  * @param {number[]} rowSum
  * @param {number[]} colSum
@@ -46394,6 +46395,30 @@ var restoreMatrix = function(rowSum, colSum) {
             colSum[col] -= matrix[row][col]
             
         }
+    }
+    
+    return matrix
+};
+
+// Time: O(n + m)
+/**
+ * @param {number[]} rowSum
+ * @param {number[]} colSum
+ * @return {number[][]}
+ */
+var restoreMatrix = function(rowSum, colSum) {
+    const n = rowSum.length
+    const m = colSum.length
+    const matrix = Array(n).fill(0).map(a => Array(m).fill(0))
+
+    let row = 0
+    let col = 0
+    while (row < n && col < m) {
+        matrix[row][col] = Math.min(rowSum[row], colSum[col])
+        rowSum[row] -= matrix[row][col]
+        colSum[col] -= matrix[row][col]
+        row += rowSum[row] === 0
+        col += colSum[col] === 0
     }
     
     return matrix
