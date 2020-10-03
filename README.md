@@ -46328,3 +46328,49 @@ ParkingSystem.prototype.addCar = function(carType) {
  * var param_1 = obj.addCar(carType)
  */
 ```
+
+## 1604. Alert Using Same Key-Card Three or More Times in a One Hour Period
+```javascript
+/**
+ * @param {string[]} keyName
+ * @param {string[]} keyTime
+ * @return {string[]}
+ */
+var alertNames = function(keyName, keyTime) {
+    const result = []
+    const map = {}
+    
+    for (let i = 0; i < keyName.length; i++) {
+        if (!map[keyName[i]]) map[keyName[i]] = []
+        map[keyName[i]].push(keyTime[i])
+    }
+    
+    for (const [key, val] of Object.entries(map)) {
+        map[key].sort()
+        if (alerted(val)) result.push(key)
+    }
+    
+    result.sort()
+    return result
+};
+
+const alerted = times => {
+    let i = 0
+    for (let j = 0; j < times.length; j++) {
+        while (minsBetween(times[i], times[j]) > 60)
+            i++
+        
+        if (j - i + 1 >= 3) return true
+    }
+    
+    return false
+}
+
+const minsBetween = (start, end) => {
+    const [sHour, sMin] = start.split(':')
+    const [eHour, eMin] = end.split(':')
+    const sMins = (+sHour * 60) + +sMin
+    const eMins = (+eHour * 60) + +eMin
+    return Math.abs(eMins - sMins)
+}
+```
