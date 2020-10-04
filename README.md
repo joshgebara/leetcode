@@ -46542,3 +46542,64 @@ var specialArray = function(nums) {
     return -1
 };
 ```
+
+## 1609. Even Odd Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isEvenOddTree = function(root) {
+    const queue = [root]
+    let levelIndex = 0
+    
+    while (queue.length) {
+        const size = queue.length
+        const level = []
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            
+            if (isEven(levelIndex) && isEven(node.val))
+                return false
+            
+            if (!isEven(levelIndex) && !isEven(node.val))
+                return false
+            
+            level.push(node.val)
+            
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+        }
+        
+        if (invalidLevel(level, levelIndex)) {
+            return false
+        }
+        
+        levelIndex++
+    }
+    
+    return true
+};
+
+const invalidLevel = (level, levelIndex) => {
+    for (let i = 0; i < level.length; i++) {
+        if (isEven(levelIndex) && level[i] <= level[i - 1]) 
+            return true
+        
+        if (!isEven(levelIndex) && level[i] >= level[i - 1]) 
+            return true
+    }
+    
+    return false
+}
+
+const isEven = num => num % 2 === 0
+```
