@@ -46435,3 +46435,84 @@ ON s.seller_id = o.seller_id AND YEAR(sale_date) = 2020
 WHERE order_id IS NULL
 ORDER BY seller_name
 ```
+
+## 711. Number of Distinct Islands II
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var numDistinctIslands2 = function(grid) {
+    const islands = new Set()
+    
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === 0) continue
+            const island = getIsland(grid, row, col)
+            islands.add(normalize(island))
+        }
+    }
+    
+    return islands.size
+};
+
+const normalize = island => {
+    const transformedIslands = Array(8).fill().map(a => [])
+    for (const [row, col] of island) {
+        transformedIslands[0].push([row, col])
+        transformedIslands[1].push([-row, col])
+        transformedIslands[2].push([row, -col])
+        transformedIslands[3].push([-row, -col])
+        transformedIslands[4].push([col, row])
+        transformedIslands[5].push([-col, row])
+        transformedIslands[6].push([col, -row])
+        transformedIslands[7].push([-col, -row])
+    }
+    
+    for (const transformedIsland of transformedIslands) {
+        transformedIsland.sort((a, b) => {
+            if (a[0] === b[0]) {
+                return a[1] - b[1]
+            }
+            
+            return a[0] - b[0]
+        })
+    }
+    
+    for (const transformedIsland of transformedIslands) {
+        const originRow = transformedIsland[0][0]
+        const originCol = transformedIsland[0][1]
+        for (let i = 1; i < island.length; i++) {
+            const row = transformedIsland[i][0] - originRow
+            const col = transformedIsland[i][1] - originCol
+            transformedIsland[i] = [row, col]
+        }
+        
+        transformedIsland[0] = [0, 0]
+    }
+    
+    transformedIslands.sort()
+    return transformedIslands[0].join('')
+}
+
+const getIsland = (grid, startRow, startCol) => {
+    const dfs = (row, col) => {
+        if (row < 0 || col < 0 || 
+            row >= grid.length || col >= grid[0].length || 
+            grid[row][col] === 0)
+            return
+        
+        island.push([row, col])
+        grid[row][col] = 0
+        
+        dfs(row + 1, col)
+        dfs(row - 1, col)
+        dfs(row, col + 1)
+        dfs(row, col - 1)
+    }
+    
+    const island = []
+    dfs(startRow, startCol)
+    return island
+}
+```
