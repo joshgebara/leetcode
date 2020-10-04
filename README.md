@@ -46516,3 +46516,29 @@ const getIsland = (grid, startRow, startCol) => {
     return island
 }
 ```
+
+## 1608. Special Array With X Elements Greater Than or Equal X
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var specialArray = function(nums) {
+    const counts = Array(1001).fill(0)
+    for (const num of nums) {
+        counts[num]++
+    }
+    
+    for (let i = counts.length - 2; i >= 0; i--) {
+        counts[i] += counts[i + 1] 
+    }
+    
+    for (let i = nums.length; i >= 0; i--) {
+        if (counts[i] === i) {
+            return i
+        }
+    }
+    
+    return -1
+};
+```
