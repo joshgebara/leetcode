@@ -46603,3 +46603,176 @@ const invalidLevel = (level, levelIndex) => {
 
 const isEven = num => num % 2 === 0
 ```
+
+## 1568. Minimum Number of Days to Disconnect Island
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minDays = function(grid) {
+    const [numOfComponents, onesCount] = getNumOfComponents(grid)
+    if (numOfComponents !== 1) return 0
+    if (onesCount <= 2) return onesCount
+    
+    const articulationPoints = getArticulationPoints(grid)
+    if (articulationPoints.length) return 1
+    
+    return 2
+};
+
+const getNumOfComponents = grid => {
+    const dirs = [[1, 0], [0, 1]]
+    const m = grid.length
+    const n = grid[0].length
+    let onesCount = 0
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            onesCount += grid[row][col]
+        }
+    }
+    
+    const unionFind = new UnionFind(m * n, onesCount)
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === 0) continue
+            
+            for (const [deltaRow, deltaCol] of dirs) {
+                const nextRow = deltaRow + row
+                const nextCol = deltaCol + col
+                
+                if (nextRow < 0 || nextRow >= m || 
+                    nextCol < 0 || nextCol >= n ||
+                    grid[nextRow][nextCol] === 0) continue
+                
+                unionFind.union(row * n + col, nextRow * n + nextCol)
+            }
+        }
+    }
+    
+    return [unionFind.numOfComponents, onesCount]
+}
+
+const getArticulationPoints = grid => {
+    const graph = buildGraph(grid)
+    const articulationPoints = new Set()
+    const visited = new Set()
+    const low = {}
+    const discovery = {}
+    
+    for (const [vertex, neighbors] of Object.entries(graph)) {
+        if (visited.has(vertex)) continue
+        const children = tarjan(graph, vertex, articulationPoints, visited, low, discovery)
+        if (children > 1) articulationPoints.add(+vertex)
+    }
+    
+    return Array.from(articulationPoints)
+}
+
+const tarjan = (graph, root, articulationPoints, visited, low, discovery) => {
+    const _tarjan = (vertex, parent) => {
+        visited.add(+vertex)
+        low[vertex] = time
+        discovery[vertex] = time
+        time++
+        
+        if (graph[vertex]) {
+            for (const neighbor of graph[vertex]) {
+                if (!visited.has(neighbor)) {
+                    if (vertex === root)
+                        children++
+                    
+                    _tarjan(neighbor, vertex)
+                    low[vertex] = Math.min(low[vertex], low[neighbor])
+                    
+                    if (parent !== null && discovery[vertex] <= low[neighbor]) {
+                        articulationPoints.add(vertex)
+                    }
+
+                } else if (neighbor !== parent) {
+                    low[vertex] = Math.min(discovery[neighbor], low[vertex])
+                }
+            }
+        }
+    }
+    
+    let children = 0
+    let time = 0
+    _tarjan(root, null)
+    return children
+}
+
+const buildGraph = grid => {
+    const graph = {}
+    const dirs = [[1, 0], [0, 1]]
+    const m = grid.length
+    const n = grid[0].length
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === 0) continue
+            
+            for (const [deltaRow, deltaCol] of dirs) {
+                const nextRow = deltaRow + row
+                const nextCol = deltaCol + col
+                
+                if (nextRow < 0 || nextRow >= m || 
+                    nextCol < 0 || nextCol >= n ||
+                    grid[nextRow][nextCol] === 0) continue
+                
+                const id1 = row * n + col
+                const id2 = nextRow * n + nextCol
+                if (!graph[id1]) graph[id1] = []
+                if (!graph[id2]) graph[id2] = []
+                graph[id1].push(id2)
+                graph[id2].push(id1)
+            }
+        }
+    }
+    
+    return graph
+}
+
+class UnionFind {
+    constructor(n, count) {
+        this.numOfComponents = count
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        for (let i = 0; i < this.parents.length; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) return
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+    
+    find(a) {
+        let root = a
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+}
+```
