@@ -46863,3 +46863,52 @@ const buildGraph = (n, connections) => {
     return graph
 }
 ```
+
+## 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} distanceThreshold
+ * @return {number}
+ */
+var findTheCity = function(n, edges, distanceThreshold) {
+    const matrix = Array(n).fill().map(a => Array(n).fill(Infinity))
+    
+    for (const [from, to, weight] of edges) {
+        matrix[from][to] = weight
+        matrix[to][from] = weight
+    }
+    
+    for (let i = 0; i < n; i++) {
+        matrix[i][i] = 0
+    }
+    
+    for (let intermediate = 0; intermediate < n; intermediate++) {
+        for (let from = 0; from < n; from++) {
+            for (let to = 0; to < n; to++) {
+                matrix[from][to] = Math.min(matrix[from][to],
+                                            matrix[from][intermediate] + matrix[intermediate][to])
+            }
+        }
+    }
+    
+    let result = 0
+    let smallest = n
+    for (let from = 0; from < n; from++) {
+        let count = 0
+        for (let to = 0; to < n; to++) {
+            if (matrix[from][to] <= distanceThreshold) {
+                count++
+            }
+        }
+        
+        if (count <= smallest) {
+            result = from
+            smallest = count
+        }
+    }
+    
+    return result
+};
+```
