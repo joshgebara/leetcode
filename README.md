@@ -46776,3 +46776,66 @@ class UnionFind {
     }
 }
 ```
+
+## 1192. Critical Connections in a Network
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} connections
+ * @return {number[][]}
+ */
+var criticalConnections = function(n, connections) {
+    const graph = buildGraph(n, connections)
+    const bridges = tarjan(n, graph)
+    return bridges
+};
+
+const tarjan = (n, graph) => {
+    const _tarjan = (vertex, parent) => {
+        discovery[vertex] = time
+        low[vertex] = time
+        time++
+        
+        if (graph[vertex]) {
+            for (const neighbor of graph[vertex]) {
+                if (discovery[neighbor] === -1) {
+                    _tarjan(neighbor, vertex)
+                    low[vertex] = Math.min(low[vertex], low[neighbor])
+                    
+                    if (discovery[vertex] < low[neighbor]) {
+                        bridges.push([vertex, neighbor])
+                    }
+                    
+                } else if (neighbor !== parent) {
+                    low[vertex] = Math.min(low[vertex], discovery[neighbor])
+                }
+            }
+        }
+    }
+    
+    const bridges = []
+    const discovery = Array(n).fill(-1)
+    const low = Array(n).fill(-1)
+    let time = 0
+    
+    for (let vertex = 0; vertex < n; vertex++) {
+        if (discovery[vertex] !== -1) continue
+        _tarjan(vertex, null)
+    }
+    
+    return bridges
+}
+
+const buildGraph = (n, connections) => {
+    const graph = Array(n).fill()
+    
+    for (const [a, b] of connections) {
+        if (!graph[a]) graph[a] = []
+        if (!graph[b]) graph[b] = []
+        graph[a].push(b)
+        graph[b].push(a)
+    }
+    
+    return graph
+}
+```
