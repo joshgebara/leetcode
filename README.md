@@ -39603,6 +39603,30 @@ var romanToInt = function(s) {
  * @return {number}
  */
 var distanceBetweenBusStops = function(distance, start, destination) {
+    let totalSum = 0
+    for (const d of distance) {
+        totalSum += d
+    }
+    
+    let s = Math.min(start, destination)
+    let e = Math.max(start, destination)
+    
+    let leftSum = 0
+    for (let i = s; i < e; i++) {
+        leftSum += distance[i]
+    }
+    
+    return Math.min(leftSum, totalSum - leftSum)
+    
+};
+
+/**
+ * @param {number[]} distance
+ * @param {number} start
+ * @param {number} destination
+ * @return {number}
+ */
+var distanceBetweenBusStops = function(distance, start, destination) {
     const graph = {}
     for (let i = 0; i < distance.length; i++) {
         const i2 = (i + 1) % distance.length
