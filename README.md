@@ -46913,3 +46913,62 @@ var findTheCity = function(n, edges, distanceThreshold) {
     return result
 };
 ```
+
+## 544. Output Contest Matches
+```javascript
+/**
+ * @param {number} n
+ * @return {string}
+ */
+// Recursive
+var findContestMatch = function(n) {
+    const _findContestMatch = (curr) => {
+        let i = 0
+        let j = curr.length - 1
+        if (i === j) return curr[i]
+        
+        const result = []
+        while (i < j) {
+            result.push(`(${curr[i]},${curr[j]})`)
+            i++
+            j--
+        }
+        
+        return _findContestMatch(result)
+    }
+    
+    const arr = []
+    for (let i = 1; i <= n; i++) {
+        arr.push(i)
+    }
+    
+    return _findContestMatch(arr)
+};
+
+/**
+ * @param {number} n
+ * @return {string}
+ */
+// Iterative
+var findContestMatch = function(n) {
+    let result = []
+    for (let i = 1; i <= n; i++) {
+        result.push(i)
+    }
+    
+    while (result.length > 1) {
+        let i = 0
+        let j = result.length - 1
+        const next = []
+        while (i < j) {
+            next.push(`(${result[i]},${result[j]})`)
+            i++
+            j--
+        }
+        
+        result = next
+    }
+    
+    return result.join('')
+};
+```
