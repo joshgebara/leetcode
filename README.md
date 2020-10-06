@@ -24270,42 +24270,51 @@ var twoCitySchedCost = function(costs) {
  * @return {number}
  */
 var largestSumAfterKNegations = function(A, K) {
-    const buckets = Array(201).fill(0)
-    for (const num of A) {
-        buckets[num + 100]++
-    }
-    
-    const sortedA = []
-    for (let i = 0; i < buckets.length; i++) {
-        while (buckets[i]--) {
-            sortedA.push(i - 100)
-        }
-    }
+    const sortedA = sort(A)
     
     let i = 0
-    for (i = 0; i < sortedA.length; i++) {
-        if (sortedA[i] >= 0 || K <= 0)
-            break
-        
+    while (i < sortedA.length && K) {
+        if (sortedA[i] === 0 || sortedA[i] > 0) break
         sortedA[i] *= -1
+        i++
         K--
     }
     
-    if (i > 0 && sortedA[i] > sortedA[i - 1])
+    if (sortedA[i - 1] < sortedA[i]) {
         i--
-    
-    while (K > 0) {
-        sortedA[i] *= -1
-        K--
     }
     
+    if (K % 2 !== 0) {
+        sortedA[i] *= -1
+    }
+    
+    return getSum(sortedA)
+};
+
+const getSum = arr => {
     let sum = 0
-    for (const num of sortedA) {
-        sum += num
+    for (const a of arr) {
+        sum += a
     }
     
     return sum
-};
+}
+
+const sort = arr => {
+    const buckets = Array(201).fill(0)
+    for (const a of arr) {
+        buckets[a + 100]++
+    }
+    
+    const result = []
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
+            result.push(i - 100)
+        }
+    }
+    
+    return result
+}
 
 // Heap
 var largestSumAfterKNegations = function(A, K) {
