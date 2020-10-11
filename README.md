@@ -46981,3 +46981,26 @@ var findContestMatch = function(n) {
     return result.join('')
 };
 ```
+
+## 1614. Maximum Nesting Depth of the Parentheses
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maxDepth = function(s) {
+    let balance = 0
+    let depth = 0
+    
+    for (const char of s) {
+        if (char === '(') {
+            balance++
+            depth = Math.max(depth, balance)
+        } else if (char === ')') {
+            balance--
+        }
+    }
+    
+    return depth
+};
+```
