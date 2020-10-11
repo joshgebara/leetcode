@@ -47004,3 +47004,35 @@ var maxDepth = function(s) {
     return depth
 };
 ```
+
+## 1615. Maximal Network Rank
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} roads
+ * @return {number}
+ */
+var maximalNetworkRank = function(n, roads) {
+    const degrees = Array(n).fill(0)
+    const connected = Array(n).fill(0).map(a => Array(n).fill(false))
+    
+    for (let i = 0; i < roads.length; i++) {
+        const [u, v] = roads[i]
+        degrees[u]++
+        degrees[v]++
+        
+        connected[u][v] = true
+        connected[v][u] = true
+    }
+    
+    let max = 0
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            const rank = degrees[i] + degrees[j] - connected[i][j]
+            max = Math.max(max, rank)
+        }
+    }
+    
+    return max
+};
+```
