@@ -39978,20 +39978,15 @@ var toHexspeak = function(num) {
  * @return {number}
  */
 var findJudge = function(N, trust) {
-    const map = {}
-    
-    for (let i = 1; i <= N; i++) {
-        map[i] = [0, 0]
+    const degrees = Array(N + 1).fill(0)
+    for (const [u, v] of trust) {
+        degrees[u]--
+        degrees[v]++
     }
     
-    for (const [start, end] of trust) {
-        map[start][1]++
-        map[end][0]++
-    }
-    
-    for (const [key, val] of Object.entries(map)) {
-        if (val[0] === N - 1 && val[1] === 0)
-            return key
+    for (let vertex = 1; vertex <= N; vertex++) {
+        if (degrees[vertex] === N - 1)
+            return vertex
     }
     
     return -1
