@@ -47031,3 +47031,27 @@ var maximalNetworkRank = function(n, roads) {
     return max
 };
 ```
+
+## 1557. Minimum Number of Vertices to Reach All Nodes
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {number[]}
+ */
+var findSmallestSetOfVertices = function(n, edges) {
+    const indegrees = Array(n).fill(0)
+    for (const [u, v] of edges) {
+        indegrees[v]++
+    }
+    
+    const result = []
+    for (let vertex = 0; vertex < n; vertex++) {
+        if (indegrees[vertex] === 0) {
+            result.push(vertex)
+        }
+    }
+    
+    return result
+};
+```
