@@ -40623,8 +40623,8 @@ var findPaths = function(m, n, N, i, j) {
  * @return {number[]}
  */
 var gardenNoAdj = function(N, paths) {
-    const graph = buildGraph(N, paths)
     const result = Array(N + 1).fill()
+    const graph = buildGraph(N, paths)
     
     for (let vertex = 1; vertex <= N; vertex++) {
         color(graph, vertex, result)
@@ -40634,34 +40634,23 @@ var gardenNoAdj = function(N, paths) {
 };
 
 const color = (graph, vertex, result) => {
-    const colors = [0, 1, 2, 3, 4]
-    
-    if (graph[vertex]) {
-        for (const neighbor of graph[vertex]) {
-            if (result[neighbor] === undefined) continue
-            colors[result[neighbor]] = 0
-        }
+    const colors = new Set([1, 2, 3, 4])
+    for (const neighbor of graph[vertex]) {
+        if (!result[neighbor]) continue
+        colors.delete(result[neighbor])
     }
     
-    let pickedColor = 0
     for (const c of colors) {
-        if (!c) continue
-        pickedColor = c
+        result[vertex] = c
         break
     }
-    
-    result[vertex] = pickedColor 
 }
 
 const buildGraph = (N, paths) => {
-    const graph = Array(N + 1).fill()
-    
-    for (const [v1, v2] of paths) {
-        if (!graph[v1]) graph[v1] = []
-        if (!graph[v2]) graph[v2] = []
-        
-        graph[v1].push(v2)
-        graph[v2].push(v1)
+    const graph = Array(N + 1).fill(0).map(a => [])
+    for (const [u, v] of paths) {
+        graph[u].push(v)
+        graph[v].push(u)
     }
     
     return graph
