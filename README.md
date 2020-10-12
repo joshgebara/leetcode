@@ -29468,7 +29468,108 @@ const countComponents = matrix => {
 }
 
 // Union Find
+/**
+ * @param {string[]} grid
+ * @return {number}
+ */
+var regionsBySlashes = function(grid) {
+    const n = grid.length
+    const k = 3
+    const matrix = Array(n * k).fill(0).map(a => Array(n * k).fill(0))
+    
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < n; col++) {
+            const currChar = grid[row][col]
+            if (currChar === '\\') {
+                let startRow = row * k
+                let startCol = col * k
+                for (let i = 0; i < k; i++) {
+                    matrix[startRow][startCol] = 1
+                    startRow++
+                    startCol++
+                }
+            } else if (currChar === '/') {
+                let startRow = row * k
+                let startCol = col * k + k - 1
+                
+                for (let i = 0; i < k; i++) {
+                    matrix[startRow][startCol] = 1
+                    startRow++
+                    startCol--
+                }
+            }
+        }
+    }
+    
+    let numOfOnes = 0
+    const unionFind = new UnionFind(matrix.length ** 2)
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix.length; col++) {
+            if (matrix[row][col] === 1) {
+                numOfOnes++
+                continue
+            }
+            
+            for (const [dRow, dCol] of [[1, 0], [0, 1]]) {
+                const nRow = row + dRow
+                const nCol = col + dCol
+                
+                if (nRow < 0 || nCol < 0 || 
+                    nRow >= matrix.length || nCol >= matrix[0].length || 
+                    matrix[nRow][nCol] === 1) continue
+                
+                unionFind.union(row * matrix.length + col, nRow * matrix.length + nCol)
+            }
+        }
+    }
+    
+    return unionFind.numOfComponents - numOfOnes
+};
 
+class UnionFind {
+    constructor(n) {
+        this.numOfComponents = n
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        for (let i = 0; i < n; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    find(a) {
+        let root = this.parents[a]
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) {
+            return
+        }
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+        
+        this.numOfComponents--
+    }
+}
 ```
 
 ## 988. Smallest String Starting From Leaf
