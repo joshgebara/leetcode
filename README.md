@@ -11947,6 +11947,7 @@ var maxLevelSum = function(root) {
 
 ## 841. Keys and Rooms
 ```javascript
+// DFS
 var canVisitAllRooms = function(rooms) {
     let stack = [0]
     let seen = new Set()
@@ -11965,6 +11966,31 @@ var canVisitAllRooms = function(rooms) {
     }
 
     return seen.size === rooms.length
+};
+
+// BFS
+/**
+ * @param {number[][]} rooms
+ * @return {boolean}
+ */
+var canVisitAllRooms = function(rooms) {
+    const visited = Array(rooms.length).fill(false)
+    visited[0] = true
+    let count = 1
+    
+    const queue = [0]
+    while (queue.length) {
+        const vertex = queue.shift()
+        
+        for (const neighbor of rooms[vertex]) {
+            if (visited[neighbor]) continue
+            count++
+            visited[neighbor] = true
+            queue.push(neighbor)
+        }
+    }
+    
+    return count === rooms.length
 };
 ```
 
