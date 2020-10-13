@@ -23376,6 +23376,7 @@ class DisjointSet {
 
 ## 261. Graph Valid Tree
 ```javascript
+// Union Find
 var validTree = function(n, edges) {
     const set = new DisjointSet(n)
     
@@ -23429,6 +23430,63 @@ class DisjointSet {
         
         this.numOfComponents--
     }
+}
+
+// DFS 1
+var validTree = function(n, edges) {
+    const dfs = (vertex) => {
+        for (const neighbor of graph[vertex]) {
+            if (visited.has(neighbor)) continue
+            visited.add(neighbor)
+            dfs(neighbor)
+        }
+    }
+    
+    if (edges.length !== n - 1) return false
+    const graph = buildGraph(n, edges)
+    const visited = new Set([0])
+    dfs(0)
+    return visited.size === n
+};
+
+const buildGraph = (n, edges) => {
+    const graph = Array(n).fill().map(a => [])
+    for (const [u, v] of edges) {
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    return graph
+}
+
+// DFS 2
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {boolean}
+ */
+var validTree = function(n, edges) {
+    const dfs = (vertex, parent) => {
+        for (const neighbor of graph[vertex]) {
+            if (neighbor === parent) continue
+            if (visited.has(neighbor)) return false
+            visited.add(neighbor)
+            if (!dfs(neighbor, vertex)) return false
+        }
+        return true
+    }
+    
+    const graph = buildGraph(n, edges)
+    const visited = new Set([0])
+    return dfs(0, null) && visited.size === n
+};
+
+const buildGraph = (n, edges) => {
+    const graph = Array(n).fill().map(a => [])
+    for (const [u, v] of edges) {
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    return graph
 }
 ```
 
@@ -47171,3 +47229,4 @@ var findSmallestSetOfVertices = function(n, edges) {
     return result
 };
 ```
+
