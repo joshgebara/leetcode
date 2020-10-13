@@ -29213,41 +29213,49 @@ const isLeaf = node => !node.left && !node.right
 
 ## 886. Possible Bipartition
 ```javascript
+/**
+ * @param {number} N
+ * @param {number[][]} dislikes
+ * @return {boolean}
+ */
 var possibleBipartition = function(N, dislikes) {
-    const graph = buildGraph(N, dislikes)
-    return colorGraph(N, graph)
+    const graph = buildGraph(N + 1, dislikes)
+    const colors = Array(N + 1).fill()
+    
+    for (let vertex = 1; vertex <= N; vertex++) {
+        if (colors[vertex] !== undefined) continue
+        if (!color(graph, colors, vertex)) {
+            return false
+        }
+    }
+    
+    return true
 };
 
-const colorGraph = (N, graph) => {
-    const _colorGraph = v => {
-        for (const n of graph[v]) {
-            if (!colors[n]) {
-                colors[n] = 1 - colors[v]
-                if (!_colorGraph(n)) return false
-            } else if (colors[n] === colors[v]) {
+const color = (graph, colors, vertex) => {
+    const stack = [vertex]
+    colors[vertex] = 0
+    
+    while (stack.length) {
+        const vertex = stack.pop()
+        
+        for (const neighbor of graph[vertex]) {
+            if (colors[neighbor] === undefined) {
+                colors[neighbor] = 1 - colors[vertex]
+                stack.push(neighbor)
+            } else if (colors[neighbor] === colors[vertex]) {
                 return false
             }
         }
-        return true
     }
     
-    const colors = {}
-    for (let node = 1; node <= N; node++) {
-        if (colors[node]) continue
-        colors[node] = 0
-        if (!_colorGraph(node)) return false
-    }
     return true
 }
 
-const buildGraph = (N, dislikes) => {
-    const graph = {}
+const buildGraph = (N, edges) => {
+    const graph = Array(N).fill().map(a => [])
     
-    for (let i = 1; i <= N; i++) {
-        graph[i] = []
-    }
-    
-    for (const [u, v] of dislikes) {
+    for (const [u, v] of edges) {
         graph[u].push(v)
         graph[v].push(u)
     }
