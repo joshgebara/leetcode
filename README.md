@@ -29937,6 +29937,96 @@ class Heap {
         return this.elements.length
     }
 }
+
+// Union Find
+/**
+ * @param {number[][]} A
+ * @return {number}
+ */
+var maximumMinimumPath = function(A) {
+    const edges = []
+    for (let row = 0; row < A.length; row++) {
+        for (let col = 0; col < A[0].length; col++) {
+            edges.push([row, col, A[row][col]])
+        }
+    }
+    
+    edges.sort((a, b) => b[2] - a[2])
+    
+    const visited = Array(A.length).fill(0).map(a => Array(A[0].length).fill(0))
+    const unionFind = new UnionFind(edges.length)
+    let min = A[0][0]
+    const start = 0
+    const end = A.length * A[0].length - 1
+        
+    for (const [row, col, val] of edges) {
+        min = Math.min(min, val)
+        visited[row][col] = 1
+        
+        const v1 = row * A[0].length + col
+        for (const [dRow, dCol] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+            const newRow = row + dRow
+            const newCol = col + dCol
+            
+            if (newRow < 0 || newCol < 0 || 
+                newRow >= A.length || newCol >= A[0].length ||
+                visited[newRow][newCol] === 0) continue
+            
+            const v2 = newRow * A[0].length + newCol
+            unionFind.union(v1, v2)
+        }
+        
+        if (unionFind.connected(start, end)) break
+    }
+    
+    return min
+};
+
+class UnionFind {
+    constructor(n) {
+        this.sizes = Array(n).fill(1)
+        this.parents = Array(n).fill()
+        
+        for (let i = 0; i < n; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    connected(a, b) {
+        return this.find(a) === this.find(b) 
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB)
+            return
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
+        } else {
+            this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
+        }
+    }
+    
+    find(a) {
+        let root = this.parents[a]
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (root !== a) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+}
 ```
 
 ## 1198. Find Smallest Common Element in All Rows
