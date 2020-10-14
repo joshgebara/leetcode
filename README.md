@@ -27762,48 +27762,56 @@ const isValid = (row, col, matrix) => {
 
 ## 1129. Shortest Path with Alternating Colors
 ```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} red_edges
+ * @param {number[][]} blue_edges
+ * @return {number[]}
+ */
 var shortestAlternatingPaths = function(n, red_edges, blue_edges) {
-    const rGraph = {}
-    const bGraph = {}
-    const bVisited = new Set()
-    const rVisited = new Set()
-    
-    for (let i = 0; i < n; i++) {
-        rGraph[i] = []
-        bGraph[i] = []
-    }
-    
-    for (const [u, v] of red_edges) rGraph[u].push(v)
-    for (const [u, v] of blue_edges) bGraph[u].push(v)
-    
     const result = Array(n).fill(-1)
-    const queue = [[0, 1, 0], [0, 0, 0]]
-    bVisited.add(0)
-    rVisited.add(0)
+    const graph = buildGraph(n, red_edges, blue_edges)
     
+    const queue = [[0, '']]
+    const visited = new Set([`${0}-r`, `${0}-b`])
+    
+    let level = 0
     while (queue.length) {
-        const [vertex, color, dist] = queue.shift()
-
-        if (result[vertex] === -1 || result[vertex] > dist)
-            result[vertex] = dist
-        
-        if (color) {
-            for (const n of bGraph[vertex]) {
-                if (bVisited.has(n)) continue
-                bVisited.add(n)
-                queue.push([n, 0, dist + 1])
-            }
-        } else {
-            for (const n of rGraph[vertex]) {
-                if (rVisited.has(n)) continue
-                rVisited.add(n)
-                queue.push([n, 1, dist + 1])
-            }
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [vertex, vColor] = queue.shift()
+            
+            if (result[vertex] === -1)
+                result[vertex] = level
+            
+            for (const [neighbor, nColor] of graph[vertex]) {
+                if (nColor === vColor) continue
+                
+                if (visited.has(`${neighbor}-${nColor}`)) continue
+                visited.add(`${neighbor}-${nColor}`)
+                
+                queue.push([neighbor, nColor])
+            }    
         }
+        level++   
     }
     
     return result
 };
+
+const buildGraph = (n, red_edges, blue_edges) => {
+    const graph = Array(n).fill().map(a => [])
+    
+    for (const [u, v] of red_edges) {
+        graph[u].push([v, 'r'])
+    }
+    
+    for (const [u, v] of blue_edges) {
+        graph[u].push([v, 'b'])
+    }
+    
+    return graph
+}
 ```
 
 ## 505. The Maze II
