@@ -47336,3 +47336,42 @@ var findSmallestSetOfVertices = function(n, edges) {
 };
 ```
 
+## 332. Reconstruct Itinerary
+```javascript
+/**
+ * @param {string[][]} tickets
+ * @return {string[]}
+ */
+var findItinerary = function(tickets) {
+    const graph = buildGraph(tickets)
+    const result = []
+    hierholzer(graph, result)
+    result.reverse()
+    return result
+};
+
+const hierholzer = (graph, result) => {
+    const _hierholzer = vertex => {
+        while (graph[vertex] && graph[vertex].length) {
+            _hierholzer(graph[vertex].shift())
+        }
+        
+        result.push(vertex)
+    }
+    
+    _hierholzer('JFK')
+}
+
+const buildGraph = tickets => {
+    tickets.sort()
+    
+    const graph = {}
+    
+    for (const [u, v] of tickets) {
+        if (!graph[u]) graph[u] = []
+        graph[u].push(v)
+    } 
+    
+    return graph
+}
+```
