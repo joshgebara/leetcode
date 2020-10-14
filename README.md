@@ -16068,54 +16068,59 @@ const getDegrees = (graph, n) => {
 
 ## 210. Course Schedule II
 ```javascript
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {number[]}
+ */
 var findOrder = function(numCourses, prerequisites) {
-    const dfs = start => {
-        if (cycle) return
+    const graph = buildGraph(numCourses, prerequisites)
+    return topoSort(numCourses, graph)
+};
+
+const topoSort = (n, graph) => {
+    const _topoSort = vertex => {
+        if (visited.has(vertex))
+            return false
         
-        if (visiting.has(start)) {
-            cycle = true
-            return
+        if (visiting.has(vertex)) {
+            return true
         }
         
-        visiting.add(start)
+        visiting.add(vertex)
         
-        if (graph[start]) {
-            for (const neighbor of graph[start]) {
-                if (visited.has(neighbor)) continue
-                dfs(neighbor)
+        for (const neighbor of graph[vertex]) {
+            if (_topoSort(neighbor)) {
+                return true
             }
         }
         
-        visiting.delete(start)
-        visited.add(start)
-        result.push(start)
-        return
+        visiting.delete(vertex)
+        visited.add(vertex)
+        result[i--] = vertex
+        return false
     }
     
-    const graph = buildGraph(prerequisites)
     const visited = new Set()
     const visiting = new Set()
-    const result = []
-    let cycle = false
-    
-    for (let vertex = 0; vertex < numCourses; vertex++) {
-        if (cycle) return []
-        if (visited.has(vertex)) continue
-        dfs(vertex)
+    const result = Array(n).fill()
+    let i = n - 1
+    for (let vertex = 0; vertex < n; vertex++) {
+        if (_topoSort(vertex)) {
+            return []
+        }
     }
     
     return result
-};
+}
 
-const buildGraph = edges => {
-    const graph = {}
-    for (const [vertex, neighbor] of edges) {
-        if (graph[vertex]) {
-            graph[vertex].push(neighbor)
-        } else {
-            graph[vertex] = [neighbor]
-        }
+const buildGraph = (n, edges) => {
+    const graph = Array(n).fill().map(a => [])
+    
+    for (const [a, b] of edges) {
+        graph[b].push(a)
     }
+    
     return graph
 }
 
@@ -47510,3 +47515,4 @@ class Heap {
     }
 }
 ```
+
