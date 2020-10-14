@@ -16080,35 +16080,25 @@ var findOrder = function(numCourses, prerequisites) {
 
 const topoSort = (n, graph) => {
     const _topoSort = vertex => {
-        if (visited.has(vertex))
-            return false
-        
-        if (visiting.has(vertex)) {
-            return true
-        }
-        
-        visiting.add(vertex)
+        if (colors[vertex] === 2) return false
+        if (colors[vertex] === 1) return true
+        colors[vertex] = 1
         
         for (const neighbor of graph[vertex]) {
-            if (_topoSort(neighbor)) {
-                return true
-            }
+            if (_topoSort(neighbor)) return true
         }
         
-        visiting.delete(vertex)
-        visited.add(vertex)
+        colors[vertex] = 2
         result[i--] = vertex
         return false
     }
     
-    const visited = new Set()
-    const visiting = new Set()
     const result = Array(n).fill()
     let i = n - 1
+    
+    const colors = Array(n).fill(0)
     for (let vertex = 0; vertex < n; vertex++) {
-        if (_topoSort(vertex)) {
-            return []
-        }
+        if (_topoSort(vertex)) return []
     }
     
     return result
