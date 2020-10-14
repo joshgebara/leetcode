@@ -29269,38 +29269,28 @@ const buildGraph = (N, edges) => {
 
 ## 802. Find Eventual Safe States
 ```javascript
+/**
+ * @param {number[][]} graph
+ * @return {number[]}
+ */
 var eventualSafeNodes = function(graph) {
-    const dfs = node => {
-        if (safeNodes.has(node)) return true
-        if (cycleNodes.has(node)) return false
+    const dfs = vertex => {
+        if (colors[vertex] === 2) return false
+        if (colors[vertex] === 1) return true
+        colors[vertex] = 1
         
-        if (seen.has(node)) {
-            cycleNodes.add(node)
-            return false
+        for (const neighbor of graph[vertex]) {
+            if (dfs(neighbor)) return true
         }
         
-        seen.add(node)
-        
-        if (graph[node]) {
-            for (const neighbor of graph[node]) {
-                if (!dfs(neighbor)) {
-                    cycleNodes.add(neighbor)
-                    return false
-                }
-            }
-        }
-        
-        safeNodes.add(node)
-        return true
+        colors[vertex] = 2
     }
     
-    const seen = new Set()
-    const safeNodes = new Set()
-    const cycleNodes = new Set()
     const result = []
-    
-    for (let node = 0; node < graph.length; node++) {
-        if (dfs(node)) result.push(node)
+    const colors = Array(graph.length).fill(0)
+    for (let vertex = 0; vertex < graph.length; vertex++) {
+        if (dfs(vertex)) continue
+        result.push(vertex)
     }
     
     return result
