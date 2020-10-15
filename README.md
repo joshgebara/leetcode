@@ -9866,27 +9866,43 @@ var isCousins = function(root, x, y) {
 };
 
 // BFS
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} x
+ * @param {number} y
+ * @return {boolean}
+ */
 var isCousins = function(root, x, y) {
-    if (!root) return false
-    
-    const queue = [root]
+    const queue = [[root, null]]
     
     while (queue.length) {
         const size = queue.length
-        const seen = new Set()
-        
+        let xParent = null
+        let yParent = null
         for (let i = 0; i < size; i++) {
-            const curr = queue.shift()
-            seen.add(curr.val)
-            if (curr.left) queue.push(curr.left)
-            if (curr.right) queue.push(curr.right)
+            const [node, parent] = queue.shift()
             
-            let leftVal = curr.left ? curr.left.val : null
-            let rightVal = curr.right ? curr.right.val : null
-            if ((leftVal === x || rightVal === x) && (leftVal === y || rightVal === y)) return false
+            if (node.val === x) {
+                xParent = parent
+            } else if (node.val === y) {
+                yParent = parent
+            }
+            
+            if (xParent && yParent && xParent !== yParent) return true
+            
+            if (node.left) queue.push([node.left, node])
+            if (node.right) queue.push([node.right, node])
         }
-        if (seen.has(x) && seen.has(y)) return true
     }
+    
     return false
 };
 ```
