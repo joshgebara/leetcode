@@ -9881,6 +9881,7 @@ var isCousins = function(root, x, y) {
 
 ## 690. Employee Importance
 ```javascript
+// BFS 1
 function getImportance(employees, id) {
     let map = {};
     let sum = 0;
@@ -9902,6 +9903,51 @@ function getImportance(employees, id) {
     }
 
     return sum;
+}
+
+// BFS 2
+/**
+ * Definition for Employee.
+ * function Employee(id, importance, subordinates) {
+ *     this.id = id;
+ *     this.importance = importance;
+ *     this.subordinates = subordinates;
+ * }
+ */
+
+/**
+ * @param {Employee[]} employees
+ * @param {number} id
+ * @return {number}
+ */
+var GetImportance = function(employees, id) {
+    const [graph, importanceMap] = buildGraph(employees)
+    
+    const queue = [id]
+    let sum = 0
+    
+    while (queue.length) {
+        const node = queue.shift()
+        sum += importanceMap[node]
+        
+        for (const neighbor of graph[node]) {
+            queue.push(neighbor)
+        }
+    }
+    
+    return sum
+};
+
+const buildGraph = employees => {
+    const graph = Array(employees.length + 1).fill()
+    const importanceMap = Array(employees.length + 1).fill(0)
+    
+    for (const { id, importance, subordinates } of employees) {
+        graph[id] = subordinates
+        importanceMap[id] = importance
+    }
+    
+    return [graph, importanceMap]
 }
 
 /**
