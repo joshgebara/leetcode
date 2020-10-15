@@ -18542,37 +18542,50 @@ const perimeter = (grid, row, col) => {
 
 ## 994. Rotting Oranges
 ```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
 var orangesRotting = function(grid) {
-    let maxTime = 0
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
     const queue = []
-    
-    for (let row = 0; row < grid.length; row++)
-        for (let col = 0; col < grid[0].length; col++)
-            if (grid[row][col] === 2)
-                queue.push([row, col, 0])
-    
-    while (queue.length) {
-        const [row, col, time] = queue.shift()
-        
-        if (row < 0 || row >= grid.length || 
-            col < 0 || col >= grid[0].length || 
-            grid[row][col] === 0) continue
-        
-        grid[row][col] = 0
-        maxTime = Math.max(maxTime, time)
-        
-        queue.push([row - 1, col, time + 1])
-        queue.push([row + 1, col, time + 1])
-        queue.push([row, col + 1, time + 1])
-        queue.push([row, col - 1, time + 1])
+    let orangeCount = 0
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === 2) {
+                queue.push([row, col])
+            } else if (grid[row][col] === 1) {
+                orangeCount++
+            }
+        }
     }
     
-    for (let row = 0; row < grid.length; row++)
-        for (let col = 0; col < grid[0].length; col++)
-            if (grid[row][col] === 1)
-                return -1
+    let level = 0
+    if (orangeCount === 0) return level
     
-    return maxTime  
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col] = queue.shift()
+            
+            for (const [dRow, dCol] of dirs) {
+                const nextRow = row + dRow
+                const nextCol = col + dCol
+
+                if (nextRow < 0 || nextRow >= grid.length || 
+                    nextCol < 0 || nextCol >= grid[0].length || 
+                    grid[nextRow][nextCol] !== 1) continue
+                
+                orangeCount--        
+                grid[nextRow][nextCol] = 2
+                queue.push([nextRow, nextCol])
+            }
+        }
+        level++
+        if (orangeCount === 0) return level
+    }
+    
+    return -1
 };
 ```
 
