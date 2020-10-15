@@ -25098,27 +25098,36 @@ var largestValues = function(root) {
 };
 
 // BFS
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
 var largestValues = function(root) {
     if (!root) return []
     
-    const levels = []
+    const result = []
     const queue = [root]
-    
     while (queue.length) {
         const size = queue.length
-        let max = -Number.MAX_VALUE
-        
+        let max = -Infinity
         for (let i = 0; i < size; i++) {
             const node = queue.shift()
-            max = Math.max(node.val, max)
+            max = Math.max(max, node.val)
             
             if (node.left) queue.push(node.left)
             if (node.right) queue.push(node.right)
         }
-        levels.push(max)
+        result.push(max)
     }
-    
-    return levels
+    return result
 };
 ```
 
