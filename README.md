@@ -9553,7 +9553,19 @@ var reverseWords = function(s) {
 
 ## 559. Maximum Depth of N-ary Tree
 ```javascript
-// Iterative
+// DFS Iterative
+/**
+ * // Definition for a Node.
+ * function Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number}
+ */
 var maxDepth = function(root) {
     if (!root) return 0
     
@@ -9578,7 +9590,19 @@ var maxDepth = function(root) {
     return maxDepth
 };
 
-// Recursive
+// DFS Recursive
+/**
+ * // Definition for a Node.
+ * function Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number}
+ */
 var maxDepth = function(root) {
     if (!root) return 0
     
@@ -9589,6 +9613,38 @@ var maxDepth = function(root) {
     }
     
     return depth
+};
+
+// BFS
+/**
+ * // Definition for a Node.
+ * function Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number}
+ */
+var maxDepth = function(root) {
+    if (!root) return 0
+    
+    let level = 0
+    const queue = [root]
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            for (const child of node.children) {
+                queue.push(child)
+            }
+        }
+        level++
+    }
+    
+    return level
 };
 ```
 
