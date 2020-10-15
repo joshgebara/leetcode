@@ -17874,6 +17874,18 @@ var canWinNim = function(n) {
 
 ## 199. Binary Tree Right Side View
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
 var rightSideView = function(root) {
     if (!root) return []
     
@@ -17882,19 +17894,12 @@ var rightSideView = function(root) {
     
     while (queue.length) {
         const size = queue.length
-        
         for (let i = 0; i < size; i++) {
-            const curr = queue.shift()
-            
-            if (i === size - 1)
-                result.push(curr.val)
-            
-            if (curr.left)
-                queue.push(curr.left)
-
-            if (curr.right)
-                queue.push(curr.right)
-        }    
+            const node = queue.shift()
+            if (i === 0) result.push(node.val)
+            if (node.right) queue.push(node.right)
+            if (node.left) queue.push(node.left)
+        }
     }
     
     return result
