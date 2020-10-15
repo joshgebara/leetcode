@@ -27200,20 +27200,41 @@ const dfs = (graph, row, col, queue) => {
 
 ## 1236. Web Crawler
 ```javascript
+/**
+ * // This is the HtmlParser's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * function HtmlParser() {
+ *
+ *		@param {string} url
+ *     	@return {string[]}
+ *     	this.getUrls = function(url) {
+ *      	...
+ *     	};
+ * };
+ */
+
+/**
+ * @param {string} startUrl
+ * @param {HtmlParser} htmlParser
+ * @return {string[]}
+*/
 var crawl = function(startUrl, htmlParser) {
-    const visited = new Set([startUrl])
-    const queue = [startUrl]
     const hostname = getHostname(startUrl)
+    const queue = [startUrl]
     const result = []
+    const visited = new Set([startUrl])
     
     while (queue.length) {
         const url = queue.shift()
+        
         result.push(url)
         
         for (const neighbor of htmlParser.getUrls(url)) {
-            if (visited.has(neighbor) || !neighbor.includes(hostname)) continue
+            if (visited.has(neighbor)) continue
             visited.add(neighbor)
-            queue.push(neighbor)
+            
+            const neighborHostname = getHostname(neighbor)
+            if (neighborHostname === hostname) queue.push(neighbor)
         }
     }
     
