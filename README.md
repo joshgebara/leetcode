@@ -12095,29 +12095,41 @@ var floodFill = function(image, sr, sc, newColor) {
 
 ## 1161. Maximum Level Sum of a Binary Tree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var maxLevelSum = function(root) {
-    const queue = [root]
-    let max = 0
-    let maxLevel = 0
-    let level = 0
+    let maxSum = -Infinity
+    let maxLevel = -1
     
+    const queue = [root]
+    let level = 0
     while (queue.length) {
         const size = queue.length
-        let sum = 0
-        level++
-        
+        let currSum = 0
         for (let i = 0; i < size; i++) {
-            const curr = queue.shift()
-            if (curr.left) queue.push(curr.left)
-            if (curr.right) queue.push(curr.right)
-            sum += curr.val
+            const node = queue.shift()
+            currSum += node.val
+            
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
         }
-        
-        if (sum > max) {
-            max = sum
+        level++
+        if (maxSum < currSum) {
+            maxSum = currSum
             maxLevel = level
         }
     }
+    
     return maxLevel
 };
 ```
