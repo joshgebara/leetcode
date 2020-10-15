@@ -10439,25 +10439,37 @@ var inorderTraversal = function(root) {
 ## 102. Binary Tree Level Order Traversal
 ```javascript
 // Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
 var levelOrder = function(root) {
     if (!root) return []
     
     const result = []
     const queue = [root]
-    
     while (queue.length) {
         const size = queue.length
-        const row = []
+        const level = []
         for (let i = 0; i < size; i++) {
-            const curr = queue.shift()
+            const node = queue.shift()
             
-            if (curr.left) queue.push(curr.left)
-            if (curr.right) queue.push(curr.right)
+            level.push(node.val)
             
-            row.push(curr.val)
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
         }
-        result.push(row)
+        result.push(level)
     }
+    
     return result
 };
 
