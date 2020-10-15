@@ -9675,6 +9675,19 @@ var levelOrder = function(root) {
 
 ## 111. Minimum Depth of Binary Tree
 ```javascript
+// DFS
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var minDepth = function(root) {
     if (!root) return 0
     
@@ -9684,6 +9697,40 @@ var minDepth = function(root) {
     if (leftDepth === 0) return rightDepth + 1
     if (rightDepth === 0) return leftDepth + 1
     return Math.min(leftDepth + 1, rightDepth + 1)
+};
+
+// BFS
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function(root) {
+    if (!root) return 0
+    
+    const queue = [root]
+    let level = 0
+    while (queue.length) {
+        level++
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            
+            if (!node.left && !node.right) return level
+            
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+        }
+    }
+    
+    return level
 };
 ```
 
