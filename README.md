@@ -27352,40 +27352,45 @@ const getHostname = str => {
 
 ## 1311. Get Watched Videos by Your Friends
 ```javascript
+/**
+ * @param {string[][]} watchedVideos
+ * @param {number[][]} friends
+ * @param {number} id
+ * @param {number} level
+ * @return {string[]}
+ */
 var watchedVideosByFriends = function(watchedVideos, friends, id, level) {
-    const visited = new Set([id])
-    const queue = [id]
-    let currLevel = 0
+    const counts = {}
     
-    while (queue.length && currLevel < level) {
+    const queue = [id]
+    const visited = new Set([id])
+    let dist = 0
+    while (queue.length && dist <= level) {
         const size = queue.length
         for (let i = 0; i < size; i++) {
-            const vertex = queue.shift()
+            const node = queue.shift()
             
-            for (const neighbor of friends[vertex]) {
+            if (dist === level) {
+                for (const video of watchedVideos[node]) {
+                    counts[video] = 1 + (counts[video] || 0)
+                }
+            }
+            
+            for (const neighbor of friends[node]) {
                 if (visited.has(neighbor)) continue
-                queue.push(neighbor)
                 visited.add(neighbor)
-            }   
+                queue.push(neighbor)
+            }
         }
-        currLevel++
+        dist++
     }
     
-    const count = {}
-    for (const friend of queue) {
-        for (const movie of watchedVideos[friend]) {
-            count[movie] = 1 + (count[movie] || 0)
+    return Object.keys(counts).sort((a, b) => {
+        if (counts[a] === counts[b]) {
+            return a.localeCompare(b)
         }
-    }
-    
-    const result = Object.entries(count)
-    result.sort(([aChar, aCount], [bChar, bCount]) => {
-        if (aCount < bCount) return -1
-        if (aCount > bCount) return 1
-        if (aChar < bChar) return -1
-        if (aChar > bChar) return 1
+        return counts[a] - counts[b]
     })
-    return result.map(([char, count]) => char)
 };
 ```
 
