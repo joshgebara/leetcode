@@ -19001,12 +19001,16 @@ var dailyTemperatures = function(T) {
  * @return {void} Do not return anything, modify rooms in-place instead.
  */
 var wallsAndGates = function(rooms) {
-    const queue = []
-    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
-    const EMPTY = 2147483647
+    if (!rooms.length) return
     
-    for (let row = 0; row < rooms.length; row++) {
-        for (let col = 0; col < rooms[0].length; col++) {
+    const rowLen = rooms.length
+    const colLen = rooms[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const INF = 2147483647
+    
+    const queue = []
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
             if (rooms[row][col] === 0) {
                 queue.push([row, col, 0])
             }
@@ -19014,21 +19018,17 @@ var wallsAndGates = function(rooms) {
     }
     
     while (queue.length) {
-        const [row, col, dist] = queue.shift()
-        
-        if (rooms[row][col] === EMPTY) {
-            rooms[row][col] = dist
-        }
-        
-        for (const [deltaRow, deltaCol] of dirs) {
-            const newRow = deltaRow + row
-            const newCol = deltaCol + col
+        const [row, col] = queue.shift()
+        for (const [dRow, dCol] of dirs) {
+            const nextRow = dRow + row
+            const nextCol = dCol + col
             
-            if (newRow < 0 || newRow >= rooms.length || 
-                newCol < 0 || newCol >= rooms[0].length ||
-                rooms[newRow][newCol] !== EMPTY) continue
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen ||
+               rooms[nextRow][nextCol] !== INF) continue
             
-            queue.push([newRow, newCol, dist + 1])
+            rooms[nextRow][nextCol] = rooms[row][col] + 1
+            queue.push([nextRow, nextCol])
         }
     }
 };
