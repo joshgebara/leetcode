@@ -27718,35 +27718,48 @@ var snakesAndLadders = function(board) {
 
 ## 542. 01 Matrix
 ```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {number[][]}
+ */
 var updateMatrix = function(matrix) {
-    const queue = []
-    const visited = Array(matrix.length).fill(false).map(a => Array(matrix[0].length).fill(false))
     const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const rowLen = matrix.length
+    const colLen = matrix[0].length
     
-    for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[0].length; j++) {
-            if (!matrix[i][j]) {
-                queue.push([i, j, 0])
-                visited[i][j] = true
+    const visited = Array(rowLen).fill().map(a => Array(colLen).fill(0))
+    const queue = []
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (matrix[row][col] === 0) {
+                visited[row][col] = 1
+                queue.push([row, col])
             }
         }
     }
     
+    let dist = 0
     while (queue.length) {
-        const [row, col, dist] = queue.shift()
-        matrix[row][col] = dist
-        
-        for (const [x, y] of dirs) {
-            const nr = row + x
-            const nc = col + y
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col] = queue.shift()
+            matrix[row][col] = dist
             
-            if (nr < 0 || nc < 0 || nr >= matrix.length || nc >= matrix[0].length || visited[nr][nc])
-                continue
-            
-            visited[nr][nc] = true
-            queue.push([nr, nc, dist + 1])
-        }        
+            for (const [dRow, dCol] of dirs) {
+                const nextRow = row + dRow
+                const nextCol = col + dCol
+                
+                if (nextRow < 0 || nextRow >= rowLen ||
+                    nextCol < 0 || nextCol >= colLen || 
+                    visited[nextRow][nextCol] === 1) continue
+                
+                visited[nextRow][nextCol] = 1
+                queue.push([nextRow, nextCol])
+            }
+        }
+        dist++
     }
+    
     return matrix
 };
 ```
@@ -47882,3 +47895,4 @@ var numsSameConsecDiff = function(n, k) {
     return queue
 };
 ```
+
