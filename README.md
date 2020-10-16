@@ -19697,7 +19697,7 @@ var solve = function(board) {
     return board
 };
 
-// Union Find
+// DFS
 var solve = function(board) {
     if (!board.length) return
     
@@ -28038,52 +28038,50 @@ const isValid = (maze, row, col) => {
 ## 529. Minesweeper
 ```javascript
 // BFS
+/**
+ * @param {character[][]} board
+ * @param {number[]} click
+ * @return {character[][]}
+ */
 var updateBoard = function(board, click) {
-    const m = board.length
-    const n = board[0].length
-    
-    if (board[click[0]][click[1]] === 'M') {
-        board[click[0]][click[1]] = 'X'
+    const [clickRow, clickCol] = click
+    if (board[clickRow][clickCol] === 'M') {
+        board[clickRow][clickCol] = 'X'
         return board
     }
     
-    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [-1, 1], [1, -1]]
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1], [-1, -1], [1, 1], [1, -1], [-1, 1]]
     const queue = [click]
-    
     while (queue.length) {
         const [row, col] = queue.shift()
-        
         if (board[row][col] !== 'E') continue
         
-        board[row][col] = adjMineCount(row, col, board, dirs)
-        if (board[row][col] !== 'B') continue
-        
-        for (const [dx, dy] of dirs) {
-            const nr = row + dx
-            const nc = col + dy
+        const neighbors = []
+        let mines = 0
+        for (const [dRow, dCol] of dirs) {
+            const nextRow = row + dRow
+            const nextCol = col + dCol
             
-            if (nr < 0 || nc < 0 || nr >= m || nc >= n || board[nr][nc] !== 'E') continue
-            queue.push([nr, nc])
+            if (nextRow < 0 || nextRow >= board.length || 
+                nextCol < 0 || nextCol >= board[0].length) continue
+            
+            if (board[nextRow][nextCol] === 'M') {
+                mines++
+            } else if (board[nextRow][nextCol] === 'E') {
+                neighbors.push([nextRow, nextCol])
+            }            
+        }
+        
+        if (mines > 0) {
+            board[row][col] = `${mines}`
+        } else {
+            board[row][col] = 'B'
+            queue.push(...neighbors)
         }
     }
     
     return board
 };
-
-const adjMineCount = (row, col, board, dirs) => {
-    const m = board.length
-    const n = board[0].length
-    let count = 0
-    
-    for (const [dx, dy] of dirs) {
-        const nr = row + dx
-        const nc = col + dy
-
-        if (nr < 0 || nc < 0 || nr >= m || nc >= n || board[nr][nc] !== 'M') continue
-        count++
-    }
-    return !count ? 'B' : `${count}`
-}
 
 // DFS
 var updateBoard = function(board, click) {
