@@ -47849,4 +47849,36 @@ var numsSameConsecDiff = function(n, k) {
     
     return result
 };
+
+// BFS
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[]}
+ */
+var numsSameConsecDiff = function(n, k) {
+    const queue = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    let level = 0
+    while (queue.length && level < n - 1) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const num = queue.shift()
+            
+            const currDigit = num % 10
+            
+            let nextDigit = currDigit - k
+            if (nextDigit >= 0) {
+                queue.push(num * 10 + nextDigit)
+            }
+            
+            nextDigit = currDigit + k
+            if (k !== 0 && nextDigit <= 9) {
+                queue.push(num * 10 + nextDigit)
+            }
+        }
+        level++
+    }
+    
+    return queue
+};
 ```
