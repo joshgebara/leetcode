@@ -19645,6 +19645,59 @@ var combinationSum = function(candidates, target) {
 
 ## 130. Surrounded Regions
 ```javascript
+// BFS
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solve = function(board) {
+    if (!board.length) return []
+    
+    const rowLen = board.length
+    const colLen = board[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    const queue = []
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (board[row][col] === 'O' && 
+                (row === 0 || row === rowLen - 1 || 
+                 col === 0 || col === colLen - 1)) {
+                queue.push([row, col])
+            }
+        }
+    }
+    
+    while (queue.length) {
+        const [row, col] = queue.shift()
+        board[row][col] = 'Z'
+        
+        for (const [dRow, dCol] of dirs) {
+            const nextRow = row + dRow
+            const nextCol = col + dCol
+            
+            if (nextRow < 0 || nextCol < 0 || 
+                nextRow >= rowLen || nextCol >= colLen ||
+                board[nextRow][nextCol] !== 'O') continue
+            
+            queue.push([nextRow, nextCol])
+        }
+    }
+    
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (board[row][col] === 'Z') {
+                board[row][col] = 'O'
+            } else {
+                board[row][col] = 'X'
+            }
+        }
+    }
+    
+    return board
+};
+
+// Union Find
 var solve = function(board) {
     if (!board.length) return
     
