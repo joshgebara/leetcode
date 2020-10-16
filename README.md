@@ -47814,3 +47814,39 @@ class Heap {
 }
 ```
 
+## 967. Numbers With Same Consecutive Differences
+```javascript
+// DFS / Backtracking
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[]}
+ */
+var numsSameConsecDiff = function(n, k) {
+    const _numsSameConsecDiff = (num, length) => {
+        if (length === n) {
+            result.push(num)
+            return
+        }
+        
+        const currDigit = num % 10
+        
+        let nextDigit = currDigit - k
+        if (nextDigit >= 0) {
+            _numsSameConsecDiff(num * 10 + nextDigit, length + 1)
+        }
+        
+        nextDigit = currDigit + k
+        if (k !== 0 && nextDigit <= 9) {
+            _numsSameConsecDiff(num * 10 + nextDigit, length + 1)
+        }
+    }
+    
+    const result = []
+    for (let num = 1; num <= 9; num++) {
+        _numsSameConsecDiff(num, 1)
+    }
+    
+    return result
+};
+```
