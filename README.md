@@ -41639,6 +41639,7 @@ HAVING AVG(duration) > (SELECT AVG(duration) FROM calls)
 
 ## 1490. Clone N-ary Tree
 ```javascript
+// BFS
 /**
  * // Definition for a Node.
  * function Node(val, children) {
@@ -41661,13 +41662,13 @@ var cloneTree = function(root) {
     while (queue.length) {
         const node = queue.shift()
         
-        for (const neighbor of node.children) {
-            if (!map.get(neighbor)) {
-                map.set(neighbor, new Node(neighbor.val, []))
-                queue.push(neighbor)    
+        for (const child of node.children) {
+            if (!map.get(child)) {
+                map.set(child, new Node(child.val))
             }
             
-            map.get(node).children.push(map.get(neighbor))
+            queue.push(child)
+            map.get(node).children.push(map.get(child))
         }
     }
     
