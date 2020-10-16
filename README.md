@@ -13005,7 +13005,7 @@ var copyRandomList = function(head) {
     }
     
     curr = head
-    while(curr) {
+    while (curr) {
         if (curr.next) 
             map.get(curr).next = map.get(curr.next)
         if (curr.random) 
@@ -47992,3 +47992,38 @@ var numsSameConsecDiff = function(n, k) {
 };
 ```
 
+## 1485. Clone Binary Tree With Random Pointer
+```javascript
+// DFS
+/**
+ * // Definition for a Node.
+ * function Node(val, left, right, random) {
+ *    this.val = val === undefined ? null : val;
+ *    this.left = left === undefined ? null : left;
+ *    this.right = right === undefined ? null : right;
+ *    this.random = random === undefined ? null : random;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {NodeCopy}
+ */
+var copyRandomBinaryTree = function(root) {
+    const dfs = node => {
+        if (!node) return null
+        if (map.get(node)) return map.get(node)
+        
+        const clonedNode = new NodeCopy(node.val)
+        map.set(node, clonedNode)
+
+        clonedNode.left = dfs(node.left)
+        clonedNode.right = dfs(node.right)
+        clonedNode.random = dfs(node.random)
+        return clonedNode
+    }
+    
+    const map = new Map()
+    return dfs(root)
+};
+```
