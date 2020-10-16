@@ -41665,9 +41665,9 @@ var cloneTree = function(root) {
         for (const child of node.children) {
             if (!map.get(child)) {
                 map.set(child, new Node(child.val))
+                queue.push(child)
             }
             
-            queue.push(child)
             map.get(node).children.push(map.get(child))
         }
     }
