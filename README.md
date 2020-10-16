@@ -27718,6 +27718,7 @@ var snakesAndLadders = function(board) {
 
 ## 542. 01 Matrix
 ```javascript
+// BFS
 /**
  * @param {number[][]} matrix
  * @return {number[][]}
@@ -27758,6 +27759,50 @@ var updateMatrix = function(matrix) {
             }
         }
         dist++
+    }
+    
+    return matrix
+};
+
+// DP
+/**
+ * @param {number[][]} matrix
+ * @return {number[][]}
+ */
+var updateMatrix = function(matrix) {
+    const rowLen = matrix.length
+    const colLen = matrix[0].length
+    
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (matrix[row][col] === 0) continue
+            
+            let min = Infinity
+            for (const [dRow, dCol] of [[-1, 0], [0, -1]]) {
+                const nextRow = row + dRow
+                const nextCol = col + dCol
+                
+                if (nextRow < 0 || nextCol < 0) continue
+                min = Math.min(min, matrix[nextRow][nextCol])
+            }
+            matrix[row][col] = 1 + min
+        }
+    }
+    
+    for (let row = rowLen - 1; row >= 0; row--) {
+        for (let col = colLen - 1; col >= 0; col--) {
+            if (matrix[row][col] === 0) continue
+            
+            let min = Infinity
+            for (const [dRow, dCol] of [[1, 0], [0, 1]]) {
+                const nextRow = row + dRow
+                const nextCol = col + dCol
+                
+                if (nextRow >= rowLen || nextCol >= colLen) continue
+                min = Math.min(min, matrix[nextRow][nextCol])
+            }
+            matrix[row][col] = Math.min(matrix[row][col], 1 + min)
+        }
     }
     
     return matrix
