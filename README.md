@@ -18823,7 +18823,6 @@ var cloneGraph = function(node) {
     graph[node.val] = new Node(node.val, [])
     
     const queue = [node]
-    
     while (queue.length) {
         const source = queue.shift()
         
@@ -48025,5 +48024,61 @@ var copyRandomBinaryTree = function(root) {
     
     const map = new Map()
     return dfs(root)
+};
+
+// BFS
+/**
+ * // Definition for a Node.
+ * function Node(val, left, right, random) {
+ *    this.val = val === undefined ? null : val;
+ *    this.left = left === undefined ? null : left;
+ *    this.right = right === undefined ? null : right;
+ *    this.random = random === undefined ? null : random;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {NodeCopy}
+ */
+var copyRandomBinaryTree = function(root) {
+    if (!root) return root
+    
+    const map = new Map()
+    map.set(root, new NodeCopy(root.val))
+    
+    const queue = [root]
+    while (queue.length) {
+        const node = queue.shift()
+        const cloneNode = map.get(node)
+        
+        if (node.left) {
+            if (!map.get(node.left)) {
+                const newNode = new NodeCopy(node.left.val)
+                map.set(node.left, newNode)
+            }
+            cloneNode.left = map.get(node.left)
+            queue.push(node.left)
+        }
+        
+        if (node.right) {
+            if (!map.get(node.right)) {
+                const newNode = new NodeCopy(node.right.val)
+                map.set(node.right, newNode)
+            }
+            cloneNode.right = map.get(node.right)
+            queue.push(node.right)
+        }
+        
+        if (node.random) {
+            if (!map.get(node.random)) {
+                const newNode = new NodeCopy(node.random.val)
+                map.set(node.random, newNode)
+            }
+            cloneNode.random = map.get(node.random)
+        }
+    }
+    
+    return map.get(root)
 };
 ```
