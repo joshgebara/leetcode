@@ -28185,6 +28185,11 @@ const adjMineCount = (board, row, col, dirs) => {
 
 ## 417. Pacific Atlantic Water Flow
 ```javascript
+// BFS
+/**
+ * @param {number[][]} matrix
+ * @return {number[][]}
+ */
 var pacificAtlantic = function(matrix) {    
     if (!matrix.length) return []
     
