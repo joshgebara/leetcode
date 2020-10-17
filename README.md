@@ -28012,43 +28012,48 @@ const maxPath = (vertex, graph) => {
 ## 490. The Maze
 ```javascript
 // BFS
+// Runtime: O(mn * max(m,n))
+/**
+ * @param {number[][]} maze
+ * @param {number[]} start
+ * @param {number[]} destination
+ * @return {boolean}
+ */
 var hasPath = function(maze, start, destination) {
-    const visited = Array(maze.length).fill(0).map(n => Array(maze[0].length).fill(false))
-    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-    const queue = [start]
+    const dirs = [[1, 0], [-1, 0], [0, -1], [0, 1]]
     
+    const queue = [start]
+    maze[start[0]][start[1]] = 2
     while (queue.length) {
         const [row, col] = queue.shift()
         
-        if (row === destination[0] && col === destination[1])
-            return true
-        
-        for (const [dx, dy] of dirs) {
-            let nr = row
-            let nc = col
+        for (const [dRow, dCol] of dirs) {
+            let nextRow = row
+            let nextCol = col
             
-            while (!isInvalid(nr, nc, maze)) {
-                nr += dx
-                nc += dy
-            } 
+            while (nextRow >= 0 && nextRow < maze.length && 
+                   nextCol >= 0 && nextCol < maze[0].length && 
+                   maze[nextRow][nextCol] !== 1) {
+                nextRow += dRow
+                nextCol += dCol
+            }
             
-            nr -= dx
-            nc -= dy
+            nextRow -= dRow
+            nextCol -= dCol
             
-            if (visited[nr][nc]) continue
-            visited[nr][nc] = true
-            queue.push([nr, nc])
+            if (nextRow === destination[0] && 
+                nextCol === destination[1]) {
+                return true
+            }
+            
+            if (maze[nextRow][nextCol] === 2) continue
+            maze[nextRow][nextCol] = 2
+            queue.push([nextRow, nextCol])
         }
     }
     
     return false
 };
-
-const isInvalid = (row, col, grid) => {
-    return row < 0 || col < 0 || 
-           row >= grid.length || col >= grid[0].length || 
-           grid[row][col] === 1
-}
 
 // DFS
 var hasPath = function(maze, start, destination) {
