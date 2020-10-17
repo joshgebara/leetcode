@@ -23516,6 +23516,12 @@ class DisjointSet {
 
 ## 1319. Number of Operations to Make Network Connected
 ```javascript
+// Union Find
+/**
+ * @param {number} n
+ * @param {number[][]} connections
+ * @return {number}
+ */
 var makeConnected = function(n, connections) {
     if (connections.length < n - 1) return -1
     
@@ -23566,6 +23572,53 @@ class DisjointSet {
         }
         
         this.numOfComponents--
+    }
+}
+
+// BFS
+/**
+ * @param {number} n
+ * @param {number[][]} connections
+ * @return {number}
+ */
+var makeConnected = function(n, connections) {
+    if (connections.length < n - 1) return -1
+    
+    const graph = buildGraph(n, connections)
+    const visited = new Set()
+    let numOfComponents = 0
+    for (let vertex = 0; vertex < n; vertex++) {
+        if (visited.has(vertex)) continue
+        visited.add(vertex)
+        countComponent(vertex, graph, visited)
+        numOfComponents++
+    }
+    
+    return numOfComponents - 1
+};
+
+const buildGraph = (n, connections) => {
+    const graph = Array(n).fill().map(a => [])
+    
+    for (const [u, v] of connections) {
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    
+    return graph
+}
+
+const countComponent = (vertex, graph, visited) => {
+    const queue = [vertex]
+    while (queue.length) {
+        const node = queue.shift()
+        
+        for (const neighbor of graph[node]) {
+            if (visited.has(neighbor)) continue
+            visited.add(neighbor)
+            
+            queue.push(neighbor)
+        }
     }
 }
 ```
