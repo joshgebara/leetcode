@@ -27315,6 +27315,7 @@ var canReach = function(arr, start) {
 
 ## 752. Open the Lock
 ```javascript
+// BFS
 var openLock = function(deadends, target) {
     const visited = new Set(deadends)
     const queue = ['0000']
@@ -27347,6 +27348,153 @@ var openLock = function(deadends, target) {
     
     return -1
 };
+
+// A*
+/**
+ * @param {string[]} deadends
+ * @param {string} target
+ * @return {number}
+ */
+var openLock = function(deadends, target) {
+    const queue = new Heap([[[0, 0, 0, 0], 0, heuristic('0000', target)]], (a, b) => {
+        const [, aTurns, aHeuristic] = a
+        const [, bTurns, bHeuristic] = b
+        return aTurns + aHeuristic < bTurns + bHeuristic
+    })
+    
+    const visited = new Set(deadends)
+    while (queue.length()) {
+        const [combo, turns] = queue.remove()
+        
+        const comboStr = combo.join('')
+        if (comboStr === target) return turns
+        
+        if (visited.has(comboStr)) continue
+        visited.add(comboStr)
+
+        const neighbors = []
+        for (let i = 0; i < combo.length; i++) {
+            const nextCombo = combo.slice()
+            const num = combo[i]
+            nextCombo[i] = ((num + 1) % 10)
+            queue.insert([nextCombo.slice(), 
+                          turns + 1, 
+                          heuristic(nextCombo, target)])
+
+            nextCombo[i] = num === 0 ? 9 : num - 1
+            queue.insert([nextCombo.slice(), 
+                          turns + 1, 
+                          heuristic(nextCombo, target)])
+        }
+    }
+    
+    return -1
+};
+
+const heuristic = (combo, target) => {
+    let hammingDistance = 0
+    for (let i = 0; i < combo.length; i++) {
+        hammingDistance += Math.abs(combo[i] - target[i])
+    }
+    return hammingDistance
+}
+
+class Heap {
+    constructor(elements, sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    length() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
 ```
 
 ## 934. Shortest Bridge
