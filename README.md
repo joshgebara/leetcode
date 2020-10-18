@@ -27455,7 +27455,9 @@ var openLock = function(deadends, target) {
 const heuristic = (combo, target) => {
     let distance = 0
     for (let i = 0; i < combo.length; i++) {
-        distance += Math.abs(combo[i] - target[i])
+        const max = Math.max(target[i], combo[i])
+        const min = Math.min(target[i], combo[i])
+        distance += Math.min(max - min, min + 10 - max)
     }
     return distance
 }
