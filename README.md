@@ -27392,11 +27392,11 @@ var openLock = function(deadends, target) {
 };
 
 const heuristic = (combo, target) => {
-    let hammingDistance = 0
+    let distance = 0
     for (let i = 0; i < combo.length; i++) {
-        hammingDistance += Math.abs(combo[i] - target[i])
+        distance += Math.abs(combo[i] - target[i])
     }
-    return hammingDistance
+    return distance
 }
 
 class Heap {
