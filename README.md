@@ -27349,6 +27349,67 @@ var openLock = function(deadends, target) {
     return -1
 };
 
+// Bidirectional BFS
+/**
+ * @param {string[]} deadends
+ * @param {string} target
+ * @return {number}
+ */
+var openLock = function(deadends, target) {
+    deadends = new Set(deadends)
+    if (deadends.has('0000')) return -1
+    
+    const visitedStart = new Set(['0000'])
+    const visitedEnd = new Set([target])
+    
+    const queueStart = ['0000']
+    const queueEnd = [target]
+    
+    let turnsStart = 0
+    let turnsEnd = 0
+    
+   while (queueStart.length && queueEnd.length) {
+        if (bfs(queueStart, visitedStart, visitedEnd, deadends)) 
+            return turnsStart + turnsEnd
+        turnsStart++
+       
+        if (bfs(queueEnd, visitedEnd, visitedStart, deadends)) 
+            return turnsStart + turnsEnd
+        turnsEnd++
+    }
+    
+    return -1
+};
+
+const bfs = (queue, visited1, visited2, deadends) => {
+    const size = queue.length
+    for (let i = 0; i < size; i++) {
+        const combo = queue.shift()
+        
+        if (visited2.has(combo)) {
+            return true
+        }
+
+        for (let i = 0; i < 4; i++) {
+            const nextPos1 = combo[i] === '9' ? 0 : +combo[i] + 1
+            const nextCombo1 = combo.slice(0, i) + nextPos1 + combo.slice(i + 1)
+            if (!visited1.has(nextCombo1) && !deadends.has(nextCombo1)) {
+                visited1.add(nextCombo1)
+                queue.push(nextCombo1)
+            }
+            
+            const nextPos2 = combo[i] === '0' ? 9 : +combo[i] - 1
+            const nextCombo2 = combo.slice(0, i) + nextPos2 + combo.slice(i + 1)
+            if (!visited1.has(nextCombo2) && !deadends.has(nextCombo2)) {
+                visited1.add(nextCombo2)
+                queue.push(nextCombo2)
+            }  
+        }
+    }
+
+    return false
+}
+
 // A*
 /**
  * @param {string[]} deadends
