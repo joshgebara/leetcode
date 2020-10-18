@@ -36198,9 +36198,10 @@ const shiftElements = (arr, i) => {
 ```javascript
 /**
  * Definition for a binary tree node.
- * function TreeNode(val) {
- *     this.val = val;
- *     this.left = this.right = null;
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
  * }
  */
 /**
@@ -36211,30 +36212,23 @@ var verticalOrder = function(root) {
     if (!root) return []
     
     const map = {}
-    let start = 0
-    let end = 0
-    
     const queue = [[root, 0]]
+    let minCol = 0
+    let maxCol = 0
     while (queue.length) {
         const [node, col] = queue.shift()
         
-        if (!map[col]) 
-            map[col] = []
-        
+        if (!map[col]) map[col] = []
         map[col].push(node.val)
-                
-        start = Math.min(start, col)
-        end = Math.max(end, col)
+        minCol = Math.min(minCol, col)
+        maxCol = Math.max(maxCol, col)
         
-        if (node.left)
-            queue.push([node.left, col - 1])
-        
-        if (node.right)
-            queue.push([node.right, col + 1])
+        if (node.left) queue.push([node.left, col - 1])
+        if (node.right) queue.push([node.right, col + 1])
     }
     
     const result = []
-    for (let i = start; i <= end; i++) {
+    for (let i = minCol; i <= maxCol; i++) {
         result.push(map[i])
     }
     
