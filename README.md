@@ -27755,8 +27755,7 @@ var minKnightMoves = function(x, y) {
                 const ny = col + dy
                 const key = `${nx}-${ny}`
                 
-                if (Math.abs(nx) + Math.abs(ny) > 300)
-			        continue
+                if (Math.abs(nx) + Math.abs(ny) > 300) continue
                 
                 if (visited.has(key)) continue
                 visited.add(key)
@@ -27767,6 +27766,57 @@ var minKnightMoves = function(x, y) {
         dist++
     }
 };
+
+// Bidirectional BFS
+/**
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+var minKnightMoves = function(x, y) {
+    const startQueue = [[0, 0]]
+    const endQueue = [[x, y]]
+    
+    const startVisited = new Set([`0-0`])
+    const endVisited = new Set([`${x}-${y}`])
+    
+    let startSteps = 0
+    let endSteps = 0
+    
+    while (true) {
+        let isFound = bfs(startQueue, startVisited, endVisited)
+        if (isFound) return startSteps + endSteps
+        startSteps++
+        
+        isFound = bfs(endQueue, endVisited, startVisited)
+        if (isFound) return startSteps + endSteps
+        endSteps++
+    }
+};
+
+const bfs = (queue, visited1, visited2) => {
+    const dirs = [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [1, -2], [-1, 2], [-1, -2]]
+    const size = queue.length
+    for (let i = 0; i < size; i++) {
+        const [row, col] = queue.shift()
+        
+        if (visited2.has(`${row}-${col}`)) 
+            return true
+        
+        for (const [dx, dy] of dirs) {
+            const nx = row + dx
+            const ny = col + dy
+            const key = `${nx}-${ny}`
+            
+            if (visited1.has(key)) continue
+            visited1.add(key)
+            
+            queue.push([nx, ny])
+        }
+    }
+    
+    return false
+}
 
 // A*
 /**
