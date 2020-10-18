@@ -48738,3 +48738,23 @@ WHERE a.student_id <> b.student_id AND
       b.student_name <> c.student_name AND 
       a.student_name <> c.student_name
 ```
+
+## 1619. Mean of Array After Removing Some Elements
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var trimMean = function(arr) {
+    arr.sort((a, b) => a - b)
+    
+    const percent = arr.length * 0.05
+    let count = 0
+    let sum = 0
+    for (let i = percent; i <= arr.length - 1 - percent; i++) {
+        count++
+        sum += arr[i]
+    }
+    return sum / count
+};
+```
