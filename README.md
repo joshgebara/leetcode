@@ -27831,6 +27831,7 @@ var maxDistance = function(grid) {
 
 ## 1091. Shortest Path in Binary Matrix
 ```javascript
+// BFS
 var shortestPathBinaryMatrix = function(grid) {
     const queue = [[0, 0]]
     const destination = [grid.length - 1, grid[0].length - 1]
@@ -27864,6 +27865,159 @@ var shortestPathBinaryMatrix = function(grid) {
     
     return -1
 };
+
+// A*
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var shortestPathBinaryMatrix = function(grid) {
+    if (grid[0][0] === 1) return -1
+    
+    const rowLen = grid.length
+    const colLen = grid[0].length
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [-1, -1], [1, 1], [-1, 1], [1, -1]]
+    
+    const queue = new Heap([[0, 0, 1, heuristic(0, 0, rowLen - 1, colLen - 1)]], (a, b) => {
+        const [, , aDist, aHeuristic] = a
+        const [, , bDist, bHeuristic] = b
+        const aF = aDist + aHeuristic
+        const bF = bDist + bHeuristic
+        return aF < bF
+    })
+    
+    const dists = Array(rowLen).fill().map(a => Array(colLen).fill(Infinity))
+    while (queue.length()) {
+        const size = queue.length()
+        for (let i = 0; i < size; i++) {
+            const [row, col, dist] = queue.remove()
+            
+            if (row === rowLen - 1 && col === colLen - 1) {
+                return dist
+            }
+            
+            if (dists[row][col] <= dist) continue
+            dists[row][col] = dist
+            
+            for (const [dRow, dCol] of dirs) {
+                const nextRow = dRow + row
+                const nextCol = dCol + col
+                
+                if (nextRow < 0 || nextRow >= rowLen || 
+                    nextCol < 0 || nextCol >= colLen ||
+                   grid[nextRow][nextCol] === 1) continue
+                
+                queue.insert([nextRow, 
+                              nextCol, 
+                              dist + 1, 
+                              heuristic(nextRow, nextCol, rowLen - 1, colLen - 1)])
+            }
+        }
+    }
+    
+    return -1
+};
+
+const heuristic = (x1, y1, x2, y2) => {
+    return Math.max(x2 - x1, y2 - y1)
+}
+
+class Heap {
+    constructor(elements, sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    length() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
 ```
 
 ## 127. Word Ladder
