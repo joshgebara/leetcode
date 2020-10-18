@@ -48697,3 +48697,27 @@ var copyRandomBinaryTree = function(root) {
     return map.get(root)
 };
 ```
+
+## 1624. Largest Substring Between Two Equal Characters
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maxLengthBetweenEqualCharacters = function(s) {
+    let max = -1
+    const map = Array(26).fill()
+    for (let i = 0; i < s.length; i++) {
+        const char = s[i]
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        
+        if (map[index] === undefined) {
+            map[index] = i
+        }
+        
+        max = Math.max(max, i - map[index] - 1)
+    }
+    
+    return max
+};
+```
