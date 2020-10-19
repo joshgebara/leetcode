@@ -48758,3 +48758,60 @@ var trimMean = function(arr) {
     return sum / count
 };
 ```
+
+## 1284. Minimum Number of Flips to Convert Binary Matrix to Zero Matrix
+```javascript
+/**
+ * @param {number[][]} mat
+ * @return {number}
+ */
+var minFlips = function(mat) {
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const rowLen = mat.length
+    const colLen = mat[0].length
+    
+    const target = 0
+    let start = 0
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            start |= mat[row][col] << row * colLen + col
+        }
+    }
+    
+    const visited = new Set([start])
+    const queue = [start]
+    
+    let level = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const currMat = queue.shift()
+            if (currMat === target) return level
+
+            for (let row = 0; row < rowLen; row++) {
+                for (let col = 0; col < colLen; col++) {
+                    let nextMat = currMat
+                    nextMat ^= 1 << row * colLen + col
+                    
+                    for (const [dRow, dCol] of dirs) {
+                        const nextRow = dRow + row
+                        const nextCol = dCol + col
+                        
+                        if (nextRow < 0 || nextRow >= rowLen || 
+                            nextCol < 0 || nextCol >= colLen) continue
+                        
+                        nextMat ^= 1 << nextRow * colLen + nextCol
+                    }
+                    
+                    if (visited.has(nextMat)) continue
+                    visited.add(nextMat)
+                    
+                    queue.push(nextMat)
+                }
+            }
+        }
+        level++
+    }
+    return -1
+};
+```
