@@ -48815,3 +48815,52 @@ var minFlips = function(mat) {
     return -1
 };
 ```
+
+## 1298. Maximum Candies You Can Get from Boxes
+```javascript
+/**
+ * @param {number[]} status
+ * @param {number[]} candies
+ * @param {number[][]} keys
+ * @param {number[][]} containedBoxes
+ * @param {number[]} initialBoxes
+ * @return {number}
+ */
+var maxCandies = function(status, candies, keys, containedBoxes, initialBoxes) {
+    let result = 0
+    
+    const available = new Set(initialBoxes)
+    const visited = new Set(initialBoxes)
+    const queue = initialBoxes
+    
+    while (queue.length) {
+        const box = queue.shift()
+        
+        result += candies[box]
+        
+        for (const containedBox of containedBoxes[box]) {
+            if (visited.has(containedBox)) continue
+            
+            available.add(containedBox)
+            
+            if (status[containedBox] === 1) {
+                visited.add(containedBox)
+                queue.push(containedBox)
+            }
+        }
+        
+        for (const key of keys[box]) {
+            if (visited.has(key)) continue
+            
+            status[key] = 1
+            
+            if (available.has(key)) {
+                visited.add(key)
+                queue.push(key)
+            }
+        }
+    }
+    
+    return result
+};
+```
