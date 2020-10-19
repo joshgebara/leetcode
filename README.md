@@ -48903,3 +48903,72 @@ var shortestPathLength = function(graph) {
     }
 };
 ```
+
+## 317. Shortest Distance from All Buildings
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var shortestDistance = function(grid) {
+    const rowLen = grid.length
+    const colLen = grid[0].length
+    
+    const dists = Array(rowLen).fill().map(a => Array(colLen).fill(0))
+    const reached = Array(rowLen).fill().map(a => Array(colLen).fill(0))
+    let numOfBuildings = 0
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (grid[row][col] === 1) {
+                bfs(row, col, grid, dists, reached)
+                numOfBuildings++
+            }
+        }
+    }
+    
+    let minPath = Infinity
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (reached[row][col] === numOfBuildings) {
+                minPath = Math.min(minPath, dists[row][col])
+            }
+        }
+    }
+    
+    return minPath === Infinity ? -1 : minPath
+};
+
+const bfs = (row, col, grid, dists, reached) => {
+    const rowLen = grid.length
+    const colLen = grid[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    const visited = Array(rowLen).fill().map(a => Array(colLen).fill(false))
+    const queue = [[row, col]]
+    let level = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col] = queue.shift()
+
+            for (const [dRow, dCol] of dirs) {
+                const nextRow = dRow + row
+                const nextCol = dCol + col
+
+                if (nextRow < 0 || nextRow >= rowLen || 
+                    nextCol < 0 || nextCol >= colLen || 
+                    grid[nextRow][nextCol] !== 0) continue
+
+                if (visited[nextRow][nextCol]) continue
+                visited[nextRow][nextCol] = true
+
+                dists[nextRow][nextCol] += level + 1
+                reached[nextRow][nextCol]++
+
+                queue.push([nextRow, nextCol])
+            }
+        }
+        level++
+    }
+}
+```
