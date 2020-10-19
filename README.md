@@ -48864,3 +48864,42 @@ var maxCandies = function(status, candies, keys, containedBoxes, initialBoxes) {
     return result
 };
 ```
+
+## 847. Shortest Path Visiting All Nodes
+```javascript
+/**
+ * @param {number[][]} graph
+ * @return {number}
+ */
+var shortestPathLength = function(graph) {
+    const n = graph.length
+    
+    const visited = Array(1 << n).fill().map(a => Array(n).fill(false))
+    const queue = []
+    for (let i = 0; i < n; i++) {
+        const seen = 1 << i
+        queue.push([i, seen])
+        visited[i][seen] = true
+    }
+    
+    const target = (1 << n) - 1
+    let level = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [node, seen] = queue.shift()
+            if (seen === target) return level
+            
+            for (const neighbor of graph[node]) {
+                let nextSeen = seen
+                nextSeen |= 1 << neighbor
+                
+                if (visited[neighbor][nextSeen]) continue
+                visited[neighbor][nextSeen] = true
+                queue.push([neighbor, nextSeen])
+            }
+        }
+        level++
+    }
+};
+```
