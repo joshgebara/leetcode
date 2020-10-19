@@ -48972,3 +48972,373 @@ const bfs = (row, col, grid, dists, reached) => {
     }
 }
 ```
+
+## 675. Cut Off Trees for Golf Event
+```javascript
+// BFS
+/**
+ * @param {number[][]} forest
+ * @return {number}
+ */
+var cutOffTree = function(forest) {
+    const rowLen = forest.length
+    const colLen = forest[0].length
+    
+    const cells = []
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (forest[row][col] === 0 || forest[row][col] === 1) continue
+            cells.push([row, col])
+        }
+    }
+    
+    let curr = [0, 0]
+    let minDist = 0
+    const heap = new Heap(cells, (a, b) => {
+        const [aRow, aCol] = a
+        const [bRow, bCol] = b
+        return forest[aRow][aCol] < forest[bRow][bCol]
+    })
+    
+    while (heap.length()) {
+        const [currRow, currCol] = curr
+        const [nextRow, nextCol] = heap.remove()
+        const dist = shortestPath(currRow, currCol, nextRow, nextCol, forest)
+        if (dist === -1)
+            return -1
+        
+        minDist += dist
+        curr = [nextRow, nextCol]
+    }
+    
+    return minDist === Infinity ? -1 : minDist
+};
+
+const shortestPath = (currRow, currCol, targetRow, targetCol, forest) => {
+    if (currRow === targetRow && currCol === targetCol)
+        return 0
+    
+    const rowLen = forest.length
+    const colLen = forest[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    const visited = Array(rowLen).fill().map(a => Array(colLen).fill(false))
+    visited[currRow][currCol] = true
+    
+    const queue = [[currRow, currCol]]
+    let level = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col] = queue.shift()
+
+            for (const [dRow, dCol] of dirs) {
+                const nextRow = dRow + row
+                const nextCol = dCol + col
+
+                if (nextRow < 0 || nextRow >= rowLen || 
+                    nextCol < 0 || nextCol >= colLen || 
+                    forest[nextRow][nextCol] === 0) continue
+
+                if (nextRow === targetRow && nextCol === targetCol) {
+                    return level + 1
+                }
+                
+                if (visited[nextRow][nextCol]) continue
+                visited[nextRow][nextCol] = true
+                
+                queue.push([nextRow, nextCol])
+            }
+        }
+        level++
+    }
+    
+    return -1
+}
+
+class Heap {
+    constructor(elements = [], sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    length() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
+
+// A*
+/**
+ * @param {number[][]} forest
+ * @return {number}
+ */
+var cutOffTree = function(forest) {
+    const rowLen = forest.length
+    const colLen = forest[0].length
+    
+    const cells = []
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (forest[row][col] <= 1) continue
+            cells.push([row, col])
+        }
+    }
+    
+    let curr = [0, 0]
+    let minDist = 0
+    const heap = new Heap(cells, (a, b) => {
+        const [aRow, aCol] = a
+        const [bRow, bCol] = b
+        return forest[aRow][aCol] < forest[bRow][bCol]
+    })
+    
+    while (heap.length()) {
+        const [currRow, currCol] = curr
+        const [nextRow, nextCol] = heap.remove()
+        const dist = shortestPath(currRow, currCol, nextRow, nextCol, forest)
+        if (dist === -1)
+            return -1
+        
+        minDist += dist
+        curr = [nextRow, nextCol]
+    }
+    
+    return minDist === Infinity ? -1 : minDist
+};
+
+const shortestPath = (currRow, currCol, targetRow, targetCol, forest) => {
+    if (currRow === targetRow && currCol === targetCol)
+        return 0
+    
+    const rowLen = forest.length
+    const colLen = forest[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    const dists = Array(rowLen).fill().map(a => Array(colLen).fill(Infinity))
+    dists[currRow][currCol] = 0
+    
+    const start = [currRow, currCol, 0, heuristic(currRow, currCol, targetRow, targetCol)]
+    const queue = new Heap([start], (a, b) => {
+        const [, , aG, aH] = a
+        const [, , bG, bH] = b
+        return aG + aH < bG + bH
+    })
+    
+    while (queue.length()) {
+        const [row, col, level] = queue.remove()
+
+        for (const [dRow, dCol] of dirs) {
+            const nextRow = dRow + row
+            const nextCol = dCol + col
+
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen || 
+                forest[nextRow][nextCol] === 0) continue
+            
+            if (dists[nextRow][nextCol] <= dists[row][col] + 1) {
+                continue
+            }
+            
+            dists[nextRow][nextCol] = dists[row][col] + 1
+            
+            if (nextRow === targetRow && nextCol === targetCol) {
+                return dists[nextRow][nextCol]
+            }
+            
+            queue.insert([nextRow, 
+                          nextCol, 
+                          level + 1, 
+                          heuristic(nextRow, nextCol, targetRow, targetCol)])
+        }
+    }
+    
+    return -1
+}
+
+const heuristic = (x1, y1, x2, y2) => {
+    return Math.abs(x2 - x1) + Math.abs(y2 - y1)
+}
+
+class Heap {
+    constructor(elements = [], sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    length() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
+```
