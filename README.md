@@ -49342,3 +49342,110 @@ class Heap {
     }
 }
 ```
+
+## 1210. Minimum Moves to Reach Target with Rotations
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minimumMoves = function(grid) {
+    const n = grid.length
+    
+    const visited = new Set()
+    const queue = [['h', [0,0,0,1]]]
+    let level = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [dir, pos] = queue.shift()
+            
+            if (reachedEnd(dir, pos, n)) {
+                return level
+            }
+            
+            moveRight(dir, pos, queue, grid, visited)
+            moveDown(dir, pos, queue, grid, visited)
+            rotateClockwise(dir, pos, queue, grid, visited)
+            rotateCounterClockwise(dir, pos, queue, grid, visited)
+        }
+        
+        level++
+    }
+    
+    return -1
+};
+
+const reachedEnd = (dir, pos, n) => {
+    const [rowT, colT, rowH, colH] = pos
+    return rowT === n - 1 && colT === n - 2 && 
+           rowH === n - 1 && colH === n - 1
+}
+
+const moveRight = (dir, pos, queue, grid, visited) => {
+    const [rowT, colT, rowH, colH] = pos
+    if (!isValid(rowT, colT + 1, grid) || !isValid(rowH, colH + 1, grid))
+        return
+    
+    const state = [dir, [rowT, colT + 1, rowH, colH + 1]]
+    const stateStr = JSON.stringify(state)
+
+    if (visited.has(stateStr)) return
+    visited.add(stateStr)
+
+    queue.push(state)
+}
+
+const moveDown = (dir, pos, queue, grid, visited) => {
+    const [rowT, colT, rowH, colH] = pos
+    if (!isValid(rowT + 1, colT, grid) || !isValid(rowH + 1, colH, grid))
+        return
+    
+    const state = [dir, [rowT + 1, colT, rowH + 1, colH]]
+    const stateStr = JSON.stringify(state)
+
+    if (visited.has(stateStr)) return
+    visited.add(stateStr)
+
+    queue.push(state)
+}
+
+const rotateClockwise = (dir, pos, queue, grid, visited) => {
+    if (dir === 'v') return
+    
+    const [rowT, colT, rowH, colH] = pos
+    if (!isValid(rowT + 1, colT, grid) || !isValid(rowH + 1, colH, grid))
+        return
+    
+    const state = ['v', [rowT, colT, rowT + 1, colT]]
+    const stateStr = JSON.stringify(state)
+    
+    if (visited.has(stateStr)) return
+    visited.add(stateStr)
+    
+    queue.push(state)
+}
+
+const rotateCounterClockwise = (dir, pos, queue, grid, visited) => {
+    if (dir === 'h') return
+    
+    const [rowT, colT, rowH, colH] = pos
+    if (!isValid(rowT, colT + 1, grid) || !isValid(rowH, colH + 1, grid))
+        return
+    
+    const state = ['h', [rowT, colT, rowT, colT + 1]]
+    const stateStr = JSON.stringify(state)
+    
+    if (visited.has(stateStr)) return
+    visited.add(stateStr)
+    
+    queue.push(state)
+}
+
+const isValid = (row, col, grid) => {
+    const n = grid.length
+    return row >= 0 && col >= 0 && 
+           row < n && col < n && 
+           grid[row][col] === 0
+}
+```
