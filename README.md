@@ -49465,9 +49465,7 @@ var minCost = function(grid) {
     const costs = Array(m).fill().map(a => Array(n).fill(Infinity))
     costs[0][0] = 0
     
-    let min = Infinity
     const queue = new Heap([[0, 0, 0]], (a, b) => a[2] < b[2])
-    
     while (queue.length()) {
         const [row, col, cost] = queue.remove()
         
@@ -49490,8 +49488,6 @@ var minCost = function(grid) {
             queue.insert([nextRow, nextCol, nextCost])
         }
     }
-    
-    return min
 };
 
 class Heap {
