@@ -49449,3 +49449,146 @@ const isValid = (row, col, grid) => {
            grid[row][col] === 0
 }
 ```
+
+## 1368. Minimum Cost to Make at Least One Valid Path in a Grid
+```javascript
+// Dijkstra's
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minCost = function(grid) {
+    const dirs = [[0, 1, 1], [0, -1, 2], [1, 0, 3], [-1, 0, 4]]
+    const m = grid.length
+    const n = grid[0].length
+    
+    const costs = Array(m).fill().map(a => Array(n).fill(Infinity))
+    costs[0][0] = 0
+    
+    let min = Infinity
+    const queue = new Heap([[0, 0, 0]], (a, b) => a[2] < b[2])
+    
+    while (queue.length()) {
+        const [row, col, cost] = queue.remove()
+        
+        if (row === m - 1 && col === n - 1) {
+            return costs[row][col]
+        }
+        
+        const dir = grid[row][col]
+        for (const [dRow, dCol, nextDir] of dirs) {
+            const nextRow = dRow + row
+            const nextCol = dCol + col
+            
+            if (nextRow < 0 || nextCol < 0 || nextRow >= m || nextCol >= n)
+                continue
+            
+            const nextCost = costs[row][col] + (dir !== nextDir)
+            if (costs[nextRow][nextCol] <= nextCost) continue
+            costs[nextRow][nextCol] = nextCost
+            
+            queue.insert([nextRow, nextCol, nextCost])
+        }
+    }
+    
+    return min
+};
+
+class Heap {
+    constructor(elements = [], sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    length() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
+
+```
