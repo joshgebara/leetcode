@@ -49586,6 +49586,48 @@ class Heap {
         return this._elements[0]
     }
 }
+
+// 0-1 BFS: Dial's Algorithm
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minCost = function(grid) {
+    const dirs = [[0, 1, 1], [0, -1, 2], [1, 0, 3], [-1, 0, 4]]
+    const m = grid.length
+    const n = grid[0].length
+    
+    const costs = Array(m).fill().map(a => Array(n).fill(Infinity))
+    costs[0][0] = 0
+    
+    const queue = [[0, 0, 0]]
+    while (queue.length) {
+        const [row, col, cost] = queue.shift()
+    
+        if (row === m - 1 && col === n - 1) {
+            return costs[row][col]
+        }
+        
+        const dir = grid[row][col]
+        for (const [dRow, dCol, nextDir] of dirs) {
+            const nextRow = dRow + row
+            const nextCol = dCol + col
+            
+            if (nextRow < 0 || nextCol < 0 || nextRow >= m || nextCol >= n)
+                continue
+            
+            const nextCost = costs[row][col] + (dir !== nextDir)
+            if (costs[nextRow][nextCol] <= nextCost) continue
+            costs[nextRow][nextCol] = nextCost
+            
+            if (cost === nextCost) {
+                queue.unshift([nextRow, nextCol, nextCost])
+            } else {
+                queue.push([nextRow, nextCol, nextCost])
+            }
+        }
+    }
+};
 ```
 
 ## 1263. Minimum Moves to Move a Box to Their Target Location
@@ -49671,4 +49713,7 @@ const isValid = (row, col, grid) => {
         col >= 0 && col < grid[0].length && 
         grid[row][col] !== '#'
 }
+
+// Biconnected Components
+
 ```
