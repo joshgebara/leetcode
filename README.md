@@ -49586,5 +49586,89 @@ class Heap {
         return this._elements[0]
     }
 }
+```
 
+## 1263. Minimum Moves to Move a Box to Their Target Location
+```javascript
+// 0-1 BFS: Dial's Algorithm
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var minPushBox = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    let startPerson = []
+    let startBox = []
+    let target = []
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === 'S') {
+                startPerson = [row, col]
+            } else if (grid[row][col] === 'B') {
+                startBox = [row, col]
+            } else if (grid[row][col] === 'T') {
+                target = [row, col]
+            }
+        }
+    }
+    
+    const dists = {}
+    dists[`${startPerson[0]}-${startPerson[1]}-${startBox[0]}-${startBox[1]}`] = 0
+    
+    const queue = [[startPerson, startBox, 0]]
+    while (queue.length) {
+        const [person, box, steps] = queue.shift()
+        
+        if (box[0] === target[0] && box[1] === target[1]) {
+            return steps
+        }
+        
+        for (const [dRow, dCol] of dirs) {
+            const nextPersonRow = person[0] + dRow
+            const nextPersonCol = person[1] + dCol
+            
+            let nextBoxRow = box[0]
+            let nextBoxCol = box[1]
+            
+            let nextSteps = steps
+            
+            if (!isValid(nextPersonRow, nextPersonCol, grid))
+                continue
+            
+                        
+            if (nextPersonRow === box[0] && nextPersonCol === box[1]) {
+                nextBoxRow += dRow
+                nextBoxCol += dCol
+                
+                if (!isValid(nextBoxRow, nextBoxCol, grid))
+                    continue
+                
+                nextSteps++
+            }
+            
+            const key = `${nextPersonRow}-${nextPersonCol}-${nextBoxRow}-${nextBoxCol}`
+            if (dists[key] !== undefined && dists[key] <= nextSteps) continue
+            dists[key] = nextSteps
+            
+            const state = [[nextPersonRow, nextPersonCol], [nextBoxRow, nextBoxCol], nextSteps]
+            if (nextSteps > steps) {
+                queue.push(state)
+            } else {
+                queue.unshift(state)
+            }            
+        }
+    }
+    
+    return -1
+};
+
+const isValid = (row, col, grid) => {
+    return row >= 0 && row < grid.length && 
+        col >= 0 && col < grid[0].length && 
+        grid[row][col] !== '#'
+}
 ```
