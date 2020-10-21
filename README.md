@@ -49717,3 +49717,69 @@ const isValid = (row, col, grid) => {
 // Biconnected Components
 
 ```
+
+## 864. Shortest Path to Get All Keys
+```javascript
+/**
+ * @param {string[]} grid
+ * @return {number}
+ */
+var shortestPathAllKeys = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    
+    const visited = new Set()
+    const queue = []
+    
+    let keyCount = 0
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === '@') {
+                visited.add(`${row}-${col}-0`)
+                queue.push([row, col, 0, 0])
+            } else if (grid[row][col] >= 'a' && grid[row][col] <= 'f') {
+                keyCount++
+            }
+        }
+    }
+    
+    let target = 0
+    for (let i = 0; i < keyCount; i++) {
+        target |= 1 << i
+    }
+    
+    while (queue.length) {
+        const [row, col, keys, steps] = queue.shift()
+        if (keys === target) return steps
+        
+        for (const [dRow, dCol] of dirs) {
+            const nextRow = dRow + row
+            const nextCol = dCol + col
+            let nextKeys = keys
+            
+            if (nextRow < 0 || nextRow >= m || 
+                nextCol < 0 || nextCol >= n ||
+                grid[nextRow][nextCol] === '#') continue
+            
+            const nextChar = grid[nextRow][nextCol]
+            
+            if (nextChar >= 'A' && nextChar <= 'F' && !(keys & 1 << index(nextChar)))
+                continue
+            
+            if (nextChar >= 'a' && nextChar <= 'f')
+                nextKeys = keys | 1 << index(nextChar)
+            
+            const state = `${nextRow}-${nextCol}-${nextKeys}`
+            if (visited.has(state)) continue
+            visited.add(state)
+            
+            queue.push([nextRow, nextCol, nextKeys, steps + 1])
+        }
+    }
+    
+    return -1
+};
+
+const index = char => char.toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0)
+```
