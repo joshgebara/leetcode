@@ -28903,54 +28903,54 @@ const isValid = (maze, row, col) => {
 }
 
 // Dijkstra's
+/**
+ * @param {number[][]} maze
+ * @param {number[]} start
+ * @param {number[]} destination
+ * @return {number}
+ */
 var shortestDistance = function(maze, start, destination) {
-    const n = maze.length
-    const m = maze[0].length
-    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const dirs = [[1, 0], [-1, 0], [0, -1], [0, 1]]   
+    const dists = Array(maze.length).fill().map(a => Array(maze[0].length).fill(Infinity))
+    const queue = new Heap([[start[0], start[1]]], (a, b) => {
+        const [aRow, aCol] = a
+        const [bRow, bCol] = b
+        return dists[aRow][aCol] < dists[bRow][bCol]
+    })
+    dists[start[0]][start[1]] = 0
     
-    const visited = Array(n).fill(0).map(e => Array(m).fill(false))
-    const dists = Array(n).fill(0).map(e => Array(m).fill(Infinity))
-    const pq = new Heap([[...start, 0]], (a, b) => a[2] < b[2])
-    
-    while (pq.length()) {
-        const [row, col, steps] = pq.remove()
-        
-        if (row === destination[0] && col === destination[1])
-            return steps
-        
-        if (visited[row][col]) continue
-        visited[row][col] = true
-        
-        if (dists[row][col] <= steps) continue
-        dists[row][col] = steps
-        
-        for (const [dx, dy] of dirs) {
-            let nr = row + dx
-            let nc = col + dy
-            let currSteps = 1
-            
-            while (isValid(maze, nr, nc)) {
-                nr += dx
-                nc += dy
-                currSteps++
+    while (queue.length()) {
+        const [row, col] = queue.remove()
+                        
+        for (const [dRow, dCol] of dirs) {
+            let nextRow = row
+            let nextCol = col
+            let nextDist = 0
+            while (nextRow >= 0 && nextRow < maze.length && 
+                   nextCol >= 0 && nextCol < maze[0].length && 
+                   maze[nextRow][nextCol] !== 1) {
+                nextRow += dRow
+                nextCol += dCol
+                nextDist++
             }
             
-            nr -= dx
-            nc -= dy
-            currSteps--
+            nextRow -= dRow
+            nextCol -= dCol
+            nextDist--
             
-            pq.insert([nr, nc, currSteps + steps])
+            if (dists[nextRow][nextCol] <= dists[row][col] + nextDist) continue
+            dists[nextRow][nextCol] = dists[row][col] + nextDist
+            
+            if (nextRow === destination[0] && nextCol === destination[1]) {
+                return dists[nextRow][nextCol]
+            }
+            
+            queue.insert([nextRow, nextCol])
         }
     }
     
     return -1
 };
-
-const isValid = (maze, row, col) => {
-    return row >= 0 && col >= 0 && 
-           row < maze.length && col < maze[0].length && 
-           maze[row][col] !== 1
-}
 
 class Heap {
     constructor(elements, sort = ((a, b) => { return a < b })) {
