@@ -49848,6 +49848,33 @@ var trap = function(height) {
     return totalWater
 };
 
+// Monotonic Stack
+// Time: O(n)
+// Space: O(n)
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+    let totalWater = 0
+    let stack = []
+    for (let i = 0; i < height.length; i++) {
+        while (stack.length && height[stack[stack.length - 1]] < height[i]) {
+            const top = stack.pop()
+            
+            if (!stack.length) break
+            
+            const distance = i - stack[stack.length - 1] - 1
+            const boundedHeight = Math.min(height[i], height[stack[stack.length - 1]]) - height[top]
+            totalWater += distance * boundedHeight
+        }
+        
+        stack.push(i)
+    }
+    
+    return totalWater
+};
+
 // Two Pointer
 // Time: O(n)
 // Space: O(1)
