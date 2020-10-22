@@ -49783,3 +49783,98 @@ var shortestPathAllKeys = function(grid) {
 
 const index = char => char.toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0)
 ```
+
+## 42. Trapping Rain Water
+```javascript
+// Brute Force
+// Time: O(n^2)
+// Space: O(1)
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+    let totalWater = 0
+    
+    for (let i = 1; i < height.length - 1; i++) { 
+        let leftMax = 0
+        for (let j = 0; j <= i; j++) {
+            leftMax = Math.max(leftMax, height[j])
+        }
+        
+        let rightMax = 0
+        for (let j = height.length - 1; j >= i; j--) {
+            rightMax = Math.max(rightMax, height[j])
+        }
+        
+        totalWater += Math.min(leftMax, rightMax) - height[i]
+    }
+    
+    return totalWater
+};
+
+// DP
+// Time: O(n)
+// Space: O(n)
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+    let totalWater = 0
+    const leftMax = Array(height.length).fill(0)
+    const rightMax = Array(height.length).fill(0)
+    
+    for (let i = 0; i < height.length; i++) {
+        if (i === 0) {
+            leftMax[i] = height[i]
+        } else {
+            leftMax[i] = Math.max(leftMax[i - 1], height[i])
+        }
+    }
+    
+    for (let i = height.length - 1; i >= 0; i--) {
+        if (i === height.length - 1) {
+            rightMax[i] = height[i]
+        } else {
+            rightMax[i] = Math.max(rightMax[i + 1], height[i])
+        }
+    }
+    
+    for (let i = 1; i < height.length - 1; i++) { 
+        totalWater += Math.min(leftMax[i], rightMax[i]) - height[i]
+    }
+    
+    return totalWater
+};
+
+// Two Pointer
+// Time: O(n)
+// Space: O(1)
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+    let totalWater = 0
+    let left = 0
+    let right = height.length - 1
+    let leftMax = 0
+    let rightMax = 0
+    
+    while (left < right) {
+        leftMax = Math.max(leftMax, height[left])
+        rightMax = Math.max(rightMax, height[right])
+        
+        if (height[left] < height[right]) {
+            totalWater += leftMax - height[left]
+            left++
+        } else {
+            totalWater += rightMax - height[right]
+            right--
+        }
+    }
+    
+    return totalWater
+};
+```
