@@ -50394,3 +50394,50 @@ class Heap {
     }
 }
 ```
+
+## 1519. Number of Nodes in the Sub-Tree With the Same Label
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {string} labels
+ * @return {number[]}
+ */
+var countSubTrees = function(n, edges, labels) {
+    const graph = buildGraph(n, edges)
+    const result = Array(n).fill(0)
+    dfs(graph, result, labels)
+    return result
+};
+
+const dfs = (tree, result, labels) => {
+    const _dfs = (node, parent) => {
+        const labelCounts = Array(26).fill(0)
+        for (const neighbor of tree[node]) {
+            if (neighbor === parent) continue
+            const nextLabelCounts = _dfs(neighbor, node)
+            for (let i = 0; i < 26; i++) {
+                labelCounts[i] += nextLabelCounts[i]
+            }
+        }
+        
+        const index = labels[node].charCodeAt(0) - 'a'.charCodeAt(0)
+        labelCounts[index]++
+        result[node] += labelCounts[index]
+        return labelCounts
+    }
+    
+    _dfs(0, null)
+}
+
+const buildGraph = (n, edges) => {
+    const graph = Array(n).fill().map(a => [])
+    
+    for (const [u, v] of edges) {
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    
+    return graph
+}
+```
