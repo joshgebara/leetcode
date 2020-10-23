@@ -50549,3 +50549,62 @@ const incoming = {
     6: 'ld'
 }
 ```
+
+## 1625. Lexicographically Smallest String After Applying Operations
+```javascript
+/**
+ * @param {string} s
+ * @param {number} a
+ * @param {number} b
+ * @return {string}
+ */
+var findLexSmallestString = function(s, a, b) {
+    let min = s
+    
+    const visited = new Set([s])
+    const queue = [s]
+    while (queue.length) {
+        const str = queue.shift()
+        if (min > str) min = str
+        
+        const addArr = str.split('')
+        for (let i = 1; i < addArr.length; i += 2) {
+            addArr[i] = (+addArr[i] + a) % 10
+        }
+        
+        const addStr = addArr.join('')
+        if (!visited.has(addStr)) {
+            visited.add(addStr)
+            queue.push(addStr)
+        }
+        
+        const rotateArr = str.split('')
+        rotate(rotateArr, b)
+        
+        const rotateStr = rotateArr.join('')
+        if (!visited.has(rotateStr)) {
+            visited.add(rotateStr)
+            queue.push(rotateStr)
+        }   
+    }
+    
+    return min
+};
+
+const rotate = (arr, k) => {
+    reverse(arr, 0, arr.length - 1)
+    reverse(arr, 0, k - 1)
+    reverse(arr, k, arr.length - 1)
+}
+
+const reverse = (arr, i, j) => {
+    while (i < j) {
+        const temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+        
+        i++
+        j--
+    }
+}
+```
