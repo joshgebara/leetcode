@@ -26692,6 +26692,54 @@ const buildGraph = edges => {
     
     return graph
 }
+
+// BFS
+/**
+ * @param {number[][]} edges
+ * @return {number}
+ */
+var treeDiameter = function(edges) {
+    const graph = buildGraph(edges)
+    let queue = []
+    getLeaves(graph, queue)
+    
+    let level = 0
+    while (queue.length) {
+        const nextQueue = []
+        const visited = new Set()
+        for (const [node, parent] of queue) {
+            for (const neighbor of graph[node]) {
+                if (neighbor === parent || visited.has(`${neighbor}-${node}`)) continue
+                visited.add(`${neighbor}-${node}`)
+                nextQueue.push([neighbor, node])
+            }
+        }
+        
+        queue = nextQueue
+        level++
+    }
+    
+    return Math.max(level - 1, 0)
+};
+
+const getLeaves = (graph, queue) => {
+    for (let i = 0; i < graph.length; i++) {
+        if (graph[i].length === 1) {
+            queue.push([i, null])
+        }
+    }
+}
+
+const buildGraph = edges => {
+    const graph = Array(edges.length + 1).fill().map(a => [])
+    
+    for (const [u, v] of edges) {
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    
+    return graph
+}
 ```
 
 ## 1100. Find K-Length Substrings With No Repeated Characters
