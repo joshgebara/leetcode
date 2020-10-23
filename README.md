@@ -50062,6 +50062,7 @@ class Heap {
 
 ## 499. The Maze III
 ```javascript
+// Dijkstra
 /**
  * @param {number[][]} maze
  * @param {number[]} ball
@@ -50124,6 +50125,177 @@ var findShortestWay = function(maze, ball, hole) {
     
     return 'impossible'
 };
+
+class Heap {
+    constructor(elements, sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    length() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
+
+// A*
+/**
+ * @param {number[][]} maze
+ * @param {number[]} ball
+ * @param {number[]} hole
+ * @return {string}
+ */
+var findShortestWay = function(maze, ball, hole) {
+    const m = maze.length
+    const n = maze[0].length
+    const dirs = [[1, 0, 'd'], [0, -1, 'l'], [0, 1, 'r'], [-1, 0, 'u']]
+    
+    const visited = Array(m).fill().map(a => Array(n).fill(false))
+    
+    const start = [...ball, '', 0]
+    const queue = new Heap([start], (a, b) => {
+        const [, , aPath, aDist, aH] = a
+        const [, , bPath, bDist, bH] = b
+        
+        const aF = aDist + aH
+        const bF = bDist + bH
+        if (aF === bF) {
+            return aPath < bPath
+        }
+        
+        return aF < bF
+    })
+    
+    while (queue.length()) {
+        const [row, col, path, dist] = queue.remove()
+        
+        if (row === hole[0] && col === hole[1]) {
+            return path
+        }
+        
+        visited[row][col] = true
+        
+        for (const [dRow, dCol, dir] of dirs) {
+            let nextRow = row
+            let nextCol = col
+            let nextDist = 0
+            while (nextRow >= 0 && nextRow < maze.length && 
+                   nextCol >= 0 && nextCol < maze[0].length && 
+                   maze[nextRow][nextCol] !== 1) {
+                nextRow += dRow
+                nextCol += dCol
+                nextDist++
+                
+                if (nextRow === hole[0] && nextCol === hole[1]) {
+                    break
+                }
+            }
+            
+            if (nextRow !== hole[0] || nextCol !== hole[1]) {
+                nextRow -= dRow
+                nextCol -= dCol
+                nextDist--
+            }
+            
+            if (visited[nextRow][nextCol]) continue            
+            queue.insert([nextRow, nextCol, 
+                          path + dir, 
+                          dist + nextDist, 
+                          h(nextRow, nextCol, hole[0], hole[1])])
+        }
+    }
+    
+    return 'impossible'
+};
+
+const h = (x1, y1, x2, y2) => {
+    return Math.abs(x1 - x2) + Math.abs(y1 - y2)
+}
 
 class Heap {
     constructor(elements, sort = ((a, b) => { return a < b })) {
