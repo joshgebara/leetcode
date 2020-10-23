@@ -50441,3 +50441,63 @@ const buildGraph = (n, edges) => {
     return graph
 }
 ```
+
+## 1391. Check if There is a Valid Path in a Grid
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {boolean}
+ */
+var hasValidPath = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    
+    const visited = Array(m).fill().map(a => Array(n).fill(false))
+    visited[0][0] = true
+    
+    const queue = [[0, 0]]
+    while (queue.length) {
+        const [row, col] = queue.shift()
+        
+        if (row === m - 1 && col === n - 1) {
+            return true
+        }
+        
+        visited[row][col] = true
+        
+        const streetType = grid[row][col]
+        for (const [dRow, dCol, dir] of outgoing[streetType]) {
+            const nextRow = dRow + row
+            const nextCol = dCol + col
+            
+            if (nextRow < 0 || nextRow >= m || 
+                nextCol < 0 || nextCol >= n || 
+                visited[nextRow][nextCol]) continue
+            
+            const nextStreetType = grid[nextRow][nextCol]
+            if (!incoming[nextStreetType].includes(dir)) continue            
+            queue.push([nextRow, nextCol])
+        }
+    }
+    
+    return false
+};
+
+const outgoing = {
+    1: [[0, -1, 'l'], [0, 1, 'r']],
+    2: [[-1, 0, 'u'], [1, 0, 'd']],
+    3: [[0, -1, 'l'], [1, 0, 'd']],
+    4: [[0, 1, 'r'], [1, 0, 'd']],
+    5: [[0, -1, 'l'], [-1, 0, 'u']],
+    6: [[0, 1, 'r'], [-1, 0, 'u']]
+}
+
+const incoming = {
+    1: 'rl',
+    2: 'ud',
+    3: 'ru',
+    4: 'lu',
+    5: 'rd',
+    6: 'ld'
+}
+```
