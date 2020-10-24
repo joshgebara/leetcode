@@ -17868,11 +17868,19 @@ var generatePossibleNextMoves = function(s) {
 ## 292. Nim Game
 ```javascript
 // Math
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
 var canWinNim = function(n) {
     return n % 4 !== 0
 };
 
 // DP
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
 var canWinNim = function(n) {
     let dp1 = true
     let dp2 = true
@@ -17887,6 +17895,77 @@ var canWinNim = function(n) {
     
     return dp3
 };
+
+// Minimax
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var canWinNim = function(n) {
+    return miniMax(n, true) === 1
+};
+
+const miniMax = (stones, maximizingPlayer) => {
+    if (stones < 0) return 0
+    
+    if (stones === 0) {
+        return maximizingPlayer ? -1 : 1
+    }
+    
+    if (maximizingPlayer) {
+        let maxEval = -Infinity
+        for (let i = 1; i <= 3; i++) {
+            maxEval = Math.max(maxEval, miniMax(stones - i, false))
+        }
+        return maxEval
+    } else {
+        let minEval = Infinity
+        for (let i = 1; i <= 3; i++) {
+            minEval = Math.min(minEval, miniMax(stones - i, true))
+        }
+        return minEval
+    }
+}
+
+// Minimax + DP
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var canWinNim = function(n) {
+    const dp = Array(n + 1).fill().map(a => Array(2).fill())
+    return miniMax(n, 1, dp) === 1
+};
+
+const miniMax = (stones, maximizingPlayer, dp) => {
+    if (stones < 0) 
+        return 0
+    
+    if (stones === 0)
+        return maximizingPlayer ? -1 : 1
+    
+    if (dp[stones][maximizingPlayer] !== undefined) {
+        return dp[stones][maximizingPlayer]
+    }
+    
+    if (maximizingPlayer) {
+        let maxEval = -Infinity
+        for (let i = 1; i <= 3; i++) {
+            maxEval = Math.max(maxEval, miniMax(stones - i, 0, dp))
+        }
+        
+        dp[stones][maximizingPlayer] = maxEval
+        return maxEval
+    } else {
+        let minEval = Infinity
+        for (let i = 1; i <= 3; i++) {
+            minEval = Math.min(minEval, miniMax(stones - i, 1, dp))
+        }
+        
+        dp[stones][maximizingPlayer] = minEval
+        return minEval
+    }
+}
 ```
 
 ## 199. Binary Tree Right Side View
