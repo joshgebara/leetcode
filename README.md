@@ -17867,8 +17867,25 @@ var generatePossibleNextMoves = function(s) {
 
 ## 292. Nim Game
 ```javascript
+// Math
 var canWinNim = function(n) {
     return n % 4 !== 0
+};
+
+// DP
+var canWinNim = function(n) {
+    let dp1 = true
+    let dp2 = true
+    let dp3 = true
+    
+    for (let i = 4; i <= n; i++) {
+        const result = !dp1 || !dp2 || !dp3
+        dp1 = dp2
+        dp2 = dp3
+        dp3 = result
+    }
+    
+    return dp3
 };
 ```
 
