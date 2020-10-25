@@ -17932,39 +17932,29 @@ const miniMax = (stones, maximizingPlayer) => {
  * @param {number} n
  * @return {boolean}
  */
+const dp = {}
+
 var canWinNim = function(n) {
-    const dp = Array(n + 1).fill().map(a => Array(2).fill())
-    return miniMax(n, 1, dp) === 1
+    return miniMax(n)
 };
 
-const miniMax = (stones, maximizingPlayer, dp) => {
-    if (stones < 0) 
-        return 0
+const miniMax = (stones) => {
+    if (stones <= 0) 
+        return false
     
-    if (stones === 0)
-        return maximizingPlayer ? -1 : 1
-    
-    if (dp[stones][maximizingPlayer] !== undefined) {
-        return dp[stones][maximizingPlayer]
+    if (dp[stones] !== undefined) {
+        return dp[stones]
     }
     
-    if (maximizingPlayer) {
-        let maxEval = -Infinity
-        for (let i = 1; i <= 3; i++) {
-            maxEval = Math.max(maxEval, miniMax(stones - i, 0, dp))
+    for (let i = 1; i <= 3; i++) {
+        if (!miniMax(stones - i)) {
+            dp[stones] = true
+            return true
         }
-        
-        dp[stones][maximizingPlayer] = maxEval
-        return maxEval
-    } else {
-        let minEval = Infinity
-        for (let i = 1; i <= 3; i++) {
-            minEval = Math.min(minEval, miniMax(stones - i, 1, dp))
-        }
-        
-        dp[stones][maximizingPlayer] = minEval
-        return minEval
     }
+
+    dp[stones] = false
+    return false
 }
 ```
 
@@ -50871,3 +50861,4 @@ class Heap {
     }
 }
 ```
+
