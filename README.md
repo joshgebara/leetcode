@@ -50704,3 +50704,25 @@ const reverse = (arr, i, j) => {
     }
 }
 ```
+
+## 1629. Slowest Key
+```javascript
+/**
+ * @param {number[]} releaseTimes
+ * @param {string} keysPressed
+ * @return {character}
+ */
+var slowestKey = function(releaseTimes, keysPressed) {
+    let maxDur = releaseTimes[0]
+    let charIndex = 0
+    for (let i = 0; i < releaseTimes.length; i++) {
+        const dur = releaseTimes[i] - releaseTimes[i - 1]
+        if (maxDur < dur || maxDur === dur && keysPressed[charIndex] < keysPressed[i]) {
+            maxDur = dur
+            charIndex = i
+        }
+    }
+    
+    return keysPressed[charIndex]
+};
+```
