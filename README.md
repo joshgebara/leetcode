@@ -50862,3 +50862,45 @@ class Heap {
 }
 ```
 
+## 464. Can I Win
+```javascript
+// Minimax + Top-Down DP
+/**
+ * @param {number} maxChoosableInteger
+ * @param {number} desiredTotal
+ * @return {boolean}
+ */
+var canIWin = function(maxChoosableInteger, desiredTotal) {
+    const _canIWin = (sum, used) => {
+        if (sum >= desiredTotal) {
+            return false
+        }
+        
+        if (dp[used] !== undefined) {
+            return dp[used]
+        }
+        
+        for (let num = 1; num <= maxChoosableInteger; num++) {
+            const mask = 1 << num
+            if (used & mask) continue
+            
+            if (!_canIWin(sum + num, used | mask)) {
+                dp[used] = true
+                return true
+            }
+        }
+        
+        dp[used] = false
+        return false
+    }
+    
+    const sum = maxChoosableInteger * (maxChoosableInteger + 1) / 2
+    if (sum < desiredTotal) return false
+    if (desiredTotal <= 0) return true
+    
+    const dp = []
+    return _canIWin(0, 0)
+};
+
+
+```
