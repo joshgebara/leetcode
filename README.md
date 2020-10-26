@@ -46697,6 +46697,7 @@ class TrieNode {
 
 ## 294. Flip Game II
 ```javascript
+// Backtracking - Time: O(N!!)
 /**
  * @param {string} s
  * @return {boolean}
@@ -46720,6 +46721,44 @@ var canWin = function(s) {
         return false
     }
     
+    const board = s.split('')
+    return _canWin()
+};
+
+// Backtracking + Memo - Time: O(n * 2^(n/2))
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var canWin = function(s) {
+    const _canWin = () => {
+        const state = board.join('')
+        if (map[state] !== undefined) {
+            return map[state]
+        }
+            
+        for (let i = 1; i < board.length; i++) {
+            if (board[i] === '+' && board[i - 1] === '+') {
+                board[i] = '-'
+                board[i - 1] = '-'
+                
+                const result = !_canWin()
+
+                board[i] = '+'
+                board[i - 1] = '+'
+                
+                if (result) {
+                    map[state] = true
+                    return true
+                }
+            }
+        }
+        
+        map[state] = false
+        return false
+    }
+    
+    const map = {}
     const board = s.split('')
     return _canWin()
 };
