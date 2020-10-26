@@ -50904,3 +50904,36 @@ var canIWin = function(maxChoosableInteger, desiredTotal) {
 
 
 ```
+
+## 375. Guess Number Higher or Lower II
+```javascript
+// Top Down DP
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var getMoneyAmount = function(n) {
+    const _getMoneyAmount = (left, right) => {
+        if (left >= right) return 0
+        
+        if (dp[left][right] !== undefined)
+            return dp[left][right]
+        
+        let temp = Infinity
+        for (let k = left; k <= right; k++) {
+            const result = k + Math.max(_getMoneyAmount(left, k - 1), 
+                                        _getMoneyAmount(k + 1, right))
+            temp = Math.min(result, temp)
+        }
+        
+        dp[left][right] = temp
+        return temp
+    }
+    
+    const dp = Array(n + 1).fill().map(a => Array(n + 1).fill())
+    return _getMoneyAmount(1, n)
+};
+
+// Bottom Up DP
+
+```
