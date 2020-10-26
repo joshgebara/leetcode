@@ -50935,5 +50935,30 @@ var getMoneyAmount = function(n) {
 };
 
 // Bottom Up DP
-
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var getMoneyAmount = function(n) {
+    const dp = Array(n + 1).fill().map(a => Array(n + 1).fill(0))
+    
+    for (let len = 2; len <= n; len++) {
+        for (let start = 1; start <= n - len + 1; start++) {
+            const end = start + len - 1
+            
+            let temp = Infinity
+            for (let k = start; k <= end; k++) {
+                const op1 = k - 1 >= 0 ? dp[start][k - 1] : 0
+                const op2 = k + 1 <= n ? dp[k + 1][end] : 0
+                
+                const result = Math.max(op1, op2) + k
+                temp = Math.min(temp, result)   
+            }
+            
+            dp[start][end] = temp
+        }
+    }
+    
+    return dp[1][n]
+};
 ```
