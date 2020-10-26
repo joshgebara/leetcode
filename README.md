@@ -51001,3 +51001,38 @@ var getMoneyAmount = function(n) {
     return dp[1][n]
 };
 ```
+
+## 877. Stone Game
+```javascript
+/**
+ * @param {number[]} piles
+ * @return {boolean}
+ */
+var stoneGame = function(piles) {
+    const _stoneGame = (left, right, maximizingPlayer) => {
+        if (left > right) return 0
+        
+        if (dp[left][right][maximizingPlayer] !== undefined) {
+            return dp[left][right][maximizingPlayer]
+        }
+        
+        if (maximizingPlayer) {
+            const op1 = piles[left] + _stoneGame(left + 1, right, 0)
+            const op2 = piles[right] + _stoneGame(left, right - 1, 0)
+            dp[left][right][maximizingPlayer] = Math.max(op1, op2)
+        } else {
+            const op1 = piles[left] - _stoneGame(left + 1, right, 1)
+            const op2 = piles[right] - _stoneGame(left, right - 1, 1)
+            dp[left][right][maximizingPlayer] = Math.min(op1, op2)
+        }
+        
+        return dp[left][right][maximizingPlayer]
+    }
+    
+    const dp = Array(piles.length).fill()
+                .map(a => Array(piles.length).fill()
+                .map(a => Array(2)))
+    
+    return _stoneGame(0, piles.length - 1, 1)
+};
+```
