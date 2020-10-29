@@ -7072,6 +7072,86 @@ const sort = scores => {
     
     return result
 }
+
+// Quick Select
+/**
+ * @param {number[][]} items
+ * @return {number[][]}
+ */
+var highFive = function(items) {
+    const ids = Array(1001).fill().map(a => [])
+    for (const [id, score] of items) {
+        ids[id].push(score)
+    }
+    
+    const result = []
+    
+    for (let i = 1; i < ids.length; i++) {
+        if (!ids[i].length) continue
+        result.push([i, avgTopK(ids[i], 5)])
+    }
+    
+    return result
+};
+
+const avgTopK = (nums, k) => {
+    quickSelect(nums, k)
+    
+    let sum = 0
+    for (let i = nums.length - k; i < nums.length; i++) {
+        sum += nums[i]
+    }
+    
+    return Math.floor(sum / k)
+}
+
+const quickSelect = (arr, k) => {
+    const target = arr.length - k
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left < right) {
+        const randomIndex = random(left, right)
+        const temp = arr[randomIndex]
+        arr[randomIndex] = arr[right]
+        arr[right] = temp
+        
+        const partitionIndex = partition(arr, left, right)
+        if (partitionIndex === target) {
+            return partitionIndex
+        } else if (partitionIndex < target) {
+            left = partitionIndex + 1
+        } else {
+            right = partitionIndex - 1
+        }
+    }
+    
+    return left
+}
+
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const partition = (arr, left, right) => {
+    let i = left - 1
+    
+    for (let j = left; j < right; j++) {
+        if (arr[j] <= arr[right]) {
+            i++
+            
+            const temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp
+        }
+    }
+    
+    i++
+    const temp = arr[i]
+    arr[i] = arr[right]
+    arr[right] = temp
+    return i
+}
 ```
 
 ## 349. Intersection of Two Arrays
@@ -51017,12 +51097,12 @@ var stoneGame = function(piles) {
         }
         
         if (maximizingPlayer) {
-            const op1 = piles[left] + _stoneGame(left + 1, right, 0)
-            const op2 = piles[right] + _stoneGame(left, right - 1, 0)
+            const op1 = _stoneGame(left + 1, right, 0) + piles[left]
+            const op2 = _stoneGame(left, right - 1, 0) + piles[right]
             dp[left][right][maximizingPlayer] = Math.max(op1, op2)
         } else {
-            const op1 = piles[left] - _stoneGame(left + 1, right, 1)
-            const op2 = piles[right] - _stoneGame(left, right - 1, 1)
+            const op1 = _stoneGame(left + 1, right, 1) - piles[left]
+            const op2 = _stoneGame(left, right - 1, 1) - piles[right]
             dp[left][right][maximizingPlayer] = Math.min(op1, op2)
         }
         
@@ -51036,3 +51116,29 @@ var stoneGame = function(piles) {
     return _stoneGame(0, piles.length - 1, 1)
 };
 ```
+
+## 486. Predict the Winner
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var PredictTheWinner = function(nums) {
+    const _predictTheWinner = (left, right, maximizingPlayer) => {
+        if (left > right) return 0
+        
+        if (maximizingPlayer) {
+            const op1 = _predictTheWinner(left + 1, right, false) + nums[left]
+            const op2 = _predictTheWinner(left, right - 1, false) + nums[right]
+            return Math.max(op1, op2)
+        } else {
+            const op1 = _predictTheWinner(left + 1, right, true) - nums[left]
+            const op2 = _predictTheWinner(left, right - 1, true) - nums[right]
+            return Math.min(op1, op2)
+        }
+    }
+    
+    return _predictTheWinner(0, nums.length - 1, true) >= 0
+};
+```
+
