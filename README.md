@@ -7134,10 +7134,23 @@ const partition = (arr, left, right) => {
 
 ## 349. Intersection of Two Arrays
 ```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
 var intersection = function(nums1, nums2) {
-    let seen = new Set(nums1)
-    let unique = new Set(nums2.filter(num => seen.has(num)))
-    return Array.from(unique)
+    const set1 = new Set(nums1)
+    const set2 = new Set(nums2)
+    
+    const result = []
+    for (const num of set1) {
+        if (set2.has(num)) {
+            result.push(num)
+        }
+    }
+    
+    return result
 };
 ```
 
