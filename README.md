@@ -51138,3 +51138,33 @@ const isArithmetic = (num, start, end) => {
     return true
 }
 ```
+
+## 1561. Maximum Number of Coins You Can Get
+```javascript
+/**
+ * @param {number[]} piles
+ * @return {number}
+ */
+var maxCoins = function(piles) {
+    const buckets = Array(10001).fill(0)
+    for (const num of piles) {
+        buckets[num]++
+    }
+    
+    const sorted = []
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
+            sorted.push(i)
+        }
+    }
+    
+    let maxSum = 0
+    let minIndex = 0
+    for (let i = sorted.length - 2; i > minIndex; i -= 2) {
+        maxSum += sorted[i]
+        minIndex++
+    }
+    
+    return maxSum
+};
+```
