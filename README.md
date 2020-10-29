@@ -16593,38 +16593,6 @@ const manhattan = (r1, c1, r2, c2) => {
     return Math.abs(r1 - r2) + Math.abs(c1 - c2)
 }
 
-// BFS
-var allCellsDistOrder = function(R, C, r0, c0) {
-    const result = []
-    const queue = []
-    const visited = Array(R).fill(null).map(() => Array(C).fill(null).map(() => false))
-    
-    queue.push([r0, c0])
-    visited[r0][c0] = true
-    
-    while (queue.length) {
-        const curr = queue.shift()
-        result.push(curr)
-        
-        enqueue(queue, R, C, curr[0] - 1, curr[1], visited)
-        enqueue(queue, R, C, curr[0] + 1, curr[1], visited)
-        enqueue(queue, R, C, curr[0], curr[1] - 1, visited)
-        enqueue(queue, R, C, curr[0], curr[1] + 1, visited)
-    }
-    
-    return result
-};
-
-const enqueue = (queue, R, C, currR, currC, visited) => {
-    if (currR >= 0 && currR < R && 
-        currC >= 0 && currC < C && 
-        !visited[currR][currC]) {
-        
-        queue.push([currR, currC])
-        visited[currR][currC] = true
-    }    
-}
-
 /**
  * @param {number} R
  * @param {number} C
