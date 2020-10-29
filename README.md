@@ -51101,3 +51101,40 @@ var PredictTheWinner = function(nums) {
 };
 ```
 
+## 1630. Arithmetic Subarrays
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number[]} l
+ * @param {number[]} r
+ * @return {boolean[]}
+ */
+var checkArithmeticSubarrays = function(nums, l, r) {
+    const result = []
+    for (let i = 0; i < l.length; i++) {
+        result.push(isArithmetic(nums, l[i], r[i]))
+    }
+    return result
+};
+
+const isArithmetic = (num, start, end) => {
+    const length = end - start + 1
+    let max = -Infinity
+    let min = Infinity
+    const set = new Set()
+    
+    for (let i = start; i <= end; i++) {
+        max = Math.max(max, num[i])
+        min = Math.min(min, num[i])
+        set.add(num[i])
+    }
+    
+    const d = (max - min) / (length - 1)
+    for (let i = 1; i <= length; i++) {
+        const num = min + (i - 1) * d
+        if (!set.has(num)) return false
+    }
+    
+    return true
+}
+```
