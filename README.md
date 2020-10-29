@@ -5848,28 +5848,6 @@ var relativeSortArray = function(arr1, arr2) {
     
     return result
 };
-
-
-// Hash Map
-var relativeSortArray = function(arr1, arr2) {
-  const arr1Counts = arr1.reduce((result, num) => {
-    result[num] = 1 + (result[num] || 0)
-    return result
-  }, {})
-  
-  let i = 0
-  for (let num of arr2) {
-    while (arr1Counts[num]-- > 0) arr1[i++] = num
-  }
-  
-  for (let [key, value] of Object.entries(arr1Counts)) {
-    while (arr1Counts[key]-- > 0) arr1[i++] = +key
-  }
-  
-  return arr1
-};
-
-relativeSortArray([2,3,1,3,2,4,6,7,9,2,19], [2,1,4,3,9,6])
 ```
 
 ## 1002. Find Common Characters
