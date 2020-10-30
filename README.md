@@ -51238,15 +51238,16 @@ var findLeastNumOfUniqueInts = function(arr, k) {
         buckets[val].push(key) 
     }
     
-    let count = 0
+    let count = Object.entries(map).length
     for (let freq = 0; freq < buckets.length; freq++) {
         for (const num of buckets[freq]) {
             if (k >= freq) {
                 k -= freq
+                count--
                 continue
             }
             
-            count++
+            break
         }
     }
     
