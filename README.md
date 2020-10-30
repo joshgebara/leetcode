@@ -16782,45 +16782,40 @@ var findLongestWord = function(s, d) {
 
 ## 969. Pancake Sorting
 ```javascript
-var pancakeSort = function(A) {
-    if (A.length <= 1) return []
-    
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var pancakeSort = function(arr) {
     const result = []
     
-    let max = A.length
-    for (let i = 0; i < A.length; i++) {
-        let maxIndex = find(A, max)
-        flip(A, maxIndex)
+    for (let endIndex = arr.length - 1; endIndex > 0; endIndex--) {
+        let maxIndex = 0
+        for (let i = 1; i <= endIndex; i++) {
+            if (arr[i] > arr[maxIndex]) {
+                maxIndex = i
+            }
+        }
+        
+        reverse(arr, 0, maxIndex)
+        reverse(arr, 0, endIndex)
+        
         result.push(maxIndex + 1)
-        
-        flip(A, max - 1)
-        result.push(max)
-        
-        max--
+        result.push(endIndex + 1)
     }
+    
     return result
 };
 
-const find = (A, target) => {
-    for (let i = 0; i < A.length; i++)
-        if (A[i] == target)
-            return i
-    
-    return -1
-}
-
-const flip = (A, index) => {
-    let i = 0
-    let j = index
-    
+const reverse = (arr, i, j) => {
     while (i < j) {
-        let temp = A[i]
-        A[i] = A[j]
-        A[j] = temp
+        const temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
         
         i++
         j--
-    }   
+    }
 }
 ```
 
