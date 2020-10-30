@@ -32676,7 +32676,7 @@ const partition = (arr, left, right) => {
  * @return {string}
  */
 var rankTeams = function(votes) {
-    const buckets = Array(26).fill().map(a => Array(votes.length).fill(0))
+    const buckets = Array(26).fill().map(a => Array(votes[0].length).fill(0))
     for (let i = 0; i < votes.length; i++) {
        for (let j = 0; j < votes[i].length; j++) {
            const index = votes[i][j].charCodeAt(0) - 'A'.charCodeAt(0)
