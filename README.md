@@ -32671,31 +32671,35 @@ const partition = (arr, left, right) => {
 
 ## 1366. Rank Teams by Votes
 ```javascript
+/**
+ * @param {string[]} votes
+ * @return {string}
+ */
 var rankTeams = function(votes) {
-    const teams = {}
-    const result = []
-    const pos = votes[0].length
-    
-    for (const vote of votes) {
-        for (let i = 0; i < pos; i++) {
-            if (!teams[vote[i]]) teams[vote[i]] = Array(pos).fill(0)
-            teams[vote[i]][i] = 1 + (teams[vote[i]][i] || 0)
-        }
+    const buckets = Array(26).fill().map(a => Array(votes.length).fill(0))
+    for (let i = 0; i < votes.length; i++) {
+       for (let j = 0; j < votes[i].length; j++) {
+           const index = votes[i][j].charCodeAt(0) - 'A'.charCodeAt(0)
+           buckets[index][j]++
+       }
     }
     
-    const sortedTeams = Object.entries(teams)
-    sortedTeams.sort(([aName, aVotes], [bName, bVotes]) => {
-        for (let i = 0; i < pos; i++) {
-            if (aVotes[i] !== bVotes[i])
-                return bVotes[i] - aVotes[i]
+    const teams = votes[0].split('')
+    teams.sort((a, b) => {
+        const aIndex = a.charCodeAt(0) - 'A'.charCodeAt(0)
+        const bIndex = b.charCodeAt(0) - 'A'.charCodeAt(0)
+        for (let i = 0; i < buckets[aIndex].length; i++) {
+            if (buckets[aIndex][i] === buckets[bIndex][i]) {
+                continue
+            }
+            
+            return buckets[bIndex][i] - buckets[aIndex][i]
         }
         
-        if (aName < bName) return -1
-        if (aName > bName) return 1
-        return 0
+        return a.localeCompare(b)
     })
     
-    return sortedTeams.map(t => t[0]).join('')
+    return teams.join('')
 };
 ```
 
