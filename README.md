@@ -51163,3 +51163,29 @@ var maxCoins = function(piles) {
     return maxSum
 };
 ```
+
+## 1288. Remove Covered Intervals
+```javascript
+/**
+ * @param {number[][]} intervals
+ * @return {number}
+ */
+var removeCoveredIntervals = function(intervals) {
+    intervals.sort((a, b) => a[0] - b[0] || b[1] - a[1])
+    
+    let removed = 0
+    let maxEnd = 0
+    
+    for (let i = 0; i < intervals.length; i++) {
+        const [start, end] = intervals[i]
+        
+        if (end <= maxEnd) {
+            removed++
+        }
+        
+        maxEnd = Math.max(end, maxEnd)
+    }
+    
+    return intervals.length - removed
+};
+```
