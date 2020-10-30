@@ -51189,3 +51189,67 @@ var removeCoveredIntervals = function(intervals) {
     return intervals.length - removed
 };
 ```
+
+## 1481. Least Number of Unique Integers after K Removals
+```javascript
+// O(n + m log m) where m = # of unique keys
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number}
+ */
+var findLeastNumOfUniqueInts = function(arr, k) {
+    const map = {}
+    for (const num of arr) {
+        map[num] = 1 + (map[num] || 0)
+    }
+    
+    const sorted = Object.entries(map)
+    sorted.sort((a, b) => a[1] - b[1])
+    
+    let result = sorted.length
+    for (let i = 0; i < sorted.length; i++) {
+        if (k >= sorted[i][1]) {
+            k -= sorted[i][1]
+            result--
+            continue
+        }
+        
+        break
+    }
+    
+    return result
+};
+
+// O(n)
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number}
+ */
+var findLeastNumOfUniqueInts = function(arr, k) {
+    const map = {}
+    for (const num of arr) {
+        map[num] = 1 + (map[num] || 0)
+    }
+    
+    const buckets = Array(arr.length + 1).fill().map(a => [])
+    for (const [key, val] of Object.entries(map)) {
+        buckets[val].push(key) 
+    }
+    
+    let count = 0
+    for (let freq = 0; freq < buckets.length; freq++) {
+        for (const num of buckets[freq]) {
+            if (k >= freq) {
+                k -= freq
+                continue
+            }
+            
+            count++
+        }
+    }
+    
+    return count
+};
+```
