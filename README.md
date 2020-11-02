@@ -51366,12 +51366,12 @@ var countSmaller = function(nums) {
     
     const fenwickTree = new FenwickTree(20_001)
     const offset = 10_000
-	for (let i = nums.length - 1; i >= 0; i--) {
-		result[j--] = fenwickTree.query(nums[i] + offset - 1)
-		fenwickTree.update(nums[i] + offset, 1)
-	}
-
-	return result
+    for (let i = nums.length - 1; i >= 0; i--) {
+        result[j--] = fenwickTree.query(nums[i] + offset - 1)
+        fenwickTree.update(nums[i] + offset, 1)
+    }
+    
+    return result
 };
 
 class FenwickTree {
