@@ -51406,6 +51406,7 @@ class FenwickTree {
 
 ## 493. Reverse Pairs
 ```javascript
+// Fenwick Tree
 /**
  * @param {number[]} nums
  * @return {number}
@@ -51413,13 +51414,12 @@ class FenwickTree {
 var reversePairs = function(nums) {
     if (!nums.length) return []
     
-    const doubleNums = []
+    const set = new Set()
     for (const num of nums) {
-        doubleNums.push(num)
-        doubleNums.push(num * 2)
+        set.add(num)
+        set.add(num * 2)
     }
     
-    const set = new Set(doubleNums)
     const sortedSet = Array.from(set).sort((a, b) => a - b)
     const fenwickTree = new FenwickTree(sortedSet.length)
     
@@ -51430,10 +51430,8 @@ var reversePairs = function(nums) {
     
     let count = 0
     for (let i = nums.length - 1; i >= 0; i--) {
-        const num = nums[i]
-        const rank = ranks[num]
-        count += fenwickTree.query(rank - 1)
-        fenwickTree.update(ranks[num * 2], 1)
+        count += fenwickTree.query(ranks[nums[i]] - 1)
+        fenwickTree.update(ranks[nums[i] * 2], 1)
     }
     
     return count
