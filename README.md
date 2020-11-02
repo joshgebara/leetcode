@@ -51403,3 +51403,66 @@ class FenwickTree {
     }
 }
 ```
+
+## 493. Reverse Pairs
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var reversePairs = function(nums) {
+    if (!nums.length) return []
+    
+    const doubleNums = []
+    for (const num of nums) {
+        doubleNums.push(num)
+        doubleNums.push(num * 2)
+    }
+    
+    const set = new Set(doubleNums)
+    const sortedSet = Array.from(set).sort((a, b) => a - b)
+    const fenwickTree = new FenwickTree(sortedSet.length)
+    
+    const ranks = {}
+    for (let i = 0; i < sortedSet.length; i++) {
+        ranks[sortedSet[i]] = i + 1
+    }
+    
+    let count = 0
+    for (let i = nums.length - 1; i >= 0; i--) {
+        const num = nums[i]
+        const rank = ranks[num]
+        count += fenwickTree.query(rank - 1)
+        fenwickTree.update(ranks[num * 2], 1)
+    }
+    
+    return count
+};
+
+class FenwickTree {
+    constructor(n) {
+        this.tree = Array(n + 1).fill(0)
+    }
+    
+    update(i, delta) {
+        while (i < this.tree.length) {
+            this.tree[i] += delta
+            i += this.lsb(i)
+        }
+    }
+    
+    query(i) {
+        let sum = 0
+        
+        while (i > 0) {
+            sum += this.tree[i]
+            i -= this.lsb(i)
+        }
+        return sum
+    }
+    
+    lsb(i) {
+        return i & -i
+    }
+}
+```
