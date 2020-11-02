@@ -33895,6 +33895,7 @@ var maxCount = function(m, n, ops) {
 
 ## 307. Range Sum Query - Mutable
 ```javascript
+// Segment Tree
 /**
  * @param {number[]} nums
  */
@@ -33988,6 +33989,83 @@ class SegmentTree {
         }
         
         _update(val, idx, 0, 0, this.arr.length - 1)
+    }
+}
+
+// Fenwick Tree
+/**
+ * @param {number[]} nums
+ */
+var NumArray = function(nums) {
+    this.fenwickTree = new FenwickTree(nums)
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} val
+ * @return {void}
+ */
+NumArray.prototype.update = function(i, val) {
+    return this.fenwickTree.update(i, val)
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} j
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function(i, j) {
+    return this.fenwickTree.rangeQuery(i, j)
+};
+
+/** 
+ * Your NumArray object will be instantiated and called as such:
+ * var obj = new NumArray(nums)
+ * obj.update(i,val)
+ * var param_2 = obj.sumRange(i,j)
+ */
+
+class FenwickTree {
+    constructor(nums) {
+        this.nums = nums
+        this.tree = [0, ...nums]
+        
+        for (let i = 1; i < this.tree.length; i++) {
+            const parent = i + this.lsb(i)
+            if (parent < this.tree.length) {
+                this.tree[parent] += this.tree[i]
+            }
+        }
+    }
+    
+    update(i, val) {
+        const diff = val - this.nums[i]
+        this.nums[i] = val
+        
+        i++
+        while (i < this.tree.length) {
+            this.tree[i] += diff
+            i += this.lsb(i)
+        }
+    }
+    
+    rangeQuery(i, j) {
+        return this.query(j) - this.query(i - 1)
+    }
+    
+    query(i) {
+        let sum = 0
+        
+        i++
+        while (i > 0) {
+            sum += this.tree[i]
+            i -= this.lsb(i)
+        }
+        return sum
+    }
+    
+    lsb(i) {
+        return i & -i
     }
 }
 ```
@@ -51272,3 +51350,4 @@ var findLeastNumOfUniqueInts = function(arr, k) {
     return count
 };
 ```
+
