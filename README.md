@@ -51351,3 +51351,55 @@ var findLeastNumOfUniqueInts = function(arr, k) {
 };
 ```
 
+## 315. Count of Smaller Numbers After Self
+```javascript
+// Fenwick Tree
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var countSmaller = function(nums) {
+    if (!nums.length) return []
+    
+    const result = Array(nums.length).fill()
+    let j = result.length - 1
+    
+    const fenwickTree = new FenwickTree(20_001)
+    const offset = 10_000
+	for (let i = nums.length - 1; i >= 0; i--) {
+		result[j--] = fenwickTree.query(nums[i] + offset - 1)
+		fenwickTree.update(nums[i] + offset, 1)
+	}
+
+	return result
+};
+
+class FenwickTree {
+    constructor(n) {
+        this.tree = Array(n + 1).fill(0)
+    }
+    
+    update(i, delta) {
+        i++
+        while (i < this.tree.length) {
+            this.tree[i] += delta
+            i += this.lsb(i)
+        }
+    }
+
+    query(i) {
+        let sum = 0
+        
+        i++
+        while (i > 0) {
+            sum += this.tree[i]
+            i -= this.lsb(i)
+        }
+        return sum
+    }
+    
+    lsb(i) {
+        return i & -i
+    }
+}
+```
