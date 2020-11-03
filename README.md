@@ -13986,114 +13986,51 @@ class Heap {
 
 ## 451. Sort Characters By Frequency
 ```javascript
-class Heap {
-    constructor(elements, sortBy) {
-        this.elements = elements
-        this.sortBy = sortBy
-        
-        if (this.elements.length)
-           this.heapify()
-    }
-    
-    heapify() {
-        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
-            this.siftDown(i)
-    }
-    
-    siftDown(index) {
-        let parent = index || 0
-        while (true) {
-            let left = this.leftChildIndex(parent)
-            let right = this.rightChildIndex(parent)
-            let candidate = parent
-            
-            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
-                candidate = left
-            
-            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
-                candidate = right
-            
-            if (candidate === parent) return
-            
-            let temp = this.elements[candidate]
-            this.elements[candidate] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            parent = candidate
-        }
-    }
-    
-    siftUp(index) {
-        let child = index || this.elements.length - 1
-        let parent = this.parentIndex(child)
-        
-        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
-            let temp = this.elements[child]
-            this.elements[child] = this.elements[parent]
-            this.elements[parent] = temp  
-            
-            child = parent
-            parent = this.parentIndex(child)
-        }
-    }
-    
-    insert(val) {
-        this.elements.push(val)
-        this.siftUp()
-    }
-    
-    remove() {
-        if (!this.elements.length) return null
-        
-        let temp = this.elements[0]
-        this.elements[0] = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = temp
-        
-        let element = this.elements.pop()
-        
-        this.siftDown()
-        
-        return element
-    }
-    
-    leftChildIndex(index) {
-        return 2 * index + 1
-    }
-    
-    rightChildIndex(index) {
-        return 2 * index + 2
-    }
-    
-    parentIndex(index) {
-        return Math.floor((index - 1) / 2)
-    }
-}
-
-const frequencies = s => {
-    return s.split('').reduce((result, element) => {
-        result[element] = 1 + (result[element] || 0)
-        return result
-    }, {})
-}
-
+// HashMap + Comparative Sort - Time: O(N + K Log K)
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var frequencySort = function(s) {
-    if (!s.length) return s
+    const chars = {}
+    for (const char of s) {
+        chars[char] = 1 + (chars[char] || 0)
+    }
     
-    const freqs = Object.entries(frequencies(s))
-    const heap = new Heap(freqs, (a, b) => {
-        if (a[1] === b[1]) {
-            return a[0] < b[0]
-        }
-            
-        return a[1] > b[1]
-    })
+    const entries = Object.entries(chars)
+    entries.sort((a, b) => b[1] - a[1])
     
     const result = []
+    for (const [char, freq] of entries) {
+        result.push(char.repeat(freq))
+    }
     
-    while (heap.elements.length) {
-        let [char, count] = heap.remove()
-        while (count--)
-            result.push(char)
+    return result.join('')
+};
+
+// HashMap + Counting Sort - Time: O(N)
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var frequencySort = function(s) {
+    let max = 0
+    const chars = {}
+    for (const char of s) {
+        chars[char] = 1 + (chars[char] || 0)
+        max = Math.max(max, chars[char])
+    }
+    
+    const buckets = Array(max + 1).fill().map(a => [])
+    for (const [char, freq] of Object.entries(chars)) {
+        buckets[freq].push(char)
+    }
+    
+    const result = []
+    for (let freq = buckets.length - 1; freq >= 0; freq--) {
+        for (const char of buckets[freq]) {
+            result.push(char.repeat(freq))
+        }
     }
     
     return result.join('')
