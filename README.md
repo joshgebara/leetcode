@@ -14645,126 +14645,125 @@ var search = function(nums, target) {
 
 ## 378. Kth Smallest Element in a Sorted Matrix
 ```javascript
+/**
+ * @param {number[][]} matrix
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function(matrix, k) {
+    const heap = new Heap([], k, ((a, b) => a > b))
+    
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix.length; col++) {
+            heap.insert(matrix[row][col])
+        }
+    }
+    
+    return heap.peek()
+};
+
 class Heap {
-    constructor(elements, capacity, sortBy) {
-        this.elements = elements
-        this.capacity = capacity
-        this.sortBy = sortBy
+    constructor(elements, k, sortBy) {
+        this._elements = elements
+        this._capacity = k
+        this._sortBy = sortBy
+        this._heapify()
+    }
         
-        if (this.elements.length)
-            this.heapify()
+    insert(element) {
+        if (this._atCapacity() && this._sortBy(this.peek(), element))
+            this.remove()
+        
+        if (!this._atCapacity()) {
+            this._elements.push(element)
+            this._siftUp(this._elements.length - 1)   
+        }
     }
     
-    heapify() {
-        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
-            this.siftDown(i)
+    remove() {
+        if (!this._elements.length) 
+            return null
+        
+        this._swap(0, this._elements.length - 1)
+        
+        const element = this._elements.pop()
+        this._siftDown(0)
+        return element
     }
     
-    siftDown(index) {
-        let parent = index || 0
+    peek() {
+        return this._elements[0]
+    }
+    
+    size() {
+        return this._elements.length
+    }
+    
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; i >= 0; i--) {
+            this._siftDown(i)
+        }
+    }
+    
+    _siftUp(index) {
+        let child = index
+        let parent = this._parentIndex(child)
+        
+        while (child > 0 && this._sortBy(this._elements[child], this._elements[parent])) {
+            this._swap(child, parent)
+            child = parent
+            parent = this._parentIndex(child)
+        }
+    }
+    
+    _siftDown(index) {
+        let parent = index
         while (true) {
-            let left = this.leftChildIndex(parent)
-            let right = this.rightChildIndex(parent)
+            const left = this._leftChildIndex(parent)
+            const right = this._rightChildIndex(parent)
             let candidate = parent
             
-            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
+            if (left < this._elements.length && 
+                this._sortBy(this._elements[left], this._elements[candidate])) {
                 candidate = left
+            }
             
-            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
+            if (right < this._elements.length && 
+                this._sortBy(this._elements[right], this._elements[candidate])) {
                 candidate = right
+            }
             
-            if (candidate === parent) return
+            if (candidate === parent) {
+                return
+            }
             
-            let temp = this.elements[candidate]
-            this.elements[candidate] = this.elements[parent]
-            this.elements[parent] = temp
-            
+            this._swap(candidate, parent)
             parent = candidate
         }
     }
     
-    siftUp(index) {
-        let child = index || this.elements.length - 1
-        let parent = this.parentIndex(child)
-        
-        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
-            let temp = this.elements[child]
-            this.elements[child] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            child = parent
-            parent = this.parentIndex(child)
-        }
-    }
-    
-    atCapacity() {
-        return this.elements.length >= this.capacity
-    }
-    
-    insert(val) {
-        if (this.atCapacity() && this.sortBy(val, this.elements[0]))
-            this.remove()
-        
-        if (!this.atCapacity()) {
-            this.elements.push(val)
-            this.siftUp()
-        } 
-    }
-    
-    remove() {
-        if (!this.elements.length) return null
-        
-        let temp = this.elements[0]
-        this.elements[0] = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = temp
-        
-        let element = this.elements.pop()
-        
-        this.siftDown()
-        
-        return element
-    }
-    
-    leftChildIndex(index) {
+    _leftChildIndex(index) {
         return 2 * index + 1
     }
-    
-    rightChildIndex(index) {
+
+    _rightChildIndex(index) {
         return 2 * index + 2
     }
     
-    parentIndex(index) {
+    _parentIndex(index) {
         return Math.floor((index - 1) / 2)
     }
-}
 
-class Node {
-    constructor(val, row, col) {
-        this.val = val
-        this.row = row
-        this.col = col
+    _swap(i, j) {
+        const temp = this._elements[i]
+        this._elements[i] = this._elements[j]
+        this._elements[j] = temp
+    }
+    
+    _atCapacity() {
+        return this._elements.length >= this._capacity
     }
 }
-
-var kthSmallest = function(matrix, k) {
-    const heap = new Heap([], k, (a, b) => a.val < b.val)
-    
-    for (let row = 0; row < matrix.length; row++) {
-        const node = new Node(matrix[row][0], row, 0)
-        heap.insert(node)
-    }
-    
-    for (let i = 1; i < k; i++) {
-        const node = heap.remove()
-        
-        if (node.col + 1 < matrix[0].length) {
-            const nextNode = new Node(matrix[node.row][node.col + 1], node.row, node.col + 1)
-            heap.insert(nextNode)    
-        }
-    }
-    
-    return heap.elements[0].val
-};
 ```
 
 ## 373. Find K Pairs with Smallest Sums
