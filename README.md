@@ -14139,79 +14139,87 @@ const partition = (arr, left, right) => {
  * @return {number[]}
  */
 var topKFrequent = function(nums, k) {
-    const heap = new Heap((a, b) => a[1] < b[1])
-    
-    const freq = {}
+    const chars = {}
     for (const num of nums) {
-        freq[num] = 1 + (freq[num] || 0)
+        chars[num] = 1 + (chars[num] || 0)
     }
     
-    for (const [key, val] of Object.entries(freq)) {
-        if (heap.size() < k) {
-            heap.insert([key, val])
-        } else if (val > heap.peek()[1]) {
-            heap.remove()
-            heap.insert([key, val])
-        }    
+    const heap = new Heap([], k, ((a, b) => chars[a] < chars[b]))
+    for (const char of Object.keys(chars)) {
+        heap.insert(char)
     }
     
-    const result = []
-    for (const [key, val] of heap.elements) {
-        result.push(key)
-    }
-    return result
+    return heap._elements
 };
 
 class Heap {
-    constructor(sortBy) {
-        this.elements = []
-        this.sortBy = sortBy
+    constructor(elements, k, sortBy) {
+        this._elements = elements
+        this._capacity = k
+        this._sortBy = sortBy
+        this._heapify()
     }
-    
-    insert(val) {
-        this.elements.push(val)
-        this.siftUp()
-    }
-    
-    remove() {
-        if (!this.elements.length)
-            return null
         
-        const temp = this.elements[0]
-        this.elements[0] = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = temp
+    insert(element) {
+        if (this._atCapacity() && this._sortBy(this.peek(), element))
+            this.remove()
         
-        const val = this.elements.pop()
-        this.siftDown()
-        return val
-    }
-    
-    siftUp() {
-        let child = this.elements.length - 1
-        let parent = this.parentIndex(child)
-        
-        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
-            const temp = this.elements[child]
-            this.elements[child] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            child = parent
-            parent = this.parentIndex(child)
+        if (!this._atCapacity()) {
+            this._elements.push(element)
+            this._siftUp(this._elements.length - 1)   
         }
     }
     
-    siftDown() {
-        let parent = 0
+    remove() {
+        if (!this._elements.length) 
+            return null
+        
+        this._swap(0, this._elements.length - 1)
+        
+        const element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+    
+    size() {
+        return this._elements.length
+    }
+    
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; i >= 0; i--) {
+            this._siftDown(i)
+        }
+    }
+    
+    _siftUp(index) {
+        let child = index
+        let parent = this._parentIndex(child)
+        
+        while (child > 0 && this._sortBy(this._elements[child], this._elements[parent])) {
+            this._swap(child, parent)
+            child = parent
+            parent = this._parentIndex(child)
+        }
+    }
+    
+    _siftDown(index) {
+        let parent = index
         while (true) {
-            const left = this.leftChildIndex(parent)
-            const right = this.rightChildIndex(parent)
+            const left = this._leftChildIndex(parent)
+            const right = this._rightChildIndex(parent)
             let candidate = parent
             
-            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate])) {
+            if (left < this._elements.length && 
+                this._sortBy(this._elements[left], this._elements[candidate])) {
                 candidate = left
             }
-                
-            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate])) {
+            
+            if (right < this._elements.length && 
+                this._sortBy(this._elements[right], this._elements[candidate])) {
                 candidate = right
             }
             
@@ -14219,31 +14227,31 @@ class Heap {
                 return
             }
             
-            const temp = this.elements[parent]
-            this.elements[parent] = this.elements[candidate]
-            this.elements[candidate] = temp
+            this._swap(candidate, parent)
             parent = candidate
         }
     }
     
-    leftChildIndex(parentIndex) {
-        return 2 * parentIndex + 1
+    _leftChildIndex(index) {
+        return 2 * index + 1
+    }
+
+    _rightChildIndex(index) {
+        return 2 * index + 2
     }
     
-    rightChildIndex(parentIndex) {
-        return 2 * parentIndex + 2
+    _parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+
+    _swap(i, j) {
+        const temp = this._elements[i]
+        this._elements[i] = this._elements[j]
+        this._elements[j] = temp
     }
     
-    parentIndex(childIndex) {
-        return Math.floor((childIndex - 1) / 2)
-    }
-    
-    peek() {
-        return this.elements[0]
-    }
-    
-    size() {
-        return this.elements.length
+    _atCapacity() {
+        return this._elements.length >= this._capacity
     }
 }
 ```
