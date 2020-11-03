@@ -41386,19 +41386,19 @@ var maxScore = function(s) {
 var NumMatrix = function(matrix) {
     if (!matrix.length) return
     
-    const rowSize = matrix.length + 1
-    const colSize = matrix[0].length + 1
+    const m = matrix.length + 1
+    const n = matrix[0].length + 1
     
-    this.sumMatrix = Array(rowSize).fill().map(a => Array(colSize).fill(0))
+    this.dp = Array(m).fill().map(a => Array(n).fill(0))
     
-    for (let row = 1; row < rowSize; row++) {
-        for (let col = 1; col < colSize; col++) {
-            this.sumMatrix[row][col] = this.sumMatrix[row - 1][col] + 
-                                       this.sumMatrix[row][col - 1] -
-                                       this.sumMatrix[row - 1][col - 1] + 
-                                       matrix[row - 1][col - 1]
+    for (let row = 1; row < m; row++) {
+        for (let col = 1; col < n; col++) {
+            this.dp[row][col] = this.dp[row - 1][col] + 
+                                this.dp[row][col - 1] -
+                                this.dp[row - 1][col - 1] + 
+                                matrix[row - 1][col - 1]
         }
-    }
+    }    
 };
 
 /** 
@@ -41409,10 +41409,10 @@ var NumMatrix = function(matrix) {
  * @return {number}
  */
 NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
-    return this.sumMatrix[row2 + 1][col2 + 1] - 
-           this.sumMatrix[row1][col2 + 1] - 
-           this.sumMatrix[row2 + 1][col1] + 
-           this.sumMatrix[row1][col1]
+    return this.dp[row2 + 1][col2 + 1] - 
+           this.dp[row1][col2 + 1] - 
+           this.dp[row2 + 1][col1] + 
+           this.dp[row1][col1]
 };
 
 /** 
