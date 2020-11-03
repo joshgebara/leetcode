@@ -13617,108 +13617,17 @@ class Heap {
 
 ## 703. Kth Largest Element in a Stream
 ```javascript
-class Heap {
-    constructor(elements, capacity, sortBy) {
-        this.capacity = capacity
-        this.elements = elements
-        this.sortBy = sortBy
-        this.heapify()
-    }
-    
-    atCapacity() {
-        return this.elements.length >= this.capacity
-    }
-    
-    heapify() {
-        if (!this.elements.length) return
-        
-        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
-            this.siftDown(i)
-    }
-    
-    insert(val) {
-        if (this.atCapacity() && val > this.peek())
-            this.remove()
-        
-        if (!this.atCapacity()) {
-            this.elements.push(val)
-            this.siftUp()
-        }
-    }
-    
-    remove() {
-        if (!this.elements.length) return null
-        
-        let temp = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = this.elements[0]
-        this.elements[0] = temp
-        
-        let element = this.elements.pop()
-        
-        this.siftDown()
-        
-        return element
-    }
-    
-    siftDown(index) {
-        let parent = index ? index : 0
-        while (true) {
-            let left = this.leftChildIndex(parent)
-            let right = this.rightChildIndex(parent)
-            let candidate = parent
-            
-            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
-                candidate = left
-            
-            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
-                candidate = right
-            
-            if (candidate === parent) return
-            
-            let temp = this.elements[candidate]
-            this.elements[candidate] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            parent = candidate
-        }
-    }
-    
-    siftUp(index) {
-        let child = index ? index : this.elements.length - 1
-        let parent = this.parentIndex(child)
-        
-        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
-            let temp = this.elements[child]
-            this.elements[child] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            child = parent
-            parent = this.parentIndex(child)
-        }
-    }
-    
-    peek() {
-        return this.elements[0]
-    }
-    
-    leftChildIndex(parentIndex) {
-        return 2 * parentIndex + 1
-    }
-    
-    rightChildIndex(parentIndex) {
-        return 2 * parentIndex + 2
-    }
-    
-    parentIndex(childIndex) {
-        return Math.floor((childIndex - 1) / 2)
-    }
-}
-
+/**
+ * @param {number} k
+ * @param {number[]} nums
+ */
 var KthLargest = function(k, nums) {
+    this.k = k
     this.heap = new Heap([], k, (a, b) => a < b)
     
-    for (const num of nums)
+    for (const num of nums) {
         this.heap.insert(num)
+    }
 };
 
 /** 
@@ -13735,6 +13644,106 @@ KthLargest.prototype.add = function(val) {
  * var obj = new KthLargest(k, nums)
  * var param_1 = obj.add(val)
  */
+
+class Heap {
+    constructor(elements, k, sortBy) {
+        this._elements = elements
+        this._capacity = k
+        this._sortBy = sortBy
+        this._heapify()
+    }
+    
+    insert(element) {
+        if (this._elements.length < this._capacity) {
+            this._elements.push(element)
+            this._siftUp(this._elements.length - 1)
+        } else if (this.peek() < element) {
+            this.remove()
+            this._elements.push(element)
+            this._siftUp(this._elements.length - 1)
+        }
+    }
+    
+    remove() {
+        if (!this._elements.length) 
+            return null
+        
+        this._swap(0, this._elements.length - 1)
+        
+        const element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+    
+    size() {
+        return this._elements.length
+    }
+    
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; i >= 0; i--) {
+            this._siftDown(i)
+        }
+    }
+    
+    _siftUp(index) {
+        let child = index
+        let parent = this._parentIndex(child)
+        
+        while (child > 0 && this._sortBy(this._elements[child], this._elements[parent])) {
+            this._swap(child, parent)
+            child = parent
+            parent = this._parentIndex(child)
+        }
+    }
+    
+    _siftDown(index) {
+        let parent = index
+        while (true) {
+            const left = this._leftChildIndex(parent)
+            const right = this._rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this._elements.length && 
+                this._sortBy(this._elements[left], this._elements[candidate])) {
+                candidate = left
+            }
+            
+            if (right < this._elements.length && 
+                this._sortBy(this._elements[right], this._elements[candidate])) {
+                candidate = right
+            }
+            
+            if (candidate === parent) {
+                return
+            }
+            
+            this._swap(candidate, parent)
+            parent = candidate
+        }
+    }
+    
+    _leftChildIndex(index) {
+        return 2 * index + 1
+    }
+
+    _rightChildIndex(index) {
+        return 2 * index + 2
+    }
+    
+    _parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+
+    _swap(i, j) {
+        const temp = this._elements[i]
+        this._elements[i] = this._elements[j]
+        this._elements[j] = temp
+    }
+}
 ```
 
 ## Heap Sort
