@@ -13502,107 +13502,117 @@ var mergeKLists = function(lists) {
 ## 1046. Last Stone Weight
 ```javascript
 // O(n log n)
+/**
+ * @param {number[]} stones
+ * @return {number}
+ */
+var lastStoneWeight = function(stones) {
+    const heap = new Heap(stones, ((a, b) => a > b))
+    
+    while (heap.size() > 1) {
+        const y = heap.remove()
+        const x = heap.remove()
+        
+        if (x === y) continue
+
+        heap.insert(y - x)
+    }
+    
+    return heap.size() ? heap.peek() : 0
+};
+
 class Heap {
     constructor(elements, sortBy) {
-        this.elements = elements
-        this.sortBy = sortBy
-        this.heapify()
+        this._elements = elements
+        this._sortBy = sortBy
+        this._heapify()
     }
     
-    heapify() {
-        if (!this.elements.length) return
-        
-        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
-            this.siftDown(i)
-    }
-    
-    siftUp() {
-        let childIndex = this.elements.length - 1
-        let parentIndex = this.parentIndex(childIndex)
-        
-        while (childIndex > 0 && this.sortBy(this.elements[childIndex], this.elements[parentIndex])) {
-            let temp = this.elements[parentIndex]
-            this.elements[parentIndex] = this.elements[childIndex]
-            this.elements[childIndex] = temp
-            
-            childIndex = parentIndex
-            parentIndex = this.parentIndex(childIndex)
-        }
-    }
-    
-    siftDown(index) {
-        let parentIndex = index
-        while (true) {
-            let leftIndex = this.leftChildIndex(parentIndex)
-            let rightIndex = this.rightChildIndex(parentIndex)
-            let candidate = parentIndex
-            
-            if (leftIndex < this.elements.length && this.sortBy(this.elements[leftIndex], this.elements[candidate]))
-                candidate = leftIndex
-            
-            if (rightIndex < this.elements.length && this.sortBy(this.elements[rightIndex], this.elements[candidate]))
-                candidate = rightIndex
-            
-            if (parentIndex === candidate) return
-                
-            let temp = this.elements[parentIndex]
-            this.elements[parentIndex] = this.elements[candidate]
-            this.elements[candidate] = temp
-                
-            parentIndex = candidate
-        }
-    }
-    
-    insert(val) {
-        this.elements.push(val)
-        this.siftUp()
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
     }
     
     remove() {
-        if (!this.elements.length) return null
+        if (!this._elements.length) 
+            return null
         
-        let temp = this.elements[0]
-        this.elements[0] = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = temp
+        this._swap(0, this._elements.length - 1)
         
-        let element = this.elements.pop()
-        
-        this.siftDown(0)
-        
+        const element = this._elements.pop()
+        this._siftDown(0)
         return element
     }
     
     peek() {
-        return this.elements[0]
+        return this._elements[0]
     }
     
-    leftChildIndex(parentIndex) {
-        return 2 * parentIndex + 1
+    size() {
+        return this._elements.length
     }
     
-    rightChildIndex(parentIndex) {
-        return 2 * parentIndex + 2
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; i >= 0; i--) {
+            this._siftDown(i)
+        }
     }
     
-    parentIndex(childIndex) {
-        return Math.floor((childIndex - 1) / 2)
+    _siftUp(index) {
+        let child = index
+        let parent = this._parentIndex(child)
+        
+        while (child > 0 && this._sortBy(this._elements[child], this._elements[parent])) {
+            this._swap(child, parent)
+            child = parent
+            parent = this._parentIndex(child)
+        }
+    }
+    
+    _siftDown(index) {
+        let parent = index
+        while (true) {
+            const left = this._leftChildIndex(parent)
+            const right = this._rightChildIndex(parent)
+            let candidate = parent
+            
+            if (left < this._elements.length && 
+                this._sortBy(this._elements[left], this._elements[candidate])) {
+                candidate = left
+            }
+            
+            if (right < this._elements.length && 
+                this._sortBy(this._elements[right], this._elements[candidate])) {
+                candidate = right
+            }
+            
+            if (candidate === parent) {
+                return
+            }
+            
+            this._swap(candidate, parent)
+            parent = candidate
+        }
+    }
+    
+    _leftChildIndex(index) {
+        return 2 * index + 1
+    }
+
+    _rightChildIndex(index) {
+        return 2 * index + 2
+    }
+    
+    _parentIndex(index) {
+        return Math.floor((index - 1) / 2)
+    }
+
+    _swap(i, j) {
+        const temp = this._elements[i]
+        this._elements[i] = this._elements[j]
+        this._elements[j] = temp
     }
 }
-
-
-var lastStoneWeight = function(stones) {
-    const heap = new Heap(stones, (a, b) => a > b)
-    
-    while (heap.elements.length > 1) {
-        let x = heap.remove()
-        let y = heap.remove()
-        
-        if (x === y) continue    
-        heap.insert(x - y)
-    }
-
-    return heap.peek() ? heap.peek() : 0
-};
 ```
 
 ## 703. Kth Largest Element in a Stream
