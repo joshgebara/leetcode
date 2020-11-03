@@ -51464,3 +51464,90 @@ class FenwickTree {
     }
 }
 ```
+
+## 308. Range Sum Query 2D - Mutable
+```javascript
+/**
+ * @param {number[][]} matrix
+ */
+var NumMatrix = function(matrix) {
+    if (!matrix.length || !matrix[0].length) 
+        return
+    
+    this.m = matrix.length
+    this.n = matrix[0].length
+    
+    this.nums = Array(this.m).fill().map(a => Array(this.n).fill(0))
+    this.tree = Array(this.m + 1).fill().map(a => Array(this.n + 1).fill(0))
+    
+    for (let row = 0; row < this.m; row++) {
+        for (let col = 0; col < this.n; col++) {
+            this.update(row, col, matrix[row][col])
+        }
+    }
+};
+
+/** 
+ * @param {number} row 
+ * @param {number} col 
+ * @param {number} val
+ * @return {void}
+ */
+NumMatrix.prototype.update = function(row, col, val) {
+    const delta = val - this.nums[row][col]
+    this.nums[row][col] = val
+    
+    row++
+    col++
+    while (row < this.tree.length) {
+        let currCol = col
+        while (currCol < this.tree[0].length) {
+            this.tree[row][currCol] += delta
+            currCol += this.lsb(currCol)
+        }
+        row += this.lsb(row)
+    }
+};
+
+/** 
+ * @param {number} row1 
+ * @param {number} col1 
+ * @param {number} row2 
+ * @param {number} col2
+ * @return {number}
+ */
+NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
+  return this.sum(row2, col2) - 
+         this.sum(row1 - 1, col2) - 
+         this.sum(row2, col1 - 1) + 
+         this.sum(row1 - 1, col1 - 1)
+};
+
+NumMatrix.prototype.sum = function(row, col) {
+  let sum = 0
+  
+  row++
+  col++
+  while (row > 0) {
+      let currCol = col
+      while (currCol > 0) {
+          sum += this.tree[row][currCol]
+          currCol -= this.lsb(currCol)
+      }
+      row -= this.lsb(row)
+  }
+
+  return sum
+}
+
+/** 
+ * Your NumMatrix object will be instantiated and called as such:
+ * var obj = new NumMatrix(matrix)
+ * obj.update(row,col,val)
+ * var param_2 = obj.sumRegion(row1,col1,row2,col2)
+ */
+
+NumMatrix.prototype.lsb = function(i) {
+    return i & (-i)
+}
+```
