@@ -42281,19 +42281,15 @@ var minFallingPathSum = function(A) {
 
 ## 401. Binary Watch
 ```javascript
-/**
- * @param {number} num
- * @return {string[]}
- */
 var readBinaryWatch = function(num) {
     const _readBinaryWatch = (n, hourIndex, minIndex, hours, mins) => {
-        if (n === 0) {
-            if (hours <= 11 && mins <= 59) {
-                if (mins < 10) mins = `${0}${mins}`
-                
-                const time = `${hours}:${mins}`
-                times.push(time)
-            }
+        if (hours > 11 || mins > 59) return
+        
+        if (n === 0) {    
+            if (mins < 10) mins = `${0}${mins}`    
+            
+            const time = `${hours}:${mins}`
+            times.push(time)
             
             return
         }
@@ -51529,3 +51525,4 @@ NumMatrix.prototype.lsb = function(i) {
     return i & (-i)
 }
 ```
+
