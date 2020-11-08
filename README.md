@@ -51571,10 +51571,11 @@ var countVowelStrings = function(n) {
  */
 var getHappyString = function(n, k) {
     const _getHappyString = curr => {
-        if (result.length >= k) return
+        if (count >= k) return
         
         if (curr.length === n) {
-            result.push(curr.join(''))
+            result = curr.join('')
+            count++
             return
         }
         
@@ -51586,8 +51587,9 @@ var getHappyString = function(n, k) {
         }
     }
     
-    const result = []
+    let result = ''
+    let count = 0
     _getHappyString([])
-    return result.length >= k ? result[k - 1] : ''
+    return count >= k ? result : ''
 };
 ```
