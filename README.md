@@ -51526,3 +51526,29 @@ NumMatrix.prototype.lsb = function(i) {
 }
 ```
 
+## 1641. Count Sorted Vowel Strings
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var countVowelStrings = function(n) {
+    const _countVowelStrings = (n, i) => {
+        if (n === 0) return 1
+        
+        if (memo[n][i] !== undefined)
+            return memo[n][i]
+        
+        let count = 0
+        for (let curr = i; curr < 5; curr++) {
+            count += _countVowelStrings(n - 1, curr)
+        }
+        
+        memo[n][i] = count
+        return count
+    }
+    
+    const memo = Array(n + 1).fill().map(a => Array(6).fill())
+    return _countVowelStrings(n, 0)
+};
+```
