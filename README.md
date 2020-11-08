@@ -22723,24 +22723,29 @@ var generateParenthesis = function(n) {
 
 ## 1079. Letter Tile Possibilities
 ```javascript
+/**
+ * @param {string} tiles
+ * @return {number}
+ */
 var numTilePossibilities = function(tiles) {
-    const dfs = (count) => {
-        let sum = 0
-        for (let i = 0; i < 26; i++) {
-            if (count[i] == 0) continue
-            sum++
-            count[i]--
-            sum += dfs(count)
-            count[i]++
+    const _numTilePossibilities = length => {
+        let count = 0
+        for (let i = 0; i < letters.length; i++) {
+            if (letters[i] <= 0) continue
+            letters[i]--
+            count += 1 + _numTilePossibilities(length + 1)
+            letters[i]++
         }
-        return sum
+        return count
     }
     
-    const count = Array(26).fill(0)
-    for (const tile of tiles)
-        count[tile.charCodeAt(0) - 'A'.charCodeAt(0)]++ 
+    const letters = Array(26).fill(0)
+    for (const tile of tiles) {
+        const index = tile.charCodeAt(0) - 'A'.charCodeAt(0)
+        letters[index]++
+    }
     
-    return dfs(count)
+    return _numTilePossibilities(0)
 };
 ```
 
@@ -51528,6 +51533,7 @@ NumMatrix.prototype.lsb = function(i) {
 
 ## 1641. Count Sorted Vowel Strings
 ```javascript
+// Top Down DP
 /**
  * @param {number} n
  * @return {number}
@@ -51551,4 +51557,7 @@ var countVowelStrings = function(n) {
     const memo = Array(n + 1).fill().map(a => Array(6).fill())
     return _countVowelStrings(n, 0)
 };
+
+// Bottom Up DP
+
 ```
