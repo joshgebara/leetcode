@@ -51561,3 +51561,33 @@ var countVowelStrings = function(n) {
 // Bottom Up DP
 
 ```
+
+## 1415. The k-th Lexicographical String of All Happy Strings of Length n
+```javascript
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getHappyString = function(n, k) {
+    const _getHappyString = curr => {
+        if (result.length >= k) return
+        
+        if (curr.length === n) {
+            result.push(curr.join(''))
+            return
+        }
+        
+        for (const char of 'abc') {
+            if (curr.length && char === curr[curr.length - 1]) continue
+            curr.push(char)
+            _getHappyString(curr)
+            curr.pop()
+        }
+    }
+    
+    const result = []
+    _getHappyString([])
+    return result.length >= k ? result[k - 1] : ''
+};
+```
