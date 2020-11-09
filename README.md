@@ -22885,59 +22885,29 @@ var generateAbbreviations = function(word) {
 
 ## 526. Beautiful Arrangement
 ```javascript
-// Permutation Solution
+/**
+ * @param {number} N
+ * @return {number}
+ */
 var countArrangement = function(N) {
-    const _countArrangement = (pos) => {
-        if (pos === N) {
+    const _countArrangement = (i, used) => {
+        if (i === N + 1) {
             count++
             return
         }
         
-        for (let i = pos; i < nums.length; i++) {
-            if (nums[i] % (pos + 1) != 0 && (pos + 1) % nums[i] != 0)
-                continue
+        for (let num = 1; num <= N; num++) {
+            const mask = 1 << num
+            if (used & mask) continue
             
-            swap(nums, i, pos)            
-            _countArrangement(pos + 1)
-            swap(nums, i, pos)
-        }
-    }
-    
-    const nums = []
-    for (let i = 1; i <= N; i++) 
-        nums.push(i)
-    
-    let count = 0
-    _countArrangement(0)
-    return count
-};
-
-const swap = (arr, i, j) => {
-    const temp = arr[i]
-    arr[i] = arr[j]
-    arr[j] = temp
-}
-
-// Backtracking Solution
-var countArrangement = function(N) {
-    const _countArrangement = pos => {
-        if (pos > N) {
-            count++
-            return
-        }
-        
-        for (let i = 1; i <= N; i++) {
-            if (!visited[i] && (i % pos === 0 || pos % i === 0)) {            
-                visited[i] = true
-                _countArrangement(pos + 1)
-                visited[i] = false
+            if (i % num === 0 || num % i === 0) {
+                _countArrangement(i + 1, used | mask)
             }
-        }    
+        }
     }
     
-    const visited = Array(N + 1).fill(false)
     let count = 0
-    _countArrangement(1)
+    _countArrangement(1, 0)
     return count
 };
 ```
