@@ -12491,32 +12491,29 @@ var getPermutation = function(n, k) {
 
 ## 17. Letter Combinations of a Phone Number
 ```javascript
+// DFS
+/**
+ * @param {string} digits
+ * @return {string[]}
+ */
 var letterCombinations = function(digits) {
-    if (!digits.length) return []
-    
-    const map = {
-        2: 'abc',
-        3: 'def',
-        4: 'ghi',
-        5: 'jkl',
-        6: 'mno',
-        7: 'pqrs',
-        8: 'tuv',
-        9: 'wxyz'
-    }
-    
-    const _letterCombinations = (curr, index) => {
-        if (index === digits.length) {
+    const _letterCombinations = (curr, i) => {
+        if (i === digits.length) {
             result.push(curr.join(''))
             return
         }
         
-        for (const char of map[digits[index]]) {
+        for (const char of map[digits[i]]) {
             curr.push(char)
-            _letterCombinations(curr, index + 1)
+            _letterCombinations(curr, i + 1)
             curr.pop()
         }
     }
+    
+    if (!digits.length) return []
+    
+    const map = { 2: 'abc', 3: 'def', 4: 'ghi', 5: 'jkl', 
+                  6: 'mno', 7: 'pqrs', 8: 'tuv', 9: 'wxyz' }
     
     const result = []
     _letterCombinations([], 0)
