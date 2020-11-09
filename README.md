@@ -22696,27 +22696,31 @@ WHERE (grouping) IN
  * @return {string[]}
  */
 var generateParenthesis = function(n) {
-    const _generateParenthesis = (i, curr, balance) => {
-        if (balance > n || balance < 0) return
+    const _generateParenthesis = (curr, open, closed, balance) => {
+        if (balance < 0) return
         
-        if (i === 2 * n) {
-            if (balance == 0) {
+        if (n * 2 === curr.length) {
+            if (balance === 0) {
                 result.push(curr.join(''))
             }
             return
         }
         
-        curr.push('(')
-        _generateParenthesis(i + 1, curr, balance + 1)
-        curr.pop()
+        if (open > 0) {
+            curr.push('(')
+            _generateParenthesis(curr, open - 1, closed, balance + 1)
+            curr.pop()
+        }
         
-        curr.push(')')
-        _generateParenthesis(i + 1, curr, balance - 1)
-        curr.pop()
+        if (closed > 0) {
+            curr.push(')')
+            _generateParenthesis(curr, open, closed - 1, balance - 1)
+            curr.pop()
+        }
     }
     
     const result = []
-    _generateParenthesis(0, [], 0)
+    _generateParenthesis([], n, n, 0)
     return result
 };
 ```
@@ -51591,3 +51595,4 @@ var getHappyString = function(n, k) {
     return count >= k ? result : ''
 };
 ```
+
