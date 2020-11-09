@@ -51620,3 +51620,43 @@ var getHappyString = function(n, k) {
 };
 ```
 
+## 1066. Campus Bikes II
+```javascript
+// Top Down DP
+/**
+ * @param {number[][]} workers
+ * @param {number[][]} bikes
+ * @return {number}
+ */
+var assignBikes = function(workers, bikes) {
+    const _assignBikes = (workerIndex, bikesUsed) => {
+        if (workerIndex >= workers.length) {
+            return 0
+        }
+        
+        if (memo[`${workerIndex}-${bikesUsed}`] !== undefined) {
+            return memo[`${workerIndex}-${bikesUsed}`]
+        }
+        
+        let min = Infinity
+        for (let i = 0; i < bikes.length; i++) {
+            const mask = 1 << i
+            if (bikesUsed & mask) continue
+            
+            const currDist = manhattan(workers[workerIndex], bikes[i]) + 
+                             _assignBikes(workerIndex + 1, bikesUsed | mask)
+            min = Math.min(min, currDist)
+        }
+        
+        memo[`${workerIndex}-${bikesUsed}`] = min
+        return min
+    }
+    
+    const memo = {}
+    return _assignBikes(0, 0)
+};
+
+const manhattan = (p1, p2) => {
+    return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1])
+}
+```
