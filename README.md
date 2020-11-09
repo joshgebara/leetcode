@@ -22891,24 +22891,25 @@ var generateAbbreviations = function(word) {
  */
 var countArrangement = function(N) {
     const _countArrangement = (i, used) => {
-        if (i === N + 1) {
-            count++
-            return
-        }
+        if (i === N + 1) return 1
         
+        if (memo[`${i}-${used}`] !== undefined)
+            return memo[`${i}-${used}`]
+        
+        let count = 0
         for (let num = 1; num <= N; num++) {
             const mask = 1 << num
             if (used & mask) continue
-            
-            if (i % num === 0 || num % i === 0) {
-                _countArrangement(i + 1, used | mask)
-            }
+            if (i % num !== 0 && num % i !== 0) continue
+            count += _countArrangement(i + 1, used | mask)
         }
+        
+        memo[`${i}-${used}`] = count
+        return count
     }
     
-    let count = 0
-    _countArrangement(1, 0)
-    return count
+    const memo = {}
+    return _countArrangement(1, 0)
 };
 ```
 
