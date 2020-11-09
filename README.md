@@ -19750,25 +19750,28 @@ var inorderSuccessor = function(node) {
 
 ## 40. Combination Sum II
 ```javascript
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
 var combinationSum2 = function(candidates, target) {
-    const _combinationSum2 = (curr, sum, start) => {
-        if (sum > target)
-            return
+    const _combinationSum2 = (curr, i, sum) => {
+        if (i > candidates.length || sum > target) return
         
         if (sum === target) {
             result.push(curr.slice())
             return
         }
         
-        for (let i = start; i < candidates.length; i++) {
-            if (i > start && candidates[i] === candidates[i-1]) 
-                continue
-                
-            curr.push(candidates[i])
-            _combinationSum2(curr, sum + candidates[i], i + 1)
+        for (let j = i; j < candidates.length; j++) {
+            if (target < sum + candidates[j]) break
+            if (j !== i && candidates[j] === candidates[j - 1]) continue
+            
+            curr.push(candidates[j])
+            _combinationSum2(curr, j + 1, sum + candidates[j])
             curr.pop()
         }
-        
     }
     
     const result = []
