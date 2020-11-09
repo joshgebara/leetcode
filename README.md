@@ -12373,6 +12373,31 @@ var combine = function(n, k) {
     _combine([], 1)
     return result
 };
+
+// Iterative Bitmask
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
+var combine = function(n, k) {
+    const result = []
+    const limit = 1 << n
+    
+    for (let bitmask = 0; bitmask < limit; bitmask++) {
+        const curr = []
+        for (let i = 0; i < n; i++) {
+            if (bitmask & 1 << i) {
+                curr.push(i + 1)
+            }
+        }
+        
+        if (curr.length === k)
+            result.push(curr)
+    }
+    
+    return result
+};
 ```
 
 ## 47. Permutations II
