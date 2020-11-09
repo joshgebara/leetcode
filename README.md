@@ -32813,65 +32813,37 @@ const swap = (arr, i, j) => {
 
 ## 1239. Maximum Length of a Concatenated String with Unique Characters
 ```javascript
-// Backtracking + Set
+/**
+ * @param {string[]} arr
+ * @return {number}
+ */
 var maxLength = function(arr) {
-    const _maxLength = (currIndex, curr) => {
-        max = Math.max(curr.length, max)
+    const _maxLength = (count, i, used) => {
+        max = Math.max(max, count)
         
-        if (currIndex === arr.length) {    
+        if (i > arr.length) {
             return
         }
-
-        for (let i = currIndex; i < arr.length; i++) {
-            const next = [...curr, ...arr[i]]
-            if (hasDuplicate(next)) continue
-            
-            _maxLength(i + 1, next)
-        }
-    }
-    
-    const hasDuplicate = eles => {
-        const unique = new Set(eles)
-        return eles.length !== unique.size
-    }
-    
-    const result = []
-    let max = 0
-    _maxLength(0, [])
-    return max
-};
-
-// Backtracking + Bit Set
-var maxLength = function(arr) {
-    const _maxLength = (currIndex, bitSet, currLength) => {
-        max = Math.max(currLength, max)
         
-        if (currIndex === arr.length) {    
-            return
-        }
-
-        outer: for (let i = currIndex; i < arr.length; i++) {
-            let nextBitSet = bitSet
-            let nextLength = currLength
+        outer : for (let j = i; j < arr.length; j++) {
+            let nextUsed = used
             
-            for (const char of arr[i]) {
-                const pos = char.charCodeAt(0) - 'a'.charCodeAt(0)
-                
-                if (nextBitSet & (1 << pos)) 
-                    continue outer
-                
-                nextBitSet |= (1 << pos)
-                nextLength++
+            for (const char of arr[j]) {
+                const mask = 1 << indexForChar(char)
+                if (nextUsed & mask) continue outer
+                nextUsed |= mask
             }
             
-            _maxLength(i + 1, nextBitSet, nextLength)
+            _maxLength(count + arr[j].length, j + 1, nextUsed)
         }
     }
     
     let max = 0
-    _maxLength(0, 0, 0)
+    _maxLength(0, 0)
     return max
 };
+
+const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ```
 
 ## 1215. Stepping Numbers
