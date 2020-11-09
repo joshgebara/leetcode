@@ -12350,16 +12350,21 @@ const swap = (arr, i, j) => {
 
 ## 77. Combinations
 ```javascript
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
 var combine = function(n, k) {
-    const _combine = (curr, start) => {
-        if (curr.length === k) {
+    const _combine = (curr, i) => {
+        if (curr.length >= k) {
             result.push(curr.slice())
             return
         }
         
-        for (let i = start; i <= n; i++) {
-            curr.push(i)
-            _combine(curr, i + 1)
+        for (let num = i; num <= n; num++) {
+            curr.push(num)
+            _combine(curr, num + 1)
             curr.pop()
         }
     }
