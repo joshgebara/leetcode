@@ -18314,6 +18314,25 @@ var subsets = function(nums) {
   _subsets([], 0)
   return result
 };
+
+// Iterative Bitmask
+var subsets = function(nums) {
+    const result = []
+    const n = nums.length
+    const limit = 1 << n
+    
+    for (let bitmask = 0; bitmask < limit; bitmask++) {
+        const curr = []
+        for (let i = 0; i < n; i++) {        
+            if (bitmask & 1 << i) {
+                curr.push(nums[i])
+            }
+        }
+        result.push(curr)
+    }
+    
+    return result
+};
 ```
 
 ## 11. Container With Most Water
