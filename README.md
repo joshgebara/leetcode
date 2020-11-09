@@ -22934,23 +22934,25 @@ var countArrangement = function(N) {
 
 ## 216. Combination Sum III
 ```javascript
+/**
+ * @param {number} k
+ * @param {number} n
+ * @return {number[][]}
+ */
 var combinationSum3 = function(k, n) {
-    const _combinationSum3 = (curr, currSum, start) => {
-        if (curr.length === k && currSum === n) {
+    const _combinationSum3 = (curr, sum, j) => {
+        if (curr.length > k || sum > n) return
+        
+        if (curr.length === k && sum === n) {
             result.push(curr.slice())
-            return 
+            return
         }
         
-        if (curr.length >= k)
-            return
-        
-        for (let i = start; i <= 9; i++) {
-            if (currSum + i > n) return
-            
-            curr.push(i)
-            _combinationSum3(curr, currSum + i, i + 1)
+        for (let num = j; num <= 9; num++) {
+            curr.push(num)
+            _combinationSum3(curr, sum + num, num + 1)
             curr.pop()
-        }        
+        }
     }
     
     const result = []
