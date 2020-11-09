@@ -22799,56 +22799,59 @@ var getMaximumGold = function(grid) {
 
 ## 1087. Brace Expansion
 ```javascript
+/**
+ * @param {string} S
+ * @return {string[]}
+ */
 var expand = function(S) {
-    const _expand = (curr, index) => {
-        if (index === str.length) {
+    const _expand = (i, curr) => {
+        if (i === options.length) {
             result.push(curr.join(''))
-            return 
+            return
         }
         
-        for (const char of str[index]) {
-            curr.push(char)
-            _expand(curr, index + 1)
+        for (const option of options[i]) {
+            curr.push(option)
+            _expand(i + 1, curr)
             curr.pop()
         }
     }
     
+    const options = parseOptions(S)
     const result = []
-    const str = formatStr(S)
-    _expand([], 0)
-    result.sort()
+    _expand(0, [])
     return result
 };
 
-const formatStr = (str) => {
-    const result = []
+const parseOptions = str => {    
+    const options = []
     
-    let group = []
-    let inGroup = false
-    for (const s of str) {
-        if (s === ',') continue
+    let curr = []
+    let open = false
+    for (const char of str) {
+        if (char === ',') continue
         
-        if (s === '{') {
-            group = []
-            inGroup = true
+        if (char === '{') {
+            open = true
+            curr = []
             continue
         }
         
-        if (s === '}') {
-            result.push(group)
-            inGroup = false
+        if (char === '}') {
+            open = false
+            curr.sort((a, b) => a.localeCompare(b))
+            options.push(curr)
             continue
         }
         
-        if (inGroup) {
-            group.push(s)
-            continue
+        if (open) {
+            curr.push(char)
+        } else {
+            options.push([char])
         }
-        
-        result.push([s])
     }
     
-    return result
+    return options
 }
 ```
 
