@@ -22989,36 +22989,31 @@ var sequentialDigits = function(low, high) {
 };
 
 // Backtracking
+/**
+ * @param {number} low
+ * @param {number} high
+ * @return {number[]}
+ */
 var sequentialDigits = function(low, high) {
-    const _sequentialDigits = (curr, start, last) => {
-        const num = +curr.join('')
+    const _sequentialDigits = (num) => {
+        if (num > high) return
         
-        if (num <= high && num >= low)
+        if (num >= low && num <= high) {
             result.push(num)
-        
-        if (num > high)
-            return
-        
-        if (last) {
-            if (last > 9) return
-            
-            curr.push(last)
-            _sequentialDigits(curr, start, last + 1)
-            curr.pop()
-            return
         }
         
-        for (let i = start; i < 9; i++) {
-            if (!curr.length || curr[curr.length - 1] + 1 === i) {
-                curr.push(i)
-                _sequentialDigits(curr, start, i + 1)
-                curr.pop()
-            }
-        }
+        const digit = num % 10
+        if (digit === 9) return
+        num *= 10
+        num += digit + 1
+        
+        _sequentialDigits(num)
     }
     
     const result = []
-    _sequentialDigits([], 1, 0)
+    for (let num = 1; num <= 9; num++) {
+        _sequentialDigits(num)
+    }
     result.sort((a, b) => a - b)
     return result
 };
