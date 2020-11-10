@@ -46015,23 +46015,23 @@ var maxProductPath = function(grid) {
  * @return {number}
  */
 var maxUniqueSplit = function(s) {
-    const _maxUniqueSplit = (i, count) => {
-        if (i === s.length) {
+    const _maxUniqueSplit = (start, count) => {
+        if (start >= s.length) {
             max = Math.max(max, count)
             return
         }
         
-        for (let index = i + 1; index <= s.length; index++) {
-            const word = s.slice(i, index)
-            if (seen.has(word)) continue
-            seen.add(word)
-            _maxUniqueSplit(index, count + 1)
-            seen.delete(word)
+        for (let i = start; i < s.length; i++) {
+            const str = s.slice(start, i + 1)
+            if (used.has(str)) continue
+            used.add(str)
+            _maxUniqueSplit(i + 1, count + 1)
+            used.delete(str)
         }
     }
     
+    const used = new Set()
     let max = 0
-    const seen = new Set()
     _maxUniqueSplit(0, 0)
     return max
 };
