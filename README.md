@@ -32992,6 +32992,7 @@ var splitIntoFibonacci = function(S) {
 
 ## 306. Additive Number
 ```javascript
+// Approach 1
 var isAdditiveNumber = function(num) {
     const _isAdditiveNumber = (list, currIndex) => {
         if (currIndex === num.length) {
@@ -33018,6 +33019,65 @@ var isAdditiveNumber = function(num) {
     
     return _isAdditiveNumber([], 0)
 };
+
+// Approach 2
+/**
+ * @param {string} num
+ * @return {boolean}
+ */
+var isAdditiveNumber = function(num) {
+    const _isAdditiveNumber = (curr, start) => {
+        if (curr.length > 2) return
+        
+        if (curr.length === 2) {
+            return isValid(+curr[0], +curr[1], start, num)
+        }
+        
+        for (let i = start; i < num.length; i++) {
+            const int = num.slice(start, i + 1)
+            if (int.length > 1 && int[0] === '0') continue
+            
+            curr.push(int)
+            if (_isAdditiveNumber(curr, i + 1)) {
+                return true
+            }
+            
+            curr.pop()
+        }
+        
+        return false
+    }
+    
+    return _isAdditiveNumber([], 0)
+};
+
+const isValid = (num1, num2, start, num) => {
+    let curr = []
+    let count = 0
+    
+    for (let i = start; i < num.length; i++) {
+        curr.push(num[i])
+        
+        if (curr.length > 1 && curr[0] === '0') 
+            return false
+        
+        const targetNum = num1 + num2
+        const currNum = +curr.join('')
+        
+        if (currNum === targetNum) {
+            curr = []
+            num1 = num2
+            num2 = targetNum
+            count++
+            continue
+        }
+        
+        if (currNum > targetNum) 
+            return false
+    }
+    
+    return curr.length === 0 && count > 0
+}
 ```
 
 ## 1342. Number of Steps to Reduce a Number to Zero
@@ -46839,37 +46899,51 @@ var canWin = function(s) {
  * @return {boolean}
  */
 var canWin = function(s) {
-    const _canWin = () => {
-        const state = board.join('')
-        if (map[state] !== undefined) {
-            return map[state]
+    const _canWin = (s) => {
+        if (memo[s] !== undefined) {
+            return memo[s]
         }
-            
-        for (let i = 1; i < board.length; i++) {
-            if (board[i] === '+' && board[i - 1] === '+') {
-                board[i] = '-'
-                board[i - 1] = '-'
+        
+        const str = s.split('')
+        for (let i = 0; i < str.length - 1; i++) {
+            if (str[i] === '+' && str[i + 1] === '+') {
+                str[i] = '-'
+                str[i + 1] = '-'
                 
-                const result = !_canWin()
-
-                board[i] = '+'
-                board[i - 1] = '+'
+                const nextState = compressState(str)
+                const result = !_canWin(nextState)
+                
+                str[i] = '+'
+                str[i + 1] = '+'
                 
                 if (result) {
-                    map[state] = true
+                    memo[s] = true
                     return true
                 }
             }
         }
         
-        map[state] = false
+        memo[s] = false
         return false
     }
     
-    const map = {}
-    const board = s.split('')
-    return _canWin()
+    const memo = {}
+    return _canWin(s)
 };
+
+const compressState = str => {
+    const result = []
+    
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === '-' && str[i + 1] !== '-') {
+            result.push(str[i])
+        } else if (str[i] === '+') {
+            result.push(str[i])
+        }
+    }
+    
+    return result.join('')
+}
 ```
 
 ## 357. Count Numbers with Unique Digits
