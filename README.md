@@ -51727,3 +51727,42 @@ const manhattan = (p1, p2) => {
     return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1])
 }
 ```
+
+## 351. Android Unlock Patterns
+```javascript
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var numberOfPatterns = function(m, n) {
+    const _numberOfPatterns = (curr, used, length) => {
+        if (length >= m) {
+            count++
+        }
+        
+        if (length === n) {
+            return
+        }
+        
+        for (let num = 1; num <= 9; num++) {
+            const mask = 1 << num
+            if (used & mask) continue
+            
+            const key = `${Math.min(curr, num)}-${Math.max(curr, num)}`
+            if (skip[key] && !(used & 1 << skip[key])) continue
+            
+            _numberOfPatterns(num, used | mask, length + 1)
+        }
+    }
+    
+    const skip = { '1-7': 4, '2-8': 5, '3-9': 6, '1-3': 2, 
+                   '4-6': 5, '7-9': 8, '1-9': 5, '3-7': 5 }
+    let count = 0
+    _numberOfPatterns(1, 1 << 1, 1)
+    _numberOfPatterns(2, 1 << 2, 1)
+    count *= 4
+    _numberOfPatterns(5, 1 << 5, 1)
+    return count
+};
+```
