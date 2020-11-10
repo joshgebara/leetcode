@@ -17545,10 +17545,16 @@ class TrieNode {
 
 ## 79. Word Search
 ```javascript
+/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */
 var exist = function(board, word) {
     for (let row = 0; row < board.length; row++) {
-        for (let col = 0; col < board[row].length; col++) {
-            if (board[row][col] === word[0] && dfs(board, row, col, 0, word)) {
+        for (let col = 0; col < board[0].length; col++) {
+            if (board[row][col] === word[0] && 
+                dfs(board, row, col, word)) {
                 return true
             }
         }
@@ -17557,24 +17563,38 @@ var exist = function(board, word) {
     return false
 };
 
-const dfs = (board, row, col, count, word) => {
-    if (count === word.length)
-        return true
-    
-    if (row < 0 || row >= board.length || 
-        col < 0 || col >= board[row].length || 
-        board[row][col] != word[count]) {
+const dfs = (board, row, col, word) => {
+    const _dfs = (row, col, wordIndex) => {
+        if (board[row][col] !== word[wordIndex]) {
+            return false
+        }
+        
+        if (wordIndex >= word.length - 1) {
+            return true
+        }
+        
+        const temp = board[row][col]
+        board[row][col] = -1
+        
+        for (const [dRow, dCol] of dirs) {
+            const nextRow = row + dRow
+            const nextCol = col + dCol
+            
+            if (nextRow < 0 || nextRow >= board.length || 
+                nextCol < 0 || nextCol >= board[0].length ||
+                board[nextRow][nextCol] === -1) continue
+            
+            if (_dfs(nextRow, nextCol, wordIndex + 1)) {
+                return true
+            }
+        }
+        
+        board[row][col] = temp
         return false
     }
     
-    let temp = board[row][col]
-    board[row][col] = ""
-    let found = dfs(board, row + 1, col, count + 1, word) || 
-                dfs(board, row - 1, col, count + 1, word) || 
-                dfs(board, row, col + 1, count + 1, word) ||
-                dfs(board, row, col - 1, count + 1, word)
-    board[row][col] = temp
-    return found
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    return _dfs(row, col, 0)
 }
 ```
 
