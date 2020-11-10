@@ -23098,28 +23098,29 @@ const swap = (arr, i, j) => {
 ## 93. Restore IP Addresses
 ```javascript
 var restoreIpAddresses = function(s) {
-    const _restoreIpAddresses = (curr, section, index) => {
-        if (section === 4 && index === s.length) {
+    const _restoreIpAddresses = (curr, index) => {
+        if (curr.length === 4 && index === s.length) {
             result.push(curr.join('.'))
             return
         }
         
-        if (section >= 4 || index >= s.length)
+        if (curr.length >= 4 || index >= s.length)
             return
+        
         
         for (let i = index; i < index + 3; i++) {
             const part = s.slice(index, i + 1)
             const num = +part
-            if ((part.length > 1 && part[0] === '0') || num > 255) return
+            if (part.length > 1 && part[0] === '0' || num > 255) return
             
             curr.push(num)
-            _restoreIpAddresses(curr, section + 1, i + 1)
+            _restoreIpAddresses(curr, i + 1)
             curr.pop()
         }
     }
     
     const result = []
-    _restoreIpAddresses([], 0, 0)
+    _restoreIpAddresses([], 0)
     return result
 };
 ```
