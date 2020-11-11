@@ -51657,12 +51657,31 @@ var countVowelStrings = function(n) {
         return count
     }
     
-    const memo = Array(n + 1).fill().map(a => Array(6).fill())
+    const memo = Array(n + 1).fill().map(a => Array(5))
     return _countVowelStrings(n, 0)
 };
 
 // Bottom Up DP
-
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var countVowelStrings = function(n) {
+    const dp = Array(n + 1).fill().map(a => Array(6).fill())
+    
+    for (let i = 0; i < 6; i++) {
+        dp[1][i] = i
+    }
+    
+    for (let i = 2; i < dp.length; i++) {
+        dp[i][1] = 1
+        for (let j = 2; j < dp[0].length; j++) {
+            dp[i][j] = dp[i][j - 1] + dp[i - 1][j]
+        }
+    }
+    
+    return dp[n][5]
+};
 ```
 
 ## 1415. The k-th Lexicographical String of All Happy Strings of Length n
