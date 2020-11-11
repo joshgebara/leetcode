@@ -47023,24 +47023,19 @@ const compressState = str => {
  * @return {number}
  */
 var countNumbersWithUniqueDigits = function(n) {
-    const _countNumbersWithUniqueDigits = (curr, used) => {
-        count += curr < m
-        if (curr >= m) return
+    const _countNumbersWithUniqueDigits = (num, used) => {
+        if (num >= upper) return
+        count++
         
-        for (let num = 0; num <= 9; num++) {
-            if (curr === 0 && num === 0 || used & 1 << num) continue
-            
-            curr *= 10
-            curr += num
-            
-            _countNumbersWithUniqueDigits(curr, used | 1 << num)
-            
-            curr -= num
-            curr = Math.floor(curr / 10)            
+        for (let digit = 0; digit <= 9; digit++) {
+            if (digit === 0 && num === 0) continue
+            if (used & 1 << digit) continue
+            const nextNum = num * 10 + digit
+            _countNumbersWithUniqueDigits(nextNum, used | (1 << digit))
         }
     }
     
-    const m = 10 ** n
+    const upper = 10 ** n
     let count = 0
     _countNumbersWithUniqueDigits(0, 0)
     return count
