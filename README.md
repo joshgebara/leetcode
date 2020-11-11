@@ -32867,6 +32867,11 @@ const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ## 1215. Stepping Numbers
 ```javascript
 // DFS
+/**
+ * @param {number} low
+ * @param {number} high
+ * @return {number[]}
+ */
 var countSteppingNumbers = function(low, high) {
     const _countSteppingNumbers = num => {
         if (num >= low && num <= high) result.push(num)
@@ -32890,6 +32895,11 @@ var countSteppingNumbers = function(low, high) {
 };
 
 // BFS
+/**
+ * @param {number} low
+ * @param {number} high
+ * @return {number[]}
+ */
 var countSteppingNumbers = function(low, high) {
     const result = []
     const queue = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -51764,5 +51774,24 @@ var numberOfPatterns = function(m, n) {
     count *= 4
     _numberOfPatterns(5, 1 << 5, 1)
     return count
+};
+```
+
+## 89. Gray Code
+```javascript
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var grayCode = function(n) {
+    const result = [0]
+    for (let i = 0; i < n; i++) {
+        const size = result.length
+        for (let j = size - 1; j >= 0; j--) {
+            result.push(result[j] | 2 ** i)
+        }
+    }
+    
+    return result
 };
 ```
