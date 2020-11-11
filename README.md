@@ -22930,6 +22930,7 @@ const parseOptions = str => {
 
 ## 320. Generalized Abbreviation
 ```javascript
+// Backtracking
 var generateAbbreviations = function(word) {
     const _generateAbbreviations = (curr, index, lastIsAbbreviation = false) => {
         if (index === word.length) {
@@ -22954,6 +22955,45 @@ var generateAbbreviations = function(word) {
     _generateAbbreviations([], 0)
     return result
 };
+
+// Iterative Bit Manipulation
+/**
+ * @param {string} word
+ * @return {string[]}
+ */
+var generateAbbreviations = function(word) {
+    const n = word.length
+    const result = []
+    
+    for (let bin = 0; bin < 1 << n; bin++) {
+        result.push(abbrForBin(word, bin))
+    }
+    
+    return result
+};
+
+const abbrForBin = (word, bin) => {
+    const abbr = []
+    
+    let curr = 0
+    for (let wordIndex = word.length - 1; wordIndex >= 0; wordIndex--) {
+        const bit = bin & 1
+        
+        if (bit) {
+            curr++
+        } else {
+            if (curr) abbr.push(curr)
+            curr = 0
+            
+            abbr.push(word[wordIndex])
+        }
+        
+        bin >>= 1
+    }
+    
+    if (curr) abbr.push(curr)    
+    return abbr.reverse().join('')
+}
 ```
 
 ## 526. Beautiful Arrangement
