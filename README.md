@@ -51788,7 +51788,7 @@ var grayCode = function(n) {
     for (let i = 0; i < n; i++) {
         const size = result.length
         for (let j = size - 1; j >= 0; j--) {
-            result.push(result[j] | 2 ** i)
+            result.push(result[j] | 1 << i)
         }
     }
     
