@@ -32877,28 +32877,39 @@ const swap = (arr, i, j) => {
  */
 var maxLength = function(arr) {
     const _maxLength = (count, i, used) => {
-        max = Math.max(max, count)
-        
-        if (i > arr.length) {
-            return
+        const state = `${i}-${used}`
+        if (memo[state] !== undefined) {
+            return memo[state]
         }
         
-        outer : for (let j = i; j < arr.length; j++) {
-            let nextUsed = used
-            
-            for (const char of arr[j]) {
-                const mask = 1 << indexForChar(char)
-                if (nextUsed & mask) continue outer
-                nextUsed |= mask
-            }
-            
-            _maxLength(count + arr[j].length, j + 1, nextUsed)
+        if (i >= arr.length) {
+            return count
         }
+        
+        memo[state] = count
+        for (let j = i; j < arr.length; j++) {
+            if (bitMap[j] === undefined || used & bitMap[j]) continue
+            const result = _maxLength(count + arr[j].length, j + 1, used | bitMap[j])
+            memo[state] = Math.max(memo[state], result)
+        }
+        
+        return memo[state]
     }
     
-    let max = 0
-    _maxLength(0, 0)
-    return max
+    const bitMap = Array(arr.length).fill()
+    outer : for (let i = 0; i < arr.length; i++) {
+        const word = arr[i]
+        let mask = 0
+        for (const char of word) {
+            const usedChar = 1 << indexForChar(char)
+            if (mask & usedChar) continue outer
+            mask |= usedChar
+        }
+        bitMap[i] = mask
+    }
+    
+    const memo = {}
+    return _maxLength(0, 0, 0)
 };
 
 const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
