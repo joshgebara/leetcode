@@ -51902,3 +51902,85 @@ var grayCode = function(n) {
     return result
 };
 ```
+
+## 211. Design Add and Search Words Data Structure
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var WordDictionary = function() {
+    this.trie = new Trie()
+};
+
+/**
+ * Adds a word into the data structure. 
+ * @param {string} word
+ * @return {void}
+ */
+WordDictionary.prototype.addWord = function(word) {
+    this.trie.insert(word)
+};
+
+/**
+ * Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. 
+ * @param {string} word
+ * @return {boolean}
+ */
+WordDictionary.prototype.search = function(word) {
+    return this.trie.search(word)
+};
+
+/** 
+ * Your WordDictionary object will be instantiated and called as such:
+ * var obj = new WordDictionary()
+ * obj.addWord(word)
+ * var param_2 = obj.search(word)
+ */
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode()
+    }
+    
+    insert(word) {
+        let curr = this.root
+        for (const char of word) {
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            curr = curr.children[char]
+        }
+        curr.isEnd = true
+    }
+    
+    search(word) {
+        const _search = (curr, i) => {
+            if (!curr) return false
+            if (i === word.length) return curr.isEnd
+            
+            const char = word[i]
+            if (char === '.') {
+                for (const [key, node] of Object.entries(curr.children)) {
+                    if (_search(node, i + 1)) {
+                        return true
+                    }
+                }
+                return false
+            }
+            
+            const nextNode = curr.children[char]
+            return _search(nextNode, i + 1)
+        }
+        
+        return _search(this.root, 0)
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
+```
