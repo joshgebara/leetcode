@@ -12402,6 +12402,11 @@ var combine = function(n, k) {
 
 ## 47. Permutations II
 ```javascript
+// Bitmask
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var permuteUnique = function(nums) {
     const _permuteUnique = (start) => {
         if (start === nums.length) {
@@ -12409,16 +12414,15 @@ var permuteUnique = function(nums) {
             return
         }
         
-        const seen = new Set()
-        
+        let seen = 0
         for (let i = start; i < nums.length; i++) {
-            if (!seen.has(nums[i])) {
-                seen.add(nums[i])
-                
-                swap(nums, i, start)
-                _permuteUnique(start + 1)
-                swap(nums, i, start)
-            }
+            const mask = 1 << (nums[i] + 10)
+            if (seen & mask) continue
+            seen |= mask
+            
+            swap(nums, i, start)
+            _permuteUnique(start + 1)
+            swap(nums, i, start)
         }
     }
     
@@ -12434,6 +12438,10 @@ const swap = (arr, i, j) => {
 }
 
 // Counter
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var permuteUnique = function(nums) {
     const _permuteUnique = (list) => {
         if (list.length === nums.length) {
