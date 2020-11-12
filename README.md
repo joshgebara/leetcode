@@ -51984,3 +51984,112 @@ class TrieNode {
     }
 }
 ```
+
+## 1258. Synonymous Sentences
+```javascript
+// Union Find + Recursion
+/**
+ * @param {string[][]} synonyms
+ * @param {string} text
+ * @return {string[]}
+ */
+var generateSentences = function(synonyms, text) {
+    const unionFind = new UnionFind()
+    for (const [word1, word2] of synonyms) {
+        unionFind.add(word1)
+        unionFind.add(word2)
+        unionFind.union(word1, word2)
+    }
+    
+    const synonymMap = {}
+    for (const [word1, word2] of synonyms) {
+        const group1 = unionFind.find(word1)
+        const group2 = unionFind.find(word2)
+        
+        if (!synonymMap[group1]) synonymMap[group1] = new Set()
+        if (!synonymMap[group2]) synonymMap[group2] = new Set()
+        synonymMap[group1].add(word1)
+        synonymMap[group2].add(word2)
+    }
+    
+    for (const key of Object.keys(synonymMap)) {
+        synonymMap[key] = Array.from(synonymMap[key]).sort() 
+    }
+    
+    const words = text.split(' ')
+    const result = []
+    _generateSentences(words, [], synonymMap, result, 0, unionFind)
+    return result
+};
+
+const _generateSentences = (words, curr, synonymMap, result, i, unionFind) => {
+    if (curr.length === words.length) {
+        result.push(curr.join(' '))
+        return
+    }
+    
+    const group = unionFind.find(words[i])
+    if (synonymMap[group] === undefined) {
+        curr.push(words[i])
+        _generateSentences(words, curr, synonymMap, result, i + 1, unionFind)
+        curr.pop()
+    } else {
+        for (const word of synonymMap[group]) {
+            curr.push(word)
+            _generateSentences(words, curr, synonymMap, result, i + 1, unionFind)
+            curr.pop()
+        }
+    }
+}
+
+class UnionFind {
+    constructor(n) {
+        this.size = {}
+        this.parent = {}
+        this.ids = {}
+        this.id = 0
+    }
+    
+    add(a) {
+        if (this.ids[a] !== undefined) return
+        
+        this.ids[a] = this.id
+        this.parent[this.id] = this.id 
+        this.size[this.id] = 1
+        this.id++
+    }
+    
+    find(a) {
+        let id = this.ids[a]
+        if (id === undefined) return -1
+        
+        let root = this.parent[id]
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (id !== root) {
+            const next = this.parent[id]
+            this.parent[id] = root
+            id = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) return
+        
+        if (this.size[parentA] < this.size[parentB]) {
+            this.size[parentB] += this.size[parentA]
+            this.parent[parentA] = parentB
+        } else {
+            this.size[parentA] += this.size[parentB]
+            this.parent[parentB] = parentA
+        }
+    }
+}
+```
