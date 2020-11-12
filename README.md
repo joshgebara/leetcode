@@ -52143,3 +52143,123 @@ var generateSentences = function(synonyms, text) {
     return result
 };
 ```
+
+## 1286. Iterator for Combination
+```javascript
+// Precompute Bitmasks
+/**
+ * @param {string} characters
+ * @param {number} combinationLength
+ */
+var CombinationIterator = function(characters, combinationLength) {
+    const n = characters.length
+    const k = combinationLength
+    
+    this.stack = []
+    for (let i = 0; i < 1 << n; i++) {
+        if (bitCount(i) !== k) continue
+        this.stack.push(comboFromBin(i, n, characters))
+    }
+};
+
+/**
+ * @return {string}
+ */
+CombinationIterator.prototype.next = function() {
+    return this.stack.pop()
+};
+
+/**
+ * @return {boolean}
+ */
+CombinationIterator.prototype.hasNext = function() {
+    return this.stack.length !== 0
+};
+
+/** 
+ * Your CombinationIterator object will be instantiated and called as such:
+ * var obj = new CombinationIterator(characters, combinationLength)
+ * var param_1 = obj.next()
+ * var param_2 = obj.hasNext()
+ */
+
+const bitCount = bin => {
+    let count = 0
+    while (bin) {
+        count++
+        bin &= bin - 1
+    }
+    return count
+}
+
+const comboFromBin = (bin, n, arr) => {
+    const curr = []
+    for (let i = 0; i < n; i++) {
+        if (bin & 1 << n - 1 - i) {
+            curr.push(arr[i])
+        }
+    }
+    return curr.join('')   
+}
+
+// Get Next Bitmasks
+/**
+ * @param {string} characters
+ * @param {number} combinationLength
+ */
+var CombinationIterator = function(characters, combinationLength) {
+    this.n = characters.length
+    this.k = combinationLength
+    this.characters = characters
+    this.bitMask = (1 << this.n) - 1
+    this.setNextBitMask()
+};
+
+/**
+ * @return {string}
+ */
+CombinationIterator.prototype.next = function() {
+    const result = comboFromBin(this.bitMask--, this.n, this.characters)
+    this.setNextBitMask()
+    return result
+};
+
+/**
+ * @return {boolean}
+ */
+CombinationIterator.prototype.hasNext = function() {
+    return this.bitMask > 0
+};
+
+CombinationIterator.prototype.setNextBitMask = function() {
+    while (this.bitMask > 0 && bitCount(this.bitMask) !== this.k) {
+        this.bitMask--
+    }
+};
+
+/** 
+ * Your CombinationIterator object will be instantiated and called as such:
+ * var obj = new CombinationIterator(characters, combinationLength)
+ * var param_1 = obj.next()
+ * var param_2 = obj.hasNext()
+ */
+
+const bitCount = bin => {
+    let count = 0
+    while (bin) {
+        count++
+        bin &= bin - 1
+    }
+    return count
+}
+
+const comboFromBin = (bin, n, arr) => {
+    const curr = []
+    for (let i = 0; i < n; i++) {
+        if (bin & 1 << n - 1 - i) {
+            curr.push(arr[i])
+        }
+    }
+    return curr.join('')   
+}
+```
