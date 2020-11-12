@@ -12519,6 +12519,36 @@ var letterCombinations = function(digits) {
     _letterCombinations([], 0)
     return result
 };
+
+// BFS
+/**
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function(digits) {    
+    if (!digits.length) return []
+    
+    const map = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz']
+    
+    let level = 0
+    const queue = [[]]
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const path = queue.shift()
+            
+            const digit = digits[level]
+            for (const neighbor of map[digit]) {
+                queue.push(path + neighbor)
+            }
+        }
+        
+        level++
+        if (level >= digits.length) break
+    }
+    
+    return queue
+};
 ```
 
 ## 369. Plus One Linked List
