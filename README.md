@@ -52092,4 +52092,54 @@ class UnionFind {
         }
     }
 }
+
+// BFS + Recursion
+/**
+ * @param {string[][]} synonyms
+ * @param {string} text
+ * @return {string[]}
+ */
+var generateSentences = function(synonyms, text) {
+    const _generateSentences = (curr, index) => {
+        if (index === words.length) {
+            result.push(curr.join(' '))
+            return
+        }
+        
+        if (graph[(words[index])]) {
+            const queue = [words[index]]
+            const visited = new Set()
+
+            while (queue.length) {
+                const next = queue.shift()
+                visited.add(next)
+
+                curr.push(next)
+                _generateSentences(curr, index + 1)
+                curr.pop()
+
+                for (let vertex of graph[next]) {
+                    if (!visited.has(vertex))
+                        queue.push(vertex)
+                }
+            }
+        } else {
+            curr.push(words[index])
+            _generateSentences(curr, index + 1)
+            curr.pop()
+        }
+    }
+    
+    const graph = {}
+    for (const [start, end] of synonyms) {
+        graph[start] ? graph[start].push(end) : graph[start] = [end]
+        graph[end] ? graph[end].push(start) : graph[end] = [start]
+    }
+    
+    const words = text.split(' ')
+    const result = []
+    _generateSentences([], 0)
+    result.sort()
+    return result
+};
 ```
