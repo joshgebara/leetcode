@@ -33016,54 +33016,52 @@ var countSteppingNumbers = function(low, high) {
 
 ## 267. Palindrome Permutation II
 ```javascript
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
 var generatePalindromes = function(s) {
-    const map = Array(256).fill(0)
+    if (!s.length) return []
     
+    const charCounts = Array(128).fill(0)
     let oddCount = 0
     for (const char of s) {
         const pos = char.charCodeAt(0)
-        map[pos] = 1 + (map[pos] || 0)
-        map[pos] & 1 ? oddCount++ : oddCount--
+        charCounts[pos]++
+        charCounts[pos] & 1 ? oddCount++ : oddCount--
     }
     
-    if (!s.length || oddCount > 1) return []
+    if (oddCount > 1) return []
     
-    const str = []
     let oddChar = ''
-    
-    for (let i = 0; i < 256; i++) {
-        if (map[i] & 1) {
+    for (let i = 0; i < 128; i++) {
+        if (charCounts[i] & 1) {
             oddChar = String.fromCharCode(i)
-            map[i]--
-        }
-        
-        if (!map[i]) continue
-        const half = map[i] / 2
-        for (let j = 0; j < half; j++) {
-            str.push(String.fromCharCode(i))
-            map[i]--
+            charCounts[i]--
+            break
         }
     }
-        
+    
+    const halfLen = Math.floor(s.length / 2)
     const result = []
-    _generatePalindromes(result, str, map, oddChar, [])
+    _generatePalindromes(result, charCounts, oddChar, [], halfLen)
     return result
 };
 
-const _generatePalindromes = (result, str, map, oddChar, curr) => {
-    if (str.length === curr.length) {
+const _generatePalindromes = (result, charCounts, oddChar, curr, halfLen) => {
+    if (halfLen === curr.length) {
         const palindrome = [...curr, oddChar, ...curr.slice().reverse()]
         result.push(palindrome.join(''))
         return
     }
     
-    for (let i = 0; i < 256; i++) {
-        if (map[i] <= 0) continue
-        map[i]--
+    for (let i = 0; i < 128; i++) {
+        if (charCounts[i] <= 0) continue
+        charCounts[i] -= 2
         curr.push(String.fromCharCode(i))
-        _generatePalindromes(result, str, map, oddChar, curr)
+        _generatePalindromes(result, charCounts, oddChar, curr, halfLen)
         curr.pop()
-        map[i]++
+        charCounts[i] += 2
     }
 }
 ```
