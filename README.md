@@ -45312,10 +45312,7 @@ class Trie {
 
 ## 52. N-Queens II
 ```javascript
-/**
- * @param {number} n
- * @return {number}
- */
+// Backtracking + Set
 /**
  * @param {number} n
  * @return {number}
@@ -45350,6 +45347,36 @@ var totalNQueens = function(n) {
     let count = 0
     _totalNQueens(0, [])
     return count
+};
+
+// Backtracking + Bitmask
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var totalNQueens = function(n) {
+    const _totalNQueens = (row, diag1, diag2, cols) => {
+        if (row >= n) return 1
+        
+        let count = 0
+        for (let col = 0; col < n; col++) {
+            const d1 = row - col + n
+            const d2 = row + col
+            
+            if (cols & 1 << col || 
+                diag1 & 1 << d1 || 
+                diag2 & 1 << d2) continue
+            
+            count += _totalNQueens(row + 1, 
+                                   diag1 | 1 << d1, 
+                                   diag2 | 1 << d2,
+                                   cols | 1 << col)
+        }
+        
+        return count
+    }
+    
+    return _totalNQueens(0, 0, 0, 0)
 };
 ```
 
@@ -52472,3 +52499,4 @@ const getMaxDist = (subset, graph, n) => {
     return max
 }
 ```
+
