@@ -52328,6 +52328,7 @@ const getIndex = (grid, row, col) => {
 
 ## 1617. Count Subtrees With Max Distance Between Cities
 ```javascript
+// Bitmask + Tree Diameter
 /**
  * @param {number} n
  * @param {number[][]} edges
@@ -52410,5 +52411,64 @@ const countOnes = subset => {
     }
     
     return count
+}
+
+// Bitmask + Floyd Warshall
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {number[]}
+ */
+var countSubgraphsForEachDiameter = function(n, edges) {
+    const result = Array(n - 1).fill(0)
+    
+    const graph = Array(n).fill().map(a => Array(n).fill(Infinity))
+    for (let [u, v] of edges) {
+        u--
+        v--
+        
+        graph[u][v] = 1
+        graph[v][u] = 1
+    }
+    
+    for (let i = 0; i < n; i++) {
+        graph[i][i] = 0
+    }
+    
+    for (let intermediate = 0; intermediate < n; intermediate++) {
+        for (let from = 0; from < n; from++) {
+            for (let to = 0; to < n; to++) {
+                graph[from][to] = Math.min(graph[from][to], graph[from][intermediate] + graph[intermediate][to])
+            }
+        }
+    }
+    
+    for (let subset = 1; subset < 1 << n; subset++) {
+        const maxDist = getMaxDist(subset, graph, n)
+        if (maxDist === 0) continue
+        result[maxDist - 1]++
+    }
+    
+    return result
+};
+
+const getMaxDist = (subset, graph, n) => {
+    let max = 0
+    let countCity = 0
+    let countEdge = 0
+    
+    for (let from = 0; from < n; from++) {
+        if ((subset & 1 << from) === 0) continue
+        countCity++
+        
+        for (let to = from + 1; to < n; to++) {
+            if ((subset & 1 << to) === 0) continue
+            countEdge += graph[from][to] === 1
+            max = Math.max(max, graph[from][to])
+        }
+    }
+    
+    if (countEdge !== countCity - 1) return 0
+    return max
 }
 ```
