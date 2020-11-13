@@ -52325,3 +52325,116 @@ const getIndex = (grid, row, col) => {
     return row * grid[0].length + col
 }
 ```
+
+## 1617. Count Subtrees With Max Distance Between Cities
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {number[]}
+ */
+var countSubgraphsForEachDiameter = function(n, edges) {
+    const result = Array(n - 1).fill(0)
+    const graph = buildGraph(n, edges)
+    
+    for (let subset = 1; subset < 1 << n; subset++) {
+        if (!isConnected(subset, graph, n)) continue
+        
+        const maxDist = getMaxDist(subset, graph, n)
+        if (maxDist === 0) continue
+        result[maxDist - 1]++
+    }
+    
+    return result
+};
+
+const isConnected = (subset, graph, n) => {
+    const numOfVertices = countOnes(subset)
+    if (numOfVertices <= 1) return false
+    
+    let startVertex = -1
+    for (let vertex = 0; vertex < n; vertex++) {
+        if (subset & 1 << vertex) {
+            startVertex = vertex
+            break
+        }
+    }
+    
+    const queue = [startVertex]
+    let visited = 1 << startVertex
+    let reached = 1
+    while (queue.length) {
+        const vertex = queue.shift()
+        
+        for (const neighbor of graph[vertex]) {
+            if ((subset & 1 << neighbor) === 0) continue
+            if (visited & 1 << neighbor) continue    
+            visited |= 1 << neighbor
+            reached++
+            queue.push(neighbor)
+        }
+    }
+    
+    return reached === numOfVertices
+}
+
+const getMaxDist = (subset, graph, n) => {
+    const dfs = (vertex) => {
+        const _dfs = (vertex, parent, length) => {
+            if (length > maxLength) {
+                maxLength = length
+                endNode = vertex
+            }
+            
+            for (const neighbor of graph[vertex]) {
+                if ((subset & 1 << neighbor) === 0) continue
+                if (neighbor === parent) continue
+                _dfs(neighbor, vertex, length + 1)
+            }
+        }
+        
+        let maxLength = 0
+        let endNode = null
+        _dfs(vertex, null, 0)
+        return [maxLength, endNode]
+    }
+    
+    let startVertex = -1
+    for (let vertex = 0; vertex < n; vertex++) {
+        if (subset & 1 << vertex) {
+            startVertex = vertex
+            break
+        }
+    }
+    
+    const [, endVertex] = dfs(startVertex)
+    const [length, ] = dfs(endVertex)
+    return length
+}
+
+const buildGraph = (n, edges) => {
+    const graph = {}
+    
+    for (let [u, v] of edges) {
+        u--
+        v--
+        
+        if (!graph[u]) graph[u] = []
+        if (!graph[v]) graph[v] = []
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    
+    return graph
+}
+
+const countOnes = subset => {
+    let count = 0
+    while (subset) {
+        count++
+        subset &= subset - 1
+    }
+    
+    return count
+}
+```
