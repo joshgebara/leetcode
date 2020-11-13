@@ -52338,8 +52338,6 @@ var countSubgraphsForEachDiameter = function(n, edges) {
     const graph = buildGraph(n, edges)
     
     for (let subset = 1; subset < 1 << n; subset++) {
-        if (!isConnected(subset, graph, n)) continue
-        
         const maxDist = getMaxDist(subset, graph, n)
         if (maxDist === 0) continue
         result[maxDist - 1]++
@@ -52347,37 +52345,6 @@ var countSubgraphsForEachDiameter = function(n, edges) {
     
     return result
 };
-
-const isConnected = (subset, graph, n) => {
-    const numOfVertices = countOnes(subset)
-    if (numOfVertices <= 1) return false
-    
-    let startVertex = -1
-    for (let vertex = 0; vertex < n; vertex++) {
-        if (subset & 1 << vertex) {
-            startVertex = vertex
-            break
-        }
-    }
-    
-    const queue = [startVertex]
-    let visited = 1 << startVertex
-    let reached = 1
-    while (queue.length) {
-        const vertex = queue.shift()
-        
-        for (const neighbor of graph[vertex]) {
-            if ((subset & 1 << neighbor) === 0) continue
-            if (visited & 1 << neighbor) continue    
-            visited |= 1 << neighbor
-            reached++
-            queue.push(neighbor)
-        }
-    }
-    
-    return reached === numOfVertices
-}
-
 const getMaxDist = (subset, graph, n) => {
     const dfs = (vertex) => {
         const _dfs = (vertex, parent, length) => {
@@ -52389,6 +52356,7 @@ const getMaxDist = (subset, graph, n) => {
             for (const neighbor of graph[vertex]) {
                 if ((subset & 1 << neighbor) === 0) continue
                 if (neighbor === parent) continue
+                reached++
                 _dfs(neighbor, vertex, length + 1)
             }
         }
@@ -52399,6 +52367,9 @@ const getMaxDist = (subset, graph, n) => {
         return [maxLength, endNode]
     }
     
+    const numOfVertices = countOnes(subset)
+    if (numOfVertices <= 1) return false
+    
     let startVertex = -1
     for (let vertex = 0; vertex < n; vertex++) {
         if (subset & 1 << vertex) {
@@ -52407,7 +52378,10 @@ const getMaxDist = (subset, graph, n) => {
         }
     }
     
+    let reached = 1
     const [, endVertex] = dfs(startVertex)
+    if (reached !== numOfVertices) return 0
+    
     const [length, ] = dfs(endVertex)
     return length
 }
