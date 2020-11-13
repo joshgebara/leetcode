@@ -52500,3 +52500,39 @@ const getMaxDist = (subset, graph, n) => {
 }
 ```
 
+## 1088. Confusing Number II
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var confusingNumberII = function(N) {
+    const _confusingNumberII = curr => {
+        if (curr > N) return 0
+        count += curr > 1 && isConfusing(curr, map)
+        
+        for (const num of nums) {
+            if (num === 0 && curr === 0) continue
+            _confusingNumberII(curr * 10 + num)
+        }
+    }
+    
+    const nums = [0, 1, 6, 8, 9]
+    const map = { 0: 0, 1: 1, 6: 9, 8: 8, 9: 6 }
+    let count = 0
+    _confusingNumberII(0)
+    return count
+};
+
+const isConfusing = (num, map) => {
+    let rotatedNum = 0
+    let n = num
+    while (n) {
+        const digit = n % 10
+        rotatedNum = rotatedNum * 10 + map[digit]
+        n = Math.floor(n / 10)
+    }
+    
+    return num !== rotatedNum   
+}
+```
