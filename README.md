@@ -52263,3 +52263,65 @@ const comboFromBin = (bin, n, arr) => {
     return curr.join('')   
 }
 ```
+
+## 980. Unique Paths III
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var uniquePathsIII = function(grid) {
+    const _uniquePathsIII = (row, col, squareCount, visited) => {
+        if (grid[row][col] === 2) return 1
+        
+        const state = `${getIndex(grid, row, col)}-${visited}`
+        if (memo[state] !== undefined) return memo[state]
+        memo[state] = 0
+        
+        for (const [dRow, dCol] of dirs) {
+            const nextRow = row + dRow
+            const nextCol = col + dCol
+            const index = getIndex(grid, nextRow, nextCol)
+            const mask = 1 << index
+            
+            if (nextRow < 0 || nextRow >= grid.length || 
+                nextCol < 0 || nextCol >= grid[0].length ||
+                visited & mask ||
+                grid[nextRow][nextCol] === -1 || 
+                grid[nextRow][nextCol] === 2 && squareCount) {
+                continue
+            }
+            
+            memo[state] += _uniquePathsIII(nextRow, 
+                                           nextCol, 
+                                           squareCount - 1, 
+                                           visited | 1 << index)
+        }
+        
+        return memo[state]
+    }
+    
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    let startRow = 0
+    let startCol = 0
+    let squareCount = 0
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === 1) {
+                startRow = row
+                startCol = col
+            } else if (grid[row][col] === 0) {
+                squareCount++
+            }
+        }
+    }
+    
+    const memo = {}
+    const index = getIndex(grid, startRow, startCol)
+    return _uniquePathsIII(startRow, startCol, squareCount, 1 << index)
+};
+
+const getIndex = (grid, row, col) => {
+    return row * grid[0].length + col
+}
+```
