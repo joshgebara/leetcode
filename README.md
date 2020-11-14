@@ -52599,3 +52599,50 @@ var isSolvable = function(words, result) {
     return _isSolvable(0, 0, 0, 0, 0)
 };
 ```
+
+## 996. Number of Squareful Arrays
+```javascript
+// Backtracking
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var numSquarefulPerms = function(A) {
+    const _numSquarefulPerms = (curr, start) => {
+        if (start >= A.length) {
+            return 1
+        }
+        
+        let count = 0
+        for (const key of Object.keys(counts)) {
+            if (counts[key] <= 0) continue
+            curr.push(+key)
+            counts[key]--
+            
+            const sum = curr[start] + curr[start - 1]
+            const sqrt = Math.sqrt(sum)
+            if (start === 0 || start > 0 && sqrt === Math.floor(sqrt)) {
+                count += _numSquarefulPerms(curr, start + 1)    
+            }
+            
+            counts[key]++
+            curr.pop()   
+        }
+        
+        return count
+    }
+    
+    const counts = {}
+    for (const a of A) {
+        counts[a] = 1 + (counts[a] || 0)
+    }
+    
+    return _numSquarefulPerms([], 0)
+};
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+```
