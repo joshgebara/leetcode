@@ -12475,26 +12475,48 @@ const count = nums => {
 
 ## 60. Permutation Sequence
 ```javascript
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
 var getPermutation = function(n, k) {
-    const _getPermutation = (nums, curr = []) => {     
-        if (!nums.length) {
-            result = curr
-            index++
-            return
-        }
-        
-        for (let i = 0; i < nums.length; i++) {
-            if (index >= k) return
-            _getPermutation([...nums.slice(0, i), ...nums.slice(i + 1)], [...curr, nums[i]])
-        }
-    } 
+    const permutation = []
+    let used = 0
+    let f = factorial(n)
     
-    let index = 0
-    let result = 0
-    const nums = Array(n).fill(0).map((_, i) => i + 1)
-    _getPermutation(nums)
-    return result.join('')
+    let seqIndex = 0
+    for (let pos = 1; pos <= n; pos++) {    
+        f /= n - pos + 1
+        
+        for (let num = 1; num <= n; num++) {
+            const mask = 1 << num
+            if (used & mask) continue
+            
+            const nextSeqIndex = seqIndex + f
+            permutation[pos - 1] = num
+            
+            used |= mask
+            
+            if (nextSeqIndex >= k) break
+            seqIndex = nextSeqIndex
+            
+            used ^= mask
+        }
+    }
+    
+    return permutation.join('')
 };
+
+const factorial = n => {
+    let f = 1
+    
+    while (n > 1) {
+        f *= n--
+    }
+    
+    return f
+}
 ```
 
 ## 17. Letter Combinations of a Phone Number
