@@ -52668,3 +52668,77 @@ const swap = (arr, i, j) => {
     arr[j] = temp
 }
 ```
+
+## 1659. Maximize Grid Happiness
+```javascript
+/**
+ * @param {number} m
+ * @param {number} n
+ * @param {number} introvertsCount
+ * @param {number} extrovertsCount
+ * @return {number}
+ */
+var getMaxGridHappiness = function(m, n, introvertsCount, extrovertsCount) {    
+    const dp = (index, iMask, eMask, iCount, eCount) => {
+        const key = `${index}-${iMask}-${eMask}-${iCount}-${eCount}`
+        if (memo[key]) return memo[key]
+        
+        const row = index / n
+        const col = index % n
+        
+        if (row >= m) return 0
+        
+        const nextIMask = (iMask << 1) & ((1 << n) - 1)
+        const nextEMask = (eMask << 1) & ((1 << n) - 1)
+        
+        let max = dp(index + 1, nextIMask, nextEMask, iCount, eCount)
+        
+        if (iCount > 0) {
+            const result = 120 + 
+                           cost(row, col, iMask, eMask, -30, n) + 
+                           dp(index + 1, nextIMask + 1, nextEMask, iCount - 1, eCount)
+            max = Math.max(max, result)
+        }
+        
+        if (eCount > 0) {
+            const result = 40 + 
+                           cost(row, col, iMask, eMask, 20, n) + 
+                           dp(index + 1, nextIMask, nextEMask + 1, iCount, eCount - 1)
+            max = Math.max(max, result)
+        }
+        
+        memo[key] = max
+        return max
+    }
+    
+    const memo = {}
+    return dp(0, 0, 0, introvertsCount, extrovertsCount)
+}
+
+const cost = (row, col, iMask, eMask, delta, n) => {
+    let result = 0
+    const up = (1 << (n - 1))
+
+    if (col > 0 && (iMask & 1)) {
+        result += delta
+        result += -30
+    }
+
+    if (col > 0 && (eMask & 1)) {
+        result += delta
+        result += 20
+    }
+    
+    if (row > 0 && (iMask & up)) {
+        result += delta
+        result += -30
+    }
+
+    if (row > 0 && (eMask & up)) {
+        result += delta
+        result += 20
+    }
+
+    return result
+}
+```
