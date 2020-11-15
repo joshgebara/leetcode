@@ -45404,6 +45404,7 @@ var totalNQueens = function(n) {
 
 ## 51. N-Queens
 ```javascript
+// Backtracking + Array
 /**
  * @param {number} n
  * @return {string[][]}
@@ -45440,6 +45441,39 @@ var solveNQueens = function(n) {
     const result = []
     const board = Array(n).fill().map(a => Array(n).fill('.'))
     _solveNQueens(0, board)
+    return result
+};
+
+// Backtracking + Bitmask
+/**
+ * @param {number} n
+ * @return {string[][]}
+ */
+var solveNQueens = function(n) {
+    const _solveNQueens = (row, colUsed, diag1Used, diag2Used) => {
+        if (row >= n) {
+            result.push(board.map(r => r.join('')))
+            return
+        }
+        
+        for (let col = 0; col < n; col++) {
+            const colMask = 1 << col
+            const diag1Mask = 1 << (row + col)
+            const diag2Mask = 1 << (row - col + n) 
+            
+            if (colUsed & colMask || diag1Used & diag1Mask || diag2Used & diag2Mask) 
+                continue
+            
+            board[row][col] = 'Q'            
+            _solveNQueens(row + 1, colUsed | colMask, diag1Used | diag1Mask, diag2Used | diag2Mask)
+            board[row][col] = '.'
+        }
+    }
+    
+    const result = []
+    const board = Array(n).fill().map(a => Array(n).fill('.'))
+    
+    _solveNQueens(0, 0, 0, 0)
     return result
 };
 ```
