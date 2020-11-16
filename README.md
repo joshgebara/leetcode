@@ -52776,3 +52776,79 @@ const cost = (row, col, iMask, eMask, delta, n) => {
     return result
 }
 ```
+
+## 126. Word Ladder II
+```javascript
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {string[][]}
+ */
+var findLadders = function(beginWord, endWord, wordList) {
+    const words = new Set(wordList)
+    
+    const graph = {}
+    const dist = {}
+    dist[beginWord] = 0
+    
+    const queue = [beginWord]
+    while (queue.length) {
+        const node = queue.shift()
+                
+        if (node === endWord) break
+        
+        if (!graph[node]) {
+            graph[node] = []
+        }
+        
+        for (const neighbor of getNeighbors(node, words)) {
+            if (dist[neighbor] === undefined) {
+                queue.push(neighbor)
+                dist[neighbor] = dist[node] + 1
+                graph[node].push(neighbor)
+            } else if (dist[neighbor] === dist[node] + 1) {
+                graph[node].push(neighbor)
+            }
+        }
+    }
+    
+    return dfs(graph, beginWord, endWord)
+};
+
+const dfs = (graph, node, target) => {
+    const _dfs = node => {
+        if (node === target) {
+            result.push(path.slice())
+            return
+        }
+        
+        if (graph[node]) {
+            for (const neighbor of graph[node]) {
+                path.push(neighbor)
+                _dfs(neighbor)
+                path.pop()
+            }
+        }
+    }
+    
+    const result = []
+    const path = [node]
+    _dfs(node)
+    return result
+}
+
+const getNeighbors = (word, words) => {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    const neighbors = []
+    for (let i = 0; i < word.length; i++) {
+        for (const letter of alphabet) {
+            const str = word.slice(0, i) + letter + word.slice(i + 1)
+            if (str === word || !words.has(str)) continue
+            neighbors.push(str)
+        }
+    }
+    
+    return neighbors
+}
+```
