@@ -52860,3 +52860,59 @@ const getNeighbors = (word, words) => {
     return neighbors
 }
 ```
+
+## 1240. Tiling a Rectangle with the Fewest Squares
+```javascript
+/**
+ * @param {number} n
+ * @param {number} m
+ * @return {number}
+ */
+var tilingRectangle = function(n, m) {
+    const _tilingRectangle = (heights) => {
+        const state = heights.join('')
+        let minHeight = Infinity
+        let minIndex = Infinity
+        
+        if (memo[state] !== undefined) {
+            return memo[state]
+        }
+        
+        for (let i = 0; i < heights.length; i++) {
+            if (heights[i] < minHeight) {
+                minHeight = heights[i]
+                minIndex = i
+            }
+        }
+        
+        if (minHeight === n) {
+            return 0
+        }
+        
+        let count = Infinity
+        for (let right = minIndex; heights[right] === minHeight && right < m; right++) {
+            const size = right - minIndex + 1
+            if (size + minHeight > n) {
+                break
+            }
+            
+            for (let j = minIndex; j <= right; j++) {
+                heights[j] += size
+            }
+            
+            count = Math.min(count, 1 + _tilingRectangle(heights))
+            
+            for (let j = minIndex; j <= right; j++) {
+                heights[j] -= size
+            }
+        }
+        
+        memo[state] = count
+        return count
+    }
+    
+    const memo = {}
+    const heights = Array(m).fill(0)
+    return _tilingRectangle(heights)
+};
+```
