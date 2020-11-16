@@ -46930,46 +46930,43 @@ class TrieNode {
 ```javascript
 /**
  * @param {string} pattern
- * @param {string} str
+ * @param {string} s
  * @return {boolean}
  */
-/**
- * @param {string} pattern
- * @param {string} str
- * @return {boolean}
- */
-var wordPatternMatch = function(pattern, str) {
-    const _wordPatternMatch = (i, j) => {
-        if (i === pattern.length && j === str.length) {
+var wordPatternMatch = function(pattern, s) {
+    const _wordPatternMatch = (pIndex, sIndex) => {
+        if (sIndex === s.length && pIndex === pattern.length) {
             return true
         }
         
-        const word = map.get(pattern[i])    
-        if (word) {
-            const nextWord = str.slice(j, j + word.length)
-            return nextWord === word && _wordPatternMatch(i + 1, j + word.length)
+        if (sIndex === s.length || pIndex === pattern.length) {
+            return false
         }
         
-        for (let k = j; k < str.length; k++) {
-            const nextWord = str.slice(j, k + 1)
-
-            if (seen.has(nextWord)) continue
-            seen.add(nextWord)
-            map.set(pattern[i], nextWord)
-
-            if (_wordPatternMatch(i + 1, k + 1)) {
-                return true
-            }
+        const pStr = map[pattern[pIndex]]
+        if (pStr) {
+            const str = s.slice(sIndex, sIndex + pStr.length)
+            return str === pStr && _wordPatternMatch(pIndex + 1, sIndex + pStr.length)
+        }
+        
+        for (let i = sIndex; i < s.length; i++) {
+            const str = s.slice(sIndex, i + 1)
+            if (map[str] !== undefined) continue
             
-            seen.delete(nextWord)
-            map.delete(pattern[i])
+            map[pattern[pIndex]] = str
+            map[str] = pattern[pIndex]
+            
+            if (_wordPatternMatch(pIndex + 1, i + 1))
+                return true
+            
+            map[pattern[pIndex]] = undefined
+            map[str] = undefined
         }
         
         return false
     }
     
-    const seen = new Set()
-    const map = new Map()
+    const map = {}
     return _wordPatternMatch(0, 0)
 };
 ```
