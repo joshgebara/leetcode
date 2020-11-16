@@ -46989,35 +46989,39 @@ var wordPatternMatch = function(pattern, s) {
  * @return {string[][]}
  */
 var wordSquares = function(words) {
-    const _wordSquares = (curr, i) => {
-        if (curr.length === max) {
-            result.push(curr.slice())
+    const _wordSquares = col => {
+        if (col >= n) {
+            result.push(square.slice())
             return
         }
         
-        let prefix = []
-        for (const word of curr) {
-            prefix.push(word[i])
+        const prefix = []
+        for (let row = 0; row < col; row++) {
+            prefix.push(square[row][col])
         }
-        prefix = prefix.join('')
         
-        for (const word of trie.wordsForPrefix(prefix)) {
-            curr.push(word)
-            _wordSquares(curr, i + 1)
-            curr.pop()
+        const words = trie.wordsWithPrefix(prefix)
+        for (const word of words) {
+            square.push(word)
+            _wordSquares(col + 1)
+            square.pop()
         }
     }
     
-    const max = words[0].length
+    if (!words.length) return []
+    
     const trie = new Trie(words)
+    const n = words[0].length
+    
     const result = []
-    _wordSquares([], 0)
+    const square = []
+    _wordSquares(0)
     return result
 };
 
 class Trie {
     constructor(words) {
-        this.root = new TrieNode(null)
+        this.root = new TrieNode()
         
         for (const word of words) {
             this.insert(word)
@@ -47026,7 +47030,6 @@ class Trie {
     
     insert(word) {
         let curr = this.root
-        
         for (const char of word) {
             if (!curr.children[char]) {
                 curr.children[char] = new TrieNode(char)
@@ -47035,10 +47038,10 @@ class Trie {
             curr = curr.children[char]
         }
         
-        curr.isEnd = true
+        curr.isEnd = word
     }
     
-    wordsForPrefix(prefix) {
+    wordsWithPrefix(prefix) {
         let curr = this.root
         for (const char of prefix) {
             if (!curr.children[char]) {
@@ -47049,21 +47052,18 @@ class Trie {
         }
         
         const result = []
-        this.getWords(curr, [prefix], result)
+        this.dfs(result, curr)
         return result
     }
     
-    getWords(node, word, result) {
-        const children = Object.values(node.children)
-        if (!children.length) {
-            result.push(word.join(''))
+    dfs(result, curr) {
+        if (curr.isEnd) {
+            result.push(curr.isEnd)
             return
         }
         
-        for (const child of children) {
-            word.push(child.key)
-            this.getWords(child, word, result)
-            word.pop()
+        for (const node of Object.values(curr.children)) {
+            this.dfs(result, node)
         }
     }
 }
@@ -47072,7 +47072,7 @@ class TrieNode {
     constructor(key) {
         this.key = key
         this.children = {}
-        this.isEnd = false
+        this.isEnd = ''
     }
 }
 ```
