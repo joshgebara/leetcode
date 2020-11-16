@@ -45125,62 +45125,73 @@ const binarySearch = (arr, target) => {
  */
 var solveSudoku = function(board) {
     const _solveSudoku = (row, col) => {
-        if (col === 9) {
-            col = 0
-            row++
-        }
+        if (row === n) return true
         
-        if (row === 9) 
-            return true
+        const nextRow = col === n - 1 ? row + 1 : row
+        const nextCol = col === n - 1 ? 0 : col + 1
         
-        if (board[row][col] === '.') {
-            for (let num = 1; num <= 9; num++) {
-                if (isValid(set, row, col, num)) 
-                    continue
-                
-                addNum(board, set, row, col, num)
-                
-                if (_solveSudoku(row, col + 1)) 
-                    return true
-                
-                removeNum(board, set, row, col, num)
-            }
-        } else if (_solveSudoku(row, col + 1)) {
-            return true
+        if (board[row][col] !== '.')
+            return _solveSudoku(nextRow, nextCol)
+        
+        for (let num = 1; num <= 9; num++) {
+            if (isValid(board, num, row, col, rows, cols, subboxes))
+                continue
+            
+            addNum(board, num, row, col, rows, cols, subboxes)
+            
+            if (_solveSudoku(nextRow, nextCol))
+                return true
+            
+            removeNum(board, num, row, col, rows, cols, subboxes)
         }
         
         return false
     }
     
-    const set = new Set()
-    for (let row = 0; row < board.length; row++) {
-        for (let col = 0; col < board[0].length; col++) {
+    const n = board.length
+    const rows = Array(n).fill(0)
+    const cols = Array(n).fill(0)
+    const subboxes = Array(n).fill(0)
+    
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < n; col++) {
             if (board[row][col] === '.') continue
-            addNum(board, set, row, col, board[row][col])
+            addNum(board, board[row][col], row, col, rows, cols, subboxes)
         }
     }
     
     _solveSudoku(0, 0)
 };
 
-const addNum = (board, set, row, col, num) => {
-    set.add(`r${row}v${num}`)
-    set.add(`c${col}v${num}`)
-    set.add(`s${Math.floor(row / 3) * 3 + Math.floor(col / 3)}v${num}`)
+const addNum = (board, num, row, col, rows, cols, subboxes) => {
+    const mask = 1 << num
+    const subbox = Math.floor(row / 3) * 3 + Math.floor(col / 3)
+    
+    rows[row] |= mask
+    cols[col] |= mask
+    subboxes[subbox] |= mask
+    
     board[row][col] = `${num}`
 }
 
-const removeNum = (board, set, row, col, num) => {
-    set.delete(`r${row}v${num}`)
-    set.delete(`c${col}v${num}`)
-    set.delete(`s${Math.floor(row / 3) * 3 + Math.floor(col / 3)}v${num}`)
+const removeNum = (board, num, row, col, rows, cols, subboxes) => {
+    const mask = 1 << num
+    const subbox = Math.floor(row / 3) * 3 + Math.floor(col / 3)
+    
+    rows[row] ^= mask
+    cols[col] ^= mask
+    subboxes[subbox] ^= mask
+    
     board[row][col] = '.'
 }
 
-const isValid = (set, row, col, num) => {
-    return set.has(`r${row}v${num}`) ||
-           set.has(`c${col}v${num}`) ||
-           set.has(`s${Math.floor(row / 3) * 3 + Math.floor(col / 3)}v${num}`)
+const isValid = (board, num, row, col, rows, cols, subboxes) => {
+    const mask = 1 << num
+    const subbox = Math.floor(row / 3) * 3 + Math.floor(col / 3)
+    
+    return (rows[row] & mask) || 
+           (cols[col] & mask) || 
+           (subboxes[subbox] & mask)
 }
 ```
 
