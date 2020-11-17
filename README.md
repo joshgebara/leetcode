@@ -52916,3 +52916,41 @@ var tilingRectangle = function(n, m) {
     return _tilingRectangle(heights)
 };
 ```
+
+## 1434. Number of Ways to Wear Different Hats to Each Other
+```javascript
+/**
+ * @param {number[][]} hats
+ * @return {number}
+ */
+var numberWays = function(hats) {
+    const _numberWays = (hat, used) => {      
+        if (used === (1 << n) - 1) return 1
+        if (hat > 40) return 0
+        
+        if (memo[hat][used] !== undefined) {
+            return memo[hat][used]
+        }
+        
+        memo[hat][used] = _numberWays(hat + 1, used)
+        for (const person of map[hat]) {
+            if (used & 1 << person) continue
+            memo[hat][used] += _numberWays(hat + 1, used | 1 << person)
+        }
+        
+        return memo[hat][used]
+    }
+    
+    const MOD = 10 ** 9 + 7
+    const n = hats.length
+    const map = Array(41).fill().map(a => [])
+    for (let person = 0; person < n; person++) {
+        for (const hat of hats[person]) {
+            map[hat].push(person)
+        }
+    }
+    
+    const memo = Array(41).fill().map(a => Array(1 << n))
+    return _numberWays(1, 0) % MOD
+};
+```
