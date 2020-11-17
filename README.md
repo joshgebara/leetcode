@@ -52919,6 +52919,7 @@ var tilingRectangle = function(n, m) {
 
 ## 1434. Number of Ways to Wear Different Hats to Each Other
 ```javascript
+// Top Down DP
 /**
  * @param {number[][]} hats
  * @return {number}
