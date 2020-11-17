@@ -52955,3 +52955,75 @@ var numberWays = function(hats) {
     return _numberWays(1, 0) % MOD
 };
 ```
+
+## 1655. Distribute Repeating Integers
+```javascript
+// Time - O(n * 3^n)
+// https://cp-algorithms.com/algebra/all-submasks.html
+/**
+ * @param {number[]} nums
+ * @param {number[]} quantity
+ * @return {boolean}
+ */
+var canDistribute = function(nums, quantity) {
+    const _canDistribute = (index, mask) => {
+        if (mask === 0) return true
+        if (index >= n) return false
+        
+        if (memo[index][mask] !== undefined) 
+            return memo[index][mask]
+        
+        if (_canDistribute(index + 1, mask)) {
+            memo[index][mask] = true
+            return true
+        }
+        
+        let submask = mask
+        while (submask > 0) {
+            if (totals[submask] <= counts[index]) {
+                if (_canDistribute(index + 1, mask ^ submask)) {
+                    memo[index][mask] = true
+                    return true
+                }
+            }
+
+            submask = (submask - 1) & mask
+        }
+        
+        memo[index][mask] = false
+        return false
+    }
+    
+    const totals = quantitiesFromSubsets(quantity)
+    const counts = getFrequencies(nums)
+    
+    const n = counts.length
+    const m = quantity.length
+    
+    const memo = new Array(n).fill().map(a => new Array(1 << m))
+    
+    return _canDistribute(0, (1 << m) - 1)
+};
+
+const getFrequencies = nums => {
+    const counts = {}
+    for (const num of nums) {
+        counts[num] = 1 + (counts[num] || 0)
+    }
+    
+    return Object.values(counts)
+}
+
+const quantitiesFromSubsets = (quantity) => {
+    const m = quantity.length
+    const totals = Array(1 << m).fill(0)
+    for (let mask = 0; mask < 1 << m; mask++) {
+        for (let i = 0; i < m; i++) {
+            if (mask & 1 << i) {
+                totals[mask] += quantity[i]
+            }
+        }
+    }
+    return totals
+}
+```
