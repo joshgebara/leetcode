@@ -48865,26 +48865,28 @@ var findTheCity = function(n, edges, distanceThreshold) {
 // Recursive
 var findContestMatch = function(n) {
     const _findContestMatch = (curr) => {
-        let i = 0
-        let j = curr.length - 1
-        if (i === j) return curr[i]
+        if (curr.length === 1)
+            return curr[0]
         
-        const result = []
-        while (i < j) {
-            result.push(`(${curr[i]},${curr[j]})`)
-            i++
-            j--
+        const next = []
+        let left = 0
+        let right = curr.length - 1
+        
+        while (left < right) {
+            next.push(`(${curr[left]},${curr[right]})`)
+            left++
+            right--
         }
         
-        return _findContestMatch(result)
+        return _findContestMatch(next)
     }
     
-    const arr = []
-    for (let i = 1; i <= n; i++) {
-        arr.push(i)
+    const start = []
+    for (let team = 1; team <= n; team++) {
+        start.push(team)
     }
     
-    return _findContestMatch(arr)
+    return _findContestMatch(start)
 };
 
 /**
