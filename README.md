@@ -53098,3 +53098,51 @@ const quantitiesFromSubsets = (quantity) => {
 }
 ```
 
+## 894. All Possible Full Binary Trees
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number} N
+ * @return {TreeNode[]}
+ */
+var allPossibleFBT = function(N) {
+    const _allPossibleFBT = (N) => {
+        if (memo[N] !== undefined)
+            return memo[N]
+        
+        const result = []
+        for (let i = 1; i < N; i += 2) {
+            const leftSubtrees = _allPossibleFBT(i)
+            const rightSubtrees = _allPossibleFBT(N - i - 1)
+
+            for (const left of leftSubtrees) {
+                for (const right of rightSubtrees) {
+                    const root = new TreeNode(0)
+                    root.left = left
+                    root.right = right
+
+                    result.push(root)
+                }
+            }
+        }
+        
+        memo[N] = result
+        return result
+    }
+    
+    if (N % 2 === 0) return []
+    
+    const memo = {}
+    memo[0] = []
+    memo[1] = [new TreeNode(0)]
+    
+    return _allPossibleFBT(N)
+};
+```
