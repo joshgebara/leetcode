@@ -11013,18 +11013,32 @@ var calculateTime = function(keyboard, word) {
 
 ## 938. Range Sum of BST
 ```javascript
-var rangeSumBST = function(root, L, R) {
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} low
+ * @param {number} high
+ * @return {number}
+ */
+var rangeSumBST = function(root, low, high) {
     if (!root) return 0
     
-    if (L <= root.val && root.val <= R) {
-        return root.val + rangeSumBST(root.left, L, R) + rangeSumBST(root.right, L, R) 
+    if (root.val < low) {
+        return rangeSumBST(root.right, low, high)
     }
     
-    if (L > root.val) {
-        return rangeSumBST(root.right, L, R)
+    if (root.val > high) {
+        return rangeSumBST(root.left, low, high)
     }
     
-    return rangeSumBST(root.left, L, R) 
+    return root.val + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high)
 };
 ```
 
@@ -53027,3 +53041,4 @@ const quantitiesFromSubsets = (quantity) => {
     return totals
 }
 ```
+
