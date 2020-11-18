@@ -11516,6 +11516,19 @@ var sumOfLeftLeaves = function(root, isLeft = false) {
 
 ## 783. Minimum Distance Between BST Nodes
 ```javascript
+// Approach 1
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var minDiffInBST = function(root) {
     const inOrder = root => {
         if (!root) return
@@ -11530,6 +11543,35 @@ var minDiffInBST = function(root) {
     let prev = null
     let min = Number.MAX_VALUE
     inOrder(root)
+    return min
+};
+
+// Approach 2
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDiffInBST = function(root) {
+    const _minDiffInBST = (node, low, high) => {
+        if (!node) return
+        
+        min = Math.min(min, Math.abs(node.val - low))
+        min = Math.min(min, Math.abs(node.val - high))
+        
+        _minDiffInBST(node.left, low, node.val)
+        _minDiffInBST(node.right, node.val, high)
+    }
+    
+    let min = Infinity
+    _minDiffInBST(root, Infinity, Infinity)
     return min
 };
 ```
