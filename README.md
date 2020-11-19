@@ -53150,3 +53150,39 @@ var allPossibleFBT = function(N) {
     return _allPossibleFBT(N)
 };
 ```
+
+## 776. Split BST
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} V
+ * @return {TreeNode[]}
+ */
+var splitBST = function(root, V) {
+    const _splitBST = (node) => {
+        if (!node) return [null, null]
+        
+        if (node.val <= V) {
+            const trees = _splitBST(node.right)
+            node.right = trees[0]
+            trees[0] = node
+            return trees
+        } else {
+            const trees = _splitBST(node.left)
+            node.left = trees[1]
+            trees[1] = node
+            return trees
+        }
+    }
+    
+    return _splitBST(root)
+};
+```
