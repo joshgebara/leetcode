@@ -53182,3 +53182,28 @@ var splitBST = function(root, V) {
     }
 };
 ```
+
+## 625. Minimum Factorization
+```javascript
+/**
+ * @param {number} a
+ * @return {number}
+ */
+var smallestFactorization = function(a) {
+    if (a < 2) return a
+    
+    const max = ((2 ** 32) / 2) - 1
+    let result = 0
+    let place = 1
+    
+    for (let factor = 9; factor >= 2; factor--) {
+        while (a % factor === 0) {
+            a /= factor
+            result = place * factor + result
+            place *= 10
+        }
+    }
+    
+    return a < 2 && result <= max ? result : 0
+};
+```
