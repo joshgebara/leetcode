@@ -53167,22 +53167,18 @@ var allPossibleFBT = function(N) {
  * @return {TreeNode[]}
  */
 var splitBST = function(root, V) {
-    const _splitBST = (node) => {
-        if (!node) return [null, null]
-        
-        if (node.val <= V) {
-            const trees = _splitBST(node.right)
-            node.right = trees[0]
-            trees[0] = node
-            return trees
-        } else {
-            const trees = _splitBST(node.left)
-            node.left = trees[1]
-            trees[1] = node
-            return trees
-        }
+    if (!root) return [null, null]
+
+    if (root.val <= V) {
+        const trees = splitBST(root.right, V)
+        root.right = trees[0]
+        trees[0] = root
+        return trees
+    } else {
+        const trees = splitBST(root.left, V)
+        root.left = trees[1]
+        trees[1] = root
+        return trees
     }
-    
-    return _splitBST(root)
 };
 ```
