@@ -43614,69 +43614,55 @@ TicTacToe.prototype.move = function(row, col, player) {
  * @return {boolean}
  */
 var validTicTacToe = function(board) {
-    const [xCount, oCount] = count(board)
-    const xWin = win('X', board)
-    const oWin = win('O', board)
-    
-    if (!xWin && !oWin) 
-        return xCount === oCount || xCount - 1 === oCount
-    
-    if (xWin) 
-        return xCount - 1 === oCount
-    
-    if (oWin) 
-        return xCount === oCount
-    
-    return true
-};
-
-const win = (player, board) => {
-    for (let row = 0; row < board.length; row++) {
-        let rowCount = 0
-        for (let col = 0; col < board.length; col++) {
-            rowCount += board[row][col] === player
-        }
-        
-        if (rowCount === board.length) return true
-    }
-    
-    for (let col = 0; col < board.length; col++) {
-        let colCount = 0
-        for (let row = 0; row < board.length; row++) {
-            colCount += board[row][col] === player
-        }
-        
-        if (colCount === board.length) return true
-    }
-    
-    let diag1 = 0
-    for (let i = 0; i < board.length; i++) {
-        diag1 += board[i][i] === player
-    }
-    if (diag1 === board.length) return true
-    
-    let diag2 = 0
-    for (let i = 0; i < board.length; i++) {
-        diag2 += board[i][board.length - 1 - i] === player
-    }
-    if (diag2 === board.length) return true
-    
-    return false
-}
-
-const count = (board) => {
+    const n = board.length
+    let xWins = false
+    let oWins = false
     let xCount = 0
     let oCount = 0
     
-    for (const row of board) {
-        for (const move of row) {
-            xCount += 'X' === move
-            oCount += 'O' === move
+    const rows = new Array(n).fill(0)
+    const cols = new Array(n).fill(0)
+    let diag1 = 0
+    let diag2 = 0
+    
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            if (board[row][col] === 'O') {
+                oCount++
+                rows[row]++
+                cols[col]++
+                if (row - col === 0) diag1++
+                if (row + col === 2) diag2++
+            } else if (board[row][col] === 'X') {
+                xCount++
+                rows[row]--
+                cols[col]--
+                if (row - col === 0) diag1--
+                if (row + col === 2) diag2--
+            }
         }
     }
     
-    return [xCount, oCount]
-}
+    for (const row of rows) {
+        if (row === n) oWins = true
+        if (row === -n) xWins = true
+    }
+    
+    for (const col of cols) {
+        if (col === n) oWins = true
+        if (col === -n) xWins = true
+    }
+    
+    if (diag1 === n) oWins = true
+    if (diag1 === -n) xWins = true
+    
+    if (diag2 === n) oWins = true
+    if (diag2 === -n) xWins = true
+    
+    if (xWins) return xCount - oCount === 1
+    if (oWins) return xCount === oCount
+    return xCount === oCount || xCount - oCount === 1
+};
 ```
 
 ## 36. Valid Sudoku
@@ -53207,3 +53193,4 @@ var smallestFactorization = function(a) {
     return a < 2 && result <= max ? result : 0
 };
 ```
+
