@@ -53194,3 +53194,44 @@ var smallestFactorization = function(a) {
 };
 ```
 
+## 241. Different Ways to Add Parentheses
+```javascript
+/**
+ * @param {string} input
+ * @return {number[]}
+ */
+var diffWaysToCompute = function(input) {
+    const _diffWaysToCompute = input => {
+        if (memo[input] !== undefined) 
+            return memo[input]
+        
+        const result = []
+        
+        for (let i = 0; i < input.length; i++) {
+            const operatorFunction = operatorMap[input[i]]
+            if (operatorFunction === undefined) continue
+
+            const left = _diffWaysToCompute(input.slice(0, i))
+            const right = _diffWaysToCompute(input.slice(i + 1))
+            
+            for (const l of left) {
+                for (const r of right) {
+                    result.push(operatorFunction(l, r))
+                }
+            }
+        }
+
+        memo[input] = result.length ? result : [input]
+        return memo[input]
+    }
+    
+    const memo = {}
+    return _diffWaysToCompute(input)
+};
+
+const operatorMap = {
+    '+': ((a, b) => +a + +b),
+    '-': ((a, b) => a - b),
+    '*': ((a, b) => a * b)
+}
+```
