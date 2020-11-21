@@ -53235,3 +53235,46 @@ const operatorMap = {
     '*': ((a, b) => a * b)
 }
 ```
+
+## 273. Integer to English Words
+```javascript
+/**
+ * @param {number} num
+ * @return {string}
+ */
+var numberToWords = function(num) {
+    const groups = ['', 'Thousand', 'Million', 'Billion']
+    
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 
+                  'Sixty', 'Seventy', 'Eighty', 'Ninety']
+    
+    const underTwenty = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 
+                         'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 
+                         'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 
+                         'Seventeen', 'Eighteen', 'Nineteen']
+    
+    const _numberToWords = num => {
+        if (num < 20) return [underTwenty[num]]
+        if (num < 100) {
+            const quotient = Math.floor(num / 10)
+            const remainder = num % 10
+            return [tens[quotient], underTwenty[remainder]]
+        }
+        if (num < 1000) {
+            const quotient = Math.trunc(num / 100)
+            const remainder = num % 100
+            return [underTwenty[quotient], 'Hundred', ..._numberToWords(remainder)]
+        }
+        
+        for (let power = 1; power < groups.length; power++) {
+            if (num >= 1000 ** (power + 1)) continue
+            const quotient = Math.trunc(num / 1000 ** power)
+            const remainder = num % 1000 ** power
+            return [..._numberToWords(quotient), groups[power], ..._numberToWords(remainder)]
+        }
+    }
+    
+    if (num === 0) return 'Zero'
+    return _numberToWords(num).filter(s => s !== '').join(' ')
+};
+```
