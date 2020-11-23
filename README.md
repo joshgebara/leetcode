@@ -53278,3 +53278,51 @@ var numberToWords = function(num) {
     return _numberToWords(num).filter(s => s !== '').join(' ')
 };
 ```
+
+## 29. Divide Two Integers
+```javascript
+var divide = function(dividend, divisor) {
+    const lowerBound = -(2 ** 31)
+    const halfLowerBound = lowerBound >> 1
+    const upperBound = (2 ** 31) - 1
+    
+    if (dividend === 0 || divisor === 0) return 0
+    if (dividend === lowerBound && divisor === -1) return upperBound
+    
+    let negatives = 2
+    if (dividend > 0) {
+        negatives--
+        dividend = -dividend
+    }
+    
+    if (divisor > 0) {
+        negatives--
+        divisor = -divisor
+    }
+    
+    let highestPowerOfTwo = -1
+    let highestDouble = divisor
+    while (highestDouble >= halfLowerBound && 
+           dividend <= highestDouble + highestDouble) {
+        highestPowerOfTwo += highestPowerOfTwo
+        highestDouble += highestDouble
+    }
+    
+    let quotient = 0
+    while (dividend <= divisor) {
+        if (dividend <= highestDouble) {
+            quotient += highestPowerOfTwo
+            dividend -= highestDouble
+        }
+        
+        highestPowerOfTwo = (highestPowerOfTwo + 1) >> 1
+        highestDouble = (highestDouble + 1) >> 1
+    }
+    
+    if (negatives !== 1) {
+        quotient = -quotient
+    }
+    
+    return quotient
+};
+```
