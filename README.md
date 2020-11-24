@@ -53376,7 +53376,7 @@ var generateMatrix = function(n) {
     let left = 0
     let right = n - 1
     
-    const result = Array(n).fill().map(a => Array(n))
+    const result = new Array(n).fill().map(a => new Array(n))
     let num = 1
     
     while (top <= bottom && left <= right) {
