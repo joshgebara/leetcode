@@ -9462,37 +9462,36 @@ var findDiagonalOrder = function(matrix) {
 
 ## 54. Spiral Matrix
 ```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
 var spiralOrder = function(matrix) {
-    if (!matrix.length || !matrix[0].length) return []
-    
-    const result = []
     const m = matrix.length
     const n = matrix[0].length
-    let r = 0
-    let c = 0
     
-    for (let layer = 0; layer < Math.floor(m / 2) + 1; layer++) {
-        r = layer
-        c = layer
+    let top = 0
+    let bottom = m - 1
+    let left = 0
+    let right = n - 1
+    
+    const result = []
+    while (top <= bottom && left <= right) {
+        for (let i = left; i <= right; i++) result.push(matrix[top][i])
+        top++
         
-        if (c >= n - layer) break
-        while (c < n - layer) result.push(matrix[layer][c++])
+        for (let i = top; i <= bottom; i++) result.push(matrix[i][right])
+        right--
+
+        if (top > bottom || left > right) break
         
-        r++
-        c--
-        if (r >= m - layer) break
-        while (r < m - layer) result.push(matrix[r++][c])
+        for (let i = right; i >= left; i--) result.push(matrix[bottom][i])
+        bottom--
         
-        r--
-        c--
-        if (c < layer) break
-        while (c >= layer) result.push(matrix[r][c--])
-       
-        r--
-        c++
-        if (r <= layer) break
-        while (r > layer) result.push(matrix[r--][c])
+        for (let i = bottom; i >= top; i--) result.push(matrix[i][left])
+        left++
     }
+    
     return result
 };
 ```
