@@ -53363,3 +53363,38 @@ var arrayStringsAreEqual = function(word1, word2) {
     return a1 === word1.length && a2 === word2.length
 };
 ```
+
+## 59. Spiral Matrix II
+```javascript
+/**
+ * @param {number} n
+ * @return {number[][]}
+ */
+var generateMatrix = function(n) {
+    let top = 0
+    let bottom = n - 1
+    let left = 0
+    let right = n - 1
+    
+    const result = Array(n).fill().map(a => Array(n))
+    let num = 1
+    
+    while (top <= bottom && left <= right) {
+        for (let i = left; i <= right; i++) result[top][i] = num++
+        top++
+        
+        for (let i = top; i <= bottom; i++) result[i][right] = num++
+        right--
+        
+        if (top > bottom || left > right) break
+        
+        for (let i = right; i >= left; i--) result[bottom][i] = num++
+        bottom--
+        
+        for (let i = bottom; i >= top; i--) result[i][left] = num++
+        left++
+    }
+    
+    return result
+};
+```
