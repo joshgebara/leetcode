@@ -53408,3 +53408,40 @@ SELECT machine_id,
 FROM Activity
 GROUP BY machine_id
 ```
+
+## 885. Spiral Matrix III
+```javascript
+/**
+ * @param {number} R
+ * @param {number} C
+ * @param {number} r0
+ * @param {number} c0
+ * @return {number[][]}
+ */
+var spiralMatrixIII = function(R, C, r0, c0) {
+    const result = []
+    const total = R * C
+    
+    const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+    let dir = 0
+    
+    let walkLen = 1
+    let steps = 1
+    
+    while (result.length < total) {
+        for (let i = 0; i < walkLen; i++) {
+            if (r0 >= 0 && r0 < R && c0 >= 0 && c0 < C)
+                result.push([r0, c0])
+    
+            r0 += dirs[dir][0]
+            c0 += dirs[dir][1]
+        }
+        
+        dir = (dir + 1) % dirs.length
+        if (steps % 2 === 0) walkLen++
+        steps++
+    }
+    
+    return result
+};
+```
