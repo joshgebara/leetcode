@@ -53326,3 +53326,41 @@ var divide = function(dividend, divisor) {
     return quotient
 };
 ```
+
+## 1662. Check If Two String Arrays are Equivalent
+```javascript
+/**
+ * @param {string[]} word1
+ * @param {string[]} word2
+ * @return {boolean}
+ */
+var arrayStringsAreEqual = function(word1, word2) {
+    let a1 = 0
+    let w1 = 0
+    let a2 = 0
+    let w2 = 0
+    
+    while (a1 < word1.length && a2 < word2.length) {
+        if (w1 >= word1[a1].length) {
+            a1++
+            w1 = 0
+        }
+        
+        if (w2 >= word2[a2].length) {
+            a2++
+            w2 = 0
+        }
+        
+        if (a1 >= word1.length || a2 >= word2.length) 
+            break
+        
+        if (word1[a1][w1] !== word2[a2][w2]) 
+            return false
+        
+        w1++
+        w2++
+    }
+    
+    return a1 === word1.length && a2 === word2.length
+};
+```
