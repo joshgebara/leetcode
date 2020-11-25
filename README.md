@@ -53536,15 +53536,15 @@ var minimumDistance = function(word) {
     
     const n = word.length
     const memo = new Array(n).fill()
-                        .map(a => new Array(26).fill()
-                        .map(a => new Array(26).fill()))
+                        .map(a => new Array(27).fill()
+                        .map(a => new Array(27).fill()))
     
     const start = charToIndex(word[0])
-    return _minimumDistance(1, start, null)
+    return _minimumDistance(1, start, 26)
 };
 
 const dist = (coordinate1, coordinate2) => {
-    if (coordinate1 === null || coordinate2 === null)
+    if (coordinate1 === 26 || coordinate2 === 26)
         return 0
     
     const [x1, y1] = indexToCoordinate(coordinate1)
