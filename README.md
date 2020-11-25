@@ -53509,3 +53509,50 @@ var lowestCommonAncestor = function(root, p, q) {
     return left || right
 };
 ```
+
+## 1320. Minimum Distance to Type a Word Using Two Fingers
+```javascript
+// Top Down DP
+/**
+ * @param {string} word
+ * @return {number}
+ */
+var minimumDistance = function(word) {
+    const _minimumDistance = (index, f1, f2) => {
+        if (index === word.length) 
+            return 0
+        
+        if (memo[index][f1][f2] !== undefined)
+            return memo[index][f1][f2]
+        
+        const next = charToIndex(word[index])
+        
+        let min = Infinity
+        min = Math.min(min, dist(f1, next) + _minimumDistance(index + 1, next, f2))
+        min = Math.min(min, dist(f2, next) + _minimumDistance(index + 1, f1, next))
+        memo[index][f1][f2] = min
+        return min
+    }
+    
+    const n = word.length
+    const memo = new Array(n).fill()
+                        .map(a => new Array(26).fill()
+                        .map(a => new Array(26).fill()))
+    
+    const start = charToIndex(word[0])
+    return _minimumDistance(1, start, null)
+};
+
+const dist = (coordinate1, coordinate2) => {
+    if (coordinate1 === null || coordinate2 === null)
+        return 0
+    
+    const [x1, y1] = indexToCoordinate(coordinate1)
+    const [x2, y2] = indexToCoordinate(coordinate2)
+    return Math.abs(x1 - x2) + Math.abs(y1 - y2)
+}
+
+const charToIndex = char => char.charCodeAt(0) - 'A'.charCodeAt(0)
+
+const indexToCoordinate = index => [Math.floor(index / 6), index % 6]
+```
