@@ -53556,3 +53556,32 @@ const charToIndex = char => char.charCodeAt(0) - 'A'.charCodeAt(0)
 
 const indexToCoordinate = index => [Math.floor(index / 6), index % 6]
 ```
+
+## 1043. Partition Array for Maximum Sum
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number}
+ */
+var maxSumAfterPartitioning = function(arr, k) {
+    const _maxSumAfterPartitioning = (start) => {
+        if (start >= arr.length) return 0
+        if (memo[start] !== undefined) return memo[start]
+        
+        let result = 0
+        let max = 0
+        for (let i = start; i < Math.min(arr.length, start + k); i++) {
+            const length = i - start + 1
+            max = Math.max(max, arr[i])
+            result = Math.max(result, length * max + _maxSumAfterPartitioning(i + 1))
+        }
+        
+        memo[start] = result
+        return result
+    }
+    
+    const memo = new Array(arr.length)
+    return _maxSumAfterPartitioning(0, 0)
+};
+```
