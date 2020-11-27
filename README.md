@@ -53585,3 +53585,34 @@ var maxSumAfterPartitioning = function(arr, k) {
     return _maxSumAfterPartitioning(0, 0)
 };
 ```
+
+## 568. Maximum Vacation Days
+```javascript
+/**
+ * @param {number[][]} flights
+ * @param {number[][]} days
+ * @return {number}
+ */
+var maxVacationDays = function(flights, days) {
+    const _maxVacationDays = (city, week) => {
+        if (week >= k) return 0
+        
+        if (memo[city][week] !== undefined) 
+            return memo[city][week]
+        
+        let max = 0
+        for (let neighbor = 0; neighbor < flights.length; neighbor++) {
+            if (neighbor !== city && !flights[city][neighbor]) continue
+            max = Math.max(max, days[neighbor][week] + _maxVacationDays(neighbor, week + 1))
+        }
+        
+        memo[city][week] = max
+        return max
+    }
+    
+    const n = flights.length
+    const k = days[0].length
+    const memo = new Array(n).fill().map(a => new Array(k))
+    return _maxVacationDays(0, 0, 0)
+};
+```
