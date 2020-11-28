@@ -53651,3 +53651,36 @@ var findNumberOfLIS = function(nums) {
     return count
 };
 ```
+
+## 647. Palindromic Substrings
+```javascript
+// DP: Time - O(n^2), Space - O(n^2)
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var countSubstrings = function(s) {
+    const n = s.length
+    const dp = new Array(n).fill().map(a => new Array(n).fill(false))
+    
+    let count = 0
+    for (let len = 1; len <= n; len++) {
+        for (let i = 0; i <= n - len; i++) {
+            const j = i + len - 1
+            
+            if (i === j) {
+                dp[i][j] = true
+                count++
+            } else if (s[i] === s[j] && i + 1 === j) {
+                dp[i][j] = true
+                count++
+            } else if (s[i] === s[j] && dp[i + 1][j - 1]) {
+                dp[i][j] = true
+                count++
+            }
+        }
+    }
+    
+    return count
+};
+```
