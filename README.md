@@ -53616,3 +53616,38 @@ var maxVacationDays = function(flights, days) {
     return _maxVacationDays(0, 0, 0)
 };
 ```
+
+## 673. Number of Longest Increasing Subsequence
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findNumberOfLIS = function(nums) {
+    const dp = Array(nums.length).fill(1)
+    const counts = Array(nums.length).fill(1)
+    
+    let maxLen = 1
+    let count = 0
+    for (let i = 0; i < dp.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[i] <= nums[j]) continue
+            if (dp[i] === dp[j] + 1) {
+                counts[i] += counts[j]
+            } else if (dp[i] < dp[j] + 1) {
+                dp[i] = dp[j] + 1
+                counts[i] = counts[j]
+            }
+        }
+        
+        if (maxLen === dp[i]) {
+            count += counts[i]
+        } else if (maxLen < dp[i]) {
+            maxLen = dp[i]
+            count = counts[i]
+        }
+    }
+
+    return count
+};
+```
