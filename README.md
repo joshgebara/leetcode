@@ -53709,11 +53709,44 @@ var maximumWealth = function(accounts) {
 
 ## 1656. Design an Ordered Stream
 ```javascript
+// Static Array
 /**
  * @param {number} n
  */
 var OrderedStream = function(n) {
     this.elements = new Array(1001)
+    this.curr = 1
+};
+
+/** 
+ * @param {number} id 
+ * @param {string} value
+ * @return {string[]}
+ */
+OrderedStream.prototype.insert = function(id, value) {
+    this.elements[id] = value
+    
+    const result = []
+    while (this.elements[this.curr]) {
+        result.push(this.elements[this.curr])
+        this.curr++
+    }
+    
+    return result
+};
+
+/** 
+ * Your OrderedStream object will be instantiated and called as such:
+ * var obj = new OrderedStream(n)
+ * var param_1 = obj.insert(id,value)
+ */
+
+// Hash Map
+/**
+ * @param {number} n
+ */
+var OrderedStream = function(n) {
+    this.elements = {}
     this.curr = 1
 };
 
