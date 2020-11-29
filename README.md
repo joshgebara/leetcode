@@ -53773,3 +53773,34 @@ OrderedStream.prototype.insert = function(id, value) {
  * var param_1 = obj.insert(id,value)
  */
 ```
+
+## 1640. Check Array Formation Through Concatenation
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number[][]} pieces
+ * @return {boolean}
+ */
+var canFormArray = function(arr, pieces) {
+    const map = new Array(101)
+    for (let group = 0; group < pieces.length; group++) {
+        const num = pieces[group][0]
+        map[num] = pieces[group]
+    }
+    
+    let i = 0
+    while (i < arr.length) {
+        const num = arr[i]
+        if (map[num] === undefined) 
+            return false
+        
+        for (const piece of map[num]) {
+            if (piece !== arr[i]) return false
+            i++
+        }
+    }
+    
+
+    return true
+};
+```
