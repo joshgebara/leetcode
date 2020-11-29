@@ -53838,3 +53838,25 @@ var frequencySort = function(nums) {
     return buckets.flat()
 };
 ```
+
+## 1646. Get Maximum in Generated Array
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var getMaximumGenerated = function(n) {
+    if (n === 0) return 0
+    if (n <= 2) return 1
+    
+    const nums = [0, 1]
+    let max = 1
+    for (let i = 1; i < n / 2; i++) {
+        nums[2 * i] = nums[i]
+        nums[2 * i + 1] = nums[i] + nums[i + 1]
+        max = Math.max(max, nums[2 * i], nums[2 * i + 1])
+    } 
+    
+    return max
+};
+```
