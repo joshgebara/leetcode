@@ -53812,3 +53812,29 @@ SELECT user_id,
 FROM Users
 ORDER BY user_id
 ```
+
+## 1636. Sort Array by Increasing Frequency
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var frequencySort = function(nums) {
+    const freq = new Array(202).fill(0)
+    const offset = 100
+    for (const num of nums) {
+        freq[num + offset]++
+    }
+    
+    const buckets = new Array(101)
+    for (let num = freq.length - 1; num >= 0; num--) {
+        const count = freq[num]
+        while (freq[num]--) {
+            if (!buckets[count]) buckets[count] = []
+            buckets[count].push(num - offset)
+        }
+    }
+    
+    return buckets.flat()
+};
+```
