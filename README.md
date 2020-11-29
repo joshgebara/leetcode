@@ -53684,3 +53684,25 @@ var countSubstrings = function(s) {
     return count
 };
 ```
+
+## 1672. Richest Customer Wealth
+```javascript
+/**
+ * @param {number[][]} accounts
+ * @return {number}
+ */
+var maximumWealth = function(accounts) {
+    const m = accounts.length
+    const n = accounts[0].length
+    
+    let maxWealth = 0
+    for (let customer = 0; customer < m; customer++) {
+       let currWealth = 0
+       for (let bank = 0; bank < n; bank++) {
+           currWealth += accounts[customer][bank]
+       }
+       maxWealth = Math.max(maxWealth, currWealth)
+    }
+    return maxWealth
+};
+```
