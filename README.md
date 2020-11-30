@@ -53919,5 +53919,25 @@ var maxProfit = function(prices) {
 };
 
 // DP - Time: O(n), Space: O(1)
-
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    const n = prices.length
+    if (n < 2) return 0
+    
+    let cooldown = 0
+    let notHold = 0
+    let hold = -Infinity
+    
+    for (const price of prices) {
+        const temp = cooldown
+        cooldown = notHold
+        notHold = Math.max(notHold, hold + price)
+        hold = Math.max(hold, temp - price)
+    }
+    
+    return notHold
+};
 ```
