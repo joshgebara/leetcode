@@ -53860,3 +53860,31 @@ var getMaximumGenerated = function(n) {
     return max
 };
 ```
+
+## 188. Best Time to Buy and Sell Stock IV
+```javascript
+/**
+ * @param {number} k
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(k, prices) {
+    if (!prices.length) return 0
+    
+    const m = k + 1
+    const n = prices.length
+    
+    let prev = new Array(n).fill(0)
+    for (let t = 1; t < m; t++) {
+        const curr = new Array(n).fill(0)
+        let maxSoFar = -Infinity
+        for (let d = 1; d < n; d++) {
+            maxSoFar = Math.max(maxSoFar, prev[d - 1] - prices[d - 1])
+            curr[d] = Math.max(curr[d - 1], maxSoFar + prices[d])
+        }
+        prev = curr
+    }
+    
+    return prev[n - 1]
+};
+```
