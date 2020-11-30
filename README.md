@@ -6065,6 +6065,7 @@ var searchInsert = function(nums, target) {
 
 ## 121. Best Time to Buy and Sell Stock
 ```javascript
+// DP
 /**
  * @param {number[]} prices
  * @return {number}
@@ -6081,6 +6082,7 @@ var maxProfit = function(prices) {
     return maxProfit
 };
 
+// Kadane's
 var maxProfit = function(prices) {
     if (!prices.length) return 0
     
