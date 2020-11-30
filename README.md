@@ -6065,16 +6065,19 @@ var searchInsert = function(nums, target) {
 
 ## 121. Best Time to Buy and Sell Stock
 ```javascript
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
 var maxProfit = function(prices) {
-    if (!prices.length) return 0
-    
+    let minPrice = Infinity
     let maxProfit = 0
-    let minPrice = prices[0]
     
-    for (let i = 1; i < prices.length; i++) {
-        minPrice = Math.min(minPrice, prices[i])
-        maxProfit = Math.max(maxProfit, prices[i] - minPrice)
+    for (const price of prices) {
+        minPrice = Math.min(minPrice, price)
+        maxProfit = Math.max(maxProfit, price - minPrice)
     }
+    
     return maxProfit
 };
 
@@ -53888,3 +53891,4 @@ var maxProfit = function(k, prices) {
     return prev[n - 1]
 };
 ```
+
