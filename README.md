@@ -53941,3 +53941,48 @@ var maxProfit = function(prices) {
     return notHold
 };
 ```
+
+## 714. Best Time to Buy and Sell Stock with Transaction Fee
+```javascript
+// DP - Time: O(n), Space: O(n)
+/**
+ * @param {number[]} prices
+ * @param {number} fee
+ * @return {number}
+ */
+var maxProfit = function(prices, fee) {
+    const n = prices.length
+    const dp = new Array(2).fill().map(a => new Array(n).fill(0))
+    dp[1][0] = -prices[0]
+    
+    for (let i = 1; i < n; i++) {
+        dp[0][i] = Math.max(dp[0][i - 1], dp[1][i - 1] + prices[i] - fee)
+        dp[1][i] = Math.max(dp[1][i - 1], dp[0][i - 1] - prices[i])
+    }
+    
+    return dp[0][n - 1]
+};
+
+// DP - Time: O(n), Space: O(1)
+/**
+ * @param {number[]} prices
+ * @param {number} fee
+ * @return {number}
+ */
+var maxProfit = function(prices, fee) {
+    if (prices.length < 2) return 0
+    
+    const n = prices.length
+    const dp = new Array(2).fill().map(a => new Array(n).fill(0))
+    
+    let notHold = 0
+    let hold = -prices[0]
+    
+    for (let i = 1; i < n; i++) {
+        notHold = Math.max(notHold, hold + prices[i] - fee)
+        hold = Math.max(hold, notHold - prices[i])
+    }
+    
+    return notHold
+};
+```
