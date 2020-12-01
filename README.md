@@ -53986,3 +53986,37 @@ var maxProfit = function(prices, fee) {
     return notHold
 };
 ```
+
+## 312. Burst Balloons
+```javascript
+// Top Down DP
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxCoins = function(nums) {
+    const _maxCoins = (start, end, left, right) => {
+        if (start > end) return 0
+        
+        if (memo[start][end] !== undefined) {
+            return memo[start][end]
+        }
+        
+        let max = 0
+        for (let i = start; i <= end; i++) {
+            const result = left * nums[i] * right + 
+                           _maxCoins(start, i - 1, left, nums[i]) +
+                           _maxCoins(i + 1, end, nums[i], right)
+            
+            max = Math.max(max, result)
+        }
+        
+        memo[start][end] = max
+        return max
+    }
+    
+    const n = nums.length
+    const memo = new Array(n).fill().map(a => new Array(n))
+    return _maxCoins(0, n - 1, 1, 1)
+};
+```
