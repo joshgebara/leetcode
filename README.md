@@ -34401,6 +34401,18 @@ var rangeBitwiseAnd = function(m, n) {
     
     return m << count
 };
+
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var rangeBitwiseAnd = function(m, n) {
+    while (m < n) {
+        n &= (n - 1)
+    }
+    return n
+};
 ```
 
 ## 1310. XOR Queries of a Subarray
@@ -54020,3 +54032,4 @@ var maxCoins = function(nums) {
     return _maxCoins(0, n - 1, 1, 1)
 };
 ```
+
