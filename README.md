@@ -54033,3 +54033,39 @@ var maxCoins = function(nums) {
 };
 ```
 
+## 221. Maximal Square
+```javascript
+/**
+ * @param {character[][]} matrix
+ * @return {number}
+ */
+var maximalSquare = function(matrix) {
+    if (!matrix.length) return 0
+    
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    const dp = new Array(m).fill(0).map(arr => new Array(n).fill(0))
+    let max = 0
+    
+    for (let row = 0; row < m; row++) {
+        dp[row][0] = +matrix[row][0]
+        max = Math.max(max, dp[row][0])
+    }
+    
+    for (let col = 1; col < n; col++) {
+        dp[0][col] = +matrix[0][col]
+        max = Math.max(max, dp[0][col])
+    }
+    
+    for (let row = 1; row < m; row++) {
+        for (let col = 1; col < n; col++) {
+            if (matrix[row][col] === '0') continue
+            dp[row][col] = 1 + Math.min(dp[row - 1][col], dp[row][col - 1], dp[row - 1][col - 1])
+            max = Math.max(max, dp[row][col])
+        }
+    }
+    
+    return max * max
+};
+```
