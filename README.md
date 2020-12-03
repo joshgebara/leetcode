@@ -54218,3 +54218,87 @@ var gridIllumination = function(N, lamps, queries) {
     return result
 };
 ```
+
+## 1233. Remove Sub-Folders from the Filesystem
+```javascript
+// HashMap: Time - O(n*m^2)
+/**
+ * @param {string[]} folder
+ * @return {string[]}
+ */
+var removeSubfolders = function(folder) {
+    const result = []
+    const seen = new Set(folder)
+    
+    outer : for (const f of folder) {
+        const prefix = []
+        for (const s of f.split('/')) {
+            if (s === '') continue
+            if (seen.has(prefix.join(''))) {
+                continue outer
+            }
+            prefix.push('/', s)
+        }
+        
+        result.push(f)
+    }
+    
+    return result
+};
+
+// Trie: Time - O(n*m)
+/**
+ * @param {string[]} folder
+ * @return {string[]}
+ */
+var removeSubfolders = function(folder) {
+    const result = []
+    
+    const trie = new Trie()
+    for (const path of folder) {
+        trie.insert(path)
+    }
+    
+    outer : for (const path of folder) {
+        let curr = trie.root
+        
+        for (const char of path.split('/')) { 
+            if (char === '') continue
+            
+            if (curr.isEnd) {
+                continue outer
+            }
+            curr = curr.children[char]
+        }
+        result.push(path)
+    }
+    
+    return result
+};
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode('')
+    }
+    
+    insert(word) {
+        let curr = this.root
+        for (const char of word.split('/')) {
+            if (char === '') continue
+            if (!curr.children[char]) {
+                curr.children[char] = new TrieNode(char)
+            }
+            curr = curr.children[char]
+        }
+        curr.isEnd = true
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
+```
