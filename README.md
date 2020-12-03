@@ -54156,3 +54156,65 @@ const getMask = word => {
 
 const index = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ```
+
+## 1001. Grid Illumination
+```javascript
+/**
+ * @param {number} N
+ * @param {number[][]} lamps
+ * @param {number[][]} queries
+ * @return {number[]}
+ */
+var gridIllumination = function(N, lamps, queries) {
+    const dirs = [[1, 0], [0, 1], [1, 1], [-1, -1], [0, -1], 
+                  [-1, 0], [-1, 1], [1, -1], [0, 0]]
+    
+    const rowMap = {}
+    const colMap = {}
+    const diagonalMap = {}
+    const antiDiagonalMap = {}
+    const lampsOn = new Set()
+    for (const [row, col] of lamps) {
+        rowMap[row] = 1 + (rowMap[row] || 0)
+        
+        colMap[col] = 1 + (colMap[col] || 0)
+        
+        const diagonal = row - col
+        diagonalMap[diagonal] = 1 + (diagonalMap[diagonal] || 0)
+        
+        const antiDiagonal = row + col
+        antiDiagonalMap[antiDiagonal] = 1 + (antiDiagonalMap[antiDiagonal] || 0)
+        
+        lampsOn.add(`${row}-${col}`)
+    }
+    
+    const result = []
+    for (const [row, col] of queries) {
+        
+        if (rowMap[row] > 0 || colMap[col] > 0 || 
+            diagonalMap[row - col] > 0 || antiDiagonalMap[row + col] > 0) {
+            result.push(1)
+        } else {
+            result.push(0)
+            continue
+        }
+        
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = deltaRow + row
+            const nextCol = deltaCol + col
+            if (nextRow < 0 || nextRow >= N || nextCol < 0 || nextCol >= N) continue
+            
+            const key = `${nextRow}-${nextCol}`
+            if (!lampsOn.has(key)) continue
+            lampsOn.delete(key)
+                
+            rowMap[nextRow]--
+            colMap[nextCol]--
+            diagonalMap[nextRow - nextCol]--
+            antiDiagonalMap[nextRow + nextCol]--
+        }
+    }
+    
+    return result
+};
+```
