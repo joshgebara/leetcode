@@ -54111,3 +54111,48 @@ const getStates = (jug1, jug2, x, y) => {
     ]
 }
 ```
+
+## 1178. Number of Valid Words for Each Puzzle
+```javascript
+/**
+ * @param {string[]} words
+ * @param {string[]} puzzles
+ * @return {number[]}
+ */
+var findNumOfValidWords = function(words, puzzles) {
+    const map = {}
+    for (const word of words) {
+        const mask = getMask(word)
+        map[mask] = 1 + (map[mask] || 0)
+    }
+    
+    const result = []
+    for (const puzzle of puzzles) {
+        let count = 0
+        
+        const mask = getMask(puzzle)
+        let submask = mask
+        
+        while (submask > 0) {
+            if (submask & 1 << index(puzzle[0]))
+                count += map[submask] || 0
+            
+            submask = (submask - 1) & mask 
+        }
+        
+        result.push(count)
+    }
+    
+    return result
+};
+
+const getMask = word => {
+    let mask = 0
+    for (const char of word) {
+        mask |= 1 << index(char)
+    }
+    return mask
+}
+
+const index = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+```
