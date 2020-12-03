@@ -54302,3 +54302,47 @@ class TrieNode {
     }
 }
 ```
+
+## 609. Find Duplicate File in System
+```javascript
+/**
+ * @param {string[]} paths
+ * @return {string[][]}
+ */
+var findDuplicate = function(paths) {
+    const map = {}
+    
+    for (const path of paths) {
+        const [dir, ...files] = path.split(' ')
+        
+        for (const file of files) {
+            let filename = []
+            let contents = []
+            
+            let readContents = false
+            for (const char of file) {
+                if (char === '(' || char === ')') {
+                    readContents = true
+                    continue
+                }
+                
+                readContents ? contents.push(char) : filename.push(char)
+            }
+            
+            filename = dir + '/' + filename.join('')
+            contents = contents.join('')
+            
+            if (!map[contents]) map[contents] = []
+            map[contents].push(filename)
+        }
+    }
+    
+    const result = []
+    for (const group of Object.values(map)) {
+        if (group.length > 1) {
+            result.push(group)
+        }
+    }
+    return result
+};
+```
