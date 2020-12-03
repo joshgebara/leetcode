@@ -54069,3 +54069,45 @@ var maximalSquare = function(matrix) {
     return max * max
 };
 ```
+
+## 365. Water and Jug Problem
+```javascript
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @return {boolean}
+ */
+var canMeasureWater = function(x, y, z) {
+    const queue = [[0, 0]]
+    const visited = new Set(['0-0'])
+    
+    while (queue.length) {
+        const [jug1, jug2] = queue.shift()
+        
+        if (jug1 === z || jug2 === z || jug1 + jug2 === z)
+            return true
+        
+        for (const state of getStates(jug1, jug2, x, y)) {
+            const key = state.join('')
+            if (visited.has(key)) continue
+            visited.add(key)
+            
+            queue.push(state)
+        }
+    }
+    
+    return false
+};
+
+const getStates = (jug1, jug2, x, y) => {
+    return [
+        [x, jug2],
+        [jug1, y],
+        [0, jug2],
+        [jug1, 0],
+        [jug1 - Math.min(jug1, y - jug2), jug2 + Math.min(jug1, y - jug2)],
+        [jug1 + Math.min(x - jug1, jug2), jug2 - Math.min(x - jug1, jug2)]
+    ]
+}
+```
