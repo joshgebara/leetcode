@@ -54398,3 +54398,29 @@ var pathsWithMaxScore = function(board) {
 };
 ```
 
+## 174. Dungeon Game
+```javascript
+/**
+ * @param {number[][]} dungeon
+ * @return {number}
+ */
+var calculateMinimumHP = function(dungeon) {
+    const _calculateMinimumHP = (row, col) => {
+        if (row < 0 || row >= m || col < 0 || col >= n) return Infinity
+        if (memo[row][col] !== undefined) return memo[row][col]
+        if (row === m - 1 && col === n - 1) {
+            return Math.max(-1 * dungeon[row][col] + 1, 1)
+        }
+        
+        const down = _calculateMinimumHP(row + 1, col)
+        const right = _calculateMinimumHP(row, col + 1)
+        memo[row][col] = Math.max(1, Math.min(down, right) - dungeon[row][col])
+        return memo[row][col]
+    }
+    
+    const m = dungeon.length
+    const n = dungeon[0].length
+    const memo = new Array(m).fill().map(a => new Array(n))
+    return _calculateMinimumHP(0, 0)
+};
+```
