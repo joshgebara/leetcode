@@ -54370,17 +54370,14 @@ var pathsWithMaxScore = function(board) {
         ]
         
         for (const [currScore, currPath] of results) {
+            if (currScore === -Infinity) continue
+            
             if (maxScore < currScore) {
                 maxScore = currScore
                 maxPath = currPath
             } else if (maxScore === currScore) {
                 maxPath += currPath
             }
-        }
-        
-        if (maxScore === -Infinity) {
-            memo[row][col] = [maxScore, 0]
-            return memo[row][col]
         }
         
         if (board[row][col] != 'S') {
@@ -54400,3 +54397,4 @@ var pathsWithMaxScore = function(board) {
     return [max, path]
 };
 ```
+
