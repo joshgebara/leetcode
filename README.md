@@ -54346,3 +54346,57 @@ var findDuplicate = function(paths) {
     return result
 };
 ```
+
+## 1301. Number of Paths with Max Score
+```javascript
+/**
+ * @param {string[]} board
+ * @return {number[]}
+ */
+var pathsWithMaxScore = function(board) {
+    const _pathsWithMaxScore = (row, col) => {
+        if (row < 0 || row >= n || col < 0 || col >= n || 
+            board[row][col] === 'X') return [-Infinity, 0]
+        if (board[row][col] === 'E') return [0, 1]
+        if (memo[row][col] !== undefined) return memo[row][col]
+        
+        let maxScore = -Infinity
+        let maxPath = 0
+        
+        const results = [
+            _pathsWithMaxScore(row - 1, col - 1),
+            _pathsWithMaxScore(row - 1, col),
+            _pathsWithMaxScore(row, col - 1)
+        ]
+        
+        for (const [currScore, currPath] of results) {
+            if (maxScore < currScore) {
+                maxScore = currScore
+                maxPath = currPath
+            } else if (maxScore === currScore) {
+                maxPath += currPath
+            }
+        }
+        
+        if (maxScore === -Infinity) {
+            memo[row][col] = [maxScore, 0]
+            return memo[row][col]
+        }
+        
+        if (board[row][col] != 'S') {
+            maxScore = maxScore + +board[row][col]
+        }
+        
+        memo[row][col] = [maxScore, maxPath % MOD]
+        return memo[row][col]
+    }
+    
+    const MOD = 10 ** 9 + 7
+    const n = board.length
+    const memo = new Array(n).fill().map(a => new Array(n))
+    
+    const [max, path] = _pathsWithMaxScore(n - 1, n - 1)
+    if (max === -Infinity) return [0, 0]
+    return [max, path]
+};
+```
