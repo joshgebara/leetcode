@@ -54583,3 +54583,29 @@ var findLength = function(A, B) {
     return max
 };
 ```
+
+## 1248. Count Number of Nice Subarrays
+```javascript
+// Prefix Sums: Time - O(n) / Space - O(n)
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var numberOfSubarrays = function(nums, k) {
+    const map = { 0: 1 }
+    let oddCount = 0
+    let count = 0
+    
+    for (let i = 0; i < nums.length; i++) {
+        oddCount += nums[i] & 1
+        count += (map[oddCount - k] || 0)
+        map[oddCount] = 1 + (map[oddCount] || 0)
+    }
+    
+    return count
+};
+
+// Sliding Window: Time - O(n) / Space - O(1)
+
+```
