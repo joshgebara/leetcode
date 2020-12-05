@@ -54502,3 +54502,53 @@ var cherryPickup = function(grid) {
 };
 ```
 
+## 741. Cherry Pickup
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var cherryPickup = function(grid) {
+    const _cherryPickup = (row1, col1, col2) => {
+        if (row1 === n - 1 && col1 === n - 1) {
+            return grid[row1][col1]
+        }
+        
+        if (memo[row1][col1][col2] !== undefined) {
+            return memo[row1][col1][col2]
+        }
+        
+        const row2 = row1 + col1 - col2
+        let max = -Infinity
+        for (const [deltaRow1, deltaCol1] of [[1, 0], [0, 1]]) {
+            const nextRow1 = row1 + deltaRow1
+            const nextCol1 = col1 + deltaCol1
+            if (nextRow1 >= n || nextCol1 >= n || grid[nextRow1][nextCol1] === -1) continue
+            
+            for (const [deltaRow2, deltaCol2] of [[1, 0], [0, 1]]) {
+                const nextRow2 = row2 + deltaRow2
+                const nextCol2 = col2 + deltaCol2
+                if (nextRow2 >= n || nextCol2 >= n || grid[nextRow2][nextCol2] === -1) continue
+                
+                max = Math.max(max, _cherryPickup(nextRow1, nextCol1, nextCol2))
+            }
+        }
+        
+        if (row1 === row2 && col1 === col2) {
+            max += grid[row1][col1]
+        } else {
+            max += grid[row1][col1] + grid[row2][col2]
+        }
+        
+        memo[row1][col1][col2] = max
+        return max
+    }
+    
+    const n = grid.length
+    const memo = new Array(n).fill()
+                    .map(a => new Array(n).fill()
+                    .map(a => new Array(n).fill()))
+    const result = _cherryPickup(0, 0, 0)
+    return result === -Infinity ? 0 : result
+};
+```
