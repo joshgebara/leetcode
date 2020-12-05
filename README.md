@@ -54454,3 +54454,47 @@ var isValidSequence = function(root, arr) {
     return dfs(root, 0)
 };
 ```
+
+## 1463. Cherry Pickup II
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var cherryPickup = function(grid) {
+    const _cherryPickup = (row, col1, col2) => {
+        if (row === rows) return 0
+        
+        if (memo[row][col1][col2] !== undefined) {
+            return memo[row][col1][col2]
+        }
+        
+        let max = 0
+        for (let i = -1; i <= 1; i++) {
+            const nextCol1 = i + col1
+            if (nextCol1 < 0 || nextCol1 >= cols) continue
+            
+            for (let j = -1; j <= 1; j++) {
+                const nextCol2 = j + col2
+                if (nextCol2 < 0 || nextCol2 >= cols) continue
+                
+                max = Math.max(max, _cherryPickup(row + 1, nextCol1, nextCol2))
+            }
+        }
+        
+        max += grid[row][col1]
+        if (col1 !== col2) max += grid[row][col2]
+        
+        memo[row][col1][col2] = max
+        return memo[row][col1][col2]
+    }
+    
+    const rows = grid.length
+    const cols = grid[0].length
+    const memo = new Array(rows).fill()
+                    .map(a => new Array(cols).fill()
+                    .map(a => new Array(cols)))
+    
+    return _cherryPickup(0, 0, cols - 1)
+};
+```
