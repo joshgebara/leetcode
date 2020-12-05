@@ -54485,8 +54485,9 @@ var cherryPickup = function(grid) {
         max += grid[row][col1]
         if (col1 !== col2) max += grid[row][col2]
         
+        memo[row][col2][col1] = max
         memo[row][col1][col2] = max
-        return memo[row][col1][col2]
+        return max
     }
     
     const rows = grid.length
