@@ -54573,9 +54573,7 @@ var findLength = function(A, B) {
             if (A[i - 1] === B[j - 1]) {
                 curr[j] = 1 + prev[j - 1]
                 max = Math.max(max, curr[j])
-                continue
             }
-            curr[j] = 0
         }
         prev = curr
     }
