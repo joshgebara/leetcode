@@ -45455,6 +45455,8 @@ class Trie {
 ## 52. N-Queens II
 ```javascript
 // Backtracking + Set
+// the function for the main diagonal is y = x + b, the function for the anti diagonal is y = -x + b.
+// therefore, to know which diagonal the queen is on, we simply need the value y-x and y+x
 /**
  * @param {number} n
  * @return {number}
@@ -54499,3 +54501,4 @@ var cherryPickup = function(grid) {
     return _cherryPickup(0, 0, cols - 1)
 };
 ```
+
