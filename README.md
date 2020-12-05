@@ -38737,7 +38737,7 @@ var longestCommonSubsequence = function(text1, text2) {
         return memo[i][j]
     }
     
-    const memo = Array(text1.length).fill(0).map(a => Array(text2.length).fill(-1))
+    const memo = new Array(text1.length).fill(0).map(a => new Array(text2.length).fill(-1))
     return lCS(text1.length - 1, text2.length - 1)
 };
 
@@ -54550,5 +54550,36 @@ var cherryPickup = function(grid) {
                     .map(a => new Array(n).fill()))
     const result = _cherryPickup(0, 0, 0)
     return result === -Infinity ? 0 : result
+};
+```
+
+## 718. Maximum Length of Repeated Subarray
+```javascript
+// DP: Time - O(n^2) / Space - O(n)
+/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @return {number}
+ */
+var findLength = function(A, B) {
+    const m = A.length
+    const n = B.length
+    
+    let max = 0
+    let prev = new Array(m + 1).fill(0)
+    for (let i = 1; i <= m; i++) {
+        const curr = new Array(m + 1).fill(0)
+        for (let j = 1; j <= n; j++) {
+            if (A[i - 1] === B[j - 1]) {
+                curr[j] = 1 + prev[j - 1]
+                max = Math.max(max, curr[j])
+                continue
+            }
+            curr[j] = 0
+        }
+        prev = curr
+    }
+    
+    return max
 };
 ```
