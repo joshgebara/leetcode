@@ -54708,3 +54708,34 @@ var interpret = function(command) {
     return result.join('')
 };
 ```
+
+## 1676. Lowest Common Ancestor of a Binary Tree IV
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode[]} nodes
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function(root, nodes) {
+    const _lowestCommonAncestor = (root) => {
+        if (!root) return null
+        
+        if (uniqueNodes.has(root)) return root
+        
+        const left = _lowestCommonAncestor(root.left)
+        const right = _lowestCommonAncestor(root.right)
+        if (left && right) return root    
+        return left || right
+    }
+    
+    const uniqueNodes = new Set(nodes)    
+    return _lowestCommonAncestor(root)
+};
+```
