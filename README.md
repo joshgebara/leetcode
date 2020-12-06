@@ -54679,3 +54679,32 @@ USING(product_id)
 GROUP BY name
 ORDER BY name
 ```
+
+## 1678. Goal Parser Interpretation
+```javascript
+/**
+ * @param {string} command
+ * @return {string}
+ */
+var interpret = function(command) {
+    const result = []
+    
+    for (let i = 0; i < command.length; i++) {
+        if (command[i] === 'G') {
+            result.push('G')
+            continue
+        }
+        
+        if (command[i + 1] === ')') {
+            result.push('o')
+            i++
+            continue
+        }
+        
+        result.push('al')
+        i += 3
+    }
+    
+    return result.join('')
+};
+```
