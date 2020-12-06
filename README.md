@@ -54802,3 +54802,47 @@ UndergroundSystem.prototype.getAverageTime = function(startStation, endStation) 
  * var param_3 = obj.getAverageTime(startStation,endStation)
  */
 ```
+
+## 1136. Parallel Courses
+```javascript
+// Kahn's Algo
+/**
+ * @param {number} N
+ * @param {number[][]} relations
+ * @return {number}
+ */
+var minimumSemesters = function(N, relations) {
+    const graph = new Array(N + 1).fill().map(a => [])
+    const indegrees = new Array(N + 1).fill(0)
+    for ([u, v] of relations) {
+        graph[u].push(v)
+        indegrees[v]++
+    }
+    
+    const queue = []
+    for (let vertex = 1; vertex <= N; vertex++) {
+        if (indegrees[vertex] === 0) {
+            queue.push(vertex)
+        }
+    }
+    
+    let level = 1
+    let seen = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const vertex = queue.shift()
+            seen++
+            
+            for (const neighbor of graph[vertex]) {
+                if (--indegrees[neighbor] === 0) {
+                    queue.push(neighbor)
+                }
+            }
+        }
+        level++
+    }
+    
+    return seen === N ? level - 1 : -1
+};
+```
