@@ -54739,3 +54739,66 @@ var lowestCommonAncestor = function(root, nodes) {
     return _lowestCommonAncestor(root)
 };
 ```
+
+## 1396. Design Underground System
+```javascript
+// Note:
+// In code, the largest space taken is the checkInMap, the space complexity of checkInMap is O(# of all subway users), in a large city like NY, this could be >10m. If we remove the entry when the user checkout, the space complexity become O(# of all concurrent riding subway users), it will be much smaller. maybe around 100K. It might be possible to reduce the space complexity of checkoutMap, but since the space complexity of checkoutMap is O(# of station * # of station), # of station may be is a couple hundreds at most, so the saving might not be significant.
+
+var UndergroundSystem = function() {
+    this.startMap = new Map()
+    this.timeMap = new Map()
+};
+
+/** 
+ * @param {number} id 
+ * @param {string} stationName 
+ * @param {number} t
+ * @return {void}
+ */
+UndergroundSystem.prototype.checkIn = function(id, stationName, t) {
+    this.startMap.set(id, [stationName, t])
+};
+
+/** 
+ * @param {number} id 
+ * @param {string} stationName 
+ * @param {number} t
+ * @return {void}
+ */
+UndergroundSystem.prototype.checkOut = function(id, stationName, t) {
+    const [startStation, startTime] = this.startMap.get(id)
+    const totalTime = t - startTime
+    
+    const key = `${startStation}-${stationName}`
+    if (this.timeMap.get(key) === undefined) {
+        this.timeMap.set(key, [0, 0])
+    }
+    
+    const [sum, count] = this.timeMap.get(key)
+    this.timeMap.set(key, [sum + totalTime, count + 1])
+    this.startMap.delete(id)
+};
+
+/** 
+ * @param {string} startStation 
+ * @param {string} endStation
+ * @return {number}
+ */
+UndergroundSystem.prototype.getAverageTime = function(startStation, endStation) {
+    const key = `${startStation}-${endStation}`
+    if (this.timeMap.get(key) === undefined)
+        return 0
+    
+    const [sum, count] = this.timeMap.get(key)
+    return sum / count
+};
+
+/** 
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * var obj = new UndergroundSystem()
+ * obj.checkIn(id,stationName,t)
+ * obj.checkOut(id,stationName,t)
+ * var param_3 = obj.getAverageTime(startStation,endStation)
+ */
+```
