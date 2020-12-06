@@ -54664,3 +54664,18 @@ var maxOperations = function(nums, k) {
     return count
 };
 ```
+
+## 1677. Product's Worth Over Invoices
+```sql
+# Write your MySQL query statement below
+SELECT name, 
+       SUM(rest) AS rest, 
+       SUM(paid) AS paid, 
+       SUM(canceled) AS canceled, 
+       SUM(refunded) AS refunded
+FROM Product
+JOIN Invoice
+USING(product_id)
+GROUP BY name
+ORDER BY name
+```
