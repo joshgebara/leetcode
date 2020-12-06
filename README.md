@@ -54607,3 +54607,60 @@ var numberOfSubarrays = function(nums, k) {
 // Sliding Window: Time - O(n) / Space - O(1)
 
 ```
+
+## 1679. Max Number of K-Sum Pairs
+```javascript
+// Sort + Two Pointers: Time - O(n log n) / Space - O(1)
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var maxOperations = function(nums, k) {
+    nums.sort((a, b) => a - b)
+    
+    let count = 0
+    let i = 0
+    let j = nums.length - 1
+    
+    while (i < j) {
+        const sum = nums[i] + nums[j]
+        
+        if (sum === k) {
+            count++
+            i++
+            j--
+        } else if (sum < k) {
+            i++
+        } else {
+            j--
+        }
+    }
+    
+    return count
+};
+
+// HashMap: Time - O(n) / Space - O(n)
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var maxOperations = function(nums, k) {
+    const map = {}
+    let count = 0
+    for (const num of nums) {
+        const compliment = k - num
+        
+        if (map[compliment]) {
+            map[compliment]--
+            count++
+            continue
+        }
+        
+        map[num] = 1 + (map[num] || 0)
+    }
+    
+    return count
+};
+```
