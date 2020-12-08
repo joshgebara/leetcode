@@ -55082,3 +55082,61 @@ var insert = function(intervals, newInterval) {
     return result
 };
 ```
+
+## 468. Validate IP Address
+```javascript
+/**
+ * @param {string} IP
+ * @return {string}
+ */
+var validIPAddress = function(IP) {
+    if (validIPv4(IP)) return 'IPv4'
+    if (validIPv6(IP)) return 'IPv6'
+    return 'Neither'
+};
+
+const validIPv4 = IP => {
+    const groups = IP.split('.')
+    if (groups.length !== 4) return false
+    
+    for (const group of groups) {
+        if (!group.length || group.length > 1 && group[0] === '0') 
+            return false
+        
+        let val = 0
+        for (const char of group) {
+            if (!isDigit(char)) return false
+            val *= 10
+            val += +char
+        }
+        
+        if (val >= 256) return false
+    }
+    
+    return true
+}
+
+const validIPv6 = IP => {
+    const groups = IP.split(':')
+    if (groups.length !== 8) return false
+    
+    for (const group of groups) {
+        if (!group.length || group.length > 4) return false
+        
+        for (const char of group) {
+            if (!isDigit(char) && !isValidLetter(char)) {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+const isDigit = char => {
+    return '0' <= char && char <= '9'
+}
+
+const isValidLetter = char => {
+    return 'a' <= char.toLowerCase() && char.toLowerCase() <= 'f'
+}
+```
