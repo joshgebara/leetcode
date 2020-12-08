@@ -54980,6 +54980,7 @@ const isDigit = num => {
 
 ## 433. Minimum Genetic Mutation
 ```javascript
+// Bidirectional BFS
 /**
  * @param {string} start
  * @param {string} end
