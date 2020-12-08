@@ -54940,3 +54940,40 @@ var intToRoman = function(num) {
     return result.join('')
 };
 ```
+
+## 831. Masking Personal Information
+```javascript
+/**
+ * @param {string} S
+ * @return {string}
+ */
+var maskPII = function(S) {
+    return isEmail(S) ? maskEmail(S) : maskPhoneNumber(S)
+};
+
+const maskEmail = str => {
+    const [name, website] = str.toLowerCase().split('@')
+    const result = [name[0], '*****', name[name.length - 1], '@', website]
+    return result.join('')
+}
+
+const maskPhoneNumber = str => {
+    const digits = str.split('').filter(char => isDigit(char))
+    
+    const countryMask = ['', '+*-', '+**-', '+***-']
+    const countryCode = digits.slice(0, digits.length - 10)
+    
+    const localNumber = digits.slice(-10)
+    const lastFourDigits = localNumber.slice(-4).join('')
+    
+    return `${countryMask[countryCode.length]}***-***-${lastFourDigits}`
+}
+
+const isEmail = str => {
+    return str.split('@').length > 1
+}
+
+const isDigit = num => {
+    return '0' <= num && num <= '9'
+}
+```
