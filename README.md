@@ -55037,3 +55037,48 @@ const bfs = (queue, visited1, visited2, bankSet) => {
     return false  
 }
 ```
+
+## 57. Insert Interval
+```javascript
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} newInterval
+ * @return {number[][]}
+ */
+var insert = function(intervals, newInterval) {
+    if (!intervals.length) return [newInterval]
+    
+    const result = []
+    let inserted = false
+    let mergeStart = newInterval[0]
+    let mergeEnd = newInterval[1]
+    
+    for (let i = 0; i < intervals.length; i++) {
+        const [currStart, currEnd] = intervals[i]
+        
+        if (currEnd < mergeStart) {
+            result.push(intervals[i])
+            continue
+        }
+        
+        if (currStart > mergeEnd) {
+            if (!inserted) {
+                inserted = true
+                result.push([mergeStart, mergeEnd])
+            }
+            
+            result.push(intervals[i])
+            continue
+        }
+        
+        mergeStart = Math.min(mergeStart, currStart)
+        mergeEnd = Math.max(mergeEnd, currEnd)
+    }
+    
+    if (!inserted) {
+        result.push([mergeStart, mergeEnd])
+    }
+    
+    return result
+};
+```
