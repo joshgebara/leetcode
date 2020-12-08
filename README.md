@@ -54977,3 +54977,62 @@ const isDigit = num => {
     return '0' <= num && num <= '9'
 }
 ```
+
+## 433. Minimum Genetic Mutation
+```javascript
+/**
+ * @param {string} start
+ * @param {string} end
+ * @param {string[]} bank
+ * @return {number}
+ */
+var minMutation = function(start, end, bank) {
+    if (start === end) return 0
+    if (!bank.length) return -1
+    
+    const bankSet = new Set(bank)
+    if (!bankSet.has(end)) return -1
+    
+    const queueStart = [start]
+    const visitedStart = new Set([start])
+    
+    const queueEnd = [end]
+    const visitedEnd = new Set([end])
+    
+    let level = 0
+    while (queueStart.length && queueEnd.length) {
+        if (bfs(queueStart, visitedStart, visitedEnd, bankSet))
+            return level
+            
+        level++
+        
+        if (bfs(queueEnd, visitedEnd, visitedStart, bankSet))
+            return level
+            
+        level++
+    }
+    
+    return -1
+};
+
+const bfs = (queue, visited1, visited2, bankSet) => {
+    const size = queue.length
+    for (let i = 0; i < size; i++) {
+        const vertex = queue.shift()
+        if (visited2.has(vertex)) return true
+        
+        for (let i = 0; i < vertex.length; i++) {
+            for (const choice of 'ACGT') {
+                const neighbor = vertex.slice(0, i) + choice + vertex.slice(i + 1)
+                if (vertex === neighbor || !bankSet.has(neighbor) || visited1.has(neighbor)) 
+                    continue
+
+                visited1.add(neighbor)
+                queue.push(neighbor)
+            }
+        }
+    }
+    
+    return false  
+}
+```
