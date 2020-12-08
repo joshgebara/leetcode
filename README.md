@@ -54846,3 +54846,75 @@ var minimumSemesters = function(N, relations) {
     return seen === N ? level - 1 : -1
 };
 ```
+
+## 635. Design Log Storage System
+```javascript
+// Insert: O(1)
+// Retrieve: O(n)
+
+var LogSystem = function() {
+    this.logs = {}
+};
+
+/** 
+ * @param {number} id 
+ * @param {string} timestamp
+ * @return {void}
+ */
+LogSystem.prototype.put = function(id, timestamp) {
+    this.logs[timestamp] = id
+};
+
+/** 
+ * @param {string} start 
+ * @param {string} end 
+ * @param {string} granularity
+ * @return {number[]}
+ */
+LogSystem.prototype.retrieve = function(start, end, granularity) {
+    const trimTimestamp = (timestamp, granularity) => {
+        let endIndex = timestamp.length
+        switch (granularity) {
+            case "Year":
+                endIndex = 4
+                break
+            case "Month":
+                endIndex = 7
+                break
+            case "Day":
+                endIndex = 10
+                break
+            case "Hour":
+                endIndex = 13
+                break
+            case "Minute":
+                endIndex = 16
+                break
+            case "Second":
+                endIndex = 19
+                break
+        }
+        
+        return timestamp.slice(0, endIndex)
+    }
+    
+    const result = []
+    const startTime = trimTimestamp(start, granularity)
+    const endTime = trimTimestamp(end, granularity)
+    for (const [timestamp, id] of Object.entries(this.logs)) {
+        const currTime = trimTimestamp(timestamp, granularity)
+        if (currTime >= startTime && currTime <= endTime) {
+            result.push(id)
+        }
+    }
+    
+    return result
+};
+
+/** 
+ * Your LogSystem object will be instantiated and called as such:
+ * var obj = new LogSystem()
+ * obj.put(id,timestamp)
+ * var param_2 = obj.retrieve(start,end,granularity)
+ */
+```
