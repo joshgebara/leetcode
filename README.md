@@ -55142,3 +55142,42 @@ const isValidLetter = char => {
 }
 ```
 
+## 1540. Can Convert String in K Moves
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @param {number} k
+ * @return {boolean}
+ */
+var canConvertString = function(s, t, k) {
+    if (s.length !== t.length) return false
+    
+    const diffMap = new Array(26).fill(0) // max diff is 0 -> 25 = 26
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === t[i]) continue
+        
+        const dist = getDist(s[i], t[i])
+        if (dist > k) return false
+        diffMap[dist]++
+        
+        if (dist + 26 * (diffMap[dist] - 1) > k) 
+            return false
+    }
+    
+    return true
+};
+
+const getDist = (charFrom, charTo) => {
+    if (charFrom === charTo) return 0
+    
+    const indexFrom = charFrom.charCodeAt(0) - 'a'.charCodeAt(0) 
+    const indexTo = charTo.charCodeAt(0) - 'a'.charCodeAt(0)
+    
+    if (indexFrom > indexTo) {
+        return 26 - indexFrom + indexTo
+    } else {
+        return indexTo - indexFrom
+    }
+}
+```
