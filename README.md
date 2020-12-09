@@ -45455,8 +45455,9 @@ class Trie {
 ## 52. N-Queens II
 ```javascript
 // Backtracking + Set
-// the function for the main diagonal is y = x + b, the function for the anti diagonal is y = -x + b.
-// therefore, to know which diagonal the queen is on, we simply need the value y-x and y+x
+// the function for the main diagonal is y = mx + b, the function for the anti diagonal is y = -mx + b.
+// m is 1 and -1 respectively so equations can be simplified to y = mx + b and y = -x + b.
+// To uniquely identify a diagonal, because we know every diagonal has the same slope of 1 for diagonal and -1 for all anti diagonals, we need to know the y-intercept to identify. Therefore, to know which diagonal the queen is on, we simply need the value b = y-x and b = y+x
 /**
  * @param {number} n
  * @return {number}
@@ -55140,3 +55141,4 @@ const isValidLetter = char => {
     return 'a' <= char.toLowerCase() && char.toLowerCase() <= 'f'
 }
 ```
+
