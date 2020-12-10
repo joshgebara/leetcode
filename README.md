@@ -55406,3 +55406,44 @@ var cheapestJump = function(A, B) {
     return path
 };
 ```
+
+## 1377. Frog Position After T Seconds
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} t
+ * @param {number} target
+ * @return {number}
+ */
+var frogPosition = function(n, edges, t, target) {    
+    const dfs = (vertex, t, prob) => {
+        if (t === 0) return vertex === target ? prob : 0
+        
+        const validNeighbors = graph[vertex].filter(neighbor => !visited[neighbor])
+        if (validNeighbors.length === 0) {
+            return dfs(vertex, 0, prob)
+        }
+        
+        for (const neighbor of validNeighbors) {
+            visited[neighbor] = true
+
+            const currProb = 1 / validNeighbors.length
+            const result = dfs(neighbor, t - 1, prob * currProb)
+            if (result !== 0) return result
+        }
+        
+        return 0
+    }
+    
+    const graph = new Array(n + 1).fill().map(a => [])
+    for (const [u, v] of edges) {
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    
+    const visited = new Array(n)
+    visited[1] = true
+    return dfs(1, t, 1)
+};
+```
