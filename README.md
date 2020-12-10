@@ -55355,3 +55355,54 @@ const canReach = (dists, endIndex, bricks, ladders) => {
     return true
 }
 ```
+
+## 656. Coin Path
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} B
+ * @return {number[]}
+ */
+var cheapestJump = function(A, B) {
+    const _cheapestJump = (start) => {
+        if (A[start] === -1) {
+            return Infinity
+        }
+        
+        if (memo[start] !== undefined) {
+            return memo[start]
+        }
+        
+        if (start === A.length - 1) {
+            return 0
+        }
+        
+        let minCost = Infinity
+        let minIndex = -1
+        for (let i = start + 1; i <= Math.min(A.length - 1, start + B); i++) {
+            const result = _cheapestJump(i)
+            if (minCost > result) {
+                minCost = result
+                minIndex = i
+            }
+        }
+        
+        next[start] = minIndex
+        memo[start] = A[start] + minCost
+        return memo[start]
+    }
+    
+    const next = new Array(A.length).fill(-1)
+    const memo = new Array(A.length)
+    const result = _cheapestJump(0)
+    if (result === Infinity) {
+        return []
+    }
+    
+    const path = [1]
+    for (let i = 0; i < A.length && next[i] >= 0; i = next[i]) {
+        path.push(next[i] + 1) // result is 1 indexed
+    }
+    return path
+};
+```
