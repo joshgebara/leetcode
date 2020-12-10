@@ -55181,3 +55181,177 @@ const getDist = (charFrom, charTo) => {
     }
 }
 ```
+
+## 1642. Furthest Building You Can Reach
+```javascript
+// Heap
+/**
+ * @param {number[]} heights
+ * @param {number} bricks
+ * @param {number} ladders
+ * @return {number}
+ */
+var furthestBuilding = function(heights, bricks, ladders) {
+    const minHeap = new Heap()
+    
+    for (let i = 1; i < heights.length; i++) {
+        const diff = heights[i] - heights[i - 1]
+        if (diff <= 0) continue
+        
+        minHeap.insert(diff)
+        if (minHeap.size() > ladders) {
+            const minDist = minHeap.remove()
+            bricks -= minDist
+            
+            if (bricks < 0) return i - 1
+        }
+    }
+    
+    return heights.length - 1
+};
+
+class Heap {
+    constructor(elements = [], sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    size() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
+
+// Binary Search
+/**
+ * @param {number[]} heights
+ * @param {number} bricks
+ * @param {number} ladders
+ * @return {number}
+ */
+var furthestBuilding = function(heights, bricks, ladders) {
+    const sortedDists = []
+    for (let i = 1; i < heights.length; i++) {
+        const dist = heights[i] - heights[i - 1]
+        if (dist <= 0) continue
+        sortedDists.push([dist, i])
+    }
+    
+    sortedDists.sort((a, b) => a[0] - b[0])
+    
+    let low = 0
+    let high = heights.length - 1
+    while (low < high) {
+        const mid = Math.floor((high - low + 1) / 2) + low
+        
+        if (canReach(sortedDists, mid, bricks, ladders)) {
+            low = mid
+        } else {
+            high = mid - 1
+        }
+    }
+    
+    return low
+};
+
+const canReach = (dists, endIndex, bricks, ladders) => {
+    for (const [dist, index] of dists) {
+        if (index > endIndex) continue
+        
+        if (dist <= bricks) {
+            bricks -= dist
+        } else if (ladders > 0) {
+            ladders--
+        } else {
+            return false
+        }    
+    }
+    
+    return true
+}
+```
