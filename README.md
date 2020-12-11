@@ -55486,3 +55486,39 @@ SELECT tweet_id
 FROM Tweets
 WHERE CHAR_LENGTH(content) > 15
 ```
+
+## 316. Remove Duplicate Letters
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var removeDuplicateLetters = function(s) {
+    const map = {}
+    for (let i = 0; i < s.length; i++) {
+        map[s[i]] = i
+    }
+    
+    const stack = []
+    let used = 0
+    for (let i = 0; i < s.length; i++) {
+        while (stack.length && 
+               stack[stack.length - 1] > s[i] && 
+               map[stack[stack.length - 1]] > i && 
+               !(used & maskForChar(s[i]))) {
+            
+            used ^= maskForChar(stack[stack.length - 1])
+            stack.pop()
+        }
+        
+        if (!(used & maskForChar(s[i]))) {
+            used |= maskForChar(s[i])
+            stack.push(s[i])
+        }
+    }
+    
+    return stack.join('')
+};
+
+const maskForChar = char => 1 << (char.charCodeAt(0) - 'a'.charCodeAt(0))
+```
