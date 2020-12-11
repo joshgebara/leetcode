@@ -55596,3 +55596,39 @@ var scoreOfParentheses = function(S) {
     return sum
 };
 ```
+
+## 901. Online Stock Span
+```javascript
+
+var StockSpanner = function() {
+    this.stack = []
+    this.day = 0
+};
+
+/** 
+ * @param {number} price
+ * @return {number}
+ */
+StockSpanner.prototype.next = function(price) {
+    while (this.stack.length && price >= this.stack[this.stack.length - 1][0]) {
+        this.stack.pop()
+    }
+    
+    if (!this.stack.length) {
+        this.stack.push([price, this.day++])
+        return this.day
+    }
+    
+    const [topVal, topDay] = this.stack[this.stack.length - 1]
+    this.stack.push([price, this.day])
+    
+    const span = this.day++ - topDay
+    return span
+};
+
+/** 
+ * Your StockSpanner object will be instantiated and called as such:
+ * var obj = new StockSpanner()
+ * var param_1 = obj.next(price)
+ */
+```
