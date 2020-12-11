@@ -55478,3 +55478,11 @@ var mostCompetitive = function(nums, k) {
     return stack
 };
 ```
+
+## 1683. Invalid Tweets
+```sql
+# Write your MySQL query statement below
+SELECT tweet_id
+FROM Tweets
+WHERE CHAR_LENGTH(content) > 15
+```
