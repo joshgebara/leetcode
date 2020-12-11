@@ -41272,7 +41272,7 @@ var change = function(amount, coins) {
     return _change(0, 0)
 };
 
-Bottom Up DP
+// Bottom Up DP
 /**
  * @param {number} amount
  * @param {number[]} coins
@@ -55445,5 +55445,36 @@ var frogPosition = function(n, edges, t, target) {
     const visited = new Array(n)
     visited[1] = true
     return dfs(1, t, 1)
+};
+```
+
+## 1673. Find the Most Competitive Subsequence
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var mostCompetitive = function(nums, k) {
+    const stack = []
+    
+    for (let i = 0; i < nums.length; i++) {
+        if (!stack.length) {
+            stack.push(nums[i])
+            continue
+        }
+        
+        while (stack.length && 
+               stack[stack.length - 1] > nums[i] && 
+               nums.length - i - 1 >= k - stack.length) {
+            stack.pop()
+        }
+        
+        if (stack.length < k) {
+            stack.push(nums[i])
+        }
+    }
+    
+    return stack
 };
 ```
