@@ -55674,3 +55674,53 @@ var mergeInBetween = function(list1, a, b, list2) {
     return list1
 };
 ```
+
+## 1634. Add Two Polynomials Represented as Linked Lists
+```javascript
+/**
+ * Definition for polynomial singly-linked list.
+ * function PolyNode(x=0, y=0, next=null) {
+ *     this.coefficient = x;
+ *     this.power = y;
+ *     this.next = next;
+ * }
+ */
+
+/**
+ * @param {PolyNode} poly1
+ * @param {PolyNode} poly2
+ * @return {PolyNode}
+ */
+var addPoly = function(poly1, poly2) {
+    const dummy = new PolyNode(NaN, NaN)
+    let curr = dummy
+    
+    while (poly1 && poly2) {
+        if (poly1.power < poly2.power) {
+            curr.next = poly2
+            curr = curr.next
+            poly2 = poly2.next
+        } else if (poly1.power > poly2.power) {
+            curr.next = poly1
+            curr = curr.next
+            poly1 = poly1.next
+        } else {
+            if (poly1.coefficient + poly2.coefficient !== 0) {
+                const sum = poly1.coefficient + poly2.coefficient
+                curr.next = new PolyNode(sum, poly1.power)
+                curr = curr.next
+            }
+            
+            poly1 = poly1.next
+            poly2 = poly2.next
+        }
+    }
+    
+    curr.next = null
+  
+    if (poly1) curr.next = poly1
+    if (poly2) curr.next = poly2
+    
+    return dummy.next
+};
+```
