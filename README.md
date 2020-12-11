@@ -55632,3 +55632,45 @@ StockSpanner.prototype.next = function(price) {
  * var param_1 = obj.next(price)
  */
 ```
+
+## 1669. Merge In Between Linked Lists
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} list1
+ * @param {number} a
+ * @param {number} b
+ * @param {ListNode} list2
+ * @return {ListNode}
+ */
+var mergeInBetween = function(list1, a, b, list2) {
+    let curr = list1
+    let i = 1
+    while (i < a && curr) {
+        curr = curr.next
+        i++
+    }
+    
+    let prevA = curr
+    while (i <= b + 1 && curr) {
+        curr = curr.next
+        i++
+    }
+    
+    let nextB = curr
+    prevA.next = list2
+    curr = prevA
+    while (curr && curr.next) {
+        curr = curr.next
+    }
+    
+    curr.next = nextB
+    return list1
+};
+```
