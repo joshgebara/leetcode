@@ -55558,3 +55558,41 @@ var smallestSubsequence = function(s) {
 
 const maskForChar = char => 1 << (char.charCodeAt(0) - 'a'.charCodeAt(0))
 ```
+
+## 856. Score of Parentheses
+```javascript
+/**
+ * @param {string} S
+ * @return {number}
+ */
+var scoreOfParentheses = function(S) {
+    const stack = []
+    let score = 0
+    for (const char of S) {
+        if (char === '(') {
+            stack.push(char)
+            continue
+        }
+        
+        if (stack[stack.length - 1] === '(') {
+            stack.pop()
+            stack.push(1)
+            continue
+        }
+        
+        let sum = 0
+        while (stack[stack.length - 1] !== '(') {
+            sum += stack.pop()
+        }
+
+        stack.pop()
+        stack.push(2 * sum)
+    }
+    
+    let sum = 0
+    while (stack.length) {
+        sum += stack.pop()
+    }
+    return sum
+};
+```
