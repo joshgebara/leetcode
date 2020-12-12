@@ -55757,3 +55757,56 @@ const maskForStr = str => {
 
 const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ```
+
+## 957. Prison Cells After N Days
+```javascript
+/**
+ * @param {number[]} cells
+ * @param {number} N
+ * @return {number[]}
+ */
+var prisonAfterNDays = function(cells, N) {
+    const size = cells.length
+    const memo = []
+    
+    let state = arrToBin(cells, size)
+    while (N--) { // Day 0 can't be part of cycle
+        state = getNextState(state)
+        
+        if (memo[0] === state) { // Has reached beginning of cycle
+            const cycleSize = memo.length
+            const finalState = memo[N % cycleSize]
+            return binToArr(finalState, size)
+        }
+        
+        memo.push(state)
+    }
+    
+    return binToArr(state, size)
+};
+
+/*
+Bit Operation Explanation:
+https://leetcode.com/problems/prison-cells-after-n-days/discuss/718530/C%2B%2B-bitwise-operations-%2B-cycle-detection-or-explanation-on-bit-operations
+*/
+
+const getNextState = state => {
+    return ~((state << 1) ^ (state >> 1)) & 0b01111110
+}
+
+const binToArr = (bin, size) => {
+    const arr = new Array(size)
+    for (let i = 0; i < size; i++) {
+        arr[i] = bin & 1 << (size - i - 1) ? 1 : 0
+    }
+    return arr
+}
+
+const arrToBin = (arr, size) => {
+    let bin = 0
+    for (let i = 0; i < arr.length; i++) {
+        bin |= arr[i] << (size - i - 1)
+    }
+    return bin
+}
+```
