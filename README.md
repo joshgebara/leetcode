@@ -55810,3 +55810,54 @@ const arrToBin = (arr, size) => {
     return bin
 }
 ```
+
+## 895. Maximum Frequency Stack
+```javascript
+
+var FreqStack = function() {
+    this.eleToFreqMap = {}
+    this.freqToEleMap = {}
+    this.maxFreq = 0
+};
+
+/** 
+ * @param {number} x
+ * @return {void}
+ */
+FreqStack.prototype.push = function(x) {
+    this.eleToFreqMap[x] = 1 + (this.eleToFreqMap[x] || 0)
+    
+    const currFreq = this.eleToFreqMap[x]
+    if (currFreq > this.maxFreq) {
+        this.maxFreq = currFreq
+    }
+    
+    if (this.freqToEleMap[currFreq] === undefined) {
+        this.freqToEleMap[currFreq] = []
+    }
+    
+    this.freqToEleMap[currFreq].push(x)
+};
+
+/**
+ * @return {number}
+ */
+FreqStack.prototype.pop = function() {
+    const ele = this.freqToEleMap[this.maxFreq].pop()
+    this.eleToFreqMap[ele]--
+    
+    if (this.freqToEleMap[this.maxFreq].length === 0) {
+        this.freqToEleMap[this.maxFreq]
+        this.maxFreq--
+    }
+    
+    return ele
+};
+
+/** 
+ * Your FreqStack object will be instantiated and called as such:
+ * var obj = new FreqStack()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ */
+```
