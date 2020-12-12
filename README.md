@@ -55997,7 +55997,7 @@ var findPoisonedDuration = function(timeSeries, duration) {
             prevStart = currStart
         }
         
-        prevEnd = Math.max(prevEnd, currEnd)
+        prevEnd = currEnd
     }
     
     totalTime += prevEnd - prevStart + 1
