@@ -55724,3 +55724,36 @@ var addPoly = function(poly1, poly2) {
     return dummy.next
 };
 ```
+
+## 1684. Count the Number of Consistent Strings
+```javascript
+/**
+ * @param {string} allowed
+ * @param {string[]} words
+ * @return {number}
+ */
+var countConsistentStrings = function(allowed, words) {
+    const allowedMask = maskForStr(allowed)
+    
+    let count = 0
+    for (const word of words) {
+        const wordMask = maskForStr(word)
+        if ((allowedMask | wordMask) === allowedMask) {
+            count++
+        }
+    }
+    
+    return count
+};
+
+const maskForStr = str => {
+    let mask = 0
+    for (const char of str) {
+        const index = indexForChar(char)
+        mask |= 1 << index
+    }
+    return mask
+}
+
+const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+```
