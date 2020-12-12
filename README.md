@@ -55946,3 +55946,30 @@ class TrieNode {
 
 const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ```
+
+## 1578. Minimum Deletion Cost to Avoid Repeating Letters
+```javascript
+/**
+ * @param {string} s
+ * @param {number[]} cost
+ * @return {number}
+ */
+var minCost = function(s, cost) {
+    let min = 0
+    let currChar = ''
+    let currCharMaxCost = 0
+    for (let i = 0; i <= s.length; i++) {
+        min += (cost[i] || 0)
+        
+        if (s[i] !== currChar) {
+            min -= currCharMaxCost    
+            currChar = s[i]
+            currCharMaxCost = cost[i]
+        } else {
+            currCharMaxCost = Math.max(currCharMaxCost, cost[i])
+        }
+    }
+    
+    return min
+};
+```
