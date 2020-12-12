@@ -55861,3 +55861,88 @@ FreqStack.prototype.pop = function() {
  * var param_2 = obj.pop()
  */
 ```
+
+## 1268. Search Suggestions System
+```javascript
+/**
+ * @param {string[]} products
+ * @param {string} searchWord
+ * @return {string[][]}
+ */
+var suggestedProducts = function(products, searchWord) {
+    const k = 3
+    const trie = new Trie(products)
+    
+    const result = []
+    let prefix = []
+    for (const char of searchWord) {
+        prefix.push(char)
+        result.push(trie.getKWords(prefix, k))
+    }
+    
+    return result
+};
+
+class Trie {
+    constructor(words) {
+        this.root = new TrieNode('')
+        
+        if (words.length) {
+            for (const word of words) {
+                this.insert(word)
+            }
+        }
+    }
+    
+    insert(word) {
+        let curr = this.root
+        for (const char of word) {
+            const index = indexForChar(char)
+            if (curr.children[index] === undefined) {
+                curr.children[index] = new TrieNode(char)
+            }
+            curr = curr.children[index]
+        }
+        
+        curr.word = word
+    }
+    
+    getKWords(prefix, k) {
+        let curr = this.root
+        for (const char of prefix) {
+            const index = indexForChar(char)
+            if (curr.children[index] === undefined) {
+                return []
+            }
+            curr = curr.children[index]
+        }
+        
+        const result = []
+        this._dfs(curr, result, k)
+        return result
+    }
+    
+    _dfs(trieNode, result, k) {
+        if (result.length === k) return
+        
+        if (trieNode.word !== '') {
+            result.push(trieNode.word)
+        }
+        
+        for (const child of trieNode.children) {
+            if (child === undefined) continue
+            this._dfs(child, result, k)
+        }       
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = new Array(26)
+        this.word = ''
+    }
+}
+
+const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+```
