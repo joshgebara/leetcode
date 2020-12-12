@@ -55973,3 +55973,34 @@ var minCost = function(s, cost) {
     return min
 };
 ```
+
+## 495. Teemo Attacking
+```javascript
+/**
+ * @param {number[]} timeSeries
+ * @param {number} duration
+ * @return {number}
+ */
+var findPoisonedDuration = function(timeSeries, duration) {
+    if (!timeSeries.length) return 0
+    
+    let totalTime = 0
+    let prevStart = timeSeries[0]
+    let prevEnd = prevStart + duration - 1
+    
+    for (let i = 1; i < timeSeries.length; i++) {
+        const currStart = timeSeries[i]
+        const currEnd = timeSeries[i] + duration - 1
+        
+        if (currStart > prevEnd) {
+            totalTime += prevEnd - prevStart + 1
+            prevStart = currStart
+        }
+        
+        prevEnd = Math.max(prevEnd, currEnd)
+    }
+    
+    totalTime += prevEnd - prevStart + 1
+    return totalTime
+};
+```
