@@ -56162,6 +56162,12 @@ var colorBorder = function(grid, r0, c0, color) {
  */
 var makesquare = function(nums) {
     const _makesquare = (i) => {
+        // if first 3 all equal target then last has to as well
+        // because sum % 4 === 0 check already happened
+        if (sums[0] === targetSum && 
+            sums[1] === targetSum && 
+            sums[2] === targetSum) return true 
+        
         if (i >= nums.length) {
             return sums[0] === sums[1] && 
                    sums[1] === sums[2] && 
@@ -56197,4 +56203,7 @@ var makesquare = function(nums) {
     const sums = new Array(4).fill(0)
     return _makesquare(0)
 };
+
+// DP - O(n * 2^n)
+
 ```
