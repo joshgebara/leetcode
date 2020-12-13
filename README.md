@@ -56240,3 +56240,47 @@ var flipBinaryTree = function(root, leaf) {
     return process(leaf, null)
 };
 ```
+
+## 1339. Maximum Product of Splitted Binary Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxProduct = function(root) {
+    const MOD = 10 ** 9 + 7
+    const totalSum = getSum(root)
+    return getMax(root, totalSum) % MOD
+};
+
+const getSum = node => {
+    if (!node) return 0
+    return node.val + getSum(node.left) + getSum(node.right)
+}
+
+const getMax = (root, totalSum) => {
+    const dfs = node => {
+        if (!node) return 0
+        
+        const sum = node.val + dfs(node.left) + dfs(node.right)
+        const split1 = totalSum - sum
+        const split2 = sum
+        const product = split1 * split2
+        
+        max = Math.max(max, product)
+        return sum
+    }
+    
+    let max = 0
+    dfs(root)
+    return max
+}
+```
