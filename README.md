@@ -56065,3 +56065,14 @@ var numberOfMatches = function(n) {
     return matches
 };
 ```
+
+## 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
+```javascript
+/**
+ * @param {string} n
+ * @return {number}
+ */
+var minPartitions = function(n) {
+    return Math.max(...n)
+};
+```
