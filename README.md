@@ -56205,3 +56205,38 @@ var makesquare = function(nums) {
 };
 ```
 
+## 1666. Change the Root of a Binary Tree
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val) {
+ *    this.val = val;
+ *    this.left = null;
+ *    this.right = null;
+ *    this.parent = null;
+ * };
+ */
+
+/**
+ * @param {Node} node
+ * @return {Node}
+ */
+var flipBinaryTree = function(root, leaf) {
+    const process = (node, newParent) => {
+        const oldParent = node.parent
+        node.parent = newParent
+        
+        if (node.left === newParent) node.left = null
+        if (node.right === newParent) node.right = null
+        
+        if (node === root) return node
+        
+        if (node.left != null) node.right = node.left
+        node.left = process(oldParent, node)
+
+        return node
+    }
+    
+    return process(leaf, null)
+};
+```
