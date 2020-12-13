@@ -56076,3 +56076,30 @@ var minPartitions = function(n) {
     return Math.max(...n)
 };
 ```
+
+## 974. Subarray Sums Divisible by K
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} K
+ * @return {number}
+ */
+var subarraysDivByK = function(A, K) {
+    const remainders = new Array(K).fill(0)
+    remainders[0] = 1
+    
+    let count = 0
+    let sum = 0
+    for (const num of A) {
+        sum += num
+        
+        let rem = sum % K
+        if (rem < 0) rem += K
+        
+        count += remainders[rem]
+        remainders[rem]++
+    }
+    
+    return count
+};
+```
