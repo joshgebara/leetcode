@@ -56004,3 +56004,68 @@ var findPoisonedDuration = function(timeSeries, duration) {
     return totalTime
 };
 ```
+
+## 117. Populating Next Right Pointers in Each Node II
+```javascript
+// BFS
+/**
+ * // Definition for a Node.
+ * function Node(val, left, right, next) {
+ *    this.val = val === undefined ? null : val;
+ *    this.left = left === undefined ? null : left;
+ *    this.right = right === undefined ? null : right;
+ *    this.next = next === undefined ? null : next;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {Node}
+ */
+var connect = function(root) {
+    if (!root) return root
+    
+    const queue = [root]
+    
+    while (queue.length) {
+        const size = queue.length
+        let prev = null
+        for (let i = 0; i < size; i++) {
+            const curr = queue.shift()
+            
+            if (prev) prev.next = curr
+            prev = curr
+            
+            if (curr.left) queue.push(curr.left)
+            if (curr.right) queue.push(curr.right)
+        }
+    }
+    
+    return root
+};
+
+// DFS
+
+```
+
+## 1688. Count of Matches in Tournament
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numberOfMatches = function(n) {
+    let matches = 0
+    while (n > 1) {
+        if (n % 2 === 0) {
+            matches += n / 2
+            n /= 2
+        } else {
+            matches += (n - 1) / 2
+            n = (n - 1) / 2 + 1
+        }
+    }
+    
+    return matches
+};
+```
