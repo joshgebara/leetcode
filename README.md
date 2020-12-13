@@ -56152,3 +56152,49 @@ var colorBorder = function(grid, r0, c0, color) {
     return grid
 };
 ```
+
+## 473. Matchsticks to Square
+```javascript
+// Backtracking - O(4^n)
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var makesquare = function(nums) {
+    const _makesquare = (i) => {
+        if (i >= nums.length) {
+            return sums[0] === sums[1] && 
+                   sums[1] === sums[2] && 
+                   sums[2] === sums[3]
+        }
+        
+        for (let k = 0; k < sums.length; k++) {
+            if (sums[k] + nums[i] > targetSum) continue
+            sums[k] += nums[i]
+            if (_makesquare(i + 1)) return true    
+            sums[k] -= nums[i]
+        }
+        
+        return false
+    }
+    
+    if (!nums.length) return []
+    
+    let totalSum = 0
+    for (const num of nums) {
+        totalSum += num
+    }
+    
+    if (totalSum % 4 !== 0) 
+        return false
+    
+    const targetSum = totalSum / 4
+    for (const num of nums) {
+        if (num > targetSum) return false
+    }
+    
+    nums.sort((a, b) => b - a)
+    const sums = new Array(4).fill(0)
+    return _makesquare(0)
+};
+```
