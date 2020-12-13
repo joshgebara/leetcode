@@ -56103,3 +56103,52 @@ var subarraysDivByK = function(A, K) {
     return count
 };
 ```
+
+## 1034. Coloring A Border
+```javascript
+/**
+ * @param {number[][]} grid
+ * @param {number} r0
+ * @param {number} c0
+ * @param {number} color
+ * @return {number[][]}
+ */
+var colorBorder = function(grid, r0, c0, color) {
+    const dfs = (row, col) => {
+        let onBorder = false
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = row + deltaRow
+            const nextCol = col + deltaCol
+            
+            if (nextRow < 0 || nextCol < 0 || 
+                nextRow >= m || nextCol >= n || 
+                grid[nextRow][nextCol] !== grid[row][col]) {
+                onBorder = true
+                continue
+            }
+            
+            if (visited[nextRow][nextCol]) continue
+            visited[nextRow][nextCol] = 1
+            dfs(nextRow, nextCol)
+        }
+        
+        if (onBorder) borderCoordinates.push([row, col])
+    }
+    
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    const m = grid.length
+    const n = grid[0].length
+    
+    const visited = new Array(m).fill().map(a => new Array(n).fill(0))
+    visited[r0][c0] = 1
+    
+    const borderCoordinates = []
+    dfs(r0, c0)
+    
+    for (const [row, col] of borderCoordinates) {
+        grid[row][col] = color
+    }
+    
+    return grid
+};
+```
