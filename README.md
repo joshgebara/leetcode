@@ -56203,7 +56203,5 @@ var makesquare = function(nums) {
     const sums = new Array(4).fill(0)
     return _makesquare(0)
 };
-
-// DP - O(n * 2^n)
-
 ```
+
