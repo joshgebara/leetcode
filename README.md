@@ -56294,7 +56294,7 @@ const getMax = (root, totalSum) => {
  * @return {number}
  */
 var findRotateSteps = function(ring, key) {
-    const _findRotateSteps = (i, j, dir) => {
+    const _findRotateSteps = (i, j) => {
         if (j >= key.length) return 0
         
         if (memo[i][j] !== undefined) {
