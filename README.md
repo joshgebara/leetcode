@@ -56284,3 +56284,49 @@ const getMax = (root, totalSum) => {
     return max
 }
 ```
+
+## 514. Freedom Trail
+```javascript
+// Top Down DP = O(K * R^2)
+/**
+ * @param {string} ring
+ * @param {string} key
+ * @return {number}
+ */
+var findRotateSteps = function(ring, key) {
+    const _findRotateSteps = (i, j, dir) => {
+        if (j >= key.length) return 0
+        
+        if (memo[i][j] !== undefined) {
+            return memo[i][j]
+        }
+        
+        let min = Infinity
+        
+        const charIndex = indexForChar(key[j])
+        for (const position of positions[charIndex]) {
+            const leftDist = Math.abs(position - i)
+            const rightDist = ring.length - leftDist
+            const minDist = Math.min(leftDist, rightDist)
+            min = Math.min(min, 1 + minDist + _findRotateSteps(position, j + 1))
+        }
+        
+        memo[i][j] = min
+        return min
+    }
+    
+    const m = ring.length
+    const n = key.length
+    const memo = new Array(m).fill().map(a => new Array(n).fill())
+    
+    const positions = new Array(26).fill().map(a => [])
+    for (let i = 0; i < ring.length; i++) {
+        const charIndex = indexForChar(ring[i])
+        positions[charIndex].push(i)
+    }
+    
+    return _findRotateSteps(0, 0)
+};
+
+const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+```
