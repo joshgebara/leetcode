@@ -56355,7 +56355,6 @@ var containsCycle = function(grid) {
 
 const isCyclic = (row, col, grid, visited) => {
     const dfs = (row, col, prevRow, prevCol) => {
-        if (visited[row][col]) return true
         visited[row][col] = true
         
         for (const [deltaRow, deltaCol] of dirs) {
@@ -56371,9 +56370,11 @@ const isCyclic = (row, col, grid, visited) => {
             if (nextRow === prevRow && nextCol === prevCol)
                 continue
             
-            if (dfs(nextRow, nextCol, row, col)) {
+            if (visited[nextRow][nextCol]) 
                 return true
-            }
+            
+            if (dfs(nextRow, nextCol, row, col))
+                return true
         }
         
         return false
