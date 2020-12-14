@@ -56387,3 +56387,67 @@ const isCyclic = (row, col, grid, visited) => {
     return dfs(row, col, -1, -1)
 }
 ```
+
+## 968. Binary Tree Cameras
+```javascript
+// Top Down DP
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minCameraCover = function(root) {
+    const dfs = (node, nodeSet, parentSet) => {
+        if (!node) return nodeSet ? Infinity : 0
+        
+        if (!node.left && !node.right) {
+            if (nodeSet) return 1
+            if (parentSet) return 0
+            return Infinity
+        }
+        
+        if (ids.get(node) === undefined) {
+            ids.set(node, id++)
+        }
+        
+        const nodeID = ids.get(node)
+        if (memo[nodeID][nodeSet][parentSet] !== undefined) {
+            return memo[nodeID][nodeSet][parentSet]
+        }
+        
+        if (nodeSet) {
+            const leftMin = Math.min(dfs(node.left, 1, 1), dfs(node.left, 0, 1))
+            const rightMin = Math.min(dfs(node.right, 1, 1), dfs(node.right, 0, 1))
+            memo[nodeID][nodeSet][parentSet] = 1 + leftMin + rightMin
+            return memo[nodeID][nodeSet][parentSet]
+        }
+        
+        if (parentSet) {
+            const leftMin = Math.min(dfs(node.left, 1, 0), dfs(node.left, 0, 0))
+            const rightMin = Math.min(dfs(node.right, 1, 0), dfs(node.right, 0, 0))
+            memo[nodeID][nodeSet][parentSet] = leftMin + rightMin
+            return memo[nodeID][nodeSet][parentSet]
+        }
+        
+        const op1 = dfs(node.left, 1, 0) + Math.min(dfs(node.right, 0, 0), dfs(node.right, 1, 0))
+        const op2 = dfs(node.right, 1, 0) + Math.min(dfs(node.left, 0, 0), dfs(node.left, 1, 0))
+        memo[nodeID][nodeSet][parentSet] = Math.min(op1, op2)
+        return memo[nodeID][nodeSet][parentSet]
+    }
+    
+    const ids = new WeakMap()
+    let id = 0
+    
+    const memo = new Array(1001).fill()
+                        .map(a => new Array(2).fill()
+                        .map(a => new Array(2)))
+    return Math.min(dfs(root, 1, 0), dfs(root, 0, 0))
+};
+```
