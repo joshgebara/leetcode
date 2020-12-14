@@ -56330,3 +56330,59 @@ var findRotateSteps = function(ring, key) {
 
 const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ```
+
+## 1559. Detect Cycles in 2D Grid
+```javascript
+/**
+ * @param {character[][]} grid
+ * @return {boolean}
+ */
+var containsCycle = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    const visited = new Array(m).fill().map(a => new Array(n).fill(false))
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (!visited[row][col] && isCyclic(row, col, grid, visited)) {
+                return true
+            }
+        }
+    }
+    
+    return false
+};
+
+const isCyclic = (row, col, grid, visited) => {
+    const dfs = (row, col, prevRow, prevCol) => {
+        if (visited[row][col]) return true
+        visited[row][col] = true
+        
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = row + deltaRow
+            const nextCol = col + deltaCol
+            
+            if (nextRow < 0 || nextCol < 0 || nextRow >= m || nextCol >= n)
+                continue
+            
+            if (grid[nextRow][nextCol] !== color)
+                continue
+            
+            if (nextRow === prevRow && nextCol === prevCol)
+                continue
+            
+            if (dfs(nextRow, nextCol, row, col)) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    const m = grid.length
+    const n = grid[0].length
+    const color = grid[row][col]
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    return dfs(row, col, -1, -1)
+}
+```
