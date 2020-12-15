@@ -56451,3 +56451,50 @@ var minCameraCover = function(root) {
     return Math.min(dfs(root, 1, 0), dfs(root, 0, 0))
 };
 ```
+
+## 679. 24 Game
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var judgePoint24 = function(nums) {
+    const _judgePoint24 = (nums) => {
+        if (nums.length === 1) {
+            return Math.abs(nums[0] - 24) < 0.001
+        }
+        
+        for (let i = 0; i < nums.length; i++) {
+            for (let j = i + 1; j < nums.length; j++) {
+                const operations = [nums[i] + nums[j], 
+                                    nums[i] - nums[j], 
+                                    nums[j] - nums[i], 
+                                    nums[i] * nums[j]]
+                
+                if (nums[j] !== 0) operations.push(nums[i] / nums[j])
+                if (nums[i] !== 0) operations.push(nums[j] / nums[i])
+                
+                const result = []
+                for (let k = 0; k < nums.length; k++) {
+                    if (k === i || k === j) continue
+                    result.push(nums[k])
+                }
+                
+                for (const operation of operations) {
+                    result.push(operation)
+                    
+                    if (_judgePoint24(result)) {
+                        return true
+                    }
+                    
+                    result.pop()
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    return _judgePoint24(nums)
+};
+```
