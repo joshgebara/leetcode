@@ -56500,3 +56500,127 @@ var judgePoint24 = function(nums) {
     return _judgePoint24(nums)
 };
 ```
+
+## 1489. Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree
+```javascript
+// Time: O(E^2)
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {number[][]}
+ */
+var findCriticalAndPseudoCriticalEdges = function(n, edges) {
+    const sortedEdges = bucketSort(edges)
+    const mstCost = kruskals(n, sortedEdges, null, null)
+    
+    const critical = []
+    const pseudoCritical = []
+    for (let i = 0; i < edges.length; i++) {
+        const edge = edges[i]
+        const excludeCost = kruskals(n, sortedEdges, null, edge)
+        if (excludeCost !== mstCost) {
+            critical.push(i)
+            continue
+        }
+        
+        const includeCost = kruskals(n, sortedEdges, edge, null)
+        if (includeCost > mstCost) {
+            continue
+        }
+        
+        pseudoCritical.push(i)
+    }
+    
+    return [critical, pseudoCritical]
+};
+
+const kruskals = (n, edges, includedEdge, excludedEdge) => {
+    let cost = 0
+    const unionFind = new UnionFind(n)
+    
+    if (includedEdge) {
+        const [u, v, weight] = includedEdge
+        unionFind.union(u, v)
+        cost += weight
+    }
+    
+    for (const edge of edges) {
+        if (edge === excludedEdge) continue
+        
+        const [u, v, weight] = edge
+        if (unionFind.connected(u, v)) continue
+        cost += weight
+        unionFind.union(u, v)
+    }
+    
+    return cost
+}
+
+class UnionFind {
+    constructor(size) {
+        this.sizes = new Array(size).fill(1)
+        this.parents = new Array(size)
+        for (let i = 0; i < size; i++) {
+            this.parents[i] = i
+        }
+    }
+    
+    union(u, v) {
+        const uRoot = this.find(u)
+        const vRoot = this.find(v)
+        
+        if (uRoot === vRoot) return
+        
+        if (this.sizes[uRoot] < this.sizes[vRoot]) {
+            this.sizes[vRoot] += this.sizes[uRoot]
+            this.parents[uRoot] = vRoot
+        } else {
+            this.sizes[uRoot] += this.sizes[vRoot]
+            this.parents[vRoot] = uRoot
+        }
+    }
+    
+    find(u) {
+        let root = u
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (u !== root) {
+            const next = this.parents[u]
+            this.parents[u] = root
+            u = next
+        }
+        
+        return root
+    }
+    
+    connected(u, v) {
+        return this.find(u) === this.find(v)
+    }
+}
+
+const bucketSort = edges => {
+    const buckets = new Array(1001)
+    for (const edge of edges) {
+        const weight = edge[2]
+        
+        if (!buckets[weight]) {
+            buckets[weight] = []
+        }
+        
+        buckets[weight].push(edge)
+    }
+    
+    const result = []
+    for (let i = 0; i < buckets.length; i++) {
+        if (!buckets[i]) continue
+        
+        for (const edge of buckets[i]) {
+            result.push(edge)
+        }
+    }
+    
+    return result
+} 
+```
