@@ -56460,8 +56460,10 @@ var minCameraCover = function(root) {
  */
 var judgePoint24 = function(nums) {
     const _judgePoint24 = (nums) => {
-        if (nums.length === 1) {
-            return Math.abs(nums[0] - 24) < 0.001
+        if (nums.length === 1) 
+            // To deal with floating point rounding errors we need to check within range of 0.001
+            // For example: 8 / 3 = 2.666666 repeating but in floating point is 2.6666666666666665
+            return Math.abs(nums[0] - 24) < 0.001 
         }
         
         for (let i = 0; i < nums.length; i++) {
