@@ -56688,3 +56688,72 @@ const formatNodeLevels = s => {
     return nodeLevels
 }
 ```
+
+## 1516. Move Sub-Tree of N-Ary Tree
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val === undefined ? 0 : val;
+ *    this.children = children === undefined ? [] : children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @param {Node} p
+ * @param {Node} q
+ * @return {Node}
+ */
+var moveSubTree = function(root, p, q) {
+    const parentMap = getParents(root)
+    if (parentMap.get(p) === q) return root
+    
+    q.children.push(p)
+    
+    if (isDescendent(q, p, parentMap)) {
+        const qParent = parentMap.get(q)
+        qParent.children = qParent.children.filter(child => child !== q)
+        
+        const pParent = parentMap.get(p)
+        if (!pParent) return q
+        
+        for (let i = 0; i < pParent.children.length; i++) {
+            if (pParent.children[i] === p) {
+                pParent.children[i] = q
+                break
+            }
+        }
+        
+        return root
+    }
+    
+    const pParent = parentMap.get(p)
+    pParent.children = pParent.children.filter(child => child !== p)
+    return root
+};
+
+const isDescendent = (node1, node2, parentMap) => {
+    while (node1) {
+        node1 = parentMap.get(node1)
+        if (node1 === node2) return true
+    }
+    return false
+}
+
+const getParents = root => {
+    const _getParents = (node, parent) => {
+        if (!node) return
+        
+        parentMap.set(node, parent)
+        
+        for (const child of node.children) {
+            _getParents(child, node)
+        }
+    }
+    
+    const parentMap = new Map()
+    _getParents(root, null)
+    return parentMap
+}
+```
