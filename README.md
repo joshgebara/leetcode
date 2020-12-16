@@ -56624,3 +56624,67 @@ const bucketSort = edges => {
     return result
 } 
 ```
+
+## 1028. Recover a Tree From Preorder Traversal
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {string} S
+ * @return {TreeNode}
+ */
+var recoverFromPreorder = function(S) {
+    const _recoverFromPreorder = () => {
+        const [currVal, currLevel] = nodeLevels[i++]
+        const node = new TreeNode(currVal)
+        
+        // Left
+        if (i >= nodeLevels.length) return node
+        const [nextLeftVal, nextLeftLevel] = nodeLevels[i]
+        if (nextLeftLevel <= currLevel) return node
+        node.left = _recoverFromPreorder()
+        
+        // Right
+        if (i >= nodeLevels.length) return node
+        const [nextRightVal, nextRightLevel] = nodeLevels[i]
+        if (nextRightLevel <= currLevel) return node
+        node.right = _recoverFromPreorder()
+        
+        return node
+    }
+    
+    let i = 0
+    const nodeLevels = formatNodeLevels(S)
+    return _recoverFromPreorder()
+};
+
+const formatNodeLevels = s => {
+    const nodeLevels = []
+    
+    let i = 0
+    while (i < s.length) {
+        let currLevel = 0
+        while (s[i] === '-') {
+            currLevel++
+            i++
+        }
+        
+        let val = 0
+        while (s[i] >= '0' && s[i] <= '9') {
+            val *= 10
+            val += +s[i]
+            i++
+        }
+        
+        nodeLevels.push([val, currLevel])
+    }
+    
+    return nodeLevels
+}
+```
