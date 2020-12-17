@@ -56841,3 +56841,37 @@ var minAreaRect = function(points) {
     return minArea === Infinity ? 0 : minArea
 };
 ```
+
+## 954. Array of Doubled Pairs
+```javascript
+/**
+ * @param {number[]} A
+ * @return {boolean}
+ */
+var canReorderDoubled = function(A) {
+    A.sort((a, b) => {
+        if (Math.abs(a) === Math.abs(b)) {
+            return a - b
+        }
+        
+        return Math.abs(a) - Math.abs(b)
+    })
+    
+    let j = 0
+    for (let i = 0; i < A.length; i++) {
+        if (A[i] === null) continue
+        
+        while (j < A.length && A[j] !== 2 * A[i]) {
+            j++
+        }
+        
+        if (j >= A.length) {
+            return false
+        }
+        
+        A[j] = null
+    }
+    
+    return true
+};
+```
