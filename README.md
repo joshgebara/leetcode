@@ -56786,3 +56786,25 @@ var insertIntoMaxTree = function(root, val) {
     return root
 };
 ```
+
+## 554. Brick Wall
+```javascript
+/**
+ * @param {number[][]} wall
+ * @return {number}
+ */
+var leastBricks = function(wall) {
+    const edges = {}
+    let max = 0
+    for (let i = 0; i < wall.length; i++) {
+        let sumWidth = 0
+        for (let j = 0; j < wall[i].length - 1; j++) {
+            sumWidth += wall[i][j]
+            edges[sumWidth] = 1 + (edges[sumWidth] || 0)
+            max = Math.max(max, edges[sumWidth])
+        }
+    }
+    
+    return wall.length - max
+};
+```
