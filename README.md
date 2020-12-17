@@ -56808,3 +56808,36 @@ var leastBricks = function(wall) {
     return wall.length - max
 };
 ```
+
+## 939. Minimum Area Rectangle
+```javascript
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var minAreaRect = function(points) {
+    const seen = new Set()
+    for (const point of points) {
+        const [x, y] = point
+        seen.add(`${x}-${y}`)
+    }
+    
+    let minArea = Infinity
+    for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+            const [x1, y1] = points[i]
+            const [x2, y2] = points[j]
+            
+            if (x1 === x2 || y1 === y2) continue
+            
+            if (seen.has(`${x1}-${y2}`) && seen.has(`${x2}-${y1}`)) {
+                const height = Math.abs(y2 - y1)
+                const width = Math.abs(x2 - x1)
+                minArea = Math.min(minArea, height * width)
+            }
+        }
+    }
+    
+    return minArea === Infinity ? 0 : minArea
+};
+```
