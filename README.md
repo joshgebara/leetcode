@@ -56908,3 +56908,27 @@ var displayTable = function(orders) {
     return [header, ...Object.values(tableMap)]
 };
 ```
+
+## 525. Contiguous Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMaxLength = function(nums) {
+    const map = { 0: -1 }
+    let max = 0
+    let prefix = 0
+    for (let i = 0; i < nums.length; i++) {
+        prefix += nums[i] ? 1 : -1
+        
+        if (map[prefix] !== undefined) {
+            max = Math.max(max, i - map[prefix])
+        } else {
+            map[prefix] = i
+        }
+    }
+    
+    return max
+};
+```
