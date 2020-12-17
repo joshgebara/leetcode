@@ -56984,3 +56984,50 @@ const twoProduct = (target, nums) => {
     return count
 }
 ```
+
+## 1476. Subrectangle Queries
+```javascript
+/**
+ * @param {number[][]} rectangle
+ */
+var SubrectangleQueries = function(rectangle) {
+    this.rectangle = rectangle
+    this.history = []
+};
+
+/** 
+ * @param {number} row1 
+ * @param {number} col1 
+ * @param {number} row2 
+ * @param {number} col2 
+ * @param {number} newValue
+ * @return {void}
+ */
+SubrectangleQueries.prototype.updateSubrectangle = function(row1, col1, row2, col2, newValue) {
+    this.history.push([row1, col1, row2, col2, newValue])
+};
+
+/** 
+ * @param {number} row 
+ * @param {number} col
+ * @return {number}
+ */
+SubrectangleQueries.prototype.getValue = function(row, col) {
+    for (let i = this.history.length - 1; i >= 0; i--) {
+        const [row1, col1, row2, col2, newValue] = this.history[i]
+        
+        if (row1 <= row && row <= row2 && col1 <= col && col <= col2) {
+            return newValue
+        }
+    }
+    
+    return this.rectangle[row][col]
+};
+
+/** 
+ * Your SubrectangleQueries object will be instantiated and called as such:
+ * var obj = new SubrectangleQueries(rectangle)
+ * obj.updateSubrectangle(row1,col1,row2,col2,newValue)
+ * var param_2 = obj.getValue(row,col)
+ */
+```
