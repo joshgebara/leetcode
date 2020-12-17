@@ -56932,3 +56932,55 @@ var findMaxLength = function(nums) {
     return max
 };
 ```
+
+## 1577. Number of Ways Where Square of Number Is Equal to Product of Two Numbers
+```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var numTriplets = function(nums1, nums2) {
+    let count = 0
+    let memo = {}
+    for (const num of nums1) {
+        const target = num ** 2
+        if (memo[target] === undefined) {
+            memo[target] = twoProduct(num ** 2, nums2)
+        }
+        
+        count += memo[target]
+    }
+    
+    memo = {}
+    for (const num of nums2) {
+        const target = num ** 2
+        if (memo[target] === undefined) {
+            memo[target] = twoProduct(num ** 2, nums1)
+        }
+        
+        count += memo[target]
+    }
+    
+    return count
+};
+
+const twoProduct = (target, nums) => {
+    let count = 0
+    const seen = {}
+    for (const num of nums) {
+        const compliment = target / num
+        if (seen[compliment] !== undefined) {
+            count += seen[compliment]
+        }
+        
+        if (seen[num] === undefined) {
+            seen[num] = 0
+        }
+        
+        seen[num]++
+    }
+    
+    return count
+}
+```
