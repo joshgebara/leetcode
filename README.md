@@ -57031,3 +57031,27 @@ SubrectangleQueries.prototype.getValue = function(row, col) {
  * var param_2 = obj.getValue(row,col)
  */
 ```
+
+## 781. Rabbits in Forest
+```javascript
+/**
+ * @param {number[]} answers
+ * @return {number}
+ */
+var numRabbits = function(answers) {
+    const map = new Array(1000).fill(0)
+    for (const answer of answers) {
+        map[answer]++
+    }
+    
+    let count = 0
+    for (let i = 0; i < map.length; i++) {
+        if (map[i] === 0) continue
+        const size = i + 1
+        const numberOfSize = Math.ceil(map[i] / size)
+        count += numberOfSize * size
+    }
+    
+    return count
+}
+```
