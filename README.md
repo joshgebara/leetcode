@@ -56875,3 +56875,36 @@ var canReorderDoubled = function(A) {
     return true
 };
 ```
+
+## 1418. Display Table of Food Orders in a Restaurant
+```javascript
+/**
+ * @param {string[][]} orders
+ * @return {string[][]}
+ */
+var displayTable = function(orders) {
+    const foods = new Set()
+    for (const [name, table, food] of orders) {
+        foods.add(food)
+    }
+    
+    const sortedFoods = Array.from(foods).sort()
+    
+    const foodMap = {}
+    for (let i = 0; i < sortedFoods.length; i++) {
+        foodMap[sortedFoods[i]] = i
+    }
+    
+    const header = ['Table', ...sortedFoods]
+    const tableMap = {}
+    for (const [name, table, food] of orders) {
+        if (tableMap[table] === undefined) {
+            tableMap[table] = [table, ...new Array(sortedFoods.length).fill("0")]
+        }
+        
+        tableMap[table][foodMap[food] + 1] = `${1 + +tableMap[table][foodMap[food] + 1]}`
+    }
+    
+    return [header, ...Object.values(tableMap)]
+};
+```
