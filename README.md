@@ -57055,3 +57055,63 @@ var numRabbits = function(answers) {
     return count
 }
 ```
+
+## 966. Vowel Spellchecker
+```javascript
+/**
+ * @param {string[]} wordlist
+ * @param {string[]} queries
+ * @return {string[]}
+ */
+var spellchecker = function(wordlist, queries) {
+    const perfectMatch = new Set()
+    const capitalMatch = {}
+    const vowelMatch = {}
+    
+    for (const word of wordlist) {
+        perfectMatch.add(word)
+        
+        const lowercase = word.toLowerCase()
+        if (capitalMatch[lowercase] === undefined) {
+            capitalMatch[lowercase] = word
+        }
+        
+        const withoutVowels = removeVowels(lowercase)
+        if (vowelMatch[withoutVowels] === undefined) {
+            vowelMatch[withoutVowels] = word
+        }
+    }
+    
+    const result = []
+    for (const query of queries) {
+        if (perfectMatch.has(query)) {
+            result.push(query)
+            continue
+        }
+        
+        const lowercase = query.toLowerCase()
+        if (capitalMatch[lowercase]) {
+            result.push(capitalMatch[lowercase])
+            continue
+        }
+        
+        const withoutVowels = removeVowels(lowercase)
+        if (vowelMatch[withoutVowels]) {
+            result.push(vowelMatch[withoutVowels])
+            continue
+        }
+        
+        result.push('')
+    }
+    
+    return result
+};
+
+const removeVowels = str => {
+    return str.split('').map(char => isVowel(char) ?  '*' : char).join('')
+}
+
+const isVowel = char => {
+    return 'aeiou'.includes(char)
+}
+```
