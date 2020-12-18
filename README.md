@@ -57210,3 +57210,44 @@ SELECT date_id,
 FROM DailySales
 GROUP BY date_id, make_name
 ```
+
+## 318. Maximum Product of Word Lengths
+```javascript
+/**
+ * @param {string[]} words
+ * @return {number}
+ */
+var maxProduct = function(words) {
+    const map = {}
+    for (const word of words) {
+        const mask = getMask(word)
+        if (map[mask] === undefined) {
+            map[mask] = word.length
+        } else if (map[mask] < word.length) {
+            map[mask] = word.length
+        }
+    }
+    
+    let max = 0
+    const list = Object.entries(map)
+    for (let i = 0; i < list.length; i++) {
+        for (let j = i + 1; j < list.length; j++) {
+            const [maskI, lenI] = list[i]
+            const [maskJ, lenJ] = list[j]
+            if (maskI & maskJ) continue
+            max = Math.max(max, lenI * lenJ)
+        }
+    }
+    
+    return max
+};
+
+const getMask = word => {
+    let mask = 0
+    for (const char of word) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        mask |= 1 << index
+    }
+    return mask
+}
+```
