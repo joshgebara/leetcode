@@ -57115,3 +57115,87 @@ const isVowel = char => {
     return 'aeiou'.includes(char)
 }
 ```
+
+## 1166. Design File System
+```javascript
+
+var FileSystem = function() {
+    this.trie = new Trie()
+};
+
+/** 
+ * @param {string} path 
+ * @param {number} value
+ * @return {boolean}
+ */
+FileSystem.prototype.createPath = function(path, value) {
+    const dirs = path.split('/')
+    return this.trie.insert(dirs, value)
+};
+
+/** 
+ * @param {string} path
+ * @return {number}
+ */
+FileSystem.prototype.get = function(path) {
+    const dirs = path.split('/')
+    return this.trie.find(dirs)
+};
+
+/** 
+ * Your FileSystem object will be instantiated and called as such:
+ * var obj = new FileSystem()
+ * var param_1 = obj.createPath(path,value)
+ * var param_2 = obj.get(path)
+ */
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode()
+    }
+    
+    insert(dirs, value) {
+        let curr = this.root
+        for (let i = 0; i < dirs.length; i++) {
+            if (dirs[i] === '') continue
+            
+            if (curr.children[dirs[i]] === undefined) {
+                if (i !== dirs.length - 1) return false
+                curr.children[dirs[i]] = new TrieNode(dirs[i])
+            }
+            
+            curr = curr.children[dirs[i]]
+        }
+        
+        if (curr.value === -1) {
+            curr.value = value
+            return true
+        }
+        
+        return false
+    }
+    
+    find(dirs) {
+        let curr = this.root
+        for (let i = 0; i < dirs.length; i++) {
+            if (dirs[i] === '') continue
+            
+            if (curr.children[dirs[i]] === undefined) {
+                return -1
+            }
+            
+            curr = curr.children[dirs[i]]
+        }
+        
+        return curr.value
+    }
+}
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.value = -1
+    }
+}
+```
