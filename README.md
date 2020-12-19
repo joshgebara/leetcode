@@ -57280,3 +57280,25 @@ var numSubarrayBoundedMax = function(A, L, R) {
     return totalCount
 };
 ```
+
+## 1400. Construct K Palindrome Strings
+```javascript
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {boolean}
+ */
+var canConstruct = function(s, k) {
+    if (s.length < k) return false
+    
+    let odds = 0
+    let oddCounts = 0
+    for (const char of s) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        oddCounts ^= 1 << index
+        oddCounts & 1 << index ? odds++ : odds--
+    }
+    
+    return odds <= k
+};
+```
