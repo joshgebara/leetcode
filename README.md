@@ -57302,3 +57302,36 @@ var canConstruct = function(s, k) {
     return odds <= k
 };
 ```
+
+## 1616. Split Two Strings to Make Palindrome
+```javascript
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {boolean}
+ */
+var checkPalindromeFormation = function(a, b) {
+    const _checkPalindrome = (a, b) => {
+        let i = 0
+        let j = b.length - 1
+
+        while (i < j && a[i] === b[j]) {
+            i++
+            j--
+        }
+
+        return i > j || isPalindrome(a, i, j) || isPalindrome(b, i, j)
+    }
+    
+    return _checkPalindrome(a, b) || _checkPalindrome(b, a)
+};
+
+const isPalindrome = (str, i, j) => {
+    while (i < j && str[i] === str[j]) {
+        i++
+        j--
+    }
+    
+    return i >= j
+}
+```
