@@ -57251,3 +57251,32 @@ const getMask = word => {
     return mask
 }
 ```
+
+## 795. Number of Subarrays with Bounded Maximum
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} L
+ * @param {number} R
+ * @return {number}
+ */
+var numSubarrayBoundedMax = function(A, L, R) {
+    let totalCount = 0
+    let prevCount = 0
+    let start = -1
+    for (let i = 0; i < A.length; i++) {
+        let currCount = prevCount
+        if (L <= A[i] && A[i] <= R) {
+            currCount = i - start
+        } else if (A[i] > R) {
+            start = i
+            currCount = 0
+        }
+        
+        totalCount += currCount
+        prevCount = currCount
+    }
+    
+    return totalCount
+};
+```
