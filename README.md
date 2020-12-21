@@ -57551,3 +57551,32 @@ var distinctEchoSubstrings = function(text) {
     return unique.size
 };
 ```
+
+## 1458. Max Dot Product of Two Subsequences
+```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var maxDotProduct = function(nums1, nums2) {
+    const _maxDotProduct = (i, j) => {
+        if (i >= nums1.length) return -Infinity
+        if (j >= nums2.length) return -Infinity
+        
+        if (memo[i][j] !== undefined) {
+            return memo[i][j]
+        }
+        
+        let result = nums1[i] * nums2[j] + Math.max(_maxDotProduct(i + 1, j + 1), 0) 
+        result = Math.max(result, _maxDotProduct(i + 1, j))
+        result = Math.max(result, _maxDotProduct(i, j + 1))
+        
+        memo[i][j] = result
+        return result
+    }
+    
+    const memo = new Array(nums1.length).fill().map(a => new Array(nums2.length))
+    return _maxDotProduct(0, 0)
+};
+```
