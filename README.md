@@ -57482,3 +57482,72 @@ const hasDup = (str, size) => {
     return ''
 }
 ```
+
+## 1316. Distinct Echo Substrings
+```javascript
+/**
+ * @param {string} text
+ * @return {number}
+ */
+var distinctEchoSubstrings = function(text) {
+    const unique = new Set()
+    const BASE = 26
+    const MOD = 101
+    
+    for (let len = 1; len <= text.length / 2; len++) {
+        let i = 0
+        let j = i + len
+        
+        let baseToMaxPow = 1
+        for (let k = 1; k < len; k++) {
+            baseToMaxPow = (baseToMaxPow * BASE) % MOD
+        }
+        
+        let hashI = 0
+        let hashJ = 0
+        for (let k = 0; k < len; k++) {
+            hashI *= BASE
+            hashI %= MOD
+            hashI += text[i++].charCodeAt(0)
+            hashI %= MOD
+            
+            hashJ *= BASE
+            hashJ %= MOD
+            hashJ += text[j++].charCodeAt(0)
+            hashJ %= MOD
+        }
+        
+        for (let start = 0; start + j <= text.length; start++) {
+            const startI = start
+            const endI = start + i
+            const startJ = start + i
+            const endJ = start + j
+            
+            if (hashI === hashJ) {
+                const strI = text.slice(startI, endI)
+                const strJ = text.slice(startJ, endJ)
+                
+                if (strI === strJ) {
+                    unique.add(strI)
+                }
+            }
+            
+            if (endJ >= text.length) break
+            
+            hashI -= (text[startI].charCodeAt(0) * baseToMaxPow % MOD)
+            hashI *= BASE
+            hashI %= MOD
+            hashI += text[endI].charCodeAt(0)
+            hashI %= MOD
+
+            hashJ -= (text[startJ].charCodeAt(0) * baseToMaxPow % MOD)
+            hashJ *= BASE
+            hashJ %= MOD
+            hashJ += text[endJ].charCodeAt(0)
+            hashJ %= MOD
+        }
+    }
+    
+    return unique.size
+};
+```
