@@ -57408,3 +57408,77 @@ var numDistinct = function(s, t) {
     return _numDistinct(0, 0)
 };
 ```
+
+## 1044. Longest Duplicate Substring
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestDupSubstring = function(s) {
+    let left = 1
+    let right = s.length
+    
+    let result = ''
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        const curr = hasDup(s, mid)
+        if (curr !== '') {
+            result = curr
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return result
+};
+
+const hasDup = (str, size) => {
+    const MOD = 2 ** 32
+    const base = 26
+    
+    let baseToMaxPow = 1
+    for (let i = 1; i < size; i++) {
+        baseToMaxPow *= base
+        baseToMaxPow %= MOD
+    }
+    
+    let rollingHash = 0
+    for (let i = 0; i < size; i++) {
+        rollingHash *= base
+        rollingHash %= MOD
+        rollingHash += str[i].charCodeAt(0)
+        rollingHash %= MOD
+    }
+    
+    const seen = {}
+    seen[rollingHash] = [0]
+    
+    for (let endIndex = size; endIndex < str.length; endIndex++) {
+        const startIndex = endIndex - size
+        
+        rollingHash -= ((str[startIndex].charCodeAt(0) * baseToMaxPow) % MOD)
+        rollingHash *= base
+        rollingHash %= MOD
+        rollingHash += str[endIndex].charCodeAt(0)
+        rollingHash %= MOD
+        
+        if (seen[rollingHash]) {
+            for (const prevStartIndex of seen[rollingHash]) {
+                const prev = str.slice(prevStartIndex, prevStartIndex + size)
+                const candidate = str.slice(startIndex + 1, endIndex + 1)
+                if (prev === candidate) {
+                    return str.slice(startIndex + 1, endIndex + 1)
+                }
+            }
+            
+            seen[rollingHash].push(startIndex + 1)
+        } else {
+            seen[rollingHash] = [startIndex + 1]
+        }
+    }
+    
+    return ''
+}
+```
