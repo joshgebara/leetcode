@@ -57378,3 +57378,33 @@ var minWindow = function(S, T) {
     return S.slice(startIndex, startIndex + minLength)
 };
 ```
+
+## 115. Distinct Subsequences
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {number}
+ */
+var numDistinct = function(s, t) {
+    const _numDistinct = (i, j) => {
+        if (j >= t.length) return 1
+        if (i >= s.length) return 0
+        
+        if (memo[i][j] !== undefined) {
+            return memo[i][j]
+        }
+        
+        let result = _numDistinct(i + 1, j)
+        if (s[i] === t[j]) {
+            result += _numDistinct(i + 1, j + 1)
+        }
+        
+        memo[i][j] = result
+        return result
+    }
+    
+    const memo = new Array(s.length).fill().map(a => new Array(t.length))
+    return _numDistinct(0, 0)
+};
+```
