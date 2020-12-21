@@ -57335,3 +57335,46 @@ const isPalindrome = (str, i, j) => {
     return i >= j
 }
 ```
+
+## 727. Minimum Window Subsequence
+```javascript
+/**
+ * @param {string} S
+ * @param {string} T
+ * @return {string}
+ */
+var minWindow = function(S, T) {
+    const _minWindow = (i, j) => {
+        if (j >= T.length) return 0
+        if (i >= S.length) return Infinity
+        
+        if (memo[i][j] !== undefined) {
+            return memo[i][j]
+        }
+        
+        let result = Infinity
+        if (S[i] === T[j]) {
+            result = Math.min(result, 1 + _minWindow(i + 1, j + 1))
+        }
+        
+        result = Math.min(result, 1 + _minWindow(i + 1, j))
+        memo[i][j] = result
+        return result
+    }
+    
+    const memo = new Array(S.length).fill().map(a => new Array(T.length))
+    _minWindow(0, 0)
+    
+    let minLength = Infinity
+    let startIndex = -1
+    for (let i = 0; i < memo.length; i++) {
+        if (minLength > memo[i][0]) {
+            minLength = memo[i][0]
+            startIndex = i
+        }
+    }
+    
+    if (minLength === Infinity) return ''
+    return S.slice(startIndex, startIndex + minLength)
+};
+```
