@@ -57695,3 +57695,37 @@ var numMatchingSubseq = function(S, words) {
     return count
 };
 ```
+
+## 368. Largest Divisible Subset
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var largestDivisibleSubset = function(nums) {
+    nums.sort((a, b) => a - b)
+    
+    const dp = new Array(nums.length).fill(1)
+    let max = 1
+    for (let i = 1; i < nums.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[i] % nums[j] === 0) {
+                dp[i] = Math.max(dp[i], dp[j] + 1)
+            }
+        }
+        max = Math.max(max, dp[i])
+    }
+    
+    const result = []
+    let prev = -1
+    for (let i = dp.length - 1; i >= 0; i--) {
+        if (dp[i] === max && (prev % nums[i] === 0 || prev === -1)) {
+            result.push(nums[i])
+            max--
+            prev = nums[i]
+        }
+    }
+    
+    return result
+};
+```
