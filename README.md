@@ -57580,3 +57580,36 @@ var maxDotProduct = function(nums1, nums2) {
     return _maxDotProduct(0, 0)
 };
 ```
+
+## 1498. Number of Subsequences That Satisfy the Given Sum Condition
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var numSubseq = function(nums, target) {
+    const MOD = (10 ** 9) + 7
+    const pows = new Array(nums.length).fill(1)
+    for (let i = 1; i < nums.length; i++) {
+        pows[i] = (pows[i - 1] * 2) % MOD
+    }
+    
+    nums.sort((a, b) => a - b)
+    
+    let count = 0
+    let left = 0
+    let right = nums.length - 1
+    while (left <= right) {
+        if (nums[left] + nums[right] > target) {
+            right--
+        } else {
+            count += pows[right - left]
+            count %= MOD   
+            left++
+        }
+    }
+    
+    return count
+};
+```
