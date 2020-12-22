@@ -57613,3 +57613,85 @@ var numSubseq = function(nums, target) {
     return count
 };
 ```
+
+## 792. Number of Matching Subsequences
+```javascript
+// Binary Search
+/**
+ * @param {string} S
+ * @param {string[]} words
+ * @return {number}
+ */
+var numMatchingSubseq = function(S, words) {
+    const map = {}
+    for (let i = 0; i < S.length; i++) {
+        if (!map[S[i]]) map[S[i]] = []
+        map[S[i]].push(i)
+    }
+    
+    let count = 0
+    outer : for (const word of words) {
+        let prevIndex = -1
+        for (const char of word) {
+            const currIndex = binarySearch(map[char], prevIndex)
+            if (currIndex === -1) continue outer
+            prevIndex = currIndex
+        }
+        count++
+    }
+    
+    return count
+};
+
+const binarySearch = (arr, target) => {
+    if (!arr || !arr.length) return -1
+    
+    let left = 0
+    let right = arr.length
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid] <= target) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    if (left >= arr.length) return -1
+    return arr[left]
+}
+
+// Linear Scan
+/**
+ * @param {string} S
+ * @param {string[]} words
+ * @return {number}
+ */
+var numMatchingSubseq = function(S, words) {
+    const waiting = new Array(26).fill().map(a => [])
+    for (const word of words) {
+        const index = word[0].charCodeAt(0) - 'a'.charCodeAt(0)
+        waiting[index].push([word, 0])
+    }
+    
+    let count = 0
+    for (const char of S) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        const size = waiting[index].length
+        for (let i = 0; i < size; i++) {
+            const [word, charIndex] = waiting[index].shift()
+            if (charIndex + 1 >= word.length) {
+                count++
+                continue
+            }
+            
+            const nextIndex = word[charIndex + 1].charCodeAt(0) - 'a'.charCodeAt(0)
+            waiting[nextIndex].push([word, charIndex + 1])
+        }
+    }
+    
+    return count
+};
+```
