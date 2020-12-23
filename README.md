@@ -57789,3 +57789,47 @@ var minimumMoves = function(arr) {
     return _minimumMoves(0, arr.length - 1)
 };
 ```
+
+## 664. Strange Printer
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var strangePrinter = function(s) {
+    const _strangePrinter = (i, j) => {
+        if (i > j) return 0
+        
+        if (memo[i][j] !== undefined) {
+            return memo[i][j]
+        }
+
+        let result = 1 + _strangePrinter(i + 1, j)
+        
+        for (let k = i + 1; k <= j; k++) {
+            if (compressedS[i] === compressedS[k])
+                result = Math.min(result, 
+                                  _strangePrinter(i, k - 1) + 
+                                  _strangePrinter(k + 1, j))
+        }
+        
+        memo[i][j] = result
+        return result
+    }
+    
+    const memo = new Array(s.length).fill().map(a => new Array(s.length))
+    const compressedS = compress(s)
+    return _strangePrinter(0, compressedS.length - 1)
+};
+
+const compress = s => {
+    const result = []
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === s[i + 1]) {
+            continue
+        }
+        result.push(s[i])
+    }
+    return result.join('')
+}
+```
