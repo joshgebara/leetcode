@@ -57729,3 +57729,31 @@ var largestDivisibleSubset = function(nums) {
     return result
 };
 ```
+
+## 1312. Minimum Insertion Steps to Make a String Palindrome
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var minInsertions = function(s) {
+    const _minInsertions = (i, j) => {
+        if (i >= j) return 0
+        if (memo[i][j] !== undefined) return memo[i][j]
+        
+        let result = 0
+        if (s[i] === s[j]) {
+            result = _minInsertions(i + 1, j - 1)
+        } else {
+            result = 1 + Math.min(_minInsertions(i + 1, j),
+                                  _minInsertions(i, j - 1))
+        }
+        
+        memo[i][j] = result
+        return memo[i][j]
+    }
+    
+    const memo = new Array(s.length).fill().map(a => new Array(s.length))
+    return _minInsertions(0, s.length - 1)
+};
+```
