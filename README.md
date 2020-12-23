@@ -57757,3 +57757,35 @@ var minInsertions = function(s) {
     return _minInsertions(0, s.length - 1)
 };
 ```
+
+## 1246. Palindrome Removal
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var minimumMoves = function(arr) {
+    const _minimumMoves = (i, j) => {
+        if (i >= j) return 1
+        
+        if (memo[i][j] !== undefined) {
+            return memo[i][j]
+        }
+
+        let result = Infinity
+        if (arr[i] === arr[j]) {
+            result = _minimumMoves(i + 1, j - 1)
+        }
+        
+        for (let k = i; k < j; k++) {
+            result = Math.min(result, _minimumMoves(i, k) + _minimumMoves(k + 1, j))
+        }
+        
+        memo[i][j] = result
+        return result
+    }
+
+    const memo = new Array(arr.length).fill().map(a => new Array(arr.length))
+    return _minimumMoves(0, arr.length - 1)
+};
+```
