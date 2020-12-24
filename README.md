@@ -57932,3 +57932,47 @@ const getCharCode = char => {
     return char.charCodeAt(0) - 'a'.charCodeAt(0)
 }
 ```
+
+## 132. Palindrome Partitioning II
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var minCut = function(s) {
+    const n = s.length
+    
+    const isPalindromeDP = new Array(n).fill().map(a => new Array(n).fill(false))
+    for (let len = 1; len <= n; len++) {
+        for (let start = 0; start < n - len + 1; start++) {
+            const end = start + len - 1
+            if (start === end) {
+                isPalindromeDP[start][end] = true
+            } else if (start === end - 1 && s[start] === s[end]) {
+                isPalindromeDP[start][end] = true
+            } else if (s[start] === s[end] && isPalindromeDP[start + 1][end - 1]) {
+                isPalindromeDP[start][end] = true
+            }
+        }
+    }
+    
+    const minCutDP = new Array(n)
+    for (let end = 0; end < n; end++) {
+        if (isPalindromeDP[0][end]) {
+            minCutDP[end] = 0
+            continue
+        }
+        
+        let min = Infinity
+        for (let j = 0; j < end; j++) {
+            if (isPalindromeDP[j + 1][end]) {
+                min = Math.min(min, minCutDP[j] + 1)
+            }
+        }
+        
+        minCutDP[end] = min
+    }
+    
+    return minCutDP[n - 1]
+};
+```
