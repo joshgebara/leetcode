@@ -57895,3 +57895,40 @@ const countOnes = bin => {
     return count
 }
 ```
+
+## 1682. Longest Palindromic Subsequence II
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestPalindromeSubseq = function(s) {
+    const lPS = (i, j, prevCharCode) => {
+        if (i >= j) return 0
+        
+        if (memo[i][j][prevCharCode]) {
+            return memo[i][j][prevCharCode]
+        }
+        
+        const currCharCode = getCharCode(s[i])
+        if (s[i] === s[j] && currCharCode !== prevCharCode) {
+            memo[i][j][prevCharCode] = 2 + lPS(i + 1, j - 1, currCharCode)
+        } else {
+            memo[i][j][prevCharCode] = Math.max(lPS(i + 1, j, prevCharCode), 
+                                                lPS(i, j - 1, prevCharCode))
+        }
+        
+        return memo[i][j][prevCharCode]
+    }
+    
+    const memo = new Array(s.length).fill()
+                    .map(a => new Array(s.length).fill()
+                    .map(a => new Array(27)))
+                         
+    return lPS(0, s.length - 1, 26)
+};
+
+const getCharCode = char => {
+    return char.charCodeAt(0) - 'a'.charCodeAt(0)
+}
+```
