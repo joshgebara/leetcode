@@ -57976,3 +57976,44 @@ var minCut = function(s) {
     return minCutDP[n - 1]
 };
 ```
+
+## 1278. Palindrome Partitioning III
+```javascript
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+var palindromePartition = function(s, k) {    
+    const _palindromePartition = (i, k) => {
+        if (i >= s.length) return k === 0 ? 0 : Infinity
+        if (k <= 0) return Infinity
+        
+        if (memo[i][k] !== undefined) {
+            return memo[i][k]
+        }
+        
+        let result = Infinity
+        for (let j = i; j < s.length; j++) {
+            result = Math.min(result, minCharsDP[i][j] + _palindromePartition(j + 1, k - 1))
+        }
+        
+        memo[i][k] = result
+        return result
+    }
+    
+    const n = s.length
+    const minCharsDP = new Array(n).fill().map(a => new Array(n).fill(0))
+    for (let len = 1; len <= n; len++) {
+        for (let start = 0; start < n - len + 1; start++) {
+            const end = start + len - 1
+            
+            if (start === end) continue
+            minCharsDP[start][end] = (s[start] !== s[end]) + minCharsDP[start + 1][end - 1]
+        }
+    }
+    
+    const memo = new Array(n).fill().map(a => new Array(k + 1))
+    return _palindromePartition(0, k)
+};
+```
