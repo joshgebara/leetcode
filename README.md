@@ -57861,3 +57861,37 @@ var findTheLongestSubstring = function(s) {
     return max
 };
 ```
+
+## 1177. Can Make Palindrome from Substring
+```javascript
+/**
+ * @param {string} s
+ * @param {number[][]} queries
+ * @return {boolean[]}
+ */
+var canMakePaliQueries = function(s, queries) {
+    const prefix = new Array(s.length).fill(0)
+    for (let i = 0; i < s.length; i++) {
+        const index = s[i].charCodeAt(0) - 'a'.charCodeAt(0)
+        prefix[i] = prefix[i - 1] ^ 1 << index
+    }
+    
+    const result = []
+    for (const [left, right, k] of queries) {
+        const range = prefix[right] ^ prefix[left - 1]
+        const oddCount = countOnes(range)
+        result.push(Math.floor(oddCount / 2) <= k)
+    }
+    
+    return result
+};
+
+const countOnes = bin => {
+    let count = 0
+    while (bin) {
+        bin &= bin - 1
+        count++
+    }
+    return count
+}
+```
