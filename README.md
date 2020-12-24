@@ -57833,3 +57833,31 @@ const compress = s => {
     return result.join('')
 }
 ```
+
+## 1371. Find the Longest Substring Containing Vowels in Even Counts
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var findTheLongestSubstring = function(s) {
+    const vowels = new Set('aeiou')
+    const map = { 0: -1 }
+    let max = 0
+    let mask = 0
+    for (let i = 0; i < s.length; i++) {
+        if (vowels.has(s[i])) {
+            const index = s[i].charCodeAt(0) - 'a'.charCodeAt(0)
+            mask ^= 1 << index
+        }
+        
+        if (map[mask] === undefined) {
+            map[mask] = i
+        } else {
+            max = Math.max(max, i - map[mask])
+        }
+    }
+    
+    return max
+};
+```
