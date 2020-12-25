@@ -58017,3 +58017,75 @@ var palindromePartition = function(s, k) {
     return _palindromePartition(0, k)
 };
 ```
+
+## 1548. The Most Similar Path in a Graph
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} roads
+ * @param {string[]} names
+ * @param {string[]} targetPath
+ * @return {number[]}
+ */
+var mostSimilar = function(n, roads, names, targetPath) {
+    const _mostSimilar = (vertex, i) => {
+        if (i >= targetPath.length) {
+            return 0
+        }
+        
+        if (memoMin[vertex][i] !== undefined) {
+            return memoMin[vertex][i]
+        }
+        
+        let currDist = Infinity
+        if (graph[vertex]) {
+            for (const neighbor of graph[vertex]) {
+                const neighborDist = _mostSimilar(neighbor, i + 1)
+                
+                if (currDist > neighborDist) {
+                    currDist = neighborDist
+                    memoNeighbor[vertex][i] = neighbor
+                }
+            }
+        }
+        
+        currDist += (names[vertex] !== targetPath[i])
+        memoMin[vertex][i] = currDist
+        return currDist
+    }
+    
+    const graph = buildGraph(n, roads)
+    const memoMin = new Array(n + 1).fill().map(a => new Array(targetPath.length))
+    const memoNeighbor = new Array(n + 1).fill().map(a => new Array(targetPath.length))
+    
+    let editDistance = Infinity
+    let startVertex = 0
+    for (let vertex = 0; vertex <= n; vertex++) {
+        const result = _mostSimilar(vertex, 0)
+        if (result < editDistance) {
+            editDistance = result
+            startVertex = vertex
+        }
+    }
+    
+    const path = [startVertex]
+    let vertex = startVertex
+    for (let i = 0; i < targetPath.length - 1; i++) {
+        path.push(memoNeighbor[vertex][i])
+        vertex = memoNeighbor[vertex][i]
+    }
+    return path
+};
+
+const buildGraph = (n, edges) => {
+    const graph = {}
+    for (const [u, v] of edges) {
+        if (!graph[u]) graph[u] = []
+        if (!graph[v]) graph[v] = []
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    
+    return graph
+}
+```
