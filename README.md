@@ -58278,3 +58278,80 @@ class UnionFind {
     }
 }
 ```
+
+## 1697. Checking Existence of Edge Length Limited Paths
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} edgeList
+ * @param {number[][]} queries
+ * @return {boolean[]}
+ */
+var distanceLimitedPathsExist = function(n, edgeList, queries) {
+    for (let i = 0; i < queries.length; i++) {
+        queries[i].push(i)
+    }
+    
+    queries.sort((a, b) => a[2] - b[2])
+    edgeList.sort((a, b) => a[2] - b[2])
+    
+    const result = new Array(queries.length)
+    const unionFind = new UnionFind(n)
+    
+    let j = 0
+    for (let i = 0; i < queries.length; i++) {
+        while (j < edgeList.length && edgeList[j][2] < queries[i][2]) {
+            unionFind.union(edgeList[j][0], edgeList[j][1])
+            j++
+        }
+        
+        result[queries[i][3]] = unionFind.connected(queries[i][0], queries[i][1])
+    }
+    
+    return result
+};
+
+class UnionFind {
+    constructor(n) {
+        this.size = new Array(n).fill(1)
+        this.parent = new Array(n)
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i
+        }
+    }
+    
+    find(a) {
+        let root = this.parent[a]
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parent[a]
+            this.parent[a] = root
+            a = next
+        }
+        
+        return root
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) return
+        
+        if (this.size[parentA] < this.size[parentB]) {
+            this.parent[parentA] = parentB
+            this.size[parentB] += this.size[parentA]
+        } else {
+            this.parent[parentB] = parentA
+            this.size[parentA] += this.size[parentB]
+        }
+    }
+    
+    connected(a, b) {
+        return this.find(a) === this.find(b)
+    }
+}
+```
