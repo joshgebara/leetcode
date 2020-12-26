@@ -58166,3 +58166,24 @@ const buildGraph = (n, edges) => {
     return graph
 }
 ```
+
+## 1699. Number of Calls Between Two Persons
+```sql
+-- If statement
+# Write your MySQL query statement below
+SELECT IF(from_id < to_id, from_id, to_id) AS person1,
+       IF(from_id > to_id, from_id, to_id) AS person2,
+       COUNT(*) AS call_count,
+       SUM(duration) AS total_duration
+FROM Calls
+GROUP BY person1, person2
+
+-- Least, Greatest
+# Write your MySQL query statement below
+SELECT LEAST(from_id, to_id) AS person1,
+       GREATEST(from_id, to_id) AS person2,
+       COUNT(*) AS call_count,
+       SUM(duration) AS total_duration
+FROM Calls
+GROUP BY person1, person2
+```
