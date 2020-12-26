@@ -58187,3 +58187,94 @@ SELECT LEAST(from_id, to_id) AS person1,
 FROM Calls
 GROUP BY person1, person2
 ```
+
+## 685. Redundant Connection II
+```javascript
+/**
+ * @param {number[][]} edges
+ * @return {number[]}
+ */
+var findRedundantDirectedConnection = function(edges) {
+    const parent = new Array(edges.length + 1)
+    const unionFind = new UnionFind(edges.length + 1)
+    
+    let candidate1 = null
+    let candidate2 = null
+    for (let i = 0; i < edges.length; i++) {
+        const [u, v] = edges[i]
+        if (parent[v] !== undefined) {
+            candidate1 = parent[v]
+            candidate2 = i
+        }
+        
+        parent[v] = i
+    }
+    
+    let cycleEdge = null
+    for (let i = 0; i < edges.length; i++) {
+        const [u, v] = edges[i]
+        if (candidate2 === i) continue
+        
+        if (unionFind.connected(u, v)) {
+            cycleEdge = i
+            break
+        }
+        
+        unionFind.union(u, v)
+    }
+    
+    if (candidate1 === null && candidate2 === null) {
+        return edges[cycleEdge]
+    }
+    
+    if (cycleEdge !== null) {
+        return edges[candidate1]
+    }
+    
+    return edges[candidate2]
+};
+
+class UnionFind {
+    constructor(n) {
+        this.size = new Array(n).fill(1)
+        this.parent = new Array(n)
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i
+        }
+    }
+    
+    find(u) {
+        let root = this.parent[u]
+        while (root !== this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (u !== root) {
+            const next = this.parent[u]
+            this.parent[u] = root
+            u = next
+        }
+        
+        return root
+    }
+
+    union(u, v) {
+        const parentU = this.find(u)
+        const parentV = this.find(v)
+        
+        if (parentU === parentV) return
+        
+        if (this.size[parentU] < this.size[parentV]) {
+            this.parent[parentU] = parentV
+            this.size[parentV] += this.size[parentU]
+        } else {
+            this.parent[parentV] = parentU
+            this.size[parentU] += this.size[parentV]
+        }
+    }
+    
+    connected(u, v) {
+        return this.find(u) === this.find(v)
+    }
+}
+```
