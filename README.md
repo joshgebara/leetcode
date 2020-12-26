@@ -58089,3 +58089,80 @@ const buildGraph = (n, edges) => {
     return graph
 }
 ```
+
+## 1494. Parallel Courses II
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} dependencies
+ * @param {number} k
+ * @return {number}
+ */
+var minNumberOfSemesters = function(n, dependencies, k) {
+    const _minNumberOfSemesters = mask => {
+        if (mask === (1 << n) - 1) return 0
+        
+        if (memo[mask] !== undefined) {
+            return memo[mask]
+        }
+        
+        // Get indegrees
+        const indegrees = new Array(n).fill(0)
+        for (let vertex = 0; vertex < n; vertex++) {
+            if (mask & 1 << vertex) continue
+            
+            for (const neighbor of graph[vertex]) {
+                indegrees[neighbor]++
+            }
+        }
+        
+        // Select courses with indegrees of 0 (Kahn's Algo)
+        let courses = 0
+        for (let vertex = 0; vertex < n; vertex++) {
+            if (mask & 1 << vertex || indegrees[vertex] !== 0) continue
+            courses |= 1 << vertex
+        }
+        
+        // If courses less than or equal to K greedily take all
+        if (countOnes(courses) <= k) {
+            memo[mask] = 1 + _minNumberOfSemesters(mask | courses)
+            return memo[mask]
+        }
+        
+        // else generate all submasks of size K
+        let result = Infinity
+        let submask = courses
+        while (submask) {
+            submask = (submask - 1) & courses
+            if (countOnes(submask) !== k) continue
+            result = Math.min(result, 1 + _minNumberOfSemesters(mask | submask))
+        }
+        
+        memo[mask] = result
+        return result
+    }
+    
+    const graph = buildGraph(n, dependencies)
+    const memo = new Array(1 << n)
+    return _minNumberOfSemesters(0)
+};
+
+const countOnes = bin => {
+    let count = 0
+    while (bin) {
+        bin &= bin - 1
+        count++
+    }
+    return count
+}
+
+const buildGraph = (n, edges) => {
+    const graph = new Array(n).fill().map(a => [])
+    
+    for (const [u, v] of edges) {
+        graph[u - 1].push(v - 1)
+    }
+    
+    return graph
+}
+```
