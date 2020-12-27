@@ -58387,3 +58387,73 @@ var countStudents = function(students, sandwiches) {
     return zeros + ones
 };
 ```
+
+## 1627. Graph Connectivity With Threshold
+```javascript
+/**
+ * @param {number} n
+ * @param {number} threshold
+ * @param {number[][]} queries
+ * @return {boolean[]}
+ */
+var areConnected = function(n, threshold, queries) {
+    const unionFind = new UnionFind(n + 1)    
+    for (let i = 1; i <= n; i++) {
+        for (let j = 2 * i; j <= n; j += i) {
+            if (i > threshold) {
+                unionFind.union(i, j)
+            }
+        }
+    }
+    
+    const result = []
+    for (const [u, v] of queries) {
+        result.push(unionFind.connected(u, v))
+    }
+    return result
+};
+
+class UnionFind {
+    constructor(n) {
+        this.size = new Array(n).fill(1)
+        this.parent = new Array(n)
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i
+        }
+    }
+    
+    find(u) {
+        let root = this.parent[u]
+        while (root != this.parent[root]) {
+            root = this.parent[root]
+        }
+        
+        while (root !== u) {
+            const next = this.parent[u]
+            this.parent[u] = root
+            u = next
+        }
+        
+        return root
+    }
+    
+    union(u, v) {
+        const parentU = this.find(u)
+        const parentV = this.find(v)
+        
+        if (parentU === parentV) return
+        
+        if (this.size[parentU] < this.size[parentV]) {
+            this.parent[parentU] = parentV
+            this.size[parentV] += this.size[parentU]
+        } else {
+            this.parent[parentV] = parentU
+            this.size[parentU] += this.size[parentV]
+        }
+    }
+    
+    connected(u, v) {
+        return this.find(u) === this.find(v)
+    }
+}
+```
