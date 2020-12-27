@@ -58457,3 +58457,64 @@ class UnionFind {
     }
 }
 ```
+
+## 1657. Determine if Two Strings Are Close
+```javascript
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {boolean}
+ */
+var closeStrings = function(word1, word2) {
+    if (word1.length !== word2.length) return false
+    if (!sameChars(word1, word2)) return false
+    
+    const counts1 = getCharCounts(word1)
+    const counts2 = getCharCounts(word2)
+    const map = {}
+    
+    for (let i = 0; i < counts1.length; i++) {
+        if (counts1[i] !== 0) {
+            if (!map[counts1[i]]) map[counts1[i]] = 0
+            map[counts1[i]]++
+        }
+        
+        if (counts2[i] !== 0) {
+            if (!map[counts2[i]]) map[counts2[i]] = 0
+            map[counts2[i]]--
+        }
+    }
+    
+    for (const count of Object.values(map)) {
+        if (count !== 0) return false
+    }
+    
+    return true
+};
+
+const getCharCounts = str => {
+    const charCounts = new Array(26).fill(0)
+    for (const char of str) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        charCounts[index]++
+    }
+    
+    return charCounts
+}
+
+const sameChars = (str1, str2) => {
+    let mask = 0
+    for (const char of str1) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        mask |= 1 << index
+    }
+    
+    for (const char of str2) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        if (mask & 1 << index) continue
+        return false
+    }
+    
+    return true
+}
+```
