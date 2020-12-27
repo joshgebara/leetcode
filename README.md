@@ -58555,5 +58555,147 @@ var employeeFreeTime = function(schedule) {
 };
 
 // N Log K
+/**
+ * // Definition for an Interval.
+ * function Interval(start, end) {
+ *    this.start = start;
+ *    this.end = end;
+ * };
+ */
 
+/**
+ * @param {Interval[][]} schedule
+ * @return {Interval[]}
+ */
+var employeeFreeTime = function(schedule) {
+    if (!schedule.length) return []
+    
+    const startIntervals = []
+        for (let i = 0; i < schedule.length; i++) {
+        startIntervals.push([i, 0])
+    }
+    
+    const heap = new Heap(startIntervals, (a, b) => {
+        const [aE, aI] = a
+        const [bE, bI] = b
+        const aInterval = schedule[aE][aI]
+        const bInterval = schedule[bE][bI]
+        return aInterval.start < bInterval.start
+    })
+    
+    const result = []
+    let end = -Infinity
+    while (heap.size()) {
+        const [e, i] = heap.remove()
+        const next = schedule[e][i]
+        if (i < schedule[e].length - 1) {
+            heap.insert([e, i + 1])
+        }
+        
+        if (next.start > end && end !== -Infinity) {
+            result.push(new Interval(end, next.start))
+        }
+        
+        end = Math.max(next.end, end)
+    }
+    
+    return result
+};
+
+class Heap {
+    constructor(elements = [], sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    size() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
 ```
