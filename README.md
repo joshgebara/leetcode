@@ -58355,3 +58355,35 @@ class UnionFind {
     }
 }
 ```
+
+## 1700. Number of Students Unable to Eat Lunch
+```javascript
+/**
+ * @param {number[]} students
+ * @param {number[]} sandwiches
+ * @return {number}
+ */
+var countStudents = function(students, sandwiches) {
+    let zeros = 0
+    let ones = 0
+    
+    for (const student of students) {
+        student === 0 ? zeros++ : ones++
+    }
+    
+    let count = 0
+    for (let i = 0; i < sandwiches.length; i++) {
+        if (sandwiches[i] === 0 && zeros) {
+            count++
+            zeros--
+        } else if (sandwiches[i] === 1 && ones) {
+            count++
+            ones--
+        } else {
+            break
+        }
+    }
+    
+    return zeros + ones
+};
+```
