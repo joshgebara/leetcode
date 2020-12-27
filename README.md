@@ -58518,3 +58518,42 @@ const sameChars = (str1, str2) => {
     return true
 }
 ```
+
+## 759. Employee Free Time
+```javascript
+// N log N
+/**
+ * // Definition for an Interval.
+ * function Interval(start, end) {
+ *    this.start = start;
+ *    this.end = end;
+ * };
+ */
+
+/**
+ * @param {Interval[][]} schedule
+ * @return {Interval[]}
+ */
+var employeeFreeTime = function(schedule) {
+    const sorted = schedule.flat().sort((a, b) => a.start - b.start)
+    if (!sorted.length) return []
+    
+    const result = []
+    let end = sorted[0].end
+    for (let i = 1; i < sorted.length; i++) {
+        const next = sorted[i]
+        if (next.start <= end) {
+            end = Math.max(next.end, end)
+            continue
+        }
+        
+        result.push(new Interval(end, next.start))
+        end = next.end
+    }
+    
+    return result
+};
+
+// N Log K
+
+```
