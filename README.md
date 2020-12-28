@@ -58999,21 +58999,18 @@ var minFlips = function(target) {
  * @return {boolean}
  */
 var halvesAreAlike = function(s) {
+    const vowels = new Set('aeiouAEIOU')
+    
     let vowelCount1 = 0
     let vowelCount2 = 0
     
     let i = 0
     let j = s.length / 2
     while (j < s.length) {
-        vowelCount1 += isVowel(s[i++])
-        vowelCount2 += isVowel(s[j++])
+        vowelCount1 += vowels.has(s[i++])
+        vowelCount2 += vowels.has(s[j++])
     }
     
     return vowelCount1 === vowelCount2
 };
-
-const isVowel = char => {
-    const vowels = new Set('aeiou')
-    return vowels.has(char.toLowerCase())
-}
 ```
