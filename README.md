@@ -59014,3 +59014,32 @@ var halvesAreAlike = function(s) {
     return vowelCount1 === vowelCount2
 };
 ```
+
+## 1262. Greatest Sum Divisible by Three
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSumDivThree = function(nums) {
+    const _maxSumDivThree = (i, rem) => {
+        if (i >= nums.length) {
+            return rem ? -Infinity : 0;
+        } 
+        
+        if (memo[i][rem] !== undefined) {
+            return memo[i][rem]
+        }
+        
+        let result = -Infinity
+        result = Math.max(result, nums[i] + _maxSumDivThree(i + 1, (rem + nums[i]) % 3))
+        result = Math.max(result, _maxSumDivThree(i + 1, rem))
+        
+        memo[i][rem] = result
+        return result
+    }
+    
+    const memo = new Array(nums.length).fill().map(a => new Array(3))
+    return _maxSumDivThree(0, 0)
+};
+```
