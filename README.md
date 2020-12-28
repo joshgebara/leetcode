@@ -59120,3 +59120,35 @@ var minDeletions = function(s) {
     return result
 };
 ```
+
+## 1155. Number of Dice Rolls With Target Sum
+```javascript
+/**
+ * @param {number} d
+ * @param {number} f
+ * @param {number} target
+ * @return {number}
+ */
+var numRollsToTarget = function(d, f, target) {
+    const _numRollsToTarget = (i, sum) => {
+        if (i >= d) return sum === target
+        
+        if (memo[i][sum] !== undefined) {
+            return memo[i][sum]
+        }
+        
+        let result = 0
+        for (let face = 1; face <= f; face++) {
+            result += _numRollsToTarget(i + 1, sum + face)
+            result %= MOD
+        }
+        
+        memo[i][sum] = result
+        return result
+    }
+    
+    const MOD = 10 ** 9 + 7
+    const memo = new Array(d).fill().map(a => new Array(f))
+    return _numRollsToTarget(0, 0) % MOD
+};
+```
