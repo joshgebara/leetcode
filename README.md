@@ -59084,3 +59084,39 @@ var numWays = function(s) {
     return group1Count * group2Count % MOD
 };
 ```
+
+## 1647. Minimum Deletions to Make Character Frequencies Unique
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var minDeletions = function(s) {
+    const charCounts = new Array(26).fill(0)
+    for (const char of s) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        charCounts[index]++
+    }
+    
+    const sorted = []
+    for (const counts of charCounts) {
+        if (counts === 0) continue
+        sorted.push(counts)
+    }
+    sorted.sort((a, b) => b - a)
+    
+    let result = 0
+    let min = Infinity
+    for (let i = 0; i < sorted.length; i++) {
+        if (sorted[i] < min) {
+            min = sorted[i]
+            continue
+        }
+        
+        result += min ? sorted[i] - min + 1 : sorted[i]
+        min = Math.max(0, min - 1)
+    }
+    
+    return result
+};
+```
