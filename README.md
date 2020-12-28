@@ -59152,3 +59152,38 @@ var numRollsToTarget = function(d, f, target) {
     return _numRollsToTarget(0, 0) % MOD
 };
 ```
+
+## 1419. Minimum Number of Frogs Croaking
+```javascript
+/**
+ * @param {string} croakOfFrogs
+ * @return {number}
+ */
+var minNumberOfFrogs = function(croakOfFrogs) {
+    const phrase = 'croak'
+    
+    const indexMap = {}
+    for (let i = 0; i < phrase.length; i++) {
+        indexMap[phrase[i]] = i
+    }
+    
+    const countMap = new Array(phrase.length).fill(0)
+    let min = 0
+    let open = 0
+    for (const char of croakOfFrogs) {
+        const charIndex = indexMap[char]
+        
+        countMap[charIndex]++
+        
+        if (charIndex === 0) {
+            min = Math.max(min, ++open)
+        } else if (charIndex === phrase.length - 1) {
+            open--
+        } else if (--countMap[charIndex - 1] < 0) {
+            return -1           
+        }
+    }
+    
+    return open ? -1 : min
+};
+```
