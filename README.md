@@ -59043,3 +59043,44 @@ var maxSumDivThree = function(nums) {
     return _maxSumDivThree(0, 0)
 };
 ```
+
+## 1573. Number of Ways to Split a String
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numWays = function(s) {
+    const MOD = 10 ** 9 + 7
+    
+    let onesTotal = 0
+    for (const num of s) {
+        onesTotal += +num
+    }
+    
+    const n = s.length - 2
+    if (onesTotal === 0) {
+        return (n * (n + 1) / 2) % MOD
+    }
+    
+    if (onesTotal % 3 !== 0) {
+        return 0
+    }
+    
+    const onesInEachSplit = onesTotal / 3
+    let group1Count = 1
+    let group2Count = 1
+    let currOnes = 0
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === '1') {
+            currOnes++
+            continue
+        }
+        
+        group1Count += currOnes === onesInEachSplit
+        group2Count += currOnes === (onesInEachSplit * 2)
+    }
+    
+    return group1Count * group2Count % MOD
+};
+```
