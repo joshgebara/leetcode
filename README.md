@@ -58971,3 +58971,23 @@ class Heap {
     }
 }
 ```
+
+## 1529. Bulb Switcher IV
+```javascript
+/**
+ * @param {string} target
+ * @return {number}
+ */
+var minFlips = function(target) {
+    let flips = 0
+    for (let i = 0; i < target.length; i++) {
+        if (target[i] === '1' && flips % 2 === 0) {
+            flips++
+        } else if (target[i] === '0' && flips % 2 !== 0) {
+            flips++
+        }
+    }
+    
+    return flips
+};
+```
