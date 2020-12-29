@@ -59220,3 +59220,40 @@ var minAvailableDuration = function(slots1, slots2, duration) {
     return []
 };
 ```
+
+## 223. Rectangle Area
+```javascript
+/**
+ * @param {number} A
+ * @param {number} B
+ * @param {number} C
+ * @param {number} D
+ * @param {number} E
+ * @param {number} F
+ * @param {number} G
+ * @param {number} H
+ * @return {number}
+ */
+var computeArea = function(A, B, C, D, E, F, G, H) {
+    const rect1Width = Math.abs(A - C)
+    const rect1Height = Math.abs(B - D)
+    const rect1Area = rect1Width * rect1Height
+    
+    const rect2Width = Math.abs(E - G)
+    const rect2Height = Math.abs(F - H)
+    const rect2Area = rect2Width * rect2Height
+    
+    let overlapArea = 0
+    const top = Math.min(D, H)
+    const bottom = Math.max(F, B)
+    const left = Math.max(A, E)
+    const right = Math.min(G, C)
+    if (right > left && top > bottom) {
+        const overlapWidth = right - left
+        const overlapHeight = top - bottom
+        overlapArea = overlapWidth * overlapHeight
+    }
+    
+    return rect1Area + rect2Area - overlapArea
+};
+```
