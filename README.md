@@ -34370,6 +34370,7 @@ class FenwickTree {
 
 ## 836. Rectangle Overlap
 ```javascript
+// https://leetcode.com/problems/rectangle-overlap/discuss/185809/Template%3A-Interval-Overlapping
 /**
  * @param {number[]} rec1
  * @param {number[]} rec2
@@ -59253,5 +59254,36 @@ var computeArea = function(A, B, C, D, E, F, G, H) {
     }
     
     return rect1Area + rect2Area - overlapArea
+};
+```
+
+## 1272. Remove Interval
+```javascript
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} toBeRemoved
+ * @return {number[][]}
+ */
+var removeInterval = function(intervals, toBeRemoved) {
+    const [removedStart, removedEnd] = toBeRemoved
+    const result = []
+    for (let i = 0; i < intervals.length; i++) {
+        const [start, end] = intervals[i]
+        
+        if (start > removedEnd || end < removedStart) {
+            result.push(intervals[i])
+            continue
+        }
+        
+        if (start < removedStart) {
+            result.push([start, removedStart])
+        }
+        
+        if (end > removedEnd) {
+            result.push([removedEnd, end])
+        }
+    }
+    
+    return result
 };
 ```
