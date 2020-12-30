@@ -34198,7 +34198,7 @@ var maxCount = function(m, n, ops) {
  * @param {number[]} nums
  */
 var NumArray = function(nums) {
-    this.tree = new SegmentTree(nums)
+    this.tree = new SegmentTree(nums, ((a, b) => a + b))
 };
 
 /** 
@@ -34227,66 +34227,79 @@ NumArray.prototype.sumRange = function(i, j) {
  */
 
 class SegmentTree {
-    constructor(arr) {
-        this.arr = arr
-        this.elements = Array(4 * arr.length).fill(0)
+    constructor(array, merge) {
+        this.n = array.length
+        this.merge = merge
+        this.elements = new Array(4 * this.n).fill(0)
         
-        if (this.arr.length > 0)
-            this.buildTree(arr, 0, arr.length - 1, 0)
+        this.buildTree(array)
     }
     
-    buildTree(arr, start, end, pos) {
-        if (start === end) {
-            this.elements[pos] = arr[start]
-            return
-        }
-                    
-        const mid = Math.floor((end - start) / 2) + start
-        
-        this.buildTree(arr, start, mid, 2*pos+1)
-        this.buildTree(arr, mid+1, end, 2*pos+2)
-        
-        this.elements[pos] = this.elements[2*pos+1] + this.elements[2*pos+2]
-    }
-    
-    query(qStart, qEnd) {
-        const _query = (qStart, qEnd, start, end, pos) => {
-            if (qStart <= start && qEnd >= end)
-                return this.elements[pos]
-            
-            if (qStart > end || qEnd < start)
-                return 0
-            
-            const mid = Math.floor((end - start) / 2) + start
-
-            const q1 = _query(qStart, qEnd, start, mid, 2*pos+1)
-            const q2 = _query(qStart, qEnd, mid+1, end, 2*pos+2)
-            return q1 + q2
-        }
-        
-        return _query(qStart, qEnd, 0, this.arr.length - 1, 0)
-    }
-    
-    update(val, idx) {
-        const _update = (val, idx, pos, start, end) => {
-            if (idx < start || idx > end)
-                return
-            
-            if (start === end) {
-                this.arr[idx] = val
-                this.elements[pos] = val
+    buildTree(array) {
+        const _buildTree = (treeIndex, rangeStart, rangeEnd) => {
+            if (rangeStart > rangeEnd) {
                 return
             }
             
-            const mid = Math.floor((end - start) / 2) + start
+            if (rangeStart === rangeEnd) {
+                this.elements[treeIndex] = array[rangeStart]
+                return
+            }
 
-            _update(val, idx, 2*pos+1, start, mid)
-            _update(val, idx, 2*pos+2, mid+1, end)
-            
-            this.elements[pos] = this.elements[2*pos+1] + this.elements[2*pos+2]
+            const rangeMid = Math.floor((rangeEnd - rangeStart) / 2) + rangeStart
+            _buildTree(2 * treeIndex + 1, rangeStart, rangeMid)
+            _buildTree(2 * treeIndex + 2, rangeMid + 1, rangeEnd)
+
+            this.elements[treeIndex] = this.merge(this.elements[2 * treeIndex + 1], 
+                                                  this.elements[2 * treeIndex + 2])
         }
         
-        _update(val, idx, 0, 0, this.arr.length - 1)
+        _buildTree(0, 0, this.n - 1)
+    }
+    
+    query(queryStart, queryEnd) {
+        const _query = (treeIndex, rangeStart, rangeEnd) => {
+            // Total Overlap
+            if (queryStart <= rangeStart && rangeEnd <= queryEnd) {
+                return this.elements[treeIndex]
+            }
+            
+            // No Overlap
+            if (queryStart > rangeEnd || queryEnd < rangeStart) {
+                return 0
+            }
+            
+            // Partial Overlap
+            const rangeMid = Math.floor((rangeEnd - rangeStart) / 2) + rangeStart
+            const queryLeft = _query(2 * treeIndex + 1, rangeStart, rangeMid)
+            const queryRight = _query(2 * treeIndex + 2, rangeMid + 1, rangeEnd)
+            
+            return this.merge(queryLeft, queryRight)
+        }
+        
+        return _query(0, 0, this.n - 1)
+    }
+    
+    update(value, arrayIndex) {
+        const _update = (treeIndex, rangeStart, rangeEnd) => {
+            if (arrayIndex < rangeStart || arrayIndex > rangeEnd) {
+                return
+            }
+            
+            if (rangeStart === rangeEnd) {
+                this.elements[treeIndex] = value
+                return
+            }
+            
+            const rangeMid = Math.floor((rangeEnd - rangeStart) / 2) + rangeStart
+            _update(2 * treeIndex + 1, rangeStart, rangeMid)
+            _update(2 * treeIndex + 2, rangeMid + 1, rangeEnd)
+
+            this.elements[treeIndex] = this.merge(this.elements[2 * treeIndex + 1], 
+                                                  this.elements[2 * treeIndex + 2])
+        }
+        
+        _update(0, 0, this.n - 1)
     }
 }
 
@@ -59287,3 +59300,4 @@ var removeInterval = function(intervals, toBeRemoved) {
     return result
 };
 ```
+
