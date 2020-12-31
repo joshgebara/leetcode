@@ -59437,3 +59437,22 @@ class Heap {
     }
 }
 ```
+
+## 1708. Largest Subarray Length K
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var largestSubarray = function(nums, k) {
+    let maxStart = 0
+    for (let i = 0; i < nums.length - k + 1; i++) {
+        if (nums[i] > nums[maxStart]) {
+            maxStart = i
+        }
+    }
+    
+    return nums.slice(maxStart, maxStart + k)
+};
+```
