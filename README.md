@@ -59553,3 +59553,41 @@ FROM (SELECT u1.user_id,
 GROUP BY user_id
 ORDER BY user_id
 ```
+
+## 423. Reconstruct Original Digits from English
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var originalDigits = function(s) {
+    const count = {}
+    for (const char of s) {
+        if (count[char] === undefined) {
+            count[char] = 0
+        }
+        count[char]++
+    }
+    
+    const digitCount = new Array(10).fill(0)
+    // Get even numbers by unique char
+    digitCount[0] = (count['z'] || 0)
+    digitCount[2] = (count['w'] || 0)
+    digitCount[4] = (count['u'] || 0)
+    digitCount[6] = (count['x'] || 0)
+    digitCount[8] = (count['g'] || 0)
+    
+    // Get odd numbers by even counts
+    digitCount[3] = (count['h'] || 0) - digitCount[8]
+    digitCount[5] = (count['f'] || 0) - digitCount[4]
+    digitCount[7] = (count['s'] || 0) - digitCount[6]
+    digitCount[9] = (count['i'] || 0) - digitCount[5] - digitCount[6] - digitCount[8]
+    digitCount[1] = (count['n'] || 0) - digitCount[7] - 2 * digitCount[9]
+    
+    const result = []
+    for (let i = 0; i < digitCount.length; i++) {
+        result.push(`${i}`.repeat(digitCount[i]))
+    }
+    return result.join('')
+};
+```
