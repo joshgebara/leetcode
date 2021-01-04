@@ -59619,3 +59619,39 @@ var maxSubArrayLen = function(nums, k) {
     return max
 };
 ```
+
+## 1658. Minimum Operations to Reduce X to Zero
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} x
+ * @return {number}
+ */
+var minOperations = function(nums, x) {
+    let sum = 0
+    for (const num of nums) {
+        sum += num
+    }
+    
+    const k = sum - x
+    if (k === 0) return nums.length
+    
+    const map = { 0: -1 }
+    let max = 0
+    let acc = 0
+    for (let i = 0; i < nums.length; i++) {
+        acc += nums[i]
+        
+        const compliment = acc - k
+        if (map[compliment] !== undefined) {
+            max = Math.max(max, i - map[compliment])
+        }
+        
+        if (map[acc] === undefined) {
+            map[acc] = i
+        }
+    }
+    
+    return max === 0 ? -1 : nums.length - max
+};
+```
