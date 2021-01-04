@@ -59527,3 +59527,29 @@ var maximumUnits = function(boxTypes, truckSize) {
     return count
 };
 ```
+
+## 1709. Biggest Window Between Visits
+```sql
+# Write your MySQL query statement below
+SELECT user_id, MAX(biggest_window) AS biggest_window
+FROM (SELECT u1.user_id, 
+               u1.visit_date,
+               CASE WHEN d1.diff IS NULL
+               THEN DATEDIFF('2021-1-1', u1.visit_date)
+               ELSE d1.diff
+               END AS biggest_window
+        FROM UserVisits AS u1
+        LEFT JOIN (
+            SELECT u1.user_id, 
+                   u1.visit_date, 
+                   MIN(DATEDIFF(u2.visit_date, u1.visit_date)) AS diff
+            FROM UserVisits AS u1
+            JOIN UserVisits AS u2
+            ON u1.user_id = u2.user_id AND u1.visit_date < u2.visit_date
+            GROUP BY u1.user_id, u1.visit_date
+        ) AS d1
+        ON d1.user_id = u1.user_id AND d1.visit_date = u1.visit_date
+      ) as d2
+GROUP BY user_id
+ORDER BY user_id
+```
