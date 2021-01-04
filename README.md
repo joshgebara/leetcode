@@ -59692,3 +59692,36 @@ var maxScore = function(cardPoints, k) {
     return sum - minAcc
 };
 ```
+
+## 918. Maximum Sum Circular Subarray
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var maxSubarraySumCircular = function(A) {
+    let totalSum = 0
+    
+    let totalMaxSum = -Infinity
+    let currMaxSum = -Infinity
+    
+    let totalMinSum = Infinity
+    let currMinSum = Infinity
+    
+    for (const a of A) {
+        totalSum += a
+        
+        currMaxSum = Math.max(currMaxSum + a, a)
+        totalMaxSum = Math.max(totalMaxSum, currMaxSum)
+        
+        currMinSum = Math.min(currMinSum + a, a)
+        totalMinSum = Math.min(totalMinSum, currMinSum)
+    }
+    
+    if (totalSum === totalMinSum) {
+        return totalMaxSum
+    }
+    
+    return Math.max(totalMaxSum, totalSum - totalMinSum)
+};
+```
