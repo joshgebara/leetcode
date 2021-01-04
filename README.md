@@ -59456,3 +59456,37 @@ var largestSubarray = function(nums, k) {
     return nums.slice(maxStart, maxStart + k)
 };
 ```
+
+## 1711. Count Good Meals
+```javascript
+/**
+ * @param {number[]} deliciousness
+ * @return {number}
+ */
+var countPairs = function(deliciousness) {
+    const MOD = 10 ** 9 + 7
+    const frequencyMap = {}
+    let count = 0
+    
+    for (const d of deliciousness) {
+        let powOf2 = 1
+        for (let i = 0; i <= 21; i++) {
+            const compliment = powOf2 - d
+            
+            if (frequencyMap[compliment] !== undefined) {
+                count += frequencyMap[compliment]
+            }
+            
+            powOf2 <<= 1
+        }
+        
+        if (frequencyMap[d] === undefined) {
+            frequencyMap[d] = 0
+        }
+        
+        frequencyMap[d]++
+    }
+    
+    return count % MOD
+};
+```
