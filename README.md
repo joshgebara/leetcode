@@ -59655,3 +59655,40 @@ var minOperations = function(nums, x) {
     return max === 0 ? -1 : nums.length - max
 };
 ```
+
+## 1423. Maximum Points You Can Obtain from Cards
+```javascript
+/**
+ * @param {number[]} cardPoints
+ * @param {number} k
+ * @return {number}
+ */
+var maxScore = function(cardPoints, k) {
+    let sum = 0
+    for (const cardPoint of cardPoints) {
+        sum += cardPoint
+    }
+    
+    if (k === cardPoints.length) return sum
+    
+    const size = cardPoints.length - k
+    let minAcc = Infinity
+    let currAcc = 0
+    
+    let i = 0
+    let j = 0
+    while (j < cardPoints.length) {
+        currAcc += cardPoints[j]
+        
+        if (j - i + 1 === size) {
+            minAcc = Math.min(minAcc, currAcc)
+            currAcc -= cardPoints[i]
+            i++
+        }
+        
+        j++
+    }
+    
+    return sum - minAcc
+};
+```
