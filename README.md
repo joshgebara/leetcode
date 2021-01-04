@@ -59490,3 +59490,40 @@ var countPairs = function(deliciousness) {
     return count % MOD
 };
 ```
+
+## 1710. Maximum Units on a Truck
+```javascript
+/**
+ * @param {number[][]} boxTypes
+ * @param {number} truckSize
+ * @return {number}
+ */
+var maximumUnits = function(boxTypes, truckSize) {
+    const buckets = new Array(1001)
+    for (const [numOfBoxes, numOfUnits] of boxTypes) {
+        if (buckets[numOfUnits] === undefined) {
+            buckets[numOfUnits] = []
+        }
+        buckets[numOfUnits].push([numOfBoxes, numOfUnits])
+    }
+    
+    const sortedBoxTypes = []
+    for (let numOfUnits = buckets.length - 1; numOfUnits >= 0; numOfUnits--) {
+        if (!buckets[numOfUnits]) continue
+        for (let i = 0; i < buckets[numOfUnits].length; i++) {
+            sortedBoxTypes.push(buckets[numOfUnits][i])
+        }
+    }
+    
+    let count = 0
+    for (const [numOfBoxes, numOfUnits] of sortedBoxTypes) {
+        const boxCount = Math.min(numOfBoxes, truckSize)
+        count += boxCount * numOfUnits
+        truckSize -= boxCount
+        
+        if (truckSize === 0) break
+    }
+    
+    return count
+};
+```
