@@ -59591,3 +59591,31 @@ var originalDigits = function(s) {
     return result.join('')
 };
 ```
+
+## 325. Maximum Size Subarray Sum Equals k
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var maxSubArrayLen = function(nums, k) {
+    const map = { 0: -1 }
+    let max = 0
+    let acc = 0
+    for (let i = 0; i < nums.length; i++) {
+        acc += nums[i]
+        
+        const compliment = acc - k
+        if (map[compliment] !== undefined) {
+            max = Math.max(max, i - map[compliment])
+        }
+        
+        if (map[acc] === undefined) {
+            map[acc] = i
+        }
+    }
+    
+    return max
+};
+```
