@@ -59823,3 +59823,44 @@ var nthPersonGetsNthSeat = function(n) {
     return n > 1 ? 0.5 : 1
 };
 ```
+
+## 777. Swap Adjacent in LR String
+```javascript
+/**
+ * @param {string} start
+ * @param {string} end
+ * @return {boolean}
+ */
+var canTransform = function(start, end) {
+    if (start.length !== end.length) {
+        return false
+    }
+    
+    const n = start.length
+    let i = 0
+    let j = 0
+    while (true) {
+        while (i < n && start[i] === 'X') i++
+        while (j < n && end[j] === 'X') j++
+        
+        if (i === n || j === n) {
+            return i === n && j === n
+        }
+        
+        if (start[i] !== end[j]) {
+            return false
+        }
+        
+        if (start[i] === 'L' && i < j) {
+            return false
+        }
+        
+        if (start[i] === 'R' && i > j) {
+            return false
+        }
+        
+        i++
+        j++
+    }
+};
+```
