@@ -59812,3 +59812,14 @@ var predictPartyVictory = function(senate) {
     }
 };
 ```
+
+## 1227. Airplane Seat Assignment Probability
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var nthPersonGetsNthSeat = function(n) {
+    return n > 1 ? 0.5 : 1
+};
+```
