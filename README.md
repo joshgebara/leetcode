@@ -59758,3 +59758,57 @@ var strWithout3a3b = function(a, b) {
     return result.join('')
 };
 ```
+
+## 649. Dota2 Senate
+```javascript
+/**
+ * @param {string} senate
+ * @return {string}
+ */
+var predictPartyVictory = function(senate) {
+    let radiantCount = 0
+    let direCount = 0
+    for (const senator of senate) {
+        if (senator === 'R') {
+            radiantCount++
+        } else {
+            direCount++
+        }
+    }
+    
+    let radiantBansAllowed = 0
+    let direBansAllowed = 0
+    const banned = new Set()
+    while (true) {
+        for (let i = 0; i < senate.length; i++) {
+            if (banned.has(i)) continue
+            
+            if (senate[i] === 'R') {
+                if (direBansAllowed > 0) {
+                    direBansAllowed--
+                    radiantCount--
+                    banned.add(i)
+                } else {
+                    radiantBansAllowed++
+                }
+            } else {
+                if (radiantBansAllowed > 0) {
+                    radiantBansAllowed--
+                    direCount--
+                    banned.add(i)
+                } else {
+                    direBansAllowed++
+                }
+            }
+            
+            if (direCount && !radiantCount) {
+                return 'Dire'
+            }
+
+            if (!direCount && radiantCount) {
+                return 'Radiant'
+            }
+        }
+    }
+};
+```
