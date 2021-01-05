@@ -59725,3 +59725,36 @@ var maxSubarraySumCircular = function(A) {
     return Math.max(totalMaxSum, totalSum - totalMinSum)
 };
 ```
+
+## 984. String Without AAA or BBB
+```javascript
+/**
+ * @param {number} a
+ * @param {number} b
+ * @return {string}
+ */
+var strWithout3a3b = function(a, b) {
+    const largeChar = a < b ? 'b' : 'a'
+    const smallChar = a < b ? 'a' : 'b'
+    let largeCount = a < b ? b : a
+    let smallCount = a < b ? a : b
+    
+    const result = []
+    while (largeCount > 0) {
+        result.push(largeChar)
+        largeCount--
+        
+        if (largeCount > smallCount) {    
+            result.push(largeChar)
+            largeCount--
+        }
+        
+        if (smallCount > 0) {
+            result.push(smallChar)
+            smallCount--
+        }
+    }
+    
+    return result.join('')
+};
+```
