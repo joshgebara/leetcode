@@ -59972,3 +59972,70 @@ var maxTurbulenceSize = function(arr) {
     return maxLen
 };
 ```
+
+##
+```javascript
+// DP - O(n^2)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var wiggleMaxLength = function(nums) {
+    if (!nums.length) return 0
+    
+    const dp = new Array(nums.length).fill(1).map(a => new Array(2).fill(1))
+    let maxLen = 1
+    for (let i = 1; i < nums.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[i] < nums[j]) {
+                dp[i][0] = Math.max(dp[i][0], dp[j][1] + 1)
+            } else if (nums[i] > nums[j]) {
+                dp[i][1] = Math.max(dp[i][1], dp[j][0] + 1)
+            }
+        }
+        
+        maxLen = Math.max(maxLen, dp[i][0], dp[i][1])
+    }
+    
+    return maxLen
+};
+
+
+```
+
+## 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} limit
+ * @return {number}
+ */
+var longestSubarray = function(nums, limit) {
+    let max = 0
+    const maxDeque = []
+    const minDeque = []
+    
+    let i = 0
+    for (let j = 0; j < nums.length; j++) {
+        while (maxDeque.length && maxDeque[maxDeque.length - 1] < nums[j]) {
+            maxDeque.pop()
+        }
+        maxDeque.push(nums[j])
+        
+        while (minDeque.length && minDeque[minDeque.length - 1] > nums[j]) {
+            minDeque.pop()
+        }
+        minDeque.push(nums[j])
+        
+        while (maxDeque[0] - minDeque[0] > limit) {
+            if (maxDeque[0] === nums[i]) maxDeque.shift()
+            if (minDeque[0] === nums[i]) minDeque.shift()
+            i++
+        }
+        
+        max = Math.max(max, j - i + 1)
+    }
+    
+    return max
+};
+```
