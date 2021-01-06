@@ -59973,7 +59973,7 @@ var maxTurbulenceSize = function(arr) {
 };
 ```
 
-##
+## 376. Wiggle Subsequence
 ```javascript
 // DP - O(n^2)
 /**
@@ -59999,8 +59999,6 @@ var wiggleMaxLength = function(nums) {
     
     return maxLen
 };
-
-
 ```
 
 ## 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
