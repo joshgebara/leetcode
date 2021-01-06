@@ -59891,3 +59891,31 @@ var maximumUniqueSubarray = function(nums) {
     return maxSum
 };
 ```
+
+## 978. Longest Turbulent Subarray
+```javascript
+// Kadane's Algorithm
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var maxTurbulenceSize = function(arr) {
+    let maxLen = 0
+    let currLen = 0
+    
+    for (let i = 0; i < arr.length; i++) {
+        if (i >= 2 && (arr[i - 2] > arr[i - 1] && arr[i - 1] < arr[i] || 
+                       arr[i - 2] < arr[i - 1] && arr[i - 1] > arr[i])) {
+            currLen++
+        } else if (i >= 1 && arr[i - 1] !== arr[i]) {
+            currLen = 2
+        } else {
+            currLen = 1
+        }
+        
+        maxLen = Math.max(maxLen, currLen)
+    }
+    
+    return maxLen
+};
+```
