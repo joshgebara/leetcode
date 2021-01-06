@@ -59918,4 +59918,57 @@ var maxTurbulenceSize = function(arr) {
     
     return maxLen
 };
+
+// DP - O(n) Space
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var maxTurbulenceSize = function(arr) {
+    if (!arr.length) return 0
+    
+    const dp = new Array(arr.length).fill().map(a => new Array(2).fill(1))
+    let maxLen = 1
+    
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i - 1] < arr[i]) {
+            dp[i][0] = dp[i - 1][1] + 1
+        } else if (arr[i - 1] > arr[i]) {
+            dp[i][1] = dp[i - 1][0] + 1
+        }
+        
+        maxLen = Math.max(maxLen, dp[i][0], dp[i][1])
+    }
+    
+    return maxLen
+};
+
+// DP - O(1) Space
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var maxTurbulenceSize = function(arr) {
+    if (!arr.length) return 0
+    
+    let maxLen = 1
+    let inc = 1 // inc: The length of current valid sequence which ends with two increasing numbers
+    let dec = 1 // dec: The length of current valid sequence which ends with two decreasing numbers
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i - 1] > arr[i]) {
+            dec = inc + 1
+            inc = 1
+        } else if (arr[i - 1] < arr[i]) {
+            inc = dec + 1
+            dec = 1
+        } else {
+            inc = 1
+            dec = 1
+        }
+        
+        maxLen = Math.max(maxLen, inc, dec)
+    }
+    
+    return maxLen
+};
 ```
