@@ -59864,3 +59864,30 @@ var canTransform = function(start, end) {
     }
 };
 ```
+
+## 1695. Maximum Erasure Value
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maximumUniqueSubarray = function(nums) {
+    let maxSum = 0
+    let currSum = 0
+    const seen = new Set()
+    let i = 0
+    for (let j = 0; j < nums.length; j++) {
+        while (seen.has(nums[j])) {
+            seen.delete(nums[i])
+            currSum -= nums[i]
+            i++
+        }
+        
+        currSum += nums[j]
+        seen.add(nums[j])
+        maxSum = Math.max(maxSum, currSum)
+    }
+    
+    return maxSum
+};
+```
