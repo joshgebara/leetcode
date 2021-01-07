@@ -60071,3 +60071,90 @@ var numSubmatrixSumTarget = function(matrix, target) {
     return result    
 };
 ```
+
+## 363. Max Sum of Rectangle No Larger Than K
+```javascript
+// O(min(m,n)^2*max(m,n)*log(max(m,n)))
+/**
+ * @param {number[][]} matrix
+ * @param {number} k
+ * @return {number}
+ */
+var maxSumSubmatrix = function(matrix, k) {
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 1; col < n; col++) {        
+            matrix[row][col] += matrix[row][col - 1]
+        }
+    }
+    
+    let max = -Infinity
+    for (let leftCol = 0; leftCol < n; leftCol++) {
+        for (let rightCol = leftCol; rightCol < n; rightCol++) {
+            let totalMax = -Infinity
+            let currMax = -Infinity
+            for (let row = 0; row < m; row++) {
+                const curr = matrix[row][rightCol] - (matrix[row][leftCol - 1] || 0)
+                currMax = Math.max(currMax + curr, curr)
+                totalMax = Math.max(totalMax, currMax)
+            }
+            
+            if (totalMax <= k) {
+                max = Math.max(max, totalMax)
+                continue
+            }
+            
+            const sortedList = [0]
+            let sum = 0
+            for (let row = 0; row < m; row++) {
+                sum += matrix[row][rightCol] - (matrix[row][leftCol - 1] || 0)
+                
+                // lowest value greater than sum - k
+                const lowest = lowerBound(sortedList, sum - k)
+                if (lowest !== undefined) {
+                    max = Math.max(max, sum - lowest)
+                }
+                
+                // should use a Balanced BST to get this down to O(log n). currently O(n).
+                insert(sortedList, sum)
+            }
+            
+            if (max === k) {
+                return max
+            }
+        }
+    }
+    
+    return max  
+};
+
+const lowerBound = (arr, target) => {
+    return arr[binarySearch(arr, target)]
+}
+
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length - 1
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        if (arr[mid] == target) {
+            return mid
+        } else if (arr[mid] < target) {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return left
+};
+
+const insert = (arr, target) => {
+    const index = binarySearch(arr, target)
+    if (arr[index] != target) {
+        arr.splice(index, 0, target)
+    }
+};
+```
