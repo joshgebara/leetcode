@@ -60037,3 +60037,37 @@ var longestSubarray = function(nums, limit) {
     return max
 };
 ```
+
+## 1074. Number of Submatrices That Sum to Target
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {number}
+ */
+var numSubmatrixSumTarget = function(matrix, target) {
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    for (let row = 0; row < m; row++) {
+        for (let col = 1; col < n; col++) {        
+            matrix[row][col] += matrix[row][col - 1]
+        }
+    }
+    
+    let result = 0
+    for (let leftCol = 0; leftCol < n; leftCol++) {
+        for (let rightCol = leftCol; rightCol < n; rightCol++) {
+            const freqCounter = { 0: 1 }
+            let sum = 0
+            for (let row = 0; row < m; row++) {
+                sum += matrix[row][rightCol] - (matrix[row][leftCol - 1] || 0)
+                result += (freqCounter[sum - target] || 0)
+                freqCounter[sum] = 1 + (freqCounter[sum] || 0)
+            }
+        }
+    }
+    
+    return result    
+};
+```
