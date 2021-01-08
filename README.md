@@ -60158,3 +60158,36 @@ const insert = (arr, target) => {
     }
 };
 ```
+
+## 862. Shortest Subarray with Sum at Least K
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} K
+ * @return {number}
+ */
+var shortestSubarray = function(A, K) {
+    let min = Infinity
+    
+    const preSum = [0]
+    for (let i = 0; i < A.length; i++) {
+        preSum.push(A[i] + preSum[preSum.length - 1])
+    }
+    
+    const dequeue = []
+    for (let i = 0; i < preSum.length; i++){
+        while (dequeue.length > 0 && preSum[i] - preSum[dequeue[0]] >= K) {
+            min = Math.min(min, i - dequeue[0])
+            dequeue.shift()
+        }
+        
+        while (dequeue.length > 0 && preSum[i] <= preSum[dequeue[dequeue.length - 1]]) {
+            dequeue.pop()
+        }
+        
+        dequeue.push(i)
+    }
+    
+    return min === Infinity ? -1 : min
+};
+```
