@@ -60268,6 +60268,7 @@ var numTilings = function(N) {
 
 ## 1406. Stone Game III
 ```javascript
+// Minimax
 /**
  * @param {number[]} stoneValue
  * @return {string}
@@ -60298,6 +60299,37 @@ var stoneGameIII = function(stoneValue) {
     
     const memo = new Array(stoneValue.length).fill().map(a => new Array(2))
     const result = _stoneGameIII(0, 1)
+    if (result > 0) return 'Alice'
+    if (result < 0) return 'Bob'
+    return 'Tie'
+};
+
+// Negamax
+/**
+ * @param {number[]} stoneValue
+ * @return {string}
+ */
+var stoneGameIII = function(stoneValue) {
+    const _stoneGameIII = i => {
+        if (i >= stoneValue.length) return 0
+        
+        if (memo[i] !== undefined) {
+            return memo[i]
+        }
+        
+        let result = -Infinity
+        let score = 0
+        for (let j = i; j < Math.min(i + 3, stoneValue.length); j++) {
+            score += stoneValue[j]
+            result = Math.max(result, score - _stoneGameIII(j + 1))
+        }
+        
+        memo[i] = result
+        return result
+    }
+    
+    const memo = new Array(stoneValue.length)
+    const result = _stoneGameIII(0)
     if (result > 0) return 'Alice'
     if (result < 0) return 'Bob'
     return 'Tie'
