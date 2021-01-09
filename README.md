@@ -51521,6 +51521,7 @@ var getMoneyAmount = function(n) {
 
 ## 877. Stone Game
 ```javascript
+// Minimax
 /**
  * @param {number[]} piles
  * @return {boolean}
@@ -51551,6 +51552,29 @@ var stoneGame = function(piles) {
                 .map(a => Array(2)))
     
     return _stoneGame(0, piles.length - 1, 1)
+};
+
+// Negamax
+/**
+ * @param {number[]} piles
+ * @return {boolean}
+ */
+var stoneGame = function(piles) {
+    const _stoneGame = (left, right) => {
+        if (left > right) return 0
+        
+        if (dp[left][right] !== undefined) {
+            return dp[left][right]
+        }
+        
+        dp[left][right] = Math.min(piles[left] - _stoneGame(left + 1, right, 1), 
+                                   piles[right] - _stoneGame(left, right - 1, 1))
+        return dp[left][right]
+    }
+    
+    const n = piles.length
+    const dp = Array(n).fill().map(a => Array(n))
+    return _stoneGame(0, n - 1)
 };
 ```
 
