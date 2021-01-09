@@ -51565,9 +51565,9 @@ var PredictTheWinner = function(nums) {
         if (left > right) return 0
         if (memo[left][right]) return memo[left][right]
         
-        const op1 = nums[left] - _predictTheWinner(left + 1, right, true)
-        const op2 = nums[right] - _predictTheWinner(left, right - 1, true)
-        return Math.max(op1, op2)
+        memo[left][right] = Math.max(nums[left] - _predictTheWinner(left + 1, right),
+                                     nums[right] - _predictTheWinner(left, right - 1))
+        return memo[left][right]
     }
     
     const memo = new Array(nums.length).fill().map(a => new Array(nums.length))
