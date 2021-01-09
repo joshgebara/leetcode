@@ -51561,20 +51561,16 @@ var stoneGame = function(piles) {
  * @return {boolean}
  */
 var PredictTheWinner = function(nums) {
-    const _predictTheWinner = (left, right, maximizingPlayer) => {
+    const _predictTheWinner = (left, right) => {
         if (left > right) return 0
+        if (memo[left][right]) return memo[left][right]
         
-        if (maximizingPlayer) {
-            const op1 = _predictTheWinner(left + 1, right, false) + nums[left]
-            const op2 = _predictTheWinner(left, right - 1, false) + nums[right]
-            return Math.max(op1, op2)
-        } else {
-            const op1 = _predictTheWinner(left + 1, right, true) - nums[left]
-            const op2 = _predictTheWinner(left, right - 1, true) - nums[right]
-            return Math.min(op1, op2)
-        }
+        const op1 = nums[left] - _predictTheWinner(left + 1, right, true)
+        const op2 = nums[right] - _predictTheWinner(left, right - 1, true)
+        return Math.max(op1, op2)
     }
     
+    const memo = new Array(nums.length).fill().map(a => new Array(nums.length))
     return _predictTheWinner(0, nums.length - 1, true) >= 0
 };
 ```
