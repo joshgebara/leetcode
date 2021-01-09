@@ -60265,3 +60265,41 @@ var numTilings = function(N) {
     return _numTilings(0, 0)
 };
 ```
+
+## 1406. Stone Game III
+```javascript
+/**
+ * @param {number[]} stoneValue
+ * @return {string}
+ */
+var stoneGameIII = function(stoneValue) {
+    const _stoneGameIII = (i, maximizingPlayer) => {
+        if (i >= stoneValue.length) return 0
+        
+        if (memo[i][maximizingPlayer] !== undefined) {
+            return memo[i][maximizingPlayer]
+        }
+        
+        let result = maximizingPlayer ? -Infinity : Infinity
+        let score = 0
+        for (let j = i; j < Math.min(i + 3, stoneValue.length); j++) {
+            if (maximizingPlayer) {
+                score += stoneValue[j]
+                result = Math.max(result, score + _stoneGameIII(j + 1, maximizingPlayer ^ 1))
+            } else {
+                score -= stoneValue[j]
+                result = Math.min(result, score + _stoneGameIII(j + 1, maximizingPlayer ^ 1))
+            }    
+        }
+        
+        memo[i][maximizingPlayer] = result
+        return result
+    }
+    
+    const memo = new Array(stoneValue.length).fill().map(a => new Array(2))
+    const result = _stoneGameIII(0, 1)
+    if (result > 0) return 'Alice'
+    if (result < 0) return 'Bob'
+    return 'Tie'
+};
+```
