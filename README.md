@@ -60228,3 +60228,44 @@ SparseVector.prototype.dotProduct = function(vec) {
 // let v2 = new SparseVector(nums2);
 // let ans = v1.dotProduct(v2);
 ```
+
+## 790. Domino and Tromino Tiling
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var numTilings = function(N) {
+    /** 
+    Col States:
+    0 = top and bottom free
+    1 = bottom free
+    2 = top free
+    **/
+    
+    const _numTilings = (i, colState) => {
+        if (i > N) return 0
+        if (i === N) return colState === 0
+        
+        if (memo[i][colState] !== undefined) {
+            return memo[i][colState]
+        }
+        
+        if (colState === 0) {
+            memo[i][colState] = _numTilings(i + 1, 0) + _numTilings(i + 2, 0) + 
+                                _numTilings(i + 1, 1) + _numTilings(i + 1, 2)
+        } else if (colState === 1) {
+            memo[i][colState] = _numTilings(i + 2, 0) + _numTilings(i + 1, 2)
+        } else if (colState === 2) {
+            memo[i][colState] = _numTilings(i + 2, 0) + _numTilings(i + 1, 1)
+        }
+        
+        memo[i][colState] %= MOD
+        return memo[i][colState]
+    }
+    
+    const MOD = 10 ** 9 + 7
+    const memo = new Array(N).fill().map(a => new Array(3))
+    return _numTilings(0, 0)
+};
+```
