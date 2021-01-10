@@ -60397,3 +60397,47 @@ var waysToMakeFair = function(nums) {
     return count
 };
 ```
+
+## 1706. Where Will the Ball Fall
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number[]}
+ */
+var findBall = function(grid) {
+    const _findBall = (row, col) => {
+        if (row >= m) return col
+        if (col >= n || col < 0) return -1
+        
+        if (memo[row][col] !== undefined) {
+            return memo[row][col]
+        }
+        
+        if (grid[row][col] === 1) {
+            if (col + 1 >= n || grid[row][col + 1] === -1) {
+                memo[row][col] = -1
+            } else {
+                memo[row][col] = _findBall(row + 1, col + 1)
+            }
+        } else {
+            if (col - 1 < 0 || grid[row][col - 1] === 1) {
+                memo[row][col] = -1
+            } else {
+                memo[row][col] = _findBall(row + 1, col - 1)
+            }
+        }
+        
+        return memo[row][col]
+    }
+    
+    const m = grid.length
+    const n = grid[0].length
+    const memo = new Array(m).fill().map(a => new Array(n))
+    
+    const result = []
+    for (let col = 0; col < n; col++) {
+        result.push(_findBall(0, col))
+    }
+    return result
+};
+```
