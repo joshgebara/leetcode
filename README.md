@@ -60359,3 +60359,41 @@ var stoneGameIII = function(stoneValue) {
     return 'Tie'
 };
 ```
+
+## 1664. Ways to Make a Fair Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var waysToMakeFair = function(nums) {
+    const prefixSumEven = [0]
+    const prefixSumOdd = [0]
+    
+    for (let i = 0; i < nums.length; i++) {
+        if (i % 2 === 0) {
+            prefixSumEven.push(nums[i] + prefixSumEven[prefixSumEven.length - 1])
+            prefixSumOdd.push(prefixSumOdd[prefixSumOdd.length - 1])
+        } else {
+            prefixSumOdd.push(nums[i] + prefixSumOdd[prefixSumOdd.length - 1])
+            prefixSumEven.push(prefixSumEven[prefixSumEven.length - 1])
+        }
+    }
+    
+    let count = 0
+    for (let i = 0; i < nums.length; i++) {
+        const evenLeftSum = prefixSumEven[i]
+        const oddLeftSum = prefixSumOdd[i]
+        
+        const oddRightSum = prefixSumEven[prefixSumEven.length - 1] - prefixSumEven[i + 1]
+        const evenRightSum = prefixSumOdd[prefixSumOdd.length - 1] - prefixSumOdd[i + 1]
+        
+        const evenSum = evenLeftSum + evenRightSum
+        const oddSum = oddLeftSum + oddRightSum
+        
+        count += evenSum === oddSum
+    }
+    
+    return count
+};
+```
