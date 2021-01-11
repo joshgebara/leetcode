@@ -56091,7 +56091,12 @@ var numberOfMatches = function(n) {
     
     while (n > 1) {
         matches += Math.trunc(n / 2)
-        n = Math.trunc(n / 2) + n % 2
+        
+        if (n % 2 === 0) {
+            n /= 2
+        } else {
+            n = Math.trunc(n / 2) + 1
+        }
     }
     
     return matches
@@ -60470,3 +60475,4 @@ var maxNonOverlapping = function(nums, target) {
     return count
 };
 ```
+
