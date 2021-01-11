@@ -60441,3 +60441,32 @@ var findBall = function(grid) {
     return result
 };
 ```
+
+## 1546. Maximum Number of Non-Overlapping Subarrays With Sum Equals Target
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var maxNonOverlapping = function(nums, target) {
+    const map = { 0: -1 }
+    let accSum = 0
+    let count = 0
+    let rightBound = -1
+    
+    for (let i = 0; i < nums.length; i++) {
+        accSum += nums[i]
+        const compliment = accSum - target
+        
+        if (map[compliment] !== undefined && map[compliment] >= rightBound) {
+            count++
+            rightBound = i
+        }
+        
+        map[accSum] = i
+    }
+    
+    return count
+};
+```
