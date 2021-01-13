@@ -60536,3 +60536,36 @@ var soupServings = function(N) {
     return _soupServings(N, N)
 };
 ```
+
+## 1186. Maximum Subarray Sum with One Deletion
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var maximumSum = function(arr) {    
+    let max = -Infinity
+    
+    const prefix = new Array(arr.length)
+    let localMax = -Infinity
+    for (let i = 0; i < arr.length; i++) {
+        localMax = Math.max(localMax + arr[i], arr[i])
+        max = Math.max(localMax, max)
+        prefix[i] = localMax
+    }
+    
+    const suffix = new Array(arr.length)
+    localMax = -Infinity
+    for (let i = arr.length - 1; i >= 0; i--) {
+        localMax = Math.max(localMax + arr[i], arr[i])
+        max = Math.max(localMax, max)
+        suffix[i] = localMax
+    }
+    
+    for (let i = 1; i < arr.length - 1; i++) {
+        max = Math.max(max, prefix[i - 1] + suffix[i + 1])
+    }
+    
+    return max
+};
+```
