@@ -60476,3 +60476,35 @@ var maxNonOverlapping = function(nums, target) {
 };
 ```
 
+## 1690. Stone Game VII
+```javascript
+/**
+ * @param {number[]} stones
+ * @return {number}
+ */
+var stoneGameVII = function(stones) {
+    const _stoneGameVII = (left, right) => {
+        if (left >= right) return 0
+        
+        if (memo[left][right] !== undefined) {
+            return memo[left][right]
+        }
+        
+        const sumWithoutLeft = prefixSum[right] - prefixSum[left]
+        const sumWithoutRight = prefixSum[right - 1] - (prefixSum[left - 1] || 0)
+        const op1 = sumWithoutLeft - _stoneGameVII(left + 1, right)
+        const op2 = sumWithoutRight - _stoneGameVII(left, right - 1)
+        memo[left][right] = Math.max(op1, op2)
+        return memo[left][right]
+    }
+    
+    const prefixSum = []
+    for (const stone of stones) {
+        prefixSum.push(stone + (prefixSum[prefixSum.length - 1] || 0))
+    }
+    
+    const n = stones.length
+    const memo = Array(n).fill().map(a => Array(n))
+    return _stoneGameVII(0, stones.length - 1)
+};
+```
