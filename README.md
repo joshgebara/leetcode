@@ -60508,3 +60508,31 @@ var stoneGameVII = function(stones) {
     return _stoneGameVII(0, stones.length - 1)
 };
 ```
+
+## 808. Soup Servings
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var soupServings = function(N) {
+    const _soupServings = (A, B) => {
+        if (A > 0 && B <= 0) return 0
+        if (A <= 0 && B > 0) return 1
+        if (A <= 0 && B <= 0) return 0.5
+        
+        if (memo[A][B] !== undefined) return memo[A][B]
+        
+        const prob = 0.25 * (_soupServings(A - 100, B) + 
+                            _soupServings(A - 75, B - 25) +
+                            _soupServings(A - 50, B - 50) +
+                            _soupServings(A - 25, B - 75))
+        memo[A][B] = prob
+        return memo[A][B]
+    }
+    
+    if (N > 4800) return 1
+    const memo = new Array(N + 1).fill().map(a => new Array(N + 1))
+    return _soupServings(N, N)
+};
+```
