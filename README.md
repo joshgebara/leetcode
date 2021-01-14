@@ -60569,3 +60569,30 @@ var maximumSum = function(arr) {
     return max
 };
 ```
+
+## 1409. Queries on a Permutation With Key
+```javascript
+/**
+ * @param {number[]} queries
+ * @param {number} m
+ * @return {number[]}
+ */
+var processQueries = function(queries, m) {
+    // Ideally a LinkedList or Deque for O(1) insertions to front
+    const arr = []
+    for (let i = 1; i <= m; i++) {
+        arr.push(i)
+    }
+    
+    const result = []
+    for (const query of queries) {
+        const index = arr.indexOf(query)
+        const val = arr[index]
+        result.push(index)
+        arr.splice(index, 1)
+        arr.unshift(val)
+    }
+    
+    return result
+};
+```
