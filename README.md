@@ -60674,3 +60674,55 @@ var largestSubmatrix = function(matrix) {
     return max
 };
 ```
+
+## 85. Maximal Rectangle
+```javascript
+// DP
+/**
+ * @param {character[][]} matrix
+ * @return {number}
+ */
+var maximalRectangle = function(matrix) {
+    if (!matrix.length || !matrix[0].length) return 0
+    
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    const height = new Array(n).fill(0)
+    const left = new Array(n).fill(0)
+    const right = new Array(n).fill(n - 1)
+    
+    let maxArea = 0
+    for (let row = 0; row < m; row++) {
+        let leftMostCol = 0
+        let rightMostCol = n - 1
+        for (let col = 0; col < n; col++) {
+            if (matrix[row][col] == 1) {
+                height[col] += 1
+                
+                left[col] = Math.max(left[col], leftMostCol)
+            } else {
+                height[col] = 0
+                
+                left[col] = 0
+                leftMostCol = col + 1
+            }
+            
+            const oppCol = n - col - 1
+            if (matrix[row][oppCol] == 1) {
+                right[oppCol] = Math.min(right[oppCol], rightMostCol)
+            } else {
+                right[oppCol] = n - 1
+                rightMostCol = oppCol - 1
+            }
+        }
+        
+        for (let col = 0; col < n; col++) {
+            maxArea = Math.max(maxArea, height[col] * (right[col] - left[col] + 1))
+        }
+    }
+    
+    
+    return maxArea
+};
+```
