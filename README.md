@@ -60596,3 +60596,28 @@ var processQueries = function(queries, m) {
     return result
 };
 ```
+
+## 1725. Number Of Rectangles That Can Form The Largest Square
+```javascript
+/**
+ * @param {number[][]} rectangles
+ * @return {number}
+ */
+var countGoodRectangles = function(rectangles) {
+    let maxLength = 0
+    let maxCount = 0
+    
+    for (const [length, width] of rectangles) {
+        const sideLength = Math.min(length, width)
+        
+        if (maxLength === sideLength) {
+            maxCount++
+        } else if (maxLength < sideLength) {
+            maxCount = 1
+            maxLength = sideLength
+        }
+    }
+    
+    return maxCount
+};
+```
