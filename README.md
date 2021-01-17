@@ -60642,3 +60642,35 @@ var tupleSameProduct = function(nums) {
     return count
 };
 ```
+
+## 1727. Largest Submatrix With Rearrangements
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+var largestSubmatrix = function(matrix) {
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    for (let col = 0; col < n; col++) {
+        for (let row = m - 1; row >= 0; row--) {
+            if (matrix[row][col]) {
+                if (row < m - 1) {
+                    matrix[row][col] += matrix[row + 1][col]
+                }
+            }
+        }
+    }
+    
+    let max = 0
+    for (let row = 0; row < m; row++) {
+        const sortedArr = matrix[row].slice().sort((a, b) => b - a)
+        for (let col = 0; col < n; col++) {
+            max = Math.max(max, sortedArr[col] * (col + 1))
+        }
+    }
+    
+    return max
+};
+```
