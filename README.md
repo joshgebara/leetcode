@@ -60709,6 +60709,57 @@ var maximalRectangle = function(matrix) {
     
     return maxArea
 };
+
+// Largest Histogram
+/**
+ * @param {character[][]} matrix
+ * @return {number}
+ */
+var maximalRectangle = function(matrix) {
+    if (!matrix.length || !matrix[0].length) return 0
+    
+    const m = matrix.length
+    const n = matrix[0].length
+    const heights = new Array(n).fill(0)
+    
+    let maxArea = 0
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (matrix[row][col] === '1') {
+                heights[col]++
+            } else {
+                heights[col] = 0
+            }
+        }
+        
+        maxArea = Math.max(maxArea, largestHistogram(heights))
+    }
+    
+    return maxArea
+};
+
+const largestHistogram = heights => {
+    const stack = [-1]
+    let max = 0
+    for (let i = 0; i < heights.length; i++) {
+        while (stack[stack.length - 1] !== -1 && 
+               heights[stack[stack.length - 1]] >= heights[i]) {
+            const height = heights[stack.pop()]
+            const width = i - stack[stack.length - 1] - 1
+            max = Math.max(max, height * width)
+        }
+        
+        stack.push(i)
+    }
+    
+    while (stack[stack.length - 1] !== -1) {
+        const height = heights[stack.pop()]
+        const width = heights.length - stack[stack.length - 1] - 1
+        max = Math.max(max, height * width)
+    }
+    
+    return max
+};
 ```
 
 ## 1729. Find Followers Count
