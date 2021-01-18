@@ -52023,6 +52023,31 @@ var getHappyString = function(n, k) {
     _getHappyString([])
     return count >= k ? result : ''
 };
+
+// DP
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getHappyString = function(n, k) {
+    let result = ['a', 'b', 'c']
+    
+    for (let i = 2; i <= n; i++) {
+        const nextResult = []
+        for (let j = 0; j < result.length && nextResult.length < k; j++) {
+            const str = result[j]
+            
+            for (const char of 'abc') {
+                if (str[str.length - 1] === char) continue
+                nextResult.push(str + char)
+            }
+        }
+        result = nextResult
+    }
+    
+    return result.length >= k ? result[k - 1] : ''
+}
 ```
 
 ## 1066. Campus Bikes II
@@ -60770,3 +60795,4 @@ FROM Followers
 GROUP BY user_id
 ORDER BY user_id
 ```
+
