@@ -44956,39 +44956,23 @@ const buildGraph = (n, connections) => {
  * @return {number}
  */
 var largestRectangleArea = function(heights) {
-    const stack = []
+    const stack = [-1]
     let max = 0
-    let i = 0
-    
-    while (i < heights.length) {
-        if (!stack.length || heights[stack[stack.length - 1]] <= heights[i]) {
-            stack.push(i)
-            i++
-        } else {
-            const barIndex = stack.pop()
-            
-            let area = 0
-            if (stack.length) {
-                area = heights[barIndex] * (i - 1 - stack[stack.length - 1])
-            } else {
-                area = heights[barIndex] * i
-            }
-            
-            max = Math.max(max, area)
+    for (let i = 0; i < heights.length; i++) {
+        while (stack[stack.length - 1] !== -1 && 
+               heights[stack[stack.length - 1]] >= heights[i]) {
+            const height = heights[stack.pop()]
+            const width = i - stack[stack.length - 1] - 1
+            max = Math.max(max, height * width)
         }
+        
+        stack.push(i)
     }
     
-    while (stack.length) {
-        const barIndex = stack.pop()
-        
-        let area = 0
-        if (stack.length) {
-            area = heights[barIndex] * (i - 1 - stack[stack.length - 1])
-        } else {
-            area = heights[barIndex] * i
-        }
-        
-        max = Math.max(max, area)
+    while (stack[stack.length - 1] !== -1) {
+        const height = heights[stack.pop()]
+        const width = heights.length - stack[stack.length - 1] - 1
+        max = Math.max(max, height * width)
     }
     
     return max
