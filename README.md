@@ -23001,7 +23001,7 @@ var numTilePossibilities = function(tiles) {
 
 ## 1219. Path with Maximum Gold
 ```javascript
-// Time: O(n · 3 ^ k), where k is the number of cells with gold, and n is total number of cells.
+// Time: O(m * n · 3 ^ k), where k is the number of cells with gold
 // Memory: O(k) for the recursion.
 /**
  * @param {number[][]} grid
