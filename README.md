@@ -60855,3 +60855,29 @@ const getIndices = (pivot, sArr, lArr) => {
     return [sLeft, sRight, lLeft, lRight]
 }
 ```
+
+## 386. Lexicographical Numbers
+```javascript
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var lexicalOrder = function(n) {
+    const _lexicalOrder = (num) => {
+        if (num > n) return
+        result.push(num)
+        
+        for (let digit = 0; digit <= 9; digit++) {
+            const nextNum = num * 10 + digit
+            if (nextNum > n) return
+            _lexicalOrder(nextNum)
+        }
+    }
+    
+    const result = []
+    for (let digit = 1; digit <= 9; digit++) {
+        _lexicalOrder(digit)
+    }
+    return result
+};
+```
