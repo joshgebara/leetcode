@@ -60796,3 +60796,62 @@ GROUP BY user_id
 ORDER BY user_id
 ```
 
+## 4. Median of Two Sorted Arrays
+```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function(nums1, nums2) {
+    const sArr = nums1.length < nums2.length ? nums1 : nums2
+    const lArr = nums1.length < nums2.length ? nums2 : nums1
+    
+    let left = 0
+    let right = sArr.length
+    while (left <= right) {
+        const pivot = Math.floor((right - left) / 2) + left
+        
+        const [sLeft, sRight, lLeft, lRight] = getIndices(pivot, sArr, lArr)
+        const direction = getDirection(sLeft, sRight, lLeft, lRight, sArr, lArr)
+        if (direction === 0) {
+            return getResult(sLeft, sRight, lLeft, lRight, sArr, lArr)
+        } else if (direction < 0) {
+            right = pivot - 1
+        } else {
+            left = pivot + 1
+        }
+    }
+};
+
+const getResult = (sLeft, sRight, lLeft, lRight, sArr, lArr) => {
+    const len = sArr.length + lArr.length
+    if (len % 2 === 0) {
+        return (Math.max(getValue(sLeft, sArr), getValue(lLeft, lArr)) + 
+                Math.min(getValue(sRight, sArr), getValue(lRight, lArr))) / 2
+    } else {
+        return Math.min(getValue(sRight, sArr), getValue(lRight, lArr))
+    }
+}
+
+const getValue = (i, arr) => {
+    if (i <= -1) return -Infinity
+    if (i >= arr.length) return Infinity
+    return arr[i]
+}
+
+const getDirection = (sLeft, sRight, lLeft, lRight, sArr, lArr) => {
+    if (getValue(sLeft, sArr) > getValue(lRight, lArr)) return -1
+    if (getValue(lLeft, lArr) > getValue(sRight, sArr)) return 1
+    return 0
+}
+
+const getIndices = (pivot, sArr, lArr) => {
+    const mid = Math.floor((lArr.length - sArr.length) / 2) + sArr.length
+    const sLeft = pivot - 1
+    const sRight = pivot
+    const lRight = mid - sRight
+    const lLeft = lRight - 1
+    return [sLeft, sRight, lLeft, lRight]
+}
+```
