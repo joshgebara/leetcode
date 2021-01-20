@@ -61075,3 +61075,28 @@ var majorityElement = function(nums) {
     return result
 };
 ```
+
+## 1250. Check If It Is a Good Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var isGoodArray = function(nums) {
+    let gcd = nums[0]
+    for (let i = 1; i < nums.length; i++) {
+        gcd = getGCD(nums[i], gcd)
+    }
+    return gcd === 1
+};
+
+const getGCD = (a, b) => {
+    while (b !== 0) {
+        const temp = b
+        b = a % b
+        a = temp
+    }
+    
+    return a
+}
+```
