@@ -60926,3 +60926,71 @@ var search = function(nums, target) {
     return false
 };
 ```
+
+## 723. Candy Crush
+```javascript
+/**
+ * @param {number[][]} board
+ * @return {number[][]}
+ */
+var candyCrush = function(board) {
+    const m = board.length
+    const n = board[0].length
+    
+    let done = false
+    while (!done) {
+        done = true
+        
+        // Tag Rows
+        for (let row = 0; row < m; row++) {
+            for (let col = 0; col < n - 2; col++) {
+                const num1 = Math.abs(board[row][col])
+                const num2 = Math.abs(board[row][col + 1])
+                const num3 = Math.abs(board[row][col + 2])
+                
+                if (num1 === num2 && num2 === num3 && num1 !== 0) {
+                    board[row][col] = -num1
+                    board[row][col + 1] = -num2
+                    board[row][col + 2] = -num3
+                    done = false
+                }
+            }
+        }
+        
+        // Tag Cols
+        for (let col = 0; col < n; col++) {
+            for (let row = 0; row < m - 2; row++) {
+                const num1 = Math.abs(board[row][col])
+                const num2 = Math.abs(board[row + 1][col])
+                const num3 = Math.abs(board[row + 2][col])
+                
+                if (num1 === num2 && num2 === num3 && num1 !== 0) {
+                    board[row][col] = -num1
+                    board[row + 1][col] = -num2
+                    board[row + 2][col] = -num3
+                    done = false
+                }
+            }
+        }
+        
+        if (done) break
+        
+        // Crush
+        for (let col = 0; col < n; col++) {
+            let endIndex = m - 1
+            for (let row = m - 1; row >= 0; row--) {
+                if (board[row][col] > 0) {
+                    board[endIndex][col] = board[row][col]
+                    endIndex--
+                }
+            }
+            
+            for (let row = endIndex; row >= 0; row--) {
+                board[row][col] = 0
+            }
+        }
+    }
+    
+    return board
+};
+```
