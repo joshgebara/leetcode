@@ -60994,3 +60994,31 @@ var candyCrush = function(board) {
     return board
 };
 ```
+
+## 565. Array Nesting
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var arrayNesting = function(nums) {
+    let max = 0
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] === Infinity) continue
+        
+        let count = 0
+        let index = i
+        while (nums[index] !== Infinity) {
+            const temp = index
+            index = nums[index]
+            count++
+            nums[temp] = Infinity
+        }
+        
+        if (count > nums.length / 2) return count
+        max = Math.max(max, count)
+    }
+    
+    return max
+};
+```
