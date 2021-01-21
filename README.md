@@ -61229,3 +61229,46 @@ const canBreak = (word, set) => {
     return dp[word.length]
 }
 ```
+
+## 1238. Circular Permutation in Binary Representation
+```javascript
+/**
+ * @param {number} n
+ * @param {number} start
+ * @return {number[]}
+ */
+var circularPermutation = function(n, start) {
+    const result = [0]
+    let startIndex = 0
+    for (let bit = 0; bit < n; bit++) {
+        const size = result.length
+        for (let j = size - 1; j >= 0; j--) {
+            const grayCode = result[j] | 1 << bit
+            if (grayCode === start) {
+                startIndex = result.length
+            }
+            result.push(grayCode)
+        }
+    }
+    
+    return leftRotate(result, startIndex)
+};
+
+const leftRotate = (arr, k) => {
+    reverse(arr, 0, arr.length - 1)
+    reverse(arr, 0, arr.length - k - 1)
+    reverse(arr, arr.length - k, arr.length - 1)
+    return arr
+}
+
+const reverse = (arr, i, j) => {
+    while (i < j) {
+        const temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+        
+        i++
+        j--
+    }
+}
+```
