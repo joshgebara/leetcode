@@ -42221,7 +42221,7 @@ var knightDialer = function(N) {
 
 ## 139. Word Break
 ```javascript
-// Top Down DP - Time: O(n^2) Space: O(n^2)
+// Top Down DP - Time: O(n^3) Space: O(n^2)
 /**
  * @param {string} s
  * @param {string[]} wordDict
@@ -42254,7 +42254,7 @@ var wordBreak = function(s, wordDict) {
     return _wordBreak(0, s.length - 1)
 };
 
-// Top Down DP - Time: O(n^2) Space: O(n)
+// Top Down DP - Time: O(n^3) Space: O(n)
 /**
  * @param {string} s
  * @param {string[]} wordDict
@@ -61185,4 +61185,47 @@ var minDifficulty = function(jobDifficulty, d) {
     const memo = new Array(n).fill().map(a => new Array(d))
     return _minDifficulty(0, d)
 };
+```
+
+## 472. Concatenated Words
+```javascript
+/**
+ * @param {string[]} words
+ * @return {string[]}
+ */
+var findAllConcatenatedWordsInADict = function(words) {
+    const availableWords = new Set(words)
+    const result = []
+    
+    for (const word of words) {
+        availableWords.delete(word)
+        
+        if (canBreak(word, availableWords)) {
+            result.push(word)
+        }
+        
+        availableWords.add(word)
+    }
+    
+    return result
+};
+
+const canBreak = (word, set) => {
+    const n = word.length
+    if (set.size <= 0 || n === 0) return false
+    
+    const dp = new Array(n).fill(false)
+    dp[0] = true
+    
+    for (let i = 1; i <= word.length; i++) {
+        for (let j = 0; j < i; j++) {       
+            if (dp[j] && set.has(word.slice(j, i))) {
+                dp[i] = true
+                break
+            }
+        }
+    }
+    
+    return dp[word.length]
+}
 ```
