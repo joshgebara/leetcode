@@ -61151,3 +61151,38 @@ var getFood = function(grid) {
     return -1
 };
 ```
+
+## 1335. Minimum Difficulty of a Job Schedule
+```javascript
+/**
+ * @param {number[]} jobDifficulty
+ * @param {number} d
+ * @return {number}
+ */
+var minDifficulty = function(jobDifficulty, d) {
+    const _minDifficulty = (i, d) => {
+        if (d == 0 && i == n) return 0
+        if (d == 0 || i == n) return Infinity
+        
+        if (memo[i][d] !== undefined) {
+            return memo[i][d]
+        }
+        
+        let result = Infinity
+        let max = 0
+        for (let cutIndex = i; cutIndex < n - d + 1; cutIndex++) {
+            max = Math.max(max, jobDifficulty[cutIndex])
+            result = Math.min(result, max + _minDifficulty(cutIndex + 1, d - 1))
+        }
+        
+        memo[i][d] = result
+        return memo[i][d]
+    }
+    
+    const n = jobDifficulty.length
+    if (n < d) return -1
+    
+    const memo = new Array(n).fill().map(a => new Array(d))
+    return _minDifficulty(0, d)
+};
+```
