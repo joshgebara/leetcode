@@ -61100,3 +61100,54 @@ const getGCD = (a, b) => {
     return a
 }
 ```
+
+## 1730. Shortest Path to Get Food
+```javascript
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var getFood = function(grid) {
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    const m = grid.length
+    const n = grid[0].length
+    const visited = new Array(m).fill().map(a => new Array(n).fill(false))
+    
+    const queue = []
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === '*') {
+                queue.push([row, col])
+            }
+        }
+    }
+    
+    let level = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [row, col] = queue.shift()
+            
+            for (const [deltaRow, deltaCol] of dirs) {
+                const nextRow = deltaRow + row
+                const nextCol = deltaCol + col
+                
+                if (nextRow < 0 || nextRow >= m || 
+                    nextCol < 0 || nextCol >= n || 
+                    grid[nextRow][nextCol] === 'X' || 
+                    visited[nextRow][nextCol]) continue
+                
+                if (grid[nextRow][nextCol] === '#') {
+                    return level + 1
+                }
+                
+                visited[nextRow][nextCol] = true
+                queue.push([nextRow, nextCol])
+            }
+        }
+        level++
+    }
+    
+    return -1
+};
+```
