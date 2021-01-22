@@ -61473,3 +61473,83 @@ var totalMoney = function(n) {
     return amount
 };
 ```
+
+## 1095. Find in Mountain Array
+```javascript
+/**
+ * // This is the MountainArray's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * function MountainArray() {
+ *     @param {number} index
+ *     @return {number}
+ *     this.get = function(index) {
+ *         ...
+ *     };
+ *
+ *     @return {number}
+ *     this.length = function() {
+ *         ...
+ *     };
+ * };
+ */
+
+/**
+ * @param {number} target
+ * @param {MountainArray} mountainArr
+ * @return {number}
+ */
+var findInMountainArray = function(target, mountainArr) {
+    const length = mountainArr.length()
+    
+    // find peak
+    let left = 0
+    let right = length - 1
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (mountainArr.get(mid) > mountainArr.get(mid + 1)) {
+            right = mid
+        } else {
+            left = mid + 1
+        }
+    }
+    
+    const peak = left
+    
+    // search left
+    const leftIndex = binarySearch(mountainArr, target, 0, peak, false)
+    if (leftIndex !== -1) return leftIndex
+    
+    // search right
+    const rightIndex = binarySearch(mountainArr, target, peak + 1, length - 1, true)
+    if (rightIndex !== -1) return rightIndex
+    
+    return -1
+};
+
+const binarySearch = (arr, target, left, right, searchReversed) => {
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        const midVal = arr.get(mid)
+        if (midVal === target) {
+            return mid
+        } else if (midVal < target) {
+            if (searchReversed) {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        } else {
+            if (searchReversed) {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+    }
+    
+    return -1
+}
+```
