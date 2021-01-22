@@ -61553,3 +61553,30 @@ const binarySearch = (arr, target, left, right, searchReversed) => {
     return -1
 }
 ```
+
+## 134. Gas Station
+```javascript
+/**
+ * @param {number[]} gas
+ * @param {number[]} cost
+ * @return {number}
+ */
+var canCompleteCircuit = function(gas, cost) {
+    let start = 0
+    let currGas = 0
+    let totalGas = 0
+    
+    for (let i = 0; i < gas.length; i++) {
+        totalGas += gas[i] - cost[i]
+        currGas += gas[i] - cost[i]
+        
+        if (currGas < 0) {
+            currGas = 0
+            start = (i + 1) % gas.length
+        }
+    }
+    
+    if (totalGas < 0) return -1
+    return start
+};
+```
