@@ -61272,3 +61272,56 @@ const reverse = (arr, i, j) => {
     }
 }
 ```
+
+## 1274. Number of Ships in a Rectangle
+```javascript
+/**
+ * // This is Sea's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * function Sea() {
+ *     @param {integer[]} topRight
+ *     @param {integer[]} bottomLeft
+ *     @return {boolean}
+ *     this.hasShips = function(topRight, bottomLeft) {
+ *         ...
+ *     };
+ * };
+ */
+
+/**
+ * @param {Sea} sea
+ * @param {integer[]} topRight
+ * @param {integer[]} bottomLeft
+ * @return {integer}
+ */
+var countShips = function(sea, topRight, bottomLeft) {
+    const _countShips = (topRight, bottomLeft) => {
+        const [topRightX, topRightY] = topRight
+        const [bottomLeftX, bottomLeftY] = bottomLeft
+        
+        if (topRightX < bottomLeftX || topRightY < bottomLeftY) {
+            return 0
+        }
+        
+        if (topRightX === bottomLeftX && topRightY === bottomLeftY) {
+            return sea.hasShips(topRight, bottomLeft)
+        }
+        
+        if (!sea.hasShips(topRight, bottomLeft)) {
+            return 0
+        }
+        
+        const midX = Math.floor((topRightX - bottomLeftX) / 2) + bottomLeftX
+        const midY = Math.floor((topRightY - bottomLeftY) / 2) + bottomLeftY
+        
+        const topLeftQuad = _countShips([midX, topRightY], [bottomLeftX, midY + 1])
+        const topRightQuad = _countShips(topRight, [midX + 1, midY + 1])
+        const bottomLeftQuad = _countShips([midX, midY], bottomLeft)
+        const bottomRightQuad = _countShips([topRightX, midY], [midX + 1, bottomLeftY])
+        
+        return topLeftQuad + topRightQuad + bottomLeftQuad + bottomRightQuad
+    }
+    
+    return _countShips(topRight, bottomLeft)
+};
+```
