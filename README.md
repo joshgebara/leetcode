@@ -61383,3 +61383,50 @@ var consecutiveNumbersSum = function(N) {
     return count
 };
 ```
+
+## 1652. Defuse the Bomb
+```javascript
+/**
+ * @param {number[]} code
+ * @param {number} k
+ * @return {number[]}
+ */
+var decrypt = function(code, k) {
+    if (k === 0) {
+        return new Array(code.length).fill(0)
+    }
+    
+    const result = new Array(code.length)
+    for (let i = 0; i < code.length; i++) {
+        let sum = 0
+        let index = i
+        for (let j = 0; j < Math.abs(k); j++) {
+            if (k > 0) {
+                index = goNext(index, code)
+            } else {
+                index = goPrev(index, code)
+            }
+            sum += code[index]
+        }
+        result[i] = sum
+    }
+    
+    return result
+};
+
+const goNext = (index, code) => {
+    if (index === code.length - 1) {
+        return 0
+    }
+    
+    return index + 1
+}
+
+const goPrev = (index, code) => {
+    if (index === 0) {
+        return code.length - 1
+    }
+    
+    return index - 1
+}
+```
