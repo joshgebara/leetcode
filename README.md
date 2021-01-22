@@ -61325,3 +61325,42 @@ var countShips = function(sea, topRight, bottomLeft) {
     return _countShips(topRight, bottomLeft)
 };
 ```
+
+## 30. Substring with Concatenation of All Words
+```javascript
+/**
+ * @param {string} s
+ * @param {string[]} words
+ * @return {number[]}
+ */
+var findSubstring = function(s, words) {
+    const result = []
+    
+    const wordsFreq = {}
+    for (const word of words) {
+        wordsFreq[word] = 1 + (wordsFreq[word] || 0)
+    }
+    
+    const sLen = s.length
+    const wordLen = words[0].length
+    const targetLen = wordLen * words.length
+    
+    outer : for (let targetStartIndex = 0; targetStartIndex < sLen - targetLen + 1; targetStartIndex++) {
+        const map = {}
+        let wordStartIndex = targetStartIndex
+        for (let i = 0; i < words.length; i++) {
+            const word = s.slice(wordStartIndex, wordStartIndex + wordLen)
+            if (wordsFreq[word] === undefined) continue outer
+            
+            map[word] = 1 + (map[word] || 0)
+            if (wordsFreq[word] < map[word]) continue outer
+            
+            wordStartIndex += wordLen
+        }
+        
+        result.push(targetStartIndex)
+    }
+    
+    return result
+};
+```
