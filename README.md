@@ -61447,3 +61447,29 @@ var decode = function(encoded, first) {
     return result
 };
 ```
+
+## 1716. Calculate Money in Leetcode Bank
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var totalMoney = function(n) {
+    let amount = 0
+    let day = 1
+    
+    const weeks = Math.floor(n / 7)
+    for (let week = 0; week < weeks; week++) {
+        amount += 28 + (week * 7) 
+        day += 7
+    }
+    
+    let start = 1 + weeks
+    while (day <= n) {
+        amount += start++
+        day++
+    }
+    
+    return amount
+};
+```
