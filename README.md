@@ -61364,3 +61364,22 @@ var findSubstring = function(s, words) {
     return result
 };
 ```
+
+## 829. Consecutive Numbers Sum
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var consecutiveNumbersSum = function(N) {
+    let count = 0
+    let i = 1
+    while (N > 0) {
+        N -= i
+        count += N % i === 0
+        i++
+    }
+    
+    return count
+};
+```
