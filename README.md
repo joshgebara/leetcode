@@ -61430,3 +61430,20 @@ const goPrev = (index, code) => {
     return index - 1
 }
 ```
+
+## 1720. Decode XORed Array
+```javascript
+/**
+ * @param {number[]} encoded
+ * @param {number} first
+ * @return {number[]}
+ */
+var decode = function(encoded, first) {
+    const result = [first]
+    for (const code of encoded) {
+        result.push(result[result.length - 1] ^ code)
+    }
+    
+    return result
+};
+```
