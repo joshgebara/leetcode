@@ -61692,3 +61692,58 @@ const hasDup = (str, size) => {
     return ''
 }
 ```
+
+## 1055. Shortest Way to Form String
+```javascript
+// Binary Search
+/**
+ * @param {string} source
+ * @param {string} target
+ * @return {number}
+ */
+var shortestWay = function(source, target) {
+    const map = {}
+    for (let i = 0; i < source.length; i++) {
+        if (!map[source[i]]) map[source[i]] = []
+        map[source[i]].push(i)
+    }
+
+    let count = 1
+    let index = -1
+    for (const char of target) {
+        if (map[char] === undefined) {
+            return -1
+        }
+        
+        const nextIndex = binarySearch(map[char], index)
+        if (nextIndex === -1) {
+            count++
+            index = map[char][0]
+        } else {
+            index = nextIndex
+        }
+    }
+    
+    return count    
+};
+
+const binarySearch = (arr, target) => {
+    if (!arr || !arr.length) return -1
+    
+    let left = 0
+    let right = arr.length
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid] <= target) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    if (left >= arr.length) return -1
+    return arr[left]
+}
+```
