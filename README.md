@@ -61591,3 +61591,30 @@ ON e1.employee_id = e2.reports_to
 GROUP BY e1.employee_id
 ORDER BY e1.employee_id
 ```
+
+## 260. Single Number III
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var singleNumber = function(nums) {
+    let xorAll = 0
+    for (const num of nums) {
+        xorAll ^= num
+    }
+    
+    const firstDifferentBit = xorAll & -xorAll
+    const result = [0, 0]
+    
+    for (const num of nums) {
+        if (num & firstDifferentBit) {
+            result[0] ^= num
+        } else {
+            result[1] ^= num
+        }
+    }
+    
+    return result
+};
+```
