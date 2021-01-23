@@ -61792,3 +61792,48 @@ var shortestWay = function(source, target) {
 const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
 ```
+
+## 889. Construct Binary Tree from Preorder and Postorder Traversal
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} pre
+ * @param {number[]} post
+ * @return {TreeNode}
+ */
+var constructFromPrePost = function(pre, post) {
+    const _constructFromPrePost = (preStart, preEnd, postStart, postEnd) => {
+        if (preStart > preEnd) return null
+        
+        const node = new TreeNode(pre[preStart])
+        if (preStart === preEnd) return node
+        
+        const postIndex = map[pre[preStart + 1]]
+        const leftSubLen = postIndex - postStart + 1
+        node.left = _constructFromPrePost(preStart + 1, 
+                                          preStart + leftSubLen, 
+                                          postStart, 
+                                          postIndex)
+        
+        node.right = _constructFromPrePost(preStart + leftSubLen + 1, 
+                                           preEnd, 
+                                           postIndex + 1, 
+                                           postEnd - 1)        
+        return node        
+    }
+    
+    const map = {}
+    for (let i = 0; i < post.length; i++) {
+        map[post[i]] = i
+    }
+    
+    return _constructFromPrePost(0, pre.length - 1, 0, post.length - 1)
+};
+```
