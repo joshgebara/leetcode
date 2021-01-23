@@ -61754,7 +61754,6 @@ const binarySearch = (arr, target) => {
  * @return {number}
  */
 var shortestWay = function(source, target) {
-    const set = new Set(source)
     const nextIndexMap = new Array(26).fill().map(a => new Array(source.length).fill(-1))
     
     for (let charIndex = 0; charIndex < 26; charIndex++) {
@@ -61771,7 +61770,7 @@ var shortestWay = function(source, target) {
     let count = 1
     let index = 0
     for (const char of target) {
-        if (!set.has(char)) return -1
+        if (nextIndexMap[posForChar(char)][0] === -1) return -1
         
         if (index >= source.length) {
             index = 0
