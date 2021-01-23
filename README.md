@@ -61746,10 +61746,8 @@ const binarySearch = (arr, target) => {
     if (left >= arr.length) return -1
     return arr[left]
 }
-```
 
-## 1055. Shortest Way to Form String
-```javascript
+// Linear
 /**
  * @param {string} source
  * @param {string} target
