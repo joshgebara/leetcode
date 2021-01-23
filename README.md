@@ -61747,3 +61747,51 @@ const binarySearch = (arr, target) => {
     return arr[left]
 }
 ```
+
+## 1055. Shortest Way to Form String
+```javascript
+/**
+ * @param {string} source
+ * @param {string} target
+ * @return {number}
+ */
+var shortestWay = function(source, target) {
+    const set = new Set(source)
+    const nextIndexMap = new Array(26).fill().map(a => new Array(source.length).fill(-1))
+    
+    for (let charIndex = 0; charIndex < 26; charIndex++) {
+        const charArr = nextIndexMap[charIndex]
+        let nextIndex = -1
+        for (let sourceIndex = charArr.length - 1; sourceIndex >= 0; sourceIndex--) {
+            if (source[sourceIndex] === charForPos(charIndex)) {
+                nextIndex = sourceIndex
+            }
+            nextIndexMap[charIndex][sourceIndex] = nextIndex
+        }
+    }
+    
+    let count = 1
+    let index = 0
+    for (const char of target) {
+        if (!set.has(char)) return -1
+        
+        if (index >= source.length) {
+            index = 0
+            count++
+        }
+        
+        const nextIndex = nextIndexMap[posForChar(char)][index]
+        if (nextIndex === -1) {
+            count++
+            index = nextIndexMap[posForChar(char)][0] + 1
+        } else {
+            index = nextIndex + 1
+        }
+    }
+    
+    return count    
+};
+
+const posForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
+```
