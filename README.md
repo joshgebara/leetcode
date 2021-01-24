@@ -61967,3 +61967,44 @@ var longestLine = function(M) {
     return max
 };
 ```
+
+## 395. Longest Substring with At Least K Repeating Characters
+```javascript
+// Divide And Conquer
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+var longestSubstring = function(s, k) {
+    const _longestSubstring = (start, end) => {
+        if (start > end) return 0
+        
+        const counts = new Array(26).fill(0)
+        for (let i = start; i <= end; i++) {
+            const index = posFromChar(s[i])
+            counts[index]++
+        }
+        
+        let mid = start
+        while (mid <= end && counts[posFromChar(s[mid])] >= k) {
+            mid++
+        }
+        
+        if (mid > end) {
+            return end - start + 1
+        }
+        
+        const left = _longestSubstring(start, mid - 1)
+        while (mid <= end && counts[posFromChar(s[mid])] < k) {
+            mid++
+        }
+        const right = _longestSubstring(mid, end)
+        return Math.max(left, right)
+    }
+    
+    return _longestSubstring(0, s.length - 1)
+};
+
+const posFromChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+```
