@@ -62078,3 +62078,40 @@ var brokenCalc = function(X, Y) {
     return count + X - Y
 };
 ```
+
+## 549. Binary Tree Longest Consecutive Sequence II
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var longestConsecutive = function(root) {
+    const _longestConsecutive = (node, parent) => {
+        if (!node) return [0, 0]
+        
+        const [leftInc, leftDec] = _longestConsecutive(node.left, node)
+        const [rightInc, rightDec] = _longestConsecutive(node.right, node)
+        max = Math.max(max, leftInc + rightDec + 1, leftDec + rightInc + 1)
+        
+        if (parent && node.val + 1 === parent.val) {
+            return [Math.max(leftInc, rightInc) + 1, 0]
+        } else if (parent && node.val - 1 === parent.val) {
+            return [0, Math.max(leftDec, rightDec) + 1]
+        }
+        
+        return [0, 0]
+    }
+    
+    let max = 0
+    _longestConsecutive(root, null)
+    return max
+};
+```
