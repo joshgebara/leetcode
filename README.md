@@ -61930,3 +61930,40 @@ var str2tree = function(s) {
 
 const isNum = char => !isNaN(+char)
 ```
+
+## 562. Longest Line of Consecutive One in Matrix
+```javascript
+/**
+ * @param {number[][]} M
+ * @return {number}
+ */
+var longestLine = function(M) {
+    if (!M.length) return 0
+    
+    const rowLen = M.length
+    const colLen = M[0].length
+    
+    let max = 0
+    let prev = new Array(colLen + 2).fill().map(a => new Array(4).fill(0))
+    for (let row = 0; row < rowLen; row++) {
+        const curr = new Array(colLen + 2).fill().map(a => new Array(4).fill(0))
+        for (let col = 1; col < curr.length - 1; col++) {
+            if (M[row][col - 1] === 1) {
+                // horizontal
+                curr[col][0] = 1 + curr[col - 1][0]
+                // vertical
+                curr[col][1] = 1 + prev[col][1]
+                // diagonal
+                curr[col][2] = 1 + prev[col + 1][2]
+                // anti-diagonal
+                curr[col][3] = 1 + prev[col - 1][3]
+            }
+            
+            max = Math.max(max, ...curr[col])
+        }
+        prev = curr
+    }
+    
+    return max
+};
+```
