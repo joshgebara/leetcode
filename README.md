@@ -61837,3 +61837,41 @@ var constructFromPrePost = function(pre, post) {
     return _constructFromPrePost(0, pre.length - 1, 0, post.length - 1)
 };
 ```
+
+## 1145. Binary Tree Coloring Game
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} n
+ * @param {number} x
+ * @return {boolean}
+ */
+var btreeGameWinningMove = function(root, n, x) {
+    const _btreeGameWinningMove = node => {
+        if (!node) return 0
+        
+        const leftCount = _btreeGameWinningMove(node.left)
+        const rightCount = _btreeGameWinningMove(node.right)
+        
+        if (node.val === x) {
+            left = leftCount
+            right = rightCount
+        }
+        
+        return 1 + leftCount + rightCount
+    }
+    
+    let left = 0
+    let right = 0
+    _btreeGameWinningMove(root)
+    return Math.max(left, right, n - left - right - 1) > n / 2
+};
+```
