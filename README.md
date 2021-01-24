@@ -61875,3 +61875,58 @@ var btreeGameWinningMove = function(root, n, x) {
     return Math.max(left, right, n - left - right - 1) > n / 2
 };
 ```
+
+## 536. Construct Binary Tree from String
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {string} s
+ * @return {TreeNode}
+ */
+var str2tree = function(s) {
+    const _str2tree = t => {
+        if (i >= s.length) return null
+        
+        let num = 0
+        let sign = 1
+        while (isNum(s[i]) || s[i] === '-') {
+            if (s[i] === '-') {
+                sign = -1
+            } else {
+                num *= 10
+                num += +s[i]
+            }
+            
+            i++
+        }
+        
+        num *= sign
+        
+        const node = new TreeNode(num)
+        if (s[i] === '(') {
+            i++
+            node.left = _str2tree()
+        }
+        
+        if (s[i] === '(') {
+            i++
+            node.right = _str2tree()
+        }
+        
+        i++
+        return node
+    }
+    
+    let i = 0
+    return _str2tree()
+};
+
+const isNum = char => !isNaN(+char)
+```
