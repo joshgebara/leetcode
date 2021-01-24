@@ -62056,3 +62056,25 @@ var constructDistancedSequence = function(n) {
     return result
 };
 ```
+
+## 991. Broken Calculator
+```javascript
+/**
+ * @param {number} X
+ * @param {number} Y
+ * @return {number}
+ */
+var brokenCalc = function(X, Y) {
+    let count = 0
+    while (Y > X) {
+        count++
+        if (Y % 2 === 1) {
+            Y++
+        } else {
+            Y = Math.floor(Y / 2)
+        }
+    }
+    
+    return count + X - Y
+};
+```
