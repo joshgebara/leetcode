@@ -14737,11 +14737,6 @@ var findDuplicates = function(nums) {
 
 ## 153. Find Minimum in Rotated Sorted Array
 ```javascript
-// O(n)
-var findMin = function(nums) {
-    return Math.min(...nums)
-};
-
 // O(log n)
 var findMin = function(nums) {
     let left = 0
@@ -62113,5 +62108,31 @@ var longestConsecutive = function(root) {
     let max = 0
     _longestConsecutive(root, null)
     return max
+};
+```
+
+## 154. Find Minimum in Rotated Sorted Array II
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMin = function(nums) {
+    let left = 0
+    let right = nums.length - 1
+    
+    while (left < right) {
+        let mid = Math.floor((right - left) / 2) + left
+        
+        if (nums[mid] > nums[right]) {
+            left = mid + 1
+        } else if (nums[mid] < nums[right]) {
+            right = mid
+        } else {
+            right--
+        }
+    }
+    
+    return nums[left]
 };
 ```
