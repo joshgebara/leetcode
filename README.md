@@ -62008,3 +62008,51 @@ var longestSubstring = function(s, k) {
 
 const posFromChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ```
+
+## 1718. Construct the Lexicographically Largest Valid Sequence
+```javascript
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var constructDistancedSequence = function(n) {
+    const _constructDistancedSequence = (i) => {
+        if (i === size) return true
+        if (result[i] !== 0) return _constructDistancedSequence(i + 1)
+        
+        for (let int = n; int >= 1; int--) {
+            if (used[int]) continue
+            
+            if (int === 1) {
+                result[i] = int
+                used[int] = true
+
+                if (_constructDistancedSequence(i + 1))
+                    return true
+                
+                result[i] = 0
+                used[int] = false
+            } else if (i + int < size && result[i + int] === 0) {
+                result[i] = int
+                result[i + int] = int
+                used[int] = true
+
+                if (_constructDistancedSequence(i + 1))
+                    return true
+
+                result[i] = 0
+                result[i + int] = 0
+                used[int] = false
+            }
+        }
+        
+        return false
+    }
+    
+    const size = 1 + (n - 1) * 2
+    const result = new Array(size).fill(0)
+    const used = new Array(n + 1).fill(false)
+    _constructDistancedSequence(0)
+    return result
+};
+```
