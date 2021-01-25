@@ -62266,3 +62266,47 @@ const countingSort = arr => {
     return sortedArr
 }
 ```
+
+## 296. Best Meeting Point
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minTotalDistance = function(grid) {
+    const n = grid.length
+    const m = grid[0].length
+    
+    const rows = []
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < m; col++) {
+            if (grid[row][col] === 1) {
+                rows.push(row)
+            }
+        }
+    }
+    
+    const cols = []
+    for (let col = 0; col < m; col++) {
+        for (let row = 0; row < n; row++) {
+            if (grid[row][col] === 1) {
+                cols.push(col)
+            }
+        }
+    }
+    
+    const rowMedian = Math.floor(rows.length / 2)
+    let rowSum = 0
+    for (const row of rows) {
+        rowSum += Math.abs(row - rows[rowMedian])
+    }
+    
+    const colMedian = Math.floor(cols.length / 2)
+    let colSum = 0
+    for (const col of cols) {
+        colSum += Math.abs(col - cols[colMedian])
+    }
+    
+    return rowSum + colSum
+};
+```
