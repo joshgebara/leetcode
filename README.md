@@ -62310,3 +62310,136 @@ var minTotalDistance = function(grid) {
     return rowSum + colSum
 };
 ```
+
+## 857. Minimum Cost to Hire K Workers
+```javascript
+/**
+ * @param {number[]} quality
+ * @param {number[]} wage
+ * @param {number} K
+ * @return {number}
+ */
+var mincostToHireWorkers = function(quality, wage, K) {
+    const workers = []
+    for (let i = 0; i < quality.length; i++) {
+        workers.push([quality[i], wage[i], wage[i] / quality[i]])
+    }
+    
+    workers.sort((a, b) => a[2] - b[2])
+    
+    const heap = new Heap([], ((a, b) => a > b))
+    let min = Infinity
+    let totalQuality = 0
+    for (const [q, w, r] of workers) {
+        heap.insert(q)
+        totalQuality += q
+        
+        if (heap.size() > K) {
+            totalQuality -= heap.remove()
+        }
+        
+        if (heap.size() === K) {
+            min = Math.min(min, totalQuality * r)
+        }
+    }
+    
+    return min
+};
+
+class Heap {
+    constructor(elements = [], sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
+    }
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+          this._siftDown(i);
+        }
+    }
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+          let temp = this._elements[childIndex]
+          this._elements[childIndex] = this._elements[parentIndex]
+          this._elements[parentIndex] = temp
+
+          childIndex = parentIndex
+          parentIndex = this._parentIndex(childIndex)
+        }
+    }
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+          let leftIndex = this._leftChildIndex(parentIndex)
+          let rightIndex = this._rightChildIndex(parentIndex)
+          let candidate = parentIndex
+
+          if (leftIndex < this._elements.length && 
+              this._sort(this._elements[leftIndex], this._elements[candidate])) {
+            candidate = leftIndex
+          }
+
+          if (rightIndex < this._elements.length && 
+              this._sort(this._elements[rightIndex], this._elements[candidate])) {
+            candidate = rightIndex
+          }
+
+          if (parentIndex === candidate) {
+            return
+          }
+
+          let temp = this._elements[parentIndex]
+          this._elements[parentIndex] = this._elements[candidate]
+          this._elements[candidate] = temp
+
+          parentIndex = candidate
+        }   
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
+    remove() {
+        if (this._elements.length < 1) {
+          return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
+        return element
+    }
+
+    size() {
+        return this._elements.length
+    }
+    
+    peek() {
+        return this._elements[0]
+    }
+}
+```
