@@ -62201,3 +62201,68 @@ var longestValidParentheses = function(s) {
     return max
 };
 ```
+
+## 1478. Allocate Mailboxes
+```javascript
+// Time: O(n^3 + k * n^2)
+/**
+ * @param {number[]} houses
+ * @param {number} k
+ * @return {number}
+ */
+var minDistance = function(houses, k) {
+    const _minDistance = (startIndex, k) => {
+        if (startIndex >= sortedHouses.length && k === 0) return 0
+        if (startIndex >= sortedHouses.length || k === 0) return Infinity
+        
+        if (memo[startIndex][k] !== undefined) {
+            return memo[startIndex][k]
+        }
+        
+        let min = Infinity
+        for (let endIndex = startIndex; endIndex < sortedHouses.length; endIndex++) {
+            min = Math.min(min, dist[startIndex][endIndex] + _minDistance(endIndex + 1, k - 1))
+        }
+        
+        memo[startIndex][k] = min
+        return min
+    }
+    
+    const n = houses.length
+    const sortedHouses = countingSort(houses)
+    
+    // Precompute Dists For Groups - House at Median is always optimal
+    const dist = new Array(n).fill().map(a => new Array(n).fill(0))
+    for (let endIndex = 1; endIndex < sortedHouses.length; endIndex++) {
+        for (let startIndex = 0; startIndex < endIndex; startIndex++) {
+            let currDist = 0
+            const medianIndex = Math.floor((startIndex + endIndex) / 2)
+            for (let currIndex = startIndex; currIndex <= endIndex; currIndex++) {
+                currDist += Math.abs(sortedHouses[medianIndex] - sortedHouses[currIndex])
+            }
+            dist[startIndex][endIndex] = currDist
+        }
+    }
+    
+    // DP for K Contiguous Groups
+    const memo = new Array(n).fill().map(a => new Array(k))
+    return _minDistance(0, k)
+};
+
+const countingSort = arr => {
+    const upperBound = Math.max(...arr) + 1
+    const buckets = new Array(upperBound).fill(0)
+    for (const ele of arr) {
+        buckets[ele]++
+    }
+    
+    const sortedArr = []
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
+            sortedArr.push(i)
+        }
+    }
+    
+    return sortedArr
+}
+```
