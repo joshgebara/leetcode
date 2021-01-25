@@ -62162,4 +62162,42 @@ var longestValidParentheses = function(s) {
     
     return max
 };
+
+// Linear O(1) space
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestValidParentheses = function(s) {
+    let max = 0
+    
+    let left = 0
+    let right = 0
+    for (const char of s) {
+        char === '(' ? left++ : right++
+        
+        if (left === right) {
+            max = Math.max(max, left + right)
+        } else if (left < right) {
+            left = 0
+            right = 0
+        }
+    }
+    
+    left = 0
+    right = 0
+    for (let i = s.length - 1; i >= 0; i--) {
+        const char = s[i]
+        char === '(' ? left++ : right++
+        
+        if (left === right) {
+            max = Math.max(max, left + right)
+        } else if (left > right) {
+            left = 0
+            right = 0
+        }
+    }
+    
+    return max
+};
 ```
