@@ -62516,3 +62516,108 @@ RandomizedCollection.prototype.hasVal = function(val) {
  * var param_3 = obj.getRandom()
  */
 ```
+
+## 749. Contain Virus
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var containVirus = function(grid) {    
+    let walls = 0
+    while (true) {
+        const components = getConnectedComponents(grid)
+        if (components.length === 0)
+            break
+        
+        // Get region with largest frontier
+        let max = null
+        for (const component of components) {
+            if (max === null || component.frontier.size > max.frontier.size) {
+                max = component
+            }
+        }
+        
+        walls += max.perimeter
+        
+        for (const component of components) {
+            if (component.frontier.size === max.frontier.size) {
+                // Disinfect Max Region
+                colorGrid(grid, component.infectedCells, 2)
+            } else {
+                // Expand Infected Regions
+                colorGrid(grid, component.frontier, 1)
+            }
+        }
+    }
+    
+    return walls
+};
+
+const getConnectedComponents = grid => {
+    const rowLen = grid.length
+    const colLen = grid[0].length
+    const visited = new Array(rowLen).fill().map(a => new Array(colLen))
+    
+    const components = []
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (grid[row][col] === 1 && !visited[row][col]) {
+                components.push(getComponent(grid, row, col, visited))
+            }
+        }
+    }
+    
+    return components
+}
+
+const getComponent = (grid, row, col, visited) => {
+    const rowLen = grid.length
+    const colLen = grid[0].length
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    
+    const component = { 'frontier': new Set(), 
+                        'perimeter': 0, 
+                        'infectedCells': new Set() }
+    
+    const queue = [[row, col]]
+    visited[row][col] = true
+    
+    while (queue.length) {
+        const [row, col] = queue.shift()
+        component.infectedCells.add(row * colLen + col)
+        
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = row + deltaRow
+            const nextCol = col + deltaCol
+            
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen ||
+                grid[nextRow][nextCol] === 2) continue
+            
+            if (grid[nextRow][nextCol] === 0) {
+                component.frontier.add(nextRow * colLen + nextCol)
+                component.perimeter++
+                continue
+            }
+            
+            if (visited[nextRow][nextCol]) continue
+            visited[nextRow][nextCol] = true
+            queue.push([nextRow, nextCol])
+        }
+    }
+    
+    return component
+}
+
+const colorGrid = (grid, cells, color) => {
+    const colLen = grid[0].length
+    
+    for (const cell of cells) {
+        const row = Math.floor(cell / colLen)
+        const col = cell % colLen
+        
+        grid[row][col] = color
+    }
+}
+```
