@@ -62443,3 +62443,76 @@ class Heap {
     }
 }
 ```
+
+## 381. Insert Delete GetRandom O(1) - Duplicates allowed
+```javascript
+/**
+ * Initialize your data structure here.
+ */
+var RandomizedCollection = function() {
+    this.indexMap = {}
+    this.array = []
+};
+
+/**
+ * Inserts a value to the collection. Returns true if the collection did not already contain the specified element. 
+ * @param {number} val
+ * @return {boolean}
+ */
+RandomizedCollection.prototype.insert = function(val) {
+    if (this.indexMap[val] === undefined) {
+        this.indexMap[val] = new Set()
+    }
+    
+    this.indexMap[val].add(this.array.length)
+    this.array.push(val)
+    
+    return this.indexMap[val].length === 1
+};
+
+/**
+ * Removes a value from the collection. Returns true if the collection contained the specified element. 
+ * @param {number} val
+ * @return {boolean}
+ */
+RandomizedCollection.prototype.remove = function(val) {
+    if (!this.hasVal(val)) return false
+    
+    const removeIndex = this.indexMap[val].keys().next().value
+    this.indexMap[val].delete(removeIndex)
+    
+    const lastVal = this.array[this.array.length - 1]
+    this.indexMap[lastVal].add(removeIndex)
+    this.indexMap[lastVal].delete(this.array.length - 1)
+    
+    this.array[removeIndex] = lastVal
+    this.array.pop()
+    
+    return true
+};
+
+/**
+ * Get a random element from the collection.
+ * @return {number}
+ */
+RandomizedCollection.prototype.getRandom = function() {
+    const randomIndex = this.random(0, this.array.length - 1)
+    return this.array[randomIndex]
+};
+
+RandomizedCollection.prototype.random = function(start, end) {
+    return Math.floor(Math.random() * (end - start + 1)) + start
+};
+
+RandomizedCollection.prototype.hasVal = function(val) {
+    return this.indexMap[val] !== undefined && this.indexMap[val].size
+}
+
+/** 
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * var obj = new RandomizedCollection()
+ * var param_1 = obj.insert(val)
+ * var param_2 = obj.remove(val)
+ * var param_3 = obj.getRandom()
+ */
+```
