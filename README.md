@@ -62621,3 +62621,77 @@ const colorGrid = (grid, cells, color) => {
     }
 }
 ```
+
+## 488. Zuma Game
+```javascript
+/**
+ * @param {string} board
+ * @param {string} hand
+ * @return {number}
+ */
+var findMinStep = function(board, hand) {
+    const _findMinStep = board => {
+        if (board.length === 0) {
+            return 0
+        }
+        
+        if (memo[board] !== undefined) {
+            return memo[board]
+        }
+        
+        let maxCount = 6
+        for (let i = 0; i < board.length; i++) {
+            for (let k = 0; k < 26; k++) {
+                if (handCount[k] > 0) {
+                    handCount[k]--
+                    
+                    const ball = String.fromCharCode(k + 'A'.charCodeAt(0))
+                    const insertedBoard = board.slice(0, i) + 
+                                          String.fromCharCode(k + 'A'.charCodeAt(0)) + 
+                                          board.slice(i)
+                    
+                    const collapsedBoard = collapseBoard(insertedBoard)
+                    maxCount = Math.min(maxCount, 1 + _findMinStep(collapsedBoard))
+                    
+                    handCount[k]++
+                }
+            }
+        }
+        
+        memo[board] = maxCount
+        return memo[board]
+    }
+    
+    const handCount = new Array(26).fill(0)
+    for (const ball of hand) {
+        const index = ball.charCodeAt(0) - 'A'.charCodeAt(0)
+        handCount[index]++
+    }
+    
+    const memo = {}
+    const result = _findMinStep(board)
+    return result === 6 ? -1 : result
+};
+
+const collapseBoard = board => {
+    outer : while (true) {
+        let start = 0
+        for (let end = 1; end <= board.length; end++) {
+            if (board[start] === board[end]) {
+                continue
+            }
+            
+            if (end - start >= 3) {
+                board = board.slice(0, start) + board.slice(end)
+                continue outer
+            }
+            
+            start = end
+        }
+        
+        break
+    }
+    
+    return board
+}
+```
