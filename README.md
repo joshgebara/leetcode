@@ -62695,3 +62695,52 @@ const collapseBoard = board => {
     return board
 }
 ```
+
+## 1235. Maximum Profit in Job Scheduling
+```javascript
+/**
+ * @param {number[]} startTime
+ * @param {number[]} endTime
+ * @param {number[]} profit
+ * @return {number}
+ */
+var jobScheduling = function(startTime, endTime, profit) {
+    const n = startTime.length
+    
+    const jobs = []
+    for (let i = 0; i < n; i++) {
+        jobs.push([startTime[i], endTime[i], profit[i]])
+    }
+    jobs.sort((a, b) => a[1] - b[1] || a[0] - b[0])
+    
+    const dp = new Array(n).fill(0)
+    dp[0] = jobs[0][2]
+    
+    for (let i = 1; i < profit.length; i++) {
+        const [startTimeI, endTimeI, profitI] = jobs[i]
+        dp[i] = dp[i - 1]
+
+        const index = binarySearch(jobs, i, startTimeI)
+        dp[i] = Math.max(dp[i], profitI + (dp[index] || 0))
+    }
+    
+    return dp[n - 1]
+};
+
+const binarySearch = (arr, endIndex, target) => {
+    let left = 0
+    let right = endIndex - 1
+    
+    while (left <= right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (arr[mid][1] <= target) {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return left - 1
+}
+```
