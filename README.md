@@ -62816,3 +62816,68 @@ var myAtoi = function(s) {
 
 const isDigit = char => '0123456789'.includes(char)
 ```
+
+## 311. Sparse Matrix Multiplication
+```javascript
+/**
+ * @param {number[][]} A
+ * @param {number[][]} B
+ * @return {number[][]}
+ */
+var multiply = function(A, B) {
+    const sparseA = new SparseMatrix(A, A.length, A[0].length)
+    const sparseB = new SparseMatrix(B, B.length, B[0].length)
+    const sparseC = sparseA.multiplyBy(sparseB)
+    return sparseC.toDense()
+};
+
+class SparseMatrix {
+    constructor(matrix, rowLen, colLen) {
+        this.rowLen = rowLen
+        this.colLen = colLen
+        this.map = {}
+        
+        if (!matrix.length || !matrix[0].length) return
+        for (let row = 0; row < rowLen; row++) {
+            for (let col = 0; col < colLen; col++) {
+                if (matrix[row][col] !== 0) {
+                    this.map[`${row}-${col}`] = matrix[row][col]
+                }
+            }
+        }
+    }
+    
+    multiplyBy(matrix) {
+        const sparseMatrix = new SparseMatrix([], this.rowLen, matrix.colLen)
+        for (const [aKey, aVal] of Object.entries(this.map)) {
+            const [aRow, aCol] = aKey.split('-')
+            
+            for (let bCol = 0; bCol < matrix.colLen; bCol++) {
+                const bKey = `${aCol}-${bCol}`
+                if (matrix.map[bKey] === undefined) continue
+                
+                const sKey = `${aRow}-${bCol}`
+                if (sparseMatrix.map[sKey] === undefined) {
+                    sparseMatrix.map[sKey] = 0
+                }
+                
+                sparseMatrix.map[sKey] += aVal * matrix.map[bKey]
+            }
+        }
+        
+        return sparseMatrix
+    }
+    
+    toDense() {
+        const matrix = new Array(this.rowLen).fill()
+                            .map(a => new Array(this.colLen).fill(0))
+        
+        for (const [key, val] of Object.entries(this.map)) {
+            const [row, col] = key.split('-')
+            matrix[row][col] = val
+        }
+        
+        return matrix
+    }
+}
+```
