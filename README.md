@@ -62770,3 +62770,47 @@ var lastRemaining = function(n) {
     return head
 };
 ```
+
+## 8. String to Integer (atoi)
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var myAtoi = function(s) {
+    const result = []
+    let i = 0
+    
+    // Skip leading whitespace
+    while (i < s.length && s[i] === ' ') {
+        i++
+    }
+    
+    // Check Sign
+    let sign = 1
+    if (s[i] === '+' || s[i] === '-') {
+        sign = s[i] === '+' ? 1 : -1
+        i++
+    }
+    
+    // Read in next digit chars
+    const MAX_INT = 2 ** 31 - 1
+    const MIN_INT = -(2 ** 31)
+    let num = 0
+    while (i < s.length && isDigit(s[i])) {
+        // Check for overflow
+        if (num > Math.floor(MAX_INT) / 10 || 
+            (num === Math.floor(MAX_INT / 10) && +s[i] > 7)) {
+            return sign === -1 ? MIN_INT : MAX_INT
+        }
+        
+        num *= 10
+        num += +s[i]
+        i++
+    }
+
+    return num * sign
+};
+
+const isDigit = char => '0123456789'.includes(char)
+```
