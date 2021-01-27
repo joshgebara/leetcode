@@ -62778,17 +62778,19 @@ var lastRemaining = function(n) {
  * @return {number}
  */
 var myAtoi = function(s) {
-    const result = []
-    let i = 0
+    if (s.length === 0) {
+        return 0
+    }
     
     // Skip leading whitespace
+    let i = 0
     while (i < s.length && s[i] === ' ') {
         i++
     }
     
     // Check Sign
     let sign = 1
-    if (s[i] === '+' || s[i] === '-') {
+    if (i < s.length && s[i] === '+' || s[i] === '-') {
         sign = s[i] === '+' ? 1 : -1
         i++
     }
