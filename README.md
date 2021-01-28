@@ -7504,57 +7504,66 @@ var strStr = function(haystack, needle) {
 };
 
 // KMP
-const patternTable = pattern => {
-  const table = [0]
-  let p = 0
-  let s = 1
-
-  while (s < pattern.length) {
-    if (pattern[s] === pattern[p]) {
-      table[s++] = ++p
-      continue
-    }
-
-    if (p === 0) {
-      table[s++] = 0
-      continue
-    }
-
-    p = table[p - 1]
-  }
-  return table
-}
-
-const kmp = (str, pattern) => {
-  let table = patternTable(pattern)
-  
-  let p = 0
-  let s = 0
-  
-  while (s < str.length) {
-    if (str[s] === pattern[p]) {
-      if (p === pattern.length - 1) return s - pattern.length + 1
-      p++
-      s++
-      continue
-    }
-    
-    if (p === 0) {
-      s++
-      continue
-    }
-    
-    p = table[p - 1]
-  }
-  
-  return -1
-}
-
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
 var strStr = function(haystack, needle) {
-    if (!needle.length) return 0
-    if (!haystack.length) return -1
     return kmp(haystack, needle)
 };
+
+const kmp = (string, pattern) => {
+    if (!pattern.length) return 0
+    if (!string.length) return -1
+    
+    const lpsTable = getLPSTable(pattern)
+    let s = 0
+    let p = 0
+    
+    while (s < string.length) {
+        if (string[s] === pattern[p]) {
+            s++
+            p++
+            
+            if (p === pattern.length) return s - pattern.length
+            continue
+        }
+        
+        if (p === 0) {
+            s++
+            continue
+        }
+        
+        p = lpsTable[p - 1]
+    }
+    
+    return -1
+}
+
+const getLPSTable = pattern => {
+    const lpsTable = new Array(pattern.length).fill(0)
+    let len = 0
+    let i = 1
+    while (i < pattern.length) {
+        if (pattern[len] === pattern[i]) {
+            lpsTable[i] = len + 1
+            len++
+            i++
+            continue
+        }
+        
+        if (len === 0) {
+            lpsTable[i] = 0
+            i++
+            continue
+        }
+        
+        len = lpsTable[len - 1]
+    }
+
+    return lpsTable
+}
 
 // Rabin-Karp
 /**
