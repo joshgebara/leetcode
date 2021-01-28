@@ -62881,3 +62881,160 @@ class SparseMatrix {
     }
 }
 ```
+
+## 460. LFU Cache
+```javascript
+/**
+ * @param {number} capacity
+ */
+var LFUCache = function(capacity) {
+    this.listForFrequencyMap = {}
+    this.nodeForKeyMap = {}
+    
+    this.capacity = capacity
+    this.size = 0
+    
+    this.minFrequency = 0
+};
+
+/** 
+ * @param {number} key
+ * @return {number}
+ */
+LFUCache.prototype.get = function(key) {
+    const node = this.nodeForKeyMap[key]
+    if (this.capacity === 0 || node === undefined) {
+        return -1
+    }
+    
+    const { value, frequency } = node
+    
+    // Remove node from old list
+    const list = this.listForFrequencyMap[frequency]
+    list.remove(node)
+    
+    // If old list now empty, remove from map
+    if (list.length === 0) {
+        // Update minFrequency if needed
+        if (frequency === this.minFrequency) {
+            this.minFrequency++
+        }
+        
+        delete this.listForFrequencyMap[frequency]
+    }
+    
+    // Add node to new list, if list doens't exist in map add list first
+    if (this.listForFrequencyMap[frequency + 1] === undefined) {
+        this.listForFrequencyMap[frequency + 1] = new DoublyLinkedList()
+    }
+    
+    node.frequency++
+    this.listForFrequencyMap[frequency + 1].add(node)
+    
+    return value
+};
+
+/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+LFUCache.prototype.put = function(key, value) {
+    if (this.capacity === 0) return
+    
+    if (this.nodeForKeyMap[key] !== undefined) {
+        this.nodeForKeyMap[key].value = value
+        this.get(key)
+        return
+    }
+    
+    // if at capacity must delete least recently used from list of min frequecy
+    if (this.size === this.capacity) {
+        const list = this.listForFrequencyMap[this.minFrequency]
+        const lruNode = list.getTail()
+        list.removeTail()
+        this.size--
+        
+        // If old list now empty, remove from map
+        delete this.nodeForKeyMap[lruNode.key]
+        if (list.length === 0) {
+            delete this.listForFrequencyMap[this.minFrequency]
+        }
+    }
+    
+    this.minFrequency = 1
+    if (this.listForFrequencyMap[this.minFrequency] === undefined) {
+        this.listForFrequencyMap[this.minFrequency] = new DoublyLinkedList()
+    }
+    
+    const node = new Node(key, value, 1)
+    this.nodeForKeyMap[key] = node
+    this.listForFrequencyMap[this.minFrequency].add(node)
+    
+    this.size++
+};
+
+/** 
+ * Your LFUCache object will be instantiated and called as such:
+ * var obj = new LFUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
+
+class DoublyLinkedList {
+    constructor() {
+        this.head = new Node()
+        this.tail = new Node()
+        this.head.next = this.tail
+        this.tail.prev = this.head
+        this.length = 0
+    }
+    
+    // Adds node to head (most recently used)
+    add(node) {
+        const head = this.head
+        const next = head.next
+        
+        head.next = node
+        
+        node.prev = head
+        node.next = next
+        
+        next.prev = node
+        
+        this.length++
+    }
+    
+    remove(node) {
+        const prev = node.prev
+        const next = node.next
+        
+        prev.next = next
+        next.prev = prev
+        
+        node.next = null
+        node.prev = null
+        
+        this.length--
+    }
+    
+    // Removes tail node (least recently used)
+    removeTail() {
+        if (this.length > 0) {
+            this.remove(this.tail.prev)
+        }
+    }
+    
+    getTail() {
+        return this.tail.prev
+    }
+}
+
+class Node {
+    constructor(key = NaN, value = NaN, frequency = NaN) {
+        this.key = key
+        this.value = value
+        this.frequency = frequency
+    }
+}
+```
