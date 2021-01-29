@@ -63143,3 +63143,108 @@ const getGap = (arr, size) => {
     return maxGap
 }
 ```
+
+## 65. Valid Number
+```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isNumber = function(s) {
+    const processInteger = () => {
+        // Check the sign
+        if (s[i] === '+' || s[i] === '-') {
+            i++
+        }
+        
+        // Process left side of decimal or e
+        let digitCount = 0
+        while (i < s.length) {
+            const char = s[i]
+            
+            if (isDigit(char)) {
+                i++
+                digitCount++
+                continue
+            }
+            
+            if (char === '.') {
+                i++
+                return processRightOfDecimal(digitCount)
+            }
+            
+            if (char === 'e' || char === 'E') {
+                if (digitCount === 0) {
+                    return false
+                }
+
+                i++
+                return processRightOfScientific()
+            }
+            
+            return false
+        }
+        
+        // Is integer
+        return true
+    }
+
+    const processRightOfDecimal = (leftOfDecimalDigitCount) => {
+        let rightOfDecimalDigitCount = 0
+        while (i < s.length) {
+            const char = s[i]
+            
+            if (isDigit(char)) {
+                i++
+                rightOfDecimalDigitCount++
+                continue
+            }
+            
+            if (char === '.') {
+                return false
+            }
+
+            if (char === 'e' || char === 'E') {
+                if (leftOfDecimalDigitCount === 0 && rightOfDecimalDigitCount === 0) {
+                    return false
+                }
+                
+                i++
+                return processRightOfScientific()
+            }
+            
+            return false
+        }
+        
+        return leftOfDecimalDigitCount || rightOfDecimalDigitCount
+    }
+
+    const processRightOfScientific = () => {
+        // Check the sign
+        if (s[i] === '+' || s[i] === '-') {
+            i++
+        }
+        
+        // Process right side of e
+        let digitCount = 0
+        while (i < s.length) {
+            const char = s[i]
+
+            if (isDigit(char)) {
+                i++
+                digitCount++
+                continue
+            }
+            
+            return false
+        }
+        
+        return digitCount > 0
+    }
+    
+    let i = 0
+    return processInteger()
+};
+
+const isDigit = char => '0123456789'.includes(char)
+```
