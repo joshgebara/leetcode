@@ -63112,3 +63112,34 @@ const bfs = (startNode, endVal) => {
     return level
 }
 ```
+
+## 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
+```javascript
+/**
+ * @param {number} h
+ * @param {number} w
+ * @param {number[]} horizontalCuts
+ * @param {number[]} verticalCuts
+ * @return {number}
+ */
+var maxArea = function(h, w, horizontalCuts, verticalCuts) {
+    const MOD = 10 ** 9 + 7
+    const verticalGap = getGap(horizontalCuts, h)
+    const horizontalGap = getGap(verticalCuts, w)
+    return verticalGap * horizontalGap % MOD
+};
+
+const getGap = (arr, size) => {
+    arr.sort((a, b) => a - b)
+    
+    let maxGap = 0
+    let prev = 0
+    for (let i = 0; i <= arr.length; i++) {
+        const gap = (arr[i] || size) - prev
+        maxGap = Math.max(maxGap, gap)
+        prev = arr[i]
+    }
+    
+    return maxGap
+}
+```
