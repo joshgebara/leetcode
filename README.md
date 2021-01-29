@@ -63047,3 +63047,68 @@ class Node {
     }
 }
 ```
+
+## 1740. Find Distance in a Binary Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} p
+ * @param {number} q
+ * @return {number}
+ */
+var findDistance = function(root, p, q) {
+    const dfs = (node, parent) => {
+        if (!node) return
+        
+        node.parent = parent
+        
+        if (node.val === p) {
+            pNode = node
+        }
+        
+        dfs(node.left, node)
+        dfs(node.right, node)
+    }
+    
+    let pNode = null
+    dfs(root)
+    return bfs(pNode, q)
+};
+
+const bfs = (startNode, endVal) => {
+    const queue = [startNode]
+    const visited = new Set()
+    let level = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            
+            if (visited.has(node.val)) {
+                continue
+            }
+            visited.add(node.val)
+            
+            if (node.val === endVal) {
+                return level
+            }
+            
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+            if (node.parent) queue.push(node.parent)
+        }
+        
+        level++
+    }
+    
+    return level
+}
+```
