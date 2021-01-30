@@ -63409,3 +63409,61 @@ SELECT event_day AS day,
 FROM Employees
 GROUP BY emp_id, event_day
 ```
+
+## 471. Encode String with Shortest Length
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var encode = function(s) {
+    const dp = new Array(s.length).fill().map(a => new Array(s.length).fill(0))
+    for (let i = 0; i < s.length; i++) {
+        dp[i][i] = s[i]
+    }
+    
+    for (let len = 2; len <= s.length; len++) {
+        for (let startIndex = 0; startIndex < s.length - len + 1; startIndex++) {
+            const endIndex = startIndex + len - 1
+            
+            const currS = s.slice(startIndex, endIndex + 1)
+            dp[startIndex][endIndex] = currS
+            
+            if (len <= 4) continue
+            
+            const prefix = []
+            for (let k = startIndex; k < endIndex; k++) {
+                // see if we can get a shorter string by cutting and combining left and right
+                const combine = dp[startIndex][k] + dp[k + 1][endIndex]
+                if (combine.length < dp[startIndex][endIndex].length) {
+                    dp[startIndex][endIndex] = combine
+                }
+                
+                // see if we can compress the subtring s[startIndex, endIndex]
+                prefix.push(s[k])
+                const divides = currS.length / prefix.length
+                if (currS.length % prefix.length !== 0) continue
+                
+                const candidate = prefix.join('').repeat(divides)
+                if (candidate === currS) {
+                    const res = `${divides}[${dp[startIndex][k]}]`
+                    if (res.length < dp[startIndex][endIndex].length) {
+                        dp[startIndex][endIndex] = res
+                    }
+                }
+            }
+        }
+    }
+    
+    return dp[0][s.length - 1]
+};
+
+const isCompressed = str => str[str.length - 1] === ']'
+
+const extract = str => {
+    const leftBracket = str.indexOf('[')
+    const count = +str.slice(0, leftBracket)
+    const contents = str.slice(leftBracket + 1, str.length - 1)
+    return [count, contents]
+}
+```
