@@ -63288,3 +63288,65 @@ var fractionToDecimal = function(numerator, denominator) {
     return result.join('')
 };
 ```
+
+## 722. Remove Comments
+```javascript
+/**
+ * @param {string[]} source
+ * @return {string[]}
+ */
+var removeComments = function(source) {
+    const result = []
+    
+    let inBlock = false
+    let newLine = []
+    for (const line of source) {
+        let i = 0
+        while (i < line.length) {
+            if (inBlock) {
+                // Mark end of block comment
+                if (line[i] === '*' && line[i + 1] === '/') {
+                    inBlock = false
+                    i += 2
+                    continue
+                }
+                
+                // Ignore all chars inside block
+                i++
+                continue
+            }
+            
+            // If start of line comment then ignore rest of line
+            if (line[i] === '/' && line[i + 1] === '/') {
+                break
+            }
+            
+            // Mark start of block comment
+            if (line[i] === '/' && line[i + 1] === '*') {
+                inBlock = true
+                i += 2
+                continue
+            }
+            
+            // Not in a comment so include char
+            newLine.push(line[i])
+            i++
+        }
+        
+        /*
+            If still in a block comment at the end of the line, we 
+            don't want to start a newline because the newline char 
+            '\n' is ignored inside a block comment
+        */
+        if (!inBlock) {
+            if (newLine.length) {
+                result.push(newLine.join(''))
+            }
+            
+            newLine = []
+        }
+    }
+    
+    return result
+};
+```
