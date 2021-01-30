@@ -63368,3 +63368,34 @@ var largestAltitude = function(gain) {
     return max
 };
 ```
+
+## 1736. Latest Time by Replacing Hidden Digits
+```javascript
+/**
+ * @param {string} time
+ * @return {string}
+ */
+var maximumTime = function(time) {
+    time = time.split('')
+    
+    // Hour
+    if (time[0] === '?') {
+        time[0] = '0123'.includes(time[1]) || time[1] === '?' ? 2 : 1
+    }
+    
+    if (time[1] === '?') {
+        time[1] = time[0] == 2 ? 3 : 9
+    }
+    
+    // Min
+    if (time[3] === '?') {
+        time[3] = 5
+    }
+    
+    if (time[4] === '?') {
+        time[4] = 9
+    }
+    
+    return time.join('')
+};
+```
