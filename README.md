@@ -63350,3 +63350,21 @@ var removeComments = function(source) {
     return result
 };
 ```
+
+## 1732. Find the Highest Altitude
+```javascript
+/**
+ * @param {number[]} gain
+ * @return {number}
+ */
+var largestAltitude = function(gain) {
+    let max = 0
+    let altitude = 0
+    for (const g of gain) {
+        altitude += g
+        max = Math.max(max, altitude)
+    }
+    
+    return max
+};
+```
