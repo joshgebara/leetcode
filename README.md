@@ -16696,16 +16696,6 @@ NumArray.prototype.sumRange = function(i, j) {
 
 ## 280. Wiggle Sort
 ```javascript
-var wiggleSort = function(nums) {
-    nums.sort((a, b) => a - b)
-    
-    for (let i = 1; i < nums.length - 1; i += 2) {
-        let temp = nums[i]
-        nums[i] = nums[i+1]
-        nums[i+1] = temp
-    }
-};
-
 const isEven = num => (num & 1) === 0
 
 const swap = (arr, i, j) => {
@@ -63248,3 +63238,4 @@ var isNumber = function(s) {
 
 const isDigit = char => '0123456789'.includes(char)
 ```
+
