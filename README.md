@@ -63239,3 +63239,52 @@ var isNumber = function(s) {
 const isDigit = char => '0123456789'.includes(char)
 ```
 
+## 166. Fraction to Recurring Decimal
+```javascript
+/**
+ * @param {number} numerator
+ * @param {number} denominator
+ * @return {string}
+ */
+var fractionToDecimal = function(numerator, denominator) {
+    if (numerator === 0) return '0'
+    
+    let sign = ''
+    if (numerator < 0 && denominator > 0 || 
+        numerator > 0 && denominator < 0) sign = '-'
+    
+    const result = [sign]
+    
+    let dividend = Math.abs(numerator)
+    let divisor = Math.abs(denominator)
+    
+    const quotient = Math.trunc(dividend / divisor)
+    result.push(quotient)
+    
+    let remainder = dividend % divisor
+    if (remainder === 0) {
+        return result.join('')
+    }
+    
+    result.push('.')
+    
+    const map = {}
+    while (remainder !== 0) {
+        if (map[remainder] !== undefined) {
+            result.splice(map[remainder], 0, '(')
+            result.push(')')
+            break
+        }
+        
+        map[remainder] = result.length
+        remainder *= 10
+        
+        const quotient = Math.trunc(remainder / divisor)
+        result.push(quotient)
+        
+        remainder %= divisor
+    }
+    
+    return result.join('')
+};
+```
