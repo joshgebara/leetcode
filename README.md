@@ -63552,3 +63552,27 @@ const buildGraph = edges => {
     return graph
 }
 ```
+
+## 1744. Can You Eat Your Favorite Candy on Your Favorite Day?
+```javascript
+/**
+ * @param {number[]} candiesCount
+ * @param {number[][]} queries
+ * @return {boolean[]}
+ */
+var canEat = function(candiesCount, queries) {
+    const prefixSums = [0]
+    for (const count of candiesCount) {
+        prefixSums.push(prefixSums[prefixSums.length - 1] + count)
+    }
+    
+    const result = []
+    for (const [type, day, cap] of queries) {
+        const maxDay = prefixSums[type + 1] - 1
+        const minDay = Math.trunc(prefixSums[type] / cap)
+        result.push(minDay <= day && day <= maxDay)
+    }
+    
+    return result
+};
+```
