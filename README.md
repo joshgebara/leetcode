@@ -63576,3 +63576,35 @@ var canEat = function(candiesCount, queries) {
     return result
 };
 ```
+
+## 354. Russian Doll Envelopes
+```javascript
+// O(n^2) Longest Increasing Subsequence
+/**
+ * @param {number[][]} envelopes
+ * @return {number}
+ */
+var maxEnvelopes = function(envelopes) {
+    if (!envelopes.length) return 0
+    
+    envelopes.sort((a, b) => a[0] - b[0] || a[1] - b[1])
+    
+    const dp = new Array(envelopes.length + 1).fill(1)
+    let max = 1
+    for (let i = 1; i < envelopes.length; i++) {
+        for (let j = 0; j < i; j++) {
+            const [endWidth, endHeight] = envelopes[j]
+            const [nextWidth, nextHeight] = envelopes[i]
+            
+            if (endWidth < nextWidth && endHeight < nextHeight) {
+                dp[i] = Math.max(dp[i], dp[j] + 1)
+            }
+        }
+        max = Math.max(max, dp[i])
+    }
+    return max
+};
+
+// O(n log n) Longest Increasing Subsequence - Binary Search
+
+```
