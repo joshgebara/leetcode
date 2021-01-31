@@ -63499,3 +63499,56 @@ const getDigitSum = num => {
     return sum
 }
 ```
+
+## 1743. Restore the Array From Adjacent Pairs
+```javascript
+/**
+ * @param {number[][]} adjacentPairs
+ * @return {number[]}
+ */
+var restoreArray = function(adjacentPairs) {
+    const graph = buildGraph(adjacentPairs)
+    const leaf = getLeaf(graph)
+    return getPath(leaf, graph)
+};
+
+const getPath = (leaf, graph) => {
+    const _getPath = (node, parent) => {
+        path.push(node)
+        
+        for (const neighbor of graph[node]) {
+            if (neighbor === parent) continue
+            _getPath(neighbor, node)
+        }
+    }
+    
+    const path = []
+    _getPath(leaf, null)
+    return path
+}
+
+const getLeaf = graph => {
+    for (const [node, neighbors] of Object.entries(graph)) {
+        if (neighbors.length === 1) {
+            return +node
+        }
+    }
+}
+
+const buildGraph = edges => {
+    const graph = {}
+    for (const [u, v] of edges) {
+        if (graph[u] === undefined) {
+            graph[u] = []
+        }
+
+        if (graph[v] === undefined) {
+            graph[v] = []
+        }
+
+        graph[u].push(v)
+        graph[v].push(u)
+    }
+    return graph
+}
+```
