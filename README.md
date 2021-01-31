@@ -63604,7 +63604,52 @@ var maxEnvelopes = function(envelopes) {
     }
     return max
 };
+```
 
-// O(n log n) Longest Increasing Subsequence - Binary Search
-
+## 1745. Palindrome Partitioning IV
+```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var checkPartitioning = function(s) {
+    const _palindromePartition = (i, k) => {
+        if (i >= s.length) return k === 0 ? true : false
+        if (k <= 0) return false
+        
+        if (memo[i][k] !== undefined) {
+            return memo[i][k]
+        }
+        
+        let result = false
+        for (let j = i; j < s.length; j++) {
+            const canPartition = isPalindrome[i][j] && _palindromePartition(j + 1, k - 1)
+            if (canPartition) {
+                result = true
+                break
+            }
+        }
+        
+        memo[i][k] = result
+        return result
+    }
+    
+    const n = s.length
+    const isPalindrome = new Array(n).fill().map(a => new Array(n).fill(false))
+    for (let len = 1; len <= n; len++) {
+        for (let start = 0; start < n - len + 1; start++) {
+            const end = start + len - 1
+            if (start === end) {
+                isPalindrome[start][end] = true
+            } else if (start === end - 1 && s[start] === s[end]) {
+                isPalindrome[start][end] = true
+            } else if (s[start] === s[end] && isPalindrome[start + 1][end - 1]) {
+                isPalindrome[start][end] = true
+            }
+        }
+    }
+    
+    const memo = new Array(n).fill().map(a => new Array(4))
+    return _palindromePartition(0, 3)
+};
 ```
