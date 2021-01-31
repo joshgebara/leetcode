@@ -63467,3 +63467,35 @@ const extract = str => {
     return [count, contents]
 }
 ```
+
+## 1742. Maximum Number of Balls in a Box
+```javascript
+/**
+ * @param {number} lowLimit
+ * @param {number} highLimit
+ * @return {number}
+ */
+var countBalls = function(lowLimit, highLimit) {
+    const map = {}
+    let max = 0
+    for (let num = lowLimit; num <= highLimit; num++) {
+        const digitSum = getDigitSum(num)
+        map[digitSum] = 1 + (map[digitSum] || 0)
+        max = Math.max(max, map[digitSum])
+    }
+    
+    return max
+};
+
+const getDigitSum = num => {
+    let sum = 0
+    
+    while (num) {
+        const digit = num % 10
+        sum += digit
+        num = Math.floor(num / 10)
+    }
+    
+    return sum
+}
+```
