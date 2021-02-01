@@ -63689,3 +63689,67 @@ var minSumOfLengths = function(arr, target) {
     return result === Infinity ? -1 : result
 };
 ```
+
+## 833. Find And Replace in String
+```javascript
+/**
+ * @param {string} S
+ * @param {number[]} indexes
+ * @param {string[]} sources
+ * @param {string[]} targets
+ * @return {string}
+ */
+var findReplaceString = function(S, indexes, sources, targets) {
+    let groups = []
+    for (let i = 0; i < indexes.length; i++) {
+        const index = indexes[i]
+        const source = sources[i]
+        const target = targets[i]
+        groups.push([index, source, target])
+    }
+    
+    groups = countingSort(groups, S.length)
+    
+    let i = 0
+    const result = []
+    for (const [index, source, target] of groups) {
+        while (i < index) {
+            result.push(S[i])
+            i++
+        }
+        
+        const substr = S.slice(index, index + source.length)
+        if (substr === source) {
+            result.push(target)
+            i += source.length
+        }
+    }
+    
+    while (i < S.length) {
+        result.push(S[i])
+        i++
+    }
+    
+    return result.join('')
+};
+
+const countingSort = (arr, n) => {
+    const buckets = new Array(n)
+    for (const group of arr) {
+        const index = group[0]
+        if (buckets[index] === undefined) {
+            buckets[index] = []
+        }
+        buckets[index].push(group)
+    }
+    
+    const result = []
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; buckets[i] && j < buckets[i].length; j++) {
+            result.push(buckets[i][j])
+        }
+    }
+    
+    return result
+}
+```
