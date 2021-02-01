@@ -26585,19 +26585,28 @@ const getLeaves = (node, arr, seen) => {
 
 ## 662. Maximum Width of Binary Tree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var widthOfBinaryTree = function(root) {
     if (!root) return 0
     
-    let maxWidth = 1
-    const queue = [[root, 1]]
+    let maxWidth = 0
     
+    const queue = [[root, 0]]
     while (queue.length) {
-        const size = queue.length
-        
+        const size = queue.length    
         const offset = queue[0][1]
-        
-        if (size > 1)
-            maxWidth = Math.max(maxWidth, queue[size - 1][1] - offset + 1)
+        maxWidth = Math.max(maxWidth, queue[size - 1][1] - offset + 1)
         
         for (let i = 0; i < size; i++) {
             const [node, position] = queue.shift()
@@ -63753,3 +63762,4 @@ const countingSort = (arr, n) => {
     return result
 }
 ```
+
