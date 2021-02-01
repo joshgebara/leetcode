@@ -63653,3 +63653,39 @@ var checkPartitioning = function(s) {
     return _palindromePartition(0, 3)
 };
 ```
+
+## 1477. Find Two Non-overlapping Sub-arrays Each With Target Sum
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} target
+ * @return {number}
+ */
+var minSumOfLengths = function(arr, target) {
+    const dp = new Array(arr.length)
+    let result = Infinity
+    
+    let currSum = 0
+    let minLen = Infinity
+    
+    let left = 0
+    for (let right = 0; right < arr.length; right++) {
+        currSum += arr[right]
+        
+        while (left < right && currSum > target) {
+            currSum -= arr[left]
+            left++
+        }
+        
+        if (currSum === target) {
+            const currLen = right - left + 1
+            result = Math.min(result, currLen + (dp[left - 1] || Infinity))
+            minLen = Math.min(minLen, currLen)
+        }
+        
+        dp[right] = minLen
+    }
+    
+    return result === Infinity ? -1 : result
+};
+```
