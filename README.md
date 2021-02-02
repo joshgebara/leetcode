@@ -63928,3 +63928,29 @@ var maxWidthRamp = function(A) {
     return result
 };
 ```
+
+## 593. Valid Square
+```javascript
+/**
+ * @param {number[]} p1
+ * @param {number[]} p2
+ * @param {number[]} p3
+ * @param {number[]} p4
+ * @return {boolean}
+ */
+var validSquare = function(p1, p2, p3, p4) {
+    const p = [p1, p2, p3, p4]
+    const set = new Set()
+    for (let i = 0; i < p.length; i++) {
+        for (let j = i + 1; j < p.length; j++) {
+            set.add(dist(p[i], p[j]))
+        }
+    }
+    
+    return !set.has(0) && set.size === 2
+};
+
+const dist = (p1, p2) => {
+    return (p2[1] - p1[1]) ** 2 + (p2[0] - p1[0]) ** 2
+}
+```
