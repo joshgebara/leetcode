@@ -63763,3 +63763,86 @@ const countingSort = (arr, n) => {
 }
 ```
 
+## 1031. Maximum Sum of Two Non-Overlapping Subarrays
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} L
+ * @param {number} M
+ * @return {number}
+ */
+var maxSumTwoNoOverlap = function(A, L, M) {
+    const maxSumLeft = getMaxSumLeft(A, M)
+    const maxSumRight = getMaxSumRight(A, M)
+    
+    let currSum = 0
+    let maxSum = 0
+    for (let rightIndex = 0; rightIndex < A.length; rightIndex++) {
+        if (rightIndex < L) {
+            currSum += A[rightIndex]
+            maxSum = currSum + (maxSumRight[rightIndex + 1] || 0)
+            continue
+        }
+        
+        const leftIndex = rightIndex - L + 1
+        currSum -= A[leftIndex - 1]
+        currSum += A[rightIndex]
+        
+        maxSum = Math.max(maxSum, 
+                          currSum + (maxSumLeft[leftIndex - 1] || 0), 
+                          currSum + (maxSumRight[rightIndex + 1] || 0))
+    }
+    
+    return maxSum
+};
+
+const getMaxSumLeft = (arr, size) => {
+    const maxSumLeft = new Array(arr.length).fill(0)
+    
+    let currSum = 0
+    let maxSum = 0
+    for (let rightIndex = 0; rightIndex < arr.length; rightIndex++) {
+        if (rightIndex < size) {
+            currSum += arr[rightIndex]
+            
+            maxSum = currSum
+            maxSumLeft[rightIndex] = maxSum
+            continue
+        }
+        
+        const leftIndex = rightIndex - size + 1
+        currSum -= arr[leftIndex - 1]
+        currSum += arr[rightIndex]
+        
+        maxSum = Math.max(maxSum, currSum)
+        maxSumLeft[rightIndex] = maxSum
+    }
+    
+    return maxSumLeft
+}
+
+const getMaxSumRight = (arr, size) => {
+    const maxSumRight = new Array(arr.length).fill(0)
+    
+    let currSum = 0
+    let maxSum = 0
+    for (let leftIndex = arr.length - 1; leftIndex >= 0; leftIndex--) {
+        if (leftIndex > arr.length - size - 1) {
+            currSum += arr[leftIndex]
+            
+            maxSum = currSum
+            maxSumRight[leftIndex] = maxSum
+            continue
+        }
+        
+        const rightIndex = leftIndex + size - 1
+        currSum -= arr[rightIndex + 1]
+        currSum += arr[leftIndex]
+        
+        maxSum = Math.max(maxSum, currSum)
+        maxSumRight[leftIndex] = maxSum
+    }
+    
+    return maxSumRight
+}
+```
