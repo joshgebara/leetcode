@@ -63856,7 +63856,7 @@ const getMaxSumRight = (arr, size) => {
  */
 var maxWidthRamp = function(A) {
     const indices = []
-    for (let i= 0; i < A.length; i++) {
+    for (let i = 0; i < A.length; i++) {
         indices.push(i)
     }
     
@@ -63867,6 +63867,38 @@ var maxWidthRamp = function(A) {
     for (const index of indices) {
         result = Math.max(result, index - min)
         min = Math.min(min, index)
+    }
+    
+    return result
+};
+
+// Binary Search
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var maxWidthRamp = function(A) {
+    const stack = []
+    let result = 0
+    
+    for (let i = 0; i < A.length; i++) {
+        if (!stack.length || A[i] < A[stack[stack.length - 1]]) {
+            stack.push(i)
+        } else {
+            let left = 0
+            let right = stack.length - 1
+            
+            while (left < right) {
+                const mid = Math.floor((right - left) / 2) + left
+                if (A[stack[mid]] > A[i]) {
+                    left = mid + 1
+                } else {
+                    right = mid
+                }
+            }
+            
+            result = Math.max(result, i - stack[left])
+        }
     }
     
     return result
