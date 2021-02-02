@@ -63846,3 +63846,29 @@ const getMaxSumRight = (arr, size) => {
     return maxSumRight
 }
 ```
+
+## 962. Maximum Width Ramp
+```javascript
+// Sort
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var maxWidthRamp = function(A) {
+    const indices = []
+    for (let i= 0; i < A.length; i++) {
+        indices.push(i)
+    }
+    
+    indices.sort((a, b) => A[a] - A[b])
+    
+    let result = 0
+    let min = A.length
+    for (const index of indices) {
+        result = Math.max(result, index - min)
+        min = Math.min(min, index)
+    }
+    
+    return result
+};
+```
