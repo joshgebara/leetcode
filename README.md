@@ -63903,4 +63903,28 @@ var maxWidthRamp = function(A) {
     
     return result
 };
+
+// Stack
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var maxWidthRamp = function(A) {
+    const stack = []
+    let result = 0
+    
+    for (let i = 0; i < A.length; i++) {
+        if (!stack.length || A[stack[stack.length - 1]] > A[i]) {
+            stack.push(i)
+        }
+    }
+    
+    for (let i = A.length - 1; i >= result; i--) {
+        while (stack.length && A[stack[stack.length - 1]] <= A[i]) {
+            result = Math.max(result, i - stack.pop())
+        }
+    }
+    
+    return result
+};
 ```
