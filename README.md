@@ -63954,3 +63954,35 @@ const dist = (p1, p2) => {
     return (p2[1] - p1[1]) ** 2 + (p2[0] - p1[0]) ** 2
 }
 ```
+
+## 548. Split Array with Equal Sum
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var splitArray = function(nums) {
+    const prefixSum = (i, j) => prefixSums[j + 1] - prefixSums[i]
+    const prefixSums = [0]
+    for (const num of nums) {
+        prefixSums.push(prefixSums[prefixSums.length - 1] + num)
+    }
+    
+    for (let middle = 3; middle < nums.length - 3; middle++) {
+        const targets = new Set()
+        for (let left = 1; left < middle - 1; left++) {
+            const p1 = prefixSum(0, left - 1)
+            const p2 = prefixSum(left + 1, middle - 1)
+            if (p1 === p2) targets.add(p1)
+        }
+        
+        for (let right = middle + 2; right < nums.length - 1; right++) {
+            const p1 = prefixSum(middle + 1, right - 1)
+            const p2 = prefixSum(right + 1, nums.length - 1)
+            if (p1 === p2 && targets.has(p1)) return true
+        }
+    }
+    
+    return false
+};
+```
