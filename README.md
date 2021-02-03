@@ -64082,3 +64082,26 @@ var checkValidString = function(s) {
     return left === 0
 };
 ```
+
+## 400. Nth Digit
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var findNthDigit = function(n) {
+    let digits = 1
+    let count = 9
+    let start = 1
+    
+    while (n > digits * count) {
+        n -= digits * count
+        digits++
+        count *= 10
+        start *= 10
+    }
+    
+    start += (n - 1) / digits
+    return `${start}`[(n - 1) % digits]
+};
+```
