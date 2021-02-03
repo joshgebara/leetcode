@@ -64133,3 +64133,36 @@ var hIndex = function(citations) {
     return citations.length - left
 };
 ```
+
+## 992. Subarrays with K Different Integers
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} K
+ * @return {number}
+ */
+var subarraysWithKDistinct = function(A, K) {
+    return getKMostCount(A, K) - getKMostCount(A, K - 1)
+};
+
+var getKMostCount = function(s, k) {
+    const map = new Map()
+    let result = 0
+    let start = 0
+    
+    for (let i = 0; i < s.length; i++) {
+        map.set(s[i], (map.get(s[i]) || 0) + 1)
+        
+        while (map.size > k) {
+            map.set(s[start], map.get(s[start]) - 1)
+            if (map.get(s[start]) <= 0) {
+                map.delete(s[start])
+            }
+            start++
+        }
+        
+        result += i - start + 1
+    }
+    return result
+};
+```
