@@ -64166,3 +64166,56 @@ var getKMostCount = function(s, k) {
     return result
 };
 ```
+
+## 1036. Escape a Large Maze
+```javascript
+/**
+ * @param {number[][]} blocked
+ * @param {number[]} source
+ * @param {number[]} target
+ * @return {boolean}
+ */
+var isEscapePossible = function(blocked, source, target) {
+    if (!blocked.length) return true
+    
+    const set = new Set(blocked.map(e => e.toString()))
+    return bfs(set, source, target) && bfs(set, target, source)
+};
+
+const bfs = (blockedSet, source, target) => {
+    const b = 10 ** 6
+    
+    const maxArea = blockedSet.size * (blockedSet.size + 1) / 2
+    let area = 0
+    
+    const visited = new Set()
+    visited.add(source.toString())
+    
+    const queue = [source]
+    while (queue.length) {
+        const [row, col] = queue.shift()
+
+        if (row === target[0] && col === target[1])
+            return true
+
+        if (area > maxArea) return true
+
+        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+            const nr = row + dx
+            const nc = col + dy
+            const coor = [nr, nc]
+
+            if (nr < 0 || nc < 0 || nr >= b || nc >= b) continue
+
+            if (visited.has(coor.toString()) || 
+                blockedSet.has(coor.toString())) continue
+            visited.add(coor.toString())
+            
+            area++
+            queue.push(coor)
+        }
+    }
+
+    return false
+}
+```
