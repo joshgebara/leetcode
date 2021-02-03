@@ -64053,3 +64053,32 @@ CBTInserter.prototype.get_root = function() {
  * var param_2 = obj.get_root()
  */
 ```
+
+## 678. Valid Parenthesis String
+```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var checkValidString = function(s) {
+    let left = 0
+    let leftOrWild = 0
+    for (const char of s) {
+        if (char === '(') {
+            left++
+            leftOrWild++
+        } else if (char === ')') {
+            if (leftOrWild === 0) return false
+            leftOrWild--
+            left--
+        } else {
+            leftOrWild++
+            left--
+        }
+        
+        left = Math.max(left, 0)
+    }
+    
+    return left === 0
+};
+```
