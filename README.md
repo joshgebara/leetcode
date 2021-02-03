@@ -64105,3 +64105,31 @@ var findNthDigit = function(n) {
     return `${start}`[(n - 1) % digits]
 };
 ```
+
+## 275. H-Index II
+```javascript
+/**
+ * @param {number[]} citations
+ * @return {number}
+ */
+var hIndex = function(citations) {
+    if (!citations.length || citations[citations.length - 1] === 0) {
+        return 0
+    }
+    
+    let left = 0
+    let right = citations.length - 1
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (citations.length - mid > citations[mid]) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    
+    return citations.length - left
+};
+```
