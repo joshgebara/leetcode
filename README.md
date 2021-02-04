@@ -64222,6 +64222,7 @@ const bfs = (blockedSet, source, target) => {
 
 ## 920. Number of Music Playlists
 ```javascript
+// Top Down
 /**
  * @param {number} N
  * @param {number} L
@@ -64252,7 +64253,28 @@ var numMusicPlaylists = function(N, L, K) {
     }
     
     const MOD = 10 ** 9 + 7
-    const memo = new Array(101).fill().map(a => new Array(101))
+    const memo = new Array(L + 1).fill().map(a => new Array(N + 1))
     return _numMusicPlaylists(0, 0)
+};
+```
+
+## 1411. Number of Ways to Paint N × 3 Grid
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numOfWays = function(n) {
+    const MOD = 10 ** 9 + 7
+    let colors2 = 6
+    let colors3 = 6
+    
+    for (let i = 1; i < n; i++) {
+        const temp = colors2
+        colors2 = (3 * colors2 + 2 * colors3) % MOD
+        colors3 = (2 * temp + 2 * colors3) % MOD
+    }
+    
+    return (colors2 + colors3) % MOD
 };
 ```
