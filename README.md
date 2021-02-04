@@ -64278,3 +64278,69 @@ var numOfWays = function(n) {
     return (colors2 + colors3) % MOD
 };
 ```
+
+## 936. Stamping The Sequence
+```javascript
+/**
+ * @param {string} stamp
+ * @param {string} target
+ * @return {number[]}
+ */
+var movesToStamp = function(stamp, target) {
+    const canReplace = tIndex => {
+        for (let i = 0; i < S.length; i++) {
+            if (T[tIndex] !== '*' && T[tIndex] !== S[i]) {
+                return false
+            }
+            tIndex++
+        }
+        return true
+    }
+
+    const doReplace = tIndex => {
+        let stars = 0
+        for (let i = 0; i < S.length; i++) {
+            if (T[tIndex] !== '*') {
+                T[tIndex] = '*'
+                stars++
+            }
+            tIndex++
+        }
+        return stars
+    }
+    
+    const S = stamp.split('')
+    const T = target.split('')
+    const result = []
+    const visited = Array(T.length).fill(false)
+    let stars = 0
+    
+    // Go until all chars have been replaced by stars '*'
+    while (stars < T.length) {
+        let doneReplace = false
+        for (let i = 0; i <= T.length - S.length; i++) {
+            /*
+            Search in reverse order. Instead of adding stamps, remove stamps
+            A stamp that is stamped later will cover the earlier ones, so there 
+            is a unique Z order for all the stamps, just like elements on a web page.
+            
+            Visited is used to note the start index of a stamp we already removed.
+            */
+            if (!visited[i] && canReplace(i)) {
+                stars += doReplace(i)
+                doneReplace = true
+                visited[i] = true
+                result.push(i)
+            }
+            
+            // No more stamps to make
+            if (stars === T.length) break
+        }
+        
+        // No stamps were made
+        if (!doneReplace) return []
+    }
+    
+    return result.reverse()
+};
+```
