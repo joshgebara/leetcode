@@ -64219,3 +64219,40 @@ const bfs = (blockedSet, source, target) => {
     return false
 }
 ```
+
+## 920. Number of Music Playlists
+```javascript
+/**
+ * @param {number} N
+ * @param {number} L
+ * @param {number} K
+ * @return {number}
+ */
+var numMusicPlaylists = function(N, L, K) {
+    const _numMusicPlaylists = (length, distinctNumsCount) => {
+        if (length === L) {
+            return distinctNumsCount === N
+        }
+        
+        if (memo[length][distinctNumsCount] !== undefined) {
+            return memo[length][distinctNumsCount]
+        }
+        
+        // Choose New Song
+        const waysToChooseNewSong = _numMusicPlaylists(length + 1, distinctNumsCount + 1) * 
+                                    (N - distinctNumsCount) % MOD
+        
+        // Choose Repeat Song
+        const waysToChooseRepeatSong = _numMusicPlaylists(length + 1, distinctNumsCount) * 
+                                       Math.max(0, distinctNumsCount - K) % MOD
+        
+        const count = waysToChooseNewSong + waysToChooseRepeatSong
+        memo[length][distinctNumsCount] = count
+        return count
+    }
+    
+    const MOD = 10 ** 9 + 7
+    const memo = new Array(101).fill().map(a => new Array(101))
+    return _numMusicPlaylists(0, 0)
+};
+```
