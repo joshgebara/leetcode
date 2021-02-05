@@ -64391,3 +64391,77 @@ var numMovesStonesII = function(stones) {
     return [min, max]
 };
 ```
+
+## 1586. Binary Search Tree Iterator II
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ */
+var BSTIterator = function(root) {
+    this.last = root
+    this.stack = []
+    this.arr = []
+    this.pointer = -1
+};
+
+/**
+ * @return {boolean}
+ */
+BSTIterator.prototype.hasNext = function() {
+    return this.stack.length || 
+           this.last !== null || 
+           this.pointer < this.arr.length - 1
+};
+
+/**
+ * @return {number}
+ */
+BSTIterator.prototype.next = function() {
+    this.pointer++
+    
+    if (this.pointer === this.arr.length) {        
+        while (this.last !== null) {
+            this.stack.push(this.last)
+            this.last = this.last.left
+        }
+        
+        const curr = this.stack.pop()
+        this.last = curr.right
+        this.arr.push(curr.val)
+    }
+    
+    return this.arr[this.pointer]
+};
+
+/**
+ * @return {boolean}
+ */
+BSTIterator.prototype.hasPrev = function() {
+    return this.pointer > 0
+};
+
+/**
+ * @return {number}
+ */
+BSTIterator.prototype.prev = function() {
+    this.pointer--
+    return this.arr[this.pointer]
+};
+
+/** 
+ * Your BSTIterator object will be instantiated and called as such:
+ * var obj = new BSTIterator(root)
+ * var param_1 = obj.hasNext()
+ * var param_2 = obj.next()
+ * var param_3 = obj.hasPrev()
+ * var param_4 = obj.prev()
+ */
+```
