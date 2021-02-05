@@ -64465,3 +64465,39 @@ BSTIterator.prototype.prev = function() {
  * var param_4 = obj.prev()
  */
 ```
+
+## 666. Path Sum IV
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var pathSum = function(nums) {
+    const _pathSum = (root, preSum) => {
+        const level = Math.floor(root / 10)
+        const pos = root % 10
+        const left = (level + 1) * 10 + pos * 2 - 1
+        const right = (level + 1) * 10 + pos * 2
+        
+        const currSum = preSum + treeMap[root]
+        if (treeMap[left] === undefined && treeMap[right] === undefined) {
+            sum += currSum
+            return
+        }
+        
+        if (treeMap[left] !== undefined) _pathSum(left, currSum)
+        if (treeMap[right] !== undefined) _pathSum(right, currSum)
+    }
+    
+    const treeMap = {}
+    for (const num of nums) {
+        const key = Math.trunc(num / 10)
+        const val = num % 10
+        treeMap[key] = val
+    }
+    
+    let sum = 0
+    _pathSum(Math.trunc(nums[0] / 10), 0)
+    return sum
+};
+```
