@@ -64344,3 +64344,50 @@ var movesToStamp = function(stamp, target) {
     return result.reverse()
 };
 ```
+
+## 1040. Moving Stones Until Consecutive II
+```javascript
+/**
+ * @param {number[]} stones
+ * @return {number[]}
+ */
+var numMovesStonesII = function(stones) {
+    stones.sort((a, b) => a - b)
+    const n = stones.length
+    
+    const leftMax = stones[n - 2] - stones[0] - 1 - (n - 3)
+    const rightMax = stones[n - 1] - stones[1] - 1 - (n - 3)
+    const max = Math.max(leftMax, rightMax)
+    
+    let min = Infinity
+    let i = 0
+    let j = 0
+    let windowSize = Infinity
+    let stoneCount = Infinity
+    while (j < n) {
+        windowSize = stones[j] - stones[i] + 1
+        stoneCount = j - i + 1
+        
+        if (windowSize > n) {
+            i++
+            continue
+        }
+        
+        /*
+        Edges Case:
+        [1, 2, 3, 4, 10], the interval [1, 2, 3, 4] is consecutive, 
+        but there is only one external stone, you need to put 1 to the position 6, 
+        then put 10 to position 5.
+        */
+        if (windowSize == n - 1 && stoneCount == n - 1) {
+            min = Math.min(min, 2)
+        } else {
+            min = Math.min(min, n - stoneCount)
+        }
+        
+        j++
+    }
+    
+    return [min, max]
+};
+```
