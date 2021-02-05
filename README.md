@@ -64501,3 +64501,36 @@ var pathSum = function(nums) {
     return sum
 };
 ```
+
+## 870. Advantage Shuffle
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @return {number[]}
+ */
+var advantageCount = function(A, B) {
+    const sortedA = A.slice().sort((a, b) => a - b)
+    const sortedB = B.slice().sort((a, b) => a - b)
+    
+    const take = {}
+    for (let i = sortedB.length - 1; i >= 0; i--) {
+        if (sortedB[i] < sortedA[sortedA.length - 1]) {
+            if (take[sortedB[i]] === undefined) {
+                take[sortedB[i]] = []
+            }
+            take[sortedB[i]].push(sortedA.pop())
+        }
+    }
+
+    const result = []
+    for (let i = 0; i < B.length; i++) {
+        if (take[B[i]] && take[B[i]].length) {
+            result.push(take[B[i]].pop())
+        } else {
+            result.push(sortedA.pop())
+        }
+    }
+    return result
+};
+```
