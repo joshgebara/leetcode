@@ -64625,3 +64625,50 @@ var sumOfUnique = function(nums) {
     return sum
 };
 ```
+
+## 1053. Previous Permutation With One Swap
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var prevPermOpt1 = function(arr) {
+    // Get index of first non decreasing element
+    let i = arr.length - 2
+    while (i >= 0) {
+        if (arr[i] > arr[i + 1]) break
+        i--
+    }
+    
+    // If made it to the end, arr is already the smallest permutation
+    if (i === -1) return arr
+    
+    /*
+    Get index of largest element smaller than arr[i] in
+    the non decreasing part of the array.
+    */
+    let j = arr.length - 1
+    while (j > i) {
+        if (arr[j] < arr[i]) break
+        j--
+    }
+    
+    /*
+    If multiple of this element's val, get the 
+    index of the one furthest to the left. 
+    Example: [3,1,1,3] -> [1,3,1,3]
+    */
+    while (j > i && arr[j] === arr[j - 1]) {
+        j--
+    }
+    
+    swap(arr, i, j)
+    return arr
+};
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+```
