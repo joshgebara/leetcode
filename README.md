@@ -64534,3 +64534,72 @@ var advantageCount = function(A, B) {
     return result
 };
 ```
+
+## 963. Minimum Area Rectangle II
+```javascript
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var minAreaFreeRect = function(points) {
+    /*
+    Four points form a rectangle iff:
+    1. diagonals lengths are the same
+    2. diagonals cross at centers (midPoints are the same)
+    */
+    const map = {}
+    for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+            const p1 = points[i]
+            const p2 = points[j]
+            if (isEqual(p1, p2)) continue
+            
+            // calculate diagonal length and mid point
+            const diagonalLength = distance(p1, p2)
+            const [xMid, yMid] = midPoint(p1, p2)
+            
+            const key = `${diagonalLength},${xMid},${yMid}`
+            if (map[key] === undefined) {
+                map[key] = []
+            }
+            
+            map[key].push([p1, p2])            
+        }
+    }
+    
+    let min = Infinity
+    for (const [key, pairs] of Object.entries(map)) {
+        if (pairs.length < 2) continue  
+        
+        for (let i = 0; i < pairs.length; i++) {
+            for (let j = i + 1; j < pairs.length; j++) {
+                const [p1, p2] = pairs[i]
+                const [p3, p4] = pairs[j]
+                
+                const area = distance(p1, p3) * distance(p1, p4)
+                min = Math.min(min, area)
+            }
+        }
+    }
+    
+    return min < Infinity ? min : 0
+};
+
+const midPoint = (p1, p2) => {
+    const [x1, y1] = p1
+    const [x2, y2] = p2
+    return [(x1 + x2) / 2, (y1 + y2) / 2]
+}
+
+const distance = (p1, p2) => {
+    const [x1, y1] = p1
+    const [x2, y2] = p2
+    return Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2)
+}
+
+const isEqual = (p1, p2) => {
+    const [x1, y1] = p1
+    const [x2, y2] = p2
+    return x1 === x2 && y1 === y2
+}
+```
