@@ -64603,3 +64603,25 @@ const isEqual = (p1, p2) => {
     return x1 === x2 && y1 === y2
 }
 ```
+
+## 1748. Sum of Unique Elements
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var sumOfUnique = function(nums) {
+    const map = {}
+    for (const num of nums) {
+        map[num] = 1 + (map[num] || 0)
+    }
+    
+    let sum = 0
+    for (const [key, val] of Object.entries(map)) {
+        if (val === 1) {
+            sum += +key
+        }
+    }
+    return sum
+};
+```
