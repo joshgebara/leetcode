@@ -64672,3 +64672,53 @@ const swap = (arr, i, j) => {
     arr[j] = temp
 }
 ```
+
+## 1648. Sell Diminishing-Valued Colored Balls
+```javascript
+/**
+ * @param {number[]} inventory
+ * @param {number} orders
+ * @return {number}
+ */
+var maxProfit = function(inventory, orders) {
+    const summationN = n => n * (n + BigInt(1)) / BigInt(2)
+    const min = (a, b) => a < b ? a : b
+    
+    inventory.sort((a, b) => b - a)
+    inventory.push(0)
+    inventory = inventory.map(num => BigInt(num))
+    
+    orders = BigInt(orders)
+    
+    const MOD = BigInt(1e9 + 7)
+    const n = inventory.length
+    
+    let result = BigInt(0)
+    let top = inventory[0]
+    let i = 1
+    while(i < n && orders > 0) {
+        while(i < n && inventory[i] === top) {
+            i++
+        }
+                
+        const factor = BigInt(i)
+        const difference = BigInt(top - inventory[i])
+        
+        const ordersAvaliable = difference * factor
+        const ordersTaken = min(orders, ordersAvaliable)
+        
+        const sellAll = ordersTaken / factor
+        const sellRemaining = ordersTaken % factor
+        
+        result = (result + ((summationN(top) - summationN(top - sellAll)) * factor) % MOD) % MOD
+        result = (result + ((top - sellAll) * sellRemaining) % MOD) % MOD
+        
+        orders -= ordersTaken
+        
+        top = inventory[i]
+        i++
+    }
+    
+    return result
+};
+```
