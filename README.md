@@ -64770,3 +64770,50 @@ var maxA = function(N) {
     return Math.max(dp[N][0], dp[N][1], dp[N][2])
 };
 ```
+
+## 887. Super Egg Drop
+```javascript
+// Binary Search
+/**
+ * @param {number} K
+ * @param {number} N
+ * @return {number}
+ */
+var superEggDrop = function(K, N) {
+    const _superEggDrop = (eggs, floors) => {
+        if (floors === 0) return 0
+        if (eggs === 1) return floors
+        
+        if (memo[eggs][floors] !== undefined) {
+            return memo[eggs][floors]
+        }
+        
+        let result = floors
+        let left = 1
+        let right = floors
+
+        while (left < right) {
+            const mid = Math.floor((right - left) / 2) + left
+
+            const eggDidBreak = _superEggDrop(eggs - 1, mid - 1)
+            const eggDidNotBreak = _superEggDrop(eggs, floors - mid)
+
+            result = Math.min(result, Math.max(eggDidBreak, eggDidNotBreak) + 1)
+
+            if (eggDidBreak === eggDidNotBreak) {
+                break
+            } else if (eggDidBreak < eggDidNotBreak) {
+                left = mid + 1
+            } else {
+                right = mid
+            }
+        }
+        
+        memo[eggs][floors] = result
+        return result
+    }
+    
+    const memo = new Array(K + 1).fill().map(a => new Array(N + 1))
+    return _superEggDrop(K, N)
+};
+```
