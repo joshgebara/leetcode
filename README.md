@@ -64722,3 +64722,51 @@ var maxProfit = function(inventory, orders) {
     return result
 };
 ```
+
+## 651. 4 Keys Keyboard
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var maxA = function(N) {
+    // 3xN matrix to store info of 3 scenarios at each step
+    const dp = new Array(N + 1).fill().map(a => new Array(3).fill(0))
+    
+    // 2xN matrix to store clipboard info of 2nd & 3rd scenarios
+    const clipboard = new Array(N + 1).fill().map(a => new Array(2).fill(0))
+    
+    for (let i = 1; i <= N; i++) {
+        // Scenario 1: key1
+        dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1], dp[i - 1][2]) + 1
+        
+        // Scenario 2: key4
+        let op1 = -Infinity
+        if (i >= 1) {
+            // use paste result & clipboard from senario 2
+            op1 = dp[i - 1][1] + clipboard[i - 1][0]
+        }
+        
+        // use paste result & clipboard from senario 3
+        const op2 = dp[i - 1][2] + clipboard[i - 1][1] 
+        if (op1 <= op2) {
+            dp[i][1] = op2
+            clipboard[i][0] = clipboard[i - 1][1]
+        } else {
+            dp[i][1] = op1
+            clipboard[i][0] = clipboard[i - 1][0]
+        }
+        
+        // Scenario 3: key2 + key3 + key4
+        if (i >= 3) {
+            // find out largest value 3 steps before
+            clipboard[i][1] = Math.max(dp[i - 3][0], dp[i - 3][1], dp[i - 3][2])
+            // double it
+            dp[i][2] = clipboard[i][1] * 2
+        }
+    }
+    
+    // in last step, max among 3 is the result
+    return Math.max(dp[N][0], dp[N][1], dp[N][2])
+};
+```
