@@ -59507,3 +59507,28 @@ var check = function(nums) {
     return true
 };
 ```
+
+## 1759. Count Number of Homogenous Substrings
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var countHomogenous = function(s) {
+    const MOD = 10 ** 9 + 7
+    let count = 0
+    
+    let left = 0
+    for (let right = 0; right < s.length; right++) {
+        while (s[left] !== s[right]) {
+           left++
+        }
+
+        const len = right - left + 1
+        count += len
+        count %= MOD
+    }
+        
+    return count
+};
+```
