@@ -59442,3 +59442,26 @@ var superEggDrop = function(K, N) {
     return _superEggDrop(K, N)
 };
 ```
+
+## 1758. Minimum Changes To Make Alternating Binary String
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var minOperations = function(s) {
+    return Math.min(countWithStart(s, 0), countWithStart(s, 1))
+};
+
+const countWithStart = (s, num) => {
+    let count = 0
+    for (let i = 0; i < s.length; i++) {
+        if (i % 2 === 0) {
+            count += s[i] != num
+        } else {
+            count += s[i] != (1 ^ num)
+        }
+    }
+    return count
+}
+```
