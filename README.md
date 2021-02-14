@@ -59473,3 +59473,37 @@ SELECT product_id
 FROM Products
 WHERE low_fats = 'Y' AND recyclable = 'Y'
 ```
+
+## 1752. Check if Array Is Sorted and Rotated
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var check = function(nums) {
+    // find index before pivot
+    let pivotIndex = 0
+    while (pivotIndex < nums.length && nums[pivotIndex] <= nums[pivotIndex + 1]) {
+        pivotIndex++
+    }
+    
+    // move one forward to pivot index
+    pivotIndex++
+    
+    // if reached end then arr is sorted without rotation
+    if (pivotIndex >= nums.length) {
+        return true
+    }
+    
+    for (let i = 0; i < nums.length; i++) {
+        const nextIndex = (pivotIndex + 1) % nums.length
+        if (nums[pivotIndex] > nums[nextIndex]) {
+            return false
+        }
+        
+        pivotIndex++
+    }
+    
+    return true
+};
+```
