@@ -7556,32 +7556,48 @@ var detectCycle = function(head) {
 
 ## 430. Flatten a Multilevel Doubly Linked List
 ```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val,prev,next,child) {
+ *    this.val = val;
+ *    this.prev = prev;
+ *    this.next = next;
+ *    this.child = child;
+ * };
+ */
+
+/**
+ * @param {Node} head
+ * @return {Node}
+ */
 var flatten = function(head) {
+    if (!head) return
+
     let curr = head
     while (curr) {
-        if (curr.child)
-            insertAfter(curr, curr.child)
+        if (!curr.child) {
+            curr = curr.next
+            continue
+        }
+
+        const next = curr.next
         
-        curr = curr.next
+        let tail = curr.child
+        tail.prev = curr
+        
+        curr.next = tail
+        curr.child = null
+
+        while (tail && tail.next) {
+            tail = tail.next
+        }
+
+        tail.next = next
+        if (next) next.prev = tail
     }
+    
     return head
 };
-
-function insertAfter(head, child) {
-    const next = head.next
-    head.next = child
-    head.child = null
-    child.prev = head
-    
-    let tail = child 
-    while (tail.next)
-        tail = tail.next
-    
-    tail.next = next
-    
-    if (next)
-        next.prev = tail
-}
 ```
 
 ## Convert Sorted List to Binary Search Tree
