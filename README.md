@@ -387,8 +387,6 @@ var missingNumber = function(nums) {
   }
   return missingNum
 };
-
-missingNumber([3,0,1])
 ```
 
 ## 830. Positions of Large Groups
@@ -59530,5 +59528,24 @@ var countHomogenous = function(s) {
     }
         
     return count
+};
+```
+
+## 1762. Buildings With an Ocean View
+```javascript
+/**
+ * @param {number[]} heights
+ * @return {number[]}
+ */
+var findBuildings = function(heights) {
+    const stack = []
+    for (let i = 0; i < heights.length; i++) {
+        while (stack.length && heights[stack[stack.length - 1]] <= heights[i]) {
+            stack.pop()
+        }
+        stack.push(i)
+    }
+    
+    return stack
 };
 ```
