@@ -22306,6 +22306,11 @@ class Heap {
 
 ## 239. Sliding Window Maximum
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
 var maxSlidingWindow = function(nums, k) {
     if (!nums.length) return []
     
@@ -55999,34 +56004,40 @@ const reverse = (arr, i, j) => {
  * @return {integer}
  */
 var countShips = function(sea, topRight, bottomLeft) {
-    const _countShips = (topRight, bottomLeft) => {
-        const [topRightX, topRightY] = topRight
-        const [bottomLeftX, bottomLeftY] = bottomLeft
+    const _countShips = (top, bottom, left, right) => {
+        if (bottom > top || left > right) return 0
         
-        if (topRightX < bottomLeftX || topRightY < bottomLeftY) {
+        if (top === bottom && left === right) {
+            return sea.hasShips([top, right], [bottom, left])
+        }
+        
+        if (!sea.hasShips([top, right], [bottom, left])) {
             return 0
         }
         
-        if (topRightX === bottomLeftX && topRightY === bottomLeftY) {
-            return sea.hasShips(topRight, bottomLeft)
-        }
+        const midX = Math.floor((right - left) / 2) + left
+        const midY = Math.floor((top - bottom) / 2) + bottom
         
-        if (!sea.hasShips(topRight, bottomLeft)) {
-            return 0
-        }
+        let count = 0
         
-        const midX = Math.floor((topRightX - bottomLeftX) / 2) + bottomLeftX
-        const midY = Math.floor((topRightY - bottomLeftY) / 2) + bottomLeftY
+        // Top Left
+        count += _countShips(top, midY + 1, left, midX)
         
-        const topLeftQuad = _countShips([midX, topRightY], [bottomLeftX, midY + 1])
-        const topRightQuad = _countShips(topRight, [midX + 1, midY + 1])
-        const bottomLeftQuad = _countShips([midX, midY], bottomLeft)
-        const bottomRightQuad = _countShips([topRightX, midY], [midX + 1, bottomLeftY])
+        // Top Right
+        count += _countShips(top, midY + 1, midX + 1, right)
         
-        return topLeftQuad + topRightQuad + bottomLeftQuad + bottomRightQuad
+        // Bottom Left
+        count += _countShips(midY, bottom, left, midX)
+        
+        // Bottom Right
+        count += _countShips(midY, bottom, midX + 1, right)
+        
+        return count
     }
     
-    return _countShips(topRight, bottomLeft)
+    const [top, right] = topRight
+    const [bottom, left] = bottomLeft
+    return _countShips(top, bottom, left, right)
 };
 ```
 
