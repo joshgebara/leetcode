@@ -50734,7 +50734,69 @@ var connect = function(root) {
 };
 
 // DFS
+/**
+ * // Definition for a Node.
+ * function Node(val, left, right, next) {
+ *    this.val = val === undefined ? null : val;
+ *    this.left = left === undefined ? null : left;
+ *    this.right = right === undefined ? null : right;
+ *    this.next = next === undefined ? null : next;
+ * };
+ */
 
+/**
+ * @param {Node} root
+ * @return {Node}
+ */
+var connect = function(root) {
+    const _connect = node => {
+        if (!node) return root
+        
+        if (node.left) {
+            if (node.right) {
+                node.left.next = node.right
+            } else {
+                let next = node.next
+                while (next) {
+                    if (next.left) {
+                        node.left.next = next.left
+                        break
+                    }
+                    
+                    if (next.right) {
+                        node.left.next = next.right
+                        break
+                    }
+                    
+                    next = next.next
+                }
+            }
+        }
+        
+        if (node.right) {
+            let next = node.next
+            while (next) {
+                if (next.left) {
+                    node.right.next = next.left
+                    break
+                }
+
+                if (next.right) {
+                    node.right.next = next.right
+                    break
+                }
+
+                next = next.next
+            }
+        }
+        
+        _connect(node.right)
+        _connect(node.left)
+        return node
+    }
+    
+    return _connect(root)
+};
 ```
 
 ## 1688. Count of Matches in Tournament
