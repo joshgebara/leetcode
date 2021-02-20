@@ -59676,3 +59676,39 @@ var addTwoNumbers = function(l1, l2) {
     return dummy.next
 };
 ```
+
+## 1763. Longest Nice Substring
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestNiceSubstring = function(s) {
+    const _longestNiceSubstring = (left, right) => {
+        if (right - left + 1 <= 1) return [-1, -1]
+        
+        const set = new Set()
+        for (let i = left; i <= right; i++) {
+            set.add(s[i])
+        }
+        
+        for (let i = left; i <= right; i++) {
+            if (set.has(s[i].toUpperCase()) && set.has(s[i].toLowerCase())) {
+                continue
+            }
+
+            const [s1Left, s1Right] = _longestNiceSubstring(left, i - 1)
+            const [s2Left, s2Right] = _longestNiceSubstring(i + 1, right)
+            
+            const s1Len = s1Right - s1Left + 1
+            const s2Len = s2Right - s2Left + 1
+            return s1Len < s2Len ? [s2Left, s2Right] : [s1Left, s1Right]
+        }
+
+        return [left, right]
+    }
+    
+    const [left, right] = _longestNiceSubstring(0, s.length - 1)
+    return s.slice(left, right + 1)
+};
+```
