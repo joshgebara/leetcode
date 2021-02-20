@@ -59638,3 +59638,44 @@ var findBuildings = function(heights) {
     return stack
 };
 ```
+
+## 2. Add Two Numbers
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+    const dummy = new ListNode(NaN)
+    let curr = dummy
+    let carry = 0
+    while (l1 || l2) {
+        const l1Val = l1 ? l1.val : 0
+        const l2Val = l2 ? l2.val : 0
+        
+        const sum = l1Val + l2Val + carry
+        const digit = sum % 10
+        carry = Math.trunc(sum / 10)
+        
+        curr.next = new ListNode(digit)
+        curr = curr.next
+        
+        if (l1) l1 = l1.next
+        if (l2) l2 = l2.next
+    }
+    
+    if (carry > 0) {
+        curr.next = new ListNode(carry)
+    }
+    
+    return dummy.next
+};
+```
