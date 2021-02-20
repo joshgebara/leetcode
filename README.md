@@ -2323,32 +2323,39 @@ var isLongPressedName = function(name, typed) {
  */
 var reverseVowels = function(s) {
     const charArr = s.split('')
-    const vowels = new Set('aeiouAEIOU')
     
-    let i = 0
-    let j = charArr.length - 1
+    let left = 0
+    let right = s.length - 1
     
-    while (i < j) {
-        if (!vowels.has(charArr[i])) {
-            i++
+    while (left < right) {
+        if (!isVowel(charArr[left])) {
+            left++
             continue
         }
         
-        if (!vowels.has(charArr[j])) {
-            j--
+        if (!isVowel(charArr[right])) {
+            right--
             continue
         }
         
-        const temp = charArr[i]
-        charArr[i] = charArr[j]
-        charArr[j] = temp
-        
-        i++
-        j--
+        swap(charArr, left, right)
+        left++
+        right--
     }
     
     return charArr.join('')
 };
+
+const isVowel = char => {
+    const vowels = new Set('aeiou')
+    return vowels.has(char.toLowerCase())
+}
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
 ```
 
 ## 88. Merge Sorted Array
