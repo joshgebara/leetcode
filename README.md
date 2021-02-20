@@ -11307,11 +11307,11 @@ var killProcess = function(pid, ppid, kill) {
  * @param {number[]} nums
  */
 var NumArray = function(nums) {
-    this.prefix = nums.reduce((result, num) => {
-        let last = result[result.length - 1] || 0
-        result.push(last + num)
-        return result
-    }, [])
+    this.sums = [0]
+    
+    for (const num of nums) {
+        this.sums.push(num + this.sums[this.sums.length - 1])
+    }
 };
 
 /** 
@@ -11320,10 +11320,7 @@ var NumArray = function(nums) {
  * @return {number}
  */
 NumArray.prototype.sumRange = function(i, j) {
-    if (i === 0)
-        return this.prefix[j]
-    
-    return this.prefix[j] - this.prefix[i-1]
+    return this.sums[j + 1] - this.sums[i]
 };
 
 /** 
