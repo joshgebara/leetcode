@@ -59712,3 +59712,51 @@ var longestNiceSubstring = function(s) {
     return s.slice(left, right + 1)
 };
 ```
+
+## 1765. Map of Highest Peak
+```javascript
+/**
+ * @param {number[][]} isWater
+ * @return {number[][]}
+ */
+var highestPeak = function(isWater) {
+    const rowLen = isWater.length
+    const colLen = isWater[0].length
+    
+    const result = new Array(rowLen).fill().map(a => new Array(colLen).fill(-1))
+    
+    const queue = []
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (isWater[row][col] === 1) {
+                queue.push([row, col])
+                result[row][col] = 0
+            }
+        }
+    }
+    
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    let height = 1
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+        const [row, col] = queue.shift()
+            for (const [deltaRow, deltaCol] of dirs) {
+                const nextRow = row + deltaRow
+                const nextCol = col + deltaCol
+
+                if (nextRow < 0 || nextRow >= rowLen || 
+                    nextCol < 0 || nextCol >= colLen) continue
+
+                if (result[nextRow][nextCol] !== -1) continue
+
+                result[nextRow][nextCol] = height
+                queue.push([nextRow, nextCol])
+            }
+        }
+        height++
+    }
+    
+    return result
+};
+```
