@@ -59836,3 +59836,33 @@ var mergeAlternately = function(word1, word2) {
     return result.join('')
 };
 ```
+
+## 1770. Maximum Score from Performing Multiplication Operations
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number[]} multipliers
+ * @return {number}
+ */
+var maximumScore = function(nums, multipliers) {
+    const _maximumScore = (i, left) => {
+        if (i >= multipliers.length) return 0
+        
+        if (memo[i][left] !== undefined) {
+            return memo[i][left]
+        }
+        
+        const right = nums.length - 1 - (i - left)
+        
+        const chooseLeft = multipliers[i] * nums[left] + _maximumScore(i + 1, left + 1)
+        const chooseRight = multipliers[i] * nums[right] + _maximumScore(i + 1, left)
+        
+        memo[i][left] = Math.max(chooseLeft, chooseRight)
+        return memo[i][left]
+    }
+    
+    const m = multipliers.length
+    const memo = new Array(m).fill().map(a => new Array(m))
+    return _maximumScore(0, 0)
+};
+```
