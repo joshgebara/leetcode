@@ -6740,18 +6740,23 @@ var tree2str = function(t) {
 
 ## 560. Subarray Sum Equals K
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 var subarraySum = function(nums, k) {
     const map = { 0: 1 }
-    let sum = 0
-    let result = 0
     
-    for (const num of nums) {
-        sum += num
-        result += (map[sum - k] || 0)
+    let count = 0
+    let sum = 0
+    for (let i = 0; i < nums.length; i++) {
+        sum += nums[i]
+        count += (map[sum - k] || 0)
         map[sum] = 1 + (map[sum] || 0)
     }
     
-    return result
+    return count
 };
 ```
 
