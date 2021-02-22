@@ -59897,3 +59897,56 @@ var maximumScore = function(nums, multipliers) {
     return _maximumScore(0, 0)
 };
 ```
+
+## 1650. Lowest Common Ancestor of a Binary Tree III
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val) {
+ *    this.val = val;
+ *    this.left = null;
+ *    this.right = null;
+ *    this.parent = null;
+ * };
+ */
+
+/**
+ * @param {Node} node
+ * @return {Node}
+ */
+var lowestCommonAncestor = function(p, q) {
+    const pCount = getCount(p)
+    const qCount = getCount(q)
+    
+    const diff = Math.abs(pCount - qCount)
+    if (pCount < qCount) {
+        q = moveForward(q, diff)
+    } else {
+        p = moveForward(p, diff)
+    }
+    
+    while (p !== q) {
+        p = p.parent
+        q = q.parent
+    }
+    
+    return p
+};
+
+const moveForward = (node, steps) => {
+    for (let i = 0; i < steps; i++) {
+        node = node.parent
+    }
+    
+    return node
+}
+
+const getCount = node => {
+    let count = 0
+    while (node) {
+        node = node.parent
+        count++
+    }
+    return count
+}
+```
