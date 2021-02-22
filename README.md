@@ -14370,24 +14370,31 @@ var lengthOfLongestSubstringTwoDistinct = function(s) {
 
 ## 340. Longest Substring with At Most K Distinct Characters
 ```javascript
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
 var lengthOfLongestSubstringKDistinct = function(s, k) {
-    const map = new Map()
+    const distinct = new Map()
     let max = 0
-    let start = 0
-    
-    for (let i = 0; i < s.length; i++) {
-        map.set(s[i], (map.get(s[i]) || 0) + 1)
+    let left = 0
+    for (let right = 0; right < s.length; right++) {
+        distinct.set(s[right], 1 + (distinct.get(s[right]) || 0))
         
-        while (map.size > k) {
-            map.set(s[start], map.get(s[start]) - 1)
-            if (map.get(s[start]) <= 0) {
-                map.delete(s[start])
+        while (distinct.size > k) {
+            distinct.set(s[left], distinct.get(s[left]) - 1)
+            
+            if (distinct.get(s[left]) <= 0) {
+                distinct.delete(s[left])
             }
-            start++
+            
+            left++
         }
         
-        max = Math.max(max, i - start + 1)
+        max = Math.max(max, right - left + 1)
     }
+    
     return max
 };
 ```
