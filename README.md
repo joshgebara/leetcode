@@ -48118,33 +48118,37 @@ var divide = function(dividend, divisor) {
  * @return {boolean}
  */
 var arrayStringsAreEqual = function(word1, word2) {
-    let a1 = 0
-    let w1 = 0
-    let a2 = 0
-    let w2 = 0
+    let word1Index = 0
+    let word2Index = 0
     
-    while (a1 < word1.length && a2 < word2.length) {
-        if (w1 >= word1[a1].length) {
-            a1++
-            w1 = 0
+    let section1Index = 0
+    let section2Index = 0
+    
+    while (word1Index < word1.length && word2Index < word2.length) {
+        const section1 = word1[word1Index]
+        const section2 = word2[word2Index]
+        
+        while (section1Index < section1.length && section2Index < section2.length) {
+            if (section1[section1Index] !== section2[section2Index]) {
+                return false
+            }
+            
+            section1Index++
+            section2Index++
         }
         
-        if (w2 >= word2[a2].length) {
-            a2++
-            w2 = 0
+        if (section1Index >= section1.length) {
+            section1Index = 0
+            word1Index++
         }
         
-        if (a1 >= word1.length || a2 >= word2.length) 
-            break
-        
-        if (word1[a1][w1] !== word2[a2][w2]) 
-            return false
-        
-        w1++
-        w2++
+        if (section2Index >= section2.length) {
+            section2Index = 0
+            word2Index++
+        }
     }
     
-    return a1 === word1.length && a2 === word2.length
+    return word1Index >= word1.length && word2Index >= word2.length
 };
 ```
 
