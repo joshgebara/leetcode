@@ -22021,34 +22021,41 @@ var minSwaps = function(data) {
 
 ## 567. Permutation in String
 ```javascript
+/**
+ * @param {string} s1
+ * @param {string} s2
+ * @return {boolean}
+ */
 var checkInclusion = function(s1, s2) {
-    const s1Map = {}
-    for (const char of s1)
-        s1Map[char] = 1 + (s1Map[char] || 0)
+    if (s1.length > s2.length) return false
     
-    const s2Map = {}
-    for (let i = 0; i < s1.length; i++)
-        s2Map[s2[i]] = 1 + (s2Map[s2[i]] || 0)
-    
-
-    for (let i = s1.length; i < s2.length; i++) {
-        if (isMatch(s1Map, s2Map)) 
-            return true
-
-        if (!s2Map[s2[i]])
-            s2Map[s2[i]] = 0
-        
-        s2Map[s2[i]]++
-        s2Map[s2[i - s1.length]]--
+    const count1 = new Array(26).fill(0)
+    for (const char of s1) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        count1[index]++
     }
     
-    return isMatch(s1Map, s2Map)
+    const count2 = new Array(26).fill(0)
+    let left = 0
+    for (let right = 0; right < s2.length; right++) {
+        const index = s2[right].charCodeAt(0) - 'a'.charCodeAt(0)
+        count2[index]++
+        
+        if (right - left + 1 < s1.length) continue
+        
+        if (isEqual(count1, count2)) return true
+        
+        const leftIndex = s2[left].charCodeAt(0) - 'a'.charCodeAt(0)
+        count2[leftIndex]--
+        left++
+    }
+    
+    return false
 };
 
-const isMatch = (map1, map2) => {
-    for (const key of Object.keys(map1)) {
-        if (map1[key] !== map2[key]) 
-            return false
+const isEqual = (arr1, arr2) => {
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false
     }
     return true
 }
