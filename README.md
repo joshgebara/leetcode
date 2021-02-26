@@ -59979,3 +59979,52 @@ var sortFeatures = function(features, responses) {
     })
 };
 ```
+
+## 271. Encode and Decode Strings
+```javascript
+/**
+ * Encodes a list of strings to a single string.
+ *
+ * @param {string[]} strs
+ * @return {string}
+ */
+var encode = function(strs) {
+    const result = []
+    
+    for (const word of strs) {
+        const len = word.length
+        result.push(encodeNumber(len))
+        result.push(word)
+    }
+    
+    return result.join('')
+};
+
+/**
+ * Decodes a single string to a list of strings.
+ *
+ * @param {string} s
+ * @return {string[]}
+ */
+var decode = function(s) {
+    const charArr = s.split('')
+    const result = []
+    let i = 0
+    while (i < charArr.length) {
+        const len = decodeNumber(charArr[i++])
+        const substr = charArr.slice(i, i + len)
+        result.push(substr.join(''))
+        i += len
+    }
+    
+    return result
+};
+
+/**
+ * Your functions will be called as such:
+ * decode(encode(strs));
+ */
+
+const encodeNumber = num => String.fromCharCode(num)
+const decodeNumber = str => str.charCodeAt(0)
+```
