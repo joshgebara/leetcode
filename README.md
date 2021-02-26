@@ -60028,3 +60028,90 @@ var decode = function(s) {
 const encodeNumber = num => String.fromCharCode(num)
 const decodeNumber = str => str.charCodeAt(0)
 ```
+
+## 689. Maximum Sum of 3 Non-Overlapping Subarrays
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var maxSumOfThreeSubarrays = function(nums, k) {
+    const left = []
+    let leftSum = 0
+    for (let i = 0; i < k; i++) {
+        leftSum += nums[i]
+        left.push({index: -1, sum: -Infinity})
+    }
+    
+    let leftMax = leftSum
+    let leftMaxStart = 0
+    left[left.length - 1] = ({index: 0, sum: leftMax})
+    
+    for (let j = k; j < nums.length; j++) {
+        leftSum -= nums[j - k]
+        leftSum += nums[j]
+        
+        if (leftMax < leftSum) {
+            leftMax = leftSum
+            leftMaxStart = j - k + 1
+        }
+        
+        left.push({index: leftMaxStart, sum: leftMax})
+    }
+
+    const right = []
+    let rightSum = 0
+    for (let i = nums.length - 1; i >= nums.length - k; i--) {
+        rightSum += nums[i]
+        right.push({index: nums.length, sum: -Infinity})
+    }
+        
+    let rightMax = rightSum
+    let rightMaxStart = nums.length - k
+    right[right.length - 1] = {index: rightMaxStart, sum: rightMax}
+    
+    for (let j = nums.length - k - 1; j >= 0; j--) {
+        rightSum -= nums[j + k]
+        rightSum += nums[j]
+        
+        if (rightMax < rightSum) {
+            rightMax = rightSum
+            rightMaxStart = j
+        }
+        
+        if (rightMax === rightSum && rightMaxStart > j) {
+            rightMaxStart = j
+        }
+        
+        right.push({index: rightMaxStart, sum: rightMax})
+    }
+    
+    right.reverse()
+    
+    let max = 0
+    let indices = []
+    
+    let sum = 0
+    for (let i = 0; i < k; i++) {
+        sum += nums[i]
+    }
+
+    for (let j = k; j < nums.length - 1; j++) {
+        sum -= nums[j - k]
+        sum += nums[j]
+        
+        const leftBound = j - k
+        const rightBound = j + 1
+
+        const currSum = sum + left[leftBound].sum + right[rightBound].sum
+        if (currSum > max) {
+            max = currSum
+            indices = [left[leftBound].index, j - k + 1, right[rightBound].index]
+        }
+    }
+    
+    
+   return indices
+};
+```
