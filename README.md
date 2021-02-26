@@ -59954,3 +59954,28 @@ const getCount = node => {
     return count
 }
 ```
+
+## 1772. Sort Features by Popularity
+```javascript
+/**
+ * @param {string[]} features
+ * @param {string[]} responses
+ * @return {string[]}
+ */
+var sortFeatures = function(features, responses) {
+    const map = {}
+    for (const response of responses) {
+        const words = response.split(' ')
+        const unique = new Set(words)
+        for (const word of unique) {
+            map[word] = 1 + (map[word] || 0)
+        }
+    }
+    
+    return features.sort((a, b) => {
+        const appearanceA = (map[a] || 0)
+        const appearanceB = (map[b] || 0)
+        return appearanceB - appearanceA
+    })
+};
+```
