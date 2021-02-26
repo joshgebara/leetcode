@@ -28778,15 +28778,14 @@ var numDecodings = function(s) {
     let prevWays = 1
     let currWays = s[0] == 0 ? 0 : 1
     
-    for (let i = 2; i <= s.length; i++) {
-        const oneDigit = s[i - 1]
-        const twoDigit = s.slice(i - 2, i)
-        
+    for (let i = 1; i < s.length; i++) {
         let numOfWays = 0
         
+        const oneDigit = +s[i]
         if (oneDigit > 0)
             numOfWays += currWays
         
+        const twoDigit = +s.slice(i - 1, i + 1)
         if (twoDigit >= 10 && twoDigit <= 26)
             numOfWays += prevWays
         
@@ -60115,3 +60114,4 @@ var maxSumOfThreeSubarrays = function(nums, k) {
    return indices
 };
 ```
+
