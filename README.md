@@ -50272,19 +50272,18 @@ var removeDuplicateLetters = function(s) {
     const stack = []
     let used = 0
     for (let i = 0; i < s.length; i++) {
+        if (used & maskForChar(s[i])) continue
+        
         while (stack.length && 
                stack[stack.length - 1] > s[i] && 
-               map[stack[stack.length - 1]] > i && 
-               !(used & maskForChar(s[i]))) {
+               map[stack[stack.length - 1]] > i) {
             
             used ^= maskForChar(stack[stack.length - 1])
             stack.pop()
         }
         
-        if (!(used & maskForChar(s[i]))) {
-            used |= maskForChar(s[i])
-            stack.push(s[i])
-        }
+        used |= maskForChar(s[i])
+        stack.push(s[i])
     }
     
     return stack.join('')
