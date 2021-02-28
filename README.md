@@ -24615,11 +24615,15 @@ var minAddToMakeValid = function(S) {
 
 ## 402. Remove K Digits
 ```javascript
+/**
+ * @param {string} num
+ * @param {number} k
+ * @return {string}
+ */
 var removeKdigits = function(num, k) {
     if (num.length === k) return '0'
     
     const stack = []
-    
     for (const char of num) {
         while (k > 0 && stack.length && +char < +stack[stack.length - 1]) {
             k--
