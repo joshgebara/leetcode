@@ -1033,6 +1033,10 @@ var maxProfit = function(prices) {
 
 ## 122. Best Time to Buy and Sell Stock II
 ```javascript
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
 var maxProfit = function(prices) {
     let profit = 0
     
@@ -19632,7 +19636,6 @@ var twoCitySchedCost = function(costs) {
 const quickSelect = (arr, k) => {
     const _quickSelect = (start, end) => {
         if (start >= end) return start
-        
         
         const randomIndex = random(start, end)
         swap(arr, randomIndex, end)
@@ -53370,7 +53373,7 @@ var employeeFreeTime = function(schedule) {
     if (!schedule.length) return []
     
     const startIntervals = []
-        for (let i = 0; i < schedule.length; i++) {
+    for (let i = 0; i < schedule.length; i++) {
         startIntervals.push([i, 0])
     }
     
