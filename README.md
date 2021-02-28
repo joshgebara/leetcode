@@ -2780,6 +2780,37 @@ var peakIndexInMountainArray = function(A) {
 
 ## 392. Is Subsequence
 ```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isSubsequence = function(s, t) {
+    if (!s.length) return true
+    if (!t.length) return false
+    
+    let i = 0
+    let j = 0
+    
+    while (i < s.length && j < t.length) {
+        if (s[i] === t[j]) {
+            i++
+            j++
+            continue
+        }
+        
+        j++
+    }
+    
+    return i >= s.length
+};
+
+// Follow Up
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
 const binarySearch = (arr, target) => {
   let left = 0
   let right = arr.length - 1
