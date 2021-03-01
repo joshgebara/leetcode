@@ -26776,6 +26776,10 @@ var reconstructMatrix = function(upper, lower, colsum) {
 
 ## 452. Minimum Number of Arrows to Burst Balloons
 ```javascript
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
 var findMinArrowShots = function(points) {
     if (!points.length) return 0
     
