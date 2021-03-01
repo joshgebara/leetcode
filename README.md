@@ -60167,3 +60167,29 @@ var maxSumOfThreeSubarrays = function(nums, k) {
 };
 ```
 
+## 45. Jump Game II
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var jump = function(nums) {
+    if (nums.length <= 1) return 0
+    
+    let jumps = 1
+    let currJumpMax = nums[0]
+    let nextJumpMax = 0
+    
+    for (let i = 0; i < nums.length - 1; i++) {
+        nextJumpMax = Math.max(nextJumpMax, nums[i] + i)
+        
+        if (i === currJumpMax) {
+            currJumpMax = nextJumpMax
+            nextJumpMax = 0
+            jumps++
+        }
+    }
+    
+    return jumps
+};
+```
