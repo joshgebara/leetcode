@@ -3043,12 +3043,16 @@ var findTheDifference = function(s, t) {
 
 ## 191. Number of 1 Bits
 ```javascript
+/**
+ * @param {number} n - a positive integer
+ * @return {number}
+ */
 var hammingWeight = function(n) {
-  let count = 0
-  while (n) {
-      count++
-      n &= (n - 1)
-  }
+    let count = 0
+    while (n) {
+        n &= (n - 1)
+        count++
+    }
     return count
 };
 ```
