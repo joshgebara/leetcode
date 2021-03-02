@@ -6832,27 +6832,28 @@ var subarraySum = function(nums, k) {
  * @return {number}
  */
 var pathSum = function(root, sum) {
-    const dfs = (node, currSum) => {
+    const _pathSum = (node, currSum) => {
         if (!node) return
         
         currSum += node.val
+        const target = currSum - sum
         
-        if (currSum === sum) {
-            count++
+        if (map.get(target) !== undefined) {
+            count += map.get(target)
         }
         
-        count += prefixSums[currSum - sum] || 0
-        prefixSums[currSum] = 1 + (prefixSums[currSum] || 0)
+        map.set(currSum, 1 + (map.get(currSum) || 0))
         
-        dfs(node.left, currSum)
-        dfs(node.right, currSum)
+        _pathSum(node.left, currSum)
+        _pathSum(node.right, currSum)
         
-        prefixSums[currSum] = (prefixSums[currSum] || 0) - 1 
+        map.set(currSum, map.get(currSum) - 1)
     }
     
-    const prefixSums = {}
+    const map = new Map()
+    map.set(0, 1)
     let count = 0
-    dfs(root, 0)
+    _pathSum(root, 0)
     return count
 };
 ```
