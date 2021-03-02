@@ -24650,6 +24650,10 @@ class Heap {
 
 ## 921. Minimum Add to Make Parentheses Valid
 ```javascript
+/**
+ * @param {string} S
+ * @return {number}
+ */
 var minAddToMakeValid = function(S) {
     let balance = 0
     let min = 0
