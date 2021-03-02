@@ -3464,36 +3464,6 @@ var sumOfDigits = function(A) {
 
 ## 832. Flipping an Image
 ```javascript
-const flipRow = row => {
-    for (let i = 0; i < row.length; i++) {
-        row[i] = +!row[i]
-    }
-}
-
-const reverseRow = row => {
-    let left = 0
-    let right = row.length - 1
-    
-    while (left < right) {
-        let temp = row[left]
-        row[left] = row[right]
-        row[right] = temp
-        
-        left++
-        right--
-    }
-}
-
-var flipAndInvertImage = function(A) {
-    if (!A.length || !A[0].length) return A
-    
-    for (let row of A) {
-        flipRow(row)
-        reverseRow(row)
-    }
-    return A
-};
-
 /**
  * @param {number[][]} A
  * @return {number[][]}
@@ -3511,17 +3481,15 @@ const reverse = arr => {
     let j = arr.length - 1
     
     while (i < j) {
-        const temp = arr[i]
-        arr[i] = arr[j]
-        arr[j] = temp
-        
-        arr[i] ^= 1
-        arr[j] ^= 1
+        if (arr[i] === arr[j]) {
+            arr[i] ^= 1
+            arr[j] ^= 1
+        }
         
         i++
         j--
     }
-
+    
     if (i === j) {
         arr[i] ^= 1
     }
