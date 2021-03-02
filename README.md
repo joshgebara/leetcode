@@ -230,6 +230,12 @@ var matrixReshape = function(nums, r, c) {
 
 ## 243. Shortest Word Distance
 ```javascript
+/**
+ * @param {string[]} words
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
 var shortestDistance = function(words, word1, word2) {
     let i1 = -1
     let i2 = -1
@@ -16182,6 +16188,11 @@ FROM Delivery
 
 ## 290. Word Pattern
 ```javascript
+/**
+ * @param {string} pattern
+ * @param {string} s
+ * @return {boolean}
+ */
 var wordPattern = function(pattern, str) {
     const words = str.split(' ')
     if (words.length !== pattern.length)
