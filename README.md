@@ -4838,6 +4838,19 @@ const dfs = (tree, id) => {
 ## 872. Leaf-Similar Trees
 ```javascript
 // Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root1
+ * @param {TreeNode} root2
+ * @return {boolean}
+ */
 var leafSimilar = function(root1, root2) {
     const leaves1 = getLeaves(root1)
     const leaves2 = getLeaves(root2)
@@ -4886,6 +4899,19 @@ const getLeaves = node => {
 }
 
 // Recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root1
+ * @param {TreeNode} root2
+ * @return {boolean}
+ */
 var leafSimilar = function(root1, root2) {
     const leaves1 = getLeaves(root1)
     const leaves2 = getLeaves(root2)
@@ -4918,6 +4944,7 @@ const _getLeaves = (node, result) => {
     _getLeaves(node.right, result)
 }
 
+// Break early
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
