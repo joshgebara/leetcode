@@ -940,25 +940,6 @@ var numSmallerByFrequency = function(queries, words) {
 
 ## 27. Remove Element
 ```javascript
-var removeElement = function(nums, val) {
-    let i = 0
-    for (let j = 0; j < nums.length; j++) {
-        if (nums[i] !== val) {
-            i++
-            continue
-        }
-        
-        if (nums[j] !== val) {
-            let temp = nums[i]
-            nums[i] = nums[j]
-            nums[j] = temp
-            
-            i++
-        }
-    }
-    return i
-};
-
 /**
  * @param {number[]} nums
  * @param {number} val
@@ -966,22 +947,14 @@ var removeElement = function(nums, val) {
  */
 var removeElement = function(nums, val) {
     let i = 0
-    let j = nums.length - 1
-    
-    while (i <= j) {
-        if (nums[j] === val) {
-            j--
-            continue
-        }
-        
-        if (nums[i] !== val) {
+    for (let j = 0; j < nums.length; j++) {
+        if (nums[j] !== val) {
+            const temp = nums[j]
+            nums[j] = nums[i]
+            nums[i] = temp
+            
             i++
-            continue
         }
-        
-        nums[i] = nums[j]
-        i++
-        j--
     }
     
     return i
