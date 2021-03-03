@@ -827,6 +827,10 @@ var relativeSortArray = function(arr1, arr2) {
 
 ## 1002. Find Common Characters
 ```javascript
+/**
+ * @param {string[]} A
+ * @return {string[]}
+ */
 const charCounts = word => {
     return word.split('').reduce((result, char) => {
         result[char] = 1 + (result[char] || 0)
