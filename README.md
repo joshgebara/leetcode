@@ -13156,6 +13156,10 @@ var groupAnagrams = function(strs) {
 
 ## 1221. Split a String in Balanced Strings
 ```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
 var balancedStringSplit = function(s) {
     let balance = 0
     let count = 0
