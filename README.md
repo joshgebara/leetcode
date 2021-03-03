@@ -9783,145 +9783,132 @@ var kSmallestPairs = function(nums1, nums2, k) {
 
 ## 621. Task Scheduler
 ```javascript
-// Sorting
+/**
+ * @param {character[]} tasks
+ * @param {number} n
+ * @return {number}
+ */
 var leastInterval = function(tasks, n) {
-    const counts = Array(26).fill(0)
-    for (const task of tasks)
-        counts[task.charCodeAt(0) - 'A'.charCodeAt(0)]++
-    
-    counts.sort((a, b) => a - b)
+    const map = {}
+    for (const task of tasks) {
+        map[task] = 1 + (map[task] || 0)
+    }
     
     let time = 0
-    while (counts[25] > 0) {
-        for (let i = 0; i <= n; i++) {
-            if (counts[25] === 0)
-                break
-            
-            if (i < 26 && counts[25 - i] > 0) {
-                counts[25 - i]--
-            }
-            
-            time++
+    
+    const heap = new Heap(Object.values(map), (a, b) => a > b)
+    const queue = []
+    while (heap.size() || queue.length) {
+        if (heap.size()) {
+            const count = heap.remove()
+            if (count - 1 > 0)
+                queue.push([count - 1, time])
         }
-        counts.sort((a, b) => a - b)
+        
+        time++
+        
+        if (queue.length && time - queue[0][1] > n) {
+            const [nextCount] = queue.shift()
+            heap.insert(nextCount)
+        }
     }
+    
     return time
 };
 
-// Heap
 class Heap {
-    constructor(elements, sortBy) {
-        this.elements = elements
-        this.sortBy = sortBy
-        
-        if (this.elements.length)
-            this.heapify()
+  constructor(elements, sort = ((a, b) => { return a < b })) {
+    this._elements = elements
+    this._sort = sort
+    this._heapify()
+  }
+  
+  _heapify() {
+    for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+      this._siftDown(i);
+    }
+  }
+  
+  _siftUp(index) {
+    let childIndex = index
+    let parentIndex = this._parentIndex(childIndex)
+    
+    while (childIndex > 0 && 
+           this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+      let temp = this._elements[childIndex]
+      this._elements[childIndex] = this._elements[parentIndex]
+      this._elements[parentIndex] = temp
+      
+      childIndex = parentIndex
+      parentIndex = this._parentIndex(childIndex)
     }
     
-    heapify() {
-        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
-            this.siftDown(i)
-    }
-    
-    siftDown(index) {
-        let parent = index || 0
-        while (true) {
-            let left = this.leftChildIndex(parent)
-            let right = this.rightChildIndex(parent)
-            let candidate = parent
+  }
+  
+  _siftDown(index) {
+    let parentIndex = index
+    while (true) {
+      let leftIndex = this._leftChildIndex(parentIndex)
+      let rightIndex = this._rightChildIndex(parentIndex)
+      let candidate = parentIndex
+      
+      if (leftIndex < this._elements.length && 
+          this._sort(this._elements[leftIndex], this._elements[candidate])) {
+        candidate = leftIndex
+      }
             
-            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
-                candidate = left
-                
-            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
-                candidate = right
-            
-            if (candidate === parent) return
-            
-            let temp = this.elements[parent]
-            this.elements[parent] = this.elements[candidate]
-            this.elements[candidate] = temp
-            
-            parent = candidate
-        }
+      if (rightIndex < this._elements.length && 
+          this._sort(this._elements[rightIndex], this._elements[candidate])) {
+        candidate = rightIndex
+      }
+      
+      if (parentIndex === candidate) {
+        return
+      }
+      
+      let temp = this._elements[parentIndex]
+      this._elements[parentIndex] = this._elements[candidate]
+      this._elements[candidate] = temp
+      
+      parentIndex = candidate
+    }
+  }
+  
+  _leftChildIndex(parentIndex) {
+    return 2 * parentIndex + 1
+  }
+  
+  _rightChildIndex(parentIndex) {
+    return 2 * parentIndex + 2
+  }
+  
+  _parentIndex(childIndex) {
+    return Math.floor((childIndex - 1) / 2)
+  }
+  
+  insert(element) {
+    this._elements.push(element)
+    this._siftUp(this._elements.length - 1)
+  }
+  
+  remove() {
+    if (this._elements.length < 1) {
+      return null
     }
     
-    siftUp(index) {
-        let child = index || this.elements.length - 1
-        let parent = this.parentIndex(child)
-        
-        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
-            let temp = this.elements[child]
-            this.elements[child] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            child = parent
-            parent = this.parentIndex(child)
-        }
-    }
+    let temp = this._elements[0]
+    this._elements[0] = this._elements[this._elements.length - 1]
+    this._elements[this._elements.length - 1] = temp
     
-    insert(val) {
-        this.elements.push(val)
-        this.siftUp()
-    }
+    let element = this._elements.pop()
+    this._siftDown(0)
+    return element
+  }
     
-    remove() {
-        if (!this.elements.length) return null
-        
-        let temp = this.elements[0]
-        this.elements[0] = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = temp
-        
-        let element = this.elements.pop()
-        
-        this.siftDown()
-        
-        return element
-    }
-    
-    leftChildIndex(index) {
-        return 2 * index + 1
-    }
-    
-    rightChildIndex(index) {
-        return 2 * index + 2
-    }
-    
-    parentIndex(index) {
-        return Math.floor((index - 1) / 2)
-    }
-    
-    isEmpty() {
-        return this.elements.length === 0
+    size() {
+        return this._elements.length
     }
 }
-
-var leastInterval = function(tasks, n) {
-    const counts = Array(tasks.length).fill(0)
-    for (const task of tasks)
-        counts[task.charCodeAt(0) - 'A'.charCodeAt(0)]++
-    
-    const heap = new Heap(counts.filter(count => count), (a, b) => a > b)
-    
-    let cycles = 0
-    
-    while (!heap.isEmpty()) {
-        let tasksCompleted = [] 
-        for (let i = 0; i <= n; i++) {            
-            let task = heap.remove() - 1
-            if (task > 0) tasksCompleted.push(task)    
-            cycles++
-            
-            if (heap.isEmpty() && !tasksCompleted.length) break
-        }
-        
-        for (const task of tasksCompleted)
-            heap.insert(task)
-    }
-    
-    return cycles
-};
-
 ```
 
 ## 767. Reorganize String
