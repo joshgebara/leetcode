@@ -15593,24 +15593,28 @@ var depthSumInverse = function(nestedList) {
  * @param {string[]} logs
  * @return {string[]}
  */
-var reorderLogFiles = function(logs) {    
-    logs.sort((a, b) => {
-        if (isDigit(a) || isDigit(b))
-            return isDigit(a) - isDigit(b)
+var reorderLogFiles = function(logs) {
+    return logs.sort((a, b) => {
+        if (isLetterLog(a) && isLetterLog(b)) {
+            const logA = formatLog(a)
+            const logB = formatLog(b)
+            return logA.localeCompare(logB)
+        }
         
-        return word(a).localeCompare(word(b))
+        if (isLetterLog(a)) return -1
+        if (isLetterLog(b)) return 1
+        return 0
     })
-    
-    return logs
 };
 
-const isDigit = log => !isNaN(+log[log.length - 1])
+const isLetterLog = log => {
+    const lastChar = log[log.length - 1]
+    return 'a' <= lastChar && lastChar <= 'z'
+}
 
-const word = log => {
-    const words = log.split(' ')
-    const result = words.slice(1)
-    result.push(words[0])
-    return result.join(' ')
+const formatLog = log => {
+    const sections = log.split(' ')
+    return [sections.slice(1), sections[0]].join(' ')
 }
 ```
 
