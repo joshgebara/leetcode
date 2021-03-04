@@ -16702,6 +16702,10 @@ var convertToBase7 = function(num) {
 
 ## 246. Strobogrammatic Number
 ```javascript
+/**
+ * @param {string} num
+ * @return {boolean}
+ */
 var isStrobogrammatic = function(num) {
     const map = { '0': '0', '1': '1', '6': '9', '8': '8', '9': '6' }
     
