@@ -7743,29 +7743,40 @@ var removeNthFromEnd = function(head, n) {
 
 ## 82. Remove Duplicates from Sorted List II
 ```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 var deleteDuplicates = function(head) {
     if (!head) return head
     
-    let dummy = new ListNode(-1)
+    const dummy = new ListNode(-1)
     dummy.next = head
+    let curr = dummy
     
-    let prev = dummy
-    let curr = head
-    let next = curr.next
-    
-    while (next) {
-        if (curr.val !== next.val) {    
-            prev = prev.next
-            curr = curr.next
-        } else {
-            while (next && curr.val === next.val)
-                next = next.next    
+    while (curr) {
+        let runner = curr.next
+        if (runner && runner.next && runner.val === runner.next.val) {
+            const val = runner.val
+            while (runner && runner.val === val) {
+                runner = runner.next
+            }
             
-            prev.next = next
-            curr = prev.next
+            curr.next = runner
+            continue
         }
-        next = curr ? curr.next : null
+        
+        
+        curr = curr.next
     }
+    
     return dummy.next
 };
 ```
