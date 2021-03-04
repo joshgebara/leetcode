@@ -11416,6 +11416,11 @@ var wiggleSort = function(nums) {
 
 ## 1057. Campus Bikes
 ```javascript
+/**
+ * @param {number[][]} workers
+ * @param {number[][]} bikes
+ * @return {number[]}
+ */
 var assignBikes = function(workers, bikes) {
   const buckets = buildBuckets(workers, bikes)
   const result = []
