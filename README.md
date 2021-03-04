@@ -379,19 +379,41 @@ var containsDuplicate = function(nums) {
 
 ## 268. Missing Number
 ```javascript
+// XOR
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var missingNumber = function(nums) {
-  if (!nums.length) return null
-  
-  let missingNum = 0
-  
-  for (let num of nums) {
-    missingNum ^= num
-  }
-  
-  for (let i = 0; i <= nums.length; i++) {
-    missingNum ^= i
-  }
-  return missingNum
+    if (!nums.length) return null
+
+    let missingNum = 0
+
+    for (let num of nums) {
+        missingNum ^= num
+    }
+
+    for (let i = 0; i <= nums.length; i++) {
+        missingNum ^= i
+    }
+    return missingNum
+};
+
+// Gauss' Formula
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function(nums) {
+    const n = nums.length
+    const expectedSum = n * (n + 1) / 2
+    
+    let actualSum = 0
+    for (const num of nums) {
+        actualSum += num
+    }
+    
+    return expectedSum - actualSum
 };
 ```
 
