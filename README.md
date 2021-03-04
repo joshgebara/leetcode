@@ -24688,28 +24688,30 @@ var minAddToMakeValid = function(S) {
  * @return {string}
  */
 var removeKdigits = function(num, k) {
-    if (num.length === k) return '0'
-    
     const stack = []
-    for (const char of num) {
-        while (k > 0 && stack.length && +char < +stack[stack.length - 1]) {
-            k--
-            stack.pop()
-        }
+
+    for (const digit of num) {
+       while (stack.length && 
+              stack[stack.length - 1] > digit &&
+              k) {
+           stack.pop()
+           k--
+       }
         
-        stack.push(char)
+        stack.push(digit)
     }
     
-    while (k-- > 0) stack.pop()
+    while (stack.length && k) {
+        stack.pop()
+        k--
+    }
     
-    const result = []
-    while (stack.length)
-        result.push(stack.pop())
+    while (stack.length && stack[0] === '0') {
+        stack.shift()
+    }
     
-    while (result.length > 1 && result[result.length - 1] === '0')
-        result.pop()
-
-    return result.reverse().join('')
+    const result = stack.join('')
+    return result.length ? result : '0'
 };
 ```
 
