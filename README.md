@@ -11416,6 +11416,8 @@ var wiggleSort = function(nums) {
 
 ## 1057. Campus Bikes
 ```javascript
+// Alt approach is Gale–Shapley greedy algorithm
+
 /**
  * @param {number[][]} workers
  * @param {number[][]} bikes
