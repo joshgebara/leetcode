@@ -34314,9 +34314,7 @@ var canBeEqual = function(target, arr) {
  * @return {number[][]}
  */
 var reconstructQueue = function(people) {
-    people.sort((a, b) => {
-        return a[0] === b[0] ? a[1] - b[1] : b[0] - a[0]
-    })
+    people.sort((a, b) => b[0] - a[0] || a[1] - b[1])
     
     const result = []
     
