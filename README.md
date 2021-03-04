@@ -59374,6 +59374,41 @@ var advantageCount = function(A, B) {
     }
     return result
 };
+
+/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @return {number[]}
+ */
+var advantageCount = function(A, B) {
+    const result = new Array(A.length)
+    const notPlaced = []
+    
+    const bIndex = B.map((element, index) => [element, index])
+    
+    A.sort((a, b) => b - a)
+    bIndex.sort((a, b) => b[0] - a[0])
+    
+    let i = 0
+    let j = 0
+    
+    while (i < A.length && j < bIndex.length) {
+        if (A[i] > bIndex[j][0]) {
+            result[bIndex[j][1]] = A[i]
+            i++
+            j++
+        } else {
+            notPlaced.push(bIndex[j])
+            j++
+        }
+    }
+    
+    for (const [val, index] of notPlaced) {
+        result[index] = A[i++]
+    }
+    
+    return result
+};
 ```
 
 ## 963. Minimum Area Rectangle II
