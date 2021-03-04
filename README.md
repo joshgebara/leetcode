@@ -15841,33 +15841,43 @@ var toGoatLatin = function(S) {
 
 ## 38. Count and Say
 ```javascript
+/**
+ * @param {number} n
+ * @return {string}
+ */
 var countAndSay = function(n) {
-    let prev = [1]
-    let curr = []
+    let result = '1'
     
-    for (let i = 1; i < n; i++) {            
-        let val = prev[0]
-        let count = 1
-        
-        for (let j = 1; j <= prev.length; j++) {
-            if (prev[j] === val) {
-                count++
-                continue
-            }
-
-            curr.push(count)
-            curr.push(val)
-
-            val = prev[j]
-            count = 1
-        }
-
-        prev = curr
-        curr = []
+    for (let i = 2; i <= n; i++) {
+        result = getNext(result)
     }
     
-    return prev.join('')
+    return result
 };
+
+const getNext = str => {
+    const result = []
+    
+    let currDigit = 0
+    let currCount = 0
+    
+    for (const digit of str) {
+        if (digit !== currDigit) {
+            if (currCount > 0) {
+                result.push(currCount, currDigit)
+            }
+            
+            currDigit = digit
+            currCount = 1
+            continue
+        }
+        
+        currCount++
+    }
+    
+    result.push(currCount, currDigit)
+    return result.join('')
+}
 ```
 
 ## 443. String Compression
