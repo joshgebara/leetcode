@@ -11874,29 +11874,24 @@ var containsNearbyDuplicate = function(nums, k) {
 
 ## 435. Non-overlapping Intervals
 ```javascript
+/**
+ * @param {number[][]} intervals
+ * @return {number}
+ */
 var eraseOverlapIntervals = function(intervals) {
+    intervals.sort((a, b) => a[1] - b[1])
+    
     let min = 0
-    
-    if (intervals.length <= 1) 
-        return min
-    
-    intervals.sort((a, b) => {
-        if (a[1] !== b[1])
-            return a[1] - b[1]
-        
-        return 0
-    })
-    
-    let interval = intervals[0]
+    let prev = intervals[0]
     for (let i = 1; i < intervals.length; i++) {
-        let curr = intervals[i]
+        const curr = intervals[i]
         
-        if (interval[1] > curr[0]) {
+        if (prev[1] > curr[0]) {
             min++
             continue
         }
         
-        interval = curr
+        prev = curr
     }
     
     return min
