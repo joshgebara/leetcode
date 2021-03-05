@@ -14928,11 +14928,16 @@ class DisjointSet {
 
 ## 763. Partition Labels
 ```javascript
+/**
+ * @param {string} S
+ * @return {number[]}
+ */
 var partitionLabels = function(S) {
     const intervals = {}
     
-    for (let i = 0; i < S.length; i++)
+    for (let i = 0; i < S.length; i++) {
         intervals[S[i]] = i
+    }
     
     const result = []
     let start = 0
