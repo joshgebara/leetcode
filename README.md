@@ -520,6 +520,32 @@ var maxSubArray = function(nums) {
 
 ## 1128. Number of Equivalent Domino Pairs
 ```javascript
+/**
+ * @param {number[][]} dominoes
+ * @return {number}
+ */
+var numEquivDominoPairs = function(dominoes) {
+    const map = {}
+    let count = 0
+    for (let i = 0; i < dominoes.length; i++) {
+        const [a, b] = dominoes[i]
+        
+        count += (map[`${a}-${b}`] || 0)
+        if (a !== b) {
+            count += (map[`${b}-${a}`] || 0)
+        }
+        
+        
+        map[`${a}-${b}`] = 1 + (map[`${a}-${b}`] || 0)
+    }
+    
+    return count
+};
+
+/**
+ * @param {number[][]} dominoes
+ * @return {number}
+ */
 var numEquivDominoPairs = function(dominoes) {
   if (!dominoes.length) return 0
 
