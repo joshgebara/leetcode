@@ -14308,22 +14308,22 @@ const fillCol = (col, matrix, width) => {
  * @return {string}
  */
 var reverseStr = function(s, k) {
-    let charArr = s.split('')
-    for (let i = 0; i < s.length; i += 2 * k) {
-        reverse(charArr, i, i + k - 1)
-    }
+    const charArr = s.split('')
     
+    for (let i = 0; i < charArr.length; i += (2 * k)) {
+        reverse(charArr, i, Math.min((i + k - 1), charArr.length - 1))
+    }
     return charArr.join('')
 };
 
-const reverse = (arr, i, j) => {
-    while (i < j) {
-        const temp = arr[i]
-        arr[i] = arr[j]
-        arr[j] = temp
+const reverse = (s, left, right) => {
+    while (left < right) {
+        let temp = s[left]
+        s[left] = s[right]
+        s[right] = temp
         
-        i++
-        j--
+        left++
+        right--
     }
 }
 ```
