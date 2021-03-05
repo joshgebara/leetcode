@@ -14302,23 +14302,28 @@ const fillCol = (col, matrix, width) => {
 
 ## 541. Reverse String II
 ```javascript
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {string}
+ */
 var reverseStr = function(s, k) {
-    const charArr = s.split('')
-    
-    for (let i = 0; i < charArr.length; i += (2 * k)) {
-        reverse(charArr, i, Math.min((i + k - 1), charArr.length - 1))
+    let charArr = s.split('')
+    for (let i = 0; i < s.length; i += 2 * k) {
+        reverse(charArr, i, i + k - 1)
     }
+    
     return charArr.join('')
 };
 
-const reverse = (s, left, right) => {
-    while (left < right) {
-        let temp = s[left]
-        s[left] = s[right]
-        s[right] = temp
+const reverse = (arr, i, j) => {
+    while (i < j) {
+        const temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
         
-        left++
-        right--
+        i++
+        j--
     }
 }
 ```
