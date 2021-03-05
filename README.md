@@ -6097,6 +6097,19 @@ var averageOfLevels = function(root) {
 
 ## 653. Two Sum IV - Input is a BST
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {boolean}
+ */
 var findTarget = function(root, k) {
     const inOrder = root => {
         if (!root) return
@@ -6129,6 +6142,19 @@ var findTarget = function(root, k) {
 };
 
 // Recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {boolean}
+ */
 var findTarget = function(root, k) {
     const _findTarget = (root) => {
         if (!root) return false
@@ -8746,65 +8772,58 @@ console.log(t)
 ```javascript
 // O(n)
 // O(1)
-var kClosest = function(points, K) {
-    const distance = (point) => {
-        let [x, y] = point
-        return (x ** 2) + (y ** 2)
-    }
-    
-    const quickSelect = (elements, K, left, right) => {
-        if (left >= right) return
-        
-        left = left || 0
-        right = right || elements.length - 1
-        
-        let randomIndex = random(left, right)
-        let temp = elements[right]
-        elements[right] = elements[randomIndex]
-        elements[randomIndex] = temp
-        
-        let pivot = partition(elements, left, right)
-        
-        if (pivot === K) return 
-        
-        if (pivot > K) {
-            return quickSelect(elements, K, left, pivot - 1)
-        } else {
-            return quickSelect(elements, K, pivot + 1, right)
-        }
-    }
-    
-    const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
-    
-    const partition = (elements, left, right) => {
-        let pivot = right
-        let i = left - 1
-        
-        for (let j = left; j < right; j++) {
-            if (distance(elements[j]) <= distance(elements[pivot])) {
-                i++
-                
-                let temp = elements[i]
-                elements[i] = elements[j]
-                elements[j] = temp
-            }
-        }
-        
-        i++
-        
-        let temp = elements[i]
-        elements[i] = elements[pivot]
-        elements[pivot] = temp
-        
-        return i
-    }
-    
-    if (!points.length) return []
-    if (!K) return []
-    
-    quickSelect(points, K)
-    return points.slice(0, K)
+/**
+ * @param {number[][]} points
+ * @param {number} k
+ * @return {number[][]}
+ */
+var kClosest = function(points, k) {
+    return quickSelect(points, k - 1)
 };
+
+const quickSelect = (arr, k) => {
+    let left = 0
+    let right = arr.length - 1
+    
+    while (left <= right) {
+        const randomIndex = random(left, right)
+        swap(arr, randomIndex, right)
+        
+        const partitionIndex = partition(arr, left, right)
+        if (partitionIndex === k) {
+            return arr.slice(0, k + 1)
+        }
+        
+        if (partitionIndex < k) {
+            left = partitionIndex + 1
+        } else {
+            right = partitionIndex - 1
+        }
+    }
+    
+    return []
+}
+
+const partition = (arr, low, high) => {
+    let i = low - 1
+    for (let j = low; j < high; j++) {
+        if (dist(arr[j]) < dist(arr[high])) {
+            swap(arr, ++i, j)
+        }
+    }
+    
+    swap(arr, ++i, high)
+    return i
+}
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+const dist = point => point[0] ** 2 + point[1] ** 2
+const random = (low, high) => Math.trunc(Math.random() * (high - low + 1)) + low
 
 // O(n log k)
 // O(k)
