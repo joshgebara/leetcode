@@ -3915,6 +3915,11 @@ var isOneBitCharacter = function(bits) {
 
 ## 1. Two Sum
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
 var twoSum = function(nums, target) {
     const seen = {}
     
