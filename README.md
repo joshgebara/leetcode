@@ -3339,6 +3339,10 @@ var reverseWords = function(s) {
 
 ## 344. Reverse String
 ```javascript
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
 const swap = (arr, i, j) => {
     let temp = arr[i]
     arr[i] = arr[j]
