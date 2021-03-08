@@ -1647,16 +1647,27 @@ class RingBuffer {
 
 ## 1021. Remove Outermost Parentheses
 ```javascript
+/**
+ * @param {string} S
+ * @return {string}
+ */
 var removeOuterParentheses = function(S) {
-    const result = []
-    let opened = 0
-    
-    for (let char of S) {
-        if (char == '(' && opened++ > 0) result.push(char)
-        if (char == ')' && opened-- > 1) result.push(char)
+    const charArr = S.split('')
+    const stack = []
+    for (let i = 0; i < S.length; i++) {
+        if (S[i] === '(') {
+            stack.push(i)
+            continue
+        }
+        
+        const index = stack.pop()
+        if (!stack.length) {
+            charArr[index] = ''
+            charArr[i] = ''
+        }
     }
     
-    return result.join('')
+    return charArr.join('')
 };
 ```
 
