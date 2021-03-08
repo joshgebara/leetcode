@@ -2343,6 +2343,11 @@ var twoSum = function(numbers, target) {
 
 ## 925. Long Pressed Name
 ```javascript
+/**
+ * @param {string} name
+ * @param {string} typed
+ * @return {boolean}
+ */
 var isLongPressedName = function(name, typed) {
     let i = 0
     
