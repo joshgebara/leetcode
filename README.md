@@ -28559,25 +28559,26 @@ var minCostClimbingStairs = function(cost) {
  * @param {number} N
  * @return {boolean}
  */
-
-const cache = {}
-
 var divisorGame = function(N) {
-    if (N <= 1) return false
-
-    if (cache[N]) return cache[N]
-
-    for (let i = 1; i < Math.floor(N / 2) + 1; i++) {
-        if (N % i === 0) {
-            if (!divisorGame(N - i)) {
-                cache[N] = true
-                return true
+    const _divisorGame = N => {
+        if (N <= 1) return false
+        if (memo[N] !== undefined) return memo[N]
+        
+        for (let x = 1; x <= N / 2; x++) {
+            if (N % x === 0) {
+                if (!_divisorGame(N - x)) {
+                    memo[N] = true
+                    return true
+                }
             }
         }
+        
+        memo[N] = false
+        return false
     }
-
-    cache[N] = false
-    return false
+    
+    const memo = new Array(N + 1)
+    return _divisorGame(N)
 };
 
 // Bottom Up DP
@@ -28587,14 +28588,13 @@ var divisorGame = function(N) {
  */
 var divisorGame = function(N) {
     const dp = Array(N + 1).fill(false)
-    
     dp[0] = false
     dp[1] = false
     
-    for (let num = 2; num <= N; num++) {
-        for (let div = 1; div < Math.floor(num / 2) + 1; div++) {
-            if (num % div === 0 && !dp[num - div]) {
-                dp[num] = true
+    for (let n = 2; n <= N; n++) {
+        for (let x = 1; x <= n / 2; x++) {
+            if (n % x === 0 && !dp[n - x]) {
+                dp[n] = true
                 break
             }
         }
