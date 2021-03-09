@@ -31046,6 +31046,7 @@ var similarRGB = function(color) {
 
 ## 949. Largest Time for Given Digits
 ```javascript
+// Iterative
 /**
  * @param {number[]} A
  * @return {string}
@@ -31075,6 +31076,7 @@ var largestTimeFromDigits = function(A) {
     return time
 };
 
+// Backtracking
 /**
  * @param {number[]} A
  * @return {string}
