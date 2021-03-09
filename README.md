@@ -16870,6 +16870,10 @@ var isStrobogrammatic = function(num) {
 
 ## 551. Student Attendance Record I
 ```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
 var checkRecord = function(s) {
     let LCount = 0
     let ACount = 0
