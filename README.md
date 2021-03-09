@@ -13815,8 +13815,6 @@ const bfs = (source, list, visited) => {
  * @param {number[]} tree
  * @return {number}
  */
-// O(n)
-// O(n)
 var totalFruit = function(tree) {
     const counter = new Map()
     let max = 0
@@ -13835,43 +13833,6 @@ var totalFruit = function(tree) {
     }
     
     return max + 1
-};
-
-/**
- * @param {number[]} tree
- * @return {number}
- */
-// O(n)
-// O(1)
-var totalFruit = function(tree) {
-    let max = 0
-    let currMax = 0
-    
-    let lastFruit = 0
-    let lastFruitCount = 0
-    let secondLastFruit = 0
-    
-    for (let i = 0; i < tree.length; i++) {
-        if (tree[i] === lastFruit) {
-            lastFruitCount++
-            currMax++
-        } else if (tree[i] === secondLastFruit) {
-            lastFruitCount = 1
-            currMax++
-            
-            secondLastFruit = lastFruit
-            lastFruit = tree[i]
-        } else {
-            currMax = lastFruitCount + 1
-            lastFruitCount = 1
-            
-            secondLastFruit = lastFruit
-            lastFruit = tree[i]
-        }
-        max = Math.max(currMax, max)
-    }
-    
-    return max
 };
 ```
 
