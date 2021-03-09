@@ -3259,64 +3259,32 @@ var judgeCircle = function(moves) {
 
 ## 929. Unique Email Addresses
 ```javascript
-var numUniqueEmails = function(emails) {
-  const actualEmail = emails.map(email => email.split('@'))
-  .map(email => [email[0].split('+')[0], email[1]])
-  .map(email => [email[0].split('.').join(''), email[1]])
-  .map(email => email.join('@'))
-
-  const uniqueEmails = new Set(actualEmail)
-  return uniqueEmails.size
-};
-
-// One pass
 /**
  * @param {string[]} emails
  * @return {number}
  */
 var numUniqueEmails = function(emails) {
-    const unqiueEmails = new Set()
+    const unique = new Set()
     
     for (const email of emails) {
-        const result = filterEmail(email)
-        unqiueEmails.add(result)
+        const formattedEmail = format(email)
+        unique.add(formattedEmail)
     }
     
-    return unqiueEmails.size
+    return unique.size
 };
 
-const filterEmail = email => {
-    const result = []
+const format = email => {
+    const [local, domain] = email.split('@')
+    const formattedLocal = []
     
-    let isLocal = true
-    let hasPlus = false
-    for (let i = 0; i < email.length; i++) {
-        if (email[i] === '@') {
-            isLocal = false
-            result.push(email[i])
-            continue
-        }
-        
-        if (isLocal && email[i] === '.') {
-            continue
-        }
-        
-        if (isLocal && email[i] === '+') {
-            hasPlus = true
-            continue
-        }
-        
-        if (isLocal && !hasPlus) {
-            result.push(email[i])
-            continue
-        }
-        
-        if (!isLocal) {
-            result.push(email[i])
-        }
+    for (const char of local) {
+        if (char === '.') continue
+        if (char === '+') break
+        formattedLocal.push(char)
     }
-    
-    return result.join('')
+
+    return [formattedLocal.join(''), domain].join('@')
 }
 ```
 
