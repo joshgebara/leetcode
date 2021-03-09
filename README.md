@@ -13811,6 +13811,10 @@ const bfs = (source, list, visited) => {
 
 ## 904. Fruit Into Baskets
 ```javascript
+/**
+ * @param {number[]} tree
+ * @return {number}
+ */
 // O(n)
 // O(n)
 var totalFruit = function(tree) {
@@ -13833,6 +13837,10 @@ var totalFruit = function(tree) {
     return max + 1
 };
 
+/**
+ * @param {number[]} tree
+ * @return {number}
+ */
 // O(n)
 // O(1)
 var totalFruit = function(tree) {
