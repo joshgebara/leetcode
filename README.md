@@ -10926,134 +10926,135 @@ var findCheapestPrice = function(n, flights, src, dst, K) {
 
 ## 743. Network Delay Time
 ```javascript
+/**
+ * @param {number[][]} times
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+var networkDelayTime = function(times, n, k) {
+    const graph = new Array(n + 1).fill().map(a => [])
+    for (const [u, v, w] of times) {
+        graph[u].push([v, w])
+    }
+    
+    const dists = new Array(n + 1).fill(Infinity)
+    dists[k] = 0
+    
+    const heap = new Heap([[k, 0]], (a, b) => a[1] < b[1])
+    while (heap.size()) {
+        const [node, time] = heap.remove()
+        
+        for (const [neighborNode, neighborTime] of graph[node]) {
+            const totalTime = time + neighborTime
+            if (dists[neighborNode] <= totalTime) continue
+            dists[neighborNode] = totalTime
+            
+            heap.insert([neighborNode, time + neighborTime])
+        }
+    }
+    
+    let max = 0
+    for (let node = 1; node <= n; node++) {
+        if (dists[node] === Infinity) return -1
+        max = Math.max(max, dists[node])
+    }
+    
+    return max
+};
+
 class Heap {
-    constructor(elements, sortBy) {
-        this.elements = elements
-        this.sortBy = sortBy
-        
-        if (this.elements.length)
-            this.heapify()
+    constructor(elements, sort = ((a, b) => { return a < b })) {
+        this._elements = elements
+        this._sort = sort
+        this._heapify()
     }
-    
-    heapify() {
-        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
-            this.siftDown(i)
+
+    _heapify() {
+        for (let i = Math.floor(this._elements.length / 2) - 1; 0 <= i; i--) {
+            this._siftDown(i);
+        }
     }
-    
-    insert(val) {
-        this.elements.push(val)
-        this.siftUp()
+
+    _siftUp(index) {
+        let childIndex = index
+        let parentIndex = this._parentIndex(childIndex)
+
+        while (childIndex > 0 && 
+               this._sort(this._elements[childIndex], this._elements[parentIndex])) {
+            let temp = this._elements[childIndex]
+            this._elements[childIndex] = this._elements[parentIndex]
+            this._elements[parentIndex] = temp
+            
+            childIndex = parentIndex
+            parentIndex = this._parentIndex(childIndex)
+        }
     }
-    
+
+    _siftDown(index) {
+        let parentIndex = index
+        while (true) {
+            let leftIndex = this._leftChildIndex(parentIndex)
+            let rightIndex = this._rightChildIndex(parentIndex)
+            let candidate = parentIndex
+            
+            if (leftIndex < this._elements.length && 
+                this._sort(this._elements[leftIndex], this._elements[candidate])) {
+                candidate = leftIndex
+            }
+            
+            if (rightIndex < this._elements.length && 
+                this._sort(this._elements[rightIndex], this._elements[candidate])) {
+                candidate = rightIndex
+            }
+            
+            if (parentIndex === candidate) {
+                return
+            }
+            
+            let temp = this._elements[parentIndex]
+            this._elements[parentIndex] = this._elements[candidate]
+            this._elements[candidate] = temp
+            
+            parentIndex = candidate
+        }
+    }
+
+    _leftChildIndex(parentIndex) {
+        return 2 * parentIndex + 1
+    }
+
+    _rightChildIndex(parentIndex) {
+        return 2 * parentIndex + 2
+    }
+
+    _parentIndex(childIndex) {
+        return Math.floor((childIndex - 1) / 2)
+    }
+
+    insert(element) {
+        this._elements.push(element)
+        this._siftUp(this._elements.length - 1)
+    }
+
     remove() {
-        if (!this.elements.length) return null
-        
-        let temp = this.elements[0]
-        this.elements[0] = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = temp
-        
-        let element = this.elements.pop()
-        
-        this.siftDown()
-        
+        if (this._elements.length < 1) {
+            return null
+        }
+
+        let temp = this._elements[0]
+        this._elements[0] = this._elements[this._elements.length - 1]
+        this._elements[this._elements.length - 1] = temp
+
+        let element = this._elements.pop()
+        this._siftDown(0)
         return element
     }
-    
-    siftUp(index) {
-        let child = index || this.elements.length - 1
-        let parent = this.parentIndex(child)
-        
-        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
-            let temp = this.elements[child]
-            this.elements[child] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            child = parent
-            parent = this.parentIndex(child)
-        }
-    }
-    
-    siftDown(index) {
-        let parent = index || 0
-        while(true) {
-            let left = this.leftChildIndex(parent)
-            let right = this.rightChildIndex(parent)
-            let candidate = parent
-            
-            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
-                candidate = left
-            
-            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
-                candidate = right
-            
-            if (candidate === parent)
-                return
-            
-            let temp = this.elements[candidate]
-            this.elements[candidate] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            parent = candidate
-        }
-    }
-    
-    leftChildIndex(parent) {
-        return 2 * parent + 1
-    }
-    
-    rightChildIndex(parent) {
-        return 2 * parent + 2
-    }
-    
-    parentIndex(child) {
-        return Math.floor((child - 1) / 2)
+
+    size() {
+        return this._elements.length
     }
 }
-
-var networkDelayTime = function(times, N, K) {
-    const graph = {}
-    for (const [vertex, neighbor, weight] of times) {
-        if (!graph[vertex]) {
-            graph[vertex] = [[neighbor, weight]]
-        } else {
-            graph[vertex].push([neighbor, weight])
-        }
-    }
-    
-    const distances = {}
-    for (let i = 1; i <= N; i++)
-        distances[i] = Number.MAX_VALUE
-    distances[K] = 0
-    
-    const visited = new Set()
-    
-    const heap = new Heap([], (a, b) => a[1] < b[1])
-    heap.insert([K, 0])
-    
-    while (heap.elements.length) {
-        const [vertex, weight] = heap.remove()
-        
-        if (visited.has(vertex)) continue
-        visited.add(vertex)
-    
-        if (!distances[vertex]) {
-            distances[vertex] = weight
-        } else {
-            distances[vertex] = Math.min(distances[vertex], weight)
-        }
-        
-        if (!graph[vertex]) continue
-        
-        for (const [neighbor, neighborWeight] of graph[vertex]) {
-            if (!visited.has(neighbor) && weight + neighborWeight < distances[neighbor]) {
-                heap.insert([neighbor, weight + neighborWeight])   
-            }
-        }
-    }
-    
-    const max = Math.max(...Object.values(distances))
-    return max === Number.MAX_VALUE ? -1 : max
-};
 ```
 
 ## 147. Insertion Sort List
