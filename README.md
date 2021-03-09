@@ -39710,6 +39710,7 @@ const swap = (arr, i, j) => {
 
 ## 1466. Reorder Routes to Make All Paths Lead to the City Zero
 ```javascript
+// DFS
 /**
  * @param {number} n
  * @param {number[][]} connections
@@ -39747,6 +39748,41 @@ const buildGraph = (n, connections) => {
     
     return graph
 }
+
+// BFS
+/**
+ * @param {number} n
+ * @param {number[][]} connections
+ * @return {number}
+ */
+var minReorder = function(n, connections) {
+    const graph = {}
+    for (const [u, v] of connections) {
+        if (!graph[u]) graph[u] = []
+        if (!graph[v]) graph[v] = []
+        graph[u].push([v, true])
+        graph[v].push([u, false])
+    }
+    
+    const visited = new Set()
+    visited.add(0)
+    
+    let count = 0
+    const queue = [0]
+    while (queue.length) {
+        const node = queue.shift()
+        
+        for (const [neighbor, roadGoingAwayFromCapital] of graph[node]) {
+            if (visited.has(neighbor)) continue
+            visited.add(neighbor)
+
+            count += roadGoingAwayFromCapital
+            queue.push(neighbor)
+        }
+    }
+    
+    return count
+};
 ```
 
 ## 84. Largest Rectangle in Histogram
