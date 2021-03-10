@@ -5222,20 +5222,45 @@ const _preorderTraversal = (node, result) => {
 ## 94. Binary Tree Inorder Traversal
 ```javascript
 // Recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
 var inorderTraversal = function(root) {
-    let result = []
-    _inorderTraversal(root, result)
+    const _inorderTraversal = node => {
+        if (!node) return
+        
+        _inorderTraversal(node.left)
+        result.push(node.val)
+        _inorderTraversal(node.right)
+    }
+    
+    const result = []
+    _inorderTraversal(root)
     return result
 };
 
-const _inorderTraversal = (node, result) => {
-    if (!node) return
-    if (node.left) _inorderTraversal(node.left, result)
-    result.push(node.val)
-    if (node.right) _inorderTraversal(node.right, result)
-}
-
 // Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
 var inorderTraversal = function(root) {
     const stack = []
     const result = []
@@ -26378,6 +26403,10 @@ const binarySearch = (arr, target) => {
 
 ## 162. Find Peak Element
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var findPeakElement = function(nums) {
     let left = 0
     let right = nums.length - 1
