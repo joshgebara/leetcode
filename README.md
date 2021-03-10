@@ -14060,25 +14060,20 @@ var solution = function(knows) {
 
 ## 739. Daily Temperatures
 ```javascript
-var dailyTemperatures = function(T) {    
+/**
+ * @param {number[]} T
+ * @return {number[]}
+ */
+var dailyTemperatures = function(T) {
+    const result = new Array(T.length).fill(0)
     const stack = []
-    const result = []
-    
     for (let i = 0; i < T.length; i++) {
-        while (stack.length) {
-            const [temp, days] = stack[stack.length - 1]
-            
-            if (temp >= T[i]) break
-            
-            result[days] = i - days
-            stack.pop()
+        while (stack.length && T[stack[stack.length - 1]] < T[i]) {
+            const index = stack.pop()
+            result[index] = i - index
         }
-        stack.push([T[i], i])
-    }
-    
-    while (stack.length) {
-        const [temp, days] = stack.pop()
-        result[days] = 0
+        
+        stack.push(i)
     }
     
     return result
