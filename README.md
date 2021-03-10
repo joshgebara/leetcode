@@ -27498,6 +27498,10 @@ const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
 
 ## 1356. Sort Integers by The Number of 1 Bits
 ```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
 var sortByBits = function(arr) {
     const memo = {}
     return arr.sort((a, b) => numOfOnes(a, memo) - numOfOnes(b, memo) || a - b)
