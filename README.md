@@ -60372,3 +60372,51 @@ var jump = function(nums) {
     return jumps
 };
 ```
+
+## 1011. Capacity To Ship Packages Within D Days
+```javascript
+/**
+ * @param {number[]} weights
+ * @param {number} D
+ * @return {number}
+ */
+var shipWithinDays = function(weights, D) {
+    let totalSum = 0
+    for (const num of weights) {
+        totalSum += num
+    }
+    
+    let left = 1
+    let right = totalSum
+    
+    while (left < right) {
+        const mid = Math.floor((right - left) / 2) + left
+        
+        if (canShip(weights, mid, D)) {
+            right = mid
+        } else {
+            left = mid + 1
+        }
+    }
+    
+    return left
+};
+
+const canShip = (weights, capacity, D) => {
+    let day = 1
+    let currWeight = 0
+    
+    for (const weight of weights) {
+        if (weight > capacity || day > D) return false
+        
+        if (currWeight + weight > capacity) {
+            currWeight = 0
+            day++
+        }
+        
+        currWeight += weight
+    }
+    
+    return day <= D
+}
+```
