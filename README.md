@@ -19131,25 +19131,6 @@ class DisjointSet {
 
 ## 1302. Deepest Leaves Sum
 ```javascript
-var deepestLeavesSum = function(root) {
-    const dfs = (root, level = 0) => {
-        if (!root) return
-        
-        if (levels[level]) {
-            levels[level].push(root.val)
-        } else {
-            levels[level] = [root.val]
-        }
-        
-        dfs(root.left, level + 1)
-        dfs(root.right, level + 1)
-    }
-    
-    const levels = []
-    dfs(root)
-    return levels[levels.length - 1].reduce((r, e) => r + e, 0)
-};
-
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -19220,6 +19201,35 @@ var deepestLeavesSum = function(root) {
     }
     
     return sum
+};
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var deepestLeavesSum = function(root) {
+    const queue = [root]
+    let totalSum = 0
+    while (queue.length) {
+        const size = queue.length
+        let sum = 0
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            sum += node.val
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+        }
+        totalSum = sum
+    }
+    return totalSum
 };
 ```
 
