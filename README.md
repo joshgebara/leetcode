@@ -26944,6 +26944,11 @@ var isNStraightHand = function(hand, W) {
 
 ## 1094. Car Pooling
 ```javascript
+/**
+ * @param {number[][]} trips
+ * @param {number} capacity
+ * @return {boolean}
+ */
 var carPooling = function(trips, capacity) {
     const stops = Array(1001).fill(0)
     for (const [count, start, end] of trips) {
