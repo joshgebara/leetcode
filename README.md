@@ -25070,25 +25070,38 @@ var minRemoveToMakeValid = function(s) {
 ## 1190. Reverse Substrings Between Each Pair of Parentheses
 ```javascript
 // O(n^2)
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var reverseParentheses = function(s) {
-    const result = []
+    const charArr = s.split('')
     const stack = []
-    for (const char of s) {
-        if (char === '(') {
-            stack.push(result.length)
-        } else if (char === ')') {
-            swap(result, stack.pop(), result.length - 1)
-        } else {
-            result.push(char)
+    
+    for (let i = 0; i < s.length; i++) {
+        if (charArr[i] === '(') {
+            stack.push(i)
+            continue
+        }
+        
+        if (charArr[i] === ')') {
+            const start = stack.pop()
+            
+            charArr[start] = ''
+            charArr[i] = ''
+            
+            reverse(charArr, start + 1, i - 1)
         }
     }
     
-    return result.join('')
+    return charArr.join('')
 };
 
-const swap = (arr, start, end) => {
+const reverse = (arr, start, end) => {
     while (start < end) {
-        [arr[start], arr[end]] = [arr[end], arr[start]]
+        const temp = arr[start]
+        arr[start] = arr[end]
+        arr[end] = temp
         
         start++
         end--
@@ -25096,6 +25109,10 @@ const swap = (arr, start, end) => {
 }
 
 // O(n)
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var reverseParentheses = function(s) {
     const pairs = Array(s.length).fill(null)
     const stack = []
@@ -60418,4 +60435,53 @@ const canShip = (weights, capacity, D) => {
     
     return day <= D
 }
+```
+
+## 911. Online Election
+```javascript
+/**
+ * @param {number[]} persons
+ * @param {number[]} times
+ */
+var TopVotedCandidate = function(persons, times) {
+    this.leaders = []
+    const votes = {}
+    let leader = -1
+    for (let i = 0; i < persons.length; i++) {
+        votes[persons[i]] = 1 + (votes[persons[i]] || 0)
+        if (leader === -1 || votes[persons[i]] >= votes[leader]) {
+            leader = persons[i]
+        }
+        
+        this.leaders.push([times[i], leader])
+    }
+};
+
+/** 
+ * @param {number} t
+ * @return {number}
+ */
+TopVotedCandidate.prototype.q = function(t) {
+    let left = 0
+    let right = this.leaders.length - 1
+    
+    while (left < right) {
+        const mid = Math.floor((right - left + 1) / 2) + left
+        const [midTime, midLeader] = this.leaders[mid]
+        
+        if (midTime <= t) {
+            left = mid
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return this.leaders[right][1]
+};
+
+/** 
+ * Your TopVotedCandidate object will be instantiated and called as such:
+ * var obj = new TopVotedCandidate(persons, times)
+ * var param_1 = obj.q(t)
+ */
 ```
