@@ -19295,6 +19295,19 @@ var sumEvenGrandparent = function(root) {
 ## 701. Insert into a Binary Search Tree
 ```javascript
 // Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} val
+ * @return {TreeNode}
+ */
 var insertIntoBST = function(root, val) {
     let curr = root
     let parent = null
@@ -19320,6 +19333,19 @@ var insertIntoBST = function(root, val) {
 };
 
 // Recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} val
+ * @return {TreeNode}
+ */
 var insertIntoBST = function(root, val) {    
     if (!root) return new TreeNode(val)
 
