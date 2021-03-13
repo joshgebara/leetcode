@@ -7766,30 +7766,43 @@ var sortedListToBST = function(head) {
 
 ## 328. Odd Even Linked List
 ```javascript
-const isOdd = num => num & 1
-
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 var oddEvenList = function(head) {
-    let oddDummy = new ListNode(-1)
-    let evenDummy = new ListNode(-1)
-    let currOdd = oddDummy
-    let currEven = evenDummy
+    let oddHead = new ListNode(NaN)
+    let oddCurr = oddHead
     
-    let i = 1
-    while (head) {
-        if (isOdd(i++)) {
-            currOdd.next = head
-            currOdd = currOdd.next
+    let evenHead = new ListNode(NaN)
+    let evenCurr = evenHead
+    
+    let curr = head
+    let index = 1
+    while (curr) {
+        if (index % 2 === 0) {
+            evenCurr.next = curr
+            evenCurr = evenCurr.next
         } else {
-            currEven.next = head
-            currEven = currEven.next
+            oddCurr.next = curr
+            oddCurr = oddCurr.next
         }
-        head = head.next
+        curr = curr.next
+        index++
     }
-    currOdd.next = null
-    currEven.next = null
     
-    currOdd.next = evenDummy.next
-    return oddDummy.next
+    oddCurr.next = null
+    evenCurr.next = null
+    
+    oddCurr.next = evenHead.next
+    return oddHead.next
 };
 ```
 
