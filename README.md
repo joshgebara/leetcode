@@ -5526,6 +5526,17 @@ var maxDepth = function(root) {
 
 ## 24. Swap Nodes in Pairs
 ```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 var swapPairs = function(head) {
     if (!head || !head.next) return head
 
@@ -60592,4 +60603,87 @@ var detectCycle = function(head) {
     }
     return slow
 };
+```
+
+## 1628. Design an Expression Tree With Evaluate Function
+```javascript
+/**
+ * This is the interface for the expression tree Node.
+ * You should not remove it, and you can define some classes to implement it.
+ */
+
+var Node = function (val) {
+    this.val = val
+    this.left = null
+    this.right = null
+};
+
+Node.prototype.evaluate = function () {
+    const _evalute = node => {
+        if (!node.left && !node.right) {
+            return node.val
+        }
+        
+        return eval(+_evalute(node.left), +_evalute(node.right), node.val)
+    }
+    
+    return _evalute(this)
+};
+
+/**
+ * This is the TreeBuilder class.
+ * You can treat it as the driver code that takes the postinfix input 
+ * and returns the expression tree represnting it as a Node.
+ */
+
+class TreeBuilder{
+	/**
+     * @param {string[]} s
+     * @return {Node}
+     */
+	buildTree(postfix) {
+        const stack = []
+        for (let i = 0; i < postfix.length; i++) {
+            const node = new Node(postfix[i])
+            
+            if (!isNumber(postfix[i])) {
+                const right = stack.pop()
+                const left = stack.pop()
+                node.left = left
+                node.right = right   
+            }
+            
+            stack.push(node)
+        }
+        
+    	return stack.pop()
+	}
+    
+}
+
+/**
+ * Your TreeBuilder object will be instantiated and called as such:
+ * var obj = new TreeBuilder();
+ * var expTree = obj.buildTree(postfix);
+ * var ans = expTree.evaluate();
+ */
+
+const isNumber = num => {
+    return !isNaN(+num)
+}
+
+const eval = (num1, num2, operator) => {
+    switch(operator) {
+        case '+':
+            return num1 + num2
+        case '-':
+            return num1 - num2
+        case '*':
+            return num1 * num2
+        case '/':
+            return num1 / num2
+        default:
+            throw new Error('Invalid operator')
+    }
+}
 ```
