@@ -60702,6 +60702,9 @@ var calculate = function(s) {
     return evaluatePostfix(postfix)
 };
 
+// Reverse Polish Notation Algo
+// 150. Evaluate Reverse Polish Notation
+// https://leetcode.com/problems/evaluate-reverse-polish-notation/
 const evaluatePostfix = postfix => {
     const stack = []
     
@@ -60718,12 +60721,19 @@ const evaluatePostfix = postfix => {
     return stack.pop()
 }
 
+// https://www.youtube.com/watch?v=vq-nUF0G4fI&t=918s
 const convertToPostfix = infix => {
     const postfix = []
     const stack = []
     
     let num = null
-    for (const token of infix) {
+    for (let i = 0; i < infix.length; i++) {
+        const token = infix[i]
+        
+        // Ignore Whitespace
+        if (token === ' ') continue
+        
+        // Handles case where operand is multiple digits
         if (isOperand(token)) {
             if (num === null) num = 0
             
@@ -60732,10 +60742,22 @@ const convertToPostfix = infix => {
             continue
         }
         
+        // Add operand to postfix before continuing
         if (num !== null) postfix.push(num)
         num = null
         
         if (isOperator(token)) {
+            // if uniary '+' then skip
+            if (token === '+' && infix[i - 1] === undefined || infix[i - 1] === '(') {
+                continue
+            }
+            
+            // if uniary '-' convert to binary operator by inserting 0 on left side
+            if (token === '-' && infix[i - 1] === undefined || infix[i - 1] === '(') {
+                postfix.push(0)
+            }
+            
+            // remove higher precendence operators from stack first
             while (stack.length && 
                    stack[stack.length - 1] !== '(' && 
                    hasHigherPrecendence(stack[stack.length - 1], token)) {
@@ -60750,6 +60772,7 @@ const convertToPostfix = infix => {
             continue
         }
         
+        // remove all operators up to the next open '(' in stack
         if (token === ')') {
             while (stack.length && stack[stack.length - 1] !== '(') {
                 postfix.push(stack.pop())
@@ -60758,9 +60781,11 @@ const convertToPostfix = infix => {
         }
     }
     
+    // Add final of expression
     if (num !== null) postfix.push(num)
     num = null
     
+    // Add remaining operators to end
     while (stack.length) {
         postfix.push(stack.pop())
     }
@@ -60773,14 +60798,13 @@ const evaluate = (left, right, op) => {
         case '+': return left + right
         case '-': return left - right
         case '*': return left * right
+        // integer division should truncate toward zero
         case '/': return Math.trunc(left / right)
     }
 }
 
 const isOperator = token => '+-*/'.includes(token)
-
 const isOperand = token => !isNaN(+token)
-
 const hasHigherPrecendence = (op1, op2) => getWeight(op1) >= getWeight(op2)
 
 const getWeight = op => {
