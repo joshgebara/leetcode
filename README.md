@@ -60687,3 +60687,108 @@ const eval = (num1, num2, operator) => {
     }
 }
 ```
+
+## 772. Basic Calculator III
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var calculate = function(s) {
+    // convert to postfix expression
+    const postfix = convertToPostfix(s)
+    
+    // evaluate postfix expression
+    return evaluatePostfix(postfix)
+};
+
+const evaluatePostfix = postfix => {
+    const stack = []
+    
+    for (const token of postfix) {
+        if (isOperand(token)) {
+            stack.push(token)
+        } else {
+            const right = stack.pop()
+            const left = stack.pop()
+            stack.push(evaluate(left, right, token))
+        }
+    }
+    
+    return stack.pop()
+}
+
+const convertToPostfix = infix => {
+    const postfix = []
+    const stack = []
+    
+    let num = null
+    for (const token of infix) {
+        if (isOperand(token)) {
+            if (num === null) num = 0
+            
+            num *= 10
+            num += +token
+            continue
+        }
+        
+        if (num !== null) postfix.push(num)
+        num = null
+        
+        if (isOperator(token)) {
+            while (stack.length && 
+                   stack[stack.length - 1] !== '(' && 
+                   hasHigherPrecendence(stack[stack.length - 1], token)) {
+                postfix.push(stack.pop())
+            }
+            stack.push(token)
+            continue
+        }
+        
+        if (token === '(') {
+            stack.push(token)
+            continue
+        }
+        
+        if (token === ')') {
+            while (stack.length && stack[stack.length - 1] !== '(') {
+                postfix.push(stack.pop())
+            }
+            stack.pop()
+        }
+    }
+    
+    if (num !== null) postfix.push(num)
+    num = null
+    
+    while (stack.length) {
+        postfix.push(stack.pop())
+    }
+    
+    return postfix
+}
+
+const evaluate = (left, right, op) => {
+    switch(op) {
+        case '+': return left + right
+        case '-': return left - right
+        case '*': return left * right
+        case '/': return Math.trunc(left / right)
+    }
+}
+
+const isOperator = token => '+-*/'.includes(token)
+
+const isOperand = token => !isNaN(+token)
+
+const hasHigherPrecendence = (op1, op2) => getWeight(op1) >= getWeight(op2)
+
+const getWeight = op => {
+    switch(op) {
+        case '+': return 1
+        case '-': return 1
+        case '*': return 2
+        case '/': return 2
+    }
+}
+```
