@@ -61074,3 +61074,28 @@ const getWeight = op => {
     }
 }
 ```
+
+## 1773. Count Items Matching a Rule
+```javascript
+/**
+ * @param {string[][]} items
+ * @param {string} ruleKey
+ * @param {string} ruleValue
+ * @return {number}
+ */
+var countMatches = function(items, ruleKey, ruleValue) {
+    let count = 0
+    
+    for (const [type, color, name] of items) {
+        if (ruleKey === 'type') {
+            count += ruleValue === type
+        } else if (ruleKey === 'color') {
+            count += ruleValue === color
+        } else if (ruleKey === 'name') {
+            count += ruleValue === name
+        }
+    }
+    
+    return count
+};
+```
