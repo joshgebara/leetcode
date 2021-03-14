@@ -61139,3 +61139,47 @@ var countMatches = function(items, ruleKey, ruleValue) {
     return count
 };
 ```
+
+## 1721. Swapping Nodes in a Linked List
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var swapNodes = function(head, k) {
+    const length = getLength(head)
+    
+    let startK = head
+    for (let i = 1; i < k; i++) {
+        startK = startK.next
+    }
+    
+    let endK = head
+    for (let i = 1; i < length - k + 1; i++) {
+        endK = endK.next
+    }
+    
+    const temp = startK.val
+    startK.val = endK.val
+    endK.val = temp
+    
+    return head
+};
+
+const getLength = head => {
+    let length = 0
+    while (head) {
+        head = head.next
+        length++
+    }
+    return length
+}
+```
