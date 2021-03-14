@@ -28611,17 +28611,19 @@ const isPalindrome = s => {
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
-    const result = Array(nums.length).fill(1)
+    const result = new Array(nums.length).fill(1)
     
-    for (let i = 1; i < nums.length; i++) {
-        result[i] = nums[i - 1] * result[i - 1]
-    }
-
     let product = 1
-    for (let i = result.length - 1; i >= 0; i--) {
+    for (let i = 0; i < nums.length; i++) {
         result[i] *= product
         product *= nums[i]
     }
+    
+    product = 1
+    for (let i = nums.length - 1; i >= 0; i--) {
+        result[i] *= product
+        product *= nums[i]
+    } 
     
     return result
 };
