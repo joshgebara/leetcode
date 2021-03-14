@@ -7209,22 +7209,26 @@ var letterCasePermutation = function(S) {
 
 ## 46. Permutations
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var permute = function(nums) {
-    const _permute = (nums, index) => {
-        if (index === nums.length) {
+    const _permute = start => {
+        if (start >= nums.length) {
             result.push(nums.slice())
             return
         }
         
-        for (let i = index; i < nums.length; i++) {
-            swap(nums, i, index)
-            _permute(nums, index + 1)
-            swap(nums, i, index)
+        for (let i = start; i < nums.length; i++) {
+            swap(nums, start, i)
+            _permute(start + 1)
+            swap(nums, start, i)
         }
     }
     
     const result = []
-    _permute(nums, 0)
+    _permute(0)
     return result
 };
 
