@@ -21367,23 +21367,35 @@ var buildTree = function(inorder, postorder) {
 
 ## 1008. Construct Binary Search Tree from Preorder Traversal
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} preorder
+ * @return {TreeNode}
+ */
 var bstFromPreorder = function(preorder) {
-    const _bstFromPreorder = (low, high) => {
+    const _bstFromPreorder = (leftBound, rightBound) => {
         if (i >= preorder.length) return null
         
         const val = preorder[i]
-        if (val < low || val > high)
-            return null
+        if (leftBound >= val || rightBound <= val) return null
         
-        i++
         const node = new TreeNode(val)
-        node.left = _bstFromPreorder(low, val)
-        node.right = _bstFromPreorder(val, high)
+        i++
+        
+        node.left = _bstFromPreorder(leftBound, val)
+        node.right = _bstFromPreorder(val, rightBound)
         return node
     }
     
     let i = 0
-    return _bstFromPreorder(Number.MIN_VALUE, Number.MAX_VALUE)
+    return _bstFromPreorder(-Infinity, Infinity)
 };
 ```
 
