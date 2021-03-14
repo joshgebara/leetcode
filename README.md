@@ -21447,64 +21447,78 @@ var largestBSTSubtree = function(root) {
 
 ## 545. Boundary of Binary Tree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
 var boundaryOfBinaryTree = function(root) {
-    if (!root) return []
-    
-    const seen = new Set([root])
-    const result = []
-    
-    return [root.val, 
-            ...getLeftPath(root.left, [], seen), 
-            ...getLeaves(root, [], seen), 
-            ...getRightPath(root.right, [], seen)]
+    const left = getLeftBoundary(root.left)
+    const leaves = getLeaves(root)
+    const right = getRightBoundary(root.right)
+    return [root.val, ...left, ...leaves, ...right]
 };
 
-const getLeftPath = (node, arr, seen) => {
-    if (!node) return arr
-
-    if (!seen.has(node)) {
-        arr.push(node.val)
-        seen.add(node)
+const getLeaves = root => {
+    const _getLeaves = node => {
+        if (!node) return
+        
+        if (root !== node && !node.left && !node.right) {
+            result.push(node.val)
+        }
+        
+        _getLeaves(node.left)
+        _getLeaves(node.right)
     }
-
-    if (node.left) {
-        getLeftPath(node.left, arr, seen)
-    } else {
-        getLeftPath(node.right, arr, seen)
-    }
-
-    return arr
+    
+    const result = []
+    _getLeaves(root)
+    return result
 }
 
-const getRightPath = (node, arr, seen) => {
-    if (!node) return arr
-
-    if (node.right) {
-        getRightPath(node.right, arr, seen)
-    } else {
-        getRightPath(node.left, arr, seen)
+const getLeftBoundary = node => {
+    const _getLeftBoundary = node => {
+        if (!node) return
+        if (!node.left && !node.right) return
+        
+        result.push(node.val)
+        
+        if (node.left) {
+            _getLeftBoundary(node.left)
+        } else if (node.right) {
+            _getLeftBoundary(node.right)
+        }
     }
-
-    if (!seen.has(node)) {
-        arr.push(node.val)
-        seen.add(node)
-    }
-
-    return arr
+    
+    const result = []
+    _getLeftBoundary(node)
+    return result
 }
 
-const getLeaves = (node, arr, seen) => {
-    if (!node) return arr
-
-    getLeaves(node.left, arr, seen)
-    getLeaves(node.right, arr, seen)
-
-    if (!seen.has(node) && !node.left && !node.right) {
-        arr.push(node.val)
-        seen.add(node)
+const getRightBoundary = node => {
+    const _getRightBoundary = node => {
+        if (!node) return
+        if (!node.left && !node.right) return
+        
+        if (node.right) {
+            _getRightBoundary(node.right)
+        } else if (node.left) {
+            _getRightBoundary(node.left)
+        }
+        
+        result.push(node.val)
     }
-
-    return arr
+    
+    const result = []
+    _getRightBoundary(node)
+    return result
 }
 ```
 
