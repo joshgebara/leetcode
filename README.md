@@ -6970,25 +6970,30 @@ var increasingBST = function(root) {
  * @return {number[][]}
  */
 var floodFill = function(image, sr, sc, newColor) {
-    const oldColor = image[sr][sc]
-    if (oldColor === newColor) return image
+    const originalColor = image[sr][sc]
+    if (newColor === originalColor) return image
+    image[sr][sc] = newColor
+    
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    const rowLen = image.length
+    const colLen = image[0].length
     
     const queue = [[sr, sc]]
-    const dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
-    
     while (queue.length) {
-        const [cr, cc] = queue.shift()
-        image[cr][cc] = newColor
+        const [row, col] = queue.shift()
         
-        for (const [dr, dc] of dirs) {
-            const nr = cr + dr
-            const nc = cc + dc
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = deltaRow + row
+            const nextCol = deltaCol + col
             
-            if (nr < 0 || nr >= image.length || 
-                nc < 0 || nc >= image[0].length || 
-                image[nr][nc] !== oldColor) continue
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen || 
+                image[nextRow][nextCol] !== originalColor) {
+                continue
+            }
             
-            queue.push([nr, nc])
+            image[nextRow][nextCol] = newColor
+            queue.push([nextRow, nextCol])
         }
     }
     
