@@ -12050,15 +12050,6 @@ var eraseOverlapIntervals = function(intervals) {
 /**
  * Initialize your data structure here.
  */
-
-class TrieNode {
-    constructor(val = "") {
-        this.val = val
-        this.children = {}
-        this.isEnd = false
-    }
-}
-
 var Trie = function() {
     this.root = new TrieNode()
 };
@@ -12071,9 +12062,11 @@ var Trie = function() {
 Trie.prototype.insert = function(word) {
     let curr = this.root
     
-    for (let char of word) {
-        if (!curr.children[char])
+    for (const char of word) {
+        if (!curr.children[char]) {
             curr.children[char] = new TrieNode(char)
+        }
+        
         curr = curr.children[char]
     }
     
@@ -12088,9 +12081,11 @@ Trie.prototype.insert = function(word) {
 Trie.prototype.search = function(word) {
     let curr = this.root
     
-    for (let char of word) {
-        if (!curr.children[char])
+    for (const char of word) {
+        if (!curr.children[char]) {
             return false
+        }
+        
         curr = curr.children[char]
     }
     
@@ -12105,9 +12100,11 @@ Trie.prototype.search = function(word) {
 Trie.prototype.startsWith = function(prefix) {
     let curr = this.root
     
-    for (let char of prefix) {
-        if (!curr.children[char])
+    for (const char of prefix) {
+        if (!curr.children[char]) {
             return false
+        }
+        
         curr = curr.children[char]
     }
     
@@ -12121,6 +12118,14 @@ Trie.prototype.startsWith = function(prefix) {
  * var param_2 = obj.search(word)
  * var param_3 = obj.startsWith(prefix)
  */
+
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
 ```
 
 ## 677. Map Sum Pairs
