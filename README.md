@@ -21460,13 +21460,14 @@ var largestBSTSubtree = function(root) {
  * @return {number[]}
  */
 var boundaryOfBinaryTree = function(root) {
-    const left = getLeftBoundary(root.left)
-    const leaves = getLeaves(root)
-    const right = getRightBoundary(root.right)
-    return [root.val, ...left, ...leaves, ...right]
+    const result = [root.val]
+    getLeftBoundary(root.left, result)
+    getLeaves(root, result)
+    getRightBoundary(root.right, result)
+    return result
 };
 
-const getLeaves = root => {
+const getLeaves = (root, result) => {
     const _getLeaves = node => {
         if (!node) return
         
@@ -21478,12 +21479,10 @@ const getLeaves = root => {
         _getLeaves(node.right)
     }
     
-    const result = []
     _getLeaves(root)
-    return result
 }
 
-const getLeftBoundary = node => {
+const getLeftBoundary = (node, result) => {
     const _getLeftBoundary = node => {
         if (!node) return
         if (!node.left && !node.right) return
@@ -21497,12 +21496,10 @@ const getLeftBoundary = node => {
         }
     }
     
-    const result = []
     _getLeftBoundary(node)
-    return result
 }
 
-const getRightBoundary = node => {
+const getRightBoundary = (node, result) => {
     const _getRightBoundary = node => {
         if (!node) return
         if (!node.left && !node.right) return
@@ -21516,9 +21513,7 @@ const getRightBoundary = node => {
         result.push(node.val)
     }
     
-    const result = []
     _getRightBoundary(node)
-    return result
 }
 ```
 
