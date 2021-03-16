@@ -61230,3 +61230,47 @@ const getLength = head => {
     return length
 }
 ```
+
+## 1660. Correct a Binary Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} from
+ * @param {number} to
+ * @return {TreeNode}
+ */
+var correctBinaryTree = function(root) {
+    const dfs = (node, level) => {
+        if (!node) return
+        
+        map[node.val] = level
+        
+        dfs(node.left, level + 1)
+        dfs(node.right, level + 1)
+    }
+    
+    const _correctBinaryTree = (node, level) => {
+        if (!node) return null
+        
+        if (node.right && map[node.right.val] === level) {
+            return null
+        }
+        
+        node.left = _correctBinaryTree(node.left, level + 1)
+        node.right = _correctBinaryTree(node.right, level + 1)
+        return node
+    }
+    
+    const map = {}
+    dfs(root, 0)
+    return _correctBinaryTree(root, 0)
+};
+```
