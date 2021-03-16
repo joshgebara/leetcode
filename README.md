@@ -11928,34 +11928,19 @@ var repeatedNTimes = function(A) {
 
 ## 1207. Unique Number of Occurrences
 ```javascript
-var uniqueOccurrences = function(arr) {
-    const map = {}
-    
-    for (let a of arr) {
-        if (!map[a]) {
-            map[a] = 1
-        } else {
-            map[a]++
-        }
-    }
-    
-    const counts = Object.values(map)
-    const unique = new Set(counts)
-    return unique.size === counts.length
-};
-
 /**
  * @param {number[]} arr
  * @return {boolean}
  */
 var uniqueOccurrences = function(arr) {
-    const map = new Map()
-    for (const a of arr) {
-        map.set(a, 1 + (map.get(a) || 0))
+    const map = {}
+    for (const num of arr) {
+        map[num] = 1 + (map[num] || 0)
     }
     
-    const unique = new Set(map.values())
-    return map.size === unique.size
+    const occurrences = Object.values(map)
+    const seen = new Set(occurrences)
+    return seen.size === occurrences.length
 };
 ```
 
