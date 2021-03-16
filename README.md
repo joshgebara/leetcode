@@ -60233,30 +60233,35 @@ var highestPeak = function(isWater) {
  * @param {string} boxes
  * @return {number[]}
  */
-var minOperations = function(boxes) {    
-    const right = new Array(boxes.length)
-    let countRight = 0
-    let sizeRight = 0
-    for (let i = boxes.length - 1; i >= 0; i--) {
-        countRight += sizeRight
-        right[i] = countRight
-        
-        if (boxes[i] === '1') {
-            sizeRight += 1
-        }
-    }
+var minOperations = function(boxes) {
+    const result = new Array(boxes.length).fill(0)
     
-    const result = new Array(boxes.length)
-    let countLeft = 0
-    let sizeLeft = 0
-    for (let i = 0; i < boxes.length; i++) {
-        countLeft += sizeLeft
-        result[i] = countLeft + right[i]
+    let leftCount = 0
+    let leftMoves = 0
+    
+    let rightCount = 0
+    let rightMoves = 0
+    
+    let left = 0
+    let right = boxes.length - 1
+    
+    while (left < boxes.length) {
+        result[left] += leftMoves
+        result[right] += rightMoves
         
-        if (boxes[i] === '1') {
-            sizeLeft += 1
+        if (boxes[left] === '1') {
+            leftCount++
+        }
+
+        if (boxes[right] === '1') {
+            rightCount++
         }
         
+        leftMoves += leftCount
+        rightMoves += rightCount
+        
+        left++
+        right--
     }
     
     return result
