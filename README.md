@@ -28375,6 +28375,10 @@ const isValid = (num1, num2, start, num) => {
 
 ## 1342. Number of Steps to Reduce a Number to Zero
 ```javascript
+/**
+ * @param {number} num
+ * @return {number}
+ */
 var numberOfSteps  = function(num) {
     let steps = 0
     
