@@ -163,6 +163,11 @@ const equal = (arr1, arr2) => {
 
 ## 1099. Two Sum Less Than K
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 var twoSumLessThanK = function(A, K) {
     const counts = Array(1001).fill(0)
     for (let a of A) counts[a]++
