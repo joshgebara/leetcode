@@ -13382,6 +13382,10 @@ var subsets = function(nums) {
 
 ## 11. Container With Most Water
 ```javascript
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
 var maxArea = function(height) {
     let maxArea = 0
     let left = 0
