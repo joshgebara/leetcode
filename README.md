@@ -13336,23 +13336,11 @@ var subsetsWithDup = function(nums) {
 
 ## 78. Subsets
 ```javascript
-var subsets = function(nums) {
-    const subsets = []
-    generateSubsets(0, nums, [], subsets)
-    return subsets
-};
-
-const generateSubsets = (index, nums, curr, subsets) => {
-    subsets.push(curr.slice())
-    
-    for (let i = index; i < nums.length; i++) {
-        curr.push(nums[i])
-        generateSubsets(i + 1, nums, curr, subsets)
-        curr.pop(nums[i])
-    }
-}
-
-// Another backtracking solution
+// Backtracking
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var subsets = function(nums) {
   const _subsets = (curr, index) => {
       if (index === nums.length) {
@@ -13373,6 +13361,10 @@ var subsets = function(nums) {
 };
 
 // Iterative Bitmask
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var subsets = function(nums) {
     const result = []
     const n = nums.length
