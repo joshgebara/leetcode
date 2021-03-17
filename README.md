@@ -16183,69 +16183,35 @@ SELECT name, population, area FROM World WHERE population > 25000000
 
 ## 728. Self Dividing Numbers
 ```javascript
-var selfDividingNumbers = function(left, right) {
-    const result = []
-    
-    for (let i = left; i <= right; i++) {
-        if (i === 0 || i % 10 === 0) continue
-        if (1 <= i && i <= 9) {
-            result.push(i)
-            continue
-        }
-        
-        let num = i
-        while (num) {
-            const digit = num % 10
-            
-            if (i % digit !== 0)
-                break
-            
-            num = Math.floor(num / 10)
-        }
-        
-        if (!num) result.push(i)
-    }
-    
-    return result
-};
-
 /**
  * @param {number} left
  * @param {number} right
  * @return {number[]}
  */
-
-const memo = {}
-
 var selfDividingNumbers = function(left, right) {
     const result = []
-    
-    for (let i = left; i <= right; i++) {
-        if (valid(i)) {
-            result.push(i)
+    for (let num = left; num <= right; num++) {
+        if (isSelfDividing(num)) {
+            result.push(num)
         }
     }
     
     return result
 };
 
-const valid = num => {
-    if (memo[num]) return memo[num]
-    
+const isSelfDividing = num => {
     let n = num
     while (n) {
         const digit = n % 10
         
         if (digit === 0 || num % digit !== 0) {
-            memo[num] = false
-            return memo[num]
+            return false
         }
         
-        n = Math.floor(n / 10)
+        n = Math.trunc(n / 10)
     }
     
-    memo[num] = true
-    return memo[num]
+    return true
 }
 ```
 
