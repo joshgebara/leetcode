@@ -4264,21 +4264,6 @@ var addBinary = function(a, b) {
 
 ## 14. Longest Common Prefix
 ```javascript
-var longestCommonPrefix = function(strs) {
-    if (!strs.length) return ""
-    
-    let prefix = []
-    let firstWord = strs[0]
-    
-    for (let i = 0; i < firstWord.length; i++) {
-        for (let j = 1; j < strs.length; j++) {
-            if (strs[j][i] !== firstWord[i]) return prefix.join('')
-        }
-        prefix.push(firstWord[i])
-    }
-    return prefix.join('')
-};
-
 /**
  * @param {string[]} strs
  * @return {string}
