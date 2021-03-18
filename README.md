@@ -3027,6 +3027,10 @@ var findComplement = function(num) {
 
 ## 136. Single Number
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var singleNumber = function(nums) {
     let result = 0
     for (let num of nums) result ^= num
