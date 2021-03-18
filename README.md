@@ -25955,14 +25955,15 @@ var parseTernary = function(expression) {
     
     return stack.pop()
 };
-
-// DFS
-
 ```
 
 ## 959. Regions Cut By Slashes
 ```javascript
 // DFS
+/**
+ * @param {string[]} grid
+ * @return {number}
+ */
 var regionsBySlashes = function(grid) {
     const n = grid.length
     const m = grid[0].length
@@ -26024,82 +26025,74 @@ const countComponents = matrix => {
  * @return {number}
  */
 var regionsBySlashes = function(grid) {
-    const n = grid.length
     const k = 3
-    const matrix = Array(n * k).fill(0).map(a => Array(n * k).fill(0))
+    const n = grid.length
+        
+    // Build matrix
+    const matrix = new Array(n * k).fill().map(a => new Array(n * k).fill(0))
+    const m = matrix.length
     
     for (let row = 0; row < n; row++) {
         for (let col = 0; col < n; col++) {
-            const currChar = grid[row][col]
-            if (currChar === '\\') {
-                let startRow = row * k
-                let startCol = col * k
-                for (let i = 0; i < k; i++) {
-                    matrix[startRow][startCol] = 1
-                    startRow++
-                    startCol++
+            if (grid[row][col] === ' ') continue
+            
+            const adjustedRow = row * k
+            const adjustedCol = col * k
+            
+            if (grid[row][col] === '/') {
+                let currCol = adjustedCol + k - 1
+                for (let currRow = adjustedRow; currRow < adjustedRow + k; currRow++) {
+                    matrix[currRow][currCol] = 1
+                    currCol--
                 }
-            } else if (currChar === '/') {
-                let startRow = row * k
-                let startCol = col * k + k - 1
-                
-                for (let i = 0; i < k; i++) {
-                    matrix[startRow][startCol] = 1
-                    startRow++
-                    startCol--
+            } else if (grid[row][col] === '\\') {
+                let currCol = adjustedCol
+                for (let currRow = adjustedRow; currRow < adjustedRow + k; currRow++) {
+                    matrix[currRow][currCol] = 1
+                    currCol++
                 }
             }
         }
     }
     
-    let numOfOnes = 0
-    const unionFind = new UnionFind(matrix.length ** 2)
-    for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < matrix.length; col++) {
+    // Get regions
+    const dirs = [[1, 0], [0, 1]]
+    const unionFind = new UnionFind(m * m)
+    let slashCount = 0
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < m; col++) {
             if (matrix[row][col] === 1) {
-                numOfOnes++
+                slashCount++
                 continue
             }
             
-            for (const [dRow, dCol] of [[1, 0], [0, 1]]) {
-                const nRow = row + dRow
-                const nCol = col + dCol
+            for (const [deltaRow, deltaCol] of dirs) {
+                const nextRow = deltaRow + row
+                const nextCol = deltaCol + col
                 
-                if (nRow < 0 || nCol < 0 || 
-                    nRow >= matrix.length || nCol >= matrix[0].length || 
-                    matrix[nRow][nCol] === 1) continue
+                if (nextRow < 0 || nextRow >= m || 
+                    nextCol < 0 || nextCol >= m) continue
                 
-                unionFind.union(row * matrix.length + col, nRow * matrix.length + nCol)
+                if (matrix[nextRow][nextCol] === 1) continue
+                
+                unionFind.union(row * m + col, nextRow * m + nextCol)
             }
         }
     }
     
-    return unionFind.numOfComponents - numOfOnes
+    return unionFind.numOfComponents - slashCount
 };
 
 class UnionFind {
-    constructor(n) {
-        this.numOfComponents = n
-        this.sizes = Array(n).fill(1)
-        this.parents = Array(n).fill()
-        for (let i = 0; i < n; i++) {
-            this.parents[i] = i
-        }
-    }
-    
-    find(a) {
-        let root = this.parents[a]
-        while (root !== this.parents[root]) {
-            root = this.parents[root]
-        }
+    constructor(size) {
+        this.numOfComponents = size
         
-        while (a !== root) {
-            const next = this.parents[a]
-            this.parents[a] = root
-            a = next
+        this.sizes = []
+        this.parents = []
+        for (let i = 0; i < size; i++) {
+            this.sizes.push(1)
+            this.parents.push(i)
         }
-        
-        return root
     }
     
     union(a, b) {
@@ -26111,14 +26104,29 @@ class UnionFind {
         }
         
         if (this.sizes[parentA] < this.sizes[parentB]) {
-            this.sizes[parentB] += this.sizes[parentA]
+            this.sizes[parentB] = this.sizes[parentA]
             this.parents[parentA] = parentB
         } else {
-            this.sizes[parentA] += this.sizes[parentB]
+            this.sizes[parentB] = this.sizes[parentA]
             this.parents[parentB] = parentA
         }
         
         this.numOfComponents--
+    }
+    
+    find(a) {
+        let root = a
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (a !== root) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
     }
 }
 ```
