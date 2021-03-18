@@ -7595,25 +7595,30 @@ var nextGreaterElements = function(nums) {
 
 ## 1019. Next Greater Node In Linked List
 ```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {number[]}
+ */
 var nextLargerNodes = function(head) {
-    const seralize = head => {
-        const arr = []
-        while (head) {
-            arr.push(head.val)
-            head = head.next
-        }
-        return arr
-    }
+    const result = []
     
-    const arr = seralize(head)
-    const result = Array(arr.length).fill(0)
     const stack = []
+    while (head) {
+        while (stack.length && stack[stack.length - 1][1] < head.val) {
+            const [index, val] = stack.pop()
+            result[index] = head.val
+        }
         
-    for (let i = 0; i < arr.length; i++) {
-        while (stack.length && arr[stack[stack.length - 1]] < arr[i])
-            result[stack.pop()] = arr[i]
-        
-        stack.push(i)
+        stack.push([result.length, head.val])
+        result.push(0)
+        head = head.next
     }
     
     return result
