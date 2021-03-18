@@ -6268,29 +6268,34 @@ var getMinimumDifference = function(root) {
 
 ## 671. Second Minimum Node In a Binary Tree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var findSecondMinimumValue = function(root) {
-    const _findSecondMinimumValue = root => {
-        if (!root) return
+    const dfs = node => {
+        if (!node) return
         
-        if (min < root.val && root.val < secondMin) {
-            secondMin = root.val
-            return
+        if (node.val !== firstMin) {
+            secondMin = Math.min(secondMin, node.val)
         }
         
-        if (min === root.val) {
-            _findSecondMinimumValue(root.left)
-            _findSecondMinimumValue(root.right)   
-        }
+        dfs(node.left)
+        dfs(node.right)
     }
     
-    if (!root) return -1
-    
-    const min = root.val
-    let secondMin = Number.MAX_VALUE
-    
-    _findSecondMinimumValue(root)
-    
-    return secondMin === Number.MAX_VALUE ? -1 : secondMin
+    let firstMin = root.val
+    let secondMin = Infinity
+    dfs(root)
+    return secondMin === Infinity ? -1 : secondMin
 };
 ```
 
