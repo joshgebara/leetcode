@@ -6284,8 +6284,9 @@ var findSecondMinimumValue = function(root) {
     const dfs = node => {
         if (!node) return
         
-        if (node.val !== firstMin) {
-            secondMin = Math.min(secondMin, node.val)
+        if (firstMin < node.val && node.val < secondMin) {
+            secondMin = node.val
+            return
         }
         
         dfs(node.left)
