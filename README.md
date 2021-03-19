@@ -61301,3 +61301,72 @@ var isInterleave = function(s1, s2, s3) {
     return _isInterleave(0, 0)
 };
 ```
+
+## 391. Perfect Rectangle
+```javascript
+/**
+ * @param {number[][]} rectangles
+ * @return {boolean}
+ */
+var isRectangleCover = function(rectangles) {
+    let x1 = Infinity
+    let y1 = Infinity
+    
+    let x2 = -Infinity
+    let y2 = -Infinity
+    
+    const set = new Set()
+    let area = 0
+    
+    for (const [currX1, currY1, currX2, currY2] of rectangles) {
+        
+        x1 = Math.min(currX1, x1)
+        y1 = Math.min(currY1, y1)
+        
+        x2 = Math.max(currX2, x2)
+        y2 = Math.max(currY2, y2)
+        
+        area += (currX2 - currX1) * (currY2 - currY1)
+        
+        const point1Key = currX1 + " " + currY1
+        const point2Key = currX1 + " " + currY2
+        const point3Key = currX2 + " " + currY2
+        const point4Key = currX2 + " " + currY1
+        
+        // Each point expect the four corners of rectangular hull 
+        // must appear on even number of times. We are XORing here using a set
+        if (set.has(point1Key)) {
+            set.delete(point1Key)
+        } else {
+            set.add(point1Key)
+        }
+        
+        if (set.has(point2Key)) {
+            set.delete(point2Key)
+        } else {
+            set.add(point2Key)
+        }
+        
+        if (set.has(point3Key)) {
+            set.delete(point3Key)
+        } else {
+            set.add(point3Key)
+        }
+        
+        if (set.has(point4Key)) {
+            set.delete(point4Key)
+        } else {
+            set.add(point4Key)
+        }
+    }
+    
+    if (!set.has(x1 + " " + y1) || 
+        !set.has(x1 + " " + y2) || 
+        !set.has(x2 + " " + y1) || 
+        !set.has(x2 + " " + y2) || 
+        set.size !== 4) return false // four outer corners should appear once
+    
+    // area of rectangular hull should be equal to sum of areas of small rectangles
+    return area === (x2 - x1) * (y2 - y1)
+};
+```
