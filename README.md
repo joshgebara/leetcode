@@ -3229,22 +3229,34 @@ var defangIPaddr = function(address) {
 
 ## 804. Unique Morse Code Words
 ```javascript
-const map = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---",
-             "-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-",
-             "...-",".--","-..-","-.--","--.."]
-
-const transform = word => {    
-    return [...word].map(char => {
-        let code = char.charCodeAt(0) - 'a'.charCodeAt(0)
-        return map[code]
-    }).join('')
-}
-
+/**
+ * @param {string[]} words
+ * @return {number}
+ */
 var uniqueMorseRepresentations = function(words) {
-    let transformations = new Set()
-    for (let word of words) transformations.add(transform(word))
-    return transformations.size
+    const set = new Set()
+    
+    for (const word of words) {
+        set.add(getMorseCode(word))
+    }
+    
+    return set.size
 };
+
+const getMorseCode = word => {
+    const map = [".-","-...","-.-.","-..",".","..-.","--.","....",
+                 "..",".---","-.-",".-..","--","-.","---",".--.",
+                 "--.-",".-.","...","-","..-","...-",".--","-..-",
+                 "-.--","--.."]
+    const result = []
+    
+    for (const char of word) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        result.push(map[index])
+    }
+    
+    return result.join('')
+}
 ```
 
 ## 657. Robot Return to Origin
