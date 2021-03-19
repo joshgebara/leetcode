@@ -47883,42 +47883,37 @@ var isSolvable = function(words, result) {
  * @return {number}
  */
 var numSquarefulPerms = function(A) {
-    const _numSquarefulPerms = (curr, start) => {
-        if (start >= A.length) {
-            return 1
-        }
+    const _numSquarefulPerms = path => {
+        if (path.length >= A.length) return 1
         
         let count = 0
-        for (const key of Object.keys(counts)) {
-            if (counts[key] <= 0) continue
-            curr.push(+key)
+        for (const [key, val] of Object.entries(counts)) {
+            if (val <= 0) continue
+            if (path.length > 0 && !isPerfect(path[path.length - 1], +key)) continue
+            
             counts[key]--
+            path.push(+key)
             
-            const sum = curr[start] + curr[start - 1]
-            const sqrt = Math.sqrt(sum)
-            if (start === 0 || start > 0 && sqrt === Math.floor(sqrt)) {
-                count += _numSquarefulPerms(curr, start + 1)    
-            }
+            count += _numSquarefulPerms(path)
             
+            path.pop()
             counts[key]++
-            curr.pop()   
         }
         
         return count
     }
     
     const counts = {}
-    for (const a of A) {
-        counts[a] = 1 + (counts[a] || 0)
+    for (const num of A) {
+        counts[num] = 1 + (counts[num] || 0)
     }
     
-    return _numSquarefulPerms([], 0)
+    return _numSquarefulPerms([])
 };
 
-const swap = (arr, i, j) => {
-    const temp = arr[i]
-    arr[i] = arr[j]
-    arr[j] = temp
+const isPerfect = (num1, num2) => {
+    const sum = num1 + num2
+    return Math.trunc(Math.sqrt(sum)) === Math.sqrt(sum)
 }
 ```
 
