@@ -13116,23 +13116,28 @@ var detectCapitalUse = function(word) {
 
 ## 204. Count Primes
 ```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
 var countPrimes = function(n) {
-    const primes = Array(n).fill(true)
-    primes[0] = false
-    primes[1] = false
+    const sieve = new Array(n).fill(true)
+    sieve[0] = false
+    sieve[1] = false
     
-    for (let i = 2; i * i < n; i++) {
-        if (primes[i]) {
-            for (let j = i; j * i < n; j++) {
-                primes[i * j] = false
+    let count = 0
+    for (let num = 2; num < n; num++) {
+        if (sieve[num] === true) {
+            count++
+            let multiplier = 2
+            while (num * multiplier <= n) {
+                sieve[num * multiplier] = false
+                multiplier++
             }
         }
     }
     
-    return primes.reduce((result, ele) => {
-        if (!ele) return result
-        return result + 1
-    }, 0)
+    return count
 };
 ```
 
