@@ -33255,18 +33255,16 @@ HitCounter.prototype.getHits = function(timestamp) {
  * @return {number}
  */
 var goodNodes = function(root) {
-    const dfs = (node, max) => {
-        if (!node) return
-        if (node.val >= max) count++
+    const _goodNodes = (node, max) => {
+        if (!node) return 0
         
-        dfs(node.left, Math.max(max, node.val))
-        dfs(node.right, Math.max(max, node.val))
+        let count = node.val >= max
+        count += _goodNodes(node.left, Math.max(max, node.val))
+        count += _goodNodes(node.right, Math.max(max, node.val))
+        return count
     }
     
-    if (!root) return 0
-    let count = 0
-    dfs(root, root.val)
-    return count
+    return _goodNodes(root, -Infinity)
 };
 ```
 
