@@ -30566,9 +30566,9 @@ var destCity = function(paths) {
  * @param {number} capacity
  */
 var LRUCache = function(capacity) {
-    this.map = new Map()
-    this.list = new LinkedList()
     this.capacity = capacity
+    this.keyToNodeMap = {}
+    this.list = new DoublyLinkedList()
 };
 
 /** 
@@ -30576,10 +30576,14 @@ var LRUCache = function(capacity) {
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
-    const node = this.map.get(key)
-    if (!node) return -1
+    const node = this.keyToNodeMap[key]
+    if (node === undefined) {
+        return -1
+    }
     
-    this.list.moveToHead(node)
+    // move to node front of list
+    this.list.moveToFront(node)
+    
     return node.val
 };
 
@@ -30589,20 +30593,25 @@ LRUCache.prototype.get = function(key) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-    const node = this.map.get(key)
-    if (node) {
+    const node = this.keyToNodeMap[key]
+    if (node !== undefined) {
         node.val = value
-        this.list.moveToHead(node)
+        
+        // move to node front of list
+        this.list.moveToFront(node)
         return
     }
     
-    if (this.list.length === this.capacity) {
-        const tail = this.list.removeTail()
-        this.map.delete(tail.key)
+    // add node to head
+    const newNode = new Node(key, value)
+    this.keyToNodeMap[key] = newNode
+    this.list.insertAtHead(newNode)
+        
+    // if length over capacity evict tail
+    if (this.list.length > this.capacity) {
+        const tailNode = this.list.removeTail()
+        delete this.keyToNodeMap[tailNode.key]
     }
-    
-    const head = this.list.add(key, value)
-    this.map.set(key, head)
 };
 
 /** 
@@ -30612,61 +30621,56 @@ LRUCache.prototype.put = function(key, value) {
  * obj.put(key,value)
  */
 
-class LinkedList {
+class DoublyLinkedList {
     constructor() {
         this.length = 0
-        this.dummyHead = new Node()
-        this.dummyTail = new Node()
         
-        this.dummyHead.next = this.dummyTail
-        this.dummyTail.prev = this.dummyHead
+        this.head = new Node(NaN)
+        this.tail = new Node(NaN)
+        this.head.next = this.tail
+        this.tail.prev = this.head
     }
     
-    moveToHead(node) {
+    moveToFront(node) {
         this.remove(node)
-        this.addNode(node)
+        this.insertAtHead(node) 
     }
     
-    removeTail() {
-        return this.remove(this.dummyTail.prev)
+    insertAtHead(node) {
+        node.next = this.head.next
+        node.next.prev = node
+        this.head.next = node
+        node.prev = this.head
+        this.length++
     }
     
     remove(node) {
-        const prevNode = node.prev
-        const nextNode = node.next
+        const prev = node.prev
+        const next = node.next
         
-        nextNode.prev = prevNode
-        prevNode.next = nextNode
+        prev.next = next
+        next.prev = prev
+        node.prev = null
+        node.next = null
         
         this.length--
         
         return node
     }
     
-    add(key, value) {
-        const node = new Node(key, value)
-        return this.addNode(node)
-    }
-    
-    addNode(node) {
-        this.length++
+    removeTail() {
+        if (this.length === 0) {
+            return
+        }
         
-        const nextNode = this.dummyHead.next
-        
-        this.dummyHead.next = node
-        node.prev = this.dummyHead
-        node.next = nextNode
-        
-        nextNode.prev = node
-        
-        return node  
+        return this.remove(this.tail.prev)
     }
 }
 
 class Node {
-    constructor(key, val) {
+    constructor(key, value) {
         this.key = key
-        this.val = val
+        this.val = value
         this.prev = null
         this.next = null
     }
