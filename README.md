@@ -507,18 +507,18 @@ var maxSubArray = function(nums) {
     const _maxCrossing = (left, right, mid) => {
         if (left === right) return nums[left]
         
-        let leftSum = -Number.MAX_VALUE
+        let leftSum = -Infinity
         let currSum = 0
-        for (let i = mid; i > left - 1; i--) {
-          currSum += nums[i]
-          leftSum = Math.max(leftSum, currSum)
+        for (let i = mid; i >= left; i--) {
+            currSum += nums[i]
+            leftSum = Math.max(leftSum, currSum)
         }
 
-        let rightSum = -Number.MAX_VALUE
+        let rightSum = -Infinity
         currSum = 0
-        for (let i = mid + 1; i < right + 1; i++) {
-          currSum += nums[i]
-          rightSum = Math.max(rightSum, currSum)
+        for (let i = mid + 1; i <= right; i++) {
+            currSum += nums[i]
+            rightSum = Math.max(rightSum, currSum)
         }
 
         return leftSum + rightSum
