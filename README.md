@@ -471,6 +471,11 @@ var generate = function(numRows) {
 
 ## 53. Maximum Subarray
 ```javascript
+// Kadane's Algorithm
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var maxSubArray = function(nums) {
     let globalMax = nums[0]
     let localMax = nums[0]
