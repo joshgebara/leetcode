@@ -5599,56 +5599,74 @@ var swapPairs = function(head) {
 ## 25. Reverse Nodes in k-Group
 ```javascript
 // Iterative
-const reverse = (node, k) => {
-    let curr = node
-    let prev = null
-    let next = null
-    
-    while (k-- && curr) {
-        next = curr.next
-        curr.next = prev
-        prev = curr
-        curr = next
-    }
-    node.next = curr
-    return prev
-}
-
-const length = node => {
-    let count = 0
-    
-    while (node) {
-        node = node.next
-        count++
-    }
-    return count
-}
-
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
 var reverseKGroup = function(head, k) {
-    if (!head || k === 1) return head
+    if (k <= 1) return head
     
-    let count = length(head)
-    let currIndex = 0
-    
-    let dummy = new ListNode(NaN)
+    const dummy = new ListNode(NaN)
     dummy.next = head
-    
-    let prev = dummy
-    let curr = head
+    let curr = dummy
     
     while (curr) {
-        if (count - currIndex >= k)
-            prev.next = reverse(curr, k)
+        let runner = curr.next
         
-        currIndex += k
-        prev = curr
-        curr = curr.next
+        let i = 0
+        while (i < k && runner) {
+            runner = runner.next
+            i++
+        }
+        
+        if (i < k) break
+
+        const reversedTail = curr.next
+        const reversedHead = reverse(curr.next, runner)
+        
+        curr.next = reversedHead
+        reversedTail.next = runner
+        curr = reversedTail
     }
     
     return dummy.next
 };
 
+const reverse = (start, end) => {
+    let curr = start
+    let prev = null
+    
+    while (curr !== end) {
+        const next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    }
+    
+    return prev
+}
+
 // Recursive
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
 const reverse = head => {
     let curr = head
     let prev = null
