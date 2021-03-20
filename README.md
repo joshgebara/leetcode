@@ -61414,3 +61414,34 @@ var isRectangleCover = function(rectangles) {
     return area === (x2 - x1) * (y2 - y1)
 };
 ```
+
+## 240. Search a 2D Matrix II
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
+var searchMatrix = function(matrix, target) {
+    const m = matrix.length
+    const n = matrix[0].length
+    
+    let row = 0
+    let col = n - 1
+    
+    while (col >= 0 && row < m) {
+        if (matrix[row][col] === target) {
+            return true
+        }
+        
+        if (matrix[row][col] > target) {
+            col--
+            continue
+        }
+        
+        row++
+    }
+    
+    return false
+};
+```
