@@ -4339,32 +4339,21 @@ var minSubArrayLen = function(s, nums) {
 
 ## 151. Reverse Words in a String
 ```javascript
-const reverseSubseq = (arr, start, end) => {
-    while (start < end) {
-        [arr[start], arr[end]] = [arr[end], arr[start]]
-        
-        start++
-        end--
-    }
-}
-
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var reverseWords = function(s) {
-    const charArr = s.split(' ')
-                     .filter(str => str)
-                     .reverse()
+    const wordArr = s.split(' ')
+    wordArr.reverse()
     
-    let start = 0
-    for (let i = 0; i < charArr.length; i++) {
-        if (charArr[i] === " ") {
-            reverseSubseq(charArr, start, i-1)
-            start = i+1
-            continue
-        }
+    const result = []
+    for (const word of wordArr) {
+        if (word === '') continue
+        result.push(word)
     }
     
-    reverseSubseq(charArr, start, charArr.length - 1)
-    
-    return charArr.join(' ')
+    return result.join(' ')
 };
 ```
 
