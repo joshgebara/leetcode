@@ -53776,38 +53776,35 @@ var employeeFreeTime = function(schedule) {
  * @return {Interval[]}
  */
 var employeeFreeTime = function(schedule) {
-    if (!schedule.length) return []
-    
-    const startIntervals = []
+    const indices = []
     for (let i = 0; i < schedule.length; i++) {
-        startIntervals.push([i, 0])
+        indices.push([i, 0])
     }
     
-    const heap = new Heap(startIntervals, (a, b) => {
-        const [aE, aI] = a
-        const [bE, bI] = b
-        const aInterval = schedule[aE][aI]
-        const bInterval = schedule[bE][bI]
-        return aInterval.start < bInterval.start
+    const heap = new Heap(indices, ([aRow, aCol], [bRow, bCol]) => {
+        const intervalA = schedule[aRow][aCol]
+        const intervalB = schedule[bRow][bCol]
+        return intervalA.start < intervalB.start
     })
     
-    const result = []
+    const freeTimes = []
     let end = -Infinity
-    while (heap.size()) {
-        const [e, i] = heap.remove()
-        const next = schedule[e][i]
-        if (i < schedule[e].length - 1) {
-            heap.insert([e, i + 1])
+    while (heap.length()) {
+        const [topRow, topCol] = heap.remove()
+        const interval = schedule[topRow][topCol]
+        
+        if (topCol < schedule[topRow].length - 1) {
+            heap.insert([topRow, topCol + 1])
         }
         
-        if (next.start > end && end !== -Infinity) {
-            result.push(new Interval(end, next.start))
+        if (end !== -Infinity && end < interval.start) {
+            freeTimes.push(new Interval(end, interval.start))
         }
         
-        end = Math.max(next.end, end)
+        end = Math.max(interval.end, end)
     }
     
-    return result
+    return freeTimes
 };
 
 class Heap {
@@ -53898,7 +53895,7 @@ class Heap {
         return element
     }
 
-    size() {
+    length() {
         return this._elements.length
     }
     
