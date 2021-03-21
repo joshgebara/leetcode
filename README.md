@@ -20715,23 +20715,31 @@ const buildGraph = root => {
 
 ## 1026. Maximum Difference Between Node and Ancestor
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var maxAncestorDiff = function(root) {
-    const dfs = (node, max, min) => {
-        if (!node) {
-            maxDiff = Math.max(maxDiff, max - min)
-            return
-        }
+    const _maxAncestorDiff = (node, max, min) => {
+        if (!node) return max - min
         
         max = Math.max(node.val, max)
         min = Math.min(node.val, min)
         
-        dfs(node.left, max, min)
-        dfs(node.right, max, min)
+        const leftMax = _maxAncestorDiff(node.left, max, min)
+        const rightMax = _maxAncestorDiff(node.right, max, min)
+        return Math.max(leftMax, rightMax)
     }
     
-    let maxDiff = 0
-    dfs(root, root.val, root.val)
-    return maxDiff
+    return _maxAncestorDiff(root, -Infinity, Infinity)
 };
 ```
 
