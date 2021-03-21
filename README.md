@@ -8164,30 +8164,53 @@ var removeZeroSumSublists = function(head) {
 
 ## 138. Copy List with Random Pointer
 ```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val, next, random) {
+ *    this.val = val;
+ *    this.next = next;
+ *    this.random = random;
+ * };
+ */
+
+/**
+ * @param {Node} head
+ * @return {Node}
+ */
 var copyRandomList = function(head) {
-    if (!head) return head
-    
-    const map = new Map()
+    const copyMap = new Map()
     
     let curr = head
     while (curr) {
-        map.set(curr, new Node(curr.val))
+        copyMap.set(curr, new Node(curr.val))
         curr = curr.next
     }
     
     curr = head
     while (curr) {
-        if (curr.next) 
-            map.get(curr).next = map.get(curr.next)
-        if (curr.random) 
-            map.get(curr).random = map.get(curr.random)
+        const copyCurr = copyMap.get(curr)
+        copyCurr.next = (copyMap.get(curr.next) || null)
+        copyCurr.random = (copyMap.get(curr.random) || null)
         curr = curr.next
     }
     
-    return map.get(head)
+    return copyMap.get(head)
 };
 
 // O(1)
+/**
+ * // Definition for a Node.
+ * function Node(val, next, random) {
+ *    this.val = val;
+ *    this.next = next;
+ *    this.random = random;
+ * };
+ */
+
+/**
+ * @param {Node} head
+ * @return {Node}
+ */
 var copyRandomList = function(head) {
     if (!head) return head
     
@@ -60452,6 +60475,7 @@ var sortFeatures = function(features, responses) {
 
 ## 271. Encode and Decode Strings
 ```javascript
+// https://developer.mozilla.org/en-US/docs/Web/API/DOMString/Binary
 /**
  * Encodes a list of strings to a single string.
  *
