@@ -12677,6 +12677,10 @@ const dfs = (board, row, col, word) => {
 ## 200. Number of Islands
 ```javascript
 // DFS
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
 var numIslands = function(grid) {
     if (!grid.length || !grid[0].length)
         return 0
@@ -12707,6 +12711,10 @@ const dfs = (grid, row, col) => {
 }
 
 // BFS
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
 var numIslands = function(grid) {
     if (!grid.length || !grid[0].length)
         return 0
@@ -12746,78 +12754,79 @@ var numIslands = function(grid) {
  * @return {number}
  */
 var numIslands = function(grid) {
-    if (!grid.length) return 0
+    const dirs = [[1, 0], [0, 1]]
+    const rowLen = grid.length
+    const colLen = grid[0].length
     
-    const m = grid.length
-    const n = grid[0].length
-    let count = 0
-    
-    for (let row = 0; row < m; row++) {
-        for (let col = 0; col < n; col++) {
-            if (grid[row][col] === '1') {
-                count++
+    const unionFind = new UnionFind(rowLen * colLen)
+    let numOfWater = 0
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (grid[row][col] === '0') {
+                numOfWater++
+                continue
+            }
+            
+            for (const [deltaRow, deltaCol] of dirs) {
+                const nextRow = deltaRow + row
+                const nextCol = deltaCol + col
+                
+                if (nextRow < 0 || nextRow >= rowLen || 
+                    nextCol < 0 || nextCol >= colLen || 
+                    grid[nextRow][nextCol] === '0') continue
+                
+                unionFind.union(row * colLen + col, nextRow * colLen + nextCol)
             }
         }
     }
     
-    const set = new DisjointSet(m, n, count)
-    
-    for (let row = 0; row < m; row++) {
-        for (let col = 0; col < n; col++) {
-            if (grid[row][col] === '1') {
-                if (row + 1 < m && grid[row + 1][col] == '1') 
-                    set.union(row * n + col, (row + 1) * n + col)
-                if (col + 1 < n && grid[row][col + 1] == '1') 
-                    set.union(row * n + col, row * n + col + 1)
-            }
-        }
-    }
-    
-    return set.numOfComponents
+    return unionFind.numOfComponents - numOfWater
 };
 
-class DisjointSet {
-    constructor(row, col, count) {
-        this.numOfComponents = count
+class UnionFind {
+    constructor(size) {
+        this.numOfComponents = size
         
+        this.parents = []
         this.sizes = []
-        this.parent = []
-        
-        for (let i = 0; i < row * col; i++) {
-            this.parent.push(i)
+        for (let i = 0; i < size; i++) {
+            this.parents.push(i)
             this.sizes.push(1)
         }
     }
     
-    find(p) {
-        let root = p
-        while (root !== this.parent[root])
-            root = this.parent[root]
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
         
-        while (p !== root) {
-            const next = this.parent[p]
-            this.parent[p] = root
-            p = next
+        if (parentA === parentB) {
+            return
         }
         
-        return root
-    }
-    
-    union(p, q) {
-        const rootP = this.find(p)
-        const rootQ = this.find(q)
-        
-        if (rootP === rootQ) return 
-        
-        if (this.sizes[rootP] < this.sizes[rootQ]) {
-            this.sizes[rootQ] += this.sizes[rootP]
-            this.parent[rootP] = rootQ
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.parents[parentA] = parentB
+            this.sizes[parentB] += this.sizes[parentA]
         } else {
-            this.sizes[rootP] += this.sizes[rootQ]
-            this.parent[rootQ] = rootP
+            this.parents[parentB] = parentA
+            this.sizes[parentA] += this.sizes[parentB]
         }
         
         this.numOfComponents--
+    }
+    
+    find(a) {
+        let root = a
+        while (this.parents[root] !== root) {
+            root = this.parents[root]
+        }
+        
+        while (root !== a) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
     }
 }
 ```
