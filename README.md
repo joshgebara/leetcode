@@ -36343,23 +36343,22 @@ var combinationSum4 = function(nums, target) {
  * @return {number}
  */
 var change = function(amount, coins) {
-    const _change = (sum, i) => {
-        if (sum === amount)
-            return 1
+    const _change = (i, sum) => {
+        if (sum === amount) return 1
+        if (sum > amount || i >= coins.length) return 0
         
-        if (i >= coins.length || sum > amount) 
-            return 0
+        if (memo[i][sum] !== undefined) {
+            return memo[i][sum]
+        }
         
-        if (memo[sum][i] !== undefined) 
-            return memo[sum][i]
-        
-        memo[sum][i] = 0
-        memo[sum][i] += _change(sum + coins[i], i)
-        memo[sum][i] += _change(sum, i + 1)
-        return memo[sum][i]
+        let count = 0
+        count += _change(i, sum + coins[i])
+        count += _change(i + 1, sum)
+        memo[i][sum] = count
+        return count
     }
     
-    const memo = Array(amount).fill().map(a => Array(coins.length).fill())
+    const memo = new Array(coins.length).fill().map(a => new Array(amount))
     return _change(0, 0)
 };
 
