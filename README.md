@@ -29104,29 +29104,39 @@ var uniquePaths = function(m, n) {
 
 ## 63. Unique Paths II
 ```javascript
-// Top Down DP (TLE)
+// Top Down DP
 /**
  * @param {number[][]} obstacleGrid
  * @return {number}
  */
 var uniquePathsWithObstacles = function(obstacleGrid) {
     const _uniquePathsWithObstacles = (row, col) => {
-        if (row >= m || col >= n || obstacleGrid[row][col] === 1)
+        if (row < 0 || row >= m || col < 0 || col >= n) {
             return 0
+        }
         
-        if (row === m - 1 && col === n - 1)
+        if (obstacleGrid[row][col] === 1) {
+            return 0
+        }
+        
+        if (row === m - 1 && col === n - 1) {
             return 1
+        }
         
-        if (memo[row][col])
+        if (memo[row][col] !== undefined) {
             return memo[row][col]
+        }
         
-        memo[row][col] = _uniquePathsWithObstacles(row + 1, col) + _uniquePathsWithObstacles(row, col + 1)
-        return memo[row][col]
+        let count = 0
+        count += _uniquePathsWithObstacles(row + 1, col)
+        count += _uniquePathsWithObstacles(row, col + 1)
+        memo[row][col] = count
+        return count
     }
     
     const m = obstacleGrid.length
     const n = obstacleGrid[0].length
-    const memo = Array(m).fill(0).map(n => Array(n).fill(0))
+    const memo = new Array(m).fill().map(a => new Array(n))
     return _uniquePathsWithObstacles(0, 0)
 };
 
