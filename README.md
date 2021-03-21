@@ -28112,43 +28112,60 @@ const swap = (arr, i, j) => {
  * @return {number}
  */
 var maxLength = function(arr) {
-    const _maxLength = (count, i, used) => {
-        const state = `${i}-${used}`
-        if (memo[state] !== undefined) {
-            return memo[state]
-        }
-        
+    const _maxLength = (i, mask) => {
         if (i >= arr.length) {
-            return count
+            return countOnes(mask)
         }
         
-        memo[state] = count
-        for (let j = i; j < arr.length; j++) {
-            if (bitMap[j] === undefined || used & bitMap[j]) continue
-            const result = _maxLength(count + arr[j].length, j + 1, used | bitMap[j])
-            memo[state] = Math.max(memo[state], result)
+        const key = `${i}-${mask}`
+        if (memo[key] !== undefined) {
+            return memo[key]
         }
         
-        return memo[state]
-    }
-    
-    const bitMap = Array(arr.length).fill()
-    outer : for (let i = 0; i < arr.length; i++) {
-        const word = arr[i]
-        let mask = 0
-        for (const char of word) {
-            const usedChar = 1 << indexForChar(char)
-            if (mask & usedChar) continue outer
-            mask |= usedChar
+        let max = _maxLength(i + 1, mask)
+        
+        const currMask = getMask(arr[i])
+        if (currMask && allUnique(mask, currMask)) {
+            max = Math.max(max, _maxLength(i + 1, mask | currMask))
         }
-        bitMap[i] = mask
+        
+        memo[key] = max
+        return max
     }
     
     const memo = {}
-    return _maxLength(0, 0, 0)
+    return _maxLength(0, 0)
 };
 
-const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+const getMask = str => {
+    let mask = 0
+    for (const char of str) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        // if mask has repeat char return invalid mask
+        if (mask & 1 << index) {
+            return 0
+        }
+
+        mask |= 1 << index
+    }
+    
+    return mask
+}
+
+const allUnique = (mask1, mask2) => {
+    return countOnes(mask1 & mask2) === 0
+}
+
+const countOnes = mask => {
+    let count = 0
+    
+    while (mask) {
+        mask &= (mask - 1)
+        count++
+    }
+    
+    return count
+}
 ```
 
 ## 1215. Stepping Numbers
