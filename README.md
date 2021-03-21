@@ -8212,37 +8212,45 @@ var copyRandomList = function(head) {
  * @return {Node}
  */
 var copyRandomList = function(head) {
-    if (!head) return head
+    if (!head) return null
     
-    let curr = head
-    while (curr) {
-        let node = new Node(curr.val)
-        let next = curr.next
-        curr.next = node
-        node.next = next
+    // Interweave Original and Copy Nodes
+    let originalCurr = head
+    while (originalCurr) {
+        const originalNext = originalCurr.next
+        const copyCurr = new Node(originalCurr.val)
+        originalCurr.next = copyCurr
+        copyCurr.next = originalNext
+        originalCurr = originalNext
+    }
+    
+    // Link Random Pointers
+    originalCurr = head
+    while (originalCurr) {
+        if (originalCurr.random) {
+            const copyCurr = originalCurr.next
+            copyCurr.random = originalCurr.random.next    
+        }
         
-        curr = next
+        originalCurr = originalCurr.next.next
     }
     
-    curr = head
-    while (curr) {
-        if (curr.random)
-            curr.next.random = curr.random.next
-        curr = curr.next.next
+    // Get final copy list
+    const copyHead = head.next
+    originalCurr = head
+    while (originalCurr) {
+        const originalNext = originalCurr.next.next
+        const copyCurr = originalCurr.next
+        
+        originalCurr.next = originalNext
+        
+        if (originalNext)
+            copyCurr.next = originalNext.next
+        
+        originalCurr = originalCurr.next
     }
     
-    let dummy = new Node(NaN)
-    let p1 = dummy
-    let p2 = head
-    
-    while (p2) {
-        p1.next = p2.next
-        p1 = p1.next
-        p2.next = p2.next.next
-        p2 = p2.next
-    }
-    
-    return dummy.next
+    return copyHead
 };
 ```
 
