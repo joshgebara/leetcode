@@ -14009,33 +14009,39 @@ const format = time => {
 
 ## 1209. Remove All Adjacent Duplicates in String II
 ```javascript
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {string}
+ */
 var removeDuplicates = function(s, k) {
     const stack = []
-    
-    for (let char of s) {
+    for (let i = 0; i < s.length; i++) {
         if (!stack.length) {
-            stack.push([char, 1])
+            stack.push([s[i], 1])
             continue
         }
         
-        const [topChar, topCount] = stack[stack.length - 1]
-        
-        if (topChar === char) {
-            if (topCount + 1 !== k) {
-                stack.push([char, topCount + 1])    
-                continue
+        const top = stack[stack.length - 1]
+        if (top[0] === s[i]) {
+            top[1]++
+            
+            if (top[1] === k) {
+                stack.pop()
             }
             
-            let count = k
-            while (--count) 
-                stack.pop()
             continue
         }
         
-        stack.push([char, 1])
+        stack.push([s[i], 1])
     }
     
-    return stack.map(pair => pair[0]).join('')
+    const result = []
+    for (let i = 0; i < stack.length; i++) {
+        const [char, count] = stack[i]
+        result.push(char.repeat(count))
+    }
+    return result.join('')
 };
 ```
 
