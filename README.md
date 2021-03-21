@@ -20656,20 +20656,33 @@ var findBottomLeftValue = function(root) {
 
 ## 124. Binary Tree Maximum Path Sum
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var maxPathSum = function(root) {
-    const dfs = root => {
-        if (!root) return 0
+    const _maxPathSum = (node) => {
+        if (!node) return 0
         
-        const left = Math.max(dfs(root.left), 0)
-        const right = Math.max(dfs(root.right), 0)
+        const left = Math.max(_maxPathSum(node.left), 0)
+        const right = Math.max(_maxPathSum(node.right), 0)
         
-        sum = Math.max(sum, root.val + left + right)
-        return root.val + Math.max(left, right)
+        max = Math.max(max, node.val + left + right)
+        
+        return node.val + Math.max(left, right)
     }
     
-    let sum = -Number.MAX_VALUE
-    dfs(root)
-    return sum
+    let max = -Infinity
+    _maxPathSum(root)
+    return max
 };
 ```
 
