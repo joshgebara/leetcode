@@ -61403,3 +61403,46 @@ var searchMatrix = function(matrix, target) {
     return false
 };
 ```
+
+## 987. Vertical Order Traversal of a Binary Tree
+```javascript
+// DFS
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var verticalTraversal = function(root) {
+    const _verticalTraversal = (node, row, col) => {
+        if (!node) return
+        
+        if (!map[col]) map[col] = []
+        map[col].push([row, node.val])
+        
+        min = Math.min(min, col)
+        max = Math.max(max, col)
+        
+        _verticalTraversal(node.left, row + 1, col - 1)
+        _verticalTraversal(node.right, row + 1, col + 1)
+    }
+    
+    let min = Infinity
+    let max = -Infinity
+    const map = {}
+    _verticalTraversal(root, 0, 0)
+    
+    const result = []
+    for (let i = min; i <= max; i++) {
+        const sorted = map[i].sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(a => a[1])
+        result.push(sorted)
+    }
+    return result
+};
+```
