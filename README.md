@@ -37254,39 +37254,6 @@ var knightDialer = function(N) {
 
 ## 139. Word Break
 ```javascript
-// Top Down DP - Time: O(n^3) Space: O(n^2)
-/**
- * @param {string} s
- * @param {string[]} wordDict
- * @return {boolean}
- */
-var wordBreak = function(s, wordDict) {
-    const _wordBreak = (start, end) => {
-        if (start > end)
-            return false
-        
-        if (dict.has(s.slice(start, end + 1)))
-            return true
-        
-        if (memo[start][end] !== undefined) 
-            return memo[start][end]
-        
-        memo[start][end] = false
-        for (let k = start; k < end; k++) {
-            if (_wordBreak(start, k) && _wordBreak(k + 1, end)) {
-                memo[start][end] = true
-                return true
-            }
-        }
-        
-        return false
-    }
-    
-    const memo = Array(s.length).fill().map(a => Array(s.length).fill())
-    const dict = new Set(wordDict)
-    return _wordBreak(0, s.length - 1)
-};
-
 // Top Down DP - Time: O(n^3) Space: O(n)
 /**
  * @param {string} s
@@ -37295,25 +37262,30 @@ var wordBreak = function(s, wordDict) {
  */
 var wordBreak = function(s, wordDict) {
     const _wordBreak = start => {
-        if (start === s.length)
-            return true
+        if (start >= s.length) return true
         
-        if (memo[start] !== undefined)
+        if (memo[start] !== undefined) {
             return memo[start]
+        }
         
-        for (let end = start + 1; end <= s.length; end++) {
-            if (dict.has(s.slice(start, end)) && _wordBreak(end)) {
-                memo[start] = true
-                return true
-            }
+        for (let i = start; i < Math.min(start + maxLen, s.length); i++) {
+            const subtr = s.slice(start, i + 1)
+            if (!seen.has(subtr) || !_wordBreak(i + 1)) continue
+            memo[start] = true
+            return true
         }
         
         memo[start] = false
-        return false
+        return memo[start]
     }
     
-    const memo = Array(s.length).fill()
-    const dict = new Set(wordDict)
+    let maxLen = 0
+    for (const word of wordDict) {
+        maxLen = Math.max(maxLen, word.length)
+    }
+    
+    const seen = new Set(wordDict)
+    const memo = new Array(s.length)
     return _wordBreak(0)
 };
 
