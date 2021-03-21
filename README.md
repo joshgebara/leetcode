@@ -35423,105 +35423,13 @@ var shuffle = function(nums, n) {
 
 ## 1472. Design Browser History
 ```javascript
-// Doubly Linked List
-/**
- * @param {string} homepage
- */
-var BrowserHistory = function(homepage) {
-    this.history = new LinkedList()
-    this.history.add(homepage)
-};
-
-/**
- * @param {string} url
- * @return {void}
- */
-BrowserHistory.prototype.visit = function(url) {
-    this.history.add(url)
-};
-
-/** 
- * @param {number} steps
- * @return {string}
- */
-BrowserHistory.prototype.back = function(steps) {
-    return this.history.getReverse(steps)
-};
-
-/** 
- * @param {number} steps
- * @return {string}
- */
-BrowserHistory.prototype.forward = function(steps) {
-    return this.history.getForward(steps)
-};
-
-/** 
- * Your BrowserHistory object will be instantiated and called as such:
- * var obj = new BrowserHistory(homepage)
- * obj.visit(url)
- * var param_2 = obj.back(steps)
- * var param_3 = obj.forward(steps)
- */
-
-class LinkedList {
-    constructor() {
-        this.head = null
-        this.tail = null
-        this.curr = null
-    }
-    
-    add(val) {
-        const newNode = new Node(val)
-        
-        if (!this.head) {
-            this.head = newNode
-            this.tail = this.head
-            this.curr = this.head
-            return
-        }
-        
-        this.curr.next = newNode
-        newNode.prev = this.curr
-        this.curr = this.curr.next
-        this.tail = this.curr
-    }
-    
-    getReverse(steps) {
-        while (steps > 0 && this.curr.prev) {
-            this.curr = this.curr.prev
-            steps--
-        }
-        
-        return this.curr.val
-    }
-    
-    getForward(steps) {
-        while (steps > 0 && this.curr.next) {
-            this.curr = this.curr.next
-            steps--
-        }
-        
-        return this.curr.val
-    }
-}
-
-class Node {
-    constructor(val) {
-        this.val = val
-        this.next = null
-        this.prev = null
-    }
-}
-
-// O(1) Array with Bound
 /**
  * @param {string} homepage
  */
 var BrowserHistory = function(homepage) {
     this.history = [homepage]
-    this.bound = 0
-    this.curr = 0
+    this.currIndex = 0
+    this.rightIndex = 0
 };
 
 /** 
@@ -35529,15 +35437,9 @@ var BrowserHistory = function(homepage) {
  * @return {void}
  */
 BrowserHistory.prototype.visit = function(url) {
-    this.curr++
-    
-    if (this.curr === this.history.length) {
-        this.history.push(url)
-    } else {
-        this.history[this.curr] = url
-    }
-    
-    this.bound = this.curr
+    this.currIndex++
+    this.rightIndex = this.currIndex
+    this.history[this.currIndex] = url
 };
 
 /** 
@@ -35545,8 +35447,8 @@ BrowserHistory.prototype.visit = function(url) {
  * @return {string}
  */
 BrowserHistory.prototype.back = function(steps) {
-    this.curr = Math.max(this.curr - steps, 0)
-    return this.history[this.curr]
+    this.currIndex = Math.max(0, this.currIndex - steps)
+    return this.history[this.currIndex]
 };
 
 /** 
@@ -35554,8 +35456,8 @@ BrowserHistory.prototype.back = function(steps) {
  * @return {string}
  */
 BrowserHistory.prototype.forward = function(steps) {
-    this.curr = Math.min(this.curr + steps, this.bound)
-    return this.history[this.curr]
+    this.currIndex = Math.min(this.rightIndex, this.currIndex + steps)
+    return this.history[this.currIndex]
 };
 
 /** 
