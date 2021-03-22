@@ -2205,14 +2205,18 @@ var isAnagram = function(s, t) {
 
 ## 252. Meeting Rooms
 ```javascript
+/**
+ * @param {number[][]} intervals
+ * @return {boolean}
+ */
 var canAttendMeetings = function(intervals) {
-    if (intervals.length <= 1) return true
+    intervals.sort((a, b) => a[0] - b[0] || a[1] - b[1])
     
-    intervals.sort((a, b) => a[0] - b[0])
-    
-    for (let i = 1; i < intervals.length; i++)
-        if (intervals[i][0] < intervals[i - 1][1]) 
+    for (let i = 0; i < intervals.length - 1; i++) {
+        if (intervals[i + 1][0] < intervals[i][1]) {
             return false
+        }
+    }
     
     return true
 };
