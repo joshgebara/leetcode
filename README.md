@@ -9608,61 +9608,20 @@ var topKFrequent = function(words, k) {
 
 ## 442. Find All Duplicates in an Array
 ```javascript
-// Counting Sort
-var findDuplicates = function(nums) {
-    const counts = Array(nums.length + 1).fill(0)
-    
-    for (const num of nums)
-        counts[num]++
-    
-    const result = []
-    for (let i = 0; i < counts.length; i++)
-        if (counts[i] > 1)
-            result.push(i)
-    
-    return result
-};
-
-// Comparative Sort
-var findDuplicates = function(nums) {
-    nums = nums.sort((a, b) => a - b)
-    
-    let result = []
-    for (let i = 1; i < nums.length; i++) {
-        if (nums[i] === nums[i-1])
-            result.push(nums[i])
-    }
-    return result
-};
-
-// Set
-var findDuplicates = function(nums) {
-    const seen = new Set()
-    const result = []
-    
-    for (const num of nums) {
-        if (seen.has(num))
-            result.push(num)  
-        else
-            seen.add(num)
-    }
-    return result
-};
-
-// Mutate
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
 var findDuplicates = function(nums) {
     const result = []
-    
     for (const num of nums) {
         const index = Math.abs(num) - 1
-        const val = -1 * nums[index]
         
         if (nums[index] < 0) {
-            result.push(index + 1)
-            continue
+            result.push(Math.abs(num))
         }
         
-        nums[index] = val
+        nums[index] *= -1
     }
     
     return result
