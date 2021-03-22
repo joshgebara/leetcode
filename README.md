@@ -18543,28 +18543,33 @@ const buildGraph = words => {
 } 
 
 // Kahn's Algo
+/**
+ * @param {string[]} words
+ * @return {string}
+ */
 var alienOrder = function(words) {
     const [graph, degrees] = buildGraph(words)
     
-    const list = []
+    const queue = []
     for (const [vertex, degree] of Object.entries(degrees)) {
         if (degree === 0) {
-            list.push(vertex)
+            queue.push(vertex)
         }
     }
     
-    for (let i = 0; i < list.length; i++) {
-        const vertex = list[i]
+    for (let i = 0; i < queue.length; i++) {
+        const vertex = queue[i]
         if (graph[vertex]) {
-            graph[vertex].forEach(neighbor => {
-                if (--degrees[neighbor] === 0) {
-                    list.push(neighbor)
+            for (const neighbor of graph[vertex]) {
+                degrees[neighbor]--
+                if (degrees[neighbor] === 0) {
+                    queue.push(neighbor)
                 }
-            })
+            }
         }
     }
     
-    return list.length === Object.keys(graph).length ? list.join('') : ''
+    return queue.length === Object.keys(graph).length ? queue.join('') : ''
 };
 
 const buildGraph = words => {
@@ -18583,7 +18588,17 @@ const buildGraph = words => {
     for (let i = 0; i < words.length - 1; i++) {
         const currWord = words[i]
         const nextWord = words[i + 1]
-        for (let j = 0; j < Math.min(currWord.length, nextWord.length); j++) {
+        
+        for (let j = 0; j < Math.max(currWord.length, nextWord.length); j++) {
+            if (currWord[j] === undefined) {
+                break
+            }
+            
+            // Invalid ordering of input words ['abc', 'ab'] => ''
+            if (nextWord[j] === undefined) {
+                return [{}, {}]
+            }
+            
             if (currWord[j] !== nextWord[j]) {
                 if (!graph[currWord[j]].has(nextWord[j])) {
                     graph[currWord[j]].add(nextWord[j])
