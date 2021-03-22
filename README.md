@@ -16442,22 +16442,30 @@ var wordPattern = function(pattern, str) {
 
 ## 205. Isomorphic Strings
 ```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
 var isIsomorphic = function(s, t) {
-    if (s.length !== t.length) return false
+    const mapST = {}
+    const mapTS = {}
     
-    const map = {}
-    const seen = new Set()
-    
-    for (let i = 0; i < t.length; i++) {
-        if (!map[s[i]]) {
-            if (seen.has(t[i])) return false
-            
-            map[s[i]] = t[i]
-            seen.add(t[i])
+    for (let i = 0; i < s.length; i++) {
+        const sChar = s[i]
+        const tChar = t[i]
+        
+        if (mapST[sChar] === tChar && mapTS[tChar] === sChar) {
             continue
         }
         
-        if (map[s[i]] !== t[i]) return false
+        if (!mapST[sChar] && !mapTS[tChar]) {
+            mapST[sChar] = tChar
+            mapTS[tChar] = sChar
+            continue
+        }
+        
+        return false
     }
     
     return true
