@@ -27581,44 +27581,33 @@ var threeSum = function(nums) {
 
 ## 16. 3Sum Closest
 ```javascript
-// Brute Force
-var threeSumClosest = function(nums, target) {
-    let closest = Infinity
-    
-    for (let i = 0; i < nums.length - 2; i++) {
-        for (let j = i + 1; j < nums.length - 1; j++) {
-            for (let k = j + 1; k < nums.length; k++) {
-                const sum = nums[i] + nums[j] + nums[k]
-                if (Math.abs(sum - target) < Math.abs(closest - target)) {
-                    closest = sum
-                }
-            }
-        }
-    }
-    return closest
-};
-
 // O(n^2) Sorting
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
 var threeSumClosest = function(nums, target) {
     nums.sort((a, b) => a - b)
     
     let closest = Infinity
-    
-    for (let i = 0; i < nums.length - 2; i++) {
+    for (let i = 0; i < nums.length; i++) {
         let left = i + 1
         let right = nums.length - 1
         
         while (left < right) {
             const sum = nums[i] + nums[left] + nums[right]
             
-            if (sum > target) {
-                right--
-            } else {
-                left++
-            }
-            
             if (Math.abs(sum - target) < Math.abs(closest - target)) {
                 closest = sum
+            }
+            
+            if (sum === target) {
+                return target
+            } else if (sum < target) {
+                left++
+            } else {
+                right--
             }
         }
     }
