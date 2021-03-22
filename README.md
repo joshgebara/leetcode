@@ -61516,3 +61516,45 @@ var verticalTraversal = function(root) {
     return result
 };
 ```
+
+## 287. Find the Duplicate Number
+```javascript
+// Time: O(n), Space: O(1) - Modify
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findDuplicate = function(nums) {
+    for (const num of nums) {
+        const index = Math.abs(num)
+        if (nums[index] < 0) return index
+        nums[index] *= -1
+    }
+};
+
+// Time: O(n), Space: O(1) - Linked List Cycle
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findDuplicate = function(nums) {
+    let fast = nums[0]
+    let slow = nums[0]
+    
+    while (true) {
+        fast = nums[nums[fast]]
+        slow = nums[slow]
+        
+        if (fast === slow) break
+    }
+    
+    slow = nums[0]
+    
+    while (fast !== slow) {
+        fast = nums[fast]
+        slow = nums[slow]
+    }
+    
+    return slow
+};
+```
