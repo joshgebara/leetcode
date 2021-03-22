@@ -36607,15 +36607,23 @@ var isPathCrossing = function(path) {
  */
 var romanToInt = function(s) {
     const map = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 }
-    let result = 0
     
-    for (let i = 0; i < s.length; i++) {
-        const curr = map[s[i]]
-        const next = map[s[i + 1]]
-        result += curr < next ? -curr : curr
+    let int = 0
+    let i = 0
+    while (i < s.length) {
+        const curr = s[i]
+        const next = s[i + 1]
+        
+        if (next && map[curr] < map[next]) {
+            int += map[next] - map[curr]
+            i += 2
+        } else {
+            int += map[curr]
+            i++
+        }
     }
     
-    return result
+    return int
 };
 ```
 
