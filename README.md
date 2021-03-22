@@ -4324,20 +4324,29 @@ var longestCommonPrefix = function(strs) {
 
 ## 209. Minimum Size Subarray Sum
 ```javascript
-var minSubArrayLen = function(s, nums) {
-    let left = 0
-    let result = Number.MAX_VALUE
+/**
+ * @param {number} target
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minSubArrayLen = function(target, nums) {
+    let min = Infinity
     let sum = 0
-    
-    for (let i = 0; i < nums.length; i++) {
-        sum += nums[i]
-        while (sum >= s) {
-            result = Math.min(result, i + 1 - left)
-            sum -= nums[left++]
+    let left = 0
+    for (let right = 0; right < nums.length; right++) {
+        sum += nums[right]
+        
+        while (sum >= target) {
+            if (sum >= target) {
+                min = Math.min(min, right - left + 1)
+            }
+            
+            sum -= nums[left]
+            left++
         }
     }
     
-    return result !== Number.MAX_VALUE ? result : 0
+    return min === Infinity ? 0 : min
 };
 ```
 
