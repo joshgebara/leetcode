@@ -11363,7 +11363,12 @@ var sortList = function(head) {
 
 ## 207. Course Schedule
 ```javascript
-// DFS
+// DFS Top Sort
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */
 const buildGraph = edges => {
     const graph = {}
     
@@ -11410,6 +11415,11 @@ var canFinish = function(numCourses, prerequisites) {
 };
 
 // Kahn's Algorithm
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */
 var canFinish = function(numCourses, prerequisites) {
     const graph = buildAdjList(prerequisites)
     const degrees = getDegrees(graph, numCourses)
