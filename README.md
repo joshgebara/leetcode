@@ -21442,25 +21442,27 @@ class TrieNode {
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-    const _buildTree = (start, end) => {
-        if (start > end)
+    const _buildTree = (left, right) => {
+        if (left > right) {
             return null
+        }
         
         const val = preorder[i++]
         const node = new TreeNode(val)
         
-        const partitionIndex = map[val]
-        node.left = _buildTree(start, partitionIndex - 1)
-        node.right = _buildTree(partitionIndex + 1, end)
+        const mid = map[val]
+        node.left = _buildTree(left, mid - 1)
+        node.right = _buildTree(mid + 1, right)
         return node
     }
     
     const map = {}
-    for (let i = 0; i < inorder.length; i++)
+    for (let i = 0; i < inorder.length; i++) {
         map[inorder[i]] = i
+    }
     
     let i = 0
-    return _buildTree(0, inorder.length - 1)
+    return _buildTree(0, preorder.length - 1)
 };
 ```
 
