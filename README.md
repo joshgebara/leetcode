@@ -9672,17 +9672,24 @@ var findDuplicates = function(nums) {
 ## 153. Find Minimum in Rotated Sorted Array
 ```javascript
 // O(log n)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var findMin = function(nums) {
     let left = 0
     let right = nums.length - 1
     
     while (left < right) {
-        let mid = Math.floor((right - left) / 2) + left
+        const mid = Math.floor((right - left) / 2) + left
         
-        if (nums[mid] > nums[right]) {
-            left = mid + 1
-        } else {
+        // right side sorted
+        if (nums[mid] < nums[right]) {
             right = mid
+        } 
+        // left side sorted
+        else {
+            left = mid + 1
         }
     }
     
