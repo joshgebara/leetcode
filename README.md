@@ -16470,6 +16470,33 @@ var isIsomorphic = function(s, t) {
     
     return true
 };
+
+// Follow up group isomorphic strings. Use encode key for hash map
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isIsomorphic = function(s, t) {
+    return encode(s) === encode(t)
+};
+
+const encode = str => {
+    const result = []
+    
+    const map = {}
+    let count = 0
+    for (const char of str) {
+        if (map[char] === undefined) {
+            map[char] = count
+            count++
+        }
+        
+        result.push(map[char])
+    }
+    
+    return result.join('')
+}
 ```
 
 ## 371. Sum of Two Integers
