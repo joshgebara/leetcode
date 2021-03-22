@@ -6901,15 +6901,37 @@ var findMode = function(root) {
 
 ## 687. Longest Univalue Path
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var longestUnivaluePath = function(root) {
-    const _longestUnivaluePath = (node, val) => { 
-        if (!node) return 0
+    const _longestUnivaluePath = node => {
+        if (!node) return [null, 0]
         
-        let left = _longestUnivaluePath(node.left, node.val)
-        let right = _longestUnivaluePath(node.right, node.val)
-        max = Math.max(max, left + right)
+        const [leftVal, leftLen] = _longestUnivaluePath(node.left)
+        const [rightVal, rightLen] = _longestUnivaluePath(node.right)
         
-        return node.val === val ? Math.max(left, right) + 1 : 0
+        if (leftVal === node.val && rightVal === node.val) {
+            max = Math.max(max, leftLen + rightLen)
+            return [node.val, Math.max(leftLen, rightLen) + 1]
+        } else if (leftVal === node.val) {
+            max = Math.max(max, leftLen)
+            return [leftVal, leftLen + 1]
+        } else if (rightVal === node.val) {
+            max = Math.max(max, rightLen)
+            return [rightVal, rightLen + 1]
+        } else {
+            return [node.val, 1]
+        }
     }
     
     let max = 0
