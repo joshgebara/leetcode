@@ -18460,43 +18460,54 @@ const getDegrees = (graph, n) => {
 ## 269. Alien Dictionary
 ```javascript
 // DFS TopSort
-var alienOrder = function(words) {
+/**
+ * @param {string[]} words
+ * @return {string}
+ */
+var alienOrder = function(words) {    
+    const graph = buildGraph(words)
+    return topSort(graph)
+};
+
+const topSort = graph => {
     const dfs = vertex => {
         if (visiting.has(vertex)) {
-            cycle = true
-            return
+            return false
         }
         
-        if (visited.has(vertex)) 
-            return
+        if (visited.has(vertex)) {
+            return true
+        }
         
         visiting.add(vertex)
         
         if (graph[vertex]) {
-            graph[vertex].forEach(neighbor => {
-                if (!visited.has(neighbor)) {
-                    dfs(neighbor)
+            for (const neighbor of graph[vertex]) {
+                if (!dfs(neighbor)) {
+                    return false
                 }
-            })
+            }
         }
         
         visiting.delete(vertex)
         visited.add(vertex)
         result.push(vertex)
+        
+        return true
     }
     
-    const graph = buildGraph(words)
     const visited = new Set()
     const visiting = new Set()
     const result = []
-    let cycle = false
     
-    Object.keys(graph).forEach(vertex => dfs(vertex))
-    
-    if (cycle) return ""
+    for (const node of Object.keys(graph)) {
+        if (!dfs(node)) {
+            return ''
+        }
+    }
     
     return result.reverse().join('')
-};
+}
 
 const buildGraph = words => {
     const graph = {}
@@ -18511,7 +18522,16 @@ const buildGraph = words => {
         const currWord = words[i]
         const nextWord = words[i + 1]
         
-        for (let j = 0; j < Math.min(currWord.length, nextWord.length); j++) {
+        for (let j = 0; j < Math.max(currWord.length, nextWord.length); j++) {
+            if (currWord[j] === undefined) {
+                break
+            }
+            
+            // Invalid ordering of input words ['abc', 'ab'] => ''
+            if (nextWord[j] === undefined) {
+                return {}
+            }
+            
             if (currWord[j] !== nextWord[j]) {
                 graph[currWord[j]].push(nextWord[j])               
                 break
