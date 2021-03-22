@@ -35873,42 +35873,17 @@ var deleteNodes = function(head, m, n) {
  * @return {string[]}
  */
 var fizzBuzz = function(n) {
-    if (n === 1) return ['1']
-    
     const result = []
-    
-    for (let i = 1; i <= n; i++) {
-        if (i % 15 === 0) {
+    for (let num = 1; num <= n; num++) {
+        if (num % 15 === 0) {
             result.push('FizzBuzz')
-        } else if (i % 3 === 0) {
+        } else if (num % 3 === 0) {
             result.push('Fizz')
-        } else if (i % 5 === 0) {
+        } else if (num % 5 === 0) {
             result.push('Buzz')
         } else {
-            result.push(`${i}`)
+            result.push(`${num}`)
         }
-    }
-    
-    return result
-};
-
-/**
- * @param {number} n
- * @return {string[]}
- */
-var fizzBuzz = function(n) {
-    const result = []
-    const map = { 15: 'FizzBuzz', 3: 'Fizz', 5: 'Buzz' }
-    
-    for (let i = 1; i <= n; i++) {
-        let curr = ''
-        for (const [key, val] of Object.entries(map)) {
-            if (i % +key === 0) {
-                curr = val
-            }
-        }
-        
-        curr === '' ? result.push(`${i}`) : result.push(curr)
     }
     
     return result
