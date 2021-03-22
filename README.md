@@ -36085,73 +36085,23 @@ var runningSum = function(nums) {
 
 ## 120. Triangle
 ```javascript
-// Top Down DP
 /**
  * @param {number[][]} triangle
  * @return {number}
  */
 var minimumTotal = function(triangle) {
-    const _minimumTotal = (row, col) => {
-        if (row >= triangle.length) return 0
-        if (memo[row][col]) return memo[row][col]
+    for (let i = 1; i < triangle.length; i++) {
+        const prevRow = triangle[i - 1]
+        const row = triangle[i]
         
-        memo[row][col] = triangle[row][col] + Math.min(_minimumTotal(row + 1, col), 
-                                                       _minimumTotal(row + 1, col + 1))
-        return memo[row][col]
-    }
-    
-    const memo = Array(triangle.length).fill(0)
-    for (let i = 0; i < memo.length; i++) {
-        memo[i] = Array(triangle[i].length).fill(0)
-    }
-    
-    return _minimumTotal(0, 0)
-};
-
-// Bottom Up DP O(n^2) Space
-/**
- * @param {number[][]} triangle
- * @return {number}
- */
-var minimumTotal = function(triangle) {
-    const dp = Array(triangle.length).fill(0)
-    for (let i = 0; i < triangle.length; i++) {
-        dp[i] = Array(triangle[i].length).fill(Infinity)
-    }
-    
-    dp[0][0] = triangle[0][0]
-    
-    for (let i = 0; i < dp.length - 1; i++) {
-        for (let j = 0; j < dp[i].length; j++) {
-            dp[i + 1][j] = Math.min(dp[i + 1][j], triangle[i + 1][j] + dp[i][j])
-            dp[i + 1][j + 1] = Math.min(dp[i + 1][j + 1], triangle[i + 1][j + 1] + dp[i][j])
+        for (let j = 0; j < row.length; j++) {
+            const prevLeft = prevRow[j - 1] === undefined ? Infinity : prevRow[j - 1]
+            const prevRight = prevRow[j] === undefined ? Infinity : prevRow[j]
+            row[j] += Math.min(prevLeft, prevRight)
         }
     }
     
-    return Math.min(...dp[dp.length - 1])
-};
-
-// Bottom Up DP O(n) Space
-/**
- * @param {number[][]} triangle
- * @return {number}
- */
-var minimumTotal = function(triangle) {
-    let prevRow = Array(triangle.length).fill(Infinity)
-    prevRow[0] = triangle[0][0]
-    
-    for (let i = 0; i < triangle.length - 1; i++) {
-        const currRow = Array(triangle.length).fill(Infinity)
-        
-        for (let j = 0; j < triangle[i].length; j++) {
-            currRow[j] = Math.min(currRow[j], triangle[i + 1][j] + prevRow[j])
-            currRow[j + 1] = Math.min(currRow[j + 1], triangle[i + 1][j + 1] + prevRow[j])
-        }
-        
-        prevRow = currRow
-    }
-    
-    return Math.min(...prevRow)
+    return Math.min(...triangle[triangle.length - 1])
 };
 ```
 
