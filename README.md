@@ -38442,29 +38442,21 @@ var lenLongestFibSubseq = function(A) {
 var convert = function(s, numRows) {
     if (numRows === 1) return s
     
-    const map = {}
-    let currRow = 0
-    let goingDown = false
+    const matrix = new Array(numRows + 1).fill().map(a => [])
     
+    let row = 0
+    let dir = -1
     for (const char of s) {
-        if (!map[currRow]) map[currRow] = []
-        map[currRow].push(char)
+        matrix[row].push(char)
         
-        if (currRow === 0 || currRow === numRows - 1) {
-            goingDown = !goingDown
+        if (row === 0 || row === numRows - 1) {
+            dir *= -1
         }
         
-        currRow += goingDown ? 1 : -1
+        row += dir
     }
     
-    const result = Array(s.length)
-    for (const row of Object.values(map)) {
-        for (const char of row) {
-            result.push(char)
-        }
-    }
-    
-    return result.join('')
+    return matrix.flat().join('')
 };
 ```
 
