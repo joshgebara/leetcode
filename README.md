@@ -26771,9 +26771,12 @@ var findPeakElement = function(nums) {
 
 ## 74. Search a 2D Matrix
 ```javascript
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
 var searchMatrix = function(matrix, target) {
-    if (!matrix.length) return false
-    
     const m = matrix.length
     const n = matrix[0].length
     
@@ -26782,16 +26785,18 @@ var searchMatrix = function(matrix, target) {
     
     while (left <= right) {
         const mid = Math.floor((right - left) / 2) + left
-        const row = Math.floor(mid / n)
+        
+        const row = Math.trunc(mid / n)
         const col = mid % n
         
-        if (matrix[row][col] === target)
+        if (matrix[row][col] === target) {
             return true
+        }
         
-        if (matrix[row][col] > target) {
-            right = mid - 1
-        } else {
+        if (matrix[row][col] < target) {
             left = mid + 1
+        } else {
+            right = mid - 1
         }
     }
     
