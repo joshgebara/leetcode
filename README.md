@@ -22492,41 +22492,64 @@ var findOcurrences = function(text, first, second) {
 
 ## 438. Find All Anagrams in a String
 ```javascript
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {number[]}
+ */
 var findAnagrams = function(s, p) {
+    if (s.length < p.length) return []
+    
     const result = []
     
-    const pMap = {}
-    for (const char of p)
-        pMap[char] = 1 + (pMap[char] || 0)
-    
-    const sMap = {}
-    for (let i = 0; i < p.length; i++)
-        sMap[s[i]] = 1 + (sMap[s[i]] || 0)
-    
-    for (let i = p.length; i < s.length; i++) {
-        if (isMatch(pMap, sMap))
-            result.push(i - p.length)
-        
-        if (!sMap[s[i]])
-            sMap[s[i]] = 0
-        
-        sMap[s[i]]++
-        sMap[s[i - p.length]]--
+    const pCount = new Array(26).fill(0)
+    for (const char of p) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        pCount[index]++
     }
     
-    if (isMatch(pMap, sMap))
-        result.push(s.length - p.length)
+    const sCount = new Array(26).fill(0)
+    for (let right = 0; right < p.length; right++) {
+        const rightChar = s[right]
+        const rightCharIndex = indexForChar(rightChar)
+        sCount[rightCharIndex]++
+    }
+    
+    if (equal(sCount, pCount)) {
+        result.push(0)
+    }
+    
+    let left = 0
+    for (let right = p.length; right < s.length; right++) {
+        const leftCharIndex = indexForChar(s[left])
+        sCount[leftCharIndex]--
+        left++
+        
+        const rightCharIndex = indexForChar(s[right])
+        sCount[rightCharIndex]++
+        
+        if (equal(sCount, pCount)) {
+            result.push(left)
+        }    
+    }
     
     return result
 };
 
-const isMatch = (map1, map2) => {
-    for (const key of Object.keys(map1)) {
-        if (map1[key] !== map2[key])
+const equal = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+        return false
+    }
+    
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
             return false
+        }
     }
     return true
 }
+
+const indexForChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
 ```
 
 ## 1052. Grumpy Bookstore Owner
