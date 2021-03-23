@@ -14811,23 +14811,24 @@ var combinationSum2 = function(candidates, target) {
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
-    const _combinationSum = (curr, sum, start) => {
-        if (sum > target) return
-        
-        if (sum === target) {
-            result.push(curr.slice())
+    const _combinationSum = (index, sum) => {
+        if (target === sum) {
+            result.push(path.slice())
             return
         }
         
-        for (let i = start; i < candidates.length; i++) {
-            curr.push(candidates[i])
-            _combinationSum(curr, sum + candidates[i], i)
-            curr.pop()
-        }
+        if (sum > target || index >= candidates.length) return
+        
+        path.push(candidates[index])
+        _combinationSum(index, sum + candidates[index])
+        path.pop()
+        
+        _combinationSum(index + 1, sum)
     }
     
     const result = []
-    _combinationSum([], 0, 0)
+    const path = []
+    _combinationSum(0, 0)
     return result
 };
 ```
