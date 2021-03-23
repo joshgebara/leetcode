@@ -20564,24 +20564,36 @@ var lemonadeChange = function(bills) {
 
 ## 129. Sum Root to Leaf Numbers
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var sumNumbers = function(root) {
-    const dfs = (node, currNum) => {
+    const _sumNumbers = (node, pathNum) => {
         if (!node) return
         
-        currNum *= 10
-        currNum += node.val
+        pathNum *= 10
+        pathNum += node.val
         
         if (!node.left && !node.right) {
-            sum += currNum
+            sum += pathNum
             return
         }
         
-        dfs(node.left, currNum)
-        dfs(node.right, currNum)
+        _sumNumbers(node.left, pathNum)
+        _sumNumbers(node.right, pathNum)
     }
     
     let sum = 0
-    dfs(root, 0)
+    _sumNumbers(root, 0)
     return sum
 };
 ```
