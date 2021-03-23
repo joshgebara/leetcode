@@ -4001,20 +4001,33 @@ var addToArrayForm = function(A, K) {
 
 ## 189. Rotate Array
 ```javascript
-const rotateSubarray = (arr, left, right) => {
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var rotate = function(nums, k) {
+    k %= nums.length
+    
+    reverse(nums, 0, nums.length - 1)
+    reverse(nums, 0, k - 1)
+    reverse(nums, k, nums.length - 1)
+};
+
+const reverse = (arr, left, right) => {
     while (left < right) {
-        [arr[left], arr[right]] = [arr[right], arr[left]]
+        swap(arr, left, right)
+        
         left++
         right--
     }
 }
 
-var rotate = function(nums, k) {
-    k %= nums.length
-    nums.reverse()
-    rotateSubarray(nums, 0, k - 1)
-    rotateSubarray(nums, k, nums.length - 1)
-};
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
 ```
 
 ## 605. Can Place Flowers
