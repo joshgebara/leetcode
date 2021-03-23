@@ -4641,13 +4641,13 @@ var isSymmetric = function(root) {
         if (!node1 && !node2) return true
         if (!node1 || !node2) return false
         
-        return node1.val === node2.val &&
-               _isSymmetric(node1.left, node2.right) &&
+        if (node1.val !== node2.val) return false
+        
+        return _isSymmetric(node1.left, node2.right) && 
                _isSymmetric(node1.right, node2.left)
     }
     
-    if (!root) return true
-    return _isSymmetric(root.left, root.right)
+    return _isSymmetric(root, root)
 };
 
 // Iterative
