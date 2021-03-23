@@ -56106,7 +56106,7 @@ var arrayNesting = function(nums) {
             nums[temp] = Infinity
         }
         
-        if (count > nums.length / 2) return count
+        if (count >= nums.length / 2) return count
         max = Math.max(max, count)
     }
     
