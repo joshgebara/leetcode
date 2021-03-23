@@ -14355,60 +14355,55 @@ const isOdd = num => num & 1
 
 ## 73. Set Matrix Zeroes
 ```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
 var setZeroes = function(matrix) {
-    const height = matrix.length
-    const width = matrix[0].length
-    
-    let firstRowZero = false
-    for (let col = 0; col < width; col++) {
-        if (matrix[0][col] === 0) {
-            firstRowZero = true
-            break
-        }
-    }
-    
-    for (let row = 1; row < height; row++) {
-        for (let col = 0; col < width; col++) {
-            if (matrix[row][col] === 0)
-                matrix[0][col] = 0
-        }
-    }
-    
-    for (let row = 1; row < height; row++) {
-        for (let col = 0; col < width; col++) {
-            if (matrix[row][col] === 0) {
-                fillRow(row, matrix, width)
-                break
-            }
-        }
-    }
-    
-    for (let col = 0; col < width; col++) {
-        if (matrix[0][col] === 0) {
-            fillCol(col, matrix, height)
-        }
-    }
-    
-    if (firstRowZero) {
-        for (let col = 0; col < width; col++) {
+    let zeroInFirstRow = false
+    let zeroInFirstCol = false
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[0].length; col++) {
+            if (matrix[row][col] !== 0) continue
+            
+            if (row === 0) zeroInFirstRow = true
+            if (col === 0) zeroInFirstCol = true
+            
+            matrix[row][0] = 0
             matrix[0][col] = 0
         }
     }
     
-    return matrix
-};
-
-const fillRow = (row, matrix, height) => {
-    for (let col = 0; col < height; col++) {
-        matrix[row][col] = 0
-    }    
-}
-
-const fillCol = (col, matrix, width) => {
-    for (let row = 0; row < width; row++) {
-        matrix[row][col] = 0
+    // Set all zeros except for first row
+    for (let row = 1; row < matrix.length; row++) {
+        if (matrix[row][0] !== 0) continue
+        for (let col = 1; col < matrix[0].length; col++) {
+            matrix[row][col] = 0
+        }
     }
-}
+    
+    // Set all zeros except for first col
+    for (let col = 1; col < matrix[0].length; col++) {
+        if (matrix[0][col] !== 0) continue
+        for (let row = 1; row < matrix.length; row++) {
+            matrix[row][col] = 0
+        }
+    }
+    
+    // Set all zeros in first row
+    if (zeroInFirstRow) {
+        for (let col = 0; col < matrix[0].length; col++) {
+            matrix[0][col] = 0
+        }
+    }
+    
+    // Set all zeros in first col
+    if (zeroInFirstCol) {
+        for (let row = 0; row < matrix.length; row++) {
+            matrix[row][0] = 0
+        }
+    }
+};
 ```
 
 ## 541. Reverse String II
