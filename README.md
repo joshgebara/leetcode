@@ -61533,3 +61533,46 @@ var findDuplicate = function(nums) {
     return slow
 };
 ```
+
+## 109. Convert Sorted List to Binary Search Tree
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {TreeNode}
+ */
+var sortedListToBST = function(head) {
+    const _sortedListToBST = (left, right) => {
+        if (left > right) return null
+        
+        const mid = Math.floor((right - left) / 2) + left
+        const node = new TreeNode(arr[mid])
+        node.left = _sortedListToBST(left, mid - 1)
+        node.right = _sortedListToBST(mid + 1, right)
+        return node
+    }
+    
+    const arr = []
+    let node = head
+    while (node) {
+        arr.push(node.val)
+        node = node.next
+    }
+    
+    return _sortedListToBST(0, arr.length - 1)
+};
+```
