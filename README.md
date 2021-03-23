@@ -2839,22 +2839,21 @@ var closestValue = function(root, target) {
 ## 852. Peak Index in a Mountain Array
 ```javascript
 /**
- * @param {number[]} A
+ * @param {number[]} arr
  * @return {number}
  */
-var peakIndexInMountainArray = function(A) {
-    let left = 0
-    let right = A.length - 1
+var peakIndexInMountainArray = function(arr) {
+    let left = 1
+    let right = arr.length - 2
     
     while (left < right) {
         const mid = Math.floor((right - left) / 2) + left
         
-        if (A[mid] > A[mid + 1]) {
+        if (arr[mid] > arr[mid + 1]) {
             right = mid
         } else {
             left = mid + 1
         }
-        
     }
     
     return left
