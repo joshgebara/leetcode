@@ -26784,7 +26784,7 @@ var searchMatrix = function(matrix, target) {
     let right = m * n - 1
     
     while (left <= right) {
-        const mid = Math.floor((right - left) / 2) + left
+        const mid = Math.trunc((right - left) / 2) + left
         
         const row = Math.trunc(mid / n)
         const col = mid % n
