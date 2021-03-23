@@ -9558,53 +9558,62 @@ class Heap {
  * @return {number}
  */
 var findKthLargest = function(nums, k) {
-    return quickSelect(nums, k)
+    return quickSelect(nums, nums.length - k)
 };
 
-const quickSelect = (arr, k) => {
-    const target = arr.length - k
+const quickSelect = (nums, k) => {
     let left = 0
-    let right = arr.length - 1
+    let right = nums.length - 1
     
     while (left <= right) {
         const randomIndex = random(left, right)
-        const temp = arr[randomIndex]
-        arr[randomIndex] = arr[right]
-        arr[right] = temp
+        swap(nums, left, right)
         
-        const partitionIndex = partition(arr, left, right)
-        if (partitionIndex === target) {
-            return arr[partitionIndex]
-        } else if (partitionIndex < target) {
+        const partitionIndex = partition(nums, left, right)
+        if (partitionIndex === k) {
+            return nums[k]
+        }
+        
+        if (partitionIndex < k) {
             left = partitionIndex + 1
         } else {
             right = partitionIndex - 1
         }
     }
-}
-
-const random = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-const partition = (arr, left, right) => {
-    const pivot = arr[right]
-    let i = left - 1
     
-    for (let j = left; j <= right; j++) {
-        if (arr[j] <= pivot) {
+    return -1
+}
+
+const partition = (arr, low, high) => {
+    let i = low - 1
+    for (let j = low; j < high; j++) {
+        if (arr[j] < arr[high]) {
             i++
-            
-            const temp = arr[i]
-            arr[i] = arr[j]
-            arr[j] = temp
+            swap(arr, i, j)
         }
     }
     
+    i++
+    swap(arr, i, high)
     return i
 }
 
+const random = (low, high) => {
+    return Math.floor(Math.random() * (high - low + 1)) + low
+}
+
+const swap = (arr, i, j) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
 // Counting Sort
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 var findKthLargest = function(nums, k) {
     let max = null
     let min = null
