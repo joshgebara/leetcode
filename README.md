@@ -47198,22 +47198,20 @@ var WordDictionary = function() {
     this.trie = new Trie()
 };
 
-/**
- * Adds a word into the data structure. 
+/** 
  * @param {string} word
  * @return {void}
  */
 WordDictionary.prototype.addWord = function(word) {
-    this.trie.insert(word)
+    this.trie.add(word)
 };
 
-/**
- * Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. 
+/** 
  * @param {string} word
  * @return {boolean}
  */
 WordDictionary.prototype.search = function(word) {
-    return this.trie.search(word)
+    return this.trie.has(word)
 };
 
 /** 
@@ -47228,37 +47226,44 @@ class Trie {
         this.root = new TrieNode()
     }
     
-    insert(word) {
+    add(word) {
         let curr = this.root
         for (const char of word) {
-            if (!curr.children[char]) {
+            if (curr.children[char] === undefined) {
                 curr.children[char] = new TrieNode(char)
             }
+            
             curr = curr.children[char]
         }
+        
         curr.isEnd = true
     }
     
-    search(word) {
-        const _search = (curr, i) => {
-            if (!curr) return false
-            if (i === word.length) return curr.isEnd
-            
-            const char = word[i]
-            if (char === '.') {
-                for (const [key, node] of Object.entries(curr.children)) {
-                    if (_search(node, i + 1)) {
-                        return true
+    has(word) {
+        const _has = (startIndex, curr) => {
+            for (let i = startIndex; i < word.length; i++) {
+                const char = word[i]
+
+                if (word[i] === '.') {
+                    for (const [key, node] of Object.entries(curr.children)) {
+                        if (_has(i + 1, node)) {
+                            return true
+                        }
                     }
+                    return false
                 }
-                return false
+
+                if (curr.children[char] === undefined) {
+                    return false
+                }
+                
+                curr = curr.children[char]
             }
-            
-            const nextNode = curr.children[char]
-            return _search(nextNode, i + 1)
+
+            return curr.isEnd
         }
         
-        return _search(this.root, 0)
+        return _has(0, this.root)
     }
 }
 
