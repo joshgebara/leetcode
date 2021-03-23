@@ -18205,30 +18205,38 @@ const swap = (arr, i, j) => {
 
 ## 93. Restore IP Addresses
 ```javascript
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
 var restoreIpAddresses = function(s) {
-    const _restoreIpAddresses = (curr, index) => {
-        if (curr.length === 4 && index === s.length) {
-            result.push(curr.join('.'))
+    const _restoreIpAddresses = (index, address) => {
+        if (address.length === 4 && index === s.length) {
+            result.push(address.join('.'))
             return
         }
         
-        if (curr.length >= 4 || index >= s.length)
+        if (address.length >= 4 || index >= s.length) {
             return
+        }
         
-        
+        let num = 0
         for (let i = index; i < index + 3; i++) {
-            const part = s.slice(index, i + 1)
-            const num = +part
-            if (part.length > 1 && part[0] === '0' || num > 255) return
+            if (i > index && num === 0) return
             
-            curr.push(num)
-            _restoreIpAddresses(curr, i + 1)
-            curr.pop()
+            num *= 10
+            num += +s[i]
+            
+            if (num > 255) return
+            
+            address.push(num)
+            _restoreIpAddresses(i + 1, address)
+            address.pop()
         }
     }
     
     const result = []
-    _restoreIpAddresses([], 0)
+    _restoreIpAddresses(0, [])
     return result
 };
 ```
