@@ -61450,3 +61450,37 @@ var sortedListToBST = function(head) {
     return _sortedListToBST(0, arr.length - 1)
 };
 ```
+
+## 813. Largest Sum of Averages
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number} K
+ * @return {number}
+ */
+var largestSumOfAverages = function(A, K) {
+    const _largestSumOfAverages = (index, group) => {
+        if (index >= A.length) return 0
+        if (group >= K) return -Infinity
+        
+        if (memo[index][group] !== undefined) {
+            return memo[index][group]
+        }
+        
+        let max = 0
+        let groupSum = 0
+        for (let i = index; i < A.length; i++) {
+            groupSum += A[i]
+            
+            const totalSum = _largestSumOfAverages(i + 1, group + 1)
+            max = Math.max(max, totalSum + groupSum / (i - index + 1))
+        }
+        
+        memo[index][group] = max
+        return max
+    }
+    
+    const memo = new Array(A.length).fill().map(a => new Array(K))
+    return _largestSumOfAverages(0, 0)
+};
+```
