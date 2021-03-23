@@ -25990,31 +25990,46 @@ const buildGraph = (edges, n) => {
 
 ## 971. Flip Binary Tree To Match Preorder Traversal
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number[]} voyage
+ * @return {number[]}
+ */
 var flipMatchVoyage = function(root, voyage) {
-    const dfs = node => {
-        if (!node) return
+    const _flipMatchVoyage = (node) => {
+        if (!node) return true
         
-        if (node.val !== voyage[i++]) {
-            flipped = [-1]
-            return
+        if (node.val !== voyage[i]) {
+            return false
+        }
+        i++
+        
+        if (node.left && node.left.val !== voyage[i]) {
+            const temp = node.left
+            node.left = node.right
+            node.right = temp
+            nodes.push(node.val)
         }
         
-        if (node.left && node.left.val != voyage[i]) {
-            flipped.push(node.val)
-            dfs(node.right)
-            dfs(node.left)
-        } else {
-            dfs(node.left)
-            dfs(node.right)
-        }
+        return _flipMatchVoyage(node.left) && _flipMatchVoyage(node.right)
     }
     
-    let flipped = []
+    const nodes = []
     let i = 0
     
-    dfs(root)
+    if (!_flipMatchVoyage(root)) {
+        return [-1]
+    }
     
-    return flipped
+    return nodes
 };
 ```
 
