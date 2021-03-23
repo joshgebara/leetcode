@@ -40251,7 +40251,10 @@ var TimeMap = function() {
  * @return {void}
  */
 TimeMap.prototype.set = function(key, value, timestamp) {
-    if (!this.map[key]) this.map[key] = []
+    if (this.map[key] === undefined) {
+        this.map[key] = []
+    }
+    
     this.map[key].push([value, timestamp])
 };
 
@@ -40279,7 +40282,7 @@ const binarySearch = (arr, target) => {
     let right = arr.length
     
     while (left < right) {
-        const mid = Math.floor((right - left) / 2) + left
+        const mid = Math.trunc((right - left) / 2) + left
         
         if (arr[mid][1] <= target) {
             left = mid + 1
@@ -40288,7 +40291,7 @@ const binarySearch = (arr, target) => {
         }
     }
     
-    return left === 0 ? -1 : left - 1
+    return left - 1
 }
 ```
 
