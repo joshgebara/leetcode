@@ -10429,151 +10429,39 @@ var rearrangeString = function(s, k) {
 
 ## 1054. Distant Barcodes
 ```javascript
-class Heap {
-    constructor(elements, sortBy) {
-        this.elements = elements
-        this.sortBy = sortBy
-        
-        if (this.elements.length)
-            this.heapify()
-    }
-    
-    heapify() {
-        for (let i = Math.floor(this.elements.length / 2) + 1; i >= 0; i--)
-            this.siftDown(i)
-    }
-    
-    siftDown(index) {
-        let parent = index || 0
-        while (true) {
-            let left = this.leftChildIndex(parent)
-            let right = this.rightChildIndex(parent)
-            let candidate = parent
-            
-            if (left < this.elements.length && this.sortBy(this.elements[left], this.elements[candidate]))
-                candidate = left
-                
-            if (right < this.elements.length && this.sortBy(this.elements[right], this.elements[candidate]))
-                candidate = right
-            
-            if (candidate === parent) return
-            
-            let temp = this.elements[parent]
-            this.elements[parent] = this.elements[candidate]
-            this.elements[candidate] = temp
-            
-            parent = candidate
-        }
-    }
-    
-    siftUp(index) {
-        let child = index || this.elements.length - 1
-        let parent = this.parentIndex(child)
-        
-        while (child > 0 && this.sortBy(this.elements[child], this.elements[parent])) {
-            let temp = this.elements[child]
-            this.elements[child] = this.elements[parent]
-            this.elements[parent] = temp
-            
-            child = parent
-            parent = this.parentIndex(child)
-        }
-    }
-    
-    insert(val) {
-        this.elements.push(val)
-        this.siftUp()
-    }
-    
-    remove() {
-        if (!this.elements.length) return null
-        
-        let temp = this.elements[0]
-        this.elements[0] = this.elements[this.elements.length - 1]
-        this.elements[this.elements.length - 1] = temp
-        
-        let element = this.elements.pop()
-        
-        this.siftDown()
-        
-        return element
-    }
-    
-    leftChildIndex(index) {
-        return 2 * index + 1
-    }
-    
-    rightChildIndex(index) {
-        return 2 * index + 2
-    }
-    
-    parentIndex(index) {
-        return Math.floor((index - 1) / 2)
-    }
-    
-    isEmpty() {
-        return this.elements.length === 0
-    }
-}
-
-const counts = arr => {
-    return arr.reduce((result, ele) => {
-        result[ele] = 1 + (result[ele] || 0)
-        return result
-    }, {})
-}
-
+/**
+ * @param {number[]} barcodes
+ * @return {number[]}
+ */
 var rearrangeBarcodes = function(barcodes) {
-    if (barcodes.length <= 1) return barcodes
-    
-    const barcodeCounts = Object.entries(counts(barcodes))
-    const heap = new Heap(barcodeCounts, (a, b) => a[1] > b[1])
-    const result = []
-    
-    while (!heap.isEmpty()) {
-        const b1 = heap.remove()
-        const b2 = heap.remove()
+    let max = null
+    const map = {}
+    for (const barcode of barcodes) {    
+        map[barcode] = 1 + (map[barcode] || 0)
         
-        if (b1) {
-            result.push(+b1[0])
-            if (b1) b1[1]--
-            if (b1[1] > 0) heap.insert(b1)
+        if (max === null || map[max] < map[barcode]) {
+            max = barcode
         }
-        
-        if (b2) {
-            result.push(+b2[0])
-            if (b2) b2[1]--
-            if (b2[1] > 0) heap.insert(b2)
+    }
+    
+    const result = new Array(barcodes.length)
+    let k = 0
+    
+    while (map[max]--) {
+        result[k] = max
+        k += 2
+        if (k >= result.length) k = 1
+    }
+    
+    for (const [val, freq] of Object.entries(map)) {
+        for (let i = 0; i < freq; i++) {
+            result[k] = +val
+            k += 2
+            if (k >= result.length) k = 1
         }
     }
     
     return result
-};
-
-// O(n)
-var rearrangeBarcodes = function(barcodes) {
-    const counts = Array(10001).fill(0)
-    
-    let maxCount = 0
-    let maxCode = 0
-    
-    for (const barcode of barcodes) {
-        maxCount = Math.max(maxCount, ++counts[barcode])
-        maxCode = maxCount === counts[barcode] ? barcode : maxCode
-    }
-    
-    let pos = 0
-    
-    for (let i = 0; i < counts.length; i++) {
-        let code = i === 0 ? maxCode : i
-        
-        while (counts[code]-- > 0) {
-            barcodes[pos] = code
-            pos = pos + 2 < barcodes.length ? pos + 2 : 1
-        }
-    }
-    
-    return barcodes
 };
 ```
 
