@@ -27238,22 +27238,31 @@ var findMinArrowShots = function(points) {
 
 ## 846. Hand of Straights
 ```javascript
+/**
+ * @param {number[]} hand
+ * @param {number} W
+ * @return {boolean}
+ */
 var isNStraightHand = function(hand, W) {
     if (hand.length % W !== 0) return false
     
-    const counts = {}
-    for (const h of hand)
-        counts[h] = 1 + (counts[h] || 0)
+    hand.sort((a, b) => a - b)
     
-    for (const key of Object.keys(counts)) {
-        if (!counts[key]) continue
+    const map = {}
+    for (const h of hand) {
+        map[h] = 1 + (map[h] || 0) 
+    }
+    
+    const result = []
+    for (const h of hand) {
+        if (map[h] === 0) continue
         
-        const occurr = counts[key]
-        for (let i = +key; i < +key + W; i++) {
-            if (!counts[i] || counts[i] < occurr) 
-                return false
+        let curr = h
+        for (let i = 0; i < W; i++) {
+            if (!map[curr]) return false
             
-            counts[i] -= occurr
+            map[curr]--
+            curr++
         }
     }
     
