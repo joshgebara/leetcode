@@ -5076,39 +5076,6 @@ const getLeaves = node => {
 
 ## 112. Path Sum
 ```javascript
-var hasPathSum = function(root, sum) {
-    if (!root) return false
-    
-    let stack = [root]
-    let seen = new Set()
-    let currSum = root.val
-    
-    while (stack.length) {
-        const curr = stack[stack.length - 1]
-        
-        if (!curr.left && !curr.right && currSum === sum) return true        
-        
-        if (!seen.has(curr.left) && curr.left) {
-            seen.add(curr.left)
-            stack.push(curr.left)
-            currSum += curr.left.val
-            continue
-        }
-        
-        if (!seen.has(curr.right) && curr.right) {
-            seen.add(curr.right)
-            stack.push(curr.right)
-            currSum += curr.right.val
-            continue
-        }
-        
-        currSum -= curr.val
-        stack.pop()
-    }
-    return false
-};
-
-// Recursive
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -5119,23 +5086,23 @@ var hasPathSum = function(root, sum) {
  */
 /**
  * @param {TreeNode} root
- * @param {number} sum
+ * @param {number} targetSum
  * @return {boolean}
  */
-var hasPathSum = function(root, sum) {
-    const dfs = (node, currSum) => {
+var hasPathSum = function(root, targetSum) {
+    const _hasPathSum = (node, sum) => {
         if (!node) return false
         
-        currSum += node.val
+        sum += node.val
         
         if (!node.left && !node.right) {
-            return currSum === sum
+            return sum === targetSum
         }
         
-        return dfs(node.left, currSum) || dfs(node.right, currSum)
+        return _hasPathSum(node.left, sum) || _hasPathSum(node.right, sum)
     }
     
-    return dfs(root, 0)
+    return _hasPathSum(root, 0)
 };
 ```
 
