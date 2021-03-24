@@ -5195,18 +5195,20 @@ var isSameTree = function(p, q) {
  * @return {number[]}
  */
 var preorderTraversal = function(root) {
-    let result = []
-    let stack = [root]
+    const stack = []
+    const result = []
     
-    while (stack.length) {
-        const curr = stack.pop()
-        if (!curr) continue
-        
-        result.push(curr.val)
-        if (curr.right) stack.push(curr.right)
-        if (curr.left) stack.push(curr.left)    
+    while (root || stack.length) {
+        if (root) {
+            stack.push(root)
+            result.push(root.val)
+            root = root.left
+        } else {
+            root = stack.pop()
+            root = root.right
+        }
     }
-    return result
+    return result  
 };
 ```
 
