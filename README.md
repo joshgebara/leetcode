@@ -16539,6 +16539,7 @@ GROUP BY activity_date
 
 ## 176. Second Highest Salary
 ```sql
+# Write your MySQL query statement below
 SELECT 
     (SELECT DISTINCT Salary
      FROM Employee
@@ -20756,7 +20757,7 @@ var distanceK = function(root, target, K) {
             if (K === 0) {
                 result.push(node.val)
             }
-            
+
             for (const neighbor of graph[node.val]) {
                 if (visited.has(neighbor)) continue
 
