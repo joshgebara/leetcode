@@ -37146,26 +37146,34 @@ var countCornerRectangles = function(grid) {
  * @return {number}
  */
 var minSteps = function(n) {
-    const _minSteps = (length, clipboard) => {
-        if (length > n)
+    const _minSteps = (count, clipboard) => {
+        if (count > n) {
             return Infinity
+        }
         
-        if (length === n)
+        if (count === n) {
             return 0
+        }
         
-        if (memo[length][clipboard] !== undefined)
-            return memo[length][clipboard]
+        if (memo[count][clipboard] !== undefined) {
+            return memo[count][clipboard]
+        }
         
-        memo[length][clipboard] = Infinity
+        let min = Infinity
         
-        const copy = 2 + _minSteps(length + length, length)
-        const paste = 1 + _minSteps(length + clipboard, clipboard)
+        // paste
+        if (clipboard > 0) {
+            min = 1 + _minSteps(count + clipboard, clipboard)
+        }
         
-        memo[length][clipboard] = Math.min(copy, paste)
-        return memo[length][clipboard]
+        // copy + paste
+        min = Math.min(min, 2 + _minSteps(count + count, count))
+        
+        memo[count][clipboard] = min
+        return min
     }
     
-    const memo = Array(n).fill().map(a => Array(n).fill())
+    const memo = new Array(n).fill().map(a => new Array(n))
     return _minSteps(1, 0)
 };
 
