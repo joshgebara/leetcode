@@ -35451,11 +35451,12 @@ var longestPalindromeSubseq = function(s) {
  * @return {number}
  */
 var longestPalindromeSubseq = function(s) {
-    const dp = Array(s.length).fill(0).map(a => Array(s.length).fill(0))
-    
-    for (let length = 1; length <= s.length; length++) {
-        for (let start = 0; start < s.length - length + 1; start++) {
-            const end = length + start - 1
+    const n = s.length
+    const dp = new Array(n).fill().map(a => new Array(n).fill(0))
+    for (let len = 1; len <= n; len++) {
+        for (let start = 0; start <= n - len; start++) {
+            const end = start + len - 1
+            
             if (start === end) {
                 dp[start][end] = 1
                 continue
@@ -35470,7 +35471,7 @@ var longestPalindromeSubseq = function(s) {
         }
     }
     
-    return dp[0][s.length - 1]
+    return dp[0][n - 1]
 };
 ```
 
