@@ -7294,6 +7294,10 @@ var canVisitAllRooms = function(rooms) {
 ## 784. Letter Case Permutation
 ```javascript
 // Iterative
+/**
+ * @param {string} S
+ * @return {string[]}
+ */
 var letterCasePermutation = function(S) {
     const result = [[]]
     
@@ -7316,33 +7320,41 @@ var letterCasePermutation = function(S) {
 };
 
 // Recursive
+/**
+ * @param {string} S
+ * @return {string[]}
+ */
 var letterCasePermutation = function(S) {
-    const letterCasePermutation = (curr, index = 0) => {
-        if (index === S.length) {
-            result.push(curr.join(''))
-            return
-        }
-            
-        if (!Number.isNaN(+S[index])) {
-            curr.push(S[index])
-            letterCasePermutation(curr, index + 1)
-            curr.pop()
+    const _letterCasePermutation = index => {
+        if (index >= S.length) {
+            result.push(path.join(''))
             return
         }
         
-        curr.push(S[index].toLowerCase())
-        letterCasePermutation(curr, index + 1)
-        curr.pop()
+        const char = S[index]
+        if (isDigit(char)) {
+            path.push(char)
+            _letterCasePermutation(index + 1)
+            path.pop()
+            return
+        }          
+        
+        path.push(char.toLowerCase())
+        _letterCasePermutation(index + 1)
+        path.pop()
 
-        curr.push(S[index].toUpperCase())
-        letterCasePermutation(curr, index + 1)
-        curr.pop()
+        path.push(char.toUpperCase())
+        _letterCasePermutation(index + 1)
+        path.pop()
     }
     
     const result = []
-    letterCasePermutation([])
+    const path = []
+    _letterCasePermutation(0)
     return result
 };
+
+const isDigit = char => '0' <= char && char <= '9'
 ```
 
 ## 46. Permutations
