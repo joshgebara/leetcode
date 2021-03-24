@@ -18093,23 +18093,26 @@ var countArrangement = function(N) {
  * @return {number[][]}
  */
 var combinationSum3 = function(k, n) {
-    const _combinationSum3 = (curr, sum, j) => {
-        if (curr.length > k || sum > n) return
-        
-        if (curr.length === k && sum === n) {
-            result.push(curr.slice())
+    const _combinationSum3 = (digit, sum) => {
+        if (path.length === k && sum === n) {
+            result.push(path.slice())
             return
         }
         
-        for (let num = j; num <= 9; num++) {
-            curr.push(num)
-            _combinationSum3(curr, sum + num, num + 1)
-            curr.pop()
+        if (digit > 9 || path.length >= k || sum >= n) {
+            return
         }
+        
+        path.push(digit)
+        _combinationSum3(digit + 1, sum + digit)
+        path.pop()
+        
+        _combinationSum3(digit + 1, sum)
     }
     
     const result = []
-    _combinationSum3([], 0, 1)
+    const path = []
+    _combinationSum3(1, 0)
     return result
 };
 ```
