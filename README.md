@@ -6471,22 +6471,6 @@ var minDiffInBST = function(root) {
 
 ## 110. Balanced Binary Tree
 ```javascript
-var isBalanced = function(root) {
-    const _isBalanced = root => {
-        if (!root) return 0
-
-        let left = _isBalanced(root.left) 
-        if (left === -1) return -1
-
-        let right = _isBalanced(root.right)
-        if (right === -1) return -1
-
-        if (Math.abs(left - right) > 1) return -1
-        return Math.max(left, right) + 1
-    }
-    return _isBalanced(root) !== -1
-};
-
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -6500,19 +6484,19 @@ var isBalanced = function(root) {
  * @return {boolean}
  */
 var isBalanced = function(root) {
-    const _isBalanced = (node) => {
-        if (!node) return 0
-        
-        const leftHeight = _isBalanced(node.left)
-        const rightHeight = _isBalanced(node.right)
-        
-        const diff = Math.abs(leftHeight - rightHeight)
-        if (diff > 1) return Infinity
-        
-        return Math.max(leftHeight, rightHeight) + 1
+    const _isBalanced = root => {
+        if (!root) return 0
+
+        const left = _isBalanced(root.left) 
+        if (left === -1) return -1
+
+        const right = _isBalanced(root.right)
+        if (right === -1) return -1
+
+        if (Math.abs(left - right) > 1) return -1
+        return Math.max(left, right) + 1
     }
-    
-    return _isBalanced(root) !== Infinity
+    return _isBalanced(root) !== -1
 };
 ```
 
