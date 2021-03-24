@@ -4497,26 +4497,37 @@ var maxDepth = function(root) {
 
 ## 429. N-ary Tree Level Order Traversal
 ```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number[][]}
+ */
 var levelOrder = function(root) {
     if (!root) return []
     
+    const levels = []
     const queue = [root]
-    const result = [[root.val]]
-
     while (queue.length) {
-        const row = []
+        const level = []
         const size = queue.length
         for (let i = 0; i < size; i++) {
-            const curr = queue.shift()
-            for (const child of curr.children) {
-                queue.push(child)
-                row.push(child.val)
-            }
+            const node = queue.shift()
+            
+            level.push(node.val)
+            
+            queue.push(...node.children)
         }
-        if (row.length) result.push(row)
+        levels.push(level)
     }
     
-    return result
+    return levels
 };
 ```
 
