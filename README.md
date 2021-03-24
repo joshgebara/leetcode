@@ -23310,27 +23310,40 @@ var isBipartite = function(graph) {
 };
 
 // DFS Recursive
+/**
+ * @param {number[][]} graph
+ * @return {boolean}
+ */
 var isBipartite = function(graph) {
-    const dfs = vertex => {
-        for (const neighbor of graph[vertex]) {
-            if (!color[neighbor]) {
-                color[neighbor] = 1 - color[vertex]
-                if (!dfs(neighbor))
-                    return false
-            } else if (color[neighbor] === color[vertex]) {
+    const colorGraph = (node, color) => {
+        colors[node] = color
+        
+        for (const neighbor of graph[node]) {
+            if (colors[neighbor] === color) {
+                return false
+            }
+            
+            if (colors[neighbor] !== undefined) {
+                continue
+            }
+            
+            if (!colorGraph(neighbor, color ^ 1)) {
                 return false
             }
         }
+        
         return true
     }
     
-    const color = {}
-    for (let node = 0; node < graph.length; node++) {
-        if (color[node]) continue
-        color[node] = 0
-        if (!dfs(node))
+    const n = graph.length
+    const colors = new Array(n)
+    for (let node = 0; node < n; node++) {
+        if (colors[node] !== undefined) continue
+        if (!colorGraph(node, 0)) {
             return false
+        }
     }
+    
     return true
 };
 ```
@@ -61561,3 +61574,4 @@ var largestSumOfAverages = function(A, K) {
     return _largestSumOfAverages(0, 0)
 };
 ```
+
