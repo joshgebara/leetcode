@@ -27670,24 +27670,24 @@ var fourSumCount = function(A, B, C, D) {
 
 ## 713. Subarray Product Less Than K
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 var numSubarrayProductLessThanK = function(nums, k) {
-    if (k <= 1) return 0
-    
     let count = 0
     let product = 1
     let left = 0
-    let right = 0
-    
-    while (right < nums.length) {
+    for (let right = 0; right < nums.length; right++) {
         product *= nums[right]
         
-        while (product >= k) {
-            product = Math.floor(product / nums[left])
+        while (left <= right && product >= k) {
+            product /= nums[left]
             left++
         }
         
         count += right - left + 1
-        right++
     }
     
     return count
