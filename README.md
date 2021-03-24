@@ -20729,6 +20729,19 @@ var recoverTree = function(root) {
 ## 863. All Nodes Distance K in Binary Tree
 ```javascript
 // BFS
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} target
+ * @param {number} K
+ * @return {number[]}
+ */
 var distanceK = function(root, target, K) {
     const graph = buildGraph(root)
     const result = []
@@ -20740,8 +20753,9 @@ var distanceK = function(root, target, K) {
         for (let i = 0; i < size; i++) {
             const node = queue.shift()
             
-            if (K === 0)
+            if (K === 0) {
                 result.push(node.val)
+            }
             
             for (const neighbor of graph[node.val]) {
                 if (visited.has(neighbor)) continue
