@@ -61598,3 +61598,24 @@ var largestSumOfAverages = function(A, K) {
 };
 ```
 
+## 646. Maximum Length of Pair Chain
+```javascript
+/**
+ * @param {number[][]} pairs
+ * @return {number}
+ */
+var findLongestChain = function(pairs) {
+    pairs.sort((a, b) => a[1] - b[1])
+    
+    let count = 0
+    let bound = -Infinity
+    for (const [start, end] of pairs) {
+        if (bound < start) {
+            bound = end
+            count++
+        }
+    }
+    
+    return count
+};
+```
