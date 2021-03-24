@@ -2349,48 +2349,28 @@ var reverseString = function(s) {
 
 ## 167. Two Sum II - Input array is sorted
 ```javascript
+/**
+ * @param {number[]} numbers
+ * @param {number} target
+ * @return {number[]}
+ */
 var twoSum = function(numbers, target) {
-    if (!numbers.length) return
-    
     let left = 0
     let right = numbers.length - 1
     
     while (left < right) {
-        let sum = numbers[left] + numbers[right]
+        const sum = numbers[left] + numbers[right]
         
         if (sum === target) {
             return [left + 1, right + 1]
-        } else if (sum > target) {
-            right--
-        } else {
-            left++   
         }
-    }
-    return null
-};
-
-// Binary Search 
-const binarySearch = (key, arr, start, end) => {
-    while (start <= end) {
-        let mid = Math.floor((end - start) / 2) + start
-        if (key === arr[mid]) return mid
         
-        if (key > arr[mid]) {
-            start = mid + 1
+        if (sum < target) {
+            left++
         } else {
-            end = mid - 1
+            right--
         }
     }
-    return null
-}
-
-var twoSum = function(numbers, target) {
-    for (let j = 0; j < numbers.length; j++) {
-        let diff = Math.abs(numbers[j] - target)
-        let index = binarySearch(diff, numbers, j + 1, numbers.length)
-        if (index) return [j + 1, index + 1]
-    }
-    return []
 };
 ```
 
