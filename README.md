@@ -4040,30 +4040,29 @@ var canPlaceFlowers = function(flowerbed, n) {
 
 ## 219. Contains Duplicate II
 ```javascript
-var containsNearbyDuplicate = function(nums, k) {
-    const set = new Set()
-
-    for (let i = 0; i < nums.length; i++) {
-        if (set.has(nums[i])) return true
-        set.add(nums[i])
-        if (set.size > k) set.delete(nums[i - k])
-    }
-    return false
-};
-
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {boolean}
  */
 var containsNearbyDuplicate = function(nums, k) {
-    const set = new Set()
-
+    const map = {}
+    
     for (let i = 0; i < nums.length; i++) {
-        if (i > k) set.delete(nums[i - k - 1])
-        if (set.has(nums[i])) return true
-        set.add(nums[i])
+        const num = nums[i]
+        if (map[num] === undefined) {
+            map[num] = i
+            continue
+        }
+        
+        const j = map[num]
+        if (i - j <= k) {
+            return true
+        }
+        
+        map[num] = i
     }
+    
     return false
 };
 ```
