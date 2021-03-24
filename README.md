@@ -11459,52 +11459,48 @@ const buildGraph = (n, edges) => {
 }
 
 // Kahn's Algorithm
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {number[]}
+ */
 var findOrder = function(numCourses, prerequisites) {
-    const graph = buildGraph(prerequisites)
-    const degrees = getDegrees(graph, numCourses)
-    const list = []
-    
-    for (const [vertex, degree] of Object.entries(degrees)) {
-        if (degree === 0)
-            list.push(vertex)
+    const [graph, indegrees] = buildGraph(numCourses, prerequisites)
+    return kahns(numCourses, graph, indegrees)
+};
+
+const kahns = (n, graph, indegrees) => {
+    const queue = []
+    for (let node = 0; node < n; node++) {
+        if (indegrees[node] === 0) {
+            queue.push(node)
+        }
     }
     
-    for (let i = 0; i < list.length; i++) {
-        if (!graph[list[i]]) continue
-        for (const neighbor of graph[list[i]]) {
-            if (--degrees[neighbor] === 0) {
-                list.push(neighbor)
+    for (let i = 0; i < queue.length; i++) {
+        const node = queue[i]
+        for (const neighbor of graph[node]) {
+            indegrees[neighbor]--
+            
+            if (indegrees[neighbor] === 0) {
+                queue.push(neighbor)
             }
         }
     }
     
-    return list.length === numCourses ? list : []
-};
-
-const buildGraph = edges => {
-    const graph = {}
-    
-    for (const [vertex, neighbor] of edges) {
-        if (graph[neighbor]) {
-            graph[neighbor].push(vertex)
-        } else {
-            graph[neighbor] = [vertex]
-        }
-    }
-    
-    return graph
+    return queue.length === n ? queue : []
 }
 
-const getDegrees = (graph, n) => {
-    const degrees = Array(n).fill(0)
+const buildGraph = (n, edges) => {
+    const graph = new Array(n).fill().map(a => [])
+    const indegrees = new Array(n).fill(0)
     
-    for (const [vertex, neighbors] of Object.entries(graph)) {
-        for (const neighbor of neighbors) {
-            degrees[neighbor]++
-        }
+    for (const [a, b] of edges) {
+        graph[b].push(a)
+        indegrees[a]++
     }
-          
-    return degrees
+    
+    return [graph, indegrees]
 }
 ```
 
