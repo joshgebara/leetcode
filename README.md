@@ -6905,12 +6905,13 @@ var longestUnivaluePath = function(root) {
  */
 var tree2str = function(t) {
     const dfs = (node) => {
-        if (!node) return null
+        if (!node) return
         
         str.push(node.val)
         
-        if (!node.left && !node.right)
+        if (!node.left && !node.right) {
             return
+        }
         
         str.push('(')
         dfs(node.left)
