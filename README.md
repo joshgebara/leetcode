@@ -5179,72 +5179,6 @@ var isSameTree = function(p, q) {
 };
 ```
 
-## 144. Binary Tree Preorder Traversal
-```javascript
-// Iterative
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {number[]}
- */
-var preorderTraversal = function(root) {
-    const stack = []
-    const result = []
-    
-    while (root || stack.length) {
-        if (root) {
-            stack.push(root)
-            result.push(root.val)
-            root = root.left
-        } else {
-            root = stack.pop()
-            root = root.right
-        }
-    }
-    return result  
-};
-```
-
-## 94. Binary Tree Inorder Traversal
-```javascript
-// Iterative
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {number[]}
- */
-var inorderTraversal = function(root) {
-    const stack = []
-    const result = []
-    
-    while (root || stack.length) {
-        if (root) {
-            stack.push(root)
-            root = root.left
-        } else {
-            root = stack.pop()
-            result.push(root.val)
-            root = root.right
-        }
-    }
-    return result
-};
-```
-
 ## 102. Binary Tree Level Order Traversal
 ```javascript
 // Iterative
@@ -5313,6 +5247,72 @@ const _levelOrder = (node, result, level = 0) => {
     if (node.left) _levelOrder(node.left, result, level + 1)  
     if (node.right) _levelOrder(node.right, result, level + 1)
 }
+```
+
+## 144. Binary Tree Preorder Traversal
+```javascript
+// Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function(root) {
+    const stack = []
+    const result = []
+    
+    while (root || stack.length) {
+        if (root) {
+            stack.push(root)
+            result.push(root.val)
+            root = root.left
+        } else {
+            root = stack.pop()
+            root = root.right
+        }
+    }
+    return result  
+};
+```
+
+## 94. Binary Tree Inorder Traversal
+```javascript
+// Iterative
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var inorderTraversal = function(root) {
+    const stack = []
+    const result = []
+    
+    while (root || stack.length) {
+        if (root) {
+            stack.push(root)
+            root = root.left
+        } else {
+            root = stack.pop()
+            result.push(root.val)
+            root = root.right
+        }
+    }
+    return result
+};
 ```
 
 ## 145. Binary Tree Postorder Traversal
