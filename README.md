@@ -5131,7 +5131,7 @@ var hasPathSum = function(root, targetSum) {
  * @return {string[]}
  */
 var binaryTreePaths = function(root) {
-    const dfs = (node, path) => {
+    const _binaryTreePaths = node => {
         if (!node) return
         
         path.push(node.val)
@@ -5142,56 +5142,15 @@ var binaryTreePaths = function(root) {
             return
         }
         
-        dfs(node.left, path)
-        dfs(node.right, path)
-        
+        _binaryTreePaths(node.left)
+        _binaryTreePaths(node.right)
         path.pop()
     }
     
     const result = []
-    dfs(root, [])
+    const path = []
+    _binaryTreePaths(root)
     return result
-};
-
-// Iterative
-var binaryTreePaths = function(root) {
-    if (!root) return []
-    
-    let seen = new Set()
-    let stack = [root]
-    
-    let paths = []
-    let path = [root.val]
-    
-    while (stack.length) {
-        let curr = stack[stack.length - 1]
-        
-        if (!curr.left && !curr.right) {
-            paths.push(path.slice())
-            path.pop()
-            stack.pop()
-            continue
-        }
-        
-        if (!seen.has(curr.left) && curr.left) {
-            path.push(curr.left.val)
-            seen.add(curr.left)
-            stack.push(curr.left)
-            continue
-        }
-        
-        if (!seen.has(curr.right) && curr.right) {
-            path.push(curr.right.val)
-            seen.add(curr.right)
-            stack.push(curr.right)
-            continue
-        }
-        
-        path.pop()
-        stack.pop()
-    }
-    
-    return paths.map(path => path.join('->'))
 };
 ```
 
