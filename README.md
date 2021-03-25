@@ -13401,25 +13401,40 @@ const possible = (piles, H, K) => {
 
 ## 113. Path Sum II
 ```javascript
-var pathSum = function(root, sum) {
-    const _pathSum = (node, currSum, path) => {
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {number[][]}
+ */
+var pathSum = function(root, targetSum) {
+    const _pathSum = (node, sum) => {
         if (!node) return
         
-        currSum += node.val
+        sum += node.val
+        
         path.push(node.val)
         
-        if (currSum === sum && !node.left && !node.right) {
+        if (!node.left && !node.right && sum === targetSum) {
             result.push(path.slice())
         } else {
-            _pathSum(node.left, currSum, path)
-            _pathSum(node.right, currSum, path)    
+            _pathSum(node.left, sum)
+            _pathSum(node.right, sum)
         }
         
         path.pop()
     }
     
     const result = []
-    _pathSum(root, 0, [])
+    const path = []
+    _pathSum(root, 0)
     return result
 };
 ```
