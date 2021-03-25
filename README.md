@@ -43578,23 +43578,17 @@ var isEvenOddTree = function(root) {
         for (let i = 0; i < size; i++) {
             const node = queue.shift()
             
-            if (isEven(level)) {
-                if (!isEven(node.val) && lastVal < node.val) {
-                    lastVal = node.val
-                    if (node.left) queue.push(node.left)
-                    if (node.right) queue.push(node.right)
-                    continue
-                }
+            if (isEven(level) && (isEven(node.val) || lastVal >= node.val)) {
                 return false
             }
             
-            if (isEven(node.val) && lastVal > node.val) {
-                lastVal = node.val
-                if (node.left) queue.push(node.left)
-                if (node.right) queue.push(node.right)
-                continue
+            if (!isEven(level) && (!isEven(node.val) || lastVal <= node.val)) {
+                return false
             }
-            return false
+            
+            lastVal = node.val
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
         }
         level++
     }
