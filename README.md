@@ -15190,25 +15190,23 @@ var getFactors = function(n) {
  * @return {number}
  */
 var longestPalindrome = function(s) {
-    const counts = {}
-    
+    const map = {}
     for (const char of s) {
-        counts[char] = 1 + (counts[char] || 0)
+        map[char] = 1 + (map[char] || 0)
     }
     
-    let usedOne = false
-    let count = 0
-    
-    for (const val of Object.values(counts)) {
-            count += (2 * Math.floor(val / 2))
-        
-            if (val % 2 !== 0 && !usedOne) {
-                count++
-                usedOne = true
-            }
+    let len = 0
+    let oddCount = 0
+    for (const [key, count] of Object.entries(map)) {
+        if (count % 2 === 0) {
+            len += count
+        } else {
+            len += count - 1
+            oddCount = 1
+        }
     }
     
-    return count
+    return len + oddCount
 };
 ```
 
