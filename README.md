@@ -12274,198 +12274,63 @@ class TrieNode {
 
 ## 720. Longest Word in Dictionary
 ```javascript
-// O(n^2)
-var longestWord = function(words) {
-    const seen = new Set(words)
-    let result = ""
-    
-    for (let word of words) {
-        let prefix = ""
-        for (let char of word) {
-            let currPrefix = prefix + char
-            if (!seen.has(currPrefix)) break
-            prefix = currPrefix
-        }
-        
-        if (result.length <= prefix.length) {
-            if (result.length === prefix.length && prefix > result) continue
-            result = prefix
-        }
-    }
-    
-    return result
-};
-
-// O(n) Iterative
-class TrieNode {
-    constructor(val = "") {
-        this.val = val
-        this.children = {}
-        this.isEnd = false
-        this.word = ""
-    }
-}
-
-class Trie {
-    root = new TrieNode()
-
-    insert(word) {
-        let curr = this.root
-        
-        for (let char of word) {
-            if (!curr.children[char])
-                curr.children[char] = new TrieNode(char)
-            
-            curr = curr.children[char]
-        }
-        
-        curr.isEnd = true
-        curr.word = word
-    }
-
-    longestWord() {
-        let result = ""
-        
-        const stack = [this.root]
-        while (stack.length) {
-            const node = stack.pop()
-
-            if (node !== this.root) {
-                if (!node.isEnd) continue
-                
-                if ((result.length < node.word.length) || 
-                    (result.length === node.word.length && result > node.word)) {
-                    result = node.word
-                }
-            }
-            
-            for (const neighbor of Object.values(node.children))
-                stack.push(neighbor)
-        }
-        return result
-    }
-}
-
-var longestWord = function(words) {
-    const trie = new Trie()
-    for (let word of words)
-        trie.insert(word)
-    
-    return trie.longestWord()
-};
-
-// O(n) Recursive
-class TrieNode {
-    constructor(val = "") {
-        this.val = val
-        this.children = {}
-        this.isEnd = false
-    }
-}
-
-class Trie {
-    root = new TrieNode()
-
-    insert(word) {
-        let curr = this.root
-        
-        for (let char of word) {
-            if (!curr.children[char])
-                curr.children[char] = new TrieNode(char)
-            
-            curr = curr.children[char]
-        }
-        
-        curr.isEnd = true
-    }
-
-    longestWord() {
-        const _longestWord = (node, str) => {
-            if ((result.length < str.length) || (result.length === str.length && str < result))
-                result = str
-            
-            for (let neighbor of Object.values(node.children))
-                if (neighbor.isEnd)
-                    _longestWord(neighbor, str + neighbor.val)
-        }
-        
-        let result = ""
-        _longestWord(this.root, "")
-        return result
-    }
-}
-
-var longestWord = function(words) {
-    const trie = new Trie()
-    for (let word of words)
-        trie.insert(word)
-    
-    return trie.longestWord()
-};
-
 /**
  * @param {string[]} words
  * @return {string}
  */
 var longestWord = function(words) {
-    const trie = new Trie()
-    for (const word of words) {
-        trie.insert(word)
-    }
-    
-    return trie.longestWord()
+    const trie = new Trie(words)
+    return trie.getLongest()
 };
 
 class Trie {
-    constructor() {
-        this.root = new TrieNode()
-    }
-    
-    longestWord() {
-        const dfs = (node, currWord) => {
-            if (!node) return
-            if (node !== this.root && !node.isEnd) return
-            
-            if (currWord.length > maxWord.length) {
-                maxWord = currWord.join('')
-            }
-            
-            for (let i = 0; i < 26; i++) {
-                const child = node.children[i]
-                if (child === undefined) continue
-                
-                currWord.push(child.key)
-                dfs(child, currWord)
-                currWord.pop()
-            }
-        }
+    constructor(words) {
+        this.root = new TrieNode(NaN)
         
-        let maxWord = ''
-        dfs(this.root, [])
-        return maxWord
+        for (const word of words) {
+            this.insert(word)
+        }
     }
     
     insert(word) {
         let curr = this.root
-        
         for (const char of word) {
-            const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
-            if (curr.children[index] === undefined) {
-                curr.children[index] = new TrieNode(char)
+            if (curr.children[char] === undefined) {
+                curr.children[char] = new TrieNode(char)
             }
             
-            curr = curr.children[index]
+            curr = curr.children[char]
         }
         
-        curr.isEnd = true
+        curr.word = word
+    }
+    
+    getLongest() {
+        const dfs = (node) => {
+            for (const [key, child] of Object.entries(node.children)) {
+                if (child.word.length) {
+                    dfs(child)
+                }
+            }
+            
+            if (result.length < node.word.length) {
+                result = node.word
+            } else if (result.length === node.word.length && result > node.word) {
+                result = node.word
+            }
+        }
+        
+        let result = ''
+        dfs(this.root)
+        return result
     }
 }
 
 class TrieNode {
     constructor(key) {
         this.key = key
-        this.children = Array(26).fill()
-        this.isEnd = false
+        this.children = {}
+        this.word = ''
     }
 }
 ```
