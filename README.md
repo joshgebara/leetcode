@@ -43571,47 +43571,36 @@ var specialArray = function(nums) {
  */
 var isEvenOddTree = function(root) {
     const queue = [root]
-    let levelIndex = 0
-    
+    let level = 0
     while (queue.length) {
         const size = queue.length
-        const level = []
+        let lastVal = isEven(level) ? -Infinity : Infinity
         for (let i = 0; i < size; i++) {
             const node = queue.shift()
             
-            if (isEven(levelIndex) && isEven(node.val))
+            if (isEven(level)) {
+                if (!isEven(node.val) && lastVal < node.val) {
+                    lastVal = node.val
+                    if (node.left) queue.push(node.left)
+                    if (node.right) queue.push(node.right)
+                    continue
+                }
                 return false
+            }
             
-            if (!isEven(levelIndex) && !isEven(node.val))
-                return false
-            
-            level.push(node.val)
-            
-            if (node.left) queue.push(node.left)
-            if (node.right) queue.push(node.right)
-        }
-        
-        if (invalidLevel(level, levelIndex)) {
+            if (isEven(node.val) && lastVal > node.val) {
+                lastVal = node.val
+                if (node.left) queue.push(node.left)
+                if (node.right) queue.push(node.right)
+                continue
+            }
             return false
         }
-        
-        levelIndex++
+        level++
     }
     
     return true
 };
-
-const invalidLevel = (level, levelIndex) => {
-    for (let i = 0; i < level.length; i++) {
-        if (isEven(levelIndex) && level[i] <= level[i - 1]) 
-            return true
-        
-        if (!isEven(levelIndex) && level[i] >= level[i - 1]) 
-            return true
-    }
-    
-    return false
-}
 
 const isEven = num => num % 2 === 0
 ```
