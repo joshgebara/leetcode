@@ -56127,10 +56127,9 @@ const getGCD = (a, b) => {
  * @return {number}
  */
 var getFood = function(grid) {
-    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
     const m = grid.length
     const n = grid[0].length
-    const visited = new Array(m).fill().map(a => new Array(n).fill(false))
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
     
     const queue = []
     for (let row = 0; row < m; row++) {
@@ -56141,7 +56140,8 @@ var getFood = function(grid) {
         }
     }
     
-    let level = 0
+    const visited = new Array(m).fill().map(a => new Array(n).fill(false))
+    let depth = 0
     while (queue.length) {
         const size = queue.length
         for (let i = 0; i < size; i++) {
@@ -56152,19 +56152,21 @@ var getFood = function(grid) {
                 const nextCol = deltaCol + col
                 
                 if (nextRow < 0 || nextRow >= m || 
-                    nextCol < 0 || nextCol >= n || 
-                    grid[nextRow][nextCol] === 'X' || 
-                    visited[nextRow][nextCol]) continue
+                    nextCol < 0 || nextCol >= n ||
+                    grid[nextRow][nextCol] === 'X' ||
+                    visited[nextRow][nextCol]) {
+                    continue
+                }
                 
                 if (grid[nextRow][nextCol] === '#') {
-                    return level + 1
+                    return depth + 1
                 }
                 
                 visited[nextRow][nextCol] = true
                 queue.push([nextRow, nextCol])
             }
         }
-        level++
+        depth++
     }
     
     return -1
