@@ -36297,19 +36297,24 @@ var change = function(amount, coins) {
  */
 var findTargetSumWays = function(nums, S) {
     const _findTargetSumWays = (i, sum) => {
-        if (i === nums.length) {
+        if (i >= nums.length) {
             return sum === S
         }
-
-        if (memo[i][sum + 1000]) 
-            return memo[i][sum + 1000]
         
-        memo[i][sum + 1000] += _findTargetSumWays(i + 1, sum + nums[i])
-        memo[i][sum + 1000] += _findTargetSumWays(i + 1, sum - nums[i])
-        return memo[i][sum + 1000]
+        const key = `${i}-${sum}`
+        if (memo[key] !== undefined) {
+            return memo[key]
+        }
+        
+        let count = 0
+        count += _findTargetSumWays(i + 1, sum + nums[i])
+        count += _findTargetSumWays(i + 1, sum - nums[i])
+        
+        memo[key] = count
+        return count
     }
     
-    const memo = Array(nums.length).fill().map(a => Array(2001).fill(0))
+    const memo = {}
     return _findTargetSumWays(0, 0)
 };
 
