@@ -25725,6 +25725,13 @@ var eventualSafeNodes = function(graph) {
 ## 1059. All Paths from Source Lead to Destination
 ```javascript
 // Black White Gray Coloring
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
 var leadsToDestination = function(n, edges, source, destination) {
     const graph = buildGraph(edges, n)
     return dfs(graph, source, destination, n)
@@ -25761,6 +25768,13 @@ const buildGraph = (edges, n) => {
 }
 
 // TopSort
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
 var leadsToDestination = function(n, edges, source, destination) {
     const [graph, degrees] = buildGraph(edges, n)
     return topSort(graph, degrees, source, destination)
