@@ -24901,6 +24901,10 @@ var exclusiveTime = function(n, logs) {
 ## 394. Decode String
 ```javascript
 // Stack
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var decodeString = function(s) {
     const stack = []
     let currString = []
@@ -24935,39 +24939,46 @@ var decodeString = function(s) {
 };
 
 // DFS 
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var decodeString = function(s) {
     const _decodeString = () => {
-        let multiplier = 0
-        let currString = []
+        if (i >= s.length) return ''
         
-        while (currIndex < s.length) {            
-            const char = s[currIndex]
-            
-            if (char === '[') {
-                currIndex++
-                const nextString = _decodeString()
-                for (let m = 0; m < multiplier; m++) {
-                    currString.push(nextString)
+        const result = []
+        let count = 0
+        while (i < s.length) {
+            const char = s[i]
+            if (isDigit(char)) {
+                count *= 10
+                count += +char
+                i++
+            } else if (char === '[') {
+                i++
+                const str = _decodeString()
+                while (count--) {
+                    result.push(str)
                 }
-                
-                multiplier = 0
+                count = 0
             } else if (char === ']') {
-                return currString.join('')
-            } else if (isNaN(char)) {
-                currString.push(char)
+                i++
+                return result.join('')
             } else {
-                multiplier *= 10
-                multiplier += +char
+                result.push(char)
+                i++
             }
-            currIndex++
         }
         
-        return currString.join('')
+        return result.join('')
     }
     
-    let currIndex = 0
+    let i = 0
     return _decodeString()
 };
+
+const isDigit = char => '0' <= char && char <= '9'
 ```
 
 ## 150. Evaluate Reverse Polish Notation
