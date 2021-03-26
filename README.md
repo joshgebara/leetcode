@@ -61438,3 +61438,106 @@ var fourSum = function(nums, target) {
     return result
 };
 ```
+
+## 726. Number of Atoms
+```javascript
+/**
+ * @param {string} formula
+ * @return {string}
+ */
+var countOfAtoms = function(formula) {
+    const _countOfAtoms = () => {
+        if (i >= formula.length) return {}
+        
+        const map = {}
+        let element = []
+        let count = 0
+        
+        while (i < formula.length) {
+            const char = formula[i]
+            
+            if (char === '(') {
+                i++
+                const nestedMap = _countOfAtoms()
+                for (const [key, val] of Object.entries(nestedMap)) {
+                    map[key] = val + (map[key] || 0)
+                }
+                continue
+            }
+            
+            if (char === ')') {
+                const elementStr = element.join('')
+                if (elementStr.length) {
+                    map[elementStr] = (count || 1) + (map[elementStr] || 0)
+                }
+                
+                i++
+                
+                // add multipler to map
+                let multiplier = 0
+                while (isDigit(formula[i])) {
+                    multiplier *= 10
+                    multiplier += +formula[i]
+                    i++
+                }
+                
+                if (multiplier > 1) {
+                    for (const key of Object.keys(map)) {
+                        map[key] *= multiplier
+                    }
+                }
+                
+                return map
+            }
+            
+            if (isDigit(char)) {
+                count *= 10
+                count += +char
+                i++
+                continue
+            }
+            
+            if (char === char.toUpperCase()) {
+                i++
+                const elementStr = element.join('')
+                if (elementStr.length) {
+                    map[elementStr] = (count || 1) + (map[elementStr] || 0)
+                }
+                
+                element = []
+                count = 0
+                
+                element.push(char)
+                continue
+            }
+            
+            if (char === char.toLowerCase()) {
+                element.push(char)
+                i++
+                continue
+            }
+        }
+        
+        const elementStr = element.join('')
+        if (elementStr.length) {
+            map[elementStr] = (count || 1) + (map[elementStr] || 0)
+        }
+        
+        return map
+    }
+    
+    let i = 0
+    
+    const result = []
+    const elements = Object.entries(_countOfAtoms())
+    elements.sort((a, b) => a[0].localeCompare(b[0]))
+    for (const [element, count] of elements) {
+        result.push(element)
+        result.push(count > 1 ? count : '')
+    }
+    
+    return result.join('')
+};
+
+const isDigit = char => '0' <= char && char <= '9'
+```
