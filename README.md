@@ -45411,18 +45411,21 @@ var trap = function(height) {
  */
 var trap = function(height) {
     let totalWater = 0
+    
     let left = 0
     let right = height.length - 1
+    
     let leftMax = 0
     let rightMax = 0
     
     while (left < right) {
-        if (height[left] < height[right]) {
-            leftMax = Math.max(leftMax, height[left])
+        leftMax = Math.max(leftMax, height[left])
+        rightMax = Math.max(rightMax, height[right])
+        
+        if (leftMax < rightMax) {
             totalWater += leftMax - height[left]
             left++
         } else {
-            rightMax = Math.max(rightMax, height[right])
             totalWater += rightMax - height[right]
             right--
         }
