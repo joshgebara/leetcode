@@ -8378,111 +8378,57 @@ var reverseBetween = function(head, m, n) {
 
 ## 23. Merge k Sorted Lists
 ```javascript
-// Time - O(mn) 
-// Space - O(1)
-var mergeKLists = function(lists) {
-    if (!lists.length) return null
-    
-    const dummy = new ListNode(NaN)
-    let curr = dummy
-    
-    let min = null
-    let index = null
-
-    while (true) {
-        for (let i = 0; i < lists.length; i++) {
-            if (!lists[i]) continue
-            
-            if (!min || lists[i].val < min.val) {
-                min = lists[i]
-                index = i
-            }
-        }
-        
-        if (!min) break
-        
-        let next = min.next
-        min.next = null
-        
-        curr.next = min
-        curr = curr.next
-        
-        min = null
-        lists[index] = next
-    }
-    
-    return dummy.next
-};
-
-// Time - O(n log n)
-// Space - O(log n)
-const merge = (l1, l2) => {
-    if (!l1) return l2
-    if (!l2) return l1
-    
-    const dummy = new ListNode(NaN)
-    let curr = dummy
-    
-    while (l1 && l2) {
-        if (l1.val < l2.val) {
-            curr.next = l1
-            l1 = l1.next
-        } else {
-            curr.next = l2
-            l2 = l2.next
-        }
-        curr = curr.next
-    }
-    
-    curr.next = l1 ? l1 : l2    
-    return dummy.next
-}
-
-var mergeKLists = function(lists) {
-    const _mergeKLists = (lists) => {
-        if (lists.length < 1) return null
-        return merge(lists.pop(), _mergeKLists(lists))
-    }
-    if (!lists.length) return null
-    return _mergeKLists(lists)
-};
-
-// O(nk)
-// O(1)
-const merge = (l1, l2) => {
-    if (!l1) return l2
-    if (!l2) return l1
-    
-    const dummy = new ListNode(NaN)
-    let curr = dummy
-    
-    while (l1 && l2) {
-        if (l1.val < l2.val) {
-            curr.next = l1
-            l1 = l1.next
-        } else {
-            curr.next = l2
-            l2 = l2.next
-        }
-        curr = curr.next
-    }
-    
-    curr.next = l1 ? l1 : l2    
-    return dummy.next
-}
-
-var mergeKLists = function(lists) {
-    if (!lists.length) return null
-    
-    let result = null
-    while (lists.length)
-        result = merge(result, lists.pop())
-    
-    return result
-};
-
+// Heap
 // Time - O(n log k)
 // Space - O(k)
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
+var mergeKLists = function(lists) {
+    if (!lists.length) return null
+    
+    const heap = new Heap([], (a, b) => a.node.val < b.node.val)
+    for (let k = 0; k < lists.length; k++) {
+        if (!lists[k]) continue
+        
+        const mergeNode = new MergeNode(lists[k], k)
+        heap.insert(mergeNode)
+    }
+    
+    const dummyHead = new ListNode(NaN)
+    let curr = dummyHead
+    
+    while (heap.length()) {
+        const { node, index } = heap.remove()
+        
+        curr.next = node
+        curr = curr.next
+        
+        lists[index] = lists[index].next
+        
+        if (lists[index]) {
+            heap.insert(new MergeNode(lists[index], index))
+        }
+    }
+    
+    return dummyHead.next
+};
+
+class MergeNode {
+    constructor(node, index) {
+        this.node = node
+        this.index = index
+    }
+}
+
 class Heap {
     constructor(elements, sortBy) {
         this.elements = elements
@@ -8570,46 +8516,64 @@ class Heap {
     parentIndex(childIndex) {
         return Math.floor((childIndex - 1) / 2)
     }
-}
-
-class MergeNode {
-    constructor(node, index) {
-        this.node = node
-        this.index = index
+    
+    length() {
+        return this.elements.length
     }
 }
 
+// Bottom Up Divide and Conquer
+// Time - O(n log k)
+// Space - O(1)
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
 var mergeKLists = function(lists) {
     if (!lists.length) return null
     
-    const heap = new Heap([], (a, b) => a.node.val < b.node.val)
+    const k = lists.length
+    let interval = 1
+    while (interval < k) {
+        const step = interval * 2 
+        for (let i = 0; i < k - interval; i += step) {
+            lists[i] = merge(lists[i], lists[i + interval])
+        }
+        
+        interval *= 2
+    }
+    
+    return lists[0]
+};
+
+const merge = (l1, l2) => {
+    if (!l1) return l2
+    if (!l2) return l1
+    
     const dummy = new ListNode(NaN)
     let curr = dummy
     
-    for (let i = 0; i < lists.length; i++) {
-        if (!lists[i]) continue
-        
-        const mergeNode = new MergeNode(lists[i], i)
-        heap.insert(mergeNode)
-    }
-    
-    while (heap.elements.length) {
-        let { node, index } = heap.remove()
-        
-        let next = node.next
-        node.next = null
-        
-        curr.next = node
+    while (l1 && l2) {
+        if (l1.val < l2.val) {
+            curr.next = l1
+            l1 = l1.next
+        } else {
+            curr.next = l2
+            l2 = l2.next
+        }
         curr = curr.next
-        lists[index] = next
-        
-        if (!next) continue
-        const mergeNode = new MergeNode(lists[index], index)
-        heap.insert(mergeNode)
     }
     
+    curr.next = l1 ? l1 : l2    
     return dummy.next
-};
+}
 ```
 
 ## 1046. Last Stone Weight
