@@ -61544,3 +61544,42 @@ var countOfAtoms = function(formula) {
 
 const isDigit = char => '0' <= char && char <= '9'
 ```
+
+## 214. Shortest Palindrome
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var shortestPalindrome = function(s) {
+    const reversedS = s.split('').reverse().join('')
+    const concatS = s + '#' + reversedS
+    const lpsTable = getLPSTable(concatS)
+    const suffixLength = lpsTable[concatS.length - 1]
+    return reversedS.slice(0, s.length - suffixLength) + s
+};
+
+const getLPSTable = s => {
+    const lpsTable = new Array(s.length).fill(0)
+    let len = 0
+    let i = 1
+    
+    while (i < s.length) {
+        if (s[i] === s[len]) {
+            lpsTable[i] = len + 1
+            i++
+            len++
+            continue
+        }
+        
+        if (len === 0) {
+            i++
+            continue
+        }
+        
+        len = lpsTable[len - 1]
+    }
+    
+    return lpsTable
+}
+```
