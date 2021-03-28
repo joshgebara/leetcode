@@ -61546,3 +61546,92 @@ const getLPSTable = s => {
     return lpsTable
 }
 ```
+
+## 301. Remove Invalid Parentheses
+```javascript
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var removeInvalidParentheses = function(s) {
+    const [left, right] = leftRightCount(s)
+    const queue = [[s, 0, left, right]]
+    const visited = new Set([`${s}-${0}-${left}-${right}`])
+    let level = 0
+    const result = []
+    let foundMin = false
+    
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const [str, start, left, right] = queue.shift()
+
+            if (left === 0 && right === 0 && isValid(str)) {
+                foundMin = true
+                result.push(str)
+            }
+            
+            for (const [neighbor, i, nLeft, nRight] of getNeighbors(str, start, left, right)) {
+                if (visited.has(`${neighbor}-${i}-${nLeft}-${nRight}`)) continue
+                visited.add(`${neighbor}-${i}-${nLeft}-${nRight}`)
+                queue.push([neighbor, i, nLeft, nRight])
+            }   
+        }
+        
+        if (foundMin) break
+        level++
+    }
+    
+    return result
+};
+
+const getNeighbors = (str, start, left, right) => {
+    const neighbors = []
+    for (let i = start; i < str.length; i++) {
+        if (str[i] === '(' && left <= 0) continue
+        if (str[i] === ')' && right <= 0) continue
+        if (i > 0 && str[i] === str[i - 1]) continue
+        
+        if (str[i] === '(') {
+            neighbors.push([str.slice(0, i) + str.slice(i + 1), start, left - 1, right])
+        } else if (str[i] === ')') {
+            neighbors.push([str.slice(0, i) + str.slice(i + 1), start, left, right - 1])
+        }
+    }
+    return neighbors
+}
+
+const isValid = str => {
+    let balance = 0
+    for (const char of str) {
+        if (char === '(') {
+            balance++
+        } else if (char === ')') {
+            balance--
+        }
+        
+        if (balance < 0) return false
+    }
+    
+    return balance === 0
+}
+
+const leftRightCount = (str) => {
+    let left = 0
+    let right = 0
+    
+    for (const char of str) {
+        if (char === '(') {
+            left++
+        } else if (char === ')') {
+            if (left === 0) {
+                right++
+            } else {
+                left--
+            }
+        }
+    }
+    
+    return [left, right]
+}
+```
