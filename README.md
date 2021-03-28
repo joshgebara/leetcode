@@ -20670,9 +20670,10 @@ var lcaDeepestLeaves = function(root) {
 ```javascript
 /**
  * Definition for a binary tree node.
- * function TreeNode(val) {
- *     this.val = val;
- *     this.left = this.right = null;
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
  * }
  */
 /**
@@ -20680,38 +20681,36 @@ var lcaDeepestLeaves = function(root) {
  */
 var BSTIterator = function(root) {
     this.stack = []
-    this.root = root
+    this.curr = root
     
-    let curr = this.root
-    while (curr) {
-        this.stack.push(curr)
-        curr = curr.left
-    }
+    this._getNext()
 };
 
 /**
- * @return the next smallest number
  * @return {number}
  */
-BSTIterator.prototype.next = function() {    
+BSTIterator.prototype.next = function() {
     const node = this.stack.pop()
-    if (node.right) {
-        let curr = node.right
-        while (curr) {
-            this.stack.push(curr)
-            curr = curr.left
-        }
-    }
+    
+    this.curr = node.right
+    this._getNext()
     
     return node.val
 };
 
 /**
- * @return whether we have a next smallest number
  * @return {boolean}
  */
 BSTIterator.prototype.hasNext = function() {
-    return this.stack.length !== 0
+    return this.stack.length
+};
+
+
+BSTIterator.prototype._getNext = function() {
+    while (this.curr) {
+        this.stack.push(this.curr)
+        this.curr = this.curr.left
+    }
 };
 
 /** 
