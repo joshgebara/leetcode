@@ -2471,24 +2471,6 @@ var merge = function(nums1, m, nums2, n) {
 
 ## 28. Implement strStr()
 ```javascript
-// Brute Force
-var strStr = function(haystack, needle) {
-    if (!needle.length) return 0
-    if (!haystack.length) return -1
-    
-    let nI = 0
-    for (let hI = 0; hI < haystack.length; hI++) {
-        let curr = hI
-        while (haystack[curr] === needle[nI]) {
-            nI++
-            curr++
-            if (nI >= needle.length) return hI
-        }
-        nI = 0
-    }
-    return -1
-};
-
 // KMP
 /**
  * @param {string} haystack
@@ -2504,24 +2486,27 @@ const kmp = (string, pattern) => {
     if (!string.length) return -1
     
     const lpsTable = getLPSTable(pattern)
-    let s = 0
-    let p = 0
     
-    while (s < string.length) {
-        if (string[s] === pattern[p]) {
-            s++
-            p++
+    let sIndex = 0
+    let pIndex = 0
+    while (sIndex < string.length) {
+        if (string[sIndex] === pattern[pIndex]) {
+            sIndex++
+            pIndex++
             
-            if (p === pattern.length) return s - pattern.length
+            if (pIndex === pattern.length) {
+                return sIndex - pattern.length
+            }
+            
             continue
         }
         
-        if (p === 0) {
-            s++
+        if (pIndex === 0) {
+            sIndex++
             continue
         }
         
-        p = lpsTable[p - 1]
+        pIndex = lpsTable[pIndex - 1]
     }
     
     return -1
@@ -2531,6 +2516,7 @@ const getLPSTable = pattern => {
     const lpsTable = new Array(pattern.length).fill(0)
     let len = 0
     let i = 1
+    
     while (i < pattern.length) {
         if (pattern[len] === pattern[i]) {
             lpsTable[i] = len + 1
@@ -2540,14 +2526,13 @@ const getLPSTable = pattern => {
         }
         
         if (len === 0) {
-            lpsTable[i] = 0
             i++
             continue
         }
         
         len = lpsTable[len - 1]
     }
-
+    
     return lpsTable
 }
 
