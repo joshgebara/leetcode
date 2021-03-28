@@ -61569,6 +61569,7 @@ var removeInvalidParentheses = function(s) {
             if (left === 0 && right === 0 && isValid(str)) {
                 foundMin = true
                 result.push(str)
+                continue
             }
             
             for (const [neighbor, i, nLeft, nRight] of getNeighbors(str, start, left, right)) {
