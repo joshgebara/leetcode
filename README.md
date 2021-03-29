@@ -39446,11 +39446,9 @@ MyHashSet.prototype.shouldRehash = function() {
  * @return {number}
  */
 var missingElement = function(nums, k) {
-    const missingNums = index => {
-        return nums[index] - nums[0] - index
-    }
+    const missingNums = i => nums[i] - nums[0] - i
     
-    let left = 0
+    let left = 1
     let right = nums.length
     
     while (left < right) {
