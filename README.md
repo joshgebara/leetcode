@@ -24895,31 +24895,30 @@ var decodeString = function(s) {
     const _decodeString = () => {
         if (i >= s.length) return ''
         
-        const result = []
+        const curr = []
         let count = 0
         while (i < s.length) {
-            const char = s[i]
-            if (isDigit(char)) {
+            if (isDigit(s[i])) {
                 count *= 10
-                count += +char
+                count += +s[i]
                 i++
-            } else if (char === '[') {
+            } else if (s[i] === '[') {
                 i++
-                const str = _decodeString()
-                while (count--) {
-                    result.push(str)
+                const next = _decodeString()
+                while (count > 0) {
+                    curr.push(next)
+                    count--
                 }
-                count = 0
-            } else if (char === ']') {
+            } else if (s[i] === ']') {
                 i++
-                return result.join('')
+                return curr.join('')
             } else {
-                result.push(char)
+                curr.push(s[i])
                 i++
             }
         }
         
-        return result.join('')
+        return curr.join('')
     }
     
     let i = 0
