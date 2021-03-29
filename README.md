@@ -61621,3 +61621,28 @@ const leftRightCount = (str) => {
     return [left, right]
 }
 ```
+
+## 611. Valid Triangle Number
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var triangleNumber = function(nums) {
+    nums.sort((a, b) => a - b)
+    
+    let count = 0
+    for (let i = 0; i < sorted.length; i++) {
+        for (let j = i + 1; j < sorted.length; j++) {
+            let k = j + 1
+            while (k < sorted.length && sorted[i] + sorted[j] > sorted[k]) {
+                k++
+            }
+            
+            count += k - j - 1
+        }
+    }
+    
+    return count
+};
+```
