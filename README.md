@@ -2542,11 +2542,6 @@ const getLPSTable = pattern => {
  * @param {string} needle
  * @return {number}
  */
-/**
- * @param {string} haystack
- * @param {string} needle
- * @return {number}
- */
 var strStr = function(haystack, needle) {
     if (!needle.length) return 0
     return rkSearch(haystack, needle)
@@ -7579,17 +7574,22 @@ var nextGreaterElement = function(nums1, nums2) {
 
 ## 503. Next Greater Element II
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
 var nextGreaterElements = function(nums) {
     const n = nums.length
-    const result = Array(n).fill(-1)
+    const result = new Array(n).fill(-1)
     const stack = []
-    
-    for (let i = 0; i < n*2; i++) {
-        while (stack.length && nums[stack[stack.length - 1]] < nums[i % n])
+    for (let i = 0; i < 2 * n; i++) {
+        while (stack.length && nums[stack[stack.length - 1]] < nums[i % n]) {
             result[stack.pop()] = nums[i % n]
+        }
         
-        if (i < n) stack.push(i)  
+        stack.push(i % n)
     }
+    
     return result
 };
 ```
