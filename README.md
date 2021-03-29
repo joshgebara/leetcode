@@ -61632,10 +61632,10 @@ var triangleNumber = function(nums) {
     nums.sort((a, b) => a - b)
     
     let count = 0
-    for (let i = 0; i < sorted.length; i++) {
-        for (let j = i + 1; j < sorted.length; j++) {
+    for (let i = 0; i < nums.length; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
             let k = j + 1
-            while (k < sorted.length && sorted[i] + sorted[j] > sorted[k]) {
+            while (k < nums.length && nums[i] + nums[j] > nums[k]) {
                 k++
             }
             
