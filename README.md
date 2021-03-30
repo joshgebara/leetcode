@@ -57691,35 +57691,37 @@ const isDigit = char => '0123456789'.includes(char)
 ## 311. Sparse Matrix Multiplication
 ```javascript
 /**
- * @param {number[][]} A
- * @param {number[][]} B
+ * @param {number[][]} mat1
+ * @param {number[][]} mat2
  * @return {number[][]}
  */
-var multiply = function(A, B) {
-    const sparseA = new SparseMatrix(A, A.length, A[0].length)
-    const sparseB = new SparseMatrix(B, B.length, B[0].length)
-    const sparseC = sparseA.multiplyBy(sparseB)
-    return sparseC.toDense()
+var multiply = function(mat1, mat2) {
+    const sparseMatrixA = new SparseMatrix(mat1, mat1.length, mat1[0].length)
+    const sparseMatrixB = new SparseMatrix(mat2, mat2.length, mat2[0].length)
+    const sparseMatrixC = sparseMatrixA.multiplyBy(sparseMatrixB)
+    return sparseMatrixC.toDense()
 };
 
 class SparseMatrix {
     constructor(matrix, rowLen, colLen) {
         this.rowLen = rowLen
         this.colLen = colLen
+        
         this.map = {}
         
         if (!matrix.length || !matrix[0].length) return
-        for (let row = 0; row < rowLen; row++) {
-            for (let col = 0; col < colLen; col++) {
-                if (matrix[row][col] !== 0) {
-                    this.map[`${row}-${col}`] = matrix[row][col]
-                }
+        
+        for (let row = 0; row < this.rowLen; row++) {
+            for (let col = 0; col < this.colLen; col++) {
+                if (matrix[row][col] === 0) continue
+                this.map[`${row}-${col}`] = matrix[row][col]
             }
         }
     }
     
     multiplyBy(matrix) {
         const sparseMatrix = new SparseMatrix([], this.rowLen, matrix.colLen)
+        
         for (const [aKey, aVal] of Object.entries(this.map)) {
             const [aRow, aCol] = aKey.split('-')
             
