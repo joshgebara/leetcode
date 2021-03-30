@@ -15052,6 +15052,10 @@ var kthSmallest = function(root, k) {
 
 ## 128. Longest Consecutive Sequence
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var longestConsecutive = function(nums) {
     const seen = new Set(nums)
     
@@ -15071,6 +15075,10 @@ var longestConsecutive = function(nums) {
 };
 
 // Iterative DFS
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var longestConsecutive = function(nums) {
     if (!nums.length) return 0
     
@@ -15102,6 +15110,10 @@ var longestConsecutive = function(nums) {
 };
 
 // Recursive DFS
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var longestConsecutive = function(nums) {
     if (!nums.length) return 0
     
