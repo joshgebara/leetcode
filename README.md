@@ -23331,7 +23331,6 @@ class Heap {
  * @return {number}
  */
 var ladderLength = function(beginWord, endWord, wordList) {
-    wordList.push(beginWord)
     const wordSet = new Set(wordList)
     const queue = [beginWord]
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -23350,7 +23349,7 @@ var ladderLength = function(beginWord, endWord, wordList) {
                     if (word[j] === letter) continue
                     const nextWord = word.slice(0, j) + letter + word.slice(j + 1)
                     
-                    if (wordSet.has(nextWord) && wordSet.has(nextWord)) {
+                    if (wordSet.has(nextWord)) {
                         queue.push(nextWord)
                         wordSet.delete(nextWord)
                     }
@@ -61657,3 +61656,4 @@ var triangleNumber = function(nums) {
     return count
 };
 ```
+
