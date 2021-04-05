@@ -7589,7 +7589,7 @@ var nextGreaterElements = function(nums) {
             result[stack.pop()] = nums[i % n]
         }
         
-        if (i < n) stack.push(i)
+        stack.push(i % n)
     }
     
     return result
