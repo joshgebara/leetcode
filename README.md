@@ -42841,21 +42841,22 @@ class UnionFind {
  */
 var firstMissingPositive = function(nums) {
     if (!nums.length) return 1
-    let hasOne = false
     
     for (let i = 0; i < nums.length; i++) {
-        if (nums[i] === 1) {
-            hasOne = true
-        } else if (nums[i] <= 0 || nums[i] > nums.length) {
-            nums[i] = 1
+        // If negative, invalid so set to Infinity
+        if (nums[i] <= 0) {
+            nums[i] = Infinity
+            continue
         }
     }
     
-    if (!hasOne) return 1
-    
     for (let i = 0; i < nums.length; i++) {
+        if (Math.abs(nums[i]) === Infinity) continue
+        
         const index = Math.abs(nums[i]) - 1
-        nums[index] = -1 * Math.abs(nums[index])
+        if (index < nums.length) {
+            nums[index] = -Math.abs(nums[index])
+        }
     }
     
     for (let i = 0; i < nums.length; i++) {
