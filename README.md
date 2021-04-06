@@ -57661,8 +57661,8 @@ var myAtoi = function(s) {
     let num = 0
     while (i < s.length && isDigit(s[i])) {
         // Check for overflow
-        if (num > Math.floor(MAX_INT) / 10 || 
-            (num === Math.floor(MAX_INT / 10) && +s[i] > 7)) {
+        if (num > Math.trunc(MAX_INT) / 10 || 
+            (num === Math.trunc(MAX_INT / 10) && +s[i] > 7)) {
             return sign === -1 ? MIN_INT : MAX_INT
         }
         
@@ -57674,7 +57674,7 @@ var myAtoi = function(s) {
     return num * sign
 };
 
-const isDigit = char => '0123456789'.includes(char)
+const isDigit = char => '0' <= char && char <= '9'
 ```
 
 ## 311. Sparse Matrix Multiplication
