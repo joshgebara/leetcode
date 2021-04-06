@@ -57750,13 +57750,13 @@ class SparseMatrix {
  * @param {number} capacity
  */
 var LFUCache = function(capacity) {
-    this.listForFrequencyMap = {}
-    this.nodeForKeyMap = {}
-    
     this.capacity = capacity
     this.size = 0
     
     this.minFrequency = 0
+    
+    this.keyToNodeMap = {}
+    this.frequencyToListMap = {}
 };
 
 /** 
@@ -57764,36 +57764,38 @@ var LFUCache = function(capacity) {
  * @return {number}
  */
 LFUCache.prototype.get = function(key) {
-    const node = this.nodeForKeyMap[key]
+    const node = this.keyToNodeMap[key]
     if (this.capacity === 0 || node === undefined) {
         return -1
     }
     
-    const { value, frequency } = node
+    const oldFrequency = node.frequency
+    const newFrequency = node.frequency + 1
+    node.frequency++
     
     // Remove node from old list
-    const list = this.listForFrequencyMap[frequency]
-    list.remove(node)
+    const oldList = this.frequencyToListMap[oldFrequency]
+    oldList.remove(node)
     
     // If old list now empty, remove from map
-    if (list.length === 0) {
+    if (oldList.size === 0) {
         // Update minFrequency if needed
-        if (frequency === this.minFrequency) {
-            this.minFrequency++
+        if (this.minFrequency === oldFrequency) {
+            this.minFrequency = newFrequency
         }
         
-        delete this.listForFrequencyMap[frequency]
+        delete this.frequencyToListMap[oldFrequency]
     }
     
-    // Add node to new list, if list doens't exist in map add list first
-    if (this.listForFrequencyMap[frequency + 1] === undefined) {
-        this.listForFrequencyMap[frequency + 1] = new DoublyLinkedList()
+    // Add node to new list, if list doesn't exist in map add list first
+    if (this.frequencyToListMap[newFrequency] === undefined) {
+        this.frequencyToListMap[newFrequency] = new DoublyLinkedList()
     }
     
-    node.frequency++
-    this.listForFrequencyMap[frequency + 1].add(node)
+    const newList = this.frequencyToListMap[newFrequency]
+    newList.insertAtHead(node)
     
-    return value
+    return node.value
 };
 
 /** 
@@ -57804,34 +57806,37 @@ LFUCache.prototype.get = function(key) {
 LFUCache.prototype.put = function(key, value) {
     if (this.capacity === 0) return
     
-    if (this.nodeForKeyMap[key] !== undefined) {
-        this.nodeForKeyMap[key].value = value
+    if (this.keyToNodeMap[key] !== undefined) {
+        const node = this.keyToNodeMap[key]
+        node.value = value
         this.get(key)
         return
     }
     
     // if at capacity must delete least recently used from list of min frequecy
     if (this.size === this.capacity) {
-        const list = this.listForFrequencyMap[this.minFrequency]
-        const lruNode = list.getTail()
-        list.removeTail()
+        const minList = this.frequencyToListMap[this.minFrequency]
+        const lruNode = minList.removeFromTail()
         this.size--
         
-        // If old list now empty, remove from map
-        delete this.nodeForKeyMap[lruNode.key]
-        if (list.length === 0) {
-            delete this.listForFrequencyMap[this.minFrequency]
+        delete this.keyToNodeMap[lruNode.key]
+        
+        // If min list now empty, remove from map
+        if (minList.size === 0) {
+            delete this.frequencyToListMap[this.minFrequency]
         }
     }
     
     this.minFrequency = 1
-    if (this.listForFrequencyMap[this.minFrequency] === undefined) {
-        this.listForFrequencyMap[this.minFrequency] = new DoublyLinkedList()
+    if (this.frequencyToListMap[this.minFrequency] === undefined) {
+        this.frequencyToListMap[this.minFrequency] = new DoublyLinkedList()
     }
     
     const node = new Node(key, value, 1)
-    this.nodeForKeyMap[key] = node
-    this.listForFrequencyMap[this.minFrequency].add(node)
+    this.keyToNodeMap[key] = node
+    
+    const minList = this.frequencyToListMap[this.minFrequency]
+    minList.insertAtHead(node)
     
     this.size++
 };
@@ -57847,13 +57852,16 @@ class DoublyLinkedList {
     constructor() {
         this.head = new Node()
         this.tail = new Node()
+        
         this.head.next = this.tail
         this.tail.prev = this.head
-        this.length = 0
+        
+        this.size = 0
     }
     
-    // Adds node to head (most recently used)
-    add(node) {
+    insertAtHead(node) {
+        if (!node) return
+        
         const head = this.head
         const next = head.next
         
@@ -57864,10 +57872,12 @@ class DoublyLinkedList {
         
         next.prev = node
         
-        this.length++
+        this.size++
     }
     
     remove(node) {
+        if (!node) return
+        
         const prev = node.prev
         const next = node.next
         
@@ -57877,23 +57887,19 @@ class DoublyLinkedList {
         node.next = null
         node.prev = null
         
-        this.length--
+        this.size--
     }
     
-    // Removes tail node (least recently used)
-    removeTail() {
-        if (this.length > 0) {
-            this.remove(this.tail.prev)
-        }
-    }
-    
-    getTail() {
-        return this.tail.prev
+    removeFromTail() {
+        if (this.size === 0) return
+        const lastNode = this.tail.prev
+        this.remove(lastNode)
+        return lastNode
     }
 }
 
 class Node {
-    constructor(key = NaN, value = NaN, frequency = NaN) {
+    constructor(key, value, frequency) {
         this.key = key
         this.value = value
         this.frequency = frequency
