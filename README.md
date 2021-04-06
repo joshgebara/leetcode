@@ -40701,24 +40701,33 @@ const bucketSort = arr => {
  */
 var minDistance = function(word1, word2) {
     const _minDistance = (i, j) => {
-        if (i === word1.length) {
+        if (i >= word1.length) {
+            // insert remaining chars
             return word2.length - j
         }
         
-        if (j === word2.length) {
+        if (j >= word2.length) {
+            // delete remaining chars
             return word1.length - i
         }
         
-        if (memo[i][j] !== undefined)
+        if (memo[i][j] !== undefined) {
             return memo[i][j]
+        }
         
-        memo[i][j] = Math.min(1 + _minDistance(i + 1, j),
-                              1 + _minDistance(i, j + 1), 
-                              (word1[i] === word2[j] ? 0 : 1) + _minDistance(i + 1, j + 1))
+        if (word1[i] !== word2[j]) {
+            const insertChar = _minDistance(i, j + 1)
+            const deleteChar = _minDistance(i + 1, j)
+            const replaceChar = _minDistance(i + 1, j + 1)
+            memo[i][j] = 1 + Math.min(insertChar, deleteChar, replaceChar)
+        } else {
+            memo[i][j] = _minDistance(i + 1, j + 1)
+        }
+        
         return memo[i][j]
     }
     
-    const memo = Array(word1.length).fill().map(a => Array(word2.length).fill())
+    const memo = new Array(word1.length).fill().map(a => new Array(word2.length))
     return _minDistance(0, 0)
 };
 
