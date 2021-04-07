@@ -61641,3 +61641,40 @@ var triangleNumber = function(nums) {
 };
 ```
 
+## 1583. Count Unhappy Friends
+```javascript
+/**
+ * @param {number} n
+ * @param {number[][]} preferences
+ * @param {number[][]} pairs
+ * @return {number}
+ */
+var unhappyFriends = function(n, preferences, pairs) {
+    const preferenceMap = {}
+    for (const [x, y] of pairs) {
+        preferenceMap[x] = new Set()
+        for (const preference of preferences[x]) {
+            if (preference === y) break
+            preferenceMap[x].add(preference)
+        }
+        
+        preferenceMap[y] = new Set()
+        for (const preference of preferences[y]) {
+            if (preference === x) break
+            preferenceMap[y].add(preference)
+        }
+    }
+    
+    let count = 0
+    for (const x of Object.keys(preferenceMap)) {
+        for (const y of preferenceMap[x]) {
+            if (preferenceMap[y].has(+x)) {
+                count++
+                break
+            }
+        }
+    }
+    
+    return count
+};
+```
