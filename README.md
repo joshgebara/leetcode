@@ -21325,23 +21325,40 @@ var addOneRow = function(root, v, d) {
 
 ## 333. Largest BST Subtree
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var largestBSTSubtree = function(root) {
-    const _largestBSTSubtree = root => {
-        if (!root) return [0, true, Number.MAX_VALUE, -Number.MAX_VALUE]
+    const _largestBSTSubtree = node => {
+        if (!node) return [true, Infinity, -Infinity, 0]
         
-        const [leftCount, leftValid, leftMin, leftMax] = _largestBSTSubtree(root.left)
-        const [rightCount, rightValid, rightMin, rightMax] = _largestBSTSubtree(root.right)
+        let [leftIsBST, leftMin, leftMax, leftSize] = _largestBSTSubtree(node.left)
+        let [rightIsBST, rightMin, rightMax, rightSize] = _largestBSTSubtree(node.right)
         
-        if (!leftValid || !rightValid || leftMax >= root.val || rightMin <= root.val)
-            return [Math.max(leftCount, rightCount), false, 0, 0]
+        if (leftIsBST && rightIsBST && leftMax < node.val && node.val < rightMin) {
+            result = Math.max(result, 1 + leftSize + rightSize)
+            
+            leftMin = leftMin === Infinity ? node.val : leftMin
+            rightMax = rightMax === -Infinity ? node.val : rightMax
+            
+            return [true, leftMin, rightMax, 1 + leftSize + rightSize]
+        }
         
-        return [leftCount + rightCount + 1, 
-                true, 
-                Math.min(leftMin, root.val),
-                Math.max(rightMax, root.val)]
+        return [false, Infinity, -Infinity, 0]
     }
     
-    return _largestBSTSubtree(root)[0]
+    let result = 0
+    _largestBSTSubtree(root)
+    return result
 };
 ```
 
