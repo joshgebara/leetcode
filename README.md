@@ -23364,6 +23364,72 @@ var ladderLength = function(beginWord, endWord, wordList) {
     
     return 0
 };
+
+// Bidirectional BFS
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {number}
+ */
+var ladderLength = function(beginWord, endWord, wordList) {
+    const words = new Set(wordList)
+    if (!words.has(endWord)) return 0
+    
+    let beginSet = new Set([beginWord])
+    let endSet = new Set([endWord])
+    
+    let level = 1
+    
+    while (beginSet.size && endSet.size) {
+        if (beginSet.size > endSet.size) {
+            const temp = beginSet
+            beginSet = endSet
+            endSet = temp
+        }
+        
+        level++
+        if (bfs(beginSet, endSet, words)) {
+            return level
+        }
+    }
+    
+    return 0
+};
+
+const bfs = (beginSet, endSet, words) => {
+    const getNeighbors = word => {
+        const neighbors = []
+        for (let i = 0; i < word.length; i++) {
+            for (let code = 'a'.charCodeAt(0); code <= 'z'.charCodeAt(0); code++) {
+                const char = String.fromCharCode(code)
+                if (word[i] === char) continue
+                
+                const nextWord = word.slice(0, i) + char + word.slice(i + 1)
+                neighbors.push(nextWord)
+            }
+        }
+        return neighbors
+    }
+    
+    const neighborSet = new Set()
+    for (const node of beginSet) {    
+        for (const neighbor of getNeighbors(node)) {
+            if (endSet.has(neighbor)) return true
+            
+            if (!words.has(neighbor)) continue
+            words.delete(neighbor)
+            neighborSet.add(neighbor)
+        }
+    }
+    
+    beginSet.clear()
+    for (const word of neighborSet) {
+        beginSet.add(word)
+    }
+    
+    return false
+}
 ```
 
 ## 1197. Minimum Knight Moves
