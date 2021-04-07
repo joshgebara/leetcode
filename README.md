@@ -39150,6 +39150,7 @@ var getLastMoment = function(n, left, right) {
 
 ## 658. Find K Closest Elements
 ```javascript
+// https://www.youtube.com/watch?v=ZZmIVlgDIlQ
 /**
  * @param {number[]} arr
  * @param {number} k
@@ -39157,47 +39158,25 @@ var getLastMoment = function(n, left, right) {
  * @return {number[]}
  */
 var findClosestElements = function(arr, k, x) {
-    const index = binarySearch(arr, x)
-    let i = index
-    let j = index
-    
-    while (j - i <= k) {
-        if (i < 0) {
-            j++
-        } else if (j >= arr.length) {
-            i--
-        } else if (Math.abs(arr[i] - x) <= Math.abs(arr[j] - x)) {
-            i--
-        } else {
-            j++
-        }
-    }
-    
-    const result = []
-    for (let m = i + 1; m <= j - 1; m++) {
-        result.push(arr[m])
-    }
-    return result
-};
-
-const binarySearch = (arr, target) => {
     let left = 0
-    let right = arr.length - 1
+    let right = arr.length - k
     
-    while (right - left > 1) {
-        const mid = Math.floor((right - left) / 2) + left
+    while (left < right) {
+        // m is starting index of window of size k
+        const mid = Math.trunc((right - left) / 2 ) + left
         
-        if (arr[mid] === target) {
-            return mid
-        } else if (arr[mid] < target) {
-            left = mid
+        const windowStartVal = arr[mid]
+        const windowEndVal = arr[mid + k]
+        const windowMidVal = Math.trunc((windowEndVal - windowStartVal) / 2) + windowStartVal
+        if (x > windowMidVal) {
+            left = mid + 1
         } else {
             right = mid
         }
     }
     
-    return Math.abs(arr[left] - target) <= Math.abs(arr[right] - target) ? left : right
-}
+    return arr.slice(left, left + k)
+};
 ```
 
 ## 1182. Shortest Distance to Target Color
