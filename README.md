@@ -55598,46 +55598,46 @@ var maximalRectangle = function(matrix) {
     
     const m = matrix.length
     const n = matrix[0].length
-    const heights = new Array(n).fill(0)
     
-    let maxArea = 0
+    const histogram = new Array(n).fill(0)
+    
+    let max = 0
     for (let row = 0; row < m; row++) {
         for (let col = 0; col < n; col++) {
-            if (matrix[row][col] === '1') {
-                heights[col]++
+            if (matrix[row][col] === '0') { 
+                histogram[col] = 0
             } else {
-                heights[col] = 0
+                histogram[col]++
             }
         }
         
-        maxArea = Math.max(maxArea, largestHistogram(heights))
+        max = Math.max(max, largestRectangleArea(histogram))
     }
     
-    return maxArea
+    return max
 };
 
-const largestHistogram = heights => {
+const largestRectangleArea = histogram => {
     const stack = [-1]
     let max = 0
-    for (let i = 0; i < heights.length; i++) {
-        while (stack[stack.length - 1] !== -1 && 
-               heights[stack[stack.length - 1]] >= heights[i]) {
-            const height = heights[stack.pop()]
+    for (let i = 0; i < histogram.length; i++) {
+        while (stack.length > 1 && histogram[stack[stack.length - 1]] > histogram[i]) {
+            const height = histogram[stack.pop()]
             const width = i - stack[stack.length - 1] - 1
-            max = Math.max(max, height * width)
+            max = Math.max(max, width * height)
         }
         
         stack.push(i)
     }
     
-    while (stack[stack.length - 1] !== -1) {
-        const height = heights[stack.pop()]
-        const width = heights.length - stack[stack.length - 1] - 1
-        max = Math.max(max, height * width)
+    while (stack.length > 1) {
+        const height = histogram[stack.pop()]
+        const width = histogram.length - stack[stack.length - 1] - 1
+        max = Math.max(max, width * height)
     }
     
     return max
-};
+}
 ```
 
 ## 1729. Find Followers Count
