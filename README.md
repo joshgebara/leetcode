@@ -61661,3 +61661,54 @@ var unhappyFriends = function(n, preferences, pairs) {
     return count
 };
 ```
+
+## 329. Longest Increasing Path in a Matrix
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+var longestIncreasingPath = function(matrix) {
+    const dfs = (row, col) => {
+        if (memo[row][col] !== undefined) {
+            return memo[row][col]
+        }
+        
+        let max = 1
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = deltaRow + row
+            const nextCol = deltaCol + col
+            
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen) {
+                continue
+            }
+            
+            if (matrix[nextRow][nextCol] <= matrix[row][col]) continue
+            
+            max = Math.max(max, 1 + dfs(nextRow, nextCol))
+        }
+        
+        memo[row][col] = max
+        return max
+    }
+    
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    const rowLen = matrix.length
+    const colLen = matrix[0].length
+    
+    const memo = new Array(rowLen).fill().map(a => new Array(colLen))
+    let max = 0
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (memo[row][col] === undefined) {
+                dfs(row, col)
+            }
+            
+            max = Math.max(max, memo[row][col])
+        }
+    }
+    
+    return max
+};
+```
