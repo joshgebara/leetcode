@@ -33450,64 +33450,21 @@ const binarySearch = (arr, target) => {
  * @return {boolean}
  */
 var increasingTriplet = function(nums) {
-   let first = Number.MAX_VALUE
-   let second = Number.MAX_VALUE
-   
-   for (const num of nums) {
-       if (num <= first) {
-           first = num
-       } else if (num <= second) {
-           second = num
-       } else {
-           return true
-       }
-   }
-
-   return false
-};
-
-// Binary Search Solution O(n) time O(1) space
-/**
- * @param {number[]} nums
- * @return {boolean}
- */
-var increasingTriplet = function(nums) {
-   const dp = []
-   
-   for (const num of nums) {
-       if (!dp.length || num > dp[dp.length - 1]) {
-           dp.push(num)
-           
-           if (dp.length === 3) {
-               return true
-           }
-           
-           continue
-       }
-       
-       const index = binarySearch(dp, num)
-       dp[index] = num
-   }
-   
-   return false
-};
-
-const binarySearch = (arr, target) => {
-    let low = 0
-    let high = arr.length - 1
+    let min1 = Infinity
+    let min2 = Infinity
     
-    while (low < high) {
-        const mid = Math.floor((high - low) / 2) + low
-        
-        if (arr[mid] >= target) {
-            high = mid
+    for (const num of nums) {
+        if (num <= min1) {
+            min1 = num
+        } else if (num <= min2) {
+            min2 = num
         } else {
-            low = mid + 1
+            return true
         }
     }
     
-    return low
-}
+    return false
+};
 ```
 
 ## 251. Flatten 2D Vector
