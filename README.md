@@ -61848,3 +61848,105 @@ var integerReplacement = function(n) {
 };
 ```
 
+## 1429. First Unique Number
+```javascript
+/**
+ * @param {number[]} nums
+ */
+var FirstUnique = function(nums) {
+    this.queue = new DoublyLinkedList()
+    this.valueToNodeMap = {}
+    
+    for (const num of nums) {
+        this.add(num)
+    }
+};
+
+/**
+ * @return {number}
+ */
+FirstUnique.prototype.showFirstUnique = function() {
+    const node = this.queue.first()
+    return node ? node.value : -1
+};
+
+/** 
+ * @param {number} value
+ * @return {void}
+ */
+FirstUnique.prototype.add = function(value) {
+    if (this.valueToNodeMap[value] === undefined) {
+        const node = new Node(value)
+        this.valueToNodeMap[value] = node
+        this.queue.insertAtTail(node)
+        return
+    }
+    
+    if (this.valueToNodeMap[value] === null) {
+        return
+    }
+    
+    const node = this.valueToNodeMap[value]
+    this.queue.remove(node)
+    this.valueToNodeMap[value] = null
+};
+
+/** 
+ * Your FirstUnique object will be instantiated and called as such:
+ * var obj = new FirstUnique(nums)
+ * var param_1 = obj.showFirstUnique()
+ * obj.add(value)
+ */
+
+class DoublyLinkedList {
+    constructor() {
+        this.head = new Node()
+        this.tail = new Node()
+        
+        this.head.next = this.tail
+        this.tail.prev = this.head
+        
+        this.size = 0
+    }
+    
+    insertAtTail(node) {
+        const tail = this.tail
+        const prev = tail.prev
+        
+        prev.next = node
+        node.prev = prev
+        
+        node.next = tail
+        tail.prev = node
+        
+        this.size++
+    }
+    
+    first() {
+        if (this.size === 0) {
+            return null
+        }
+        
+        return this.head.next
+    }
+    
+    remove(node) {
+        const prev = node.prev
+        const next = node.next
+        
+        prev.next = next
+        next.prev = prev
+        
+        node.prev = null
+        node.next = null
+        
+        this.size--
+    }
+}
+
+class Node {
+    constructor(value) {
+        this.value = value
+    }
+}
+```
