@@ -12099,63 +12099,76 @@ MapSum.prototype.sum = function(prefix) {
 ## 648. Replace Words
 ```javascript
 /**
- * @param {string[]} dict
+ * @param {string[]} dictionary
  * @param {string} sentence
  * @return {string}
  */
-
-class TrieNode {
-    constructor(val = "") {
-        this.val = val
-        this.children = {}
-        this.isEnd = false
+var replaceWords = function(dictionary, sentence) {
+    const trie = new Trie(dictionary)
+    
+    const result = []
+    
+    for (const word of sentence.split(' ')) {
+        const prefix = trie.shortestPrefix(word)
+        if (prefix === '') {
+            result.push(word)
+        } else {
+            result.push(prefix)
+        }
     }
-}
+    
+    return result.join(' ')
+};
 
 class Trie {
-    root = new TrieNode()
-
+    constructor(words) {
+        this.root = new TrieNode()
+        
+        for (const word of words) {
+            this.insert(word)
+        }
+    }
+    
     insert(word) {
         let curr = this.root
-        
-        for (let char of word) {
-            if (!curr.children[char]) {
+        for (const char of word) {
+            if (curr.children[char] === undefined) {
                 curr.children[char] = new TrieNode(char)
             }
+            
             curr = curr.children[char]
         }
         
         curr.isEnd = true
     }
-
-    prefix(word) {
+    
+    shortestPrefix(word) {
+        const prefix = []
         let curr = this.root
-        let prefix = []
-        
-        for (let char of word) {
-            if (!curr.children[char]) return null
+        for (const char of word) {
+            if (curr.children[char] === undefined) {
+                return ''
+            }
             
             curr = curr.children[char]
-            prefix.push(char)
-            if (curr.isEnd) return prefix.join('')
+            prefix.push(curr.key)
+            
+            if (curr.isEnd) {
+                return prefix.join('')
+            }
         }
         
-        if (curr.isEnd) return prefix.join('')
+        return ''
     }
 }
 
-var replaceWords = function(dict, sentence) {
-    const trie = new Trie()
-    for (let word of dict)
-        trie.insert(word)
-    
-    const words = sentence.split(' ')
-    return words.map(word => {
-        let prefix = trie.prefix(word)
-        if (prefix) return prefix 
-        return word
-    }).join(' ')
-};
+class TrieNode {
+    constructor(key) {
+        this.key = key
+        this.children = {}
+        this.isEnd = false
+    }
+}
 ```
 
 ## 211. Add and Search Word - Data structure design
