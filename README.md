@@ -52399,13 +52399,16 @@ var numDistinct = function(s, t) {
             return memo[i][j]
         }
         
-        let result = _numDistinct(i + 1, j)
+        let count = 0
         if (s[i] === t[j]) {
-            result += _numDistinct(i + 1, j + 1)
-        }
+            // take
+            count += _numDistinct(i + 1, j + 1)
+        }        
+        // don't take
+        count += _numDistinct(i + 1, j)
         
-        memo[i][j] = result
-        return result
+        memo[i][j] = count
+        return count
     }
     
     const memo = new Array(s.length).fill().map(a => new Array(t.length))
