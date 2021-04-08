@@ -38629,8 +38629,8 @@ var validTicTacToe = function(board) {
     if (diag2 === n) oWins = true
     if (diag2 === -n) xWins = true
     
-    if (xWins) return xCount - oCount === 1
-    if (oWins) return xCount === oCount
+    if (xWins) return !oWins && xCount - oCount === 1
+    if (oWins) return !xWins && xCount === oCount
     return xCount === oCount || xCount - oCount === 1
 };
 ```
