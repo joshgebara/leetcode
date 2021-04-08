@@ -61796,3 +61796,33 @@ var longestIncreasingPath = function(matrix) {
     return max
 };
 ```
+
+## 397. Integer Replacement
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var integerReplacement = function(n) {
+    const _integerReplacement = (n, steps) => {
+        if (n < 1) return Infinity
+        
+        if (n === 1) {
+            return steps
+        }
+        
+        memo[`${n}-${steps}`] = Infinity
+        if (n % 2 === 0) {
+            memo[`${n}-${steps}`] = _integerReplacement(Math.floor(n / 2), steps + 1)
+        } else {
+            memo[`${n}-${steps}`] = Math.min(_integerReplacement(n + 1, steps + 1), 
+                                             _integerReplacement(n - 1, steps + 1))
+        }
+        
+        return memo[`${n}-${steps}`]
+    }
+    
+    const memo = {}
+    return _integerReplacement(n, 0)
+};
+```
