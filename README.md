@@ -61907,3 +61907,33 @@ class Node {
     }
 }
 ```
+
+## 532. K-diff Pairs in an Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findPairs = function(nums, k) {
+    const counts = {}
+    for (const num of nums) {
+        counts[num] = 1 + (counts[num] || 0)
+    }
+    
+    let pairs = 0
+    for (const [key, count] of Object.entries(counts)) {
+        const num = +key
+        
+        if (k === 0) {
+            if (count >= 2) {
+                pairs++
+            }
+        } else if (counts[num + k]) {
+            pairs++
+        }
+    }
+
+    return pairs
+};
+```
