@@ -12137,6 +12137,15 @@ class Trie {
             }
             
             curr = curr.children[char]
+            
+            /*
+            One optimization when building the trie, 
+            if a shorter root is already found, we can stop 
+            adding it to the trie. e.g. "a", "aa", "aaa", if 
+            "a" is already in the trie, we don't need to go 
+            beyond first character of "aa" and "aaa".
+            */
+            if (curr.isEnd) return
         }
         
         curr.isEnd = true
