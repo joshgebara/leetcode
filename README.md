@@ -7862,26 +7862,40 @@ var oddEvenList = function(head) {
 
 ## 86. Partition List
 ```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} x
+ * @return {ListNode}
+ */
 var partition = function(head, x) {
-    let left = new ListNode(-1)
-    let right = new ListNode(-1)
-    let currL = left
-    let currR = right
+    let left = new ListNode(NaN)
+    let leftCurr = left
     
-    while (head) {
-        if (head.val < x) {
-            currL.next = head
-            currL = currL.next
+    let right = new ListNode(NaN)
+    let rightCurr = right
+    
+    let curr = head
+    while (curr) {
+        if (curr.val < x) {
+            leftCurr.next = curr
+            leftCurr = leftCurr.next
         } else {
-            currR.next = head
-            currR = currR.next
+            rightCurr.next = curr
+            rightCurr = rightCurr.next
         }
-        head = head.next
+        curr = curr.next
     }
-    currL.next = null
-    currR.next = null
     
-    currL.next = right.next
+    rightCurr.next = null
+    
+    leftCurr.next = right.next
     return left.next
 };
 ```
