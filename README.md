@@ -26775,45 +26775,49 @@ var maxDepthAfterSplit = function(seq) {
 
 ## 1300. Sum of Mutated Array Closest to Target
 ```javascript
-// Binary Search
+/**
+ * @param {number[]} arr
+ * @param {number} target
+ * @return {number}
+ */
 var findBestValue = function(arr, target) {
     let left = 0
-    let right = target
+    let right = Math.max(...arr) + 1
     
-    let diff = Infinity
-    let val = 0
+    let closest = Infinity
+    let closestSum = Infinity
     
     while (left <= right) {
-        const mid = Math.floor((right - left) / 2) + left
-        const currSum = sum(arr, mid)
-        const currDiff = Math.abs(currSum - target)
+        const mid = Math.trunc((right - left) / 2) + left
         
-        if (currDiff < diff) {
-            diff = currDiff
-            val = mid
-        } 
-
-        if (currSum <= target) {
+        const midSum = mutatedSum(arr, mid)
+        
+        if (Math.abs(closestSum - target) > Math.abs(midSum - target)) {
+            closest = mid
+            closestSum = midSum
+        }
+        
+        if (midSum === target) {
+            return mid
+        } else if (midSum < target) {
             left = mid + 1
         } else {
             right = mid - 1
         }
     }
     
-    return val
+    return closest
 };
 
-const sum = (arr, val) => {
-    let result = 0
+const mutatedSum = (arr, val) => {
+    let sum = 0
     
-    for (const a of arr) {
-        result += a < val ? a : val
+    for (const num of arr) {
+        sum += Math.min(num, val)
     }
     
-    return result
+    return sum
 }
-
-// Sorting
 ```
 
 ## 1351. Count Negative Numbers in a Sorted Matrix
@@ -61826,3 +61830,4 @@ var integerReplacement = function(n) {
     return _integerReplacement(n, 0)
 };
 ```
+
