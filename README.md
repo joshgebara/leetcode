@@ -24534,15 +24534,16 @@ var minJumps = function(arr) {
  * @param {number[][]} food
  */
 var SnakeGame = function(width, height, food) {
-    this.snakeBodySet = new Set(['0-0'])
-    this.snakeBodyDeque = [[0, 0]]
-    
-    this.score = 0
-    
     this.width = width
     this.height = height
     
     this.food = food
+    this.foodIndex = 0
+    
+    this.score = 0
+    
+    this.snakeDeque = [[0, 0]]
+    this.snakeSet = new Set('0-0')
 };
 
 /**
@@ -24553,46 +24554,57 @@ var SnakeGame = function(width, height, food) {
  * @param {string} direction
  * @return {number}
  */
-SnakeGame.prototype.move = function(direction) {    
-    if (this.score === -1)
-        return this.score
+SnakeGame.prototype.move = function(direction) {
+    if (this.score === -1) return -1
     
-    const nextPos = this.snakeBodyDeque[0].slice()
+    const [currRow, currCol] = this.snakeDeque[0]
+    
+    let nextRow = currRow
+    let nextCol = currCol
+    
     switch (direction) {
         case 'U':
-            nextPos[0]--
-            break
-        case 'D':
-            nextPos[0]++
+            nextRow -= 1
             break
         case 'L':
-            nextPos[1]--
+            nextCol -= 1
             break
         case 'R':
-            nextPos[1]++
+            nextCol += 1
+            break
+        case 'D':
+            nextRow += 1
             break
     }
     
-    const [tailRow, tailCol] = this.snakeBodyDeque.pop()
-    this.snakeBodySet.delete(`${tailRow}-${tailCol}`)
+    const [tailRow, tailCol] = this.snakeDeque.pop()
+    this.snakeSet.delete(`${tailRow}-${tailCol}`)
     
-    if (!this.validMove(nextPos) || this.collision(nextPos)) {
-        this.score = -1
-        return this.score
+    // if out of bounds return -1
+    if (nextRow < 0 || nextRow >= this.height || 
+        nextCol < 0 || nextCol >= this.width) {
+        return -1
     }
     
-    const [nextRow, nextCol] = nextPos
-    this.snakeBodyDeque.unshift(nextPos)
-    this.snakeBodySet.add(`${nextRow}-${nextCol}`)
-    
-    const [foodRow, foodCol] = this.currFoodPos() || [null, null]
-    if (foodRow === nextRow && foodCol === nextCol) {
-        this.snakeBodyDeque.push([tailRow, tailCol])
-        this.snakeBodySet.add(`${tailRow}-${tailCol}`)
-        
-        this.score++
-        this.food.shift()
+    // if snake hits itself return -1
+    if (this.snakeSet.has(`${nextRow}-${nextCol}`)) {
+        return -1
     }
+    
+    if (this.foodIndex < this.food.length) {
+        // if next position on food, move food index forward, inc score, add back tail
+        const [foodRow, foodCol] = this.food[this.foodIndex]
+        if (nextRow === foodRow && nextCol === foodCol) {
+            this.foodIndex++
+            this.score++
+            
+            this.snakeDeque.push([tailRow, tailCol])
+            this.snakeSet.add(`${tailRow}-${tailCol}`)
+        }
+    }
+    
+    this.snakeDeque.unshift([nextRow, nextCol])
+    this.snakeSet.add(`${nextRow}-${nextCol}`)
     
     return this.score
 };
@@ -24602,26 +24614,6 @@ SnakeGame.prototype.move = function(direction) {
  * var obj = new SnakeGame(width, height, food)
  * var param_1 = obj.move(direction)
  */
-
-SnakeGame.prototype.currFoodPos = function() {
-    if (!this.food.length) return null
-    return this.food[0]
-}
-
-SnakeGame.prototype.validMove = function(pos) {
-    const [row, col] = pos
-    return row >= 0 && col >= 0 && row < this.height && col < this.width
-}
-
-SnakeGame.prototype.collision = function(pos) {
-    const [row, col] = pos
-    const key = `${row}-${col}`
-    
-    if (this.snakeBodySet.has(key))
-        return true
-    
-    return false
-}
 ```
 
 ## 355. Design Twitter
@@ -40791,11 +40783,6 @@ var minDistance = function(word1, word2) {
     
     return dp[word1.length][word2.length]
 };
-```
-
-## 660. Remove 9
-```javascript
-
 ```
 
 ## 839. Similar String Groups
