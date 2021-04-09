@@ -12978,60 +12978,33 @@ var canConstruct = function(ransomNote, magazine) {
 
 ## 202. Happy Number
 ```javascript
-// Hash Set
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
 var isHappy = function(n) {
-    const seen = new Set()
-    let curr = n
+    let slow = n
+    let fast = getNext(n)
     
-    while (curr !== 1) {
-        let sum = 0
-        
-        while (curr) {
-            let digit = curr % 10
-            sum += digit * digit
-            curr = Math.floor(curr / 10)
-        }
-        
-        if (seen.has(sum)) 
-            return false
-        
-        seen.add(sum)
-        curr = sum
-    }    
-    return true
-};
-
-// Hash Set + DP
-const dp = { 1: true }
-
-var isHappy = function(n) {
-    if (dp[n] !== undefined) return dp[n]
-    
-    const _isHappy = num => {
-        if (dp[num] || num === 1) return true
-        
-        if (seen.has(num)) return false
-        seen.add(num)
-        
-        const result = _isHappy(squareSum(num))
-        dp[num] = result
-        return result
+    while (fast > 1 && slow !== fast) {
+        slow = getNext(slow)
+        fast = getNext(fast)
+        fast = getNext(fast)
     }
     
-    const seen = new Set()
-    _isHappy(n)
-    return dp[n]
+    return fast === 1
 };
 
-const squareSum = num => {
-    let result = 0
-
+const getNext = num => {
+    let sum = 0
+    
     while (num) {
-        result += (num % 10) ** 2
-        num = Math.floor(num / 10)
+        const digit = num % 10
+        sum += digit ** 2
+        num = Math.trunc(num / 10)
     }
-
-    return result
+    
+    return sum
 }
 ```
 
