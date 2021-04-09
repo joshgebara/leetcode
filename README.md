@@ -61897,3 +61897,44 @@ var findPairs = function(nums, k) {
     return pairs
 };
 ```
+
+## 1105. Filling Bookcase Shelves
+```javascript
+/**
+ * @param {number[][]} books
+ * @param {number} shelf_width
+ * @return {number}
+ */
+var minHeightShelves = function(books, shelf_width) {
+    const _minHeightShelves = start => {
+        if (start >= books.length) {
+            return 0
+        }
+        
+        if (memo[start] !== undefined) {
+            return memo[start]
+        }
+        
+        let min = Infinity
+        let levelWidth = 0
+        let maxBookHeight = 0
+        
+        for (let i = start; i < books.length; i++) {
+            const [bookWidth, bookHeight] = books[i]
+            
+            if (levelWidth + bookWidth > shelf_width) break
+            levelWidth += bookWidth
+            
+            maxBookHeight = Math.max(maxBookHeight, bookHeight)
+            
+            min = Math.min(min, maxBookHeight + _minHeightShelves(i + 1))
+        }
+        
+        memo[start] = min
+        return min
+    }
+    
+    const memo = new Array(books.length)
+    return _minHeightShelves(0)
+};
+```
