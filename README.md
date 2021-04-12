@@ -13413,6 +13413,8 @@ var maxAreaOfIsland = function(grid) {
 
 const getArea = (row, col, grid) => {
     const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    const rowLen = grid.length
+    const colLen = grid[0].length
     
     let area = 0
     
@@ -13428,8 +13430,8 @@ const getArea = (row, col, grid) => {
             const nextRow = currRow + deltaRow
             const nextCol = currCol + deltaCol
             
-            if (nextRow < 0 || nextRow >= grid.length || 
-                nextCol < 0 || nextCol >= grid[0].length || 
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen || 
                 grid[nextRow][nextCol] !== 1) continue
             
             grid[nextRow][nextCol] = 0
