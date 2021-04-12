@@ -13391,37 +13391,53 @@ var findLeaves = function(root) {
 
 ## 695. Max Area of Island
 ```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
 var maxAreaOfIsland = function(grid) {
-    let max = 0
+    const rowLen = grid.length
+    const colLen = grid[0].length
     
-    for (let row = 0; row < grid.length; row++) {
-        for (let col = 0; col < grid[0].length; col++) {
+    let maxArea = 0
+    
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
             if (grid[row][col] !== 1) continue
-            max = Math.max(max, area(grid, row, col))
+            maxArea = Math.max(maxArea, getArea(row, col, grid))
         }
     }
     
-    return max
+    return maxArea
 };
 
-const area = (grid, row, col) => {
-    const _area = (grid, row, col) => {
-        if (row < 0 || row >= grid.length ||
-            col < 0 || col >= grid[0].length || 
-            grid[row][col] === 0) 
-            return
-        
-        grid[row][col] = 0
-        area++
-        
-        _area(grid, row - 1, col)
-        _area(grid, row + 1, col)
-        _area(grid, row, col - 1)
-        _area(grid, row, col + 1)
-    }
+const getArea = (row, col, grid) => {
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
     
     let area = 0
-    _area(grid, row, col)
+    
+    const queue = [[row, col]]
+    grid[row][col] = 0
+    
+    while (queue.length) {
+        const [currRow, currCol] = queue.shift()
+        
+        area++
+        
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = currRow + deltaRow
+            const nextCol = currCol + deltaCol
+            
+            if (nextRow < 0 || nextRow >= grid.length || 
+                nextCol < 0 || nextCol >= grid[0].length || 
+                grid[nextRow][nextCol] !== 1) continue
+            
+            grid[nextRow][nextCol] = 0
+            
+            queue.push([nextRow, nextCol])
+        }
+    }
+    
     return area
 }
 ```
@@ -32459,12 +32475,6 @@ class Node {
         this.val = val
     }
 }
-
-
-
-// Chaining (AVL Tree) + Rehash & Load Factor
-
-
 
 // Open Addressing (Linear Probing) + Rehash & Load Factor + Lazy Deletion
 /**
