@@ -13746,8 +13746,7 @@ var removeDuplicates = function(s, k) {
     }
     
     const result = []
-    for (let i = 0; i < stack.length; i++) {
-        const [char, count] = stack[i]
+    for (const [char, count] of stack) {
         result.push(char.repeat(count))
     }
     return result.join('')
