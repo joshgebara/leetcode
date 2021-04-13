@@ -5365,14 +5365,25 @@ const _countUnivalSubtrees = node => {
  * @return {Node}
  */
 var connect = function(root) {
-  if (!root || !root.left) return root
-
-  root.left.next = root.right
-  root.right.next = root.next ? root.next.left : null
-
-  connect(root.left)
-  connect(root.right)
-  return root
+    if (!root) return root
+    
+    let leftmost = root
+    while (leftmost.left) {
+        let head = leftmost
+        while (head) {
+            head.left.next = head.right
+            
+            if (head.next) {
+                head.right.next = head.next.left
+            }
+            
+            head = head.next
+        }
+        
+        leftmost = leftmost.left
+    }
+    
+    return root
 };
 ```
 
