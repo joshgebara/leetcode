@@ -1039,7 +1039,6 @@ var searchInsert = function(nums, target) {
 
 ## 121. Best Time to Buy and Sell Stock
 ```javascript
-// DP
 /**
  * @param {number[]} prices
  * @return {number}
@@ -1054,20 +1053,6 @@ var maxProfit = function(prices) {
     }
     
     return maxProfit
-};
-
-// Kadane's
-var maxProfit = function(prices) {
-    if (!prices.length) return 0
-    
-    let maxGlobal = 0
-    let maxLocal = 0
-    
-    for (let i = 1; i < prices.length; i++) {
-        maxLocal = Math.max(0, maxLocal + prices[i] - prices[i - 1])
-        maxGlobal = Math.max(maxLocal, maxGlobal)
-    }
-    return maxGlobal
 };
 ```
 
