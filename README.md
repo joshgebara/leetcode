@@ -7452,26 +7452,27 @@ const factorial = n => {
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
-    const _letterCombinations = (curr, i) => {
-        if (i === digits.length) {
-            result.push(curr.join(''))
+    const _letterCombinations = i => {
+        if (i >= digits.length) {
+            if (combo.length) {
+                result.push(combo.join(''))
+            }
             return
         }
         
         for (const char of map[digits[i]]) {
-            curr.push(char)
-            _letterCombinations(curr, i + 1)
-            curr.pop()
+            combo.push(char)
+            _letterCombinations(i + 1)
+            combo.pop()
         }
     }
-    
-    if (!digits.length) return []
     
     const map = { 2: 'abc', 3: 'def', 4: 'ghi', 5: 'jkl', 
                   6: 'mno', 7: 'pqrs', 8: 'tuv', 9: 'wxyz' }
     
     const result = []
-    _letterCombinations([], 0)
+    const combo = []
+    _letterCombinations(0)
     return result
 };
 
