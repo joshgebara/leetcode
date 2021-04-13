@@ -36062,17 +36062,17 @@ const isGoodNumber = num => {
  * @return {TreeNode}
  */
 var sortedArrayToBST = function(nums) {
-    const _sortedArrayToBST = (nums, left, right) => {
+    const _sortedArrayToBST = (left, right) => {
         if (left > right) return null
         
-        const mid = Math.floor((right - left) / 2) + left
-        const root = new TreeNode(nums[mid])
-        root.left = _sortedArrayToBST(nums, left, mid - 1)
-        root.right = _sortedArrayToBST(nums, mid + 1, right)
-        return root
+        const mid = Math.trunc((right - left) / 2) + left
+        const node = new TreeNode(nums[mid])
+        node.left = _sortedArrayToBST(left, mid - 1)
+        node.right = _sortedArrayToBST(mid + 1, right)
+        return node
     }
     
-    return _sortedArrayToBST(nums, 0, nums.length - 1)
+    return _sortedArrayToBST(0, nums.length - 1)
 };
 ```
 
