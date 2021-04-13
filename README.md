@@ -33198,6 +33198,7 @@ var sortArray = function(nums) {
 
 ## 362. Design Hit Counter
 ```javascript
+// https://www.michael-noll.com/blog/2013/01/18/implementing-real-time-trending-topics-in-storm/
 /**
  * Initialize your data structure here.
  */
