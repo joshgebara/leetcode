@@ -32253,15 +32253,20 @@ const shiftElements = (arr, i) => {
 var verticalOrder = function(root) {
     if (!root) return []
     
-    const map = {}
-    const queue = [[root, 0]]
+    const cols = {}
     let minCol = 0
     let maxCol = 0
+    
+    const queue = [[root, 0]]
     while (queue.length) {
         const [node, col] = queue.shift()
         
-        if (!map[col]) map[col] = []
-        map[col].push(node.val)
+        if (cols[col] === undefined) {
+            cols[col] = []
+        }
+        
+        cols[col].push(node.val)
+        
         minCol = Math.min(minCol, col)
         maxCol = Math.max(maxCol, col)
         
@@ -32271,7 +32276,7 @@ var verticalOrder = function(root) {
     
     const result = []
     for (let i = minCol; i <= maxCol; i++) {
-        result.push(map[i])
+        result.push(cols[i])
     }
     
     return result
