@@ -2223,10 +2223,13 @@ var isAnagram = function(s, t) {
  * @return {boolean}
  */
 var canAttendMeetings = function(intervals) {
-    intervals.sort((a, b) => a[0] - b[0] || a[1] - b[1])
+    intervals.sort((a, b) => a[0] - b[0])
     
-    for (let i = 0; i < intervals.length - 1; i++) {
-        if (intervals[i + 1][0] < intervals[i][1]) {
+    for (let i = 1; i < intervals.length; i++) {
+        const [prevStart, prevEnd] = intervals[i - 1]
+        const [currStart, currEnd] = intervals[i]
+        
+        if (currStart < prevEnd) {
             return false
         }
     }
