@@ -56185,40 +56185,37 @@ const reverse = (arr, i, j) => {
  * @return {integer}
  */
 var countShips = function(sea, topRight, bottomLeft) {
-    const _countShips = (top, bottom, left, right) => {
-        if (bottom > top || left > right) return 0
-        
-        if (top === bottom && left === right) {
-            return sea.hasShips([top, right], [bottom, left])
+    const _countShips = (top, right, bottom, left) => {
+        if (top < bottom || left > right) {
+            return 0
         }
         
         if (!sea.hasShips([top, right], [bottom, left])) {
             return 0
         }
         
-        const midX = Math.floor((right - left) / 2) + left
-        const midY = Math.floor((top - bottom) / 2) + bottom
+        if (top === bottom && left === right) {
+            return 1
+        }
         
-        let count = 0
+        let ships = 0
         
-        // Top Left
-        count += _countShips(top, midY + 1, left, midX)
+        const midX = Math.trunc((right - left) / 2) + left
+        const midY = Math.trunc((bottom - top) / 2) + top
         
-        // Top Right
-        count += _countShips(top, midY + 1, midX + 1, right)
+        // top left
+        ships += _countShips(top, midX, midY, left)
+        // top right
+        ships += _countShips(top, right, midY, midX + 1)
+        // bottom left
+        ships += _countShips(midY - 1, midX, bottom, left)
+        // bottom right
+        ships += _countShips(midY - 1, right, bottom, midX + 1)
         
-        // Bottom Left
-        count += _countShips(midY, bottom, left, midX)
-        
-        // Bottom Right
-        count += _countShips(midY, bottom, midX + 1, right)
-        
-        return count
+        return ships
     }
     
-    const [top, right] = topRight
-    const [bottom, left] = bottomLeft
-    return _countShips(top, bottom, left, right)
+    return _countShips(topRight[0], topRight[1], bottomLeft[0], bottomLeft[1])
 };
 ```
 
