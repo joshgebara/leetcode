@@ -1122,19 +1122,27 @@ var middleNode = function(head) {
 
 ## 206. Reverse Linked List
 ```javascript
-// Iterative
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 var reverseList = function(head) {
-    let current = head
-    let previous = null
-    let next = null
-    
-    while (current) {
-        next = current.next
-        current.next = previous
-        previous = current
-        current = next
+    let prev = null
+    while (head) {
+        const next = head.next
+        head.next = prev
+        prev = head
+        head = next
     }
-    return previous
+    
+    return prev
 };
 
 // Recursive
