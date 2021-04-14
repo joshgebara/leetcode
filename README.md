@@ -61972,7 +61972,7 @@ var findCircleNum = function(isConnected) {
     const unionFind = new UnionFind(n)
     
     for (let cityA = 0; cityA < n; cityA++) {
-        for (let cityB = 0; cityB < n; cityB++) {
+        for (let cityB = cityA + 1; cityB < n; cityB++) {
             if (isConnected[cityA][cityB]) {
                 unionFind.union(cityA, cityB)
             }
