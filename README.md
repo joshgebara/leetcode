@@ -27086,20 +27086,19 @@ var reconstructMatrix = function(upper, lower, colsum) {
 var findMinArrowShots = function(points) {
     if (!points.length) return 0
     
-    points.sort(([a1, a2], [b1, b2]) => a2 - b2)
+    points.sort((a, b) => a[1] - b[1])
     
-    let arrowCount = 1
-    let currEnd = points[0][1]
+    let count = 1
+    let prev = points[0][1]
     
     for (let i = 1; i < points.length; i++) {
-        const [start, end] = points[i]
-        if (start > currEnd) {
-            arrowCount++
-            currEnd = end
+        if (prev < points[i][0]) {
+            count++
+            prev = points[i][1]
         }
     }
     
-    return arrowCount
+    return count
 };
 ```
 
