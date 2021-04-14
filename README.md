@@ -61043,8 +61043,7 @@ var isInterleave = function(s1, s2, s3) {
         return result
     }
     
-    const memo = new Array(s1.length + 1).fill()
-                        .map(a => new Array(s2.length + 1).fill())
+    const memo = new Array(s1.length + 1).fill().map(a => new Array(s2.length + 1))
     return _isInterleave(0, 0)
 };
 ```
