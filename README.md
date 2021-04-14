@@ -3335,30 +3335,32 @@ const format = email => {
 
 ## 557. Reverse Words in a String III
 ```javascript
-const reverse = (arr, start, end) => {
-    while (start < end) {
-        let temp = arr[start]
-        arr[start] = arr[end]
-        arr[end] = temp
-        
-        start++
-        end--
-    }
-    return arr
-}
-
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var reverseWords = function(s) {
-    let charArray = [...s]
-    
-    let wordStart = 0
-    for (let i = 0; i <= s.length; i++) {
-        if (s[i] === " " || i === s.length) {
-            reverse(charArray, wordStart, i - 1)
-            wordStart = i + 1
+    const charArr = s.split('')
+    let start = 0
+    for (let end = 0; end <= s.length; end++) {
+        if (s[end] === ' ' || end === s.length) {
+            reverse(charArr, start, end - 1)
+            start = end + 1
         }
     }
-    return charArray.join('')
+    
+    return charArr.join('')
 };
+
+const reverse = (arr, i, j) => {
+    while (i < j) {
+        const temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+        i++
+        j--
+    }
+}
 ```
 
 ## 344. Reverse String
