@@ -1764,7 +1764,7 @@ MyQueue.prototype.peek = function() {
  * @return {boolean}
  */
 MyQueue.prototype.empty = function() {
-    return this.left.length == 0 && this.right.length == 0
+    return this.left.length === 0 && this.right.length === 0
 };
 
 MyQueue.prototype.shift = function() {
@@ -61964,3 +61964,4 @@ var minHeightShelves = function(books, shelf_width) {
     return _minHeightShelves(0)
 };
 ```
+
