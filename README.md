@@ -4254,26 +4254,45 @@ var spiralOrder = function(matrix) {
     const m = matrix.length
     const n = matrix[0].length
     
+    const result = []
+    
     let top = 0
     let bottom = m - 1
     let left = 0
     let right = n - 1
     
-    const result = []
-    while (top <= bottom && left <= right) {
-        for (let i = left; i <= right; i++) result.push(matrix[top][i])
+    while (true) {
+        // top
+        for (let col = left; col <= right; col++) {
+            result.push(matrix[top][col])
+        }
         top++
         
-        for (let i = top; i <= bottom; i++) result.push(matrix[i][right])
+        if (top > bottom) break
+        
+        // right
+        for (let row = top; row <= bottom; row++) {
+            result.push(matrix[row][right])
+        }
         right--
-
-        if (top > bottom || left > right) break
         
-        for (let i = right; i >= left; i--) result.push(matrix[bottom][i])
+        if (left > right) break
+        
+        // bottom
+        for (let col = right; col >= left; col--) {
+            result.push(matrix[bottom][col])
+        }
         bottom--
+                
+        if (top > bottom) break
         
-        for (let i = bottom; i >= top; i--) result.push(matrix[i][left])
+        // left
+        for (let row = bottom; row >= top; row--) {
+            result.push(matrix[row][left])
+        }
         left++
+        
+        if (left > right) break
     }
     
     return result
