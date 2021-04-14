@@ -61961,3 +61961,69 @@ var minHeightShelves = function(books, shelf_width) {
 };
 ```
 
+## 547. Number of Provinces
+```javascript
+/**
+ * @param {number[][]} isConnected
+ * @return {number}
+ */
+var findCircleNum = function(isConnected) {
+    const n = isConnected.length
+    const unionFind = new UnionFind(n)
+    
+    for (let cityA = 0; cityA < n; cityA++) {
+        for (let cityB = 0; cityB < n; cityB++) {
+            if (isConnected[cityA][cityB]) {
+                unionFind.union(cityA, cityB)
+            }
+        }   
+    }
+    
+    return unionFind.numOfComponents
+};
+
+class UnionFind {
+    constructor(n) {
+        this.sizes = []
+        this.parents = []
+        for (let i = 0; i < n; i++) {
+            this.sizes.push(1)
+            this.parents.push(i)
+        }
+        
+        this.numOfComponents = n
+    }
+    
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
+        
+        if (parentA === parentB) return
+        
+        if (this.sizes[parentA] < this.sizes[parentB]) {
+            this.parents[parentA] = parentB
+            this.sizes[parentB] += this.sizes[parentA]
+        } else {
+            this.parents[parentB] = parentA
+            this.sizes[parentA] += this.sizes[parentB]
+        }
+        
+        this.numOfComponents--
+    }
+    
+    find(a) {
+        let root = a
+        while (root !== this.parents[root]) {
+            root = this.parents[root]
+        }
+        
+        while (root !== a) {
+            const next = this.parents[a]
+            this.parents[a] = root
+            a = next
+        }
+        
+        return root
+    }
+}
+```
