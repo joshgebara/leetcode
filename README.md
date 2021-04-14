@@ -7956,21 +7956,21 @@ var partition = function(head, x) {
  * @return {ListNode}
  */
 var removeNthFromEnd = function(head, n) {
-    let dummy = new ListNode(-1)
+    const dummy = new ListNode(NaN)
     dummy.next = head
     
-    let slow = dummy
     let fast = dummy
-    
-    for (let i = 0; i < n + 1; i++)
-        fast = fast.next
-    
-    while (fast) {
-        slow = slow.next
+    for (let i = 0; i < n + 1; i++) {
         fast = fast.next
     }
     
-    slow.next = slow.next.next
+    let slow = dummy
+    while (fast) {
+        fast = fast.next
+        slow = slow.next
+    }
+    
+    slow.next = slow.next.next    
     return dummy.next
 };
 ```
