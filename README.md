@@ -1972,25 +1972,39 @@ var calPoints = function(ops) {
  * initialize your data structure here.
  */
 var MinStack = function() {
-    this.storage = []
+    this.stack = []
     this.min = []
 };
 
 /** 
- * @param {number} x
+ * @param {number} val
  * @return {void}
  */
-MinStack.prototype.push = function(x) {
-    if (!this.min.length || this.getMin() >= x) this.min.push(x)
-    this.storage.push(x)
+MinStack.prototype.push = function(val) {
+    this.stack.push(val)
+    
+    if (!this.min.length || this.min[this.min.length - 1][0] > val) {
+        this.min.push([val, 1])
+    } else if (this.min[this.min.length - 1][0] === val) {
+        this.min[this.min.length - 1][1]++
+    }
 };
 
 /**
  * @return {void}
  */
 MinStack.prototype.pop = function() {
-    let val = this.storage.pop()
-    if (this.getMin() === val) this.min.pop()
+    const [minVal, count] = this.min[this.min.length - 1]
+    const val = this.stack.pop()
+    
+    if (minVal === val) {
+        if (count - 1 === 0) {
+            this.min.pop()
+        } else {
+            this.min[this.min.length - 1][1]--
+        }
+    }
+    
     return val
 };
 
@@ -1998,20 +2012,20 @@ MinStack.prototype.pop = function() {
  * @return {number}
  */
 MinStack.prototype.top = function() {
-    return this.storage[this.storage.length - 1]
+    return this.stack[this.stack.length - 1]
 };
 
 /**
  * @return {number}
  */
 MinStack.prototype.getMin = function() {
-    return this.min[this.min.length - 1]
+    return this.min[this.min.length - 1][0]
 };
 
 /** 
  * Your MinStack object will be instantiated and called as such:
  * var obj = new MinStack()
- * obj.push(x)
+ * obj.push(val)
  * obj.pop()
  * var param_3 = obj.top()
  * var param_4 = obj.getMin()
