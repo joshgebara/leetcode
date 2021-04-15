@@ -4736,6 +4736,7 @@ var isSymmetric = function(root) {
 
 ## 993. Cousins in Binary Tree
 ```javascript
+// DFS
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -13361,23 +13362,29 @@ var licenseKeyFormatting = function(S, K) {
 
 ## 415. Add Strings
 ```javascript
+/**
+ * @param {string} num1
+ * @param {string} num2
+ * @return {string}
+ */
 var addStrings = function(num1, num2) {
     if (!num1) return num2
     if (!num2) return num1
     
+    const result = []
+    
+    let carry = 0
     let i = num1.length - 1
     let j = num2.length - 1
-    let carry = 0
-    
-    let result = []
-    
     while (i >= 0 || j >= 0 || carry) {
-        let num1Val = i >= 0 ? +num1[i] : 0
-        let num2Val = j >= 0 ? +num2[j] : 0
+        const num1Val = i >= 0 ? +num1[i] : 0
+        const num2Val = j >= 0 ? +num2[j] : 0
         
-        let sum = num1Val + num2Val + carry
+        const sum = num1Val + num2Val + carry
+        
         carry = Math.floor(sum / 10)
         result.push(sum % 10)
+        
         i--
         j--
     }
