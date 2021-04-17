@@ -18026,15 +18026,21 @@ var isValidBST = function(root, left = -Number.MAX_VALUE, right = Number.MAX_VAL
 
 ## 31. Next Permutation
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
 var nextPermutation = function(nums) {
     let i = nums.length - 2
-    while (i >= 0 && nums[i + 1] <= nums[i])
+    while (i >= 0 && nums[i + 1] <= nums[i]) {
         i--
+    }
         
     if (i >= 0) {
         let j = nums.length - 1
-        while (j >= 0 && nums[j] <= nums[i])
+        while (j >= 0 && nums[j] <= nums[i]) {
             j--
+        }
         
         swap(nums, i, j)
     }
