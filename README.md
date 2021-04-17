@@ -297,18 +297,17 @@ var findDisappearedNumbers = function(nums) {
 
 ## 283. Move Zeroes
 ```javascript
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
 var moveZeroes = function(nums) {
     let i = 0
     for (let j = 0; j < nums.length; j++) {
-        if (nums[i] !== 0) {
-            i++
-            continue
-        }
-        
         if (nums[j] !== 0) {
-            let temp = nums[j]
-            nums[j] = nums[i]
-            nums[i] = temp
+            const temp = nums[i]
+            nums[i] = nums[j]
+            nums[j] = temp
             i++
         }
     }
