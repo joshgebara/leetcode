@@ -34249,8 +34249,8 @@ var maximumSwap = function(num) {
  * Initialize your data structure here.
  */
 var RandomizedSet = function() {
-    this.map = new Map()
     this.elements = []
+    this.indexMap = {}
 };
 
 /**
@@ -34259,11 +34259,12 @@ var RandomizedSet = function() {
  * @return {boolean}
  */
 RandomizedSet.prototype.insert = function(val) {
-    if (this.map.has(val)) 
+    if (this.indexMap[val] !== undefined) {
         return false
+    }
     
     this.elements.push(val)
-    this.map.set(val, this.elements.length - 1)
+    this.indexMap[val] = this.elements.length - 1
     return true
 };
 
@@ -34273,15 +34274,18 @@ RandomizedSet.prototype.insert = function(val) {
  * @return {boolean}
  */
 RandomizedSet.prototype.remove = function(val) {
-    if (!this.map.has(val)) 
+    if (this.indexMap[val] === undefined) {
         return false
+    }
     
-    const index = this.map.get(val)
-    this.elements[index] = this.elements[this.elements.length - 1]
+    const lastVal = this.elements[this.elements.length - 1]
+    const valIndex = this.indexMap[val]
+    
+    this.elements[valIndex] = lastVal
+    this.indexMap[lastVal] = valIndex
+    
     this.elements.pop()
-    
-    this.map.set(this.elements[index], index)
-    this.map.delete(val)
+    delete this.indexMap[val]
     
     return true
 };
@@ -34291,7 +34295,7 @@ RandomizedSet.prototype.remove = function(val) {
  * @return {number}
  */
 RandomizedSet.prototype.getRandom = function() {
-    const randomIndex = this.random(0, this.elements.length - 1)
+    const randomIndex = Math.trunc(Math.random() * this.elements.length)
     return this.elements[randomIndex]
 };
 
@@ -34302,10 +34306,6 @@ RandomizedSet.prototype.getRandom = function() {
  * var param_2 = obj.remove(val)
  * var param_3 = obj.getRandom()
  */
-
-RandomizedSet.prototype.random = function(start, end) {
-    return Math.floor(Math.random() * (end - start + 1)) + start
-};
 ```
 
 ## 1457. Pseudo-Palindromic Paths in a Binary Tree
