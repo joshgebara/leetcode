@@ -48460,7 +48460,6 @@ var lowestCommonAncestor = function(root, p, q) {
     const right = lowestCommonAncestor(root.right, p, q)
     
     if (left && right) return root
-    if (!left && !right) return null
     return left || right
 };
 ```
