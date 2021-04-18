@@ -34189,7 +34189,7 @@ var numDistinctIslands = function(grid) {
     for (let row = 0; row < rowLen; row++) {
         for (let col = 0; col < colLen; col++) {
             if (grid[row][col] === 1) {
-                const island = getIsland(grid, row, col).join('')
+                const island = getIsland(grid, row, col)
                 unique.add(island)
             }
         }
@@ -34230,7 +34230,7 @@ const getIsland = (grid, startRow, startCol) => {
         }
     }
     
-    return result
+    return result.join('')
 }
 
 /**
