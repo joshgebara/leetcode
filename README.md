@@ -34181,37 +34181,56 @@ var maxVowels = function(s, k) {
  * @return {number}
  */
 var numDistinctIslands = function(grid) {
-    const islands = new Set()
+    const rowLen = grid.length
+    const colLen = grid[0].length
     
-    for (let row = 0; row < grid.length; row++) {
-        for (let col = 0; col < grid[0].length; col++) {
-            if (!grid[row][col]) continue
-            const shape = floodFill(grid, row, col, [])
-            islands.add(shape)
+    const unique = new Set()
+    
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (grid[row][col] === 1) {
+                const island = getIsland(grid, row, col).join('')
+                unique.add(island)
+            }
         }
     }
     
-    return islands.size
+    return unique.size
 };
 
-const floodFill = (grid, originRow, originCol, path) => {
-    const _floodFill = (row, col) => {
-        if (row < 0 || col < 0 || 
-            row >= grid.length || col >= grid[0].length || 
-            grid[row][col] === 0) return
+const getIsland = (grid, startRow, startCol) => {
+    const rowLen = grid.length
+    const colLen = grid[0].length
+    
+    const dirs = [[1, 0], [0, 1], [0, -1], [-1, 0]]
+    
+    const result = []
+    grid[startRow][startCol] = 0
+    
+    const queue = [[startRow, startCol]]
+    while (queue.length) {
+        const [row, col] = queue.shift()
         
-        grid[row][col] = 0
-        
-        path.push(row - originRow, col - originCol)
-
-        _floodFill(row + 1, col)
-        _floodFill(row - 1, col)
-        _floodFill(row, col + 1)
-        _floodFill(row, col - 1)
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = deltaRow + row
+            const nextCol = deltaCol + col
+            
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen) {
+                continue
+            }
+            
+            if (grid[nextRow][nextCol] === 0) {
+                continue
+            }
+            
+            grid[nextRow][nextCol] = 0
+            result.push([nextRow - startRow, nextCol - startCol])
+            queue.push([nextRow, nextCol])
+        }
     }
     
-    _floodFill(originRow, originCol)
-    return path.join('')
+    return result
 }
 
 /**
