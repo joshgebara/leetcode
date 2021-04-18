@@ -35013,8 +35013,9 @@ var coinChange = function(coins, amount) {
         for (let i = 0; i < length; i++) {
             const curr = queue.shift()
             
-            if (curr === amount)
+            if (curr === amount) {
                 return level
+            }
             
             for (const coin of coins) {
                 if (visited.has(curr + coin)) continue
