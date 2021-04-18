@@ -9708,53 +9708,6 @@ var findMin = function(nums) {
 
 ## 33. Search in Rotated Sorted Array
 ```javascript
-// Two Pass
-const rotationPoint = nums => {
-    let left = 0
-    let right = nums.length - 1
-    
-    while (left < right) {
-        let mid = Math.floor((right - left) / 2) + left
-        
-        if (nums[right] >= nums[mid]) {
-            right = mid
-        } else {
-            left = mid + 1
-        }
-    }
-    return left
-}
-
-const binarySearch = (nums, left, right, target) => {
-    while (left <= right) {
-        let mid = Math.floor((right - left) / 2) + left
-        
-        if (nums[mid] === target) 
-            return mid
-        
-        if (nums[mid] > target) {
-            right = mid - 1
-        } else {
-            left = mid + 1
-        }
-    }
-    return -1
-}
-
-var search = function(nums, target) {
-    const rotationIndex = rotationPoint(nums)
-    
-    if (nums[rotationIndex] === target)
-        return rotationIndex
-
-    if (nums[0] <= target && target <= nums[rotationIndex - 1]) {
-        return binarySearch(nums, 0, rotationIndex - 1, target)
-    } else {
-        return binarySearch(nums, rotationIndex + 1, nums.length - 1, target)
-    }
-};
-
-// One Pass
 /**
  * @param {number[]} nums
  * @param {number} target
@@ -9765,18 +9718,24 @@ var search = function(nums, target) {
     let right = nums.length - 1
     
     while (left <= right) {
-        const mid = Math.floor((right - left) / 2) + left
+        const mid = Math.trunc((right - left) / 2) + left
         
-        if (nums[mid] === target) return mid
+        if (nums[mid] === target) {
+            return mid
+        }
         
+        // if left is sorted
         if (nums[left] <= nums[mid]) {
-            if (nums[left] <= target && target < nums[mid]) {
+            // if target is sorted range
+            if (nums[left] <= target && target <= nums[mid]) {
                 right = mid - 1
             } else {
                 left = mid + 1
             }
-        } else {
-            if (nums[right] >= target && target > nums[mid]) {
+        } 
+        // if right is sorted
+        else {
+            if (nums[mid] <= target && target <= nums[right]) {
                 left = mid + 1
             } else {
                 right = mid - 1
