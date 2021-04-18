@@ -1277,6 +1277,17 @@ var hasCycle = function(head) {
 
 ## 234. Palindrome Linked List
 ```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
 var isPalindrome = function(head) {
     if (!head || !head.next) return true
     
@@ -1324,6 +1335,17 @@ const firstHalf = head => {
 }
 
 // Recursive
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
 var isPalindrome = function(head) {
     const _isPalindrome = node => {
         if (!node) return true
