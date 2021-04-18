@@ -5249,27 +5249,37 @@ var levelOrder = function(root) {
  * }
  */
 /**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
  * @param {TreeNode} root
  * @return {number[][]}
  */
 var levelOrder = function(root) {
+    const _levelOrder = (node, level) => {
+        if (!node) return
+        
+        if (levels.length === level) {
+            levels.push([])
+        }
+
+        levels[level].push(node.val)
+
+        if (node.left) _levelOrder(node.left, level + 1)  
+        if (node.right) _levelOrder(node.right, level + 1)
+    }
+    
     if (!root) return []
     
-    const result = []
-    _levelOrder(root, result)
-    return result
+    const levels = []
+    _levelOrder(root, 0)
+    return levels
 };
-
-const _levelOrder = (node, result, level = 0) => {
-    if (!node) return
-    
-    if (result.length === level) result.push([])
-    
-    result[level].push(node.val)
-    
-    if (node.left) _levelOrder(node.left, result, level + 1)  
-    if (node.right) _levelOrder(node.right, result, level + 1)
-}
 ```
 
 ## 144. Binary Tree Preorder Traversal
