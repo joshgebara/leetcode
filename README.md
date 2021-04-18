@@ -34950,29 +34950,31 @@ var rotate = function(matrix) {
  * @return {number}
  */
 var coinChange = function(coins, amount) {
-    const _coinChange = (coins, amount) => {
-        if (memo[amount]) return memo[amount]
-
-        if (amount < 0) {
-            return Infinity
-        }
-
-        if (amount === 0) {
+    const _coinChange = (sum) => {
+        if (sum === amount) {
             return 0
         }
-
-        let count = Infinity
-        for (const coin of coins) {
-            count = Math.min(count, _coinChange(coins, amount - coin) + 1)
+        
+        if (sum > amount) {
+            return Infinity
         }
-
-        memo[amount] = count
-        return memo[amount]
+        
+        if (memo[sum] !== undefined) {
+            return memo[sum]
+        }
+        
+        let min = Infinity
+        for (const coin of coins) {
+           min = Math.min(min, 1 + _coinChange(sum + coin))
+        }
+        
+        memo[sum] = min
+        return memo[sum]
     }
     
     const memo = {}
-    const min = _coinChange(coins, amount)
-    return min === Infinity ? -1 : min
+    const result = _coinChange(0, 0)
+    return result === Infinity ? -1 : result
 };
 
 // Bottom Up
