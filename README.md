@@ -27502,6 +27502,11 @@ var threeSumClosest = function(nums, target) {
 
 ## 259. 3Sum Smaller
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
 var threeSumSmaller = function(nums, target) {
     nums.sort((a, b) => a - b)
     
@@ -27510,14 +27515,15 @@ var threeSumSmaller = function(nums, target) {
     for (let i = 0; i < nums.length - 2; i++) {
         let left = i + 1
         let right = nums.length - 1
-        
+
         while (left < right) {
             const sum = nums[i] + nums[left] + nums[right]
-            if (sum >= target) {
-                right--
-            } else {
+            
+            if (sum < target) {
                 count += right - left
                 left++
+            } else {
+                right--
             }
         }
     }
