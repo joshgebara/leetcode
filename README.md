@@ -9203,6 +9203,11 @@ var frequencySort = function(s) {
 
 ## 347. Top K Frequent Elements
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
 const frequencies = nums => {
     return nums.reduce((result, num) => {
         result[num] = 1 + (result[num] || 0)
