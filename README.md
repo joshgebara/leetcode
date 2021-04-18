@@ -12902,13 +12902,17 @@ var rightSideView = function(root) {
     if (!root) return []
     
     const result = []
-    const queue = [root]
     
+    const queue = [root]
     while (queue.length) {
         const size = queue.length
         for (let i = 0; i < size; i++) {
             const node = queue.shift()
-            if (i === 0) result.push(node.val)
+            
+            if (i === 0) {
+                result.push(node.val)
+            }
+            
             if (node.right) queue.push(node.right)
             if (node.left) queue.push(node.left)
         }
