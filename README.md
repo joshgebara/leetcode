@@ -27464,7 +27464,6 @@ var threeSum = function(nums) {
 
 ## 16. 3Sum Closest
 ```javascript
-// O(n^2) Sorting
 /**
  * @param {number[]} nums
  * @param {number} target
@@ -27481,13 +27480,15 @@ var threeSumClosest = function(nums, target) {
         while (left < right) {
             const sum = nums[i] + nums[left] + nums[right]
             
+            if (sum === target) {
+                return target
+            }
+            
             if (Math.abs(sum - target) < Math.abs(closest - target)) {
                 closest = sum
             }
             
-            if (sum === target) {
-                return target
-            } else if (sum < target) {
+            if (sum < target) {
                 left++
             } else {
                 right--
