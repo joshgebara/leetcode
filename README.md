@@ -34984,17 +34984,18 @@ var coinChange = function(coins, amount) {
  * @return {number}
  */
 var coinChange = function(coins, amount) {
-    const dp = Array(amount + 1).fill(Number.MAX_VALUE)
+    const dp = new Array(amount + 1).fill(Infinity)
     dp[0] = 0
     
     for (let i = 1; i <= amount; i++) {
         for (const coin of coins) {
-            if (i - coin < 0) continue
-            dp[i] = Math.min(dp[i], dp[i - coin] + 1)
+            if (coin <= i) {
+                dp[i] = Math.min(dp[i], 1 + dp[i - coin])
+            }
         }
     }
     
-    return dp[amount] === Number.MAX_VALUE ? -1 : dp[amount] 
+    return dp[amount] === Infinity ? -1 : dp[amount]
 };
 
 // BFS
