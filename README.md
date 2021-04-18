@@ -3450,38 +3450,22 @@ var toLowerCase = function(str) {
  * @return {number[]}
  */
 var sortedSquares = function(nums) {
-    const result = []
+    const result = new Array(nums.length)
     
-    let right = 0
-    while (nums[right] < 0) {
-        right++
-    }
+    let left = 0
+    let right = nums.length - 1
     
-    let left = right - 1
-    
-    while (left >= 0 && right < nums.length) {
+    for (let i = nums.length - 1; i >= 0; i--) {
         const leftSquared = nums[left] ** 2
         const rightSquared = nums[right] ** 2
         
         if (leftSquared < rightSquared) {
-            result.push(leftSquared)
-            left--
+            result[i] = rightSquared
+            right--
         } else {
-            result.push(rightSquared)
-            right++
+            result[i] = leftSquared
+            left++
         }
-    }
-    
-    while (left >= 0) {
-        const leftSquared = nums[left] ** 2
-        result.push(leftSquared)
-        left--
-    }
-    
-    while (right < nums.length) {
-        const rightSquared = nums[right] ** 2
-        result.push(rightSquared)
-        right++
     }
     
     return result
