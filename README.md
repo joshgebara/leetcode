@@ -3445,35 +3445,45 @@ var toLowerCase = function(str) {
 
 ## 977. Squares of a Sorted Array
 ```javascript
-var sortedSquares = function(A) {
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var sortedSquares = function(nums) {
+    const result = []
+    
     let right = 0
-    while (A[right] < 0) right++
+    while (nums[right] < 0) {
+        right++
+    }
     
     let left = right - 1
     
-    const result = []
-    while (left >= 0 && right < A.length) {
-        let sL = A[left] ** 2
-        let sR = A[right] ** 2
+    while (left >= 0 && right < nums.length) {
+        const leftSquared = nums[left] ** 2
+        const rightSquared = nums[right] ** 2
         
-        if (sL < sR) {
-            result.push(sL)
+        if (leftSquared < rightSquared) {
+            result.push(leftSquared)
             left--
         } else {
-            result.push(sR)
+            result.push(rightSquared)
             right++
         }
     }
     
-    while (right < A.length) {
-        result.push(A[right] ** 2)
+    while (left >= 0) {
+        const leftSquared = nums[left] ** 2
+        result.push(leftSquared)
+        left--
+    }
+    
+    while (right < nums.length) {
+        const rightSquared = nums[right] ** 2
+        result.push(rightSquared)
         right++
     }
     
-    while (left >= 0) {
-        result.push(A[left] ** 2)
-        left--
-    }
     return result
 };
 ```
