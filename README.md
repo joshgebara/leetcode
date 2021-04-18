@@ -18022,11 +18022,31 @@ var sequentialDigits = function(low, high) {
 
 ## 98. Validate Binary Search Tree
 ```javascript
-var isValidBST = function(root, left = -Number.MAX_VALUE, right = Number.MAX_VALUE) {
-    if (!root) return true
-    if (root.val <= left || root.val >= right) return false
-    return isValidBST(root.left, left, root.val) && 
-           isValidBST(root.right, root.val, right)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isValidBST = function(root) {
+    const _isValidBST = (node, left, right) => {
+        if (!node) return true
+        
+        if (left >= node.val || node.val >= right) {
+            return false
+        }
+        
+        return _isValidBST(node.left, left, node.val) &&
+               _isValidBST(node.right, node.val, right)
+    }
+    
+    return _isValidBST(root, -Infinity, Infinity)
 };
 ```
 
