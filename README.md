@@ -32897,21 +32897,23 @@ USING(id, year)
  * @return {number[][]}
  */
 var allPathsSourceTarget = function(graph) {
-    const dfs = (vertex, path) => {
-        if (vertex === graph.length - 1) {
+    const _allPathsSourceTarget = node => {
+        if (node === n - 1) {
             result.push(path.slice())
             return
         }
         
-        for (const neighbor of graph[vertex]) {
+        for (const neighbor of graph[node]) {
             path.push(neighbor)
-            dfs(neighbor, path)
+            _allPathsSourceTarget(neighbor)
             path.pop()
         }
     }
     
+    const n = graph.length
     const result = []
-    dfs(0, [0])
+    const path = [0]
+    _allPathsSourceTarget(0)
     return result
 };
 ```
