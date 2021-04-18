@@ -50919,7 +50919,6 @@ var findPoisonedDuration = function(timeSeries, duration) {
 
 ## 117. Populating Next Right Pointers in Each Node II
 ```javascript
-// BFS
 /**
  * // Definition for a Node.
  * function Node(val, left, right, next) {
@@ -50935,90 +50934,41 @@ var findPoisonedDuration = function(timeSeries, duration) {
  * @return {Node}
  */
 var connect = function(root) {
-    if (!root) return root
+    let leftmost = root
+    let curr = leftmost
+    let prev = null
     
-    const queue = [root]
-    
-    while (queue.length) {
-        const size = queue.length
-        let prev = null
-        for (let i = 0; i < size; i++) {
-            const curr = queue.shift()
+    while (leftmost) {
+        prev = null
+        curr = leftmost
+        leftmost = null
+        
+        while (curr) {
+            if (curr.left) {
+                if (prev) {
+                    prev.next = curr.left
+                } else {
+                    leftmost = curr.left
+                }
+
+                prev = curr.left
+            }
             
-            if (prev) prev.next = curr
-            prev = curr
+            if (curr.right) {
+                if (prev) {
+                    prev.next = curr.right
+                } else {
+                    leftmost = curr.right
+                }
+
+                prev = curr.right
+            }
             
-            if (curr.left) queue.push(curr.left)
-            if (curr.right) queue.push(curr.right)
+            curr = curr.next
         }
     }
     
     return root
-};
-
-// DFS
-/**
- * // Definition for a Node.
- * function Node(val, left, right, next) {
- *    this.val = val === undefined ? null : val;
- *    this.left = left === undefined ? null : left;
- *    this.right = right === undefined ? null : right;
- *    this.next = next === undefined ? null : next;
- * };
- */
-
-/**
- * @param {Node} root
- * @return {Node}
- */
-var connect = function(root) {
-    const _connect = node => {
-        if (!node) return root
-        
-        if (node.left) {
-            if (node.right) {
-                node.left.next = node.right
-            } else {
-                let next = node.next
-                while (next) {
-                    if (next.left) {
-                        node.left.next = next.left
-                        break
-                    }
-                    
-                    if (next.right) {
-                        node.left.next = next.right
-                        break
-                    }
-                    
-                    next = next.next
-                }
-            }
-        }
-        
-        if (node.right) {
-            let next = node.next
-            while (next) {
-                if (next.left) {
-                    node.right.next = next.left
-                    break
-                }
-
-                if (next.right) {
-                    node.right.next = next.right
-                    break
-                }
-
-                next = next.next
-            }
-        }
-        
-        _connect(node.right)
-        _connect(node.left)
-        return node
-    }
-    
-    return _connect(root)
 };
 ```
 
