@@ -12968,58 +12968,38 @@ var countPrimes = function(n) {
 
 ## 680. Valid Palindrome II
 ```javascript
-var validPalindrome = function(s) {
-    return isPalindrome(s, (left, right) => {
-        return isPalindrome(s, () => false, left + 1, right) || 
-               isPalindrome(s, () => false, left, right - 1)       
-    })
-};
-
-const isPalindrome = (str, callback, i, j) => {
-    let left = i || 0
-    let right = j || str.length - 1
-    
-    while (left < right) {
-        if (str[left] !== str[right]) {
-            return callback(left, right)
-        }
-        left++
-        right--
-    }
-    return true
-}
-
 /**
  * @param {string} s
  * @return {boolean}
  */
 var validPalindrome = function(s) {
-    let l = 0
-    let r = s.length - 1
-
-    while (l < r) {
-        if (s[l] !== s[r]) {
-            return _validPalindrome(s, l + 1, r) ||
-                   _validPalindrome(s, l, r - 1)
+    const _validPalindrome = (left, right) => {
+        while (left < right) {
+            if (s[left] !== s[right]) {
+                return false
+            }
+            
+            left++
+            right--
         }
         
-        l++
-        r--
+        return true
+    }
+    
+    let left = 0
+    let right = s.length - 1
+    while (left < right) {
+        if (s[left] !== s[right]) {
+            return _validPalindrome(left + 1, right) || 
+                   _validPalindrome(left, right - 1)
+        }
+        
+        left++
+        right--
     }
     
     return true
 };
-
-const _validPalindrome = (s, l, r) => {
-    while (l < r) {
-        if (s[l] !== s[r]) return false
-
-        l++
-        r--
-    }
-
-    return true
-}
 ```
 
 ## 383. Ransom Note
