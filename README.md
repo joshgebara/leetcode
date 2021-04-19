@@ -773,33 +773,36 @@ var findMaxAverage = function(nums, k) {
 
 ## 34. Find First and Last Position of Element in Sorted Array
 ```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
 var searchRange = function(nums, target) {
-  let first = search(nums, target)
-  if (first === nums.length || nums[first] !== target) return [-1, -1]
-  
-  let last = search(nums, target + 1)
-  if (nums[last] !== target) last--
-  
-  return [first, last]
+    const firstIndex = binarySearch(nums, target)
+    if (nums[firstIndex] !== target) {
+        return [-1, -1]
+    }
+    
+    const lastIndex = binarySearch(nums, target + 1) - 1
+    return [firstIndex, lastIndex]
 };
 
-const search = (nums, target) => {
-  if (!nums.length) return null
-
-  let left = 0
-  let right = nums.length - 1
-
-  while (left < right) {
-    let midPoint = Math.floor((right - left) / 2) + left
-    let midValue = nums[midPoint]
-
-    if (midValue < target) {
-      left = midPoint + 1
-    } else {
-      right = midPoint
+const binarySearch = (arr, target) => {
+    let left = 0
+    let right = arr.length
+    
+    while (left < right) {
+        const mid = Math.trunc((right - left) / 2) + left
+        
+        if (arr[mid] < target) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
     }
-  }
-  return left
+    
+    return left
 }
 ```
 
