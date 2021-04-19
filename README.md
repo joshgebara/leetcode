@@ -2643,24 +2643,57 @@ var rkSearch = function (text, pattern) {
 
 ## 125. Valid Palindrome
 ```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
 var isPalindrome = function(s) {
-    if (!s.length) return true
-    s = s.toLowerCase()
-    
-    var regex = /[^\W_]/
     let left = 0
     let right = s.length - 1
     
     while (left < right) {
-        while (!regex.test(s[left]) && left < right) left++
-        while (!regex.test(s[right]) && left < right) right--
-        if (s[left] !== s[right]) return false
+        const leftChar = s[left]
+        const rightChar = s[right]
+        
+        if (!isAlphaNum(leftChar)) {
+            left++
+            continue
+        }
+        
+        if (!isAlphaNum(rightChar)) {
+            right--
+            continue
+        }
+        
+        if (leftChar.toLowerCase() !== rightChar.toLowerCase()) {
+            return false
+        }
         
         left++
         right--
     }
+    
     return true
 };
+
+const isAlphaNum = char => {
+    // lowercase
+    if ('a' <= char && char <= 'z') {
+        return true
+    }
+    
+    // upper case
+    if ('A' <= char && char <= 'Z') {
+        return true
+    }
+    
+    // num
+    if ('0' <= char && char <= '9') {
+        return true
+    }
+    
+    return false
+}
 ```
 
 ## 704. Binary Search
