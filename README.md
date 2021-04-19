@@ -15706,6 +15706,28 @@ var titleToNumber = function(s) {
  * @return {number}
  */
 var rob = function(nums) {
+    const _rob = (i) => {
+        if (i >= nums.length) {
+            return 0
+        }
+        
+        if (memo[i] !== undefined) {
+            return memo[i]
+        }
+        
+        memo[i] = Math.max(nums[i] + _rob(i + 2), _rob(i + 1))
+        return memo[i]
+    }
+    
+    const memo = new Array(nums.length)
+    return _rob(0)
+};
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var rob = function(nums) {
     if (!nums.length) return 0
     
     const dp = Array(nums.length).fill(0)
