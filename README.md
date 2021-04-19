@@ -2752,25 +2752,26 @@ var search = function(nums, target) {
 
 ## 69. Sqrt(x)
 ```javascript
+/**
+ * @param {number} x
+ * @return {number}
+ */
 var mySqrt = function(x) {
-    let left = 2
+    let left = 0
     let right = Math.ceil(x / 2)
     
-    while (left <= right) {
-        const mid = Math.floor((right - left) / 2) + left
-        const square = mid ** 2
+    while (left < right) {
+        const mid = Math.trunc((right - left + 1) / 2) + left
+        const squared = mid ** 2
         
-        if (square === x)
-            return mid
-        
-        if (square > x) {
+        if (squared > x) {
             right = mid - 1
         } else {
-            left = mid + 1
+            left = mid
         }
     }
     
-    return right
+    return left
 };
 ```
 
