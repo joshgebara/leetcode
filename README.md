@@ -12656,33 +12656,34 @@ var numIslands = function(grid) {
  * @return {number}
  */
 var numIslands = function(grid) {
-    const dirs = [[1, 0], [0, 1]]
     const rowLen = grid.length
     const colLen = grid[0].length
     
+    const dirs = [[1, 0], [0, 1]]
+    
     const unionFind = new UnionFind(rowLen * colLen)
-    let numOfWater = 0
+    
+    let waterCount = 0
     for (let row = 0; row < rowLen; row++) {
         for (let col = 0; col < colLen; col++) {
-            if (grid[row][col] === '0') {
-                numOfWater++
-                continue
-            }
-            
-            for (const [deltaRow, deltaCol] of dirs) {
-                const nextRow = deltaRow + row
-                const nextCol = deltaCol + col
-                
-                if (nextRow < 0 || nextRow >= rowLen || 
-                    nextCol < 0 || nextCol >= colLen || 
-                    grid[nextRow][nextCol] === '0') continue
-                
-                unionFind.union(row * colLen + col, nextRow * colLen + nextCol)
+            if (grid[row][col] === '1') {
+                for (const [deltaRow, deltaCol] of dirs) {
+                    const nextRow = deltaRow + row
+                    const nextCol = deltaCol + col
+                    
+                    if (nextRow >= rowLen || 
+                        nextCol >= colLen || 
+                        grid[nextRow][nextCol] === '0') continue
+                    
+                    unionFind.union(row * colLen + col, nextRow * colLen + nextCol)
+                }
+            } else {
+                waterCount++
             }
         }
     }
     
-    return unionFind.numOfComponents - numOfWater
+    return unionFind.numOfComponents - waterCount
 };
 
 class UnionFind {
@@ -12706,11 +12707,11 @@ class UnionFind {
         }
         
         if (this.sizes[parentA] < this.sizes[parentB]) {
-            this.parents[parentA] = parentB
             this.sizes[parentB] += this.sizes[parentA]
+            this.parents[parentA] = parentB
         } else {
-            this.parents[parentB] = parentA
             this.sizes[parentA] += this.sizes[parentB]
+            this.parents[parentB] = parentA
         }
         
         this.numOfComponents--
@@ -12718,7 +12719,7 @@ class UnionFind {
     
     find(a) {
         let root = a
-        while (this.parents[root] !== root) {
+        while (root !== this.parents[root]) {
             root = this.parents[root]
         }
         
@@ -12731,145 +12732,6 @@ class UnionFind {
         return root
     }
 }
-```
-
-## Bucket Sort
-```javascript
-const bucketSort = arr => {
-  const buckets = Array(arr.length).fill(null).map(ele => [])
-  const max = Math.max(...arr)
-  const divider = Math.ceil((max + 1) / arr.length)
-  
-  for (const num of arr)
-    buckets[Math.floor(num / divider)].push(num)
-  
-  arr = buckets.flat().sort((a, b) => a - b)
-}
-
-const arr = [10, 200, 1000, 32, 444]
-bucketSort(arr)
-```
-
-## Counting Sort
-```javascript
-const arr = [1, 3, 2, 3, 5, 5, 6, 3, 7, 8, 9]
-
-const countingSort = arr => {
-  const max = Math.max(...arr)
-  const counts = Array(max + 1).fill(0)
-  for (let num of arr)
-    counts[num]++
-  
-  for (let i = 0; i < counts.length - 1; i++)
-    counts[i+1] = counts[i] + counts[i+1]
-  
-  const result = []
-  for (let i = arr.length - 1; i >= 0; i--)
-    result[counts[arr[i]]-- - 1] = arr[i]
-    
-  return result
-}
-
-countingSort(arr)
-```
-
-## QuickSelect
-```javascript
-const random = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-const partition = (arr, start, end) => {
-  let pivot = arr[end]
-  let i = start - 1
-  
-  for (let j = start; j < end; j++) {
-    if (arr[j] <= pivot) {
-      i++
-      let temp = arr[i]
-      arr[i] = arr[j]
-      arr[j] = temp
-    }
-  }
-  
-  let temp = arr[i + 1]
-  arr[i + 1] = arr[end]
-  arr[end] = temp
-  
-  return i + 1
-}
-
-const quickSelect = (arr, k, start, end) => {
-  if (start > end) return null
-  
-  start = start || 0
-  end = end || arr.length - 1
-  
-  let randomIndex = random(start, end)  
-  let temp = arr[randomIndex]
-  arr[randomIndex] = arr[end]
-  arr[end] = temp
-
-  let partitionIndex = partition(arr, start, end)
-  if (partitionIndex === arr.length - k - 1) {
-    return arr[partitionIndex]
-  }
-  
-  if (partitionIndex > arr.length - k - 1) {
-    return quickSelect(arr, k, start, partitionIndex - 1)
-  } else {
-    return quickSelect(arr, k, partitionIndex + 1, end)
-  }
-}
-
-const arr = [1, 9, 4, 5, 6, 3, 2, 7, 8]
-quickSelect(arr, 2)
-```
-
-## Rabin-Karp
-```javascript
-var rkSearch = function (text, pattern) {
-  const tLength = text.length
-  const pLength = pattern.length
-  
-  if (tLength === 0 || pLength === 0 || tLength < pLength) 
-    return null
-  
-  const textArr = text.split('').map(char => char.charCodeAt(0) - "0".charCodeAt(0))
-  const patternArr = pattern.split('').map(char => char.charCodeAt(0) - "0".charCodeAt(0))
-
-  const base = 256
-  const prime = 101
-  
-  let textHash = 0
-  let patternHash = 0
-  
-  for (let i = 0; i < pLength; i++) {
-    patternHash = (base * patternHash + patternArr[i]) % prime
-    textHash = (base * textHash + textArr[i]) % prime
-  }
-  
-  const indices = []
-  
-  for (let i = 0; i <= tLength - pLength; i++) {
-    if (textHash === patternHash) {
-      if (text.substring(i, i + pLength) === pattern) {
-        indices.push(i)
-      }
-    }
-    
-    let h = Math.pow(base, pLength - 1) % prime
-    let nextCharCode = textArr[i + pLength]
-    textHash = (base * (textHash - textArr[i] * h) + nextCharCode) % prime
-    
-    if (textHash < 0)
-      textHash += prime 
-  }
-  
-  return indices.length ? indices : null
-}
-
-rkSearch("aabaaabaaac", "aab")
 ```
 
 ## 1110. Delete Nodes And Return Forest
