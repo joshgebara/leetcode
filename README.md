@@ -316,25 +316,26 @@ var moveZeroes = function(nums) {
 
 ## 169. Majority Element
 ```javascript
+// Boyer-Moore Voting
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var majorityElement = function(nums) {
-  let count = 0
-  let cand = 0
-
-  for (let num of nums) {
-      if (count === 0) { cand = num}
-      count += (num === cand) ? 1 : -1
-  }
-  
-  count = 0
-  
-  for (let num of nums) {
-    if (num === cand) count++
-  }
-  
-  return count > Math.floor(nums.length / 2) ? cand : null
+    let candidate = nums[0]
+    let votes = 1
+    
+    for (let i = 1; i < nums.length; i++) {
+        nums[i] === candidate ? votes++ : votes--
+        
+        if (votes === 0) {
+            candidate = nums[i]
+            votes = 1
+        }
+    }
+    
+    return candidate
 };
-
-majorityElement([2,1,2,4,7,7,7,7,7])
 
 // Divide And Conquer
 /**
