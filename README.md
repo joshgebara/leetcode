@@ -16106,19 +16106,18 @@ var isPalindrome = function(x) {
     if (x >= 0 && x <= 9) return true
     if (x < 0 || x % 10 === 0) return false
     
-    let reversed = 0
-    let n = x
-    while (n) {
-        const digit = n % 10
+    let reversedNum = 0
+    let num = x
+    while (x) {
+        const digit = x % 10
         
-        reversed *= 10
-        reversed += digit
+        reversedNum *= 10
+        reversedNum += digit
         
-        
-        n = Math.floor(n / 10)
+        x = Math.trunc(x / 10)
     }
     
-    return reversed === x
+    return num === reversedNum
 };
 ```
 
