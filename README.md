@@ -2258,22 +2258,39 @@ var largestPerimeter = function(A) {
 
 ## 242. Valid Anagram
 ```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
 var isAnagram = function(s, t) {
-    if (s.length !== t.length) return false
-    
-    const counts = Array(26).fill(0)
-    for (const char of s)
-        counts[char.charCodeAt(0) - 'a'.charCodeAt(0)]++
-    
-    for (const char of t) {
-        const code = char.charCodeAt(0) - 'a'.charCodeAt(0)
-        counts[code]--
-        
-        if (counts[code] < 0) 
-            return false
-    }
-    return true
+    const sCount = getCount(s)
+    const tCount = getCount(t)
+    return isEqual(sCount, tCount)
 };
+
+const getCount = s => {
+    const counts = new Array(26).fill(0)
+    for (const char of s) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        counts[index]++
+    }
+    return counts
+}
+
+const isEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+        return false
+    }
+    
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false
+        }
+    }
+    
+    return true
+}
 ```
 
 ## 252. Meeting Rooms
