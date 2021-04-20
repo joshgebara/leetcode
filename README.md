@@ -22452,24 +22452,16 @@ var findAnagrams = function(s, p) {
     }
     
     const sCount = new Array(26).fill(0)
-    for (let right = 0; right < p.length; right++) {
-        const rightChar = s[right]
-        const rightCharIndex = indexForChar(rightChar)
-        sCount[rightCharIndex]++
-    }
-    
-    if (equal(sCount, pCount)) {
-        result.push(0)
-    }
-    
     let left = 0
-    for (let right = p.length; right < s.length; right++) {
-        const leftCharIndex = indexForChar(s[left])
-        sCount[leftCharIndex]--
-        left++
-        
+    for (let right = 0; right < s.length; right++) {
         const rightCharIndex = indexForChar(s[right])
         sCount[rightCharIndex]++
+        
+        while (sCount[rightCharIndex] > pCount[rightCharIndex]) {
+            const leftCharIndex = indexForChar(s[left])
+            sCount[leftCharIndex]--
+            left++
+        }
         
         if (equal(sCount, pCount)) {
             result.push(left)
