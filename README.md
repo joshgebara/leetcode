@@ -4048,14 +4048,17 @@ var isOneBitCharacter = function(bits) {
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-    const seen = {}
+    const map = {}
     
     for (let i = 0; i < nums.length; i++) {
-        let diff = target - nums[i]
-        if (seen[diff] !== undefined) return [seen[diff], i]
-        seen[nums[i]] = i
+        const diff = target - nums[i]
+        
+        if (map[diff] !== undefined) {
+            return [map[diff], i]
+        }
+        
+        map[nums[i]] = i
     }
-    return []
 };
 ```
 
