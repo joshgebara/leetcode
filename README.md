@@ -1942,15 +1942,24 @@ MyStack.prototype.empty = function() {
 
 ## 20. Valid Parentheses
 ```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
 var isValid = function(s) {
-    const map = { '(': ')', '{': '}', '[': ']' }
-    
+    const map = { '(': ')', '[': ']', '{': '}' }
     const stack = []
+    
     for (const char of s) {
-        if (map[char]) {
+        if (map[char] !== undefined) {
             stack.push(char)
-        } else if (map[stack.pop()] !== char) {
-            return false
+        } else {
+            const top = stack.pop()
+            const compliment = map[top]
+            
+            if (char !== compliment) {
+                return false
+            }
         }
     }
     
