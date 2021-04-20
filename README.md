@@ -17705,31 +17705,32 @@ WHERE (grouping) IN
  * @return {string[]}
  */
 var generateParenthesis = function(n) {
-    const _generateParenthesis = (curr, open, closed, balance) => {
-        if (balance < 0) return
+    const _generateParenthesis = (open, closed) => {
+        if (open < 0 || closed < 0) return
         
-        if (n * 2 === curr.length) {
-            if (balance === 0) {
-                result.push(curr.join(''))
-            }
+        if (closed < open) {
             return
         }
         
-        if (open > 0) {
-            curr.push('(')
-            _generateParenthesis(curr, open - 1, closed, balance + 1)
-            curr.pop()
+        if (open === 0 && closed === 0) {
+            result.push(combo.join(''))
+            return
         }
         
-        if (closed > 0) {
-            curr.push(')')
-            _generateParenthesis(curr, open, closed - 1, balance - 1)
-            curr.pop()
-        }
+        // add open
+        combo.push('(')
+        _generateParenthesis(open - 1, closed)
+        combo.pop()
+        
+        // add closed
+        combo.push(')')
+        _generateParenthesis(open, closed - 1)
+        combo.pop()
     }
     
     const result = []
-    _generateParenthesis([], n, n, 0)
+    const combo = []
+    _generateParenthesis(n, n)
     return result
 };
 ```
