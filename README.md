@@ -2379,34 +2379,22 @@ var intersect = function(nums1, nums2) {
 
 ## 344. Reverse String
 ```javascript
-const swap = (arr, i, j) => {
-    let temp = arr[i]
-    arr[i] = arr[j]
-    arr[j] = temp
-}
-
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
 var reverseString = function(s) {
-    if (!s.length) return
-    
     let left = 0
     let right = s.length - 1
     
     while (left < right) {
-        swap(s, left, right)
+        const temp = s[left]
+        s[left] = s[right]
+        s[right] = temp
+        
         left++
         right--
     }
-};
-
-// Recursive
-var reverseString = function(s) {
-    const _reverseString = (s, start, end) => {
-        if (start >= end) return
-        [s[start], s[end]] = [s[end], s[start]]
-        _reverseString(s, start + 1, end - 1)
-    }
-    
-    _reverseString(s, 0, s.length - 1)
 };
 ```
 
