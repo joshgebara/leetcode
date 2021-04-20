@@ -11582,30 +11582,37 @@ const buildGraph = (n, edges) => {
 
 ## 582. Kill Process
 ```javascript
+/**
+ * @param {number[]} pid
+ * @param {number[]} ppid
+ * @param {number} kill
+ * @return {number[]}
+ */
 var killProcess = function(pid, ppid, kill) {
-    const map = new Map()
+    const map = {}
     for (let i = 0; i < pid.length; i++) {
-        if (!map.has(ppid[i])) {
-            map.set(ppid[i], [pid[i]])
-        } else {
-            const pids = map.get(ppid[i])
-            pids.push(pid[i])
+        const parent = ppid[i]
+        const child = pid[i]
+        
+        if (map[parent] === undefined) {
+            map[parent] = []
         }
+        
+        map[parent].push(child)
     }
     
-    const queue = [kill]
     const result = []
-    
+    const queue = [kill]
     while (queue.length) {
         const process = queue.shift()
+        
         result.push(process)
         
-        const children = map.get(process)
-        if (!children) continue
-        
-        for (const child of children)
-            queue.push(child)
-        
+        if (map[process]) {
+            for (const child of map[process]) {
+                queue.push(child)
+            }
+        }
     }
     
     return result
