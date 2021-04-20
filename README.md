@@ -1249,22 +1249,18 @@ var deleteDuplicates = function(head) {
 
 ## 141. Linked List Cycle
 ```javascript
-var hasCycle = function(head) {
-    if (!head) return false
-    
-    const seen = new Set()
-    
-    while (head) {
-        if (seen.has(head))
-            return true
-            
-        seen.add(head)
-        head = head.next
-    }
-    
-    return false
-};
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
 
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
 var hasCycle = function(head) {
     let fast = head
     let slow = head
@@ -1273,8 +1269,11 @@ var hasCycle = function(head) {
         fast = fast.next.next
         slow = slow.next
         
-        if (fast === slow) return true
+        if (fast === slow) {
+            return true
+        }
     }
+    
     return false
 };
 ```
