@@ -21718,22 +21718,20 @@ const getNode = (node, k) => {
  * @return {string}
  */
 var serialize = function(root) {
-    const _serialize = root => {
-        if (!root) {
-            str.push('x')
-            return str
+    const dfs = (node) => {
+        if (!node) {
+            result.push('#')
+            return
         }
         
-        str.push(root.val)
-        _serialize(root.left)
-        _serialize(root.right)
-        return str
+        result.push(node.val)
+        dfs(node.left)
+        dfs(node.right)
     }
     
-    const str = []
-    _serialize(root)
-    console.log(str)
-    return str.join(',')
+    const result = []
+    dfs(root) 
+    return result.join(',')
 };
 
 /**
@@ -21743,21 +21741,23 @@ var serialize = function(root) {
  * @return {TreeNode}
  */
 var deserialize = function(data) {
-    const _deserialize = () => {
-        if (i >= nodes.length || nodes[i] === 'x') {
+    const dfs = () => {
+        if (arr[i] === '#') {
             i++
             return null
-        }
+        } 
         
-        const node = new TreeNode(nodes[i++])
-        node.left = _deserialize()
-        node.right = _deserialize()
+        const node = new TreeNode(+arr[i])
+        i++
+        
+        node.left = dfs()
+        node.right = dfs()
         return node
     }
     
+    const arr = data.split(',')
     let i = 0
-    const nodes = data.split(',')
-    return _deserialize()
+    return dfs(0)
 };
 
 /**
