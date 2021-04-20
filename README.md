@@ -20166,39 +20166,56 @@ var isCompleteTree = function(root) {
 
 ## 450. Delete Node in a BST
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} key
+ * @return {TreeNode}
+ */
 var deleteNode = function(root, key) {
-    if (!root) return null
-    
-    if (root.val === key) {
-        if (!root.left && !root.right)
-            return null
+    const _deleteNode = (node) => {
+        if (!node) return null
         
-        if (!root.left)
-            return root.right
+        if (node.val === key) {
+            if (!node.left && !node.right) {
+                return null
+            }
+            
+            if (!node.right) {
+                return node.left
+            }
+            
+            if (!node.left) {
+                return node.right
+            }
+            
+            const rightMin = getMin(node.right)
+            node.val = rightMin
+            node.right = deleteNode(node.right, rightMin)
+        } else if (node.val < key) {
+            node.right = _deleteNode(node.right)
+        } else {
+            node.left = _deleteNode(node.left)
+        }
         
-        if (!root.right)
-            return root.left
-        
-        let oldRoot = root
-        root = min(root.right)
-        oldRoot = deleteNode(oldRoot, root.val)
-        root.right = oldRoot.right
-        root.left = oldRoot.left
-        
-    } else if (root.val > key) {
-        root.left = deleteNode(root.left, key)
-    } else {
-        root.right = deleteNode(root.right, key)
+        return node
     }
     
-    return root
+    return _deleteNode(root)
 };
 
-const min = root => {
-    while (root.left)
-        root = root.left
-    
-    return root
+const getMin = node => {
+    while (node && node.left) {
+        node = node.left
+    }
+    return node.val
 }
 ```
 
