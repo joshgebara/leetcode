@@ -27463,22 +27463,33 @@ var maxProfitAssignment = function(difficulty, profit, worker) {
 
 ## 986. Interval List Intersections
 ```javascript
-var intervalIntersection = function(A, B) {
+/**
+ * @param {number[][]} firstList
+ * @param {number[][]} secondList
+ * @return {number[][]}
+ */
+var intervalIntersection = function(firstList, secondList) {
     const result = []
     let i = 0
     let j = 0
     
-    while (i < A.length && j < B.length) {
-        const [aS, aE] = A[i]
-        const [bS, bE] = B[j]
+    while (i < firstList.length && j < secondList.length) {
+        const [firstStart, firstEnd] = firstList[i]
+        const [secondStart, secondEnd] = secondList[j]
         
-        const start = Math.max(aS, bS)
-        const end = Math.min(aE, bE)
+        const intersectionStart = Math.max(firstStart, secondStart)
+        const intersectionEnd = Math.min(firstEnd, secondEnd)
         
-        if (start <= end)
-            result.push([start, end])
-
-        aE < bE ? i++ : j++
+        if (intersectionStart <= intersectionEnd) {
+            const intersection = [intersectionStart, intersectionEnd]
+            result.push(intersection)
+        }
+        
+        if (firstEnd < secondEnd) {
+            i++
+        } else {
+            j++
+        }
     }
     
     return result
