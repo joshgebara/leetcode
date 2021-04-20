@@ -14850,20 +14850,18 @@ class DisjointSet {
  * @return {number[]}
  */
 var partitionLabels = function(S) {
-    const intervals = {}
-    
+    const lastIndex = {}
     for (let i = 0; i < S.length; i++) {
-        intervals[S[i]] = i
+        lastIndex[S[i]] = i
     }
     
     const result = []
     let start = 0
     let end = 0
-    
     for (let i = 0; i < S.length; i++) {
-        end = Math.max(end, intervals[S[i]])
+        end = Math.max(end, lastIndex[S[i]])
         
-        if (i === end) {
+        if (end === i) {
             result.push(end - start + 1)
             start = i + 1
         }
