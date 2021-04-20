@@ -33974,24 +33974,29 @@ var longestCommonSubsequence = function(text1, text2) {
  */
 var summaryRanges = function(nums) {
     const result = []
-    let start = nums[0]
-    let end = nums[0]
-    for (let i = 1; i <= nums.length; i++) {
-        if (nums[i] - nums[i - 1] === 1) {
-            end = nums[i]
+    
+    let start = 0
+    for (let end = 1; end <= nums.length; end++) {
+        if (nums[end] - nums[end - 1] === 1) {
             continue
         }
         
-        result.push(formatRange(start, end))
-        start = nums[i]
-        end = nums[i]
+        const intervalStart = nums[start]
+        const intervalEnd = nums[end - 1]
+        const interval = formatInterval(intervalStart, intervalEnd)
+        result.push(interval)
+        start = end
     }
     
     return result
 };
 
-const formatRange = (start, end) => {
-    return start === end ? `${start}` : `${start}->${end}`
+const formatInterval = (start, end) => {
+    if (start === end) {
+        return `${start}`
+    }
+    
+    return `${start}->${end}`
 }
 ```
 
