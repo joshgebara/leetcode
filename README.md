@@ -4421,29 +4421,26 @@ var addBinary = function(a, b) {
 var longestCommonPrefix = function(strs) {
     if (!strs.length) return ''
     
-    const prefix = []
-    let i = 0
+    const commonPrefix = []
     
+    let index = 0
     outer : while (true) {
-        let commonChar = ''
-        for (const str of strs) {
-            if (i >= str.length) break outer
-            
-            if (commonChar === '') {
-                commonChar = str[i]
-                continue
-            }
-            
-            if (str[i] !== commonChar) {
+        const char = strs[0][index]
+        if (char === undefined) {
+            break outer
+        }
+        
+        for (let j = 1; j < strs.length; j++) {
+            if (strs[j][index] === undefined || strs[j][index] !== char) { 
                 break outer
             }
         }
         
-        i++
-        prefix.push(commonChar)
+        commonPrefix.push(char)
+        index++
     }
     
-    return prefix.join('')
+    return commonPrefix.join('')
 };
 ```
 
