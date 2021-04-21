@@ -48750,10 +48750,10 @@ var countSubstrings = function(s) {
         for (let i = 0; i <= n - len; i++) {
             const j = i + len - 1
             
-            if (i === j) {
+            if (len === 1) {
                 dp[i][j] = true
                 count++
-            } else if (s[i] === s[j] && i + 1 === j) {
+            } else if (s[i] === s[j] && len === 2) {
                 dp[i][j] = true
                 count++
             } else if (s[i] === s[j] && dp[i + 1][j - 1]) {
