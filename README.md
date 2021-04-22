@@ -22811,40 +22811,6 @@ var canReach = function(arr, start) {
 
 ## 752. Open the Lock
 ```javascript
-// BFS
-var openLock = function(deadends, target) {
-    const visited = new Set(deadends)
-    const queue = ['0000']
-    let moves = 0
-    
-    while (queue.length) {
-        const size = queue.length
-        for (let i = 0; i < size; i++) {
-            const lock = queue.shift()
-            
-            if (visited.has(lock)) continue
-            visited.add(lock)
-            
-            if (lock === target) return moves
-            
-            for (let i = 0; i < 4; i++) {
-                const nextPos1 = lock[i] === '9' ? 0 : +lock[i] + 1
-                const str1 = lock.slice(0, i) + nextPos1 + lock.slice(i + 1)
-                
-                const nextPos2 = lock[i] === '0' ? 9 : +lock[i] - 1
-                const str2 = lock.slice(0, i) + nextPos2 + lock.slice(i + 1)
-                
-                if (!visited.has(str1)) queue.push(str1)
-                if (!visited.has(str2)) queue.push(str2)       
-            }
-        }
-        
-        moves++
-    }
-    
-    return -1
-};
-
 // Bidirectional BFS
 /**
  * @param {string[]} deadends
@@ -22852,58 +22818,79 @@ var openLock = function(deadends, target) {
  * @return {number}
  */
 var openLock = function(deadends, target) {
-    deadends = new Set(deadends)
-    if (deadends.has('0000')) return -1
+    const deadendsSet = new Set(deadends)
     
-    const visitedStart = new Set(['0000'])
-    const visitedEnd = new Set([target])
+    const start = '0000'
+    const startQueue = [start]
+    const startSet = new Set([start])
+    let startSteps = 0
     
-    const queueStart = ['0000']
-    const queueEnd = [target]
+    const endQueue = [target]
+    const endSet = new Set([target])
+    let endSteps = 0
     
-    let turnsStart = 0
-    let turnsEnd = 0
+    if (deadendsSet.has(start) || deadendsSet.has(target)) {
+        return -1
+    }
     
-   while (queueStart.length && queueEnd.length) {
-        if (bfs(queueStart, visitedStart, visitedEnd, deadends)) 
-            return turnsStart + turnsEnd
-        turnsStart++
-       
-        if (bfs(queueEnd, visitedEnd, visitedStart, deadends)) 
-            return turnsStart + turnsEnd
-        turnsEnd++
+    while (startQueue.length && endQueue.length) {
+        if (bfs(startQueue, startSet, endSet, deadendsSet)) {
+            return startSteps + endSteps
+        }
+        startSteps++
+        
+        if (bfs(endQueue, endSet, startSet, deadendsSet)) {
+            return startSteps + endSteps
+        }
+        endSteps++
     }
     
     return -1
 };
 
-const bfs = (queue, visited1, visited2, deadends) => {
-    const size = queue.length
+const bfs = (queue1, visited1, visited2, invalidSet) => {
+    const size = queue1.length
     for (let i = 0; i < size; i++) {
-        const combo = queue.shift()
+        const node = queue1.shift()
         
-        if (visited2.has(combo)) {
+        if (visited2.has(node)) {
             return true
         }
-
-        for (let i = 0; i < 4; i++) {
-            const nextPos1 = combo[i] === '9' ? 0 : +combo[i] + 1
-            const nextCombo1 = combo.slice(0, i) + nextPos1 + combo.slice(i + 1)
-            if (!visited1.has(nextCombo1) && !deadends.has(nextCombo1)) {
-                visited1.add(nextCombo1)
-                queue.push(nextCombo1)
-            }
-            
-            const nextPos2 = combo[i] === '0' ? 9 : +combo[i] - 1
-            const nextCombo2 = combo.slice(0, i) + nextPos2 + combo.slice(i + 1)
-            if (!visited1.has(nextCombo2) && !deadends.has(nextCombo2)) {
-                visited1.add(nextCombo2)
-                queue.push(nextCombo2)
-            }  
+        
+        for (const neighbor of getNeighbors(node)) {
+            if (invalidSet.has(neighbor) || visited1.has(neighbor)) continue
+            visited1.add(neighbor)
+            queue1.push(neighbor)
         }
     }
-
+    
     return false
+}
+
+const getNeighbors = node => {
+    const neighbors = []
+    
+    const charArr = node.split('')
+    for (let i = 0; i < node.length; i++) {
+        const digit = +charArr[i]
+        
+        // get left turn
+        let left = digit - 1
+        if (left < 0) {
+            left = 9
+        }
+        charArr[i] = left
+        neighbors.push(charArr.join(''))
+        
+        // get right turn
+        const right = (digit + 1) % 10
+        charArr[i] = right
+        neighbors.push(charArr.join(''))
+        
+        charArr[i] = node[i]
+    }
+    
+    return neighbors
 }
 
 // A*
