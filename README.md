@@ -7803,62 +7803,72 @@ var addTwoNumbers = function(l1, l2) {
 
 ## 445. Add Two Numbers II
 ```javascript
-const padZeros = (node, count) => {
-    let head = node
-    
-    while (count) {
-        let zero = new ListNode(0)
-        zero.next = head
-        head = zero
-        count--
-    }
-    return head
-}
-
-const count = node => {
-    let count = 0
-    while (node) {
-        node = node.next
-        count++
-    }
-    return count
-}
-
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
 var addTwoNumbers = function(l1, l2) {
-    if (!l1 || !l2) return null
+    const _addTwoNumbers = (l1, l2) => {
+        if (!l1 || !l2) return [null, 0]
+        
+        let [nextNode, carry] = _addTwoNumbers(l1.next, l2.next)
+        
+        const sum = carry + l1.val + l2.val
+        
+        const digit = sum % 10
+        const node = new ListNode(digit)
+        node.next = nextNode
+        
+        carry = Math.trunc(sum / 10)
+        
+        return [node, carry]
+    }
     
-    let count1 = count(l1)
-    let count2 = count(l2)
+    const l1Len = getLen(l1)
+    const l2Len = getLen(l2)
     
-    let diff = Math.abs(count1 - count2)
-    if (count1 < count2) {
+    const diff = Math.abs(l1Len - l2Len)
+    if (l1Len < l2Len) {
         l1 = padZeros(l1, diff)
     } else {
         l2 = padZeros(l2, diff)
     }
     
-    let [carry, nextNode] = _addTwoNumbers(l1, l2)
-    
-    if (carry) {
-        let node = new ListNode(carry)
-        node.next = nextNode
-        return node
+    const [head, carry] = _addTwoNumbers(l1, l2)
+    if (carry > 0) {
+        const newHead = new ListNode(carry)
+        newHead.next = head
+        return newHead
     }
     
-    return nextNode
+    return head
 };
 
-const _addTwoNumbers = (l1, l2) => {
-    if (!l1 && !l2) return [0, null]
-    
-    let [carry, nextNode] = _addTwoNumbers(l1.next, l2.next)
-    let sum = l1.val + l2.val + carry
-    
-    let currNode = new ListNode(sum % 10)
-    currNode.next = nextNode
-    carry = Math.floor(sum / 10)
-    
-    return [carry, currNode]
+const padZeros = (head, k) => {
+    let curr = head
+    while (k--) {
+        const newHead = new ListNode(0)
+        newHead.next = curr
+        curr = newHead
+    }
+    return curr
+}
+
+const getLen = node => {
+    let len = 0
+    while (node) {
+        len++
+        node = node.next
+    }
+    return len
 }
 ```
 
