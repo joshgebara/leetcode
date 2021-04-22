@@ -21414,24 +21414,38 @@ var buildTree = function(preorder, inorder) {
 
 ## 106. Construct Binary Tree from Inorder and Postorder Traversal
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} inorder
+ * @param {number[]} postorder
+ * @return {TreeNode}
+ */
 var buildTree = function(inorder, postorder) {
-    const _buildTree = (start, end) => {
-        if (start > end) return null
+    const _buildTree = (left, right) => {
+        if (left > right) return null
         
-        const val = postorder[i--]
-        const node = new TreeNode(val)
+        const root = new TreeNode(postorder[postIndex])
+        postIndex--
         
-        const partitionIndex = map[val]
-        node.right = _buildTree(partitionIndex + 1, end)
-        node.left = _buildTree(start, partitionIndex - 1)
-        return node
+        const mid = map[root.val]
+        root.right = _buildTree(mid + 1, right)
+        root.left = _buildTree(left, mid - 1)
+        return root
     }
     
     const map = {}
-    for (let i = 0; i < inorder.length; i++)
+    for (let i = 0; i < inorder.length; i++) {
         map[inorder[i]] = i
+    }
     
-    let i = postorder.length - 1
+    let postIndex = postorder.length - 1
     return _buildTree(0, inorder.length - 1)
 };
 ```
