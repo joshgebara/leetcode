@@ -2946,12 +2946,12 @@ var peakIndexInMountainArray = function(arr) {
     let right = arr.length - 2
     
     while (left < right) {
-        const mid = Math.floor((right - left) / 2) + left
+        const mid = Math.trunc((right - left) / 2) + left
         
-        if (arr[mid] > arr[mid + 1]) {
-            right = mid
-        } else {
+        if (arr[mid] < arr[mid + 1]) {
             left = mid + 1
+        } else {
+            right = mid
         }
     }
     
