@@ -62154,3 +62154,34 @@ class UnionFind {
     }
 }
 ```
+
+## 7. Reverse Integer
+```javascript
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function(x) {
+    const upperBound = Math.trunc((2 ** 31 - 1) / 10)
+    const lowerBound = Math.trunc(-(2 ** 31) / 10)
+    
+    let reversedNum = 0
+    
+    while (x) {
+        const digit = x % 10
+        
+        if (reversedNum > upperBound || reversedNum === upperBound && digit > 7) {
+            return 0
+        } else if (reversedNum < lowerBound || reversedNum === lowerBound && digit < -8) {
+            return 0
+        }
+        
+        reversedNum *= 10
+        reversedNum += digit
+        
+        x = Math.trunc(x / 10)
+   }
+    
+    return reversedNum
+};
+```
