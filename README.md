@@ -13110,23 +13110,34 @@ var addDigits = function(num) {
 
 ## 49. Group Anagrams
 ```javascript
+/**
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
 var groupAnagrams = function(strs) {
     const map = {}
-    
-    for (let str of strs) {
-        const charArr = str.split('')
-        charArr.sort()
-        const sortedStr = charArr.join('')
+    for (const str of strs) {
+        const count = getCount(str)
         
-        if (map[sortedStr]) {
-            map[sortedStr].push(str)
-        } else {
-            map[sortedStr] = [str]
-        }    
+        const key = count.join(',')
+        if (map[key] === undefined) {
+            map[key] = []
+        }
+        
+        map[key].push(str)
     }
     
     return Object.values(map)
 };
+
+const getCount = str => {
+    const counts = new Array(26).fill(0)
+    for (const char of str) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        counts[index]++
+    }
+    return counts
+}
 ```
 
 ## 1221. Split a String in Balanced Strings
