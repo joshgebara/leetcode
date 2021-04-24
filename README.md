@@ -29165,25 +29165,18 @@ var uniquePaths = function(m, n) {
  * @return {number}
  */
 var uniquePaths = function(m, n) {
-    const dp = Array(n).fill(0)
+    let prev = new Array(n).fill(1)
     
-    dp[0][0] = 1
-    
-    for (let row = 0; row < n; row++) {
-        for (let col = 0; col < m; col++) {
-            if (!row && !col) {
-                dp[col] = 1
-            } else if (!row) {
-                dp[col] = dp[col - 1]
-            } else if (!col) {
-                dp[col] = dp[0]
-            } else {
-                dp[col] = dp[col] + dp[col - 1]
-            }
+    for (let row = 1; row < m; row++) {
+        const curr = new Array(n).fill(1)
+        for (let col = 1; col < n; col++) {
+            curr[col] = prev[col] + curr[col - 1]
         }
+        
+        prev = curr
     }
     
-    return dp[m - 1]
+    return prev[n - 1]
 };
 ```
 
