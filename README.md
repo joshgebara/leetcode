@@ -24197,40 +24197,46 @@ const maxPath = (vertex, graph) => {
  * @return {boolean}
  */
 var hasPath = function(maze, start, destination) {
-    const dirs = [[1, 0], [-1, 0], [0, -1], [0, 1]]
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
     
     const queue = [start]
-    maze[start[0]][start[1]] = 2
+    const visited = new Set(`${start[0]}-${start[1]}`)
+    
     while (queue.length) {
         const [row, col] = queue.shift()
         
-        for (const [dRow, dCol] of dirs) {
+        if (row === destination[0] && col === destination[1]) {
+            return true
+        }
+        
+        for (const [deltaRow, deltaCol] of dirs) {
             let nextRow = row
             let nextCol = col
             
-            while (nextRow >= 0 && nextRow < maze.length && 
-                   nextCol >= 0 && nextCol < maze[0].length && 
-                   maze[nextRow][nextCol] !== 1) {
-                nextRow += dRow
-                nextCol += dCol
+            while (isValid(maze, nextRow, nextCol)) {
+                nextRow += deltaRow
+                nextCol += deltaCol
             }
             
-            nextRow -= dRow
-            nextCol -= dCol
+            nextRow -= deltaRow
+            nextCol -= deltaCol
             
-            if (nextRow === destination[0] && 
-                nextCol === destination[1]) {
-                return true
-            }
+            if (visited.has(`${nextRow}-${nextCol}`)) continue
+            visited.add(`${nextRow}-${nextCol}`)
             
-            if (maze[nextRow][nextCol] === 2) continue
-            maze[nextRow][nextCol] = 2
             queue.push([nextRow, nextCol])
         }
     }
     
     return false
 };
+
+const isValid = (maze, row, col) => {
+    if (row < 0 || row >= maze.length || 
+        col < 0 || col >= maze[0].length || 
+        maze[row][col] === 1) return false
+    return true
+}
 
 // DFS
 var hasPath = function(maze, start, destination) {
