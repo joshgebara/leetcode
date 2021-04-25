@@ -57842,11 +57842,11 @@ var myAtoi = function(s) {
     // Read in next digit chars
     const MAX_INT = 2 ** 31 - 1
     const MIN_INT = -(2 ** 31)
+    const upperBound = Math.trunc(MAX_INT / 10)
     let num = 0
     while (i < s.length && isDigit(s[i])) {
         // Check for overflow
-        if (num > Math.trunc(MAX_INT) / 10 || 
-            (num === Math.trunc(MAX_INT / 10) && +s[i] > 7)) {
+        if (num > upperBound || num === upperBound && +s[i] > 7) {
             return sign === -1 ? MIN_INT : MAX_INT
         }
         
