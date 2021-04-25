@@ -55744,6 +55744,7 @@ var largestSubmatrix = function(matrix) {
 ## 85. Maximal Rectangle
 ```javascript
 // DP
+// https://www.youtube.com/watch?v=PrNAjqoo83k
 /**
  * @param {character[][]} matrix
  * @return {number}
@@ -55787,7 +55788,6 @@ var maximalRectangle = function(matrix) {
             maxArea = Math.max(maxArea, height[col] * (right[col] - left[col] + 1))
         }
     }
-    
     
     return maxArea
 };
