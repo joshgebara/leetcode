@@ -14658,18 +14658,39 @@ var inorderSuccessor = function(root, p) {
 
 ## 510. Inorder Successor in BST II
 ```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val) {
+ *    this.val = val;
+ *    this.left = null;
+ *    this.right = null;
+ *    this.parent = null;
+ * };
+ */
+
+/**
+ * @param {Node} node
+ * @return {Node}
+ */
 var inorderSuccessor = function(node) {
     if (node.right) {
         node = node.right
-        while (node.left) node = node.left
+        while (node.left) {
+            node = node.left
+        }
         return node
     }
     
-    while (node.parent && node.parent.right === node) {
+    while (node) {
+        let child = node
         node = node.parent
+        
+        if (node && node.left === child) {
+            break
+        }
     }
     
-    return node.parent
+    return node
 };
 ```
 
