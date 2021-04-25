@@ -23092,57 +23092,82 @@ class Heap {
 
 ## 934. Shortest Bridge
 ```javascript
+/**
+ * @param {number[][]} A
+ * @return {number}
+ */
 var shortestBridge = function(A) {
-    const queue = []
-    let dist = 0
+    const rowLen = A.length
+    const colLen = A[0].length
     
-    outer : for (let row = 0; row < A.length; row++) {
-        for (let col = 0; col < A[0].length; col++) {
-            if (A[row][col]) {
-                dfs(A, row, col, queue)
+    const queue = []
+    outer: for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (A[row][col] === 1) {
+                floodFill(A, row, col)
                 break outer
             }
         }
     }
     
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (A[row][col] === 2) {
+                queue.push([row, col])
+            }
+        }
+    }
+    
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    let steps = 0
     while (queue.length) {
         const size = queue.length
         for (let i = 0; i < size; i++) {
-            const [x, y] = queue.shift()
+            const [row, col] = queue.shift()
             
-            for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-                const nx = x + dx
-                const ny = y + dy
+            for (const [deltaRow, deltaCol] of dirs) {
+                const nextRow = deltaRow + row
+                const nextCol = deltaCol + col
+
+                if (nextRow < 0 || nextRow >= rowLen || 
+                    nextCol < 0 || nextCol >= colLen || 
+                    A[nextRow][nextCol] === 2) continue
                 
-                if (nx < 0 || ny < 0 || 
-                    nx >= A.length || ny >= A[0].length || 
-                    A[nx][ny] === -1)
-                    continue
+                if (A[nextRow][nextCol] === 1) {
+                    return steps
+                }
                 
-                if (A[nx][ny] === 1)
-                    return dist
-                
-                queue.push([nx, ny])
-                A[nx][ny] = -1
-            }
+                A[nextRow][nextCol] = 2
+                queue.push([nextRow, nextCol])
+            }   
         }
-        dist++
+        steps++
     }
-    
-    return -1
 };
 
-const dfs = (graph, row, col, queue) => {
-    if (row < 0 || col < 0 || 
-        row >= graph.length || col >= graph[0].length || 
-        graph[row][col] === 0 || graph[row][col] === -1)
-    return
+const floodFill = (matrix, startRow, startCol) => {
+    const rowLen = matrix.length
+    const colLen = matrix[0].length
     
-    queue.push([row, col])
-    graph[row][col] = -1
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
     
-    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-        dfs(graph, row + dx, col + dy, queue)
+    const queue = [[startRow, startCol]]
+    matrix[startRow][startCol] = 2
+    
+    while (queue.length) {
+        const [row, col] = queue.shift()
+        
+        for (const [deltaRow, deltaCol] of dirs) {
+            const nextRow = deltaRow + row
+            const nextCol = deltaCol + col
+            
+            if (nextRow < 0 || nextRow >= rowLen || 
+                nextCol < 0 || nextCol >= colLen || 
+                matrix[nextRow][nextCol] !== 1) continue
+            
+            matrix[nextRow][nextCol] = 2
+            queue.push([nextRow, nextCol])
+        }
     }
 }
 ```
