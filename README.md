@@ -40193,56 +40193,44 @@ const isPalindrome = (s, left, right) => {
  * @return {string[]}
  */
 var wordBreak = function(s, wordDict) {
-    const _wordBreak = (baseIndex, curr) => {
-        if (memo[baseIndex]) return memo[baseIndex]
-        
-        if (baseIndex === s.length) {
+    const _wordBreak = start => {
+        if (start >= s.length) {
             return ['']
         }
         
-        const list = []
+        if (memo[start] !== undefined) {
+            return memo[start]
+        }
         
-        for (let i = baseIndex; i < s.length; i++) {
-            const word = s.slice(baseIndex, i + 1)
-            if (!dict.has(word)) continue
-            const rest = _wordBreak(i + 1)
-            for (const comb of rest) {
-                list.push(word + (comb === '' ? '' : ' ') + comb)
+        const result = []
+        for (let i = start; i < Math.min(start + maxWordLen, s.length); i++) {
+            const word = s.slice(start, i + 1)
+            if (!wordSet.has(word)) continue
+            
+            const sentences = _wordBreak(i + 1)
+            for (const sentence of sentences) {
+                if (sentence === '') {
+                    result.push(word)
+                } else {
+                    result.push(word + ' ' + sentence)
+                }
+
             }
         }
         
-        memo[baseIndex] = list
-        return list
+        memo[start] = result
+        return result
+    }
+    
+    const wordSet = new Set()
+    let maxWordLen = 0
+    for (const word of wordDict) {
+        maxWordLen = Math.max(maxWordLen, word.length)
+        wordSet.add(word)
     }
     
     const memo = {}
-    const dict = new Set(wordDict)
     return _wordBreak(0)
-};
-
-// Bottom Up DP - Doesn't Run, Takes Too Much Memory
-/**
- * @param {string} s
- * @param {string[]} wordDict
- * @return {string[]}
- */
-var wordBreak = function(s, wordDict) {
-    const words = new Set(wordDict)
-    const dp = Array(s.length + 1).fill().map(a => [])
-    dp[0] = ['']
-    
-    for (let i = 1; i <= s.length; i++) {
-        for (let j = 0; j < i; j++) {
-            const str = s.slice(j, i)
-            
-            if (!words.has(str)) continue
-            for (const prefix of dp[j]) {
-                dp[i].push(prefix + (prefix === '' ? '' : ' ') + str)
-            }
-        }
-    }
-    
-    return dp[s.length]
 };
 ```
 
