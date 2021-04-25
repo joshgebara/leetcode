@@ -61816,7 +61816,9 @@ var triangleNumber = function(nums) {
                 k++
             }
             
-            count += Math.max(k - j - 1, 0)
+            if (j < k) {
+                count += k - j - 1
+            }
         }
     }
     
