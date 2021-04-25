@@ -62262,3 +62262,27 @@ var reverse = function(x) {
     return reversedNum
 };
 ```
+
+## 1588. Sum of All Odd Length Subarrays
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var sumOddLengthSubarrays = function(arr) {
+    const prefixSum = [0]
+    for (const num of arr) {
+        const sum = prefixSum[prefixSum.length - 1] + num
+        prefixSum.push(sum)
+    }
+    
+    let sum = 0
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i; j < arr.length; j += 2) {
+            sum += prefixSum[j + 1] - prefixSum[i]
+        }
+    }
+    
+    return sum
+};
+```
