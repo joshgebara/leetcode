@@ -51102,23 +51102,22 @@ var findPoisonedDuration = function(timeSeries, duration) {
  * @return {Node}
  */
 var connect = function(root) {
-    let leftmost = root
-    let curr = leftmost
-    let prev = null
+    let leftMost = root
     
-    while (leftmost) {
-        prev = null
-        curr = leftmost
-        leftmost = null
+    while (leftMost) {
+        let curr = leftMost
+        leftMost = null
+        
+        let prev = null
         
         while (curr) {
             if (curr.left) {
                 if (prev) {
                     prev.next = curr.left
                 } else {
-                    leftmost = curr.left
+                    leftMost = curr.left
                 }
-
+                
                 prev = curr.left
             }
             
@@ -51126,9 +51125,9 @@ var connect = function(root) {
                 if (prev) {
                     prev.next = curr.right
                 } else {
-                    leftmost = curr.right
+                    leftMost = curr.right
                 }
-
+                
                 prev = curr.right
             }
             
