@@ -4237,26 +4237,28 @@ var validMountainArray = function(A) {
  * @return {number}
  */
 var findShortestSubArray = function(nums) {
-    const map = {}
     let degree = 0
-    
+    const map = {}
     for (let i = 0; i < nums.length; i++) {
-        const num = nums[i]
-        if (!map[num]) map[num] = [0, i, i]
-        map[num][0]++
-        map[num][2] = i
+        if (map[nums[i]] === undefined) {
+            map[nums[i]] = { 'freq': 0, 'start': i, 'end': i }
+        }
         
-        degree = Math.max(degree, map[num][0])
+        map[nums[i]].freq++
+        map[nums[i]].end = i
+        
+        degree = Math.max(degree, map[nums[i]].freq)
     }
     
-    let length = Infinity
-    for (const [count, start, end] of Object.values(map)) {
-        if (count === degree) {
-            length = Math.min(length, end - start + 1)
+    let min = Infinity
+    for (const [key, val] of Object.entries(map)) {
+        const { freq, start, end } = val
+        if (freq === degree) {
+            min = Math.min(min, end - start + 1)
         }
     }
     
-    return length
+    return min
 };
 ```
 
