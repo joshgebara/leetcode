@@ -62248,7 +62248,7 @@ var myPow = function(x, n) {
     if (n === 0) return 1
     if (n === 1) return x
     
-    const result = myPow(x, Math.trunc(n / 2))
+    const result = myPow(x, n >>> 1)
     if (n % 2 === 0) {
         return result * result
     } else {
@@ -62275,7 +62275,7 @@ var myPow = function(x, n) {
         }
         
         x *= x
-        n = Math.trunc(n / 2)
+        n >>>= 1
     }
     
     return result
