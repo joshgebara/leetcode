@@ -8234,21 +8234,22 @@ var treeToDoublyList = function(root) {
  * @return {ListNode}
  */
 var rotateRight = function(head, k) {
-    if (!head) return head
-    if (!head.next) return head
+    if (!head || !head.next || k === 0) return head
     
     let curr = head
-    let n = 1
+    let length = 1
     while (curr.next) {
         curr = curr.next
-        n++
+        length++
     }
     curr.next = head
     
-    for (let i = 0; i < n - k % n - 1; i++)
+    k %= length
+    for (let i = 1; i < length - k; i++) {
         head = head.next
+    }
     
-    let newHead = head.next
+    const newHead = head.next
     head.next = null
     return newHead
 };
