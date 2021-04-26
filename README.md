@@ -62244,7 +62244,7 @@ var sumOddLengthSubarrays = function(arr) {
  * @return {number}
  */
 var myPow = function(x, n) {
-    if (n < 0) return myPow(1 / x, -n)
+    if (n < 0) return 1 / x * myPow(1 / x, -(n + 1)) // Handleds MIN_NUMBER overflow
     if (n === 0) return 1
     if (n === 1) return x
     
