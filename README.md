@@ -62234,3 +62234,50 @@ var sumOddLengthSubarrays = function(arr) {
     return sum
 };
 ```
+
+## 50. Pow(x, n)
+```javascript
+// Recursive
+/**
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function(x, n) {
+    if (n < 0) return myPow(1 / x, -n)
+    if (n === 0) return 1
+    if (n === 1) return x
+    
+    const result = myPow(x, Math.trunc(n / 2))
+    if (n % 2 === 0) {
+        return result * result
+    } else {
+        return result * result * x
+    }
+};
+
+// Iterative
+/**
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function(x, n) {
+    if (n < 0) {
+        n = -n
+        x = 1 / x
+    }
+    
+    let result = 1
+    while (n > 0) {
+        if (n & 1) {
+            result *= x
+        }
+        
+        x *= x
+        n = Math.trunc(n / 2)
+    }
+    
+    return result
+};
+```
