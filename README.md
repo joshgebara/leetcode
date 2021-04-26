@@ -56860,24 +56860,24 @@ const charForPos = pos => String.fromCharCode(pos + 'a'.charCodeAt(0))
  * @return {TreeNode}
  */
 var constructFromPrePost = function(pre, post) {
-    const _constructFromPrePost = (preStart, preEnd, postStart, postEnd) => {
-        if (preStart > preEnd) return null
+    const _constructFromPrePost = (postLeft, postRight) => {
+        if (postLeft > postRight) {
+            return null
+        }
         
-        const node = new TreeNode(pre[preStart])
-        if (preStart === preEnd) return node
+        const node = new TreeNode(pre[i])
+        i++
         
-        const postIndex = map[pre[preStart + 1]]
-        const leftSubLen = postIndex - postStart + 1
-        node.left = _constructFromPrePost(preStart + 1, 
-                                          preStart + leftSubLen, 
-                                          postStart, 
-                                          postIndex)
+        if (postLeft === postRight) {
+            return node
+        }
         
-        node.right = _constructFromPrePost(preStart + leftSubLen + 1, 
-                                           preEnd, 
-                                           postIndex + 1, 
-                                           postEnd - 1)        
-        return node        
+        const nextVal = pre[i]
+        const postLeftEnd = map[nextVal]
+        
+        node.left = _constructFromPrePost(postLeft, postLeftEnd)
+        node.right = _constructFromPrePost(postLeftEnd + 1, postRight - 1)
+        return node
     }
     
     const map = {}
@@ -56885,7 +56885,8 @@ var constructFromPrePost = function(pre, post) {
         map[post[i]] = i
     }
     
-    return _constructFromPrePost(0, pre.length - 1, 0, post.length - 1)
+    let i = 0
+    return _constructFromPrePost(0, post.length - 1)
 };
 ```
 
