@@ -25938,6 +25938,7 @@ var eventualSafeNodes = function(graph) {
 
 ## 1059. All Paths from Source Lead to Destination
 ```javascript
+// Bug in solution check https://leetcode.com/problems/all-paths-from-source-lead-to-destination/discuss/303566/Java-DFS-with-cycle-detection-(5ms)
 // Black White Gray Coloring
 /**
  * @param {number} n
