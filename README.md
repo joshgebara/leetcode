@@ -20989,24 +20989,39 @@ var checkEqualTree = function(root) {
 
 ## 114. Flatten Binary Tree to Linked List
 ```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
 var flatten = function(root) {
-    if (!root) return
+    if (!root) return root
     
     const stack = [root]
     
     while (stack.length) {
-        const curr = stack.pop()
+        const node = stack.pop()
         
-        if (curr.right)
-            stack.push(curr.right)
+        if (node.right) {
+            stack.push(node.right)
+        }
         
-        if (curr.left)
-            stack.push(curr.left)
+        if (node.left) {
+            stack.push(node.left)
+        }
         
-        if (stack.length)
-            curr.right = stack[stack.length - 1]
+        if (stack.length) {
+            node.right = stack[stack.length - 1]
+        }
         
-        curr.left = null
+        node.left = null
     }
 };
 ```
