@@ -26856,7 +26856,7 @@ var Solution = function(w) {
     this.sums = w
     
     for (let i = 1; i < this.sums.length; i++) {
-        this.sums[i] = this.sums[i - 1] + this.sums[i]
+        this.sums[i] += this.sums[i - 1]
     }
 };
 
@@ -26864,15 +26864,15 @@ var Solution = function(w) {
  * @return {number}
  */
 Solution.prototype.pickIndex = function() {
-    const randomIndex = Math.floor(Math.random() * this.sums[this.sums.length - 1])
+    const randomIndex = Math.floor(Math.random() * this.sums[this.sums.length - 1]) + 1
     
     let left = 0
-    let right = this.sums[this.sums.length - 1]
+    let right = this.sums.length - 1
     
     while (left < right) {
         const mid = Math.floor((right - left) / 2) + left
         
-        if (this.sums[mid] <= randomIndex) {
+        if (this.sums[mid] < randomIndex) {
             left = mid + 1
         } else {
             right = mid
