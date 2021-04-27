@@ -36325,7 +36325,7 @@ var combinationSum4 = function(nums, target) {
     }
     
     if (!nums.length) return 0
-    const memo = Array(target + 1).fill()
+    const memo = Array(target + 1)
     return _combinationSum4(0)
 };
 
@@ -36342,7 +36342,7 @@ var combinationSum4 = function(nums, target) {
     for (let i = 1; i <= target; i++) {
         for (const num of nums) {
             if (i < num) continue
-            dp[i] = dp[i] + dp[i - num]
+            dp[i] += dp[i - num]
         }
     }
     
