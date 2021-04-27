@@ -62160,3 +62160,41 @@ var myPow = function(x, n) {
     return result
 };
 ```
+
+## 731. My Calendar II
+```javascript
+
+var MyCalendarTwo = function() {
+    this.single = []
+    this.double = []
+};
+
+MyCalendarTwo.prototype.book = function(start, end) {
+    let curr = [start, end]
+    for (let time of this.double) {
+       if (hasOverlap(time, curr)) return false
+    }
+    
+    for (let time of this.single) {
+        if (hasOverlap(time, curr)) {
+            this.double.push(intersection(time, curr))
+        }
+    }
+    this.single.push(curr)
+    return true
+};
+
+function intersection(a, b) {
+    let maxStart = Math.max(a[0], b[0])
+    let minEnd = Math.min(a[1], b[1])
+    return [maxStart, minEnd]
+}
+
+function hasOverlap(a, b) {
+    if (a[0] === b[0]) return true
+    let maxStart = Math.max(a[0], b[0])
+    let minEnd = Math.min(a[1], b[1])
+    if (maxStart < minEnd) return true
+    return false
+}
+```
