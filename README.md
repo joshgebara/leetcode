@@ -62256,3 +62256,109 @@ var countNodes = function(root) {
     return _countNodes(root)
 };
 ```
+
+## 1247. Minimum Swaps to Make Strings Equal
+```java
+/**
+    Observation from given example
+    case 1:
+    xx
+    yy => minimum swap is 1
+
+    case 2:
+    xy
+    yx => minimum swap is 2
+
+    case 3:
+    xx
+    xy => not possible [If we have odd no of sum of x/y in both strings then it is impossible to make them equal ]
+    
+    Steps:
+    1. Find sum of x and y in both string, return -1 if case 3 [We can ignore count of x and y which are equal on same index in both string]
+    2. Reduce the problem to case 1 and case 2.
+    
+   Eg:
+   s1= xxyyxyxyxx
+   s2= xyyxyxxxyx
+    
+    step 1:
+    xs1 =3, ys1=3
+    xs2 =3, ys2=3
+    
+    step 2:
+    
+    > now we can try to reduce problem to case1 and case 2, 
+        as there sum is even we can run loop by subtracting 2 with each [adding 1 to answer , see code below]
+    
+    > we will left with  xs1 =1, ys1=1, xs2 =1, ys2=1 => case 2 [add two to answer]
+    
+**/
+class Solution {
+public:
+    int minimumSwap(string s1, string s2) {
+        int xs1 = 0, ys1 = 0;
+        int xs2 =0 , ys2 = 0;
+        
+        for(int i=0;i <s1.length();i++){
+            
+            if(s1[i] == s2[i])
+                continue;
+            
+            if(s1[i] =='x')
+                xs1++;
+            else
+                ys1++;
+            
+            if(s2[i]=='x')
+                xs2++;
+            else
+                ys2++;
+            
+        }
+        
+        //step 1
+        if((xs1 + xs2) %2 != 0 || (ys1+ys2) %2 != 0)
+            return -1;
+        
+        //step 2
+        
+       int ans = 0;
+        
+        //case 1
+        //try all pairs first
+        bool flag = true;
+        
+        while(flag){
+            
+            flag = false;
+            
+            //try pairs like xx(from s1), yy(from s2)
+            if((xs1 - 2) >= 0 && (ys2 -2) >=0 ){
+                ans++;
+                xs1 -=2;
+                ys2 -=2;
+                
+                flag = true;
+            }
+            
+            //try pairs like xx(from s2), yy(from s1)
+            if((xs2 - 2) >= 0 && (ys1 -2) >=0 ){
+                ans++;
+                xs2 -=2;
+                ys1 -=2;
+                
+                flag = true;
+            }
+        }
+        
+        //case 2
+        //we will be left with
+        //xs1 =1, ys1 =1
+        //xs2 =1, ys2 =1
+        if(xs1==1 && ys1 ==1 && xs2==1 && ys2==1)
+            ans += 2;
+        
+        return ans;
+    }
+};
+```
