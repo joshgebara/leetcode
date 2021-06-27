@@ -62470,3 +62470,31 @@ var truncateSentence = function(s, k) {
     return s.split(' ').slice(0, k).join(' ')
 };
 ```
+
+## 1837. Sum of Digits in Base K
+```javascript
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+var sumBase = function(n, k) {
+    let baseKNum = 0
+    let base = 1
+    while (n) {
+        const digit = n % k
+        baseKNum += digit * 1 * base
+        base *= 10
+        n = Math.trunc(n / k)
+    }
+    
+    let sum = 0
+    while (baseKNum) {
+        const digit = baseKNum % 10
+        baseKNum = Math.trunc(baseKNum / 10)
+        sum += digit
+    }
+    
+    return sum
+};
+```
