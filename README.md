@@ -62687,3 +62687,24 @@ var arraySign = function(nums) {
     }
 };
 ```
+
+## 1784. Check if Binary String Has at Most One Segment of Ones
+```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var checkOnesSegment = function(s) {
+    let segments = 0
+    
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] == 0) {
+            continue
+        } else if (s[i] !== s[i - 1]) {
+            segments++
+        }
+    }
+    
+    return segments === 1
+};
+```
