@@ -62458,3 +62458,15 @@ var replaceDigits = function(s) {
     return result.join('')
 };
 ```
+
+## 1816. Truncate Sentence
+```javascript
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {string}
+ */
+var truncateSentence = function(s, k) {
+    return s.split(' ').slice(0, k).join(' ')
+};
+```
