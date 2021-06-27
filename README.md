@@ -62498,3 +62498,22 @@ var sumBase = function(n, k) {
     return sum
 };
 ```
+
+## 1791. Find Center of Star Graph
+```javascript
+/**
+ * @param {number[][]} edges
+ * @return {number}
+ */
+var findCenter = function(edges) {
+    const indegrees = new Array(edges.length + 1).fill(0)
+    
+    for (const [u, v] of edges) {
+        indegrees[u - 1]++
+        if (indegrees[u - 1] > 1) return u
+        
+        indegrees[v - 1]++
+        if (indegrees[v - 1] > 1) return v
+    }
+};
+```
