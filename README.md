@@ -62965,3 +62965,30 @@ const numConcat = word => {
     return num
 }
 ```
+
+## 1893. Check if All the Integers in a Range Are Covered
+```javascript
+/**
+ * @param {number[][]} ranges
+ * @param {number} left
+ * @param {number} right
+ * @return {boolean}
+ */
+var isCovered = function(ranges, left, right) {
+    const coveredNums = new Array(51).fill(false)
+    
+    for (const [start, end] of ranges) {
+        for (let num = start; num <= end; num++) {
+            coveredNums[num] = true
+        }
+    }
+    
+    for (let num = left; num <= right; num++) {
+        if (coveredNums[num] === false) {
+            return false
+        }
+    }
+    
+    return true
+};
+```
