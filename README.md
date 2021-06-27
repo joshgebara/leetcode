@@ -62565,3 +62565,23 @@ var checkIfPangram = function(sentence) {
     return set.size === 26
 };
 ```
+
+## 1827. Minimum Operations to Make the Array Increasing
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minOperations = function(nums) {
+    let min = 0
+    for (let i = 1; i < nums.length; i++) {
+        const diff = nums[i - 1] - nums[i] + 1
+        if (diff <= 0) continue
+        
+        min += diff
+        nums[i] += diff
+    }
+    
+    return min
+};
+```
