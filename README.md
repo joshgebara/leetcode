@@ -63053,3 +63053,39 @@ var numDifferentIntegers = function(word) {
     return set.size
 };
 ```
+
+## 1779. Find Nearest Point That Has the Same X or Y Coordinate
+```javascript
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {number[][]} points
+ * @return {number}
+ */
+var nearestValidPoint = function(x, y, points) {
+    let minIndex = -1
+    let minDist = Infinity
+    
+    for (let i = 0; i < points.length; i++) {
+        const [x2, y2] = points[i]
+        if (isValidPoint(x, y, x2, y2)) {
+            const dist = manhattanDist(x, y, x2, y2)
+            
+            if (dist < minDist) {
+                minDist = dist
+                minIndex = i
+            }
+        }
+    }
+    
+    return minIndex
+};
+
+const isValidPoint = (x1, y1, x2, y2) => {
+    return x1 === x2 || y1 === y2
+}
+
+const manhattanDist = (x1, y1, x2, y2) => {
+    return Math.abs(x1 - x2) + Math.abs(y1 - y2)
+}
+```
