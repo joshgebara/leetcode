@@ -62747,3 +62747,24 @@ const count = s => {
     return arr
 }
 ```
+
+## 1812. Determine Color of a Chessboard Square
+```javascript
+/**
+ * @param {string} coordinates
+ * @return {boolean}
+ */
+var squareIsWhite = function(coordinates) {
+    const map = {}
+    let val = false
+    for (const char of 'abcdefgh') {
+        for (let num = 1; num <= 8; num++) {
+            map[`${char}${num}`] = val
+            val = !val
+        }
+        val = !val
+    }
+    
+    return map[coordinates]
+};
+```
