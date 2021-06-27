@@ -62708,3 +62708,42 @@ var checkOnesSegment = function(s) {
     return segments === 1
 };
 ```
+
+## 1790. Check if One String Swap Can Make Strings Equal
+```javascript
+/**
+ * @param {string} s1
+ * @param {string} s2
+ * @return {boolean}
+ */
+var areAlmostEqual = function(s1, s2) {
+    const count1 = count(s1)
+    const count2 = count(s2)
+    
+    for (let i = 0; i < count1.length; i++) {
+        if (count1[i] != count2[i]) {
+            return false
+        }
+    }
+    
+    let diff = 0
+    for (let i = 0; i < s1.length; i++) {
+        if (s1[i] !== s2[i]) {
+            diff++
+        }
+    }
+    
+    return diff === 2 || diff === 0
+};
+
+const count = s => {
+    const arr = new Array(26).fill(0)
+    
+    for (const char of s) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        arr[index]++
+    }
+    
+    return arr
+}
+```
