@@ -63089,3 +63089,23 @@ const manhattanDist = (x1, y1, x2, y2) => {
     return Math.abs(x1 - x2) + Math.abs(y1 - y2)
 }
 ```
+
+## 1903. Largest Odd Number in String
+```javascript
+/**
+ * @param {string} num
+ * @return {string}
+ */
+var largestOddNumber = function(num) {
+    let max = -1
+    
+    for (let right = num.length - 1; right >= 0; right--) {
+        const char = num[right]
+        if (+char & 1) {
+            return num.slice(0, right + 1)
+        }
+    }
+    
+    return ''
+};
+```
