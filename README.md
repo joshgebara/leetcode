@@ -62789,3 +62789,55 @@ var getMinDistance = function(nums, target, start) {
     return min
 };
 ```
+
+## 1826. Faulty Sensor
+```javascript
+/**
+ * @param {number[]} sensor1
+ * @param {number[]} sensor2
+ * @return {number}
+ */
+var badSensor = function(sensor1, sensor2) {
+    const _badSensor = (i, j) => {
+        while (i < sensor1.length && j < sensor2.length) {
+            if (sensor1[i] === sensor2[j]) {
+                i++
+                j++
+                continue
+            }
+            
+            return false
+        }
+        
+        return true
+    }
+    
+    let i = 0
+    let j = 0
+    while (i < sensor1.length) {
+        if (sensor1[i] === sensor2[j]) {
+            i++
+            j++
+            continue
+        }
+        
+        // sensor 1 has defect
+        const val1 = _badSensor(i, j + 1)
+        
+        // sensor 2 has defect
+        const val2 = _badSensor(i + 1, j)
+        
+        if (val1 && val2) {
+            return -1
+        } else if (val1) {
+            return 1
+        } else if (val2) {
+            return 2
+        }
+        
+        return -1
+    }
+    
+    return -1
+};
+```
