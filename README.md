@@ -62639,3 +62639,28 @@ var maximumPopulation = function(logs) {
     
 };
 ```
+
+## 1863. Sum of All Subset XOR Totals
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var subsetXORSum = function(nums) {
+    const upperBound = (1 << nums.length) - 1
+    let sum = 0
+    
+    for (let mask = 0; mask <= upperBound; mask++) {
+        let maskXOR = 0
+        
+        for (let i = 0; i < nums.length; i++) {
+            if ((mask & (1 << i)) === 0) continue
+            maskXOR ^= nums[i]
+        }
+        
+        sum += maskXOR
+    }
+    
+    return sum
+};
+```
