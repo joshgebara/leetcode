@@ -62585,3 +62585,27 @@ var minOperations = function(nums) {
     return min
 };
 ```
+
+## 1800. Maximum Ascending Subarray Sum
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxAscendingSum = function(nums) {
+    let maxSum = nums[0]
+    let currSum = nums[0]
+    
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] > nums[i - 1]) {
+            currSum += nums[i]
+        } else {
+            currSum = nums[i]
+        }
+        
+        maxSum = Math.max(currSum, maxSum)
+    }
+    
+    return maxSum
+};
+```
