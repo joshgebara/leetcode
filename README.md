@@ -63109,3 +63109,15 @@ var largestOddNumber = function(num) {
     return ''
 };
 ```
+
+## 1913. Maximum Product Difference Between Two Pairs
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxProductDifference = function(nums) {
+    nums.sort((a, b) => a - b)
+    return (nums[nums.length - 1] * nums[nums.length - 2]) - (nums[0] * nums[1])  
+};
+```
