@@ -62939,3 +62939,29 @@ const isGood = map => {
     return true
 }
 ```
+
+## 1880. Check if Word Equals Summation of Two Words
+```javascript
+/**
+ * @param {string} firstWord
+ * @param {string} secondWord
+ * @param {string} targetWord
+ * @return {boolean}
+ */
+var isSumEqual = function(firstWord, secondWord, targetWord) {
+    return numConcat(firstWord) + numConcat(secondWord) === numConcat(targetWord)
+};
+
+const numConcat = word => {
+    let num = 0
+    
+    for (const char of word) {
+        const digit = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        
+        num *= 10
+        num += digit
+    }
+    
+    return num
+}
+```
