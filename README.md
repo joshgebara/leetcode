@@ -62431,3 +62431,30 @@ public boolean isIdealPermutation(int[] A) {
         return true;
     }
 ```
+
+## 1844. Replace All Digits with Characters
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var replaceDigits = function(s) {
+    const result = []
+    for (let i = 1; i < s.length; i += 2) {
+        const char = s[i - 1].charCodeAt(0) - 'a'.charCodeAt(0)
+        const num = +s[i]
+        
+        result.push(s[i - 1])
+        
+        const index = char + num
+        const c = String.fromCharCode(index + 'a'.charCodeAt(0))
+        result.push(c)
+    }
+    
+    if (s.length & 1) {
+        result.push(s[s.length - 1])
+    }
+    
+    return result.join('')
+};
+```
