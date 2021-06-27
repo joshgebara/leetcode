@@ -62609,3 +62609,33 @@ var maxAscendingSum = function(nums) {
     return maxSum
 };
 ```
+
+## 1854. Maximum Population Year
+```javascript
+/**
+ * @param {number[][]} logs
+ * @return {number}
+ */
+var maximumPopulation = function(logs) {
+    const years = new Array(100).fill(0)
+    
+    for (const [start, end] of logs) {
+        for (let year = start; year < end; year++) {
+            years[year - 1950]++
+        }
+    }
+    
+    let maxYear = 0
+    let maxCount = 0
+    
+    for (let year = 0; year < years.length; year++) {
+        if (maxCount < years[year]) {
+            maxCount = years[year]
+            maxYear = year + 1950
+        }
+    }
+    
+    return maxYear
+    
+};
+```
