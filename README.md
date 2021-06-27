@@ -63018,3 +63018,38 @@ var makeEqual = function(words) {
     return true
 };
 ```
+
+## 1805. Number of Different Integers in a String
+```javascript
+/**
+ * @param {string} word
+ * @return {number}
+ */
+var numDifferentIntegers = function(word) {
+    const set = new Set()
+    
+    let curr = []
+    for (const char of word) {
+        if (isNaN(+char)) {
+            if (curr.length) {
+                set.add(curr.join(''))
+            }
+            
+            curr = []
+            continue
+        }
+
+        if (curr[0] === '0') {
+            curr.pop()
+        }
+        
+        curr.push(char)
+    }
+    
+    if (curr.length) {
+        set.add(curr.join(''))
+    }
+    
+    return set.size
+};
+```
