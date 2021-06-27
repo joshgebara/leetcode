@@ -62517,3 +62517,34 @@ var findCenter = function(edges) {
     }
 };
 ```
+
+## 1796. Second Largest Digit in a String
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var secondHighest = function(s) {
+    const nums = new Array(10).fill(false)
+    
+    for (const char of s) {
+        if (isNaN(+char)) continue
+        
+        nums[+char] = true
+    }
+    
+    let first = false
+    for (let num = 9; num >= 0; num--) {
+        if (nums[num]) {
+            if (!first) {
+                first = true
+                continue
+            }
+            
+            return num            
+        }
+    }
+    
+    return -1
+};
+```
