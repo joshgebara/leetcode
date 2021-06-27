@@ -62992,3 +62992,29 @@ var isCovered = function(ranges, left, right) {
     return true
 };
 ```
+
+## 1897. Redistribute Characters to Make All Strings Equal
+```javascript
+/**
+ * @param {string[]} words
+ * @return {boolean}
+ */
+var makeEqual = function(words) {
+    const charCounts = new Array(26).fill(0)
+    
+    for (const word of words) {
+        for (const char of word) {
+            const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+            charCounts[index]++
+        }
+    }
+    
+    for (const count of charCounts) {
+        if (count % words.length !== 0) {
+            return false
+        }
+    }
+    
+    return true
+};
+```
