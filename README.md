@@ -62869,3 +62869,35 @@ var sortSentence = function(s) {
     return result.join(' ')
 };
 ```
+
+## 1869. Longer Contiguous Segments of Ones than Zeros
+```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var checkZeroOnes = function(s) {
+    let longestOnes = 0
+    let longestZeros = 0
+    
+    let prev = null
+    let len = 0
+    for (let i = 0; i <= s.length; i++) {
+        if (s[i] !== prev) {
+            if (prev == 1) {
+                longestOnes = Math.max(len, longestOnes)
+            } else if (prev == 0) {
+                longestZeros = Math.max(len, longestZeros)
+            }
+            
+            prev = s[i]
+            len = 1
+            continue
+        }
+        
+        len++
+    }
+    
+    return longestOnes > longestZeros
+};
+```
