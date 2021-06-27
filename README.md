@@ -62841,3 +62841,31 @@ var badSensor = function(sensor1, sensor2) {
     return -1
 };
 ```
+
+## 1859. Sorting the Sentence
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var sortSentence = function(s) {
+    const words = s.split(' ')
+    const n = words.length
+    const result = new Array(n)
+    
+    let curr = []
+    for (const word of words) {
+        for (const char of word) {
+            // if is char
+            if (isNaN(+char)) {
+                curr.push(char)
+            } else {
+                result[+char - 1] = curr.join('')
+                curr = []
+            }
+        }
+    }
+    
+    return result.join(' ')
+};
+```
