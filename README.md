@@ -62901,3 +62901,41 @@ var checkZeroOnes = function(s) {
     return longestOnes > longestZeros
 };
 ```
+
+## 1876. Substrings of Size Three with Distinct Characters
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var countGoodSubstrings = function(s) {
+    const map = {}
+    let count = 0
+    
+    let left = 0
+    for (let right = 0; right < 3; right++) {
+        map[s[right]] = 1 + (map[s[right]] || 0)
+    }
+    
+    count += isGood(map)
+    
+    for (let right = 3; right < s.length; right++) {
+        map[s[right]] = 1 + (map[s[right]] || 0)
+        
+        map[s[left]]--
+        left++
+        
+        count += isGood(map)
+    }
+    
+    return count
+};
+
+const isGood = map => {
+    for (const val of Object.values(map)) {
+        if (val > 1) return false
+    }
+    
+    return true
+}
+```
