@@ -62664,3 +62664,26 @@ var subsetXORSum = function(nums) {
     return sum
 };
 ```
+
+## 1822. Sign of the Product of an Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var arraySign = function(nums) {
+    let product = 1
+    
+    for (const num of nums) {
+        product *= num
+    }
+    
+    if (product === 0 || isNaN(product)) {
+        return 0
+    } else if (product < 1) {
+        return -1
+    } else {
+        return 1
+    }
+};
+```
