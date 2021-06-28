@@ -386,3 +386,30 @@ public:
     }
 };
 ```
+
+## 169. Majority Element
+```cpp
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate = nums[0];
+        int count = 1;
+        
+        for (auto index = 1; index < nums.size(); ++index) {
+            if (candidate == nums[index]) {
+                ++count;
+                continue;
+            }
+            
+            --count;
+                
+            if (count == 0) {
+                candidate = nums[index];
+                count = 1;
+            }
+        }
+        
+        return candidate;
+    }
+};
+```
