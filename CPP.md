@@ -1,4 +1,4 @@
-## Leetcode C++ Solutions
+# Leetcode C++ Solutions
 
 ## 53. Maximum Subarray
 ### Kadane's Algorithm
