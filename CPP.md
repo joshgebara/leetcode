@@ -16,11 +16,12 @@ public:
         
         for (auto i = 1; i < nums.size(); ++i)
         {
-            localMax = std::max(localMax + nums[i], nums[i]);
-            globalMax = std::max(localMax, globalMax);
+            localMax = max(localMax + nums[i], nums[i]);
+            globalMax = max(localMax, globalMax);
         }
         
         return globalMax; 
     }
 };
 ```
+
