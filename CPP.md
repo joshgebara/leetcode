@@ -287,3 +287,27 @@ private:
  * bool param_4 = obj->empty();
  */
 ```
+
+## 14. Longest Common Prefix
+```cpp
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {        
+        string result;
+        
+        for (auto charIndex = 0; charIndex < strs[0].size(); ++charIndex) {
+            char target = strs[0][charIndex];
+            for (auto strIndex = 1; strIndex < strs.size(); ++strIndex) {
+                if (strs[strIndex].size() < charIndex || 
+                    strs[strIndex][charIndex] != target) {
+                    return result;
+                }
+            }
+            
+            result += target;
+        }
+        
+        return result;
+    }
+};
+```
