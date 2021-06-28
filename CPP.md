@@ -338,3 +338,31 @@ public:
     }
 };
 ```
+
+## 20. Valid Parentheses
+```cpp
+class Solution {
+public:
+    bool isValid(string s) {    
+        stack<char> stack;
+        
+        for (auto c : s) {
+            if (map[c]) {
+                stack.push(c);
+                continue;
+            }
+            
+            if (stack.empty() || map[stack.top()] != c) {
+                return false;
+            }
+
+            stack.pop();
+        }
+        
+        return stack.empty();
+    }
+    
+private:
+    unordered_map<char, char> map = { {'(',')'}, {'{','}'}, {'[', ']'} };
+};
+```
