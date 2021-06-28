@@ -205,3 +205,27 @@ private:
     }
 };
 ```
+
+## 1636. Sort Array by Increasing Frequency
+```cpp
+class Solution {
+public:
+    vector<int> frequencySort(vector<int>& nums) {
+        unordered_map<int, int> map;
+        
+        for (auto num : nums) {
+            map[num]++;
+        }
+        
+        sort(begin(nums), end(nums), [&](int a, int b) {
+            if (map[a] == map[b]) {
+                return a > b;
+            }
+            
+            return map[a] < map[b];
+        });
+        
+        return nums;
+    }
+};
+```
