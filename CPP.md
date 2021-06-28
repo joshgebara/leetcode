@@ -69,11 +69,7 @@ public:
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        if (head == nullptr) {
-            return nullptr;
-        }
-        
-        if (head->next == nullptr) {
+        if (head == nullptr || head->next == nullptr) {
             return head;
         }
         
