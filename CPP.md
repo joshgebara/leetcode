@@ -311,3 +311,30 @@ public:
     }
 };
 ```
+
+## 977. Squares of a Sorted Array
+```cpp
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        vector<int> result(nums.size());
+        int left = 0;
+        int right = nums.size() - 1;
+        
+        for (int index = nums.size() - 1; index >= 0; --index) {
+            int leftSquared = pow(nums[left], 2);
+            int rightSquared = pow(nums[right], 2);
+            
+            if (leftSquared > rightSquared) {
+                result[index] = leftSquared;
+                ++left;
+            } else {
+                result[index] = rightSquared;
+                --right;
+            }
+        }
+        
+        return result;
+    }
+};
+```
