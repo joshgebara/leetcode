@@ -475,3 +475,19 @@ private:
  * bool param_4 = obj->empty();
  */
 ```
+
+## 342. Power of Four
+## Logs
+```cpp
+class Solution {
+public:
+    bool isPowerOfFour(int n) {
+        if (n <= 0) return false;
+        if (n == 1) return true;
+        
+        int power = log(n) / log(4);
+        int result = pow(4, power);
+        return result == n;
+    }
+};
+```
