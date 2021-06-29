@@ -477,7 +477,7 @@ private:
 ```
 
 ## 342. Power of Four
-## Logs
+### Logs
 ```cpp
 class Solution {
 public:
@@ -488,6 +488,24 @@ public:
         int power = log(n) / log(4);
         int result = pow(4, power);
         return result == n;
+    }
+};
+```
+
+### Bit Manipulation
+```cpp
+class Solution {
+public:
+    bool isPowerOfFour(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        
+        if ((n & (n - 1)) != 0) {
+            return false;
+        }
+        
+        return (n & 0x55555555) == n;
     }
 };
 ```
