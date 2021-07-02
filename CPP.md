@@ -546,3 +546,25 @@ public:
     }
 };
 ```
+
+## 1. Two Sum
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> map;
+        
+        for (int i = 0; i < nums.size(); ++i) {
+            int candidate = target - nums[i];
+            
+            if (map.find(candidate) != map.end()) {
+                return {i, map[candidate]};
+            } else {
+                map[nums[i]] = i;
+            }
+        }
+        
+        return {-1, -1};
+    }
+};
+```
