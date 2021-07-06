@@ -574,32 +574,32 @@ public:
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int nums1Index = m - 1;
-        int nums2Index = n - 1;
+        int write = nums1.size() - 1;
         
-        int finalIndex = nums1.size() - 1;
+        int read1 = m - 1;
+        int read2 = n - 1;
         
-        while (nums1Index >= 0 && nums2Index >= 0) {
-            if (nums1[nums1Index] < nums2[nums2Index]) {
-                nums1[finalIndex] = nums2[nums2Index];
-                --nums2Index;
+        while (read1 >= 0 && read2 >= 0) {
+            if (nums1[read1] > nums2[read2]) {
+                nums1[write] = nums1[read1];
+                --read1;
             } else {
-                nums1[finalIndex] = nums1[nums1Index];
-                --nums1Index;
+                nums1[write] = nums2[read2];
+                --read2;
             }
-            --finalIndex;
+            --write;
         }
         
-        while (nums1Index >= 0) {
-            nums1[finalIndex] = nums1[nums1Index];
-            --nums1Index;
-            --finalIndex;
+        while (read1 >= 0) {
+            nums1[write] = nums1[read1];
+            --read1;
+            --write;
         }
         
-        while (nums2Index >= 0) {
-            nums1[finalIndex] = nums2[nums2Index];
-            --nums2Index;
-            --finalIndex;
+        while (read2 >= 0) {
+            nums1[write] = nums2[read2];
+            --read2;
+            --write;
         }
     }
 };
