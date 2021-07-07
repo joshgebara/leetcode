@@ -859,3 +859,27 @@ private:
     }
 };
 ```
+
+## 303. Range Sum Query - Immutable
+```cpp
+class NumArray {
+public:
+    vector<int> prefixSums = {0};
+    
+    NumArray(vector<int>& nums) {
+        for (int num : nums) {
+            prefixSums.push_back(num + prefixSums.back());
+        }
+    }
+    
+    int sumRange(int left, int right) {
+        return prefixSums[right + 1] - prefixSums[left];
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(left,right);
+ */
+```
