@@ -650,3 +650,50 @@ public:
     }
 };
 ```
+
+## 155. Min Stack
+```cpp
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+
+    }
+    
+    void push(int val) {
+        elements.push(val);
+        
+        if (min.empty() || min.top() > val) {
+            min.push(val);
+            return;
+        }
+        
+        min.push(min.top());
+    }
+    
+    void pop() {
+        elements.pop();
+        min.pop();
+    }
+    
+    int top() {
+        return elements.top();
+    }
+    
+    int getMin() {
+        return min.top();
+    }
+private:
+    stack<int> elements;
+    stack<int> min;
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+```
