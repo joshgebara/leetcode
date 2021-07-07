@@ -883,3 +883,25 @@ public:
  * int param_1 = obj->sumRange(left,right);
  */
 ```
+
+## 219. Contains Duplicate II
+```cpp
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int, int> map;
+        
+        int i = 0;
+        for (int j = 0; j < nums.size(); ++j) {
+            int num = nums[j];
+            if (map.find(num) != map.end() && j - map[num] <= k) {
+                return true;
+            } else {
+                map[num] = j;
+            }
+        }
+        
+        return false;
+    }
+};
+```
