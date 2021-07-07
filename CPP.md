@@ -698,3 +698,25 @@ private:
  */
 ```
 
+## 1518. Water Bottles
+```cpp
+class Solution {
+public:
+    int numWaterBottles(int numBottles, int numExchange) {
+        int count = 0;
+        
+        int bottlesFull = numBottles;
+        int bottlesEmpty = 0;
+        
+        while (bottlesFull) {
+            count += bottlesFull;
+            bottlesEmpty += bottlesFull;
+            
+            bottlesFull = bottlesEmpty / numExchange;
+            bottlesEmpty = bottlesEmpty % numExchange;
+        }
+        
+        return count;
+    }
+};
+```
