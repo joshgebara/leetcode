@@ -626,3 +626,27 @@ public:
     }
 };
 ```
+
+## 1009. Complement of Base 10 Integer
+```cpp
+class Solution {
+public:
+    int bitwiseComplement(int n) {
+        if (n == 0) return 1;
+        
+        int complement = 0;
+        int pos = 0;
+        
+        while (n > 0) {
+            int digit = n & 1;
+            
+            complement |= !digit << pos;
+            ++pos;
+            
+            n >>= 1;
+        }
+        
+        return complement;
+    }
+};
+```
