@@ -89,16 +89,22 @@ public:
     vector<string> fizzBuzz(int n) {
         vector<string> result;
         
-        for (int num = 1; num <= n; ++num) {
-            if (num % 15 == 0) {
-                result.push_back("FizzBuzz");
-            } else if (num % 3 == 0) {
-                result.push_back("Fizz");
-            } else if (num % 5 == 0) {
-                result.push_back("Buzz");
-            } else {
-                result.push_back(to_string(num));
-            }    
+        for (auto i = 1; i <= n; ++i) {
+            string str;
+            
+            if (i % 3 == 0) {
+                str += "Fizz";
+            }
+            
+            if (i % 5 == 0) {
+                str += "Buzz";
+            }
+            
+            if (str.empty()) {
+                str += to_string(i);
+            }
+            
+            result.push_back(str);
         }
         
         return result;
