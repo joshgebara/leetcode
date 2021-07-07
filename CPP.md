@@ -824,3 +824,37 @@ public:
     }
 };
 ```
+
+## 733. Flood Fill
+```cpp
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        if (image[sr][sc] == newColor) {
+            return image;
+        }
+        
+        dfs(image, sr, sc, image[sr][sc], newColor);
+        return image;
+    }
+private:
+    vector<vector<int>> dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    
+    void dfs(vector<vector<int>>& image, int row, int col, int startColor, int newColor) {
+        image[row][col] = newColor;
+        
+        for (auto dir : dirs) {
+            int nextRow = row + dir[0];
+            int nextCol = col + dir[1];
+            
+            if (nextRow < 0 || nextRow >= image.size() || 
+                nextCol < 0 || nextCol >= image[0].size() ||
+                image[nextRow][nextCol] != startColor) {
+                continue;
+            }
+            
+            dfs(image, nextRow, nextCol, startColor, newColor);
+        }
+    }
+};
+```
