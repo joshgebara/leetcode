@@ -905,3 +905,36 @@ public:
     }
 };
 ```
+
+## 346. Moving Average from Data Stream
+```cpp
+class MovingAverage {
+public:
+    /** Initialize your data structure here. */
+    MovingAverage(int size) {
+        size_ = size;
+    }
+    
+    double next(int val) {
+        sum_ += val;
+        queue_.push(val);
+        
+        if (queue_.size() > size_) {
+            sum_ -= queue_.front();
+            queue_.pop();
+        }
+        
+        return sum_ / queue_.size();
+    }
+private:
+    queue<int> queue_;
+    double sum_ = 0;
+    int size_;
+};
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage* obj = new MovingAverage(size);
+ * double param_1 = obj->next(val);
+ */
+```
