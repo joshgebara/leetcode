@@ -813,3 +813,14 @@ public:
     }
 };
 ```
+
+## 217. Contains Duplicate
+```cpp
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set set(nums.begin(), nums.end());
+        return nums.size() != set.size();
+    }
+};
+```
