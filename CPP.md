@@ -604,3 +604,25 @@ public:
     }
 };
 ```
+
+## 476. Number Complement
+```cpp
+class Solution {
+public:
+    int findComplement(int num) {
+        int complement = 0;
+        int pos = 0;
+        
+        while (num > 0) {
+            int digit = num & 1;
+            
+            complement |= !digit << pos;
+            ++pos;
+            
+            num >>= 1;
+        }
+        
+        return complement;
+    }
+};
+```
