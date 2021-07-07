@@ -826,6 +826,7 @@ public:
 ```
 
 ## 733. Flood Fill
+### Recursive DFS
 ```cpp
 class Solution {
 public:
