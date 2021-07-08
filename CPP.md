@@ -347,7 +347,7 @@ public:
         stack<char> stack;
         
         for (auto c : s) {
-            if (map[c]) {
+            if (map.find(c) != map.end()) {
                 stack.push(c);
                 continue;
             }
