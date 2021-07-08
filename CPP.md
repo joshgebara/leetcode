@@ -1002,3 +1002,25 @@ public:
     }
 };
 ```
+
+## 1684. Count the Number of Consistent Strings
+```cpp
+class Solution {
+public:
+    int countConsistentStrings(string allowed, vector<string>& words) {
+        unordered_set<char> set(begin(allowed), end(allowed));
+        int count = words.size();
+        
+        for (auto word : words) {
+            for (char c : word) {
+                if (set.find(c) == set.end()) {
+                    --count;
+                    break;
+                }
+            }
+        }
+        
+        return count;
+    }
+};
+```
