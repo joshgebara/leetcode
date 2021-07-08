@@ -1024,3 +1024,26 @@ public:
     }
 };
 ```
+
+## 392. Is Subsequence
+```cpp
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int tIndex = 0;
+        for (int sIndex = 0; sIndex < s.size(); ++sIndex) {
+            while (tIndex < t.size() && t[tIndex] != s[sIndex]) {
+                ++tIndex;
+            }
+            
+            if (tIndex >= t.size()) {
+                return false;
+            }
+            
+            ++tIndex;
+        }
+        
+        return true;
+    }
+};
+```
