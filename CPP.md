@@ -986,3 +986,19 @@ public:
     }
 };
 ```
+
+## 122. Best Time to Buy and Sell Stock II
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0;
+        
+        for (int day = 0; day < prices.size() - 1; ++day) {
+            profit += max(0, prices[day + 1] - prices[day]);
+        }
+        
+        return profit;
+    }
+};
+```
