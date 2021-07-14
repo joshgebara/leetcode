@@ -964,6 +964,7 @@ public:
 ```
 
 ## 905. Sort Array By Parity
+### Two Pass
 ```cpp
 class Solution {
 public:
@@ -983,6 +984,24 @@ public:
         }
         
         return result;
+    }
+};
+```
+
+### In-Place
+```cpp
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+        int i = 0;
+        for (int j = 0; j < nums.size(); ++j) {
+            if (nums[j] % 2 == 0) {
+                swap(nums[i], nums[j]);
+                ++i;
+            }
+        }
+        
+        return nums;
     }
 };
 ```
