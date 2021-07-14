@@ -864,17 +864,17 @@ private:
 ```cpp
 class NumArray {
 public:
-    vector<int> prefixSums = {0};
-    
     NumArray(vector<int>& nums) {
         for (int num : nums) {
-            prefixSums.push_back(num + prefixSums.back());
+            prefixSums.push_back(prefixSums.back() + num);
         }
     }
     
     int sumRange(int left, int right) {
         return prefixSums[right + 1] - prefixSums[left];
     }
+private:
+    vector<int> prefixSums = {0};
 };
 
 /**
