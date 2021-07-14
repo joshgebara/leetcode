@@ -1049,20 +1049,19 @@ public:
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int tIndex = 0;
-        for (int sIndex = 0; sIndex < s.size(); ++sIndex) {
-            while (tIndex < t.size() && t[tIndex] != s[sIndex]) {
-                ++tIndex;
+        int i = 0;
+        
+        for (int num : t) {
+            if (s[i] == num) {
+                ++i;
             }
             
-            if (tIndex >= t.size()) {
-                return false;
+            if (i == s.size()) {
+                break;
             }
-            
-            ++tIndex;
         }
         
-        return true;
+        return i == s.size();
     }
 };
 ```
