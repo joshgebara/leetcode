@@ -1,4 +1,4 @@
-# Leetcode
+# Leetcode JavaScript Solutions
 
 ## 1051. Height Checker
 ```javascript
