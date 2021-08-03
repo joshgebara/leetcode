@@ -149,3 +149,30 @@ class Solution:
                 nums[i], nums[j] = nums[j], nums[i]
                 i += 1
 ```
+
+## 543. Diameter of Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        def _diameterOfBinaryTree(root: TreeNode) -> int:
+            if root is None:
+                return 0
+
+            left = _diameterOfBinaryTree(root.left)
+            right = _diameterOfBinaryTree(root.right)
+            
+            nonlocal diameter
+            diameter = max(diameter, left + right)
+            
+            return 1 + max(left, right)
+        
+        diameter = 0
+        _diameterOfBinaryTree(root)
+        return diameter
+```
