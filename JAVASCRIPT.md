@@ -37757,40 +37757,6 @@ var readBinaryWatch = function(num) {
 };
 ```
 
-## Leetcode 415. Add Strings
-```javascript
-/**
- * @param {string} num1
- * @param {string} num2
- * @return {string}
- */
-var addStrings = function(num1, num2) {
-    let result = []
-    
-    let i = num1.length - 1
-    let j = num2.length - 1
-    let carry = 0
-    
-    while (i >= 0 || j >= 0) {
-        const digit1 = +num1[i] || 0
-        const digit2 = +num2[j] || 0
-        
-        const sum = digit1 + digit2 + carry
-        carry = Math.floor(sum / 10)
-        result.push(sum % 10)
-        
-        i--
-        j--
-    }
-    
-    if (carry > 0) {
-        result.push(carry)
-    }
-    
-    return result.reverse().join('')
-};
-```
-
 ## 838. Push Dominoes
 ```javascript
 /**
