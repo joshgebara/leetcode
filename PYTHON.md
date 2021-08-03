@@ -57,3 +57,24 @@ class Solution:
         result.reverse()
         return ''.join(result)
 ```
+
+## 680. Valid Palindrome II
+```python
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        def _validPalindrome(left, right, deletes) -> bool:
+            while left < right:
+                if (s[left] != s[right]):
+                    if (deletes):
+                        deleteLeft = _validPalindrome(left + 1, right, deletes - 1)
+                        deleteRight = _validPalindrome(left, right - 1, deletes - 1)
+                        return deleteLeft or deleteRight
+                    else:
+                        return False
+                else:
+                    left += 1
+                    right -= 1
+            return True
+        
+        return _validPalindrome(0, len(s) - 1, 1)
+```
