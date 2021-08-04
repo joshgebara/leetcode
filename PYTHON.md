@@ -176,3 +176,32 @@ class Solution:
         _diameterOfBinaryTree(root)
         return diameter
 ```
+
+## 125. Valid Palindrome
+```python
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        left = 0
+        right = len(s) - 1
+        
+        while left < right:
+            leftChar = s[left].lower()            
+            if not leftChar.isalnum():
+                left += 1
+                continue
+            
+            rightChar = s[right].lower()
+            if not rightChar.isalnum():
+                right -= 1
+                continue
+                
+            if (leftChar == rightChar):
+                left += 1
+                right -= 1
+                continue
+            
+            return False
+            
+        return True
+        
+```
