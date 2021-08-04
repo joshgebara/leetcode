@@ -312,3 +312,17 @@ class Solution:
     def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
         return set(nums1) & set(nums2)
 ```
+
+## 121. Best Time to Buy and Sell Stock
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        minPrice = prices[0]
+        maxProfit = 0
+        
+        for price in prices[1:]:
+            minPrice = min(minPrice, price)
+            maxProfit = max(maxProfit, price - minPrice)
+            
+        return maxProfit
+```
