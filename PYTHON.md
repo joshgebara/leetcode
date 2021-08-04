@@ -195,7 +195,7 @@ class Solution:
                 right -= 1
                 continue
                 
-            if (leftChar == rightChar):
+            if leftChar == rightChar:
                 left += 1
                 right -= 1
                 continue
