@@ -232,4 +232,19 @@ class Solution:
             read2 -= 1
             write -=1
         
-````
+```
+
+## 1. Two Sum
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        map = {}
+        
+        for i, num in enumerate(nums):
+            candidate = target - num
+            
+            if candidate in map:
+                return [map[candidate], i]
+            
+            map[num] = i
+```
