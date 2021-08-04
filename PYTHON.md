@@ -326,3 +326,30 @@ class Solution:
             
         return maxProfit
 ```
+
+## 824. Goat Latin
+```python
+class Solution:
+    def toGoatLatin(self, sentence: str) -> str:
+        def startsWithVowel(word):
+            vowels = { 'a', 'e', 'i', 'o', 'u' }
+            return word[0].lower() in vowels
+            
+        result = []
+        
+        for i, word in enumerate(sentence.split(' ')):
+            translatedWord = []
+            
+            if startsWithVowel(word):
+                translatedWord.append(word)
+            else:
+                translatedWord.append(word[1:])
+                translatedWord.append(word[:1])
+                
+            translatedWord.append("ma")
+            translatedWord.append("a" * (i + 1))
+            
+            result.append(''.join(translatedWord))
+            
+        return ' '.join(result)
+```
