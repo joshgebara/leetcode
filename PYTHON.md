@@ -248,3 +248,60 @@ class Solution:
             
             map[num] = i
 ```
+
+## 938. Range Sum of BST
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
+        if root is None:
+            return 0
+        
+        if root.val < low:
+            return self.rangeSumBST(root.right, low, high)
+        
+        if high < root.val:
+            return self.rangeSumBST(root.left, low, high)
+        
+        left = self.rangeSumBST(root.left, low, high)
+        right = self.rangeSumBST(root.right, low, high)
+        
+        return left + right + root.val
+```
+
+## 257. Binary Tree Paths
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        def dfs(root):
+            if root is None:
+                return
+            
+            path.append(str(root.val))
+            
+            if root.left is None and root.right is None:
+                paths.append('->'.join(path))
+                path.pop()
+                return
+            
+            dfs(root.left)
+            dfs(root.right)
+            
+            path.pop()
+        
+        paths = []
+        path = []
+        dfs(root)
+        return paths
+```
