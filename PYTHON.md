@@ -401,3 +401,22 @@ class Solution:
         return perimeter
         
 ```
+
+## 350. Intersection of Two Arrays II
+```python
+from collections import Counter
+
+class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        counter1 = Counter(nums1)
+        counter2 = Counter(nums2)
+        
+        result = []
+        
+        for num in set(nums1):
+            if num in counter1 and num in counter2:
+                for i in range(min(counter1[num], counter2[num])):
+                    result.append(num)
+        
+        return result
+```
