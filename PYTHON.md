@@ -353,3 +353,28 @@ class Solution:
             
         return ' '.join(result)
 ```
+
+## 246. Strobogrammatic Number
+```python
+class Solution:
+    def isStrobogrammatic(self, num: str) -> bool:
+        map = { '6': '9', '9': '6', '8': '8', '0': '0', '1': '1' }
+        
+        left = 0
+        right = len(num) - 1
+        
+        while (left <= right):
+            if not num[left] in map:
+                return False
+            
+            if not num[right] in map:
+                return False
+            
+            if (num[left] != map[num[right]]):
+                return False
+            
+            left += 1
+            right -=1
+            
+        return True
+```
