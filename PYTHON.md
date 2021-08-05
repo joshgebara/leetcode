@@ -420,3 +420,23 @@ class Solution:
         
         return result
 ```
+
+## 266. Palindrome Permutation
+```python
+from collections import Counter
+
+class Solution:
+    def canPermutePalindrome(self, s: str) -> bool:
+        counter = Counter(s)
+        
+        oddCount = 0
+        
+        for key in counter:
+            if counter[key] & 1:
+                oddCount += 1
+                
+                if oddCount > 1:
+                    return False
+                
+        return True
+```
