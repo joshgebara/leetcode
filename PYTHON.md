@@ -378,3 +378,26 @@ class Solution:
             
         return True
 ```
+
+## 463. Island Perimeter
+```python
+class Solution:
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+        perimeter = 0
+        
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                if grid[row][col]:
+                    perimeter += 4
+                    
+                    for [deltaRow, deltaCol] in dirs:
+                        nextRow = row + deltaRow
+                        nextCol = col + deltaCol
+                        
+                        if 0 <= nextRow < len(grid) and 0 <= nextCol < len(grid[0]) and grid[nextRow][nextCol]:
+                            perimeter -= 1
+                            
+        return perimeter
+        
+```
