@@ -463,3 +463,17 @@ class Solution:
         
         return result[::-1]
 ```
+
+## 53. Maximum Subarray
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        localMax = nums[0]
+        globalMax = nums[0]
+        
+        for num in nums[1:]:
+            localMax = max(num, num + localMax)
+            globalMax = max(globalMax, localMax)
+        
+        return globalMax
+```
