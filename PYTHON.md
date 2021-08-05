@@ -440,3 +440,26 @@ class Solution:
                 
         return True
 ```
+
+## 977. Squares of a Sorted Array
+```python
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        result = []
+        
+        left = 0
+        right = len(nums) - 1
+        
+        while left <= right:
+            leftSquared = nums[left] ** 2
+            rightSquared = nums[right] ** 2
+            
+            if leftSquared < rightSquared:
+                result.append(rightSquared)
+                right -=1
+            else:
+                result.append(leftSquared)
+                left += 1
+        
+        return result[::-1]
+```
