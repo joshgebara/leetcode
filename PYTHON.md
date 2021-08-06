@@ -568,3 +568,36 @@ class Solution:
         
         return 1 + min(left, right)
 ```
+
+## 1213. Intersection of Three Sorted Arrays
+```python
+class Solution:
+    def arraysIntersection(self, arr1: List[int], arr2: List[int], arr3: List[int]) -> List[int]:
+        result = []
+        
+        i = 0
+        j = 0
+        k = 0
+        
+        while (i < len(arr1) and j < len(arr2) and k < len(arr3)):
+            if arr1[i] == arr2[j] == arr3[k]:
+                result.append(arr1[i])
+                i += 1
+                j += 1
+                k += 1
+                continue
+            
+            groupMax = max(arr1[i], arr2[j], arr3[k])
+            if arr1[i] != groupMax:
+                i += 1
+                
+            if arr2[j] != groupMax:
+                j += 1
+                continue
+                
+            if arr3[k] != groupMax:
+                k += 1
+                continue
+                
+        return result
+```
