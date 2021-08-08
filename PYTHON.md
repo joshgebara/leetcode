@@ -681,17 +681,22 @@ class Solution:
         return profit
 ```
 
-## 53. Maximum Subarray
+## 896. Monotonic Array
 ```python
 class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        localMax = nums[0]
-        globalMax = nums[0]
+    def isMonotonic(self, nums: List[int]) -> bool:
+        increasing = True
+        decreasing = True
         
-        for num in nums[1:]:
-            localMax = max(num, localMax + num)
-            globalMax = max(localMax, globalMax)
+        for i in range(len(nums) - 1):
+            if nums[i] == nums[i + 1]:
+                continue
+                
+            if nums[i] < nums[i + 1]:
+                decreasing = False
             
-        return globalMax
-        
+            if nums[i] > nums[i + 1]:
+                increasing = False
+            
+        return increasing or decreasing
 ```
