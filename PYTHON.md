@@ -757,3 +757,18 @@ class Solution:
     def canBeEqual(self, target: List[int], arr: List[int]) -> bool:
         return Counter(target) == Counter(arr)
 ```
+
+## 1108. Defanging an IP Address
+```python
+class Solution:
+    def defangIPaddr(self, address: str) -> str:
+        result = []
+        
+        for char in address:
+            if (char == '.'):
+                result.append('[.]')
+            else:
+                result.append(char)
+        
+        return ''.join(result)
+```
