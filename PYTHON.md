@@ -748,3 +748,12 @@ class Solution:
         actualSum = sum(nums)
         return expectedSum - actualSum
 ```
+
+## 1460. Make Two Arrays Equal by Reversing Sub-arrays
+```python
+from collections import Counter
+
+class Solution:
+    def canBeEqual(self, target: List[int], arr: List[int]) -> bool:
+        return Counter(target) == Counter(arr)
+```
