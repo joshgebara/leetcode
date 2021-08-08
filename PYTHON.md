@@ -772,3 +772,29 @@ class Solution:
         
         return ''.join(result)
 ```
+
+## 108. Convert Sorted Array to Binary Search Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        def toBST(left, right):
+            if left > right:
+                return None
+            
+            mid = (right - left) // 2 + left
+            
+            node = TreeNode(nums[mid])
+            
+            node.left = toBST(left, mid - 1)
+            node.right = toBST(mid + 1, right)
+            
+            return node
+        
+        return toBST(0, len(nums) - 1)
+```
