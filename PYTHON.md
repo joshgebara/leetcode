@@ -1010,3 +1010,27 @@ class Solution:
         return True
                 
 ```
+
+## 9. Palindrome Number
+```python
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0:
+            return False
+        if 0 <= x <= 9:
+            return True
+        if x % 10 == 0:
+            return False
+        
+        reversedNum = 0
+        num = x
+        while x:
+            digit = x % 10
+            
+            reversedNum *= 10
+            reversedNum += digit
+            
+            x //= 10
+        
+        return reversedNum == num
+```
