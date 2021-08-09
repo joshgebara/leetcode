@@ -1056,3 +1056,26 @@ class Solution:
         result.reverse()
         return result
 ```
+
+## 1099. Two Sum Less Than K
+```python
+class Solution:
+    def twoSumLessThanK(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        
+        maxSum = -1
+        
+        left = 0
+        right = len(nums) - 1
+        
+        while (left < right):
+            sum = nums[left] + nums[right]
+            
+            if sum < k:
+                maxSum = max(maxSum, sum)
+                left += 1
+            else:
+                right -= 1
+        
+        return maxSum
+```
