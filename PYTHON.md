@@ -1034,3 +1034,25 @@ class Solution:
         
         return reversedNum == num
 ```
+
+## 989. Add to Array-Form of Integer
+```python
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        result = []
+        
+        carry = k
+        
+        for digit in num[::-1]:
+            sum = carry + digit
+            
+            result.append(sum % 10)
+            carry = sum // 10
+            
+        while carry:
+            result.append(carry % 10)
+            carry //= 10
+            
+        result.reverse()
+        return result
+```
