@@ -992,3 +992,21 @@ class Solution:
         
         return node
 ```
+
+## 383. Ransom Note
+```python
+from collections import Counter
+
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        letters = Counter(magazine)
+        
+        for char in ransomNote:
+            if not letters.get(char):
+                return False
+            
+            letters[char] -= 1
+            
+        return True
+                
+```
