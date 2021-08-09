@@ -914,3 +914,20 @@ class Solution:
         right = self.maxDepth(root.right)
         return 1 + max(left, right)
 ```
+
+## 70. Climbing Stairs
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        def _climbStairs(n: int):
+            if n <= 1:
+                return 1
+            if n in memo:
+                return memo[n]
+
+            memo[n] = _climbStairs(n - 1) + _climbStairs(n - 2)
+            return memo[n]
+        
+        memo = {}
+        return _climbStairs(n)
+```
