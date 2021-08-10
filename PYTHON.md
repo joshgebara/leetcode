@@ -1147,10 +1147,9 @@ class Solution:
         for char in s:
             if char == '(':
                 currNestingdepth += 1
+                maxNestingDepth = max(maxNestingDepth, currNestingdepth)
             elif char == ')':
                 currNestingdepth -= 1
                 
-            maxNestingDepth = max(maxNestingDepth, currNestingdepth)
-        
         return maxNestingDepth
 ```
