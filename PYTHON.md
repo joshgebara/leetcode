@@ -1079,3 +1079,23 @@ class Solution:
         
         return maxSum
 ```
+
+## 997. Find the Town Judge
+```python
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        degrees = {}
+        
+        for person in range(1, n + 1):
+            degrees[person] = { 'in': 0, 'out': 0 }
+        
+        for a, b in trust:
+            degrees[a]['out'] += 1
+            degrees[b]['in'] += 1
+            
+        for person in degrees.keys():
+            if degrees[person]['in'] == n - 1 and degrees[person]['out'] == 0:
+                return person
+        
+        return -1
+```
