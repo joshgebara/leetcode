@@ -1120,3 +1120,19 @@ class Solution:
             
         return result
 ```
+
+## 509. Fibonacci Number
+```python
+class Solution:
+    def fib(self, n: int) -> int:
+        def _fib(n):
+            if n in memo:
+                return memo[n]
+            if n <= 1:
+                return n
+            memo[n] = _fib(n - 1) + _fib(n - 2)
+            return memo[n]
+        
+        memo = {}
+        return _fib(n)
+```
