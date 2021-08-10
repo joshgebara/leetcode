@@ -1099,3 +1099,24 @@ class Solution:
         
         return -1
 ```
+
+## 412. Fizz Buzz
+```python
+class Solution:
+    def fizzBuzz(self, n: int) -> List[str]:
+        result = []
+        for num in range(1, n + 1):
+            str = ''
+            if num % 3 == 0:
+                str += 'Fizz'
+            
+            if num % 5 == 0:
+                str += 'Buzz'
+            
+            if not len(str):
+                str += f'{num}'
+            
+            result.append(str)
+            
+        return result
+```
