@@ -1136,3 +1136,21 @@ class Solution:
         memo = {}
         return _fib(n)
 ```
+
+## 1614. Maximum Nesting Depth of the Parentheses
+```python
+class Solution:
+    def maxDepth(self, s: str) -> int:
+        maxNestingDepth = 0
+        currNestingdepth = 0
+        
+        for char in s:
+            if char == '(':
+                currNestingdepth += 1
+            elif char == ')':
+                currNestingdepth -= 1
+                
+            maxNestingDepth = max(maxNestingDepth, currNestingdepth)
+        
+        return maxNestingDepth
+```
