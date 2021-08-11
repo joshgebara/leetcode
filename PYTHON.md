@@ -1242,3 +1242,10 @@ class Solution:
             for col in range(len(image[row])):
                 image[row][col] ^= 1
 ```
+
+## 217. Contains Duplicate
+```python
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        return len(set(nums)) != len(nums)
+```
