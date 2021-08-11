@@ -1346,3 +1346,15 @@ class Solution:
         node.val = node.next.val
         node.next = node.next.next
 ```
+
+## 1528. Shuffle String
+```python
+class Solution:
+    def restoreString(self, s: str, indices: List[int]) -> str:
+        result = [0] * len(indices)
+        
+        for i in range(0, len(indices)):
+            result[indices[i]] = s[i]
+        
+        return ''.join(result)
+```
