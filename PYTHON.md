@@ -1224,3 +1224,21 @@ class Solution:
                 
         return -1
 ```
+
+## 832. Flipping an Image
+```python
+class Solution:
+    def flipAndInvertImage(self, image: List[List[int]]) -> List[List[int]]:
+        self.flip(image)
+        self.invert(image)
+        return image
+    
+    def flip(self, image):
+        for row in image:
+            row.reverse()
+    
+    def invert(self, image):
+        for row in range(len(image)):
+            for col in range(len(image[row])):
+                image[row][col] ^= 1
+```
