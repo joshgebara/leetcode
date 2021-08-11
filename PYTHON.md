@@ -1249,3 +1249,22 @@ class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
         return len(set(nums)) != len(nums)
 ```
+
+## 118. Pascal's Triangle
+```python
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        triangle = [[1]]
+        
+        for row in range(1, numRows):
+            prevRow = triangle[-1]
+            nextRow = [1]
+            
+            for prevCol in range(1, len(prevRow)):
+                nextRow.append(prevRow[prevCol - 1] + prevRow[prevCol])
+                
+            nextRow.append(1)
+            triangle.append(nextRow)
+        
+        return triangle
+```
