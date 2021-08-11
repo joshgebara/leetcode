@@ -1287,3 +1287,27 @@ class Solution:
 
         return self.sumOfLeftLeaves(root.left, True) + self.sumOfLeftLeaves(root.right, False)
 ```
+
+## 645. Set Mismatch
+```python
+class Solution:
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        map = {}
+        
+        for num in range(1, len(nums) + 1):
+            map[num] = 0
+            
+        for num in nums:
+            map[num] += 1
+        
+        occurZero = -1
+        occurTwice = -1
+        
+        for key in map:
+            if map[key] == 0:
+                occurZero = key
+            if map[key] == 2:
+                occurTwice = key
+                
+        return [occurTwice, occurZero]
+```
