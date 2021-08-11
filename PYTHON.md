@@ -1268,3 +1268,22 @@ class Solution:
         
         return triangle
 ```
+
+## 404. Sum of Left Leaves
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode], isLeftChild = False) -> int:
+        if not root:
+            return 0
+
+        if not root.left and not root.right and isLeftChild:
+            return root.val
+
+        return self.sumOfLeftLeaves(root.left, True) + self.sumOfLeftLeaves(root.right, False)
+```
