@@ -1511,6 +1511,6 @@ class Solution:
         left = self.toMerkle(root.left)
         right = self.toMerkle(root.right)
         
-        root.merkle = hash(left + right)
+        root.merkle = hash(root.val + left + right)
         return root.merkle
 ```
