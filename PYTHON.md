@@ -1514,3 +1514,24 @@ class Solution:
         root.merkle = hash(root.val + left + right)
         return root.merkle
 ```
+
+## 338. Counting Bits
+```python
+class Solution:
+    def countBits(self, n: int) -> List[int]:
+        def countOnes(n):
+            count = 0
+            
+            while n:
+                n &= n - 1
+                count += 1
+            
+            return count
+        
+        result = []
+        
+        for i in range(n + 1):
+            result.append(countOnes(i))
+            
+        return result
+```
