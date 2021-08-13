@@ -1397,3 +1397,29 @@ class Solution:
         return [-1, -1]
 ```
 
+## 110. Balanced Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def height(root):
+            if not root:
+                return 0
+            
+            leftHeight = height(root.left)
+            rightHeight = height(root.right)
+            
+            diff = abs(leftHeight - rightHeight)
+            
+            if diff > 1:
+                return math.inf
+            
+            return 1 + max(leftHeight, rightHeight)
+        
+        return height(root) != math.inf
+```
