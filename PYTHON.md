@@ -1423,3 +1423,21 @@ class Solution:
         
         return height(root) != math.inf
 ```
+
+## 852. Peak Index in a Mountain Array
+```python
+class Solution:
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        left = 1
+        right = len(arr) - 2
+        
+        while left < right:
+            mid = (right - left) // 2 + left
+            
+            if arr[mid] < arr[mid + 1]:
+                left = mid + 1
+            else:
+                right = mid
+            
+        return left
+```
