@@ -1535,3 +1535,29 @@ class Solution:
             
         return result
 ```
+
+## 204. Count Primes
+```python
+class Solution:
+    def countPrimes(self, n: int) -> int:
+        if n <= 1:
+            return 0
+        
+        sieve = [True] * n
+        sieve[0] = False
+        sieve[1] = False
+        
+        count = 0
+        for num in range(2, n):
+            if not sieve[num]:
+                continue
+                
+            count += 1
+            multiplier = 2
+
+            while num * multiplier < n:
+                sieve[num * multiplier] = False
+                multiplier += 1
+                
+        return count
+```
