@@ -1561,3 +1561,17 @@ class Solution:
                 
         return count
 ```
+
+## 172. Factorial Trailing Zeroes
+```python
+class Solution:
+    def trailingZeroes(self, n: int) -> int:
+        numOfFives = 0
+        
+        while n:
+            numOfFives += n // 5
+            n = n // 5
+        
+        return numOfFives
+        
+```
