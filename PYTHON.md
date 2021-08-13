@@ -1575,3 +1575,26 @@ class Solution:
         return numOfFives
         
 ```
+
+## 1331. Rank Transform of an Array
+```python
+class Solution:
+    def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        sortedArr = sorted(arr)
+        
+        rank = 1
+        rankMap = {}
+        for num in sortedArr:
+            if num in rankMap:
+                continue
+                
+            rankMap[num] = rank
+            rank += 1
+            
+        result = []
+        
+        for num in arr:
+            result.append(rankMap[num])
+        
+        return result
+```
