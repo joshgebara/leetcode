@@ -1736,28 +1736,22 @@ class Solution:
         return True
 ```
 
-## 1099. Two Sum Less Than K
+## 252. Meeting Rooms
 ```python
 class Solution:
-    def twoSumLessThanK(self, nums: List[int], k: int) -> int:
-        sortedNums = sorted(nums)
+    def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
+        if not intervals:
+            return True
         
-        max = -1
+        sortedIntervals = sorted(intervals, key = lambda m : m[0])
         
-        left = 0
-        right = len(sortedNums) - 1
+        end = sortedIntervals[0][1]
         
-        while left < right:
-            sum = sortedNums[left] + sortedNums[right]
+        for currStart, currEnd in sortedIntervals[1:]:
+            if currStart < end:
+                return False
             
-            if sum < k:
-                if k - max > k - sum:
-                    max = sum
-                    
-                left += 1
-            else:
-                right -= 1
-        
-        return max
-        
+            end = max(currEnd, end)
+            
+        return True
 ```
