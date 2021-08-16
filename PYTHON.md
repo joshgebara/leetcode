@@ -1718,3 +1718,20 @@ class Solution:
                 
         return writeIndex
 ```
+
+## 766. Toeplitz Matrix
+```python
+class Solution:
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        m = len(matrix)
+        n = len(matrix[0])
+        
+        for row in range(m - 1):
+            prev = matrix[row][:-1]
+            curr = matrix[row + 1][1:]
+            
+            if prev != curr:
+                return False
+        
+        return True
+```
