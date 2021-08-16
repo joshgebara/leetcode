@@ -1735,3 +1735,29 @@ class Solution:
         
         return True
 ```
+
+## 1099. Two Sum Less Than K
+```python
+class Solution:
+    def twoSumLessThanK(self, nums: List[int], k: int) -> int:
+        sortedNums = sorted(nums)
+        
+        max = -1
+        
+        left = 0
+        right = len(sortedNums) - 1
+        
+        while left < right:
+            sum = sortedNums[left] + sortedNums[right]
+            
+            if sum < k:
+                if k - max > k - sum:
+                    max = sum
+                    
+                left += 1
+            else:
+                right -= 1
+        
+        return max
+        
+```
