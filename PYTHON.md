@@ -1755,3 +1755,44 @@ class Solution:
             
         return True
 ```
+
+## 844. Backspace String Compare
+```python
+class Solution:
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        sIndex = len(s) - 1
+        sBackspaceCount = 0
+        
+        tIndex = len(t) - 1
+        tBackspaceCount = 0
+        
+        while sIndex >= 0 or tIndex >= 0:
+            if sIndex >= 0 and s[sIndex] == '#':
+                sIndex -= 1
+                sBackspaceCount += 1
+                continue
+            
+            if tIndex >= 0 and t[tIndex] == '#':
+                tIndex -= 1
+                tBackspaceCount += 1
+                continue
+            
+            if sIndex >= 0 and sBackspaceCount:
+                sIndex -= 1
+                sBackspaceCount -= 1
+                continue
+                
+            if tIndex >= 0 and tBackspaceCount:
+                tIndex -= 1
+                tBackspaceCount -= 1
+                continue
+            
+            if sIndex >= 0 and tIndex >= 0 and s[sIndex] == t[tIndex]:
+                sIndex -= 1
+                tIndex -= 1
+                continue
+                
+            return False
+        
+        return sIndex < 0 and tIndex < 0
+```
