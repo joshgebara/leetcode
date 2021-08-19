@@ -1796,3 +1796,19 @@ class Solution:
         
         return sIndex < 0 and tIndex < 0
 ```
+
+## 674. Longest Continuous Increasing Subsequence
+```python
+class Solution:
+    def findLengthOfLCIS(self, nums: List[int]) -> int:
+        maxLen = 1
+        
+        left = 0
+        for right in range(1, len(nums)):
+            if nums[right - 1] >= nums[right]:
+                left = right
+                
+            maxLen = max(maxLen, right - left + 1)
+            
+        return maxLen
+```
