@@ -1905,3 +1905,23 @@ class Solution:
                 
         return ''.join(prefix)
 ```
+
+## 884. Uncommon Words from Two Sentences
+```python
+from collections import Counter
+
+class Solution:
+    def uncommonFromSentences(self, s1: str, s2: str) -> List[str]:
+        words1 = s1.split(" ")
+        words2 = s2.split(" ")
+        
+        counter = Counter(words1 + words2)
+        
+        result = []        
+        
+        for key in counter:
+            if counter[key] == 1:
+                result.append(key)
+                
+        return result
+```
