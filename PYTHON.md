@@ -1883,6 +1883,25 @@ class Solution:
             head = head.next
             
         return dummy.next
+```
+
+## 14. Longest Common Prefix
+```python
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        if len(strs) == 0:
+            return ""
+        
+        prefix = []
+        
+        for i in range(len(strs[0])):
+            candidate = strs[0][i]
             
-            
+            for str in strs[1:]:
+                if i >= len(str) or str[i] != candidate:
+                    return ''.join(prefix)
+                
+            prefix.append(candidate)
+                
+        return ''.join(prefix)
 ```
