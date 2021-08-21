@@ -1812,3 +1812,30 @@ class Solution:
             
         return maxLen
 ```
+
+## 346. Moving Average from Data Stream
+```python
+class MovingAverage:
+
+    def __init__(self, size: int):
+        """
+        Initialize your data structure here.
+        """
+        self.queue = deque()
+        self.sum = 0
+        self.maxSize = size
+
+    def next(self, val: int) -> float:
+        self.queue.append(val)
+        self.sum += val
+        
+        while len(self.queue) > self.maxSize:
+            oldVal = self.queue.popleft()
+            self.sum -= oldVal
+            
+        return self.sum / len(self.queue)
+
+# Your MovingAverage object will be instantiated and called as such:
+# obj = MovingAverage(size)
+# param_1 = obj.next(val)
+```
