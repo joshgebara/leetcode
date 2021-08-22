@@ -2291,3 +2291,20 @@ class MyQueue:
 # param_3 = obj.peek()
 # param_4 = obj.empty()
 ```
+
+## 1304. Find N Unique Integers Sum up to Zero
+```python
+class Solution:
+    def sumZero(self, n: int) -> List[int]:
+        result = []
+        
+        if n % 2 == 1:
+            result.append(0)
+            n -= 1
+            
+        for num in range(1, n, 2):
+            result.append(num)
+            result.append(-num)
+            
+        return result
+```
