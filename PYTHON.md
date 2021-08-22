@@ -2178,3 +2178,28 @@ class Solution:
         
         return check(root, root)
 ```
+
+## 83. Remove Duplicates from Sorted List
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(None)
+        dummy.next = head
+        curr = dummy
+        
+        while head:
+            if curr.val != head.val:
+                curr.next = head
+                curr = curr.next
+                
+            head = head.next
+            
+        curr.next = head
+        
+        return dummy.next
+```
