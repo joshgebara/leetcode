@@ -2130,3 +2130,51 @@ class Solution:
         
         return i == len(s)
 ```
+
+## 112. Path Sum
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        def pathSum(root, currSum):
+            if root is None:
+                return False
+            
+            currSum += root.val
+            
+            if root.left is None and root.right is None:
+                return currSum == targetSum
+            
+            return pathSum(root.left, currSum) or pathSum(root.right, currSum)
+        
+        return pathSum(root, 0)
+```
+
+## 101. Symmetric Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def check(root1, root2):
+            if root1 is None and root2 is None:
+                return True
+            if root1 is None or root2 is None:
+                return False
+            
+            if root1.val != root2.val:
+                return False
+            
+            return check(root1.left, root2.right) and check(root1.right, root2.left)
+        
+        return check(root, root)
+```
