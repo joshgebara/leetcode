@@ -2380,3 +2380,15 @@ class Solution:
         memo = {}
         return t(n)
 ```
+
+## 1920. Build Array from Permutation
+```python
+class Solution:
+    def buildArray(self, nums: List[int]) -> List[int]:
+        result = [0] * len(nums)
+        
+        for i in range(len(result)):
+            result[i] = nums[nums[i]]
+        
+        return result
+```
