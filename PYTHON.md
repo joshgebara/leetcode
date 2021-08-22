@@ -2392,3 +2392,20 @@ class Solution:
         
         return result
 ```
+
+## 1773. Count Items Matching a Rule
+```python
+class Solution:
+    def countMatches(self, items: List[List[str]], ruleKey: str, ruleValue: str) -> int:
+        sum = 0
+        
+        for type, color, name in items:
+            if ruleKey == "type":
+                sum += type == ruleValue
+            if ruleKey == "color":
+                sum += color == ruleValue
+            if ruleKey == "name":
+                sum += name == ruleValue
+        
+        return sum
+```
