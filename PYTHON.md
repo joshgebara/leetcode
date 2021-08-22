@@ -2203,3 +2203,41 @@ class Solution:
         
         return dummy.next
 ```
+
+## 1662. Check If Two String Arrays are Equivalent
+```python
+class Solution:
+    def arrayStringsAreEqual(self, word1: List[str], word2: List[str]) -> bool:
+        arr1Index = 0
+        arr2Index = 0
+        
+        str1Index = 0
+        str2Index = 0
+        
+        while arr1Index < len(word1) and arr2Index < len(word2):
+            if str1Index >= len(word1[arr1Index]):
+                str1Index = 0
+                arr1Index += 1
+                continue
+                
+            if str2Index >= len(word2[arr2Index]):
+                str2Index = 0
+                arr2Index += 1
+                continue
+                
+            if word1[arr1Index][str1Index] == word2[arr2Index][str2Index]:
+                str1Index += 1
+                str2Index += 1
+                
+            return False
+                
+        if arr1Index < len(word1) and str1Index >= len(word1[arr1Index]):
+            str1Index = 0
+            arr1Index += 1
+            
+        if arr2Index < len(word2) and str2Index >= len(word2[arr2Index]):
+            str2Index = 0
+            arr2Index += 1
+        
+        return arr1Index == len(word1) and arr2Index == len(word2)
+```
