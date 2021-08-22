@@ -1992,3 +1992,23 @@ class Solution:
         inorder(root)
         return result
 ```
+
+## 219. Contains Duplicate II
+```python
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        map = {}
+        
+        i = 0
+        for j in range(len(nums)):
+            map[nums[j]] = 1 + map.setdefault(nums[j], 0)
+            
+            if map[nums[j]] >= 2:
+                return True
+            
+            if j - i == k:
+                map[nums[i]] -= 1
+                i += 1
+                
+        return False
+```
