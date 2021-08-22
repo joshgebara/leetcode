@@ -2326,3 +2326,18 @@ class Solution:
         
         return ''.join(result)
 ```
+
+## 1748. Sum of Unique Elements
+```python
+from collections import Counter
+
+class Solution:
+    def sumOfUnique(self, nums: List[int]) -> int:
+        counter = Counter(nums)
+        sum = 0
+        
+        for num in nums:
+            sum += num if counter[num] == 1 else 0
+            
+        return sum
+```
