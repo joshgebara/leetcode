@@ -2308,3 +2308,21 @@ class Solution:
             
         return result
 ```
+
+## 541. Reverse String II
+```python
+class Solution:
+    def reverseStr(self, s: str, k: int) -> str:
+        def reverse(arr, left, right):
+            while left < right:
+                arr[left], arr[right] = arr[right], arr[left]
+                left += 1
+                right -=1
+        
+        result = list(s)
+        
+        for i in range(0, len(s), 2 * k):
+            reverse(result, i, min(i + k - 1, len(result) - 1))
+        
+        return ''.join(result)
+```
