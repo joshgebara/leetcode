@@ -2031,3 +2031,32 @@ class Solution:
                 
         return left
 ```
+
+## 345. Reverse Vowels of a String
+```python
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        def isVowel(char):
+            vowels = {'a', 'e', 'i', 'o', 'u'}
+            return char.lower() in vowels
+        
+        result = list(s)
+        
+        left = 0
+        right = len(result) - 1
+        
+        while (left < right):
+            if not isVowel(result[left]):
+                left += 1
+                continue
+                
+            if not isVowel(result[right]):
+                right -= 1
+                continue
+                
+            result[left], result[right] = result[right], result[left]
+            left += 1
+            right -= 1
+        
+        return ''.join(result)
+```
