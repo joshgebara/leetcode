@@ -2491,3 +2491,29 @@ class Solution:
             
         return sign * reversedNum
 ```
+
+## 228. Summary Ranges
+```python
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        def strForRange(start, end):
+            if start == end:
+                return f'{start}'
+            
+            return f'{start}->{end}'
+        
+        if not nums:
+            return []
+        
+        result = []
+        
+        start = 0
+        for end in range(1, len(nums) + 1):
+            if end < len(nums) and nums[end - 1] == nums[end] - 1:
+                continue
+                
+            result.append(strForRange(nums[start], nums[end - 1]))
+            start = end
+            
+        return result
+```
