@@ -2409,3 +2409,37 @@ class Solution:
         
         return sum
 ```
+
+## 163. Missing Ranges
+```python
+class Solution:
+    def findMissingRanges(self, nums: List[int], lower: int, upper: int) -> List[str]:
+        def strFromRange(start, end):
+            if start == end:
+                return f'{start}'
+            
+            return f'{start}->{end}'
+        
+        result = []
+        
+        if not nums:
+            result.append(strFromRange(lower, upper))
+            return result
+            
+        if lower < nums[0]:
+            result.append(strFromRange(lower, nums[0] - 1))
+        
+        for i in range(0, len(nums) - 1):
+            start = nums[i] + 1
+            end = nums[i + 1] - 1
+            
+            if start > end:
+                continue
+            
+            result.append(strFromRange(start, end))
+        
+        if nums[-1] < upper:
+            result.append(strFromRange(nums[-1] + 1, upper))
+            
+        return result
+```
