@@ -2466,3 +2466,28 @@ class Solution:
         inorder(root)
         return result
 ```
+
+## 7. Reverse Integer
+```python
+class Solution:
+    def reverse(self, x: int) -> int:
+        sign = -1 if x < 0 else 1
+        
+        reversedNum = 0
+        x = abs(x)
+        
+        upper = (2 ** 31 - 1) // 10
+        
+        while x:
+            digit = x % 10
+            
+            if reversedNum > upper or reversedNum == upper and digit > 7:
+                return 0
+            
+            reversedNum *= 10
+            reversedNum += digit
+            
+            x //= 10
+            
+        return sign * reversedNum
+```
