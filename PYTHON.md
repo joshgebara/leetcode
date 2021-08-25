@@ -2597,3 +2597,57 @@ class Solution:
         
         return 'Pending'
 ```
+
+## 234. Palindrome Linked List
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        def getMiddle(head):
+            fast = head
+            slow = head
+            
+            while fast.next and fast.next.next:
+                fast = fast.next.next
+                slow = slow.next
+                
+            return slow
+        
+        def reverse(head):
+            prev = None
+            next = None
+            
+            while head:
+                next = head.next
+                head.next = prev
+                prev = head
+                head = next
+            
+            return prev
+        
+        def isEqual(l1, l2):
+            while l1 and l2:
+                if l1.val != l2.val:
+                    return False
+                l1 = l1.next
+                l2 = l2.next
+            return True
+        
+        if not head.next:
+            return True
+        
+        # get mid point
+        middleNode = getMiddle(head)
+        secondHalfHead = middleNode.next
+        middleNode.next = None
+        
+        # reverse
+        reversedHead = reverse(secondHalfHead)
+        
+        # check if equal
+        return isEqual(head, reversedHead)
+```
