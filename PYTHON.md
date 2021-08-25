@@ -2748,3 +2748,19 @@ class Solution:
         counter = Counter(nums)
         return sorted(nums, key = lambda num : (counter[num], -num))
 ```
+
+## 1122. Relative Sort Array
+```python
+class Solution:
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        def getKey(num):
+            if num in dict:
+                return (dict[num], num)
+            return (math.inf, num)
+        
+        dict = {}
+        for i in range(len(arr2)):
+            dict[arr2[i]] = i
+            
+        return sorted(arr1, key = getKey)
+```
