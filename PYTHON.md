@@ -2671,3 +2671,33 @@ class Solution:
             else:
                 return root
 ```
+
+## 290. Word Pattern
+```python
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        words = s.split(' ')
+        
+        if len(pattern) != len(words):
+            return False
+        
+        dictP = {}
+        dictW = {}
+        
+        for i in range(len(pattern)):
+            p = pattern[i]
+            w = words[i]
+            
+            if p not in dictP and w not in dictW:
+                dictP[p] = w
+                dictW[w] = p
+                continue
+                
+            if p not in dictP or w not in dictW:
+                return False
+            
+            if dictP[p] != w or dictW[w] != p:
+                return False
+            
+        return True
+```
