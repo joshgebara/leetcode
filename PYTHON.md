@@ -2738,3 +2738,13 @@ class Solution:
                 
         return False
 ```
+
+## 1636. Sort Array by Increasing Frequency
+```python
+from collections import Counter
+
+class Solution:
+    def frequencySort(self, nums: List[int]) -> List[int]:
+        counter = Counter(nums)
+        return sorted(nums, key = lambda num : (counter[num], -num))
+```
