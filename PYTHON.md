@@ -2561,3 +2561,39 @@ class KthLargest:
 # obj = KthLargest(k, nums)
 # param_1 = obj.add(val)
 ```
+
+## 1275. Find Winner on a Tic Tac Toe Game
+```python
+class Solution:
+    def tictactoe(self, moves: List[List[int]]) -> str:
+        size = 3
+        
+        rows = [0] * size
+        cols = [0] * size
+        diag = 0
+        antiDiag = 0
+        
+        aTurn = True
+        for row, col in moves:
+            val = 1 if aTurn else -1
+            score = size * val
+            
+            rows[row] += val
+            cols[col] += val
+                        
+            if row - col == 0:
+                diag += val
+
+            if row + col == size - 1:
+                antiDiag += val
+
+            if rows[row] == score or cols[col] == score or diag == score or antiDiag == score:
+                return 'A' if aTurn else 'B'
+            
+            aTurn = not aTurn
+            
+        if len(moves) == size ** 2:
+            return 'Draw'
+        
+        return 'Pending'
+```
