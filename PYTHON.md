@@ -2792,3 +2792,36 @@ class Solution:
                 
         return heap[0]
 ```
+
+### Quickselect
+```python
+
+```
+
+## 438. Find All Anagrams in a String
+```python
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        def indexForChar(char):
+            return ord(char) - ord('a')
+        
+        result = []
+        
+        sCounter = [0] * 26
+        pCounter = [0] * 26
+        for char in p:
+            pCounter[indexForChar(char)] += 1
+            
+        left = 0
+        for right in range(len(s)):
+            sCounter[indexForChar(s[right])] += 1
+            
+            while right - left + 1 > len(p):
+                sCounter[indexForChar(s[left])] -= 1
+                left += 1
+                
+            if sCounter == pCounter:
+                result.append(left)
+        
+        return result
+```
