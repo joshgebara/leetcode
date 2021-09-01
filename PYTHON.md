@@ -2795,9 +2795,6 @@ class Solution:
         return nums[index]
     
     def quickSelect(self, nums, k):
-        def getRandomIndex(low, high):
-            return math.trunc((high - low + 1) * random.random()) + low
-        
         def partition(nums, left, right):
             i = left - 1
             for j in range(left, right):
@@ -2813,7 +2810,7 @@ class Solution:
         right = len(nums) - 1
         
         while left <= right:
-            randomIndex = getRandomIndex(left, right)
+            randomIndex = random.randint(left, right)
             nums[right], nums[randomIndex] = nums[randomIndex], nums[right]
             
             partitionIndex = partition(nums, left, right)
