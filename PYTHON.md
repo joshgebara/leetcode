@@ -2789,7 +2789,42 @@ class Solution:
 
 ### Quickselect
 ```python
-
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        index = self.quickSelect(nums, len(nums) - k)
+        return nums[index]
+    
+    def quickSelect(self, nums, k):
+        def getRandomIndex(low, high):
+            return math.trunc((high - low + 1) * random.random()) + low
+        
+        def partition(nums, left, right):
+            i = left - 1
+            for j in range(left, right):
+                if nums[j] <= nums[right]:
+                    i += 1
+                    nums[i], nums[j] = nums[j], nums[i]
+            
+            i += 1
+            nums[i], nums[right] = nums[right], nums[i]
+            return i
+        
+        left = 0
+        right = len(nums) - 1
+        
+        while left <= right:
+            randomIndex = getRandomIndex(left, right)
+            nums[right], nums[randomIndex] = nums[randomIndex], nums[right]
+            
+            partitionIndex = partition(nums, left, right)
+            if partitionIndex == k:
+                return partitionIndex
+            elif partitionIndex < k:
+                left = partitionIndex + 1
+            else:
+                right = partitionIndex - 1
+                
+        return -1
 ```
 
 ## 438. Find All Anagrams in a String
