@@ -408,16 +408,15 @@ from collections import Counter
 
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        counter1 = Counter(nums1)
-        counter2 = Counter(nums2)
+        counter = Counter(nums1)
         
         result = []
         
-        for num in set(nums1):
-            if num in counter1 and num in counter2:
-                for i in range(min(counter1[num], counter2[num])):
-                    result.append(num)
-        
+        for num in nums2:
+            if counter[num] > 0:
+                result.append(num)
+                counter[num] -= 1
+                
         return result
 ```
 
@@ -2777,3 +2776,4 @@ class Solution:
                 
         return nums
 ```
+
