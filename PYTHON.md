@@ -2851,3 +2851,35 @@ class Solution:
         
         return result
 ```
+
+## 1570. Dot Product of Two Sparse Vectors
+https://leetcode.com/discuss/interview-question/124823/dot-product-of-sparse-vector
+```python
+class SparseVector:
+    def __init__(self, nums: List[int]):
+        self.vals = {}
+        
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                continue
+            
+            self.vals[i] = nums[i]
+            
+    # Return the dotProduct of two sparse vectors
+    def dotProduct(self, vec: 'SparseVector') -> int:
+        vecShort = self if len(self.vals) < len(vec.vals) else vec
+        vecLong = vec if len(self.vals) < len(vec.vals) else self
+        
+        sum = 0
+        
+        for i in vecShort.vals:
+            if i in vecLong.vals:
+                sum += vecShort.vals[i] * vecLong.vals[i]
+        
+        return sum
+
+# Your SparseVector object will be instantiated and called as such:
+# v1 = SparseVector(nums1)
+# v2 = SparseVector(nums2)
+# ans = v1.dotProduct(v2)
+```
