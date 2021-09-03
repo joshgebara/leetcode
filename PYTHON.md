@@ -924,6 +924,7 @@ class Solution:
 ```
 
 ## 70. Climbing Stairs
+### Top Down DP
 ```python
 class Solution:
     def climbStairs(self, n: int) -> int:
@@ -938,6 +939,20 @@ class Solution:
         
         memo = {}
         return _climbStairs(n)
+```
+### Bottom Up DP
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        dp1 = 1
+        dp2 = 1
+        
+        for i in range(2, n + 1):
+            next = dp1 + dp2
+            dp2 = dp1
+            dp1 = next
+        
+        return dp1
 ```
 
 ## 993. Cousins in Binary Tree
