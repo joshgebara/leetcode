@@ -733,6 +733,7 @@ class Solution:
 ```
 
 ## 268. Missing Number
+### Gauss Formula
 ```python
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
@@ -740,6 +741,20 @@ class Solution:
         expectedSum = n * (n + 1) // 2
         actualSum = sum(nums)
         return expectedSum - actualSum
+```
+
+### XOR
+```python
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        missing = 0
+        for num in range(len(nums) + 1):
+            missing ^= num
+        
+        for num in nums:
+            missing ^= num
+            
+        return missing
 ```
 
 ## 1460. Make Two Arrays Equal by Reversing Sub-arrays
