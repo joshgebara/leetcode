@@ -2944,9 +2944,9 @@ class NumMatrix:
         for row in range(1, rowLen + 1):
             for col in range(1, colLen + 1):
                 self.prefix[row][col] = (matrix[row - 1][col - 1] +  
-                                                 self.prefix[row - 1][col] +
-                                                 self.prefix[row][col - 1] -
-                                                 self.prefix[row - 1][col - 1])
+                                         self.prefix[row - 1][col] +
+                                         self.prefix[row][col - 1] -
+                                         self.prefix[row - 1][col - 1])
                 
     def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
         return (self.prefix[row2 + 1][col2 + 1] + 
