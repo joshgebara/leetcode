@@ -3029,3 +3029,37 @@ class Solution:
             
         return dpStepBack1
 ```
+
+## 133. Clone Graph
+### DFS
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        def dfs(node):
+            if node.val in copyDict:
+                return copyDict[node.val]
+            
+            copyNode = Node(node.val)
+            copyDict[node.val] = copyNode
+
+            for neighbor in node.neighbors:
+                copyNeighbor = dfs(neighbor)
+                copyNode.neighbors.append(copyNeighbor)
+                
+            return copyNode
+        
+        if not node:
+            return node
+        
+        copyDict = {}
+        dfs(node)
+        return copyDict[node.val]
+```
