@@ -3008,5 +3008,24 @@ class Solution:
 
 ### Bottom Up DP
 ```python
-
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        dpStepBack2 = 1
+        dpStepBack1 = 0 if int(s[0]) == 0 else 1
+        
+        for i in range(2, len(s) + 1):
+            dpStepBack0 = 0
+            
+            oneDigit = int(s[i - 1])
+            if oneDigit > 0:
+                dpStepBack0 += dpStepBack1
+            
+            twoDigit = int(s[i - 2: i])
+            if 10 <= twoDigit <= 26:
+                dpStepBack0 += dpStepBack2
+            
+            dpStepBack2 = dpStepBack1
+            dpStepBack1 = dpStepBack0
+            
+        return dpStepBack1
 ```
