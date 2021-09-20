@@ -2974,3 +2974,39 @@ class NumMatrix:
 # obj = NumMatrix(matrix)
 # param_1 = obj.sumRegion(row1,col1,row2,col2)
 ```
+
+## 91. Decode Ways
+### Top Down DP
+```python
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        def _numDecodings(startIndex):
+            if startIndex in memo:
+                return memo[startIndex]
+            
+            if startIndex >= len(s):
+                return 1
+            
+            count = 0
+            
+            num = 0
+            for currIndex in range(startIndex, len(s)):
+                num *= 10
+                num += int(s[currIndex])
+                
+                if num == 0 or num > 26:
+                    break
+                    
+                count += _numDecodings(currIndex + 1)
+                
+            memo[startIndex] = count
+            return count
+              
+        memo = {}
+        return _numDecodings(0)
+```
+
+### Bottom Up DP
+```python
+
+```
