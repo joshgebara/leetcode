@@ -1271,18 +1271,27 @@ class Solution:
 ```python
 class Solution:
     def flipAndInvertImage(self, image: List[List[int]]) -> List[List[int]]:
-        self.flip(image)
-        self.invert(image)
-        return image
-    
-    def flip(self, image):
+        def flipAndInvertRow(row):
+            left = 0
+            right = len(row) - 1
+            
+            while left <= right:
+                if left == right:
+                    row[left] ^= 1
+                    break
+                
+                row[left], row[right] = row[right], row[left]
+                
+                row[left] ^= 1
+                row[right] ^= 1
+                
+                left += 1
+                right -=1
+        
         for row in image:
-            row.reverse()
-    
-    def invert(self, image):
-        for row in range(len(image)):
-            for col in range(len(image[row])):
-                image[row][col] ^= 1
+            flipAndInvertRow(row)
+            
+        return image
 ```
 
 ## 217. Contains Duplicate
