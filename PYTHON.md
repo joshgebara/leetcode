@@ -1145,6 +1145,7 @@ class Solution:
 ```
 
 ## 509. Fibonacci Number
+### Top Down DP
 ```python
 class Solution:
     def fib(self, n: int) -> int:
@@ -1158,6 +1159,24 @@ class Solution:
         
         memo = {}
         return _fib(n)
+```
+
+### Bottom Up DP
+```python
+class Solution:
+    def fib(self, n: int) -> int:
+        if n <= 1:
+            return n
+        
+        numBack2 = 0
+        numBack1 = 1
+        
+        for i in range(2, n + 1):
+            numBack0 = numBack1 + numBack2
+            numBack2 = numBack1
+            numBack1 = numBack0
+            
+        return numBack1
 ```
 
 ## 1614. Maximum Nesting Depth of the Parentheses
