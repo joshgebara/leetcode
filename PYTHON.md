@@ -1334,24 +1334,21 @@ class Solution:
 ```python
 class Solution:
     def findErrorNums(self, nums: List[int]) -> List[int]:
-        map = {}
+        seen = [0] * len(nums)
         
-        for num in range(1, len(nums) + 1):
-            map[num] = 0
-            
         for num in nums:
-            map[num] += 1
-        
-        occurZero = -1
-        occurTwice = -1
-        
-        for key in map:
-            if map[key] == 0:
-                occurZero = key
-            if map[key] == 2:
-                occurTwice = key
+            seen[num - 1] += 1
                 
-        return [occurTwice, occurZero]
+        repeat = -1
+        missing = -1
+        
+        for i in range(len(seen)):
+            if seen[i] == 0:
+                missing = i + 1
+            elif seen[i] == 2:
+                repeat = i + 1
+        
+        return [repeat, missing]
 ```
 
 ## 1464. Maximum Product of Two Elements in an Array
