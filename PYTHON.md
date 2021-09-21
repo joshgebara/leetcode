@@ -3116,3 +3116,29 @@ class Solution:
         return intersections
         
 ```
+
+## 340. Longest Substring with At Most K Distinct Characters
+```python
+from collections import Counter
+
+class Solution:
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        longest = 0
+        
+        counter = Counter()
+        left = 0
+        for right in range(len(s)):
+            counter[s[right]] += 1
+            
+            while left <= right and len(counter) > k:
+                counter[s[left]] -= 1
+                
+                if counter[s[left]] == 0:
+                    del counter[s[left]]
+                    
+                left += 1
+                
+            longest = max(longest, right - left + 1)
+            
+        return longest
+```
