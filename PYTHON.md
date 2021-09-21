@@ -3088,3 +3088,31 @@ class Solution:
         dfs(node)
         return copyDict[node.val]
 ```
+
+## 986. Interval List Intersections
+```python
+class Solution:
+    def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
+        intersections = []
+        
+        i = 0
+        j = 0
+        
+        while i < len(firstList) and j < len(secondList):
+            firstStart, firstEnd = firstList[i]
+            secondStart, secondEnd = secondList[j]
+            
+            candidateStart = max(firstStart, secondStart)
+            candidateEnd = min(firstEnd, secondEnd)
+            
+            if candidateStart <= candidateEnd:
+                intersections.append([candidateStart, candidateEnd])
+                
+            if firstEnd <= secondEnd:
+                i += 1
+            else:
+                j += 1
+        
+        return intersections
+        
+```
