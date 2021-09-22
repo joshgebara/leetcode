@@ -714,7 +714,7 @@ class Solution:
 class Solution:
     def isPerfectSquare(self, num: int) -> bool:
         left = 1
-        right = num
+        right = num // 2 + 1
         
         while left <= right:
             mid = (right - left) // 2 + left
@@ -3170,4 +3170,9 @@ class Solution:
         _letterCombinations(0)
         
         return result
+```
+
+### Iterative
+```python
+
 ```
