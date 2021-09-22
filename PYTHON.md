@@ -3184,7 +3184,7 @@ class Solution:
             if startIndex >= len(s):
                 return True
             
-            for i in range(startIndex, startIndex + maxLen):
+            for i in range(startIndex, min(startIndex + maxLen, len(s))):
                 substr = s[startIndex : i + 1]
                 if substr in dict and _wordBreak(i + 1):
                     memo[startIndex] = True
