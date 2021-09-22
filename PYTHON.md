@@ -3142,3 +3142,32 @@ class Solution:
             
         return longest
 ```
+
+## 17. Letter Combinations of a Phone Number
+### Backtracking
+```python
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        def _letterCombinations(i):
+            if i >= len(digits):
+                result.append(''.join(combo))
+                return
+            
+            for char in dict[digits[i]]:
+                combo.append(char)
+                _letterCombinations(i + 1)
+                combo.pop()
+                
+        if len(digits) == 0:
+            return []
+                
+        dict = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', 
+                '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
+        
+        result = []
+        combo = []
+        
+        _letterCombinations(0)
+        
+        return result
+```
