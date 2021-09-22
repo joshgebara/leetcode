@@ -3172,7 +3172,33 @@ class Solution:
         return result
 ```
 
-### Iterative
+## 139. Word Break
+### Top Down DP
 ```python
-
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        def _wordBreak(startIndex):
+            if startIndex in memo:
+                return memo[startIndex]
+            
+            if startIndex >= len(s):
+                return True
+            
+            for i in range(startIndex, startIndex + maxLen):
+                substr = s[startIndex : i + 1]
+                if substr in dict and _wordBreak(i + 1):
+                    memo[startIndex] = True
+                    return True
+                
+            memo[startIndex] = False
+            return False
+        
+        dict = set()
+        maxLen = 0
+        for word in wordDict:
+            dict.add(word)
+            maxLen = max(maxLen, len(word))
+        
+        memo = {}
+        return _wordBreak(0)
 ```
