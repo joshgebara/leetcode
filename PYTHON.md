@@ -1621,7 +1621,6 @@ class Solution:
             n = n // 5
         
         return numOfFives
-        
 ```
 
 ## 1331. Rank Transform of an Array
@@ -3202,3 +3201,4 @@ class Solution:
         memo = {}
         return _wordBreak(0)
 ```
+
