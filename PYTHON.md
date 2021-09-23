@@ -1617,8 +1617,8 @@ class Solution:
         numOfFives = 0
         
         while n:
-            numOfFives += n // 5
-            n = n // 5
+            n //= 5
+            numOfFives += n
         
         return numOfFives
 ```
