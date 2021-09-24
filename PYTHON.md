@@ -3274,3 +3274,33 @@ class Solution:
 ```python
 
 ```
+
+## 785. Is Graph Bipartite?
+```python
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        def dfs(node, color):
+            colors[node] = color
+            
+            for neighbor in graph[node]:
+                if colors[neighbor] == color:
+                    return False
+                
+                if colors[neighbor] != None:
+                    continue
+                
+                if not dfs(neighbor, color ^ 1):
+                    return False
+            
+            return True
+            
+        n = len(graph)
+        colors = [None] * n
+        
+        for node in range(len(graph)):
+            if colors[node] == None:
+                if not dfs(node, 0):
+                    return False
+                
+        return True
+```
