@@ -3272,7 +3272,70 @@ class Solution:
 
 ### Union Find
 ```python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        rowLen = len(grid)
+        colLen = len(grid[0])
+        
+        unionFind = UnionFind(rowLen * colLen)
+        waterCount = 0
+        
+        dirs = [[1, 0], [0, 1]]
+        
+        for row in range(len(grid)):
+            for col in range(len(grid[row])):
+                if grid[row][col] == "1":
+                    for deltaRow, deltaCol in dirs:
+                        nextRow = row + deltaRow
+                        nextCol = col + deltaCol
 
+                        if nextRow >= len(grid) or nextCol >= len(grid[0]) or grid[nextRow][nextCol] == "0":
+                            continue
+                            
+                        unionFind.union(row * colLen + col, nextRow * colLen + nextCol)
+                else:
+                    waterCount += 1
+        
+        return unionFind.numOfComponents - waterCount
+    
+class UnionFind:
+    def __init__(self, n):
+        self.size = []
+        self.parent = []
+        self.numOfComponents = n
+        
+        for i in range(0, n):
+            self.size.append(1)
+            self.parent.append(i)
+            
+    def union(self, a, b):
+        parentA = self.find(a)
+        parentB = self.find(b)
+        
+        if parentA == parentB:
+            return
+        
+        if self.size[parentA] < self.size[parentB]:
+            self.parent[parentA] = parentB
+            self.size[parentB] += self.size[parentA]
+        else:
+            self.parent[parentB] = parentA
+            self.size[parentA] += self.size[parentB]
+        
+        self.numOfComponents -= 1
+    
+    def find(self, a):
+        root = a
+        
+        while self.parent[root] != root:
+            root = self.parent[root]
+            
+        while a != root:
+            next = self.parent[a]
+            self.parent[a] = root
+            a = next
+            
+        return root
 ```
 
 ## 785. Is Graph Bipartite?
