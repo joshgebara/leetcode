@@ -3202,3 +3202,48 @@ class Solution:
         return _wordBreak(0)
 ```
 
+## 200. Number of Islands
+### BFS
+```python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        islands = 0
+        
+        for row in range(len(grid)):
+            for col in range(len(grid[row])):
+                if grid[row][col] == "1":
+                    islands += 1
+                    self.floodFill(grid, row, col)
+        
+        return islands
+    
+    def floodFill(self, grid, row, col):
+        queue = deque([[row, col]])
+        grid[row][col] = "0"
+        
+        dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+        
+        while queue:
+            row, col = queue.popleft()
+            
+            for deltaRow, deltaCol in dirs:
+                nextRow = row + deltaRow
+                nextCol = col + deltaCol
+                
+                if nextRow < 0 or nextRow >= len(grid) or nextCol < 0 or nextCol >= len(grid[0]):
+                    continue
+                    
+                if grid[nextRow][nextCol] == "1":
+                    grid[nextRow][nextCol] = "0"
+                    queue.append([nextRow, nextCol])         
+```
+
+### DFS
+```python
+
+```
+
+### Union Find
+```python
+
+```
