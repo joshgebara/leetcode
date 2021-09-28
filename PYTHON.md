@@ -3367,3 +3367,25 @@ class Solution:
                 
         return True
 ```
+
+## 325. Maximum Size Subarray Sum Equals k
+```python
+class Solution:
+    def maxSubArrayLen(self, nums: List[int], k: int) -> int:
+        dict = { 0: -1 }
+        sum = 0
+        longest = 0
+        
+        for i, num in enumerate(nums):
+            sum += num
+            
+            candidate = sum - k
+            
+            if candidate in dict:
+                longest = max(longest, i - dict[candidate])
+            
+            if sum not in dict:
+                dict[sum] = i
+            
+        return longest
+```
