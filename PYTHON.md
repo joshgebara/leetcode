@@ -3418,3 +3418,32 @@ class Solution:
 # obj = Solution(w)
 # param_1 = obj.pickIndex()
 ```
+
+## 236. Lowest Common Ancestor of a Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        def _lowestCommonAncestor(node):
+            if not node:
+                return node
+            
+            if node is p or node is q:
+                return node
+            
+            left = _lowestCommonAncestor(node.left)            
+            right = _lowestCommonAncestor(node.right)
+            
+            if left and right:
+                return node
+            
+            return left or right
+        
+        return _lowestCommonAncestor(root)
+```
