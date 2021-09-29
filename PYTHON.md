@@ -611,8 +611,6 @@ class Solution:
             leftSum += num
             
         return -1
-        
-            
 ```
 
 ## 387. First Unique Character in a String
