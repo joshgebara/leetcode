@@ -3450,3 +3450,101 @@ class Solution:
         
         return _lowestCommonAncestor(root)
 ```
+
+## 146. LRU Cache
+```python
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.keyToNodeMap = {}
+        self.linkedList = LinkedList()
+        self.capacity = capacity
+        self.size = 0
+
+    def get(self, key: int) -> int:
+        # if key doesn't exist in cache
+        if key not in self.keyToNodeMap:
+            return -1
+        
+        # node is now most recently used, move to front of list
+        node = self.keyToNodeMap[key]
+        self.linkedList.moveToHead(node)
+        return node.value
+    
+    def put(self, key: int, value: int) -> None:
+        # if key already exists, update the value
+        # node is now most recently used, move to front of list
+        if key in self.keyToNodeMap:
+            node = self.keyToNodeMap[key]
+            node.value = value
+            self.linkedList.moveToHead(node)
+            return
+        
+        # if at or over capacity evict tail
+        if self.size >= self.capacity:
+            # delete least recently used
+            oldNode = self.linkedList.pop()
+            oldKey = oldNode.key
+            del self.keyToNodeMap[oldKey]
+            self.size -= 1
+        
+        node = Node(key, value)
+        self.keyToNodeMap[key] = node
+        self.linkedList.insertAtHead(node)
+        self.size += 1
+        
+
+class Node:
+
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.next = None
+        self.prev = None
+
+class LinkedList:
+    
+    def __init__(self):
+        self.head = Node(None, None)
+        self.tail = Node(None, None)
+        
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        
+    def insertAtHead(self, node):
+        next = self.head.next
+        
+        next.prev = node
+        node.next = next
+        
+        node.prev = self.head
+        self.head.next = node
+    
+    def moveToHead(self, node):
+        self.remove(node)
+        self.insertAtHead(node)
+    
+    def pop(self) -> Node:
+        if self.tail.prev is self.head:
+            return None
+        
+        return self.remove(self.tail.prev)
+    
+    def remove(self, node):
+        next = node.next
+        prev = node.prev
+        
+        prev.next = next
+        next.prev = prev
+        
+        node.prev = None
+        node.next = None
+        
+        return node
+        
+        
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
