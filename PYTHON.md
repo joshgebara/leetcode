@@ -438,23 +438,26 @@ class Solution:
 ```python
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
-        result = []
+        result = [0] * len(nums)
+        write = len(nums) - 1
         
         left = 0
         right = len(nums) - 1
         
         while left <= right:
-            leftSquared = nums[left] ** 2
-            rightSquared = nums[right] ** 2
+            leftSquare = nums[left] ** 2
+            rightSquare = nums[right] ** 2
             
-            if leftSquared < rightSquared:
-                result.append(rightSquared)
-                right -=1
+            if leftSquare < rightSquare:
+                result[write] = rightSquare
+                right -= 1
             else:
-                result.append(leftSquared)
+                result[write] = leftSquare
                 left += 1
-        
-        return result[::-1]
+                
+            write -= 1
+            
+        return result
 ```
 
 ## 53. Maximum Subarray
