@@ -3575,3 +3575,23 @@ class Solution:
 # obj = Solution(nums)
 # param_1 = obj.pick(target)
 ```
+
+## 71. Simplify Path
+```python
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        canonicalPath = []
+        
+        for section in path.split('/'):
+            if section == '' or section == '.':
+                continue
+                
+            if section == '..':
+                if canonicalPath:
+                    canonicalPath.pop()
+                continue
+                
+            canonicalPath.append(section)
+            
+        return '/' + '/'.join(canonicalPath)
+```
