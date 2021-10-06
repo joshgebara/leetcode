@@ -3693,25 +3693,23 @@ class Solution:
                     if token == '-' and i - 1 < 0 or infix[i - 1] == '(':
                         postfix.append(str(0))
             
-                # remove higher precendence operators from stack first
-                while stack and stack[-1] != '(' and hasHigherPrecendence(stack[-1], token):
-                    postfix.append(str(stack.pop()))
-                    
-                stack.append(str(token))
-                continue
+                    # remove higher precendence operators from stack first
+                    while stack and stack[-1] != '(' and hasHigherPrecendence(stack[-1], token):
+                        postfix.append(str(stack.pop()))
+
+                    stack.append(str(token))
 
                 if token == '(':
                     stack.append(str(token))
-                    continue
 
-            # remove all operators up to the next open '(' in stack
-            if token == ')':
-                while stack and stack[-1] != '(':
-                    postfix.append(str(stack.pop()))
-                    
-                stack.pop()
-    
-            # Add final of expression
+                # remove all operators up to the next open '(' in stack
+                if token == ')':
+                    while stack and stack[-1] != '(':
+                        postfix.append(str(stack.pop()))
+
+                    stack.pop()
+
+            # Add final num of expression
             if num is not None:
                 postfix.append(str(num))
                 num = None
