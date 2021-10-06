@@ -3645,3 +3645,114 @@ class Solution:
         
         return lastIndex - firstIndex + 1 > len(nums) // 2
 ```
+
+## 227. Basic Calculator II
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        def hasHigherPrecendence(op1, op2):
+            return getWeight(op1) >= getWeight(op2)
+
+        def getWeight(op):
+            if op in '+-':
+                return 1
+            if op in '*/':
+                return 2
+            
+        def convertToPostfix(infix):
+            postfix = []
+            stack = []
+            
+            num = None
+            
+            for i, token in enumerate(infix):
+                # Ignore Whitespace
+                if token == ' ':
+                    continue
+                    
+                # Handles case where operand is multiple digits
+                if isOperand(token):
+                    if num is None:
+                        num = 0
+                        
+                    num *= 10
+                    num += int(token)
+                    continue
+                    
+                # Add operand to postfix before continuing
+                if num is not None:
+                    postfix.append(str(num))
+                    num = None
+                    
+                if isOperator(token):
+                    # if uniary '+' then skip
+                    if token == '+' and i - 1 < 0 or infix[i - 1] == '(':
+                        continue
+            
+                    # if uniary '-' convert to binary operator by inserting 0 on left side
+                    if token == '-' and i - 1 < 0 or infix[i - 1] == '(':
+                        postfix.append(str(0))
+            
+                # remove higher precendence operators from stack first
+                while stack and stack[-1] != '(' and hasHigherPrecendence(stack[-1], token):
+                    postfix.append(str(stack.pop()))
+                    
+                stack.append(str(token))
+                continue
+
+                if token == '(':
+                    stack.append(str(token))
+                    continue
+
+            # remove all operators up to the next open '(' in stack
+            if token == ')':
+                while stack and stack[-1] != '(':
+                    postfix.append(str(stack.pop()))
+                    
+                stack.pop()
+    
+            # Add final of expression
+            if num is not None:
+                postfix.append(str(num))
+                num = None
+
+            # Add remaining operators to end
+            while stack:
+                postfix.append(stack.pop())
+    
+            return postfix
+    
+        def evaluatePostfix(postfix):
+            evaluate = {
+                '+': (lambda x1, x2 : x1 + x2),
+                '-': (lambda x1, x2 : x1 - x2),
+                '*': (lambda x1, x2 : x1 * x2),
+                '/': (lambda x1, x2 : x1 // x2),
+            }
+            
+            stack = []
+            
+            for token in postfix:
+                if isOperand(token):
+                    stack.append(token)
+                    continue
+                
+                right = int(stack.pop())
+                left = int(stack.pop())
+                stack.append(evaluate[token](left, right))
+            
+            return stack.pop()
+        
+        def isOperand(token):
+            return token not in '+-/*'
+        
+        def isOperator(token):
+            return token in '+-/*'
+        
+        # convert to postfix expression
+        postfix = convertToPostfix(s)
+        print(postfix)
+        
+        # evaluate postfix expression
+        return evaluatePostfix(postfix)
+```
