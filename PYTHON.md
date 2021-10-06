@@ -3618,3 +3618,30 @@ class Solution:
         
         return _isValidBST(root, -math.inf, math.inf)
 ```
+
+## 1150. Check If a Number Is Majority Element in a Sorted Array
+```python
+class Solution:
+    def isMajorityElement(self, nums: List[int], target: int) -> bool:
+        def binarySearch(nums, target): 
+            left = 0
+            right = len(nums)
+            
+            while left < right:
+                mid = (right - left) // 2 + left
+                
+                if nums[mid] < target:
+                    left = mid + 1
+                else:
+                    right = mid
+                
+            return left
+        
+        firstIndex = binarySearch(nums, target)
+        if firstIndex >= len(nums) or nums[firstIndex] != target:
+            return False
+        
+        lastIndex = binarySearch(nums, target + 1) - 1
+        
+        return lastIndex - firstIndex + 1 > len(nums) // 2
+```
