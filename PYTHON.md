@@ -3754,3 +3754,30 @@ class Solution:
         # evaluate postfix expression
         return evaluatePostfix(postfix)
 ```
+
+## 34. Find First and Last Position of Element in Sorted Array
+```python
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        def binarySearch(nums, target):
+            left = 0
+            right = len(nums)
+            
+            while left < right:
+                mid = (right - left) // 2 + left
+                
+                if nums[mid] < target:
+                    left = mid + 1
+                else:
+                    right = mid
+                    
+            return left
+        
+        firstIndex = binarySearch(nums, target)
+        if firstIndex >= len(nums) or nums[firstIndex] != target:
+            return [-1, -1]
+        
+        lastIndex = binarySearch(nums, target + 1) - 1
+            
+        return [firstIndex, lastIndex]
+```
