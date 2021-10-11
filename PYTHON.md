@@ -3870,3 +3870,24 @@ class Solution:
         
         return num
 ```
+
+## 50. Pow(x, n)
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if x == 0:
+            return 0
+        
+        if n < 0:
+            return self.myPow(1 / x, -1 * n)
+
+        if n == 0:
+            return 1
+                
+        result = self.myPow(x, n // 2)
+        
+        if n & 1 == 1:
+            return result * result * x
+        else:
+            return result * result
+```
