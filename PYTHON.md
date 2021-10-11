@@ -3842,3 +3842,31 @@ class Solution:
         _depthSum(nestedList, 1)
         return sum
 ```
+
+## 670. Maximum Swap
+```python
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        digits = list(str(num))
+        
+        maxToRight = [(None, -1)] * len(digits)
+        currMax = (-1, -1)
+        for i in range(len(digits) - 1, -1, -1):
+            currMaxDigit, currMaxIndex = currMax
+            
+            if int(digits[i]) < currMaxDigit:
+                maxToRight[i] = currMax
+                continue
+                
+            if int(digits[i]) > currMaxDigit:
+                currMax = (int(digits[i]), i)
+        
+        for i in range(len(digits)):
+            maxRightDigit, maxRightIndex = maxToRight[i]
+            
+            if maxRightDigit is not None:
+                digits[i], digits[maxRightIndex] = digits[maxRightIndex], digits[i]
+                return int(''.join(digits))
+        
+        return num
+```
