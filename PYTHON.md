@@ -3932,16 +3932,10 @@ class Solution:
                 group.append(str(val))
                 
             return '-'.join(group)
-            
-        dict = {}
         
+        dict = collections.defaultdict(list)
         for string in strings:
-            group = getGroup(string)
-            
-            if group not in dict:
-                dict[group] = []
-                
-            dict[group].append(string)
+            dict[getGroup(string)].append(string)
             
         return dict.values()
 ```
