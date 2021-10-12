@@ -3891,3 +3891,31 @@ class Solution:
         else:
             return result * result
 ```
+
+## 247. Strobogrammatic Number II
+```python
+class Solution:
+    def findStrobogrammatic(self, n: int) -> List[str]:
+        def _findStrobogrammatic(left, right):
+            if left > right:
+                result.append(''.join(path))
+                return
+            
+            for a, b in pairs.items():
+                if (a == '0' and left == 0 and n != 1 
+                    or 
+                    left == right and a != b):
+                    continue
+                    
+                path[left] = a
+                path[right] = b
+                
+                _findStrobogrammatic(left + 1, right - 1)
+                
+        pairs = { '0': '0', '1': '1', '6': '9', '8': '8', '9': '6' }
+        
+        result = []
+        path = [''] * n
+        _findStrobogrammatic(0, n - 1)
+        return result
+```
