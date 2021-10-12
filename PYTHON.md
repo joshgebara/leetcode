@@ -3939,3 +3939,26 @@ class Solution:
             
         return dict.values()
 ```
+
+## 1060. Missing Element in Sorted Array
+```python
+class Solution:
+    def missingElement(self, nums: List[int], k: int) -> int:
+        def missingNums(mid):
+            expectedNums = nums[mid] - nums[0]
+            actualNums = mid
+            return expectedNums - actualNums
+        
+        left = 1
+        right = len(nums)
+        
+        while left < right:
+            mid = (right - left) // 2 + left
+            
+            if missingNums(mid) < k:
+                left = mid + 1
+            else:
+                right = mid
+                
+        return nums[left - 1] + k - missingNums(left - 1)
+```
