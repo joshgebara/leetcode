@@ -3919,3 +3919,29 @@ class Solution:
         _findStrobogrammatic(0, n - 1)
         return result
 ```
+
+## 249. Group Shifted Strings
+```python
+class Solution:
+    def groupStrings(self, strings: List[str]) -> List[List[str]]:
+        def getGroup(string):
+            group = []
+            
+            for char in string:
+                val = (ord(char) - ord(string[0])) % 26
+                group.append(str(val))
+                
+            return '-'.join(group)
+            
+        dict = {}
+        
+        for string in strings:
+            group = getGroup(string)
+            
+            if group not in dict:
+                dict[group] = []
+                
+            dict[group].append(string)
+            
+        return dict.values()
+```
