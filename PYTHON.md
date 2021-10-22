@@ -3962,3 +3962,35 @@ class Solution:
                 
         return nums[left - 1] + k - missingNums(left - 1)
 ```
+
+## 33. Search in Rotated Sorted Array
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        left = 0
+        right = len(nums) - 1
+        
+        while left <= right:
+            mid = (right - left) // 2 + left
+            
+            if nums[mid] == target:
+                return mid
+            
+            # if left of mid is sorted
+            if nums[left] <= nums[mid]:
+                # if target in the sorted range
+                if nums[left] <= target <= nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+
+            # if right of mid is sorted
+            else:
+                # if target in the sorted range
+                if nums[mid] <= target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+                    
+        return -1
+```
