@@ -4061,3 +4061,46 @@ class Solution:
         _subsets(0)
         return result
 ```
+
+## 348. Design Tic-Tac-Toe
+```python
+class TicTacToe:
+
+    def __init__(self, n: int):
+        self.n = n
+        self.rows = [0] * n
+        self.cols = [0] * n
+        self.diag = 0
+        self.antiDiag = 0
+
+    def move(self, row: int, col: int, player: int) -> int:
+        val = 1 if player == 1 else -1
+        
+        # Row
+        self.rows[row] += val
+        if self.rows[row] == val * self.n:
+            return player
+        
+        # Col
+        self.cols[col] += val
+        if self.cols[col] == val * self.n:
+            return player
+        
+        # Diag
+        if row == col:
+            self.diag += val
+            if self.diag == val * self.n:
+                return player
+        
+        # AntiDiag
+        if row == self.n - col - 1:
+            self.antiDiag += val
+            if self.antiDiag == val * self.n:
+                return player
+            
+        return 0
+            
+# Your TicTacToe object will be instantiated and called as such:
+# obj = TicTacToe(n)
+# param_1 = obj.move(row,col,player)
+```
