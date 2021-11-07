@@ -3994,3 +3994,19 @@ class Solution:
                     
         return -1
 ```
+
+## 1762. Buildings With an Ocean View
+```python
+class Solution:
+    def findBuildings(self, heights: List[int]) -> List[int]:
+        result = []
+        
+        maxHeightToRight = -math.inf
+        
+        for i in range(len(heights) - 1, -1, -1):
+            if heights[i] > maxHeightToRight:
+                result.append(i)
+                maxHeightToRight = heights[i]
+                
+        return reversed(result)
+```
