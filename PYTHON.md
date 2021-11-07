@@ -4039,5 +4039,23 @@ class Solution:
 
 ### Recursive
 ```python
-
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def _subsets(i):
+            if i >= len(nums):
+                result.append(curr.copy())
+                return
+            
+            # choose
+            curr.append(nums[i])
+            _subsets(i + 1)
+            curr.pop()
+            
+            # not choose
+            _subsets(i + 1)
+            
+        result = []
+        curr = []
+        _subsets(0)
+        return result
 ```
