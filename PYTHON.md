@@ -4146,3 +4146,68 @@ class RandomizedSet:
 # param_2 = obj.remove(val)
 # param_3 = obj.getRandom()
 ```
+
+## 143. Reorder List
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        def getMiddle(head):
+            fast = head.next
+            slow = head
+            
+            while fast and fast.next:
+                fast = fast.next.next
+                slow = slow.next
+                
+            return slow
+        
+        def reverse(head):
+            prev = None
+            next = None
+            
+            while head:
+                next = head.next
+                head.next = prev
+                prev = head
+                head = next
+                
+            return prev
+        
+        def merge(head1, head2):
+            dummy = ListNode()
+            curr = dummy
+            
+            turn = 0
+            while head1 or head2:
+                if turn:
+                    curr.next = head2
+                    head2 = head2.next
+                else:
+                    curr.next = head1
+                    head1 = head1.next
+                    
+                curr = curr.next
+                turn ^= 1
+                
+            return dummy.next
+        
+        if not head.next:
+            return head
+        
+        middleNode = getMiddle(head)
+        
+        secondHalfHead = middleNode.next
+        middleNode.next = None
+        
+        reversedSecondHalfHead = reverse(secondHalfHead)
+        
+        merge(head, reversedSecondHalfHead)
+```
