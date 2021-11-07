@@ -4212,3 +4212,31 @@ class Solution:
         
         merge(head, reversedSecondHalfHead)
 ```
+
+## 791. Custom Sort String
+```python
+class Solution:
+    def customSortString(self, order: str, s: str) -> str:
+        count = [0] * 26
+        
+        result = []
+        
+        for char in s:
+            index = ord(char) - ord('a')
+            count[index] += 1
+            
+        for char in order:
+            index = ord(char) - ord('a')
+            
+            while count[index]:
+                result.append(char)
+                count[index] -= 1
+                
+        for char in s:
+            index = ord(char) - ord('a')
+            while count[index]:
+                result.append(char)
+                count[index] -= 1
+                
+        return ''.join(result)
+```
