@@ -4010,3 +4010,34 @@ class Solution:
                 
         return reversed(result)
 ```
+
+## 78. Subsets
+### Iterative Bitmask
+```python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def subsetForMask(mask):
+            subset = []
+            
+            for i in range(len(nums)):
+                if mask & 1 << i:
+                    subset.append(nums[i])
+            
+            return subset
+        
+        result = []
+        
+        mask = 0
+        bound = 2 ** len(nums)
+        
+        while mask < bound:
+            result.append(subsetForMask(mask))
+            mask += 1
+        
+        return result
+```
+
+### Recursive
+```python
+
+```
