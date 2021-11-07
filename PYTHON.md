@@ -1128,20 +1128,22 @@ class Solution:
 ```python
 class Solution:
     def fizzBuzz(self, n: int) -> List[str]:
+        values = [(3, 'Fizz'), (5, 'Buzz')]
+        
         result = []
+        
         for num in range(1, n + 1):
-            str = ''
-            if num % 3 == 0:
-                str += 'Fizz'
+            curr = ''
             
-            if num % 5 == 0:
-                str += 'Buzz'
-            
-            if not len(str):
-                str += f'{num}'
-            
-            result.append(str)
-            
+            for divisor, value in values:
+                if num % divisor == 0:
+                    curr += value
+                    
+            if not curr:
+                curr = str(num)
+                
+            result.append(curr)
+        
         return result
 ```
 
