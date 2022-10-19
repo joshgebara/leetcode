@@ -4390,3 +4390,108 @@ class Solution:
             if node1 is target:
                 return node2
 ```
+
+### Morris - Inorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def morris(root1, root2, processNodes):
+            node1 = root1
+            node2 = root2
+            
+            while node1:
+                if not node1.left:
+                    processNodes(node1, node2)
+                    
+                    node1 = node1.right
+                    node2 = node2.right
+                else:
+                    pred1 = node1.left
+                    pred2 = node2.left
+                    
+                    while pred1.right and pred1.right is not node1:
+                        pred1 = pred1.right
+                        pred2 = pred2.right
+                    
+                    if not pred1.right:
+                        pred1.right = node1
+                        pred2.right = node2
+                        node1 = node1.left
+                        node2 = node2.left
+                    else:
+                        pred1.right = None
+                        pred2.right = None
+                        
+                        processNodes(node1, node2)
+                        
+                        node1 = node1.right
+                        node2 = node2.right
+        
+        def processNodes(node1, node2):
+            nonlocal found
+            if node1 is target:
+                found = node2
+        
+        found = None        
+        morris(original, cloned, processNodes)
+        return found
+```
+
+### Morris - Preorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def morris(root1, root2, processNodes):
+            node1 = root1
+            node2 = root2
+            
+            while node1:
+                if not node1.left:
+                    processNodes(node1, node2)
+                    
+                    node1 = node1.right
+                    node2 = node2.right
+                else:
+                    pred1 = node1.left
+                    pred2 = node2.left
+                    
+                    while pred1.right and pred1.right is not node1:
+                        pred1 = pred1.right
+                        pred2 = pred2.right
+                    
+                    if not pred1.right:
+                        processNodes(node1, node2)
+                        
+                        pred1.right = node1
+                        pred2.right = node2
+                        node1 = node1.left
+                        node2 = node2.left
+                    else:
+                        pred1.right = None
+                        pred2.right = None
+                        node1 = node1.right
+                        node2 = node2.right
+        
+        def processNodes(node1, node2):
+            nonlocal found
+            if node1 is target:
+                found = node2
+        
+        found = None        
+        morris(original, cloned, processNodes)
+        return found
+```
