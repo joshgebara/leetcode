@@ -4240,3 +4240,153 @@ class Solution:
                 
         return ''.join(result)
 ```
+
+## 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+### DFS - Recursive Preorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def dfs(node1, node2):
+            if not node1:
+                return None
+            
+            if node1 is target:
+                return node2
+            
+            return dfs(node1.left, node2.left) or dfs(node1.right, node2.right)
+            
+        return dfs(original, cloned)
+```
+
+### DFS - Iterative Preorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def iterTraversal(root):
+            stack = [root]
+            
+            while stack:
+                node = stack.pop()
+                yield node
+                
+                if node.right:
+                    stack.append(node.right)
+                
+                if node.left:
+                    stack.append(node.left)
+                
+        for node1, node2 in zip(iterTraversal(original), iterTraversal(cloned)):
+            if node1 is target:
+                return node2
+```
+
+### DFS - Iterative Inorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def iterTraversal(root):
+            stack = []
+            curr = root
+            
+            while stack or curr:
+                while curr:
+                    stack.append(curr)
+                    curr = curr.left
+                    
+                node = stack.pop()
+                yield node
+                
+                curr = node.right
+                
+        for node1, node2 in zip(iterTraversal(original), iterTraversal(cloned)):
+            if node1 is target:
+                return node2
+```
+
+### DFS - Iterative Postorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def iterDFS(root):
+            stack = [root]
+            curr = root
+            
+            while stack or curr:
+                while curr:
+                    stack.append(curr)
+                    curr = curr.left
+                    
+                if stack[-1].right:
+                    curr = stack[-1].right
+                    continue
+                    
+                node = stack.pop()
+                yield node
+                
+                while stack and stack[-1].right is node:
+                    node = stack.pop()
+                    yield node
+                    
+        for node1, node2 in zip(iterDFS(original), iterDFS(cloned)):
+            if node1 is target:
+                return node2
+```
+
+### BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+from collections import deque
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def bfs(root):
+            queue = deque([root])
+            
+            while queue:
+                node = queue.popleft()
+
+                yield node
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        
+        for node1, node2 in zip(bfs(original), bfs(cloned)):
+            if node1 is target:
+                return node2
+```

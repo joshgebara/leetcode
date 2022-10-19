@@ -262,14 +262,19 @@ var shortestDistance = function(words, word1, word2) {
  * @return {number}
  */
 var findMaxConsecutiveOnes = function(nums) {
-    let count = 0
     let max = 0
-    
+    let curr = 0
     for (const num of nums) {
-        count += num ? 1 : -count
-        max = Math.max(max, count)
+        if (num === 1) {
+            curr++
+            continue
+        }
+        
+        max = Math.max(max, curr)
+        curr = 0
     }
     
+    max = Math.max(max, curr)
     return max
 };
 ```
@@ -630,21 +635,20 @@ var findLengthOfLCIS = function(nums) {
  * @return {number[]}
  */
 var plusOne = function(digits) {
-    const result = []
     let carry = 1
     
-    for (let i = digits.length - 1; i >= 0; i--) {
+    for (let i = digits.length - 1; i >= 0 && carry; i--) {
         const sum = digits[i] + carry
-        result.push(sum % 10)
-        carry = Math.floor(sum / 10)
+        
+        digits[i] = sum % 10
+        carry = Math.trunc(sum / 10)
     }
     
     if (carry > 0) {
-        result.push(carry)
+        digits.unshift(carry)
     }
     
-    result.reverse()
-    return result
+    return digits
 };
 ```
 
@@ -730,26 +734,6 @@ var pivotIndex = function(nums) {
 
 ## 643. Maximum Average Subarray I
 ```javascript
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number}
- */
-var findMaxAverage = function(nums, k) {
-    let maxAvg = 0
-    let currSum = 0
-    
-    for (let i = 0; i < k; i++) currSum += nums[i]
-    maxAvg = currSum / k
-    
-    for (let i = k; i < nums.length; i++) {
-        currSum -= nums[i - k]
-        currSum += nums[i]
-        maxAvg = Math.max(currSum / k, maxAvg)
-    }
-    return maxAvg
-};
-
 /**
  * @param {number[]} nums
  * @param {number} k
@@ -891,41 +875,6 @@ var relativeSortArray = function(arr1, arr2) {
 
 ## 1002. Find Common Characters
 ```javascript
-/**
- * @param {string[]} A
- * @return {string[]}
- */
-const charCounts = word => {
-    return word.split('').reduce((result, char) => {
-        result[char] = 1 + (result[char] || 0)
-        return result
-    }, {})
-}
-
-const merge = (map1, map2) => {
-    let result = {}
-    
-    for (let [key, value] of Object.entries(map1)) {
-        if (map1[key] && map2[key]) {
-            result[key] = Math.min(map1[key], map2[key])
-        }
-    }
-    return result
-}
-
-var commonChars = function(A) {
-    if (!A.length) return []
-    
-    let counts = charCounts(A[0])
-    for (let i = 1; i < A.length; i++) {
-        counts = merge(charCounts(A[i]), counts)
-    }
-    
-    return Object.entries(counts).reduce((result, [key, value]) => {
-        return result.concat(Array(value).fill(key))
-    }, [])
-};
-
 /**
  * @param {string[]} A
  * @return {string[]}
@@ -1253,21 +1202,34 @@ var mergeTwoLists = function(l1, l2) {
 
 ## 83. Remove Duplicates from Sorted List
 ```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 var deleteDuplicates = function(head) {
-    if (!head || !head.next) return head
+    const dummy = new ListNode(NaN)
+    let curr = dummy
     
-    let curr = head
-    
-    while (curr) {
-        let runner = curr.next
-        while (runner && runner.val == curr.val)
-            runner = runner.next
+    let runner = head
+    while (runner) {
+        if (runner.val !== curr.val) {
+            curr.next = runner
+            curr = curr.next
+        }
         
-        curr.next = runner
-        curr = curr.next
+        runner = runner.next
     }
-           
-    return head
+    
+    curr.next = runner
+    
+    return dummy.next
 };
 ```
 
@@ -1316,41 +1278,46 @@ var hasCycle = function(head) {
  * @return {boolean}
  */
 var isPalindrome = function(head) {
-    if (!head || !head.next) return true
+    if (!head || !head.next) {
+        return true
+    }
     
-    const list1 = firstHalf(head)
-    const list2 = reverse(list1.next)
-
-    return equal(head, list2)
+    const oneBeforeMiddleNode = getOneBeforeMiddle(head)
+    
+    const secondHalfHead = oneBeforeMiddleNode.next
+    const reservedSecondHalfHead = reverse(secondHalfHead)
+    
+    return isEqual(head, reservedSecondHalfHead)
 };
 
-const equal = (list1, list2) => {
-    while (list1 && list2) {
-        if (list1.val !== list2.val)
+const isEqual = (head1, head2) => {
+    while (head1 && head2) {
+        if (head1.val != head2.val) {    
             return false
+        }
         
-        list1 = list1.next
-        list2 = list2.next
+        head1 = head1.next
+        head2 = head2.next
     }
     
     return true
 }
 
 const reverse = head => {
+    let prev = null    
     let curr = head
-    let prev = null
-    let next = null
     
     while (curr) {
-        next = curr.next
+        const next = curr.next
         curr.next = prev
         prev = curr
         curr = next
     }
+    
     return prev
 }
 
-const firstHalf = head => {   
+const getOneBeforeMiddle = head => {
     let fast = head
     let slow = head
     
@@ -1358,6 +1325,7 @@ const firstHalf = head => {
         fast = fast.next.next
         slow = slow.next
     }
+    
     return slow
 }
 
@@ -1394,21 +1362,33 @@ var isPalindrome = function(head) {
 
 ## 203. Remove Linked List Elements
 ```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */
 var removeElements = function(head, val) {
-    if (!head) return head
-    
     const dummy = new ListNode(NaN)
-    dummy.next = head
     let curr = dummy
+    let runner = head
     
-    while (curr.next) {
-        if (curr.next.val === val) {
-            curr.next = curr.next.next
-            continue
+    while (runner) {
+        if (runner.val !== val) {
+            curr.next = runner
+            curr = curr.next
         }
-        curr = curr.next
+        
+        runner = runner.next
     }
     
+    curr.next = runner
     return dummy.next
 };
 ```
@@ -1728,6 +1708,44 @@ class RingBuffer {
         return this.readIndex < this.writeIndex
     }
 }
+
+/**
+ * @param {number} size
+ */
+var MovingAverage = function(size) {
+    this.sum = 0
+    this.size = size
+    
+    this.ringBuffer = new Array(this.size)
+    
+    this.headIndex = 0
+    this.tailIndex = 0
+};
+
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+MovingAverage.prototype.next = function(val) {
+    const length = this.tailIndex - this.headIndex
+    if (length === this.size) {
+        const oldVal = this.ringBuffer[this.headIndex % this.size]
+        this.headIndex++
+        this.sum -= oldVal
+    }
+    
+    this.sum += val
+    this.ringBuffer[this.tailIndex % this.size] = val
+    this.tailIndex++
+    
+    return this.sum / (this.tailIndex - this.headIndex)
+};
+
+/** 
+ * Your MovingAverage object will be instantiated and called as such:
+ * var obj = new MovingAverage(size)
+ * var param_1 = obj.next(val)
+ */
 ```
 
 ## 1021. Remove Outermost Parentheses
@@ -2323,13 +2341,13 @@ const isEqual = (arr1, arr2) => {
  * @return {boolean}
  */
 var canAttendMeetings = function(intervals) {
-    intervals.sort((a, b) => a[0] - b[0])
+    intervals.sort((a, b) => a[1] - b[1])
     
-    for (let i = 1; i < intervals.length; i++) {
-        const [prevStart, prevEnd] = intervals[i - 1]
+    for (let i = 0; i < intervals.length - 1; i++) {
         const [currStart, currEnd] = intervals[i]
+        const [nextStart, nextEnd] = intervals[i + 1]
         
-        if (currStart < prevEnd) {
+        if (nextStart < currEnd) {
             return false
         }
     }
@@ -3360,6 +3378,27 @@ var defangIPaddr = function(address) {
         return char === '.' ? '[.]' : char
     }).join('')
 };
+
+// Declarative
+/**
+ * @param {string} address
+ * @return {string}
+ */
+var defangIPaddr = function(address) {
+    const splitAddress = address.split('')
+    const defangedAddress = []
+    
+    for (const char of splitAddress) {
+        if (char === '.') {
+            defangedAddress.push('[.]')
+            continue
+        }
+        
+        defangedAddress.push(char)
+    }
+    
+    return defangedAddress.join('')
+};
 ```
 
 ## 804. Unique Morse Code Words
@@ -3674,49 +3713,23 @@ const reverse = arr => {
 
 ## 905. Sort Array By Parity
 ```javascript
-// Linear Time and Space
-const isEven = num => (num & 1) === 0
-
-var sortArrayByParity = function(A) {
-    const evens = []
-    const odds = []
-    for (let a of A) isEven(a) ? evens.push(a) : odds.push(a)
-    return evens.concat(odds)
-};
-
-// Two Pointers
 /**
- * @param {number[]} A
+ * @param {number[]} nums
  * @return {number[]}
  */
-var sortArrayByParity = function(A) {
+var sortArrayByParity = function(nums) {
     let i = 0
-    let j = A.length - 1
-    
-    while (i < j) {
-        while (i < j && isEven(A[i])) {
+    for (let j = 0; j < nums.length; j++) {
+        if (nums[j] % 2 == 0) {
+            const temp = nums[i]
+            nums[i] = nums[j]
+            nums[j] = temp
             i++
         }
-        
-        while (j > i && !isEven(A[j])) {
-            j--
-        }
-        
-        swap(A, i, j)
-        i++
-        j--
     }
     
-    return A
+    return nums
 };
-
-const isEven = num => num % 2 === 0
-
-const swap = (A, i, j) => {
-    const temp = A[i]
-    A[i] = A[j]
-    A[j] = temp
-}
 ```
 
 ## 561. Array Partition I
@@ -3744,59 +3757,40 @@ var arrayPairSum = function(nums) {
 
 ## 1160. Find Words That Can Be Formed by Characters
 ```javascript
-const counts = str => {
-    return str.split('').reduce((result, char) => {
-        result[char] = 1 + (result[char] || 0)
-        return result
-    }, {})
-}
-
-var countCharacters = function(words, chars) {
-    const charsCounts = counts(chars)
-    
-    let sum = 0
-    for (let word of words) {
-        let wordCount = counts(word)
-        let valid = true
-        for (let [char, count] of Object.entries(wordCount)) {
-            if (!charsCounts[char] || charsCounts[char] < count) {
-                valid = !valid
-                break
-            }   
-        }
-        if (valid) sum += word.length
-    }
-    
-    return sum
-};
-
 /**
  * @param {string[]} words
  * @param {string} chars
  * @return {number}
  */
 var countCharacters = function(words, chars) {
-    const map = {}
+    const charCount = new Array(26).fill(0)
     for (const char of chars) {
-        map[char] = 1 + (map[char] || 0)
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        charCount[index]++
     }
     
-    let sum = 0
-    
-    outer : for (const word of words) {
-        const wordMap = {}
-        for (const char of word) {
-            wordMap[char] = 1 + (wordMap[char] || 0)
-            
-            if (!map[char] || wordMap[char] > map[char]) 
-                continue outer
+    let count = 0
+    for (const word of words) {
+        if (isGoodWord(word, charCount.slice())) {
+            count += word.length
         }
-        
-        sum += word.length
     }
     
-    return sum
+    return count
 };
+
+const isGoodWord = (word, charCount) => {
+    for (const char of word) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        charCount[index]--
+        
+        if (charCount[index] < 0) {
+            return false
+        }
+    }
+    
+    return true
+}
 ```
 
 ## 1133. Largest Unique Number
@@ -4422,26 +4416,34 @@ var spiralOrder = function(matrix) {
 
 ## 67. Add Binary
 ```javascript
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
 var addBinary = function(a, b) {
     let i = a.length - 1
     let j = b.length - 1
+    
     const result = []
+    
     let carry = 0
     
-    while (i >= 0 || j >= 0) {
-        let iBin = a[i] ? +a[i] : 0
-        let jBin = b[j] ? +b[j] : 0
+    while (carry || i >= 0 || j >= 0) {
+        const numA = i >= 0 ? +a[i] : 0
+        const numB = j >= 0 ? +b[j] : 0
         
-        let sum = iBin + jBin + carry
-        carry = Math.floor(sum / 2)
-        result.push(sum % 2)
+        const sum = numA + numB + carry
+        
+        result.push(`${sum % 2}`)
+        carry = Math.trunc(sum / 2)
         
         i--
         j--
     }
     
-    if (carry > 0) result.push(carry)
-    return result.reverse().join('')
+    result.reverse()
+    return result.join('')
 };
 ```
 
@@ -4452,28 +4454,29 @@ var addBinary = function(a, b) {
  * @return {string}
  */
 var longestCommonPrefix = function(strs) {
-    if (!strs.length) return ''
+    if (strs.length <= 0) {
+        return ''
+    }
     
-    const commonPrefix = []
+    let longest = []
     
-    let index = 0
-    outer : while (true) {
-        const char = strs[0][index]
-        if (char === undefined) {
-            break outer
-        }
+    for (let charIndex = 0; charIndex < strs[0].length; charIndex++) {
+        const char = strs[0][charIndex]
         
-        for (let j = 1; j < strs.length; j++) {
-            if (strs[j][index] === undefined || strs[j][index] !== char) { 
-                break outer
+        for (let wordIndex = 1; wordIndex < strs.length; wordIndex++) {
+            if (charIndex >= strs[wordIndex].length) {
+                return longest.join('')
+            }
+            
+            if (strs[wordIndex][charIndex] !== char) {
+                return longest.join('')
             }
         }
         
-        commonPrefix.push(char)
-        index++
+        longest.push(char)
     }
     
-    return commonPrefix.join('')
+    return longest.join('')
 };
 ```
 
@@ -14495,24 +14498,6 @@ var lengthOfLongestSubstringKDistinct = function(s, k) {
 
 ## 1213. Intersection of Three Sorted Arrays
 ```javascript
-var arraysIntersection = function(arr1, arr2, arr3) {
-    const counts = {}
-    for (let a of arr1)
-        counts[a] ? counts[a]++ : counts[a] = 1
-    
-    for (let a of arr2)
-        counts[a] ? counts[a]++ : counts[a] = 1
-    
-    for (let a of arr3)
-        counts[a] ? counts[a]++ : counts[a] = 1
-    
-    return Object.entries(counts).reduce((result, entry) => {
-        if (entry[1] === 3) 
-            result.push(entry[0])
-        return result
-    }, [])
-};
-
 // Bucket Sort
 var arraysIntersection = function(arr1, arr2, arr3) {
     const buckets = Array(2001).fill(0)
@@ -14601,40 +14586,31 @@ var findRestaurant = function(list1, list2) {
 
 ## 266. Palindrome Permutation
 ```javascript
-var canPermutePalindrome = function(s) {
-    const counts = {}
-    let oddCount = 0
-    
-    for (let l of s) {
-        counts[l] ? counts[l]++ : counts[l] = 1
-        
-        if (counts[l] & 1) {
-            oddCount++
-        } else {
-            oddCount--
-        }
-    }
-
-    return oddCount <= 1
-};
-
 /**
  * @param {string} s
  * @return {boolean}
  */
 var canPermutePalindrome = function(s) {
-    const charCounts = {}
+    let counts = 0
+    
+    for (const char of s) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        counts ^= 1 << index
+    }
     
     let odds = 0
-    for (const char of s) {
-        charCounts[char] = 1 + (charCounts[char] || 0)
-        isEven(charCounts[char]) ? odds-- : odds++         
+    while (counts) {
+        odds++
+        
+        if (odds > 1) {
+            return false
+        }
+        
+        counts &= (counts - 1)
     }
     
     return odds <= 1
 };
-
-const isEven = num => num % 2 === 0
 ```
 
 ## 285. Inorder Successor in BST
@@ -15361,42 +15337,57 @@ const dfs = (map, num) => {
  * @return {number}
  */
 var longestConsecutive = function(nums) {
-    if (!nums.length) return 0
+    const unionFind = new UnionFind()
     
-    const unionFind = new UnionFind(nums)
-    
+    let max = 0
     for (const num of nums) {
+        unionFind.add(num)
+        
         unionFind.union(num, num + 1)
+        unionFind.union(num, num - 1)
+        
+        max = Math.max(max, unionFind.sizeOfComponent(num))
     }
     
-    return unionFind.maxComponentSize
+    return max
 };
 
 class UnionFind {
-    constructor(nums) {
-        this.map = {}
-        let i = 0
-        for (const num of nums) {
-            if (this.map[num] === undefined) {
-                this.map[num] = i
-                i++
-            }
-        }
-        
-        this.sizes = Array(nums.length).fill(1)
-        this.parent = Array(nums.length).fill()
-        for (let i = 0; i < nums.length; i++) {
-            this.parent[i] = i
-        }
-        
-        this.numOfComponents = nums.length
-        this.maxComponentSize = 1
+    constructor() {
+        this.parent = {}
+        this.size = {}
     }
     
-    find(vertex) {
-        let p = this.map[vertex]
-        if (p === undefined)
-            return null
+    add(num) {
+        if (this.parent[num] !== undefined) {
+            return
+        }
+        
+        this.parent[num] = num
+        this.size[num] = 1
+    }
+    
+    union(p, q) {
+        const parentP = this.find(p)
+        const parentQ = this.find(q)
+        
+        if (parentP === undefined || parentQ === undefined || parentP === parentQ) {
+            return
+        }
+        
+        if (this.size[parentP] < this.size[parentQ]) {
+            this.parent[parentP] = parentQ
+            this.size[parentQ] += this.size[parentP]
+        } else {
+            this.parent[parentQ] = parentP
+            this.size[parentP] += this.size[parentQ]
+        }
+    }
+    
+    find(p) {
+        if (this.parent[p] === undefined) {
+            return undefined
+        }
         
         let root = p
         while (root !== this.parent[root]) {
@@ -15412,29 +15403,9 @@ class UnionFind {
         return root
     }
     
-    union(vertex1, vertex2) {
-        if (this.map[vertex1] === undefined || this.map[vertex2] === undefined) {
-            return
-        }
-        
-        const parentP = this.find(vertex1)
-        const parentQ = this.find(vertex2)
-        
-        if (parentP === parentQ) {
-            return
-        }
-        
-        if (this.sizes[parentP] < this.sizes[parentQ]) {
-            this.sizes[parentQ] += this.sizes[parentP]
-            this.parent[parentP] = parentQ
-            this.maxComponentSize = Math.max(this.maxComponentSize, this.sizes[parentQ])
-        } else {
-            this.sizes[parentP] += this.sizes[parentQ]
-            this.parent[parentQ] = parentP
-            this.maxComponentSize = Math.max(this.maxComponentSize, this.sizes[parentP])
-        }
-        
-        this.numOfComponents--
+    sizeOfComponent(p) {
+        const parentP = this.find(p)
+        return this.size[parentP]
     }
 }
 ```
@@ -15554,20 +15525,17 @@ var minCost = function(costs) {
  * @param {NestedInteger[]} nestedList
  * @return {number}
  */
-var depthSum = function(nestedList) {
-    const _depthSum = (nestedList, depth) => {
-        for (let i = 0; i < nestedList.length; i++) {
-            const element = nestedList[i]
-            if (element.isInteger()) {
-                sum += element.getInteger() * depth
-            } else {
-                _depthSum(element.getList(), depth + 1)
-            }
+var depthSum = function(nestedList, depth = 1) {
+    let sum = 0
+    
+    for (const element of nestedList) {
+        if (element.isInteger()) {
+            sum += depth * element.getInteger()
+        } else {
+            sum += depthSum(element.getList(), depth + 1)
         }
     }
-
-    let sum = 0
-    _depthSum(nestedList, 1)
+    
     return sum
 };
 
@@ -19211,74 +19179,107 @@ var areSentencesSimilar = function(words1, words2, pairs) {
 
 ## 1202. Smallest String With Swaps
 ```javascript
+/**
+ * @param {string} s
+ * @param {number[][]} pairs
+ * @return {string}
+ */
 var smallestStringWithSwaps = function(s, pairs) {
-    const set = new DisjointSet(s.length)
-    for (const [index1, index2] of pairs) {
-        set.union(index1, index2)
+    // Union Find
+    const unionFind = new UnionFind(s.length)
+    for (const [a, b] of pairs) {
+        unionFind.union(a, b)
     }
     
-    const map = {}
+    // Map of UnionFind index parents to group letters
+    const map = new Array(s.length).fill().map(a => [])
     for (let i = 0; i < s.length; i++) {
-        const componentId = set.find(i)
-        if (map[componentId]) {
-            map[componentId].push(s[i])
-        } else {
-            map[componentId] = [s[i]]
+        const parent = unionFind.find(i)
+        
+        if (map[parent] === undefined) {
+            map[parent] = []
         }
+        
+        map[parent].push(s[i])
     }
     
-    for (const val of Object.values(map)) {
-        val.sort().reverse()
+    // Counting Sort
+    for (const [key, val] of Object.entries(map)) {
+        map[key] = countingSort(val)
     }
     
-    const result = []
-    for (let i = 0; i < s.length; i++) {
-        result.push(map[set.find(i)].pop())
+    // Place in array backwards because pop takes last letter first
+    const result = new Array(s.length)
+    for (let i = s.length - 1; i >= 0; i--) {
+        result[i] = map[unionFind.find(i)].pop()
     }
     
     return result.join('')
 };
 
-class DisjointSet {
-    constructor(N) {
-        this.numOfComponents = N
-        this.componentSize = Array(N).fill(1)
-        this.parent = []
-        
-        for (let i = 0; i < N; i++)
-            this.parent[i] = i
+const countingSort = arr => {
+    const buckets = new Array(26).fill(0)
+    
+    for (const char of arr) {
+        const index = indexFromChar(char)
+        buckets[index]++
     }
     
-    find(p) {
-        let root = p
+    const result = []
+    
+    for (let i = 0; i < buckets.length; i++) {
+        while (buckets[i]--) {
+            const char = charFromIndex(i)
+            result.push(char)
+        }
+    }
+    
+    return result
+}
+
+const indexFromChar = char => char.charCodeAt(0) - 'a'.charCodeAt(0)
+const charFromIndex = index => String.fromCharCode(index + 'a'.charCodeAt(0))
+
+class UnionFind {
+    constructor(n) {
+        this.size = new Array(n).fill(1)
+        this.parent = new Array(n)
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i
+        }
+    }
+    
+    find(a) {
+        let root = a
         while (root !== this.parent[root]) {
             root = this.parent[root]
         }
         
-        while (p !== root) {
-            const next = this.parent[p]
-            this.parent[p] = root
-            p = next
+        while (a !== root) {
+            const next = this.parent[a]
+            this.parent[a] = root
+            a = next
         }
         
         return root
     }
     
-    union(p, q) {
-        const rootP = this.find(p)
-        const rootQ = this.find(q)
+    union(a, b) {
+        const parentA = this.find(a)
+        const parentB = this.find(b)
         
-        if (rootP === rootQ) return
-        
-        if (this.componentSize[rootP] < this.componentSize[rootQ]) {
-            this.componentSize[rootQ] += this.componentSize[rootP]
-            this.parent[rootP] = rootQ 
-        } else {
-            this.componentSize[rootP] += this.componentSize[rootQ]
-            this.parent[rootQ] = rootP
+        if (parentA === parentB) {
+            return
         }
         
-        this.numOfComponents--
+        // union by size
+        if (this.size[parentA] < this.size[parentB]) {
+            this.parent[parentA] = this.parent[parentB]
+            this.size[parentB] += this.size[parentA]
+        } else {
+            this.parent[parentB] = this.parent[parentA]
+            this.size[parentA] += this.size[parentB]
+        }
     }
 }
 ```
@@ -25070,19 +25071,23 @@ class Heap {
 ## 921. Minimum Add to Make Parentheses Valid
 ```javascript
 /**
- * @param {string} S
+ * @param {string} s
  * @return {number}
  */
-var minAddToMakeValid = function(S) {
-    let balance = 0
+var minAddToMakeValid = function(s) {
     let min = 0
+    let balance = 0
     
-    for (const s of S) {
-        s === '(' ? balance++ : balance--
-        if (balance < 0) {
+    for (const char of s) {
+        if (char === "(") {
             balance++
-            min++
-        }        
+        } else {
+            if (balance === 0) {
+                min++
+            } else {
+                balance--
+            }            
+        }
     }
     
     return min + balance
@@ -27010,21 +27015,25 @@ const mutatedSum = (arr, val) => {
 
 ## 1351. Count Negative Numbers in a Sorted Matrix
 ```javascript
-// O(mn)
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
 var countNegatives = function(grid) {
     let count = 0
     
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[0].length; j++) {
-            if (grid[i][j] < 0) count++
+    let col = grid[0].length - 1
+    for (let row = 0; row < grid.length; row++) {
+        while (col >= 0 && grid[row][col] < 0) {
+            col--
+            continue
         }
+        
+        count += grid[0].length - 1 - col
     }
     
     return count
 };
-
-// O(mn) Optimized
-
 ```
 
 ## 455. Assign Cookies
@@ -30673,44 +30682,43 @@ var transformArray = function(arr) {
 ```javascript
 // O(m) space
 /**
- * @param {number[][]} M
+ * @param {number[][]} img
  * @return {number[][]}
  */
-var imageSmoother = function(M) {
-    const r = M.length
-    const c = M[0].length
+var imageSmoother = function(img) {
+    const m = img.length
+    const n = img[0].length
+    const result = new Array(m).fill(0).map(a => new Array(n).fill(0))
     
-    const result = Array(r).fill(0).map(a => Array(c).fill([])) 
-    
-    for (let row = 0; row < r; row++) {
-        for (let col = 0; col < c; col++) {
-            result[row][col] = smooth(M, row, col, r, c)
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            const avg = getAvg(row, col, img)
+            result[row][col] = avg
         }
     }
     
     return result
 };
 
-const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [-1, -1], [-1, 1], [1, -1], [1, 1]]
-
-const smooth = (grid, row, col, r, c) => {
-    let sum = grid[row][col]
-    let count = 1
+const getAvg = (row, col, img) => {
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [-1, -1], [1, 1], [-1, 1], [1, -1]]
     
-    for (const [dRow, dCol] of dirs) {
-        const newRow = row + dRow
-        const newCol = col + dCol
+    let sum = img[row][col]
+    let count = 1
+    for (const [deltaRow, deltaCol] of dirs) {
+        const nextRow = row + deltaRow
+        const nextCol = col + deltaCol
         
-        if (newRow < 0 || newRow >= r || newCol < 0 || newCol >= c)
+        if (nextRow < 0 || nextRow >= img.length || nextCol < 0 || nextCol >= img[0].length) {
             continue
+        }
         
-        sum += grid[newRow][newCol]
+        sum += img[nextRow][nextCol]
         count++
     }
     
     return Math.floor(sum / count)
 }
-
 
 // O(1) space
 /**
@@ -31626,29 +31634,40 @@ var largestTimeFromDigits = function(A) {
  * @return {boolean}
  */
 var validWordAbbreviation = function(word, abbr) {
-    let i = 0
-    let j = 0
+    const isDigit = char => {
+        return '0' <= char && char <= '9'
+    }
     
-    while (i < word.length && j < abbr.length) {
-        if (word[i] === abbr[j]) {
-            i++
-            j++
+    let wordIndex = 0
+    let num = 0
+    for (let abbrIndex = 0; abbrIndex < abbr.length; abbrIndex++) {
+        const char = abbr[abbrIndex]
+        if (isDigit(char)) {
+            // check no leading zero
+            if (char === '0' && num === 0) {
+                return false
+            }
+            
+            num *= 10
+            num += +char
             continue
         }
         
-        if (abbr[j] <= '0' || abbr[j] > '9')
-            return false
+        wordIndex += num
+        num = 0
         
-        const start = j
-        while (j < abbr.length && !isNaN(abbr[j])) {
-            j++
+        if (word[wordIndex] === abbr[abbrIndex]) {
+            wordIndex++
+            continue
         }
         
-        const num = +abbr.slice(start, j)
-        i += num
+        return false
     }
-
-    return i === word.length && j === abbr.length
+    
+    wordIndex += num
+    num = 0
+    
+    return wordIndex === word.length
 };
 ```
 
@@ -34109,36 +34128,43 @@ const formatInterval = (start, end) => {
  * @return {string[]}
  */
 var findMissingRanges = function(nums, lower, upper) {
-    if (!nums.length) {
-        return [strForRange(lower, upper)]
+    const getRange = (start, end) => {
+        if (start === end) {
+            return `${start}`
+        }
+        
+        return `${start}->${end}`
     }
     
     const result = []
     
-    if (nums[0] > lower) {
-        result.push(strForRange(lower, nums[0] - 1))
+    if (nums.length <= 0) {
+        result.push(getRange(lower, upper))
+        return result
     }
     
+    // low
+    if (lower < nums[0]) {
+        result.push(getRange(lower, nums[0] - 1))
+    }
+    
+    // middle
     for (let i = 1; i < nums.length; i++) {
-        if (nums[i] - 1 !== nums[i - 1] && nums[i] !== nums[i - 1]) {
-            result.push(strForRange(nums[i - 1] + 1, nums[i] - 1))
+        if (nums[i - 1] + 1 === nums[i]) {
+            continue
         }
+        
+        result.push(getRange(nums[i - 1] + 1, nums[i] - 1))
     }
     
-    if (nums[nums.length - 1] < upper) {
-        result.push(strForRange(nums[nums.length - 1] + 1, upper))
+    
+    // upper
+    if (upper > nums[nums.length - 1]) {
+        result.push(getRange(nums[nums.length - 1] + 1, upper))
     }
     
     return result
 };
-    
-const strForRange = (start, end) => {
-    if (start === end) {
-        return `${start}`
-    } else {
-        return `${start}->${end}`
-    }
-}
 ```
 
 ## 1390. Four Divisors
@@ -39072,17 +39098,16 @@ var numFriendRequests = function(ages) {
  * @return {number}
  */
 var leftMostColumnWithOne = function(binaryMatrix) {
-    const [row, col] = binaryMatrix.dimensions()
+    const [rowLen, colLen] = binaryMatrix.dimensions()
     
-    let currRow = 0
-    let currCol = col - 1
-    let minCol = -1
-    
-    while (currRow < row && currCol >= 0) {
-        binaryMatrix.get(currRow, currCol) === 0 ? currRow++ : currCol--
+    let maxLeftCol = colLen
+    for (let row = 0; row < rowLen && maxLeftCol > 0; row++) {
+        while (maxLeftCol > 0 && binaryMatrix.get(row, maxLeftCol - 1)) {
+            maxLeftCol--
+        }
     }
     
-    return currCol === col - 1 ? -1 : currCol + 1
+    return maxLeftCol === colLen ? -1 : maxLeftCol
 };
 ```
 
@@ -39732,7 +39757,7 @@ var numPairsDivisibleBy60 = function(time) {
  */
 var findKthPositive = function(arr, k) {
     const missingNums = index => {
-        return arr[index] - 1 - index
+        return arr[index] - (index + 1)
     }
     
     if (missingNums(0) >= k) {
@@ -39740,19 +39765,20 @@ var findKthPositive = function(arr, k) {
     }
     
     let left = 0
-    let right = arr.length
+    let right = arr.length - 1
     
     while (left < right) {
-        const mid = Math.floor((right - left) / 2) + left
+        const mid = Math.trunc((right - left + 1) / 2) + left
         
         if (missingNums(mid) < k) {
-            left = mid + 1
+            left = mid
         } else {
-            right = mid
+            right = mid - 1
         }
+        
     }
     
-    return arr[left - 1] + k - missingNums(left - 1)
+    return arr[left] + k - missingNums(left)
 };
 ```
 
@@ -48787,7 +48813,7 @@ var frequencySort = function(nums) {
         freq[num + offset]++
     }
     
-    const buckets = new Array(101)
+    const buckets = new Array(nums.length + 1)
     for (let num = freq.length - 1; num >= 0; num--) {
         const count = freq[num]
         while (freq[num]--) {
@@ -55138,15 +55164,29 @@ var shortestSubarray = function(A, K) {
 
 ## 1570. Dot Product of Two Sparse Vectors
 ```javascript
+/*
+
+It is implemented with an array. However, when two keys are the same as will frequently be the case here, they will hash to the same bucket, which means the hash map will store them in a linked list (or possibly a tree). As you get more and more keys your hash map will devolve into linear, rather than constant time performance. The larger your vector the worse the problem gets. So if you have a billion items in your vector this is really gonna hit you hard.
+
+Your hash map will resize when it gets to 75% (by default) capacity, but then it will rehash everything. And this is likely to happen a lot. So between the resizing and the collisions, the hash map approach isn't going to scale well to a very large vector.
+
+By using the array list you get around this. You don't have to worry about collisions and resizing is a bit cheaper because theres no rehashing when you resize an array list.
+
+-------
+
+I got this question today on my FB interview. I proposed the Hash solution, and he asked the downside to it. I responded with large size of sparse vectors, hash collisions will occur when we hit memory allocation limits, etc. He asked alternative solutions and I proposed array of (index, value) pair. He asked me to code that. Then he added a constraint where one vector is considerably smaller than the other, and asked if we can improve the time complexity from O(m+n). After some scratching around, I told them that we can by doing binary-search of small vector's index over the larger one. This should improve the time-complexity. Was not sure of the exact Big Oh, but it should be better than m * log(n), since the search space should keep reducing from n. Fingers crossed for the results
+*/
 /**
  * @param {number[]} nums
  * @return {SparseVector}
  */
 var SparseVector = function(nums) {
-    this.values = new Map()
+    this.pairs = []
+    
     for (let i = 0; i < nums.length; i++) {
-        if (nums[i] === 0) continue
-        this.values.set(i, nums[i])
+        if (nums[i] !== 0) {
+            this.pairs.push([i, nums[i]])
+        }
     }
 };
 
@@ -55156,16 +55196,46 @@ var SparseVector = function(nums) {
  * @return {number}
  */
 SparseVector.prototype.dotProduct = function(vec) {
-    const vectorShort = this.values.size < vec.values.size ? this.values : vec.values
-    const vectorLong = this.values.size < vec.values.size ? vec.values : this.values
+    const pairsShort = this.pairs.length < vec.pairs.length ? this.pairs : vec.pairs
+    const pairsLong = this.pairs.length < vec.pairs.length ? vec.pairs : this.pairs
     
-    let sum = 0
-    for (const [index, val] of vectorShort.entries()) {
-        sum += val * (vectorLong.get(index) || 0)
+    let product = 0
+    
+    for (const [shortIndex, shortVal] of pairsShort) {
+        const [longIndex, longVal] = this.binarySearch(shortIndex, pairsLong)
+        
+        if (longIndex === -1) {
+            continue
+        }
+        
+        product += longVal * shortVal
     }
     
-    return sum    
+    return product
 };
+
+SparseVector.prototype.binarySearch = function(index, pairs) {
+    let left = 0
+    let right = pairs.length - 1
+    
+    while (left <= right) {
+        const mid = Math.trunc((right - left) / 2) + left
+        
+        const [midIndex, midVal] = pairs[mid]
+        
+        if (midIndex === index) {
+            return pairs[mid]
+        }
+        
+        if (midIndex < index) {
+            left++
+        } else {
+            right--
+        }
+    }
+    
+    return [-1, -1]
+}
 
 // Your SparseVector object will be instantiated and called as such:
 // let v1 = new SparseVector(nums1);
@@ -62516,6 +62586,7 @@ var secondHighest = function(s) {
 
 ## 1832. Check if the Sentence Is Pangram
 ```javascript
+// Set
 /**
  * @param {string} sentence
  * @return {boolean}
@@ -62528,6 +62599,24 @@ var checkIfPangram = function(sentence) {
     }
     
     return set.size === 26
+};
+
+// BitMap
+/**
+ * @param {string} sentence
+ * @return {boolean}
+ */
+var checkIfPangram = function(sentence) {
+    let found = 0
+    let valid = (1 << 26) - 1
+    
+    for (const char of sentence) {
+        const index = char.charCodeAt(0) - 'a'.charCodeAt(0)
+        
+        found |= 1 << index
+    }
+    
+    return found === valid
 };
 ```
 
@@ -62577,31 +62666,33 @@ var maxAscendingSum = function(nums) {
 
 ## 1854. Maximum Population Year
 ```javascript
+// Line Sweep
 /**
  * @param {number[][]} logs
  * @return {number}
  */
 var maximumPopulation = function(logs) {
-    const years = new Array(100).fill(0)
+    const populationDelta = new Array(101).fill(0)
     
-    for (const [start, end] of logs) {
-        for (let year = start; year < end; year++) {
-            years[year - 1950]++
-        }
+    for (const [birth, death] of logs) {
+        populationDelta[birth - 1950]++
+        populationDelta[death - 1950]--
     }
     
     let maxYear = 0
-    let maxCount = 0
+    let maxPopulation = 0
+    let currPopulation = 0
     
-    for (let year = 0; year < years.length; year++) {
-        if (maxCount < years[year]) {
-            maxCount = years[year]
-            maxYear = year + 1950
+    for (let year = 1950; year <= 2050; year++) {
+        currPopulation += populationDelta[year - 1950]
+        
+        if (maxPopulation < currPopulation) {
+            maxYear = year
+            maxPopulation = currPopulation
         }
     }
     
     return maxYear
-    
 };
 ```
 
@@ -63084,5 +63175,158 @@ var largestOddNumber = function(num) {
 var maxProductDifference = function(nums) {
     nums.sort((a, b) => a - b)
     return (nums[nums.length - 1] * nums[nums.length - 2]) - (nums[0] * nums[1])  
+};
+```
+
+## 2089. Find Target Indices After Sorting Array
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var targetIndices = function(nums, target) {
+    let lessThan = 0
+    let count = 0
+    
+    for (const num of nums) {
+        lessThan += num < target
+        count += num === target
+    }
+    
+    const result = []
+    for (let i = 0; i < count; i++) {
+        result.push(lessThan + i)
+    }
+    
+    return result
+};
+```
+
+### 235. Lowest Common Ancestor of a Binary Search Tree
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function(root, p, q) {
+    if (!root || root === p || root === q) {
+        return root
+    }
+
+    if (root.val < p.val && root.val < q.val) {
+       return lowestCommonAncestor(root.right, p, q) 
+    }
+
+    if (p.val < root.val && q.val < root.val) {
+        return lowestCommonAncestor(root.left, p, q)
+    }
+
+    return root
+};
+```
+
+## 1382. Balance a Binary Search Tree
+```javascript
+/*
+This is more efficient than inserting nodes into an AVL tree because each insertion into AVL tree is log n. So AVL runtime would be O(n * log n). Where as the soultion below is O(n)
+/*
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var balanceBST = function(root) {
+    const inorderArr = getInorderArr(root)
+    return getBSTFromInorderArr(inorderArr)
+};
+
+const getInorderArr = (node) => {
+    const _getInorderArr = node => {
+        if (!node) return
+        
+        _getInorderArr(node.left)
+        result.push(node.val)
+        _getInorderArr(node.right)
+    }
+    
+    const result = []
+    _getInorderArr(node)
+    return result
+}
+
+const getBSTFromInorderArr = (arr) => {
+    const _getBSTFromInorderArr = (left, right) => {
+        if (left > right) {
+            return null
+        }
+        
+        if (left === right) {
+            return new TreeNode(arr[left])
+        }
+        
+        const mid = Math.trunc((right - left) / 2) + left
+        const node = new TreeNode(arr[mid])
+        
+        node.left = _getBSTFromInorderArr(left, mid - 1)
+        node.right = _getBSTFromInorderArr(mid + 1, right)
+        
+        return node
+    }
+    
+    return _getBSTFromInorderArr(0, arr.length - 1)
+}
+```
+
+## 1973. Count Nodes Equal to Sum of Descendants
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var equalToDescendants = function(root) {
+    const _equalToDescendants = (node) => {
+        if (!node) {
+            return 0
+        }
+        
+        const left = _equalToDescendants(node.left)
+        const right = _equalToDescendants(node.right)
+        
+        if (left + right === node.val) {
+            count++
+        }
+        
+        return left + right + node.val
+    }
+    
+    let count = 0
+    _equalToDescendants(root)
+    return count
 };
 ```
