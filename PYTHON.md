@@ -632,6 +632,41 @@ class Solution:
 ```
 
 ## 637. Average of Levels in Binary Tree
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
+        def dfs(root, level):
+            nonlocal averages
+            
+            if not root:
+                return
+            
+            if level not in averages:
+                averages[level] = [0, 0]
+                
+            averages[level] = [averages[level][0] + root.val, averages[level][1] + 1]
+            
+            dfs(root.left, level + 1)
+            dfs(root.right, level + 1)
+            
+        averages = {}
+        dfs(root, 0)
+        
+        result = []
+        for sum, count in averages.values():
+            result.append(sum / count)
+        
+        return result
+```
+
+### BFS
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
