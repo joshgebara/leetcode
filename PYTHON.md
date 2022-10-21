@@ -809,7 +809,7 @@ class Solution:
 ```
 
 ## 226. Invert Binary Tree
-### DFS - Recursive
+### DFS - Recursive Preorder
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -873,32 +873,28 @@ class Solution:
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         def dfs(root):
-            stack = [root]
+            curr = root
+            stack = []
             
-            while stack:
+            while curr or stack:
+                while curr:
+                    temp = curr.left
+                    curr.left = curr.right
+                    curr.right = temp
+                    
+                    stack.append(curr)
+                    curr = curr.left
+                
                 node = stack.pop()
                 
-                temp = node.left
-                node.left = node.right
-                node.right = temp
-                
-                if node.right:
-                    stack.append(node.right)
+                curr = node.right
                     
-                if node.left:
-                    stack.append(node.left)
-            
-        if not root:
-            return
-            
         dfs(root)
         return root
 ```
-
 
 
 ## 344. Reverse String
