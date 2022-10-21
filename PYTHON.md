@@ -976,6 +976,7 @@ class Solution:
 ```
 
 ## 104. Maximum Depth of Binary Tree
+### DFS - Recursive Postorder
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -992,6 +993,43 @@ class Solution:
         right = self.maxDepth(root.right)
         return 1 + max(left, right)
 ```
+
+### BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        def bfs(root):
+            depth = 0
+            queue = deque([root])
+            
+            while queue:
+                size = len(queue)
+                for _ in range(size):
+                    node = queue.popleft()
+                    
+                    if node.left:
+                        queue.append(node.left)
+                    if node.right:
+                        queue.append(node.right)
+                
+                depth += 1
+                
+            return depth
+        
+        if not root:
+            return 0
+        
+        return bfs(root)
+```
+
 
 ## 70. Climbing Stairs
 ### Top Down DP
