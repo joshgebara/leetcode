@@ -632,7 +632,7 @@ class Solution:
 ```
 
 ## 637. Average of Levels in Binary Tree
-### DFS
+### DFS - Recursive
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -664,6 +664,47 @@ class Solution:
             result.append(sum / count)
         
         return result
+```
+
+### DFS - Iterative Preorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
+class Solution:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
+        result = []
+
+        curr = root
+        stack = []
+        depth = 0
+
+        while curr or stack:
+            while curr:
+                if depth >= len(result):
+                    result.append([0, 0])
+
+                result[depth][0] += curr.val
+                result[depth][1] += 1
+
+                stack.append([curr, depth])
+                curr = curr.left
+                depth += 1
+
+            node, d = stack.pop()
+            depth = d
+
+            if node.right:
+                curr = node.right
+                depth += 1
+                
+        return map(lambda x: x[0] / x[1], result)
 ```
 
 ### BFS
