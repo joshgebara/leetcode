@@ -931,6 +931,44 @@ class Solution:
         return root
 ```
 
+### DFS - Iterative Postorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        def dfs(root):
+            curr = root
+            stack = []
+            
+            while curr or stack:
+                while curr:
+                    stack.append(curr)
+                    curr = curr.left
+                    
+                if stack[-1].right:
+                    curr = stack[-1].right
+                    continue
+                
+                node = stack.pop()
+                temp = node.left
+                node.left = node.right
+                node.right = temp
+                
+                while stack and stack[-1].right is node:
+                    node = stack.pop()
+                    temp = node.left
+                    node.left = node.right
+                    node.right = temp
+        
+        dfs(root)
+        return root
+```
+
 
 ## 344. Reverse String
 ```python
