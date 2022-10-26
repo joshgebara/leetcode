@@ -707,6 +707,64 @@ class Solution:
         return map(lambda x: x[0] / x[1], result)
 ```
 
+### DFS - Iterative Postorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
+class Solution:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
+        levelsDict = {}
+
+        curr = root
+        stack = []
+        depth = 0
+        maxDepth = 0
+
+        while curr or stack:
+            while curr:
+                stack.append([curr, depth])
+                curr = curr.left
+                depth += 1
+                maxDepth = max(maxDepth, depth)
+                
+            if stack[-1][0].right:
+                curr = stack[-1][0].right
+                continue
+
+            node, d = stack.pop()
+            depth = d
+            
+            if depth not in levelsDict:
+                levelsDict[depth] = [0, 0]
+            
+            levelsDict[depth][0] += node.val
+            levelsDict[depth][1] += 1
+            
+            while stack and stack[-1][0].right is node:
+                node, d = stack.pop()
+                depth = d
+                
+                if depth not in levelsDict:
+                    levelsDict[depth] = [0, 0]
+                
+                levelsDict[depth][0] += node.val
+                levelsDict[depth][1] += 1
+                
+        result = [0] * maxDepth
+        
+        for i in range(maxDepth):
+            result[i] = levelsDict[i][0] / levelsDict[i][1]
+            
+        return result
+```
+
 ### BFS
 ```python
 # Definition for a binary tree node.
