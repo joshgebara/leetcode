@@ -797,6 +797,72 @@ class Solution:
         return levels
 ```
 
+### DFS - Morris Inorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
+        def morris(root):
+            nonlocal levelsDict
+            nonlocal maxDepth
+            
+            curr = root
+            depth = 0
+            
+            while curr:
+                if not curr.left:
+                    curr.depth = depth
+                    maxDepth = max(maxDepth, depth)
+                    depth += 1
+                    
+                    if curr.depth not in levelsDict:
+                        levelsDict[curr.depth] = [0, 0]
+                    levelsDict[curr.depth][0] += curr.val
+                    levelsDict[curr.depth][1] += 1
+                    
+                    curr = curr.right
+                else:
+                    pred = curr.left
+                    
+                    while pred.right and pred.right is not curr:
+                        pred = pred.right
+                        
+                    if pred.right is curr:
+                        depth = curr.depth
+                        maxDepth = max(maxDepth, depth)
+                        depth += 1
+                        
+                        if curr.depth not in levelsDict:
+                            levelsDict[curr.depth] = [0, 0]
+                        levelsDict[curr.depth][0] += curr.val
+                        levelsDict[curr.depth][1] += 1
+                        
+                        pred.right = None
+                        curr = curr.right
+                    else:
+                        curr.depth = depth
+                        depth += 1
+                        
+                        pred.right = curr
+                        curr = curr.left
+        
+        levelsDict = {}
+        maxDepth = 0
+        
+        morris(root)
+        
+        result = []
+        for level in range(maxDepth + 1):
+            result.append(levelsDict[level][0] / levelsDict[level][1])
+            
+        return result
+```
+
 ## 122. Best Time to Buy and Sell Stock II
 ```python
 class Solution:
