@@ -5046,3 +5046,41 @@ class Solution:
         return dfs(root, root.val)
 ```
 
+### DFS - Iterative Postorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isUnivalTree(self, root: Optional[TreeNode]) -> bool:
+        def dfs(node, target):
+            curr = node
+            stack = []
+            
+            while curr or stack:
+                while curr:
+                    stack.append(curr)
+                    curr = curr.left
+                    
+                if stack[-1].right:
+                    curr = stack[-1].right
+                    continue
+                    
+                node = stack.pop()
+                if node.val != target:
+                    return False
+                
+                while stack and stack[-1].right is node:
+                    node = stack.pop()
+                    if node.val != target:
+                        return False
+                
+            return True
+        
+        return dfs(root, root.val)
+```
+
+
