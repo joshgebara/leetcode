@@ -4871,5 +4871,26 @@ class Solution:
 
 ### DFS - Recursive Postorder
 ```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
 
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        def dfs(root):
+            if not root:
+                return 0
+            
+            maxDepth = 0
+            for child in root.children:
+                depth = dfs(child)
+                maxDepth = max(maxDepth, depth)
+                
+            return 1 + maxDepth
+        
+        return dfs(root)
 ```
