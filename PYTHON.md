@@ -4928,3 +4928,32 @@ class Solution:
 
         return depth
 ```
+
+### DFS - Iterative Reverse Preorder
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        if not root:
+            return 0
+        
+        stack = [[root, 1]]
+        maxDepth = 0
+
+        while stack:
+            node, depth = stack.pop()
+
+            maxDepth = max(maxDepth, depth)
+
+            for child in node.children:
+                stack.append([child, depth + 1])
+
+        return maxDepth
+```
