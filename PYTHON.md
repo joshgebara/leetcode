@@ -4839,3 +4839,37 @@ class Solution:
         morris(original, cloned, processNodes)
         return found
 ```
+
+## 559. Maximum Depth of N-ary Tree
+### DFS - Recursive Preorder
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        def dfs(root, depth = 1):
+            nonlocal result
+            
+            if not root:
+                return
+            
+            result = max(result, depth)
+            
+            for child in root.children:
+                dfs(child, depth + 1)
+        
+        result = 0
+        dfs(root)
+        return result
+```
+
+### DFS - Recursive Postorder
+```python
+
+```
