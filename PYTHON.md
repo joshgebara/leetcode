@@ -4959,7 +4959,7 @@ class Solution:
 ```
 
 ## 965. Univalued Binary Tree
-### DFS - Recursive Postorder
+### DFS - Recursive
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -4973,10 +4973,13 @@ class Solution:
             if not node:
                 return True
             
+            if node.val != target:
+                return False
+            
             left = dfs(node.left, target)
             right = dfs(node.right, target)
             
-            return node.val == target and left and right
+            return left and right
                 
         return dfs(root, root.val)
 ```
