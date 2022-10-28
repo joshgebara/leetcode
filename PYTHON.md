@@ -5083,4 +5083,41 @@ class Solution:
         return dfs(root, root.val)
 ```
 
-
+### Morris Traversal
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isUnivalTree(self, root: Optional[TreeNode]) -> bool:
+        def morris(node, target):
+            curr = node
+            
+            while curr:
+                if not curr.left:
+                    if curr.val != target:
+                        return False
+                    
+                    curr = curr.right
+                else:
+                    pred = curr.left
+                    while pred and pred.right and pred.right is not curr:
+                        pred = pred.right
+                        
+                    if pred.right:
+                        pred.right = None
+                        curr = curr.right
+                    else:
+                        if curr.val != target:
+                            return False
+                        
+                        pred.right = curr
+                        curr = curr.left
+                        
+            return True
+        
+        return morris(root, root.val)
+```
