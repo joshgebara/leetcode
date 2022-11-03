@@ -1312,6 +1312,51 @@ class Solution:
         return dfs(root)
 ```
 
+### DFS - Iterative Postorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        def dfs(root):
+            curr = root
+            stack = []
+            
+            maxDep = 0
+            currDep = 0
+            
+            while curr or stack:
+                while curr:
+                    stack.append([curr, currDep])
+                    currDep += 1
+                    maxDep = max(maxDep, currDep)
+                    curr = curr.left
+                    
+                if stack[-1][0].right:
+                    curr = stack[-1][0].right
+                    continue
+                
+                node, dep = stack.pop()
+                currDep = dep
+                
+                while stack and stack[-1][0].right is node:
+                    node, dep = stack.pop()
+                    currDep = dep
+                    
+            return maxDep
+        
+        if not root:
+            return 0
+        
+        return dfs(root)
+```
 
 ## 70. Climbing Stairs
 ### Top Down DP
