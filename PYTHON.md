@@ -5211,3 +5211,35 @@ class Solution:
         return morris(root, root.val)
 ```
 
+## 783. Minimum Distance Between BST Nodes
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+import math
+
+class Solution:
+    def minDiffInBST(self, root: Optional[TreeNode]) -> int:
+        def inorder(root):
+            nonlocal prev
+            nonlocal diff
+            
+            if not root:
+                return
+            
+            inorder(root.left)
+            
+            diff = min(abs(prev - root.val), diff)
+            prev = root.val
+            
+            inorder(root.right)
+            
+        prev = math.inf
+        diff = math.inf
+        inorder(root)
+        return diff
+```
