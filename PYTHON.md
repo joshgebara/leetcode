@@ -1268,6 +1268,50 @@ class Solution:
         return bfs(root)
 ```
 
+### DFS - Iterative Preorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        def dfs(root):
+            curr = root
+            stack = []
+            
+            maxDep = 0
+            currDep = 0
+            
+            while curr or stack:
+                while curr:
+                    stack.append([curr, currDep])
+                    currDep += 1
+                    maxDep = max(maxDep, currDep)
+                    
+                    curr = curr.left
+                    
+                node, dep = stack.pop()                
+                currDep = dep
+                
+                if node.right:
+                    curr = node.right
+                    currDep += 1
+                    maxDep = max(maxDep, currDep)
+                    
+            return maxDep
+        
+        if not root:
+            return 0
+        
+        return dfs(root)
+```
+
 
 ## 70. Climbing Stairs
 ### Top Down DP
@@ -5121,3 +5165,4 @@ class Solution:
         
         return morris(root, root.val)
 ```
+
