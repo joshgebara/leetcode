@@ -682,6 +682,51 @@ class Solution:
         return minDep
 ```
 
+### DFS - Iterative Postorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        
+        curr = root
+        stack = []
+        
+        minDep = math.inf
+        currDep = 1
+        
+        while curr or stack:
+            while curr:
+                stack.append([curr, currDep])
+                currDep += 1
+                curr = curr.left
+            
+            if stack[-1][0].right:
+                curr = stack[-1][0].right
+                continue
+            
+            node, depth = stack.pop()
+            currDep = depth
+            
+            if not node.left and not node.right:
+                minDep = min(minDep, currDep)
+            
+            while stack and stack[-1][0].right is node:
+                node, depth = stack.pop()
+                currDep = depth
+                
+                if not node.left and not node.right:
+                    minDep = min(minDep, currDep)
+                    
+        return minDep
+```
+
 ## 1213. Intersection of Three Sorted Arrays
 ```python
 class Solution:
