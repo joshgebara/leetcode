@@ -5880,3 +5880,35 @@ class Solution:
         
         return dfs(root, root.val)
 ```
+
+## 2196. Create Binary Tree From Descriptions
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
+        treeDict = {}
+        hasParent = set()
+        
+        for parent, child, isLeft in descriptions:
+            if parent not in treeDict:
+                treeDict[parent] = TreeNode(parent)
+                
+            if child not in treeDict:
+                treeDict[child] = TreeNode(child)
+            
+            hasParent.add(child)
+            
+            if isLeft:
+                treeDict[parent].left = treeDict[child]
+            else:
+                treeDict[parent].right = treeDict[child]
+                
+        for key in treeDict.keys():
+            if key not in hasParent:
+                return treeDict[key]
+```
