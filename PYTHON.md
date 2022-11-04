@@ -5457,3 +5457,59 @@ class Solution:
         
         return bidirectionalBFS(source, destination)
 ```
+
+### Union Find
+```python
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        if source == destination:
+            return True
+        
+        unionFind = UnionFind(n)
+        
+        for u, v in edges:
+            unionFind.union(u, v)
+            
+            if unionFind.areConnected(source, destination):
+                return True
+            
+        return False
+    
+class UnionFind:
+    def __init__(self, n):
+        self.parent = []
+        self.size = []
+        
+        for i in range(n):
+            self.parent.append(i)
+            self.size.append(1)
+        
+    def union(self, u, v):
+        parentU = self.find(u)
+        parentV = self.find(v)
+        
+        if parentU == parentV:
+            return
+        
+        if self.size[parentU] < self.size[parentV]:
+            self.size[parentV] += self.size[parentU]
+            self.parent[parentU] = parentV
+        else:
+            self.size[parentU] += self.size[parentV]
+            self.parent[parentV] = parentU
+    
+    def find(self, u):
+        root = u
+        while root != self.parent[root]:
+            root = self.parent[root]
+        
+        while u != root:
+            next = self.parent[u]
+            self.parent[u] = root
+            u = next
+            
+        return root
+    
+    def areConnected(self, u, v):
+        return self.find(u) == self.find(v)
+```
