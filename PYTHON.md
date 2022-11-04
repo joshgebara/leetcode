@@ -1391,6 +1391,12 @@ class Solution:
 ```
 
 ## 993. Cousins in Binary Tree
+### DFS
+```python
+
+```
+
+### BFS
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -1398,29 +1404,32 @@ class Solution:
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
+
 class Solution:
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
-        queue = deque([(root, None)])
+        queue = deque([[root, None]])
         
         while queue:
             size = len(queue)
-            xParent = None
-            yParent = None
             
-            for i in range(size):
+            parentX = None
+            parentY = None
+            
+            for _ in range(size):
                 node, parent = queue.popleft()
                 
                 if node.val == x:
-                    xParent = parent  
-                if node.val == y:
-                    yParent = parent
+                    parentX = parent
+                elif node.val == y:
+                    parentY = parent
                 
                 if node.left:
-                    queue.append((node.left, node))
+                    queue.append([node.left, node])
                 if node.right:
-                    queue.append((node.right, node))
+                    queue.append([node.right, node])
             
-            if xParent and yParent and xParent != yParent:
+            if parentX and parentY and parentX is not parentY:
                 return True
             
         return False
