@@ -5807,3 +5807,49 @@ class FindElements:
 # obj = FindElements(root)
 # param_1 = obj.find(target)
 ```
+
+## 2415. Reverse Odd Levels of Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def reverseOddLevels(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        queue = deque([root])
+        level = 0
+        
+        while queue:
+            size = len(queue)
+            
+            nodes = []
+            for _ in range(size):
+                node = queue.popleft()
+                
+                nodes.append(node)
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            if level & 1:
+                left = 0
+                right = len(nodes) - 1
+                
+                while left < right:
+                    temp = nodes[left].val
+                    nodes[left].val = nodes[right].val
+                    nodes[right].val = temp
+                    
+                    left += 1
+                    right -= 1
+                    
+            level += 1
+            
+        return root
+```
