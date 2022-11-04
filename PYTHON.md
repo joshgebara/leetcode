@@ -727,6 +727,8 @@ class Solution:
         return minDep
 ```
 
+
+
 ## 1213. Intersection of Three Sorted Arrays
 ```python
 class Solution:
@@ -5705,4 +5707,40 @@ class UnionFind:
     
     def areConnected(self, u, v):
         return self.find(u) == self.find(v)
+```
+
+## 1302. Deepest Leaves Sum
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        
+        sum = 0
+        
+        queue = deque([root])
+        while queue:
+            size = len(queue)
+            levelSum = 0
+            for _ in range(size):
+                node = queue.popleft()
+                
+                levelSum += node.val
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            sum = levelSum
+            
+        return sum
 ```
