@@ -541,6 +541,7 @@ class Solution:
 ```
 
 ## 111. Minimum Depth of Binary Tree
+### DFS - Recursive
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -548,21 +549,59 @@ class Solution:
 #         self.val = val
 #         self.left = left
 #         self.right = right
+import math
+
 class Solution:
-    def minDepth(self, root: TreeNode) -> int:
-        if root is None:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        def dfs(root):
+            if not root:
+                return math.inf
+            
+            if not root.left and not root.right:
+                return 1
+            
+            return 1 + min(dfs(root.left), dfs(root.right))
+        
+        if not root:
             return 0
         
-        left = self.minDepth(root.left)    
-        right = self.minDepth(root.right)
+        return dfs(root)
+```
+
+### BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
         
-        if left == 0:
-            return 1 + right
+        depth = 1
         
-        if right == 0:
-            return 1 + left
-        
-        return 1 + min(left, right)
+        queue = deque([root])
+        while queue:
+            size = len(queue)
+            for _ in range(size):
+                node = queue.popleft()
+                
+                if not node.left and not node.right:
+                    return depth
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+                    
+            depth += 1
+            
+        return depth
 ```
 
 ## 1213. Intersection of Three Sorted Arrays
