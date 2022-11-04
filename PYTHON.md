@@ -5361,3 +5361,46 @@ class Solution:
         fill(image, sr, sc, oldColor, newColor)
         return image
 ```
+
+## 1971. Find if Path Exists in Graph
+### BFS
+```python
+from collections import deque
+
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        def bfs(start, end):
+            queue = deque([start])
+            visited = set([start])
+            
+            while queue:
+                node = queue.popleft()
+                
+                if node == end:
+                    return True
+                
+                for neighbor in adjMap[node]:
+                    if neighbor in visited:
+                        continue
+                        
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+                
+            return False
+        
+        if source == destination:
+            return True
+        
+        # convert edge list into adjacency map
+        adjMap = {}
+        for u, v in edges:
+            if u not in adjMap:
+                adjMap[u] = []
+            if v not in adjMap:
+                adjMap[v] = []
+        
+            adjMap[u].append(v)
+            adjMap[v].append(u)
+        
+        return bfs(source, destination)
+```
