@@ -5769,3 +5769,41 @@ class Solution:
         
         return dfs(root, None, None)
 ```
+
+## 1261. Find Elements in a Contaminated Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class FindElements:
+
+    def __init__(self, root: Optional[TreeNode]):
+        def recoverTree(node):
+            if not node:
+                return
+            
+            self.seen.add(node.val)
+            
+            if node.left:
+                node.left.val = 2 * node.val + 1
+                recoverTree(node.left)
+            if node.right:
+                node.right.val = 2 * node.val + 2
+                recoverTree(node.right)
+
+        self.seen = set()
+        root.val = 0
+        recoverTree(root)
+                
+    def find(self, target: int) -> bool:
+        return target in self.seen
+        
+
+
+# Your FindElements object will be instantiated and called as such:
+# obj = FindElements(root)
+# param_1 = obj.find(target)
+```
