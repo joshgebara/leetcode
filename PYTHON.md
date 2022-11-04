@@ -1393,7 +1393,41 @@ class Solution:
 ## 993. Cousins in Binary Tree
 ### DFS
 ```python
-
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
+        def dfs(root, parent, depth):
+            nonlocal xParent
+            nonlocal yParent
+            nonlocal xDepth
+            nonlocal yDepth
+            
+            if not root:
+                return False
+            
+            if root.val == x:
+                xParent = parent
+                xDepth = depth
+            elif root.val == y:
+                yParent = parent
+                yDepth = depth
+                
+            if xParent and yParent and xParent is not yParent and xDepth == yDepth:
+                return True
+            
+            return dfs(root.left, root, depth + 1) or dfs(root.right, root, depth + 1)
+            
+        xParent = None
+        yParent = None
+        xDepth = 0
+        yDepth = 0
+        
+        return dfs(root, None, 0)
 ```
 
 ### BFS
