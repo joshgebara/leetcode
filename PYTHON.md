@@ -5853,3 +5853,30 @@ class Solution:
             
         return root
 ```
+
+## 1448. Count Good Nodes in Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        def dfs(node, maximum):
+            if not node:
+                return 0
+            
+            sum = 0
+            
+            if node.val >= maximum:
+                sum += 1
+              
+            sum += dfs(node.left, max(maximum, node.val))
+            sum += dfs(node.right, max(maximum, node.val))
+            
+            return sum
+        
+        return dfs(root, root.val)
+```
