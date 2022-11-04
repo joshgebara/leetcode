@@ -2693,6 +2693,7 @@ class Solution:
 ```
 
 ## 112. Path Sum
+### DFS
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -2714,6 +2715,36 @@ class Solution:
             return pathSum(root.left, currSum) or pathSum(root.right, currSum)
         
         return pathSum(root, 0)
+```
+
+### BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if not root:
+            return False
+        
+        queue = deque([[root, 0]])
+        while queue:
+            node, sum = queue.popleft()
+            
+            if not node.left and not node.right and sum + node.val == targetSum:
+                return True
+            
+            if node.left:
+                queue.append([node.left, node.val + sum])
+            if node.right:
+                queue.append([node.right, node.val + sum])
+        
+        return False
 ```
 
 ## 101. Symmetric Tree
