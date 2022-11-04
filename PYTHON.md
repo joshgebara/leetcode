@@ -1758,6 +1758,7 @@ class Solution:
 ```
 
 ## 404. Sum of Left Leaves
+### DFS
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -1774,6 +1775,39 @@ class Solution:
             return root.val
 
         return self.sumOfLeftLeaves(root.left, True) + self.sumOfLeftLeaves(root.right, False)
+```
+
+### BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
+class Solution:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        def isLeaf(node):
+            return not node.left and not node.right
+        
+        queue = deque([[root, None]])
+        sum = 0
+        
+        while queue:
+            node, parent = queue.popleft()
+            
+            if isLeaf(node) and parent and node is parent.left:
+                sum += node.val
+                
+            if node.left:
+                queue.append([node.left, node])
+            if node.right:
+                queue.append([node.right, node])
+                
+        return sum
 ```
 
 ## 645. Set Mismatch
