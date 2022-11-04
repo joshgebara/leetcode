@@ -5277,3 +5277,44 @@ class Solution:
         inorder(root)
         return diff
 ```
+
+## 733. Flood Fill
+### BFS
+```python
+from collections import deque
+
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        def fill(grid, row, col, oldColor, newColor):
+            nonlocal dirs
+            
+            queue = deque([[row, col]])
+            
+            while queue:
+                currRow, currCol = queue.popleft()
+                
+                image[currRow][currCol] = newColor
+                
+                for deltaRow, deltaCol in dirs:
+                    nextRow = currRow + deltaRow
+                    nextCol = currCol + deltaCol
+                    
+                    if (nextRow < 0 or nextRow >= len(image) or 
+                        nextCol < 0 or nextCol >= len(image[0])):
+                        continue
+                    
+                    if image[nextRow][nextCol] != oldColor:
+                        continue
+                    
+                    queue.append([nextRow, nextCol])
+        
+        dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+        newColor = color
+        oldColor = image[sr][sc]
+        
+        if newColor == oldColor:
+            return image
+        
+        fill(image, sr, sc, oldColor, newColor)
+        return image
+```
