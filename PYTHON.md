@@ -5404,3 +5404,56 @@ class Solution:
         
         return bfs(source, destination)
 ```
+
+### BFS - Bidirectional
+```python
+from collections import deque
+
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        def bidirectionalBFS(start, end):
+            queueS = deque([start])
+            visitedS = set([start])
+            
+            queueE = deque([end])
+            visitedE = set([end])
+            
+            while queueS or queueE:
+                if bfs(queueS, visitedS, end):
+                    return True
+                
+                if bfs(queueE, visitedE, start):
+                    return True
+            
+        def bfs(queue, visited, target):
+            if not queue:
+                return False
+            
+            node = queue.popleft()
+            
+            if node == target:
+                return True
+            
+            for neighbor in adjMap[node]:
+                if neighbor in visited:
+                    continue
+                    
+                visited.add(neighbor)
+                queue.append(neighbor)
+        
+        if source == destination:
+            return True
+        
+        # convert edge list into adjacency map
+        adjMap = {}
+        for u, v in edges:
+            if u not in adjMap:
+                adjMap[u] = []
+            if v not in adjMap:
+                adjMap[v] = []
+        
+            adjMap[u].append(v)
+            adjMap[v].append(u)
+        
+        return bidirectionalBFS(source, destination)
+```
