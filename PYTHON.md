@@ -5913,3 +5913,74 @@ class Solution:
                 return treeDict[key]
 ```
 
+## 695. Max Area of Island
+```python
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        
+        dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+        
+        maxArea = 0
+        
+        unionFind = UnionFind(m * n)
+        
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == 1:
+                    for deltaRow, deltaCol in dirs:
+                        nextRow = deltaRow + row
+                        nextCol = deltaCol + col
+                        
+                        if nextRow < 0 or nextRow >= m or nextCol < 0 or nextCol >= n:
+                            continue
+                            
+                        if grid[nextRow][nextCol] == 0:
+                            continue
+                            
+                        unionFind.union(row * n + col, nextRow * n + nextCol)
+                    
+                    maxArea = max(maxArea, unionFind.size(row * n + col))
+        
+        return maxArea
+    
+class UnionFind:
+    def __init__(self, n):
+        self.sizes = []
+        self.parents = []
+        
+        for i in range(n):
+            self.sizes.append(1)
+            self.parents.append(i)
+    
+    def union(self, u, v):
+        parentU = self.find(u)
+        parentV = self.find(v)
+        
+        if parentU == parentV:
+            return
+        
+        if self.sizes[parentU] < self.sizes[parentV]:
+            self.sizes[parentV] += self.sizes[parentU]
+            self.parents[parentU] = parentV
+        else:
+            self.sizes[parentU] += self.sizes[parentV]
+            self.parents[parentV] = parentU
+    
+    def find(self, u):
+        root = u
+        while root != self.parents[root]:
+            root = self.parents[root]
+            
+        while root != u:
+            next = self.parents[u]
+            self.parents[u] = root
+            u = next
+            
+        return root
+    
+    def size(self, u):
+        parentU = self.find(u)
+        return self.sizes[parentU]
+```
