@@ -6141,3 +6141,27 @@ class Solution:
                     
         return result
 ```
+
+## 1457. Pseudo-Palindromic Paths in a Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+        def dfs(root, bits = 0):
+            if not root:
+                return 0
+            
+            bits ^= 1 << root.val
+            
+            if not root.left and not root.right and bits & bits - 1 == 0:
+                return 1
+            
+            return dfs(root.left, bits) + dfs(root.right, bits)
+        
+        return dfs(root)
+```
