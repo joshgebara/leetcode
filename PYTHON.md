@@ -6050,3 +6050,23 @@ class Solution:
         
         return dfs(root)[0]
 ```
+
+## 841. Keys and Rooms
+```python
+from collections import deque
+
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        queue = deque([0])
+        visited = set([0])
+        
+        while queue:
+            node = queue.popleft()
+            
+            for neighbor in rooms[node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+                    
+        return len(visited) == len(rooms)
+```
