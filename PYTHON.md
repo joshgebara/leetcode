@@ -6180,13 +6180,14 @@ class Solution:
     def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
         queue = deque([root])
         
+        leftMost = 0
+        
         while queue:
             size = len(queue)
-            leftMost = None
-            for _ in range(size):
+            for i in range(size):
                 node = queue.popleft()
                 
-                if leftMost is None:
+                if i == 0:
                     leftMost = node.val
                 
                 if node.left:
