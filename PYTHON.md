@@ -6209,10 +6209,9 @@ class Solution:
 #         self.right = right
 class Solution:
     def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
-        def dfs(root, row = 0, col = 0):
+        def dfs(root, row = 0):
             nonlocal leftMost
             nonlocal leftMostRow
-            nonlocal leftMostCol
             
             if not root:
                 return
@@ -6220,21 +6219,15 @@ class Solution:
             if not root.left and not root.right:
                 if row > leftMostRow:
                     leftMostRow = row
-                    leftMostCol = col
-                    leftMost = root.val
-                elif row == leftMostRow and col < leftMostCol:
-                    leftMostRow = row
-                    leftMostCol = col
                     leftMost = root.val
                     
                 return
                     
-            dfs(root.left, row + 1, col - 1)
-            dfs(root.right, row + 1, col + 1)
+            dfs(root.left, row + 1)
+            dfs(root.right, row + 1)
         
         leftMost = root.val
         leftMostRow = 0
-        leftMostCol = 0
         
         dfs(root)
         
