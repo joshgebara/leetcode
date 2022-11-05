@@ -6167,6 +6167,7 @@ class Solution:
 ```
 
 ## 513. Find Bottom Left Tree Value
+### BFS
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -6194,6 +6195,48 @@ class Solution:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
+        
+        return leftMost
+```
+
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        def dfs(root, row = 0, col = 0):
+            nonlocal leftMost
+            nonlocal leftMostRow
+            nonlocal leftMostCol
+            
+            if not root:
+                return
+            
+            if not root.left and not root.right:
+                if row > leftMostRow:
+                    leftMostRow = row
+                    leftMostCol = col
+                    leftMost = root.val
+                elif row == leftMostRow and col < leftMostCol:
+                    leftMostRow = row
+                    leftMostCol = col
+                    leftMost = root.val
+                    
+                return
+                    
+            dfs(root.left, row + 1, col - 1)
+            dfs(root.right, row + 1, col + 1)
+        
+        leftMost = root.val
+        leftMostRow = 0
+        leftMostCol = 0
+        
+        dfs(root)
         
         return leftMost
 ```
