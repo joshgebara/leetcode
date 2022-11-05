@@ -6100,3 +6100,44 @@ class Solution:
         
         return dfs(root)[0]
 ```
+
+## 1992. Find All Groups of Farmland
+```python
+class Solution:
+    def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
+        def dfs(row, col):
+            # if out of bounds return
+            if row < 0 or row >= m or col < 0 or col >= n:
+                return [-1, -1]
+
+            # if framland return
+            if land[row][col] == 0:
+                return [-1, -1]
+
+            # if visited return
+            if (row, col) in visited:
+                return [-1, -1]
+
+            visited.add((row, col))
+
+            # go to neighbors
+            rowDown, colDown = dfs(row + 1, col)
+            rowRight, colRight = dfs(row, col + 1)
+            
+            return [max(row, rowDown, rowRight), max(col, colDown, colRight)]
+            
+            
+        m = len(land)
+        n = len(land[0])
+        
+        result = []
+        visited = set()
+        
+        for row in range(m):
+            for col in range(n):
+                if land[row][col] == 1 and (row, col) not in visited:
+                    row2, col2 = dfs(row, col)
+                    result.append([row, col, row2, col2])
+                    
+        return result
+```
