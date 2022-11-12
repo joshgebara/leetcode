@@ -6274,3 +6274,111 @@ class Solution:
                     
         return smallestLevel
 ```
+
+## 959. Regions Cut By Slashes
+```python
+class Solution:
+    def regionsBySlashes(self, grid: List[str]) -> int:
+        def fillExpandedGrid(grid, expandedGrid, expandedMultipler):
+            n = len(grid)
+            
+            for row in range(n):
+                for col in range(n):
+                    expandedRow = row * expandedMultipler
+                    expandedCol = col * expandedMultipler
+                    
+                    if grid[row][col] == "/":
+                        currRow = expandedRow
+                        currCol = expandedCol + expandedMultipler - 1
+                        while currRow < expandedRow + expandedMultipler:
+                            expandedGrid[currRow][currCol] = 1
+                            currRow += 1
+                            currCol -= 1                            
+                    elif grid[row][col] == "\\":
+                        currRow = expandedRow
+                        currCol = expandedCol
+                        while currRow < expandedRow + expandedMultipler:
+                            expandedGrid[currRow][currCol] = 1
+                            currRow += 1
+                            currCol += 1
+        
+        
+        def countRegions(expandedGrid):
+            n = len(expandedGrid)
+            m = len(expandedGrid[0])
+            dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+            
+            unionFind = UnionFind(n * m)
+            onesCount = 0
+            
+            for row in range(n):
+                for col in range(m):
+                    if expandedGrid[row][col] == 1:
+                        onesCount += 1
+                        continue
+                        
+                    for deltaRow, deltaCol in dirs:
+                        nextRow = deltaRow + row
+                        nextCol = deltaCol + col
+
+                        if (nextRow < 0 or nextRow >= n or
+                            nextCol < 0 or nextCol >= m):
+                            continue
+                            
+                        if expandedGrid[nextRow][nextCol] == 1:
+                            continue
+
+                        unionFind.union(row * m + col, nextRow * m + nextCol)
+                        
+            return unionFind.numOfComponents - onesCount
+            
+            
+        n = len(grid)
+        expandedMultipler = 3
+        expandedGrid = [[0] * n * expandedMultipler for i in range(n * expandedMultipler)]
+        
+        fillExpandedGrid(grid, expandedGrid, expandedMultipler)
+        
+        return countRegions(expandedGrid)
+    
+    
+class UnionFind:
+    def __init__(self, n):
+        self.parents = []
+        self.sizes = []
+
+        self.numOfComponents = n
+        
+        for i in range(n):
+            self.parents.append(i)
+            self.sizes.append(1)
+            
+    def union(self, a, b):
+        parentA = self.find(a)
+        parentB = self.find(b)
+        
+        if parentA == parentB:
+            return
+        
+        if self.sizes[parentA] < self.sizes[parentB]:
+            self.sizes[parentB] += self.sizes[parentA]
+            self.parents[parentA] = parentB
+        else:
+            self.sizes[parentA] += self.sizes[parentB]
+            self.parents[parentB] = parentA
+        
+        self.numOfComponents -= 1
+        
+    def find(self, a):
+        root = a
+        
+        while root != self.parents[root]:
+            root = self.parents[root]
+            
+        while a != root:
+            next = self.parents[a]
+            self.parents[a] = root
+            a = next
+            
+        return root
+```
