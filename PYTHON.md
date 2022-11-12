@@ -6382,3 +6382,115 @@ class UnionFind:
             
         return root
 ```
+
+## 1905. Count Sub Islands
+```python
+class Solution:
+    def countSubIslands(self, grid1: List[List[int]], grid2: List[List[int]]) -> int:
+        dirs = [[1, 0], [0, 1]]
+        
+        m = len(grid1)
+        n = len(grid1[0])
+        
+        unionFind = UnionFind(m * n)
+        
+        for row in range(m):
+            for col in range(n):
+                if grid1[row][col] == 0:
+                    continue
+                    
+                for deltaRow, deltaCol in dirs:
+                    nextRow = deltaRow + row
+                    nextCol = deltaCol + col
+                    
+                    if (nextRow < 0 or nextRow >= m or 
+                        nextCol < 0 or nextCol >= n):
+                        continue
+                        
+                    if grid1[nextRow][nextCol] == 0:
+                        continue
+                    
+                    unionFind.union(row * n + col, nextRow * n + nextCol)
+        
+        
+        subCount = 0
+        for row in range(m):
+            for col in range(n):
+                if grid1[row][col] == 0 or grid2[row][col] == 0:
+                    continue
+                    
+                if isSubIsland(grid2, row, col, unionFind):
+                    subCount += 1
+                
+        return subCount
+    
+    
+def isSubIsland(grid, row, col, unionFind):
+    def dfs(row, col):
+        if (row < 0 or row >= len(grid) or 
+            col < 0 or col >= len(grid[0])):
+            return True
+        
+        if grid[row][col] == 0:
+            return True
+        
+        grid[row][col] = 0
+        
+        result = True
+        for deltaRow, deltaCol in dirs:
+            nextRow = deltaRow + row
+            nextCol = deltaCol + col
+            
+            if not dfs(nextRow, nextCol):
+                result = False
+                
+        return result and unionFind.find(row * n + col) == parent
+        
+    dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    m = len(grid)
+    n = len(grid[0])
+    
+    parent = unionFind.find(row * n + col)
+    return dfs(row, col)
+
+
+class UnionFind:
+    def __init__(self, n):
+        self.parents = []
+        self.sizes = []
+        
+        for i in range(n):
+            self.parents.append(i)
+            self.sizes.append(1)
+            
+        self.numOfComponents = n
+            
+    def union(self, a, b):
+        parentA = self.find(a)
+        parentB = self.find(b)
+        
+        if parentA == parentB:
+            return
+        
+        if self.sizes[parentA] < self.sizes[parentB]:
+            self.sizes[parentB] += self.sizes[parentA]
+            self.parents[parentA] = parentB
+        else:
+            self.sizes[parentA] += self.sizes[parentB]
+            self.parents[parentB] = parentA
+            
+        self.numOfComponents -= 1
+    
+    def find(self, a):
+        root = a
+        
+        while root != self.parents[root]:
+            root = self.parents[root]
+            
+        while a != root:
+            next = self.parents[a]
+            self.parents[a] = root
+            a = next
+            
+        return root
+```
