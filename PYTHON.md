@@ -6743,3 +6743,58 @@ class Solution:
         else:
             return count
 ```
+
+## 547. Number of Provinces
+```python
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        n = len(isConnected)
+        
+        unionFind = UnionFind(n)
+        
+        for i in range(n):
+            for j in range(n):
+                if isConnected[i][j] == 1:
+                    unionFind.union(i, j)
+                    
+        return unionFind.numOfComponents
+    
+class UnionFind:
+    def __init__(self, size):
+        self.size = size
+        self.parents = []
+        self.sizes = []
+        self.numOfComponents = size
+        
+        for i in range(size):
+            self.parents.append(i)
+            self.sizes.append(1)
+            
+    def union(self, a, b):
+        parentA = self.find(a)
+        parentB = self.find(b)
+        
+        if parentA == parentB:
+            return
+        
+        if self.sizes[parentA] < self.sizes[parentB]:
+            self.sizes[parentB] += self.sizes[parentA]
+            self.parents[parentA] = parentB
+        else:
+            self.sizes[parentA] += self.sizes[parentB]
+            self.parents[parentB] = parentA
+        
+        self.numOfComponents -= 1
+    
+    def find(self, a):
+        root = a
+        while root != self.parents[root]:
+            root = self.parents[root]
+            
+        while a != root:
+            next = self.parents[a]
+            self.parents[a] = root
+            a = self.parents[a]
+        
+        return root
+```
