@@ -7172,3 +7172,36 @@ class Solution:
                     
         return len(totalServers)
 ```
+
+## 1376. Time Needed to Inform All Employees
+```python
+from collections import deque
+
+class Solution:
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        graph = {}
+        for (employee, boss) in enumerate(manager):
+            if employee not in graph:
+                graph[employee] = []
+            
+            if boss == -1:
+                continue
+                
+            if boss not in graph:
+                graph[boss] = []
+            
+            graph[boss].append(employee)
+        
+        
+        maxTime = 0
+        queue = deque([[headID, informTime[headID]]])
+        while queue:
+            node, time = queue.popleft()
+            
+            maxTime = max(maxTime, time)
+            
+            for neighbor in graph[node]:
+                queue.append([neighbor, time + informTime[neighbor]])
+                
+        return maxTime
+```
