@@ -6688,3 +6688,58 @@ class Solution:
         
         return result
 ```
+
+## 1020. Number of Enclaves
+### BFS
+```python
+from collections import deque
+
+class Solution:
+    def numEnclaves(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        
+        count = 0
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == 1:
+                    result = self.isEnclave(grid, row, col)
+                    count += result
+        
+        return count
+
+    
+    def isEnclave(self, grid, row, col):
+        m = len(grid)
+        n = len(grid[0])
+        
+        dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+        
+        count = 1
+        queue = deque([[row, col]])
+        grid[row][col] = 0
+        
+        while queue:
+            currRow, currCol = queue.popleft()
+            
+            for deltaRow, deltaCol in dirs:
+                nextRow = deltaRow + currRow
+                nextCol = deltaCol + currCol
+
+                if nextRow < 0 or nextRow >= m or nextCol < 0 or nextCol >= n:
+                    count = -1
+                    continue
+                
+                if grid[nextRow][nextCol] == 1:
+                    grid[nextRow][nextCol] = 0
+                    
+                    if count != -1:
+                        count += 1
+                        
+                    queue.append([nextRow, nextCol])
+                    
+        if count == -1:
+            return 0
+        else:
+            return count
+```
