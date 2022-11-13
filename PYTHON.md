@@ -6865,3 +6865,66 @@ class Solution:
                 
         return False
 ```
+
+## 863. All Nodes Distance K in Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+from collections import deque
+
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        def bfs(start, k):
+            queue = deque([start.val])
+            visited = set([start.val])
+            
+            result = []
+            level = 0
+            while queue:
+                size = len(queue)
+                for _ in range(size):
+                    node = queue.popleft()
+                    result.append(node)
+                    
+                    for neighbor in graph[node]:
+                        if neighbor in visited:
+                            continue
+                        
+                        visited.add(neighbor)
+                        queue.append(neighbor)
+                
+                if level == k:
+                    return result
+                
+                level += 1
+                result = []
+                    
+            return []
+        
+        
+        def dfs(node, parent):
+            if not node:
+                return
+            
+            if node.val not in graph:
+                graph[node.val] = []
+                
+            if parent and parent.val not in graph:
+                graph[parent.val] = []
+            
+            if parent:
+                graph[parent.val].append(node.val)
+                graph[node.val].append(parent.val)
+            
+            dfs(node.left, node)
+            dfs(node.right, node)
+            
+        graph = {}
+        dfs(root, None)
+        return bfs(target, k)
+```
