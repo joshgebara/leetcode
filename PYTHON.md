@@ -6833,3 +6833,35 @@ class Solution:
             
         return levels
 ```
+
+## 1306. Jump Game III
+```python
+from collections import deque
+
+class Solution:
+    def canReach(self, arr: List[int], start: int) -> bool:
+        queue = deque([start])
+        visited = set([start])
+        
+        while queue:
+            index = queue.popleft()
+            
+            if arr[index] == 0:
+                return True
+            
+            # option 1
+            option1 = index + arr[index]
+            # skip if out of bounds, skip if visited
+            if option1 < len(arr) and option1 not in visited:
+                visited.add(option1)
+                queue.append(option1)
+                
+            # option 2
+            option2 = index - arr[index]
+            # skip if out of bounds, skip if visited
+            if 0 <= option2 and option2 not in visited:
+                visited.add(option2)
+                queue.append(option2)
+                
+        return False
+```
