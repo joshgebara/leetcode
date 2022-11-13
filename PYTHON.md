@@ -6535,3 +6535,66 @@ class Solution:
         
         return bfs(employeeDict[id])
 ```
+
+## 529. Minesweeper
+```python
+from collections import deque
+
+class Solution:
+    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+        # next click position among all the unrevealed squares ('M' or 'E').
+        clickRow, clickCol = click
+        
+        # If a mine 'M' is revealed, then the game is over. You should change it to 'X'.
+        if board[clickRow][clickCol] == 'M':
+            board[clickRow][clickCol] = 'X'
+            return board
+        
+        dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, -1], [-1, 1], [1, -1]]
+        queue = deque([click])
+        while queue:
+            currRow, currCol = queue.popleft()
+            
+            if board[currRow][currCol] not in 'EM':
+                continue
+                            
+            # all of its adjacent unrevealed squares should be revealed recursively.
+            # If an empty square 'E' with at least one adjacent mine is revealed, 
+            # then change it to a digit ('1' to '8') representing the number of adjacent mines.
+            
+            mineCount = 0
+            for deltaRow, deltaCol in dirs:
+                nextRow = deltaRow + currRow
+                nextCol = deltaCol + currCol
+                
+                if (nextRow < 0 or nextRow >= len(board) or 
+                    nextCol < 0 or nextCol >= len(board[0])):
+                    continue
+                    
+                if board[nextRow][nextCol] == "M":
+                    mineCount += 1
+                    continue
+                                        
+            # If an empty square 'E' with no adjacent mines is revealed, 
+            # then change it to a revealed blank 'B'
+            if board[currRow][currCol] == 'E':
+                if mineCount == 0:
+                    board[currRow][currCol] = 'B'
+                else:
+                    board[currRow][currCol] = str(mineCount)
+                    continue
+            
+            
+            for deltaRow, deltaCol in dirs:
+                nextRow = deltaRow + currRow
+                nextCol = deltaCol + currCol
+                
+                if (nextRow < 0 or nextRow >= len(board) or 
+                    nextCol < 0 or nextCol >= len(board[0])):
+                    continue
+                
+                if board[nextRow][nextCol] == 'E':
+                    queue.append([nextRow, nextCol])
+            
+        return board
+```
