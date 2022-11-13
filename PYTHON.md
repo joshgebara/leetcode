@@ -7205,3 +7205,66 @@ class Solution:
                 
         return maxTime
 ```
+
+## 1319. Number of Operations to Make Network Connected
+```python
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+        unionFind = UnionFind(n)
+        
+        redundantConnections = 0
+        for a, b in connections:
+            if unionFind.isConnected(a, b):
+                redundantConnections += 1
+                continue
+                
+            unionFind.union(a, b)
+            
+        isolatedMachineCount = unionFind.numOfComponents - 1
+        if redundantConnections < isolatedMachineCount:
+            return -1
+        
+        return isolatedMachineCount
+
+class UnionFind:
+    def __init__(self, size):
+        self.size = size
+        self.numOfComponents = size
+        self.sizes = []
+        self.parents = []
+        
+        for i in range(size):
+            self.sizes.append(1)
+            self.parents.append(i)
+            
+    def union(self, a, b):
+        parentA = self.find(a)
+        parentB = self.find(b)
+        
+        if parentA == parentB:
+            return
+            
+        if self.sizes[parentA] < self.sizes[parentB]:
+            self.sizes[parentB] += self.sizes[parentA]
+            self.parents[parentA] = parentB
+        else:
+            self.sizes[parentA] += self.sizes[parentB]
+            self.parents[parentB] = parentA
+        
+        self.numOfComponents -= 1
+    
+    def find(self, a):
+        root = a
+        while root != self.parents[root]:
+            root = self.parents[root]
+            
+        while a != root:
+            next = self.parents[a]
+            self.parents[a] = root
+            a = next
+            
+        return root
+    
+    def isConnected(self, a, b):
+        return self.find(a) == self.find(b)
+```
