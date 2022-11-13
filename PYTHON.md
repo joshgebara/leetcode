@@ -6984,3 +6984,51 @@ class UnionFind:
     def isConnected(self, a, b):
         return self.find(a) == self.find(b)
 ```
+
+## 655. Print Binary Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def printTree(self, root: Optional[TreeNode]) -> List[List[str]]:
+        if not root:
+            return []
+        
+        height = -1
+        queue = deque([root])
+        while queue:
+            size = len(queue)
+            for _ in range(size):
+                node = queue.popleft()
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            height += 1
+        
+        
+        m = height + 1
+        n = (2 ** (height + 1)) - 1
+        
+        result = [[""] * n for i in range(m)]
+        
+        queue = deque([[root, 0, ((n - 1) // 2)]])
+        while queue:
+            node, row, col = queue.popleft()
+            result[row][col] = str(node.val)
+            
+            if node.left:
+                queue.append([node.left, row + 1, col - 2 ** (height - row - 1)])
+            if node.right:
+                queue.append([node.right, row + 1, col + 2 ** (height - row - 1)])
+        
+            
+        return result
+```
