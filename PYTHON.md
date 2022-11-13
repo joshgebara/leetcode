@@ -6928,3 +6928,59 @@ class Solution:
         dfs(root, None)
         return bfs(target, k)
 ```
+
+## 684. Redundant Connection
+```python
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        n = len(edges)
+        
+        unionFind = UnionFind(n + 1)
+        
+        for a, b in edges:
+            if unionFind.isConnected(a, b):
+                return [a, b]
+            
+            unionFind.union(a, b)
+            
+        return []
+    
+class UnionFind:
+    def __init__(self, size):
+        self.size = size
+        self.sizes = []
+        self.parents = []
+        
+        for i in range(self.size):
+            self.sizes.append(1)
+            self.parents.append(i)
+            
+    def union(self, a, b):
+        parentA = self.find(a)
+        parentB = self.find(b)
+        
+        if parentA == parentB:
+            return
+        
+        if self.sizes[parentA] < self.sizes[parentB]:
+            self.sizes[parentB] += self.sizes[parentA]
+            self.parents[parentA] = parentB
+        else:
+            self.sizes[parentA] += self.sizes[parentB]
+            self.parents[parentB] = parentA
+    
+    def find(self, a):
+        root = a
+        while root != self.parents[root]:
+            root = self.parents[root]
+            
+        while a != root:
+            next = self.parents[a]
+            self.parents[a] = root
+            a = next
+            
+        return root
+    
+    def isConnected(self, a, b):
+        return self.find(a) == self.find(b)
+```
