@@ -7142,3 +7142,33 @@ class Solution:
                     
         return root
 ```
+
+## 1267. Count Servers that Communicate
+```python
+class Solution:
+    def countServers(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        
+        totalServers = set()
+        
+        for row in range(m):
+            rowServers = set()
+            for col in range(n):
+                if grid[row][col] == 1:
+                    rowServers.add((row, col))
+                    
+            if len(rowServers) > 1:
+                totalServers |= rowServers
+                    
+        for col in range(n):
+            colServers = set()
+            for row in range(m):
+                if grid[row][col] == 1:
+                    colServers.add((row, col))
+                    
+            if len(colServers) > 1:
+                totalServers |= colServers
+                    
+        return len(totalServers)
+```
