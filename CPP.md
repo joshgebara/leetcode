@@ -1139,3 +1139,66 @@ public:
     }
 };
 ```
+
+## 200. Number of Islands
+### BFS
+```cpp
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        int count = 0;
+        for (int row = 0; row < m; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                if (grid[row][col] == '1')
+                {
+                    floodIsland(grid, row, col);
+                    count++;
+                }
+            }
+        }
+        
+        return count;
+    }
+    
+private:
+    void floodIsland(vector<vector<char>>& grid, int row, int col)
+    {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        vector<pair<int, int>> dirs = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
+        
+        queue<pair<int, int>> queue;
+        queue.push({row, col});
+        grid[row][col] = '0';
+        
+        while (queue.size())
+        {
+            auto [currRow, currCol] = queue.front();
+            queue.pop();
+            
+            for (auto [deltaRow, deltaCol] : dirs)
+            {
+                auto nextRow = deltaRow + currRow;
+                auto nextCol = deltaCol + currCol;
+                
+                if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n)
+                {
+                    continue;
+                }
+                
+                if (grid[nextRow][nextCol] == '1')
+                {
+                    grid[nextRow][nextCol] = '0';
+                    queue.push({nextRow, nextCol});
+                }
+            }
+        }
+    }
+};
+```
