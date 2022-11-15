@@ -1514,3 +1514,73 @@ public:
     }
 };
 ```
+
+## 802. Find Eventual Safe States
+```cpp
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> result;
+        
+        unordered_map<int, bool> isSafe;
+        vector<bool> visited(n, false);
+        
+        for (int node = 0; node < n; node++)
+        {
+            if (isSafe.count(node) == 1)
+            {
+                if (isSafe[node])
+                {
+                    result.push_back(node);
+                }
+                continue;
+            }
+                        
+            if (dfs(node, isSafe, graph, visited))
+            {
+                result.push_back(node);
+            }
+        }
+        
+        return result;
+    }
+    
+    bool dfs(int node, unordered_map<int, bool>& isSafe, vector<vector<int>>& graph, vector<bool>& visited)
+    {        
+        // is terminal
+        if (graph[node].size() == 0)
+        {
+            isSafe[node] = true;
+            return true;
+        }
+        
+        if (isSafe.count(node) == 1)
+        {
+            return isSafe[node];
+        }
+        
+        // cycle
+        if (visited[node])
+        {
+            return false;
+        }
+        
+        visited[node] = true;
+        
+        for (auto neighbor : graph[node])
+        {
+            if (!dfs(neighbor, isSafe, graph, visited))
+            {
+                isSafe[node] = false;
+                return false;
+            }
+        }
+        
+        visited[node] = false;
+        
+        isSafe[node] = true;
+        return true;
+    }
+};
+```
