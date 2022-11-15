@@ -1312,3 +1312,69 @@ public:
     }
 };
 ```
+
+## 1443. Minimum Time to Collect All Apples in a Tree
+```cpp
+class Solution {
+public:
+    int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
+        // create adjList
+        unordered_map<int, vector<int>> graph;
+        for (auto edge : edges)
+        {
+            auto a = edge[0];
+            auto b = edge[1];
+            
+            graph[a].push_back(b);
+            graph[b].push_back(a);
+        }
+        
+        // dfs graph
+        set<int> visited;
+        auto [gotApple, count] = dfs(graph, 0, hasApple, visited);
+        
+        if (gotApple)
+        {
+            return count - 2;
+        }
+        
+        return count;
+    }
+    
+    pair<bool, int> dfs(unordered_map<int, 
+                        vector<int>>& graph, 
+                        int node, vector<bool>& hasApple, 
+                        set<int>& visited)
+    {
+        if (visited.count(node) == 1)
+        {
+            return {false, 0};
+        }
+        
+        visited.insert(node);
+        
+        int time = 0;
+        for (auto neighbor : graph[node])
+        {
+            auto [gotApple, steps] = dfs(graph, neighbor, hasApple, visited);
+            if (gotApple)
+            {
+                time += steps;
+            }
+        }
+        
+        if (time > 0)
+        {
+            return {true, time + 2};
+        }
+        else if (hasApple[node])
+        {
+            return {true, 2};
+        }
+        else
+        {
+            return {false, 0};
+        }
+    }
+};
+```
