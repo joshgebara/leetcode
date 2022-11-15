@@ -1479,14 +1479,21 @@ public:
         while (queue.size())
         {
             int size = queue.size();
-            vector<int> level = {};
+            vector<int> level(size);
             
             for (int i = 0; i < size; i++)
             {
                 auto node = queue.front();
                 queue.pop();
                 
-                level.push_back(node->val);
+                if (shouldReverse & 1)
+                {
+                    level[size - i - 1] = node->val;
+                }
+                else
+                {
+                    level[i] = node->val;
+                }
                 
                 if (node->left)
                 {
@@ -1497,11 +1504,6 @@ public:
                 {
                     queue.push(node->right);
                 }
-            }
-            
-            if (shouldReverse & 1)
-            {
-                std::reverse(level.begin(), level.end());
             }
             
             shouldReverse ^= 1;
