@@ -1378,3 +1378,73 @@ public:
     }
 };
 ```
+
+## 752. Open the Lock
+```cpp
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        set<string> visited(deadends.begin(), deadends.end());
+        
+        if (visited.count("0000") == 1)
+        {
+            return -1;
+        }
+        
+        visited.insert("0000");
+        
+        queue<string> queue;
+        queue.push("0000");
+        
+        int steps = 0;
+        while (queue.size())
+        {
+            int size = queue.size();
+            for (auto i = 0; i < size; i++)
+            {
+                auto node = queue.front();
+                queue.pop();
+
+                if (node == target)
+                {
+                    return steps;
+                }
+
+                // get neighbors
+                for (auto neighbor : getNeighbors(node))
+                {
+                    if (visited.count(neighbor) == 0)
+                    {
+                        visited.insert(neighbor);
+                        queue.push(neighbor);
+                    }
+                }
+            }
+            steps++;
+        }
+        
+        return -1;
+    }
+    
+    vector<string> getNeighbors(string node)
+    {
+        vector<string> neighbors;
+        
+        for (int wheel = 0; wheel < node.size(); wheel++)
+        {
+            auto code = node;
+            auto digit = code[wheel];
+            
+            // rotate left
+            code[wheel] = (digit - '0' - 1 + 10) % 10 + '0';
+            neighbors.push_back(code);
+            
+            // rotate right
+            code[wheel] = (digit - '0' + 1) % 10 + '0';
+            neighbors.push_back(code);
+        }
+        
+        return neighbors;
+    }
+};
+```
