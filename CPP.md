@@ -1062,3 +1062,80 @@ public:
     }
 };
 ```
+
+## 2385. Amount of Time for Binary Tree to Be Infected
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int amountOfTime(TreeNode* root, int start) {
+        // create adj list
+        unordered_map<int, vector<int>> adjList;
+        
+        queue<pair<TreeNode*, int>> queue;
+        queue.push({root, -1});
+        
+        while (queue.size())
+        {
+            auto [node, parent] = queue.front();
+            queue.pop();
+            
+            if (parent != -1)
+            {
+                adjList[node->val].push_back(parent);
+                adjList[parent].push_back(node->val);
+            }
+            
+            if (node->left)
+            {
+                queue.push({node->left, node->val});
+            }
+            
+            if (node->right)
+            {
+                queue.push({node->right, node->val});
+            }
+        }
+        
+        // level order out from start
+        int level = -1;
+        
+        std::queue<int> queue2({start});
+        std::set<int> visited({start});
+        
+        while (queue2.size())
+        {
+            int size = queue2.size();
+            for (int i = 0; i < size; i++) {
+                int node = queue2.front();
+                queue2.pop();
+
+                for (auto neighbor : adjList[node])
+                {
+                    if (visited.count(neighbor) == 1)
+                    {
+                        continue;
+                    }
+
+                    visited.insert(neighbor);
+                    queue2.push(neighbor);
+                } 
+	        }
+            
+            level++;
+        }
+        
+        return level;        
+    }
+};
+```
