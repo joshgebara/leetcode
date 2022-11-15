@@ -1202,3 +1202,113 @@ private:
     }
 };
 ```
+
+### UnionFind
+```cpp
+class UnionFind {
+private:
+    int m_size;
+    int m_numOfComponents;
+    vector<int> m_parents;
+    vector<int> m_sizes;
+    
+public:
+    UnionFind(int size) {
+        m_size = size;
+        m_numOfComponents = size;
+        
+        for (int i = 0; i < size; i++)
+        {
+            m_parents.push_back(i);
+            m_sizes.push_back(1);
+        }
+    }
+    
+    int numOfComponents() const { return m_numOfComponents; }
+    
+    void unionComponents(int a, int b)
+    {
+        auto parentA = find(a);
+        auto parentB = find(b);
+        
+        if (parentA == parentB)
+        {
+            return;
+        }
+        
+        if (m_sizes[parentA] < m_sizes[parentB])
+        {
+            m_sizes[parentB] += m_sizes[parentA];
+            m_parents[parentA] = parentB;
+        }
+        else
+        {
+            m_sizes[parentA] += m_sizes[parentB];
+            m_parents[parentB] = parentA;
+        }
+        
+        m_numOfComponents--;
+    }
+    
+    int find(int a)
+    {
+        auto root = a;
+        while (root != m_parents[root])
+        {
+            root = m_parents[root];
+        }
+        
+        while (a != root)
+        {
+            auto next = m_parents[a];
+            m_parents[a] = root;
+            a = next;
+        }
+        
+        return root;
+    }
+};
+
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        vector<pair<int, int>> dirs = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
+        
+        UnionFind unionFind(m * n);
+        int waterCount = 0;
+        for (int row = 0; row < m; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                if (grid[row][col] == '1')
+                {
+                    for (auto [deltaRow, deltaCol] : dirs)
+                    {
+                        auto nextRow = deltaRow + row;
+                        auto nextCol = deltaCol + col;
+
+                        if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n)
+                        {
+                            continue;
+                        }
+
+                        if (grid[nextRow][nextCol] == '1')
+                        {
+                            unionFind.unionComponents(row * n + col, nextRow * n + nextCol);
+                        }
+                    }
+                }
+                else 
+                {
+                    waterCount++;
+                }
+            }
+        }
+        
+        return unionFind.numOfComponents() - waterCount;
+    }
+};
+```
