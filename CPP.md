@@ -1584,3 +1584,87 @@ public:
     }
 };
 ```
+
+## 1625. Lexicographically Smallest String After Applying Operations
+```cpp
+class Solution {
+public:
+    string findLexSmallestString(string s, int a, int b) {
+        queue<string> queue;
+        queue.push(s);
+        
+        set<string> visited;
+        visited.insert(s);
+        
+        auto minString = s;
+        
+        while (queue.size())
+        {
+            auto node = queue.front();
+            queue.pop();
+            
+            if (minString > node)
+            {
+                minString = node;
+            }
+            
+            auto addedString = add(node, a);
+            if (visited.count(addedString) == 0)
+            {
+                visited.insert(addedString);
+                queue.push(addedString);
+            }
+            
+            auto rotatedString = rotate(node, b);
+            if (visited.count(rotatedString) == 0)
+            {
+                visited.insert(rotatedString);
+                queue.push(rotatedString);
+            }
+        }
+        
+        return minString;
+    }
+    
+private:
+    string add(const string& s, int a) 
+    {
+        stringstream ss;
+        
+        for (auto i = 0; i < s.size(); i++)
+        {
+            if (i & 1)
+            {
+                ss << (s[i] - '0' + a) % 10;
+            }
+            else
+            {
+                ss << s[i];
+            }
+        }
+        
+        return ss.str();
+    }
+    
+    string rotate(string s, int b)
+    {
+        rotate(s, 0, s.size());
+        rotate(s, 0, b);
+        rotate(s, b, s.size());
+        return s;
+    }
+    
+    void rotate(string& s, int left, int right)
+    {
+        while (left < right)
+        {
+            auto temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            
+            left++;
+            right--;
+        }
+    }
+};
+```
