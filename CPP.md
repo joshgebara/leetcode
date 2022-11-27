@@ -1799,3 +1799,53 @@ public:
     }
 };
 ```
+
+## 2368. Reachable Nodes With Restrictions
+```cpp
+class Solution {
+public:
+    int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
+        // create adjacency list
+        unordered_map<int, vector<int>> graph;
+        for (auto edge : edges)
+        {
+            auto a = edge[0];
+            auto b = edge[1];
+            
+            if (!graph.count(a)) graph[a] = {};
+            if (!graph.count(b)) graph[b] = {};
+            
+            graph[a].push_back(b);
+            graph[b].push_back(a);
+        }
+        
+        // add restricted values to an unordered_set
+        unordered_set set(restricted.begin(), restricted.end());
+        set.insert(0);
+        
+        // bfs from 0
+        queue<int> queue;
+        queue.push(0);
+        
+        int nodes = 0;
+        while (queue.size())
+        {
+            auto node = queue.front();
+            queue.pop();
+            
+            nodes++;
+            
+            for (auto neighbor : graph[node])
+            {
+                // if neighbor in restricted skip
+                if (set.count(neighbor) == 1) continue;
+                set.insert(neighbor);
+                
+                queue.push(neighbor);
+            }
+        }
+        
+        return nodes;
+    }
+};
+```
