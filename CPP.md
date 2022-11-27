@@ -1668,3 +1668,67 @@ private:
     }
 };
 ```
+
+## 1254. Number of Closed Islands
+```cpp
+class Solution {
+    int dfs(vector<vector<int>>& grid, int row, int col)
+    {
+        vector<vector<int>> dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        
+        int rowLen = grid.size();
+        int colLen = grid[0].size();
+        
+        // if out of bounds return 0
+        if (row < 0 || row >= rowLen || col < 0 || col >= colLen)
+        {
+            return 0;
+        }
+        
+        // if value is 1 return 1
+        if (grid[row][col] == 1)
+        {
+            return 1;
+        }
+        
+        // set cell to 1 once visited
+        grid[row][col] = 1;
+        
+        // get neighbors if any are 0 then return 0
+        int result = 1;
+        for (auto delta : dirs)
+        {
+            auto nextRow = row + delta[0];
+            auto nextCol = col + delta[1];
+            
+            if (dfs(grid, nextRow, nextCol) == 0)
+            {
+                result = 0;
+            }
+        }
+        
+        return result;
+    }
+    
+public:
+    int closedIsland(vector<vector<int>>& grid) {
+        int rowLen = grid.size();
+        int colLen = grid[0].size();
+        
+        int numOfClosedIslands{0};
+        for (auto row = 1; row < rowLen - 1; row++)
+        {
+            for (auto col = 1; col < colLen - 1; col++)
+            {
+                // Found land
+                if (grid[row][col] == 0)
+                {
+                    numOfClosedIslands += dfs(grid, row, col);
+                }
+            }
+        }
+        
+        return numOfClosedIslands;
+    }
+};
+```
