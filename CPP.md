@@ -1849,3 +1849,48 @@ public:
     }
 };
 ```
+
+## 967. Numbers With Same Consecutive Differences
+```cpp
+class Solution {
+public:
+    vector<int> numsSameConsecDiff(int n, int k) {
+        deque<int> q;
+        for (auto digit = 1; digit <= 9; digit++)
+        {
+            q.push_back(digit);
+        }
+        
+        for (auto level = 1; level < n; level++)
+        {
+            auto size = q.size();
+            for (auto i = 0; i < size; i++)
+            {
+                auto node = q.front();
+                q.pop_front();
+
+                // go left if digit - k >= 0
+                auto leftDigit = (node % 10) - k;
+                auto leftNum = node * 10 + leftDigit;
+                if (leftDigit >= 0)
+                {
+                    q.push_back(leftNum);
+                }
+                
+                // go right if digit + k < 10
+                auto rightDigit = (node % 10) + k;
+                auto rightNum = node * 10 + rightDigit;
+                // leftDigit != rightDigit to avoid duplicates
+                // Ex: n = 2, k = 0
+                if (leftDigit != rightDigit && rightDigit < 10)
+                {
+                    q.push_back(rightNum);
+                }
+            }
+        }
+    
+        vector<int> result(q.begin(), q.end());
+        return result;
+    }
+};
+```
