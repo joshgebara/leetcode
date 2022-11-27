@@ -1732,3 +1732,70 @@ public:
     }
 };
 ```
+
+## 1765. Map of Highest Peak
+```cpp
+class Solution {
+public:
+    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
+        auto rowLen = isWater.size();
+        auto colLen = isWater[0].size();
+        
+        queue<pair<int, int>> queue;
+        
+        // collect water cells into a queue
+        for (auto row = 0; row < rowLen; row++)
+        {
+            for (auto col = 0; col < colLen; col++)
+            {
+                if (isWater[row][col] == 1)
+                {
+                    queue.push({row, col});
+                    isWater[row][col] = 0;
+                }
+                else
+                {
+                    isWater[row][col] = -1;
+                }
+            }
+        }
+        
+        // process cells, mark neighbors heights
+        vector<pair<int, int>> dirs = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
+        auto level = 1;
+        
+        while (queue.size())
+        {
+            auto size = queue.size();
+            for (auto i = 0; i < size; i++)
+            {
+                auto [row, col] = queue.front();
+                queue.pop();
+                
+                // get neighbors
+                for (auto [deltaRow, deltaCol] : dirs)
+                {
+                    auto nextRow = row + deltaRow;
+                    auto nextCol = col + deltaCol;
+                    
+                    if (nextRow < 0 || nextRow >= isWater.size() || 
+                        nextCol < 0 || nextCol >= isWater[0].size())
+                    {
+                        continue;
+                    }
+                    
+                    if (isWater[nextRow][nextCol] == -1)
+                    {
+                        isWater[nextRow][nextCol] = level;
+                        queue.push({nextRow, nextCol});
+                    }
+                }
+            }
+            
+            level++;
+        }
+        
+        return isWater;
+    }
+};
+```
