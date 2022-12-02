@@ -2035,3 +2035,95 @@ public:
     }
 };
 ```
+
+## 623. Add One Row to Tree
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        if (depth == 0)
+        {
+            return root;
+        }
+        
+        /*
+        If depth == 1 that means there is no depth depth - 1 at all, 
+        then create a tree node with value val as the new root of the 
+        whole original tree, and the original tree is the new root's left subtree.
+        */
+        if (depth == 1)
+        {
+            auto newRoot{new TreeNode{val}};
+            newRoot->left = root;
+            return newRoot;
+        }
+        
+        deque<TreeNode*> queue{root};
+        int level = 1;
+        while (queue.size())
+        {
+            auto size = queue.size();
+            for (auto i = 0; i < size; i++)
+            {
+                auto cur = queue.front();
+                queue.pop_front();
+                
+                /*
+                Given the integer depth, for each not null tree node cur at the depth depth - 1,
+                create two tree nodes with value val as cur's left subtree root and right subtree
+                root.        
+                */
+                if (level == depth - 1)
+                {
+                    auto originalLeft = cur->left;
+                    auto originalRight = cur->right;
+                    
+                    /*
+                    cur's original left subtree should be the left subtree 
+                    of the new left subtree root.
+                    */
+                    cur->left = new TreeNode{val};
+                    cur->left->left = originalLeft;
+                    
+                    /*
+                    cur's original right subtree should be the right 
+                    subtree of the new right subtree root.
+                    */
+                    cur->right = new TreeNode{val};
+                    cur->right->right = originalRight;
+                }
+                
+                if (cur->left)
+                {
+                    queue.push_back(cur->left);
+                }
+                
+                if (cur->right)
+                {
+                    queue.push_back(cur->right);
+                }
+            }
+            
+            if (level == depth - 1)
+            {
+                return root;
+            }
+            
+            level++;
+            
+        }
+        return root;
+    }
+};
+```
