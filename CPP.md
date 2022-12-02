@@ -1894,3 +1894,48 @@ public:
     }
 };
 ```
+
+## 1466. Reorder Routes to Make All Paths Lead to the City Zero
+```cpp
+class Solution {
+    using graph = unordered_map<int, vector<pair<int, int>>>;
+    
+    int numOfFlips(graph& bi_graph)
+    {
+        int flips = 0;
+        deque<pair<int, int>> queue{{0, 0}};
+        unordered_set<int> visited{0};
+        
+        while (queue.size())
+        {
+            auto [node, direction] = queue.front();
+            queue.pop_front();
+            
+            for (auto [edge, edgeDirection] : bi_graph[node])
+            {
+                if (visited.count(edge) == 0)
+                {
+                    flips += edgeDirection;
+
+                    visited.insert(edge);
+                    queue.push_back({edge, edgeDirection});
+                }
+            }
+        }
+        return flips;
+    }
+    
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        graph bi_graph;
+        
+        for (auto& connection : connections)
+        {        
+            bi_graph[connection[0]].push_back({connection[1], 1});
+            bi_graph[connection[1]].push_back({connection[0], 0});
+        }
+        
+        return numOfFlips(bi_graph);
+    }
+};
+```
