@@ -1939,3 +1939,99 @@ public:
     }
 };
 ```
+
+## 1202. Smallest String With Swaps
+```cpp
+class UnionFind {
+public:
+    int size;
+    vector<int> parents;
+    vector<int> sizes;
+    
+    UnionFind(int size) : size{size} {
+        for (auto i = 0; i < size; i++)
+        {
+            this->parents.push_back(i);
+            this->sizes.push_back(1);
+        }
+    }
+    
+    void unionElements(int a, int b) {
+        auto parentA = this->find(a);
+        auto parentB = this->find(b);
+        
+        if (parentA == parentB)
+        {
+            return;
+        }
+        
+        if (this->sizes[parentA] < this->sizes[parentB])
+        {
+            this->sizes[parentB] += this->sizes[parentA];
+            this->parents[parentA] = parentB;
+        }
+        else
+        {
+            this->sizes[parentA] += this->sizes[parentB];
+            this->parents[parentB] = parentA;
+        }
+    }
+    
+    int find(int a) {
+        auto root = a;
+        while (root != this->parents[root])
+        {
+            root = this->parents[root];
+        }
+        
+        while (root != a)
+        {
+            auto next = this->parents[a];
+            this->parents[a] = root;
+            a = next;
+        }
+        
+        return root;
+    }
+};
+
+class Solution {
+public:
+    string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
+        UnionFind unionFind(s.size());
+        
+        for (auto& pair : pairs)
+        {
+            unionFind.unionElements(pair[0], pair[1]);
+        }
+        
+        // collect chars for each component
+        unordered_map<int, vector<int>> m;
+        for (auto i = 0; i < s.size(); i++)
+        {
+            auto parent = unionFind.find(i);
+            m[parent].push_back(i);
+        }
+        
+        // sort chars in each component
+        for (auto& [key, value] : m)
+        {
+            sort(value.begin(), value.end(), [&] (int a, int b) {
+                return s[a] > s[b];
+            });
+        }
+        
+        // construct final string
+        auto result = s;
+        for (auto i = 0; i < result.size(); i++)
+        {
+            auto parent = unionFind.find(i);
+            int index = m[parent].back();
+            m[parent].pop_back();
+            result[i] = s[index];
+        }
+        
+        return result;
+    }
+};
+```
