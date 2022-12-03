@@ -2267,3 +2267,26 @@ public:
     }
 };
 ```
+
+## 1512. Number of Good Pairs
+```cpp
+class Solution {
+public:
+    int numIdenticalPairs(vector<int>& nums) {
+        vector<int> buckets(101, 0);
+        
+        int result = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            buckets[nums[i]]++;
+        }
+        
+        for (auto& n : buckets)
+        {
+            result += n * (n - 1) / 2;
+        }
+        
+        return result;
+    }
+};
+```
