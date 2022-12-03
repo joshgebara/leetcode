@@ -2155,3 +2155,22 @@ public:
     }
 };
 ```
+
+## 1929. Concatenation of Array
+```cpp
+class Solution {
+public:
+    vector<int> getConcatenation(vector<int>& nums) {
+        const auto n = nums.size();
+        vector<int> result(2 * n);
+        
+        for (auto i = 0; i < n; i++)
+        {
+            result[i] = nums[i];
+            result[i + n] = nums[i];
+        }
+        
+        return result;
+    }
+};
+```
