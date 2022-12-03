@@ -2290,3 +2290,20 @@ public:
     }
 };
 ```
+
+## 1672. Richest Customer Wealth
+```cpp
+class Solution {
+public:
+    int maximumWealth(vector<vector<int>>& accounts) {
+        int result{0};
+        
+        for (auto& account : accounts)
+        {
+            result = max(result, std::accumulate(account.begin(), account.end(), 0));
+        }
+        
+        return result;
+    }
+};
+```
