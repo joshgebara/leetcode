@@ -2234,3 +2234,36 @@ public:
     }
 };
 ```
+
+## 1470. Shuffle the Array
+```cpp
+class Solution {
+public:
+    vector<int> shuffle(vector<int>& nums, int n) {
+        constexpr int digitUpperBound {10};
+        constexpr int mask {(1 << digitUpperBound) - 1};
+        
+        for (int i {0}; i < nums.size() / 2; i++)
+        {
+            int j{i + n};
+            
+            nums[i] <<= digitUpperBound;
+            nums[i] |= nums[j];
+        }
+        
+        int j = (nums.size() / 2) - 1;
+        for (int i = nums.size() - 1; i >= 0; i -= 2)
+        {
+            auto x = nums[j] >> digitUpperBound;
+            auto y = nums[j] & mask;
+            
+            nums[i - 1] = x;
+            nums[i] = y;
+            
+            j--;
+        }
+        
+        return nums;
+    }
+};
+```
