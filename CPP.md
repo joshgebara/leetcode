@@ -2127,3 +2127,31 @@ public:
     }
 };
 ```
+
+## 1920. Build Array from Permutation
+```cpp
+class Solution {
+public:
+    vector<int> buildArray(vector<int>& nums) {
+        constexpr unsigned int digitUpperBound = 10;
+        constexpr unsigned int mask = (1 << digitUpperBound) - 1;
+        
+        for (auto i = 0; i < nums.size(); i++)
+        {
+            // get original number
+            auto originalNum = nums[nums[i]] & mask;
+            
+            // set result number
+            nums[i] |= (originalNum << digitUpperBound);
+        }
+        
+        // remove original numbers
+        for (auto i = 0; i < nums.size(); i++)
+        {
+            nums[i] >>= digitUpperBound;
+        }
+        
+        return nums;
+    }
+};
+```
