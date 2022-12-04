@@ -69,3 +69,16 @@ SELECT product_id, "store3" AS store, store3 AS price
 FROM Products
 WHERE store3 IS NOT NULL
 ```
+
+## 1581. Customer Who Visited but Did Not Make Any Transactions
+### Sub-Query
+```sql
+# Write your MySQL query statement below
+
+SELECT customer_id, 
+       COUNT(*) AS count_no_trans
+FROM Visits
+WHERE visit_id NOT IN (SELECT visit_id FROM transactions)
+GROUP BY customer_id
+```
+
