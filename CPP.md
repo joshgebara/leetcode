@@ -2391,3 +2391,28 @@ public:
     }
 };
 ```
+
+## 2160. Minimum Sum of Four Digit Number After Splitting Digits
+```cpp
+class Solution {
+public:
+    int minimumSum(int num) {
+        vector<int> digits;
+        
+        int n{num};
+        while (n)
+        {
+            const int digit {n % 10};
+            digits.push_back(digit);
+            n /= 10;
+        }
+        
+        sort(digits.begin(), digits.end());
+        
+        const int num1 = digits[0] * 10 + digits[3];
+        const int num2 = digits[1] * 10 + digits[2];
+        
+        return num1 + num2;
+    }
+};
+```
