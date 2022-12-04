@@ -2416,3 +2416,13 @@ public:
     }
 };
 ```
+
+## 2413. Smallest Even Multiple
+```cpp
+class Solution {
+public:
+    int smallestEvenMultiple(int n) {
+        return n << (n & 1);
+    }
+};
+```
