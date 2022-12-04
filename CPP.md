@@ -2353,3 +2353,41 @@ public:
  * bool param_1 = obj->addCar(carType);
  */
 ```
+
+## 2114. Maximum Number of Words Found in Sentences
+```cpp
+class Solution {
+    int getNumOfWords(const string& sentence)
+    {
+        if (sentence.size() == 0)
+        {
+            return 0;
+        }
+        
+        int numOfWords{1};
+        
+        for (const auto& c : sentence)
+        {
+            if (c == ' ')
+            {
+                numOfWords++;
+            }
+        }
+        
+        return numOfWords;
+    }
+    
+public:
+    int mostWordsFound(vector<string>& sentences) {
+        int maxWords{0};
+        
+        for (const auto& sentence : sentences)
+        {
+            int numOfWords = getNumOfWords(sentence);
+            maxWords = max(maxWords, numOfWords);
+        }
+        
+        return maxWords;
+    }
+};
+```
