@@ -2426,3 +2426,26 @@ public:
     }
 };
 ```
+
+## 1431. Kids With the Greatest Number of Candies
+```cpp
+class Solution {
+public:
+    vector<bool> kidsWithCandies(vector<int>& candies, int extraCandies) {
+        int maxNum{0};
+        
+        for (auto c : candies)
+        {
+            maxNum = max(maxNum, c);
+        }
+        
+        vector<bool> result(candies.size());
+        for (int i = 0; i < candies.size(); i++)
+        {
+            result[i] = maxNum <= candies[i] + extraCandies;
+        }
+        
+        return result;
+    }
+};
+```
