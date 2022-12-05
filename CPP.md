@@ -2449,3 +2449,44 @@ public:
     }
 };
 ```
+
+## 2181. Merge Nodes in Between Zeros
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeNodes(ListNode* head) {
+        ListNode* prev = nullptr;
+        auto curr = head;
+        
+        while (curr->next)
+        {
+            auto runner = curr->next;
+            while (runner->val != 0)
+            {
+                curr->val += runner->val;
+        
+                auto next = runner->next;
+                delete runner;
+                curr->next = next;
+                runner = next;
+            }
+            
+            prev = curr;
+            curr = curr->next;
+        }
+        
+        prev->next = nullptr;
+        return head;
+    }
+};
+```
