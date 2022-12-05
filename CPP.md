@@ -2532,3 +2532,34 @@ public:
     }
 };
 ```
+
+## 1365. How Many Numbers Are Smaller Than the Current Number
+```cpp
+class Solution {
+public:
+    vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
+        vector<int> counts(101, 0);
+        
+        for (auto& num : nums)
+        {
+            counts[num]++;
+        }
+        
+        int rollingCount{0};
+        for (int i = 0; i < counts.size(); i++)
+        {
+            auto tmp = counts[i];
+            counts[i] = rollingCount;
+            rollingCount += tmp;
+        }
+        
+        vector<int> result;
+        for (auto& num : nums)
+        {
+            result.push_back(counts[num]);
+        }
+        
+        return result;
+    }
+};
+```
