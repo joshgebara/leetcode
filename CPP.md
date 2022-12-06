@@ -2594,3 +2594,20 @@ public:
     }
 };
 ```
+
+## 1720. Decode XORed Array
+```cpp
+class Solution {
+public:
+    vector<int> decode(vector<int>& encoded, int first) {
+        vector<int> result{first};
+
+        for (auto& e : encoded)
+        {
+            result.push_back(result.back() ^ e);
+        }
+
+        return result;
+    }
+};
+```
