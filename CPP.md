@@ -2611,3 +2611,34 @@ public:
     }
 };
 ```
+
+## 807. Max Increase to Keep City Skyline
+```cpp
+class Solution {
+public:
+    int maxIncreaseKeepingSkyline(vector<vector<int>>& grid) {
+        vector<int> maxRowHeights(grid.size());
+        vector<int> maxColHeights(grid[0].size());
+
+        for (int row = 0; row < grid.size(); row++)
+        {
+            for (int col = 0; col < grid[0].size(); col++)
+            {
+                maxRowHeights[row] = max(maxRowHeights[row], grid[row][col]);
+                maxColHeights[col] = max(maxColHeights[col], grid[row][col]);
+            }
+        }
+
+        int totalSum{0};
+        for (auto row = 0; row < grid.size(); row++)
+        {
+            for (auto col = 0; col < grid[0].size(); col++)
+            {
+                int diff = min(maxRowHeights[row], maxColHeights[col]) - grid[row][col];
+                totalSum += diff;
+            }
+        }
+        return totalSum;
+    }
+};
+```
