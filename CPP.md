@@ -2746,3 +2746,28 @@ public:
     }
 };
 ```
+
+## 2194. Cells in a Range on an Excel Sheet
+```cpp
+class Solution {
+public:
+    vector<string> cellsInRange(string s) {
+        char col1{s[0]};
+        char row1{s[1]};
+
+        char col2{s[3]};
+        char row2{s[4]};
+
+        vector<string> result;
+        for (char col = col1; col <= col2; col++)
+        {
+            for (char row = row1; row <= row2; row++)
+            {
+                result.push_back({col, row});
+            }
+        }
+
+        return result;
+    }
+};
+```
