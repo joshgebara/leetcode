@@ -2970,3 +2970,21 @@ public:
     }
 };
 ```
+
+## 1832. Check if the Sentence Is Pangram
+```cpp
+class Solution {
+public:
+    bool checkIfPangram(string sentence) {
+        int pangramMask = (1 << 26) - 1;
+        int mask = 0;
+
+        for (const auto& c : sentence)
+        {
+            mask |= 1 << (c - 'a');
+        }
+
+        return pangramMask == mask;
+    }
+};
+```
