@@ -2659,3 +2659,26 @@ public:
     }
 };
 ```
+
+## 2433. Find The Original Array of Prefix Xor
+```cpp
+class Solution {
+public:
+    vector<int> findArray(vector<int>& pref) {
+        vector<int> result;
+
+        for (int i = 0; i < pref.size(); i++)
+        {
+            if (i == 0)
+            {
+                result.push_back(pref[i]);
+                continue;
+            }
+            
+            result.push_back(pref[i] ^ pref[i - 1]);
+        }
+        
+        return result;
+    }
+};
+```
