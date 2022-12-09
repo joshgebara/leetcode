@@ -2682,3 +2682,43 @@ public:
     }
 };
 ```
+
+## 2265. Count Nodes Equal to Average of Subtree
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    array<int, 3> dfs(TreeNode* root)
+    {
+        if (!root)
+        {
+            return {0,0,0};
+        }
+
+        auto [leftSum, leftSize, leftCount] = dfs(root->left);
+        auto [rightSum, rightSize, rightCount] = dfs(root->right);
+
+        auto totalSum = leftSum + rightSum + root->val;
+        auto totalSize = leftSize + rightSize + 1;
+        auto totalCount = leftCount + rightCount;
+
+        int avg = totalSum / totalSize;
+        return {totalSum, totalSize, totalCount + (root->val == avg)};
+    }
+
+public:
+    int averageOfSubtree(TreeNode* root) {
+        auto result = dfs(root);
+        return result[2];
+    }
+};
+```
