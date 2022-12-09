@@ -2881,11 +2881,35 @@ public:
         return root;  
     }
 };
-
-
-/*
-inorder iterative
-morris traversal inorder reverse
-*/
 ```
 
+## 2325. Decode the Message
+```cpp
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        array<char, 128> cipher{0};
+        char alpha{'a'};
+
+        for (auto& k : key)
+        {
+            if (isalpha(k) && cipher[k] == 0)
+            {
+                cipher[k] = alpha;
+                alpha++;
+            }
+        }
+
+        string result;
+        for (auto& c : message)
+        {
+            if (cipher[c] == 0)
+                result += c;
+            else
+                result += cipher[c];
+        }
+
+        return result;
+    }
+};
+```
