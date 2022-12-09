@@ -2933,3 +2933,25 @@ public:
     }
 };
 ```
+
+## 1637. Widest Vertical Area Between Two Points Containing No Points
+```cpp
+class Solution {
+public:
+    int maxWidthOfVerticalArea(vector<vector<int>>& points) {
+        set<int> s;
+        for (const auto& p : points)
+        {
+            s.insert(p[0]);
+        }
+
+        int maxArea{0};
+        for (auto i = next(begin(s)); i != end(s); i++)
+        {
+            maxArea = max(maxArea, *i - *prev(i));
+        }
+
+        return maxArea;
+    }
+};
+```
