@@ -2988,3 +2988,30 @@ public:
     }
 };
 ```
+
+## 2367. Number of Arithmetic Triplets
+```cpp
+class Solution {
+public:
+    int arithmeticTriplets(vector<int>& nums, int diff) {
+        unordered_map<int, int> m;
+        for (const auto& num : nums)
+        {
+            m[num]++;
+        }
+
+        int count{0};
+        for (const auto& num : nums)
+        {
+            auto jCount = m.count(num + diff);
+            auto kCount = m.count(num + diff + diff);
+            if (jCount && kCount)
+            {
+                count += jCount * kCount;
+            }
+        }
+
+        return count;
+    }
+};
+```
