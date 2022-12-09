@@ -2913,3 +2913,23 @@ public:
     }
 };
 ```
+
+## 1221. Split a String in Balanced Strings
+```cpp
+class Solution {
+public:
+    int balancedStringSplit(string s) {
+        int count{0};
+        int balance{0};
+        for (auto& c : s)
+        {
+            balance += (c == 'R') ? -1 : 1;
+
+            if (balance == 0)
+                count++;
+        }
+
+        return count;
+    }
+};
+```
