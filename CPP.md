@@ -2771,3 +2771,39 @@ public:
     }
 };
 ```
+
+## 1656. Design an Ordered Stream
+```cpp
+class OrderedStream {
+    unordered_map<int, string> m;
+    int nextId{1};
+public:
+    OrderedStream(int n) {
+        
+    }
+    
+    vector<string> insert(int idKey, string value) {
+        m[idKey] = value;
+
+        if (idKey != nextId) 
+            return {};
+
+        vector<string> result;
+        while (m.count(idKey))
+        {
+            result.push_back(m[idKey]);
+            m.erase(idKey);
+            idKey++;
+        }
+
+        nextId = idKey;
+        return result;
+    }
+};
+
+/**
+ * Your OrderedStream object will be instantiated and called as such:
+ * OrderedStream* obj = new OrderedStream(n);
+ * vector<string> param_1 = obj->insert(idKey,value);
+ */
+```
