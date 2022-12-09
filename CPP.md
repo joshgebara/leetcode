@@ -2642,3 +2642,20 @@ public:
     }
 };
 ```
+
+## 1313. Decompress Run-Length Encoded List
+```cpp
+class Solution {
+public:
+    vector<int> decompressRLElist(vector<int>& nums) {
+        vector<int> result;
+
+        for (auto i = 0; i < nums.size(); i += 2)
+        {
+            result.insert(result.end(), nums[i], nums[i + 1]);
+        }
+
+        return result;
+    }
+};
+```
