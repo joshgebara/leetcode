@@ -2809,6 +2809,7 @@ public:
 ```
 
 ## 1038. Binary Search Tree to Greater Sum Tree
+### Recursive
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -2838,3 +2839,53 @@ public:
     }
 };
 ```
+
+### Iterative
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int sum{0};
+
+public:
+    TreeNode* bstToGst(TreeNode* root) {
+        vector<TreeNode*> stack;
+        auto curr = root;
+
+        while (curr || stack.size())
+        {
+            while (curr)
+            {
+                stack.push_back(curr);
+                curr = curr->right;
+            }
+
+            auto node = stack.back();
+            stack.pop_back();
+
+            sum += node->val;
+            node->val = sum;
+
+            curr = node->left;
+        }
+
+        return root;  
+    }
+};
+
+
+/*
+inorder iterative
+morris traversal inorder reverse
+*/
+```
+
