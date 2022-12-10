@@ -3339,3 +3339,27 @@ public:
     }
 };
 ```
+
+## 1684. Count the Number of Consistent Strings
+```cpp
+class Solution {
+public:
+    int countConsistentStrings(string allowed, vector<string>& words) {
+        int mask{0};
+        for (auto& c : allowed)
+        {
+            mask |= 1 << (c - 'a');
+        }
+
+        int count{0};
+        for (const auto& w : words)
+        {
+            count += all_of(begin(w), end(w), [&](const auto& c) {
+                return (mask & (1 << (c - 'a')));
+            });
+        }
+
+        return count;
+    }
+};
+```
