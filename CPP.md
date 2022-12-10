@@ -3015,3 +3015,44 @@ public:
     }
 };
 ```
+
+## 1769. Minimum Number of Operations to Move All Balls to Each Box
+```cpp
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        vector<int> result(boxes.size(), 0);
+
+        int sumOfIndices{0};
+        int countOfOnes{0};
+
+        for (int i = 0; i < boxes.size(); i++)
+        {
+            int moves = abs(i * countOfOnes - sumOfIndices);
+            result[i] += moves;
+            
+            if (boxes[i] == '1')
+            {
+                sumOfIndices += i;
+                countOfOnes++;
+            }
+        }
+
+        sumOfIndices = 0;
+        countOfOnes = 0;
+        for (int i = boxes.size() - 1; i >= 0; i--)
+        {
+            int moves = abs(i * countOfOnes - sumOfIndices);
+            result[i] += moves;
+            
+            if (boxes[i] == '1')
+            {
+                sumOfIndices += i;
+                countOfOnes++;
+            }
+        }
+        
+        return result;
+    }
+};
+```
