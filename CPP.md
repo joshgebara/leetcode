@@ -3393,3 +3393,35 @@ FROM Logins
 WHERE YEAR(time_stamp) = 2020
 GROUP BY user_id
 ```
+
+## 2103. Rings and Rods
+```cpp
+class Solution {
+private:
+    const unordered_map<char, int> colorToBitOffset { {'G', 0}, {'B', 1}, {'R', 2} };
+
+public:
+    int countPoints(string rings) {
+        int mask{0};
+        for (int i{0}; i < rings.size(); i += 2)
+        {
+            const auto color{rings[i]};
+            const auto rod{rings[i + 1] - '0'};
+            mask |= (1 << (colorToBitOffset.at(color) + rod * 3));
+        }
+
+        int count{0};
+        while (mask)
+        {
+            if ((0b111 & mask) == 0b111)
+            {
+                count++;
+            }
+
+            mask >>= 3;
+        }
+
+        return count;
+    }
+};
+```
