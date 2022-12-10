@@ -3160,3 +3160,29 @@ public:
     }
 };
 ```
+
+## 1614. Maximum Nesting Depth of the Parentheses
+```cpp
+class Solution {
+public:
+    int maxDepth(string s) {
+        int nestingDepth{0};
+        int balance{0};
+        
+        for (const auto& c : s)
+        {
+            if (c == '(')
+            {
+                balance++;
+                nestingDepth = max(nestingDepth, balance);
+            }
+            else if (c == ')')
+            {
+                balance--;
+            }
+        }
+
+        return nestingDepth;
+    }
+};
+```
