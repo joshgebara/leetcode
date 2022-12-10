@@ -104,3 +104,10 @@ SELECT sell_date,
 FROM Activities
 GROUP BY sell_date
 ```
+
+## 627. Swap Salary
+```sql
+# Write your MySQL query statement below
+UPDATE Salary 
+SET sex = if(sex = 'm', 'f', 'm')
+```
