@@ -3186,3 +3186,25 @@ public:
     }
 };
 ```
+
+## 2125. Number of Laser Beams in a Bank
+```cpp
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int total{0};
+        int prevRowNum{0};
+        for (const auto& b : bank)
+        {
+            auto currRowNum { count(b.begin(), b.end(), '1') };
+            if (currRowNum)
+            {
+                total += prevRowNum * currRowNum;
+                prevRowNum = currRowNum;
+            }
+        }
+        
+        return total;
+    }
+};
+```
