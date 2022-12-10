@@ -3084,3 +3084,47 @@ public:
     }
 };
 ```
+
+## 1662. Check If Two String Arrays are Equivalent
+```cpp
+class Solution {
+public:
+    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
+        int word1Index{0};
+        int word2Index{0};
+
+        int subString1Index{0};
+        int subString2Index{0};
+
+        while (word1Index < word1.size() && word2Index < word2.size())
+        {
+            auto subString1{word1[word1Index]};
+            auto subString2{word2[word2Index]};
+
+            if (subString1[subString1Index] != subString2[subString2Index])
+            {
+                return false;
+            }
+
+            subString1Index++;
+            subString2Index++;
+
+            // move to next substring if needed
+            if (subString1Index >= subString1.size())
+            {
+                word1Index++;
+                subString1Index = 0;
+            }
+
+            // move to next substring if needed
+            if (subString2Index >= subString2.size())
+            {
+                word2Index++;
+                subString2Index = 0;
+            }
+        }
+
+        return word1Index >= word1.size() && word2Index >= word2.size();
+    }
+};
+```
