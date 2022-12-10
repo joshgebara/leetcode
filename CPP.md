@@ -3055,3 +3055,32 @@ public:
     }
 };
 ```
+
+## 1329. Sort the Matrix Diagonally
+```cpp
+class Solution {
+public:
+    vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
+        unordered_map<int, priority_queue<int,vector<int>,greater<int>>> m;
+
+        for (int row{0}; row < mat.size(); row++)
+        {
+            for (int col{0}; col < mat[0].size(); col++)
+            {
+                m[row - col].push(mat[row][col]);
+            }
+        }
+
+        for (int row{0}; row < mat.size(); row++)
+        {
+            for (int col{0}; col < mat[0].size(); col++)
+            {
+                mat[row][col] = m[row - col].top();
+                m[row - col].pop();
+            }
+        }
+
+        return mat;
+    }
+};
+```
