@@ -3128,3 +3128,35 @@ public:
     }
 };
 ```
+
+## 804. Unique Morse Code Words
+```cpp
+class Solution {
+    array<string, 26> codeMap{".-","-...","-.-.","-..",".","..-.","--.",
+    "....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-",
+    "..-","...-",".--","-..-","-.--","--.."};
+
+    string toMorse(const string& word) const
+    {
+        string morseCode;
+        for (auto& c : word)
+        {
+            morseCode += codeMap[c - 'a'];
+        }
+
+        return morseCode;
+    }
+
+public:
+    int uniqueMorseRepresentations(vector<string>& words) {
+        unordered_set<string> s;
+
+        for (const auto& w : words)
+        {
+            s.insert(toMorse(w));
+        }
+
+        return s.size();
+    }
+};
+```
