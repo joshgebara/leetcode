@@ -3025,7 +3025,6 @@ public:
 
         int sumOfIndices{0};
         int countOfOnes{0};
-
         for (int i = 0; i < boxes.size(); i++)
         {
             int moves = abs(i * countOfOnes - sumOfIndices);
