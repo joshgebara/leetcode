@@ -3208,3 +3208,27 @@ public:
     }
 };
 ```
+
+## 2315. Count Asterisks
+```cpp
+class Solution {
+public:
+    int countAsterisks(string s) {
+        int count{0};
+
+        bool inGroup{false};
+        for (const auto& c : s)
+        {
+            if (c == '|')
+            {
+                inGroup = !inGroup;
+                continue;
+            }
+
+            count += (c == '*' && !inGroup);
+        }
+        
+        return count;
+    }
+};
+```
