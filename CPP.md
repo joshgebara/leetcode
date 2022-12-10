@@ -3288,3 +3288,43 @@ public:
     }
 };
 ```
+
+## 2037. Minimum Number of Moves to Seat Everyone
+```cpp
+class Solution {
+    vector<int> countingSort(const vector<int>& arr)
+    {
+        array<int, 101> buckets{0};
+        for (const auto& a : arr)
+        {
+            buckets[a]++;
+        }
+
+        vector<int> result;
+        for (int num{0}; num < buckets.size(); num++)
+        {
+            while (buckets[num])
+            {
+                result.push_back(num);
+                buckets[num]--;
+            }
+        }
+
+        return result;
+    }
+
+public:
+    int minMovesToSeat(vector<int>& seats, vector<int>& students) {
+        auto sortedSeats { countingSort(seats) };
+        auto sortedStudents { countingSort(students) };
+
+        int moves{0};
+        for (int i{0}; i < sortedSeats.size(); i++)
+        {
+            moves += abs(sortedSeats[i] - sortedStudents[i]);
+        }
+        
+        return moves;
+    }
+};
+```
