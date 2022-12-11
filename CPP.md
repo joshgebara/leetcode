@@ -3795,3 +3795,24 @@ public:
     }
 };
 ```
+
+## 1557. Minimum Number of Vertices to Reach All Nodes
+```cpp
+class Solution {
+public:
+    vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
+        vector<int> indegree(n);
+        for (const auto& edge : edges) {
+            indegree[edge[1]]++;
+        }
+
+        vector<int> result;
+        for (int node = 0; node < n; node++) {
+            if (indegree[node] == 0) {
+                result.push_back(node);
+            }
+        }
+        return result;
+    }
+};
+```
