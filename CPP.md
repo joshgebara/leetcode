@@ -3770,3 +3770,28 @@ public:
     }
 };
 ```
+
+## 1844. Replace All Digits with Characters
+```cpp
+class Solution {
+public:
+    string replaceDigits(string s) {
+        string result;
+
+        for (int i = 0; i < s.size(); i += 2) {
+            char c = s[i];
+            result += c;
+
+            if (i + 1 >= s.size()) {
+                continue;
+            }
+
+            int digit = s[i + 1] - '0';        
+            char shiftedC = c + digit;
+            result += shiftedC;
+        }
+
+        return result;
+    }
+};
+```
