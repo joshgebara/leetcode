@@ -3714,3 +3714,33 @@ public:
     }
 };
 ```
+
+## 1572. Matrix Diagonal Sum
+```cpp
+class Solution {
+public:
+    int diagonalSum(vector<vector<int>>& mat) {
+        int sum = 0;
+        for (int i = 0; i < mat.size(); i++)
+        {
+            int primaryRow = i;
+            int primaryCol = i;
+
+            int secondaryRow = i;
+            int secondaryCol = mat.size() - 1 - i;
+
+            sum += mat[primaryRow][primaryCol];
+
+            // Only add center to sum once
+            if (primaryCol == secondaryCol)
+            {
+                continue;
+            }
+            
+            sum += mat[secondaryRow][secondaryCol];
+        }
+
+        return sum;
+    }
+};
+```
