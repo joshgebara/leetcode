@@ -3662,3 +3662,25 @@ public:
     }
 };
 ```
+
+## 1877. Minimize Maximum Pair Sum in Array
+```cpp
+class Solution {
+public:
+    int minPairSum(vector<int>& nums) {
+        sort(begin(nums), end(nums));
+
+        int minMax = 0;
+        int left = 0;
+        int right = nums.size() - 1;
+        while (left < right)
+        {
+            minMax = max(minMax, nums[left] + nums[right]);
+            left++;
+            right--;
+        }
+
+        return minMax;
+    }
+};
+```
