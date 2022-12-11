@@ -3684,3 +3684,33 @@ public:
     }
 };
 ```
+
+## 2079. Watering Plants
+```cpp
+class Solution {
+public:
+    int wateringPlants(vector<int>& plants, int capacity) {
+        int currCapacity = capacity;
+        int steps = 0;
+        for (int i = 0; i < plants.size(); i++)
+        {
+            // step to next plant
+            steps++;
+            
+            // if can not at necessary amount
+            if (currCapacity < plants[i])
+            {
+                // steps to river + steps to get back - from one before curr plant
+                steps += i * 2;
+                // capacity now full
+                currCapacity = capacity;
+            }
+
+            // water plant - decrease capacity
+            currCapacity -= plants[i];
+        }
+
+        return steps;
+    }
+};
+```
