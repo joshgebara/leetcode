@@ -3625,3 +3625,40 @@ public:
     }
 };
 ```
+
+## 1021. Remove Outermost Parentheses
+```cpp
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        string result;
+
+        int balance = 0;
+        for (const auto& c : s)
+        {
+            if (c == '(')
+            {
+                // don't add first parenthesis (balance == 0)
+                if (balance > 0)
+                {
+                    result += c;
+                }
+
+                balance++;
+            }
+            else if (c == ')')
+            {
+                balance--;
+
+                // don't add last parenthesis (balance == 0)
+                if (balance > 0)
+                {
+                    result += c;
+                }
+            }
+        }
+
+        return result;
+    }
+};
+```
