@@ -3600,3 +3600,28 @@ public:
     }
 };
 ```
+
+## 1817. Finding the Users Active Minutes
+```cpp
+class Solution {
+public:
+    vector<int> findingUsersActiveMinutes(vector<vector<int>>& logs, int k) {
+        vector<int> result(k);
+
+        unordered_map<int, unordered_set<int>> userToUniqueMinutes;
+        for (const auto& log : logs)
+        {
+            int id = log[0];
+            int min = log[1];
+            userToUniqueMinutes[id].insert(min);
+        }
+
+        for (const auto& [user, uniqueMinutes] : userToUniqueMinutes)
+        {
+            result[uniqueMinutes.size() - 1]++;
+        }
+
+        return result;
+    }
+};
+```
