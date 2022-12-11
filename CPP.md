@@ -3578,3 +3578,25 @@ public:
     }
 };
 ```
+
+## 1773. Count Items Matching a Rule
+```cpp
+class Solution {
+    const unordered_map<string, int> ruleIndexMap {{"type", 0}, {"color", 1}, {"name", 2}};
+public:
+    int countMatches(vector<vector<string>>& items, string ruleKey, string ruleValue) {
+        int count = 0;
+        const int ruleIndex = ruleIndexMap.at(ruleKey);
+
+        for (const auto& item : items)
+        {
+            if (item[ruleIndex] == ruleValue)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+```
