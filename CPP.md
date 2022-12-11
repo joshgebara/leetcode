@@ -3744,3 +3744,29 @@ public:
     }
 };
 ```
+
+## 763. Partition Labels
+```cpp
+class Solution {
+public:
+    vector<int> partitionLabels(string s) {
+        unordered_map<char, int> m;
+        for (int i = 0; i < s.size(); i++) {
+            m[s[i]] = i;
+        }
+
+        vector<int> result;
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < s.size(); i++) {
+            end = max(end, m[s[i]]);
+            if (end == i) {
+                result.push_back(end - start + 1);
+                start = end + 1;
+            }
+        }
+
+        return result;
+    }
+};
+```
