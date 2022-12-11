@@ -3816,3 +3816,25 @@ public:
     }
 };
 ```
+
+## 1464. Maximum Product of Two Elements in an Array
+```cpp
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int max1 = 0;
+        int max2 = 0;
+
+        for (const auto& n : nums) {
+            if (max1 < n) {
+                max2 = max1;
+                max1 = n;
+            } else if (max2 < n) {
+                max2 = n;
+            }
+        }
+
+        return (max1 - 1) * (max2 - 1);
+    }
+};
+```
