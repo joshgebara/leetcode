@@ -3453,3 +3453,79 @@ public:
     }
 };
 ```
+
+## 2130. Maximum Twin Sum of a Linked List
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* getMiddleNode(ListNode* node)
+    {
+        auto fast {node->next};
+        auto slow {node};
+
+        while (fast && fast->next)
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+
+        return slow;
+    }
+
+    ListNode* reverse(ListNode* head)
+    {
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        ListNode* next = nullptr;
+
+        while (curr)
+        {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+
+public:
+    int pairSum(ListNode* head) {
+        stack<int> s;
+        
+        // Split list in half
+        auto firstHalfTail {getMiddleNode(head)};
+        auto secondHalfHead = firstHalfTail->next;
+        firstHalfTail->next = nullptr;
+
+        // Reverse second half
+        auto reversedSecondHalfHead {reverse(secondHalfHead)};
+
+        // Process both halves in lock step
+        int maxTwinSum = 0;
+        auto node1 {head};
+        auto node2 {reversedSecondHalfHead};
+        while (node1 && node2)
+        {
+            maxTwinSum = max(maxTwinSum, node1->val + node2->val);
+            node1 = node1->next;
+            node2 = node2->next;
+        }
+
+        // Put list back together
+        firstHalfTail->next = reverse(reversedSecondHalfHead);
+
+        return maxTwinSum;
+    }
+};
+```
