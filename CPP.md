@@ -3529,3 +3529,52 @@ public:
     }
 };
 ```
+
+## 1859. Sorting the Sentence
+```cpp
+class Solution {
+public:
+    string sortSentence(string s) {
+        string result;
+        array<string, 10> buckets;
+
+        string currWord;
+        int currIndex = 0;
+        for (auto i = 0; i <= s.size(); i++)
+        {
+            if (s[i] == ' ' || i == s.size())
+            {
+                buckets[currIndex] = currWord;
+                currWord = "";
+                currIndex = 0;
+                continue;
+            }
+
+            if (isalpha(s[i]))
+            {
+                currWord += s[i];
+            }
+            else if (isdigit(s[i]))
+            {
+                currIndex *= 10;
+                currIndex += s[i] - '0';
+            }
+        }
+
+        for (const auto& s : buckets)
+        {
+            if (s != "") 
+            {
+                if (result.size())
+                {
+                    result += " ";
+                }
+
+                result += s;
+            }
+        }
+
+        return result;
+    }
+};
+```
