@@ -3891,3 +3891,30 @@ public:
     }
 };
 ```
+
+## 1266. Minimum Time Visiting All Points
+```cpp
+class Solution {
+public:
+    int minTimeToVisitAllPoints(vector<vector<int>>& points) {
+        int time = 0;
+        
+        for (int i = 0; i < points.size() - 1; i++) {
+            auto point1 = points[i];
+            int point1X = point1[0];
+            int point1Y = point1[1];
+
+            auto point2 = points[i + 1];
+            int point2X = point2[0];
+            int point2Y = point2[1];
+
+            // Chebyshev distance
+            int xDelta = abs(point1X - point2X);
+            int yDelta = abs(point1Y - point2Y);
+            time += max(xDelta, yDelta);
+        }
+        
+        return time;
+    }
+};
+```
