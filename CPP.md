@@ -3970,3 +3970,32 @@ public:
     }
 };
 ```
+
+## 2442. Count Number of Distinct Integers After Reverse Operations
+```cpp
+class Solution {
+private:
+    int reverse(int n) {
+        int result = 0;
+        
+        while (n) {
+            result *= 10;
+            result += n % 10;
+            n /= 10;
+        }
+        
+        return result;
+    }
+public:
+    int countDistinctIntegers(vector<int>& nums) {
+        unordered_set<int> seen;
+
+        for (const auto& n : nums) {
+            seen.insert(n);
+            seen.insert(reverse(n));
+        }
+
+        return seen.size();
+    }
+};
+```
