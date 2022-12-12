@@ -4091,3 +4091,26 @@ private:
     }
 };
 ```
+
+## 1827. Minimum Operations to Make the Array Increasing
+```cpp
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int currMax = 0;
+        int operations = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] > currMax) {
+                currMax = nums[i];
+                continue;
+            }
+
+            int newVal = nums[i] + (currMax - nums[i] + 1);
+            operations += currMax - nums[i] + 1;
+            currMax = newVal;            
+        }
+
+        return operations;
+    }
+};
+```
