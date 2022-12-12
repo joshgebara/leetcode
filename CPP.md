@@ -3838,3 +3838,21 @@ public:
     }
 };
 ```
+
+## 2485. Find the Pivot Integer
+```cpp
+class Solution {
+public:
+    int pivotInteger(int n) {
+        // Guass Formula
+        int totalSum = n * (n + 1) / 2;
+        
+        int pivotCandidate = sqrt(totalSum);
+        if (pivotCandidate * pivotCandidate == totalSum) {
+            return pivotCandidate;
+        }
+
+        return -1;
+    }
+};
+```
