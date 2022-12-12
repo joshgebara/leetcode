@@ -3918,3 +3918,36 @@ public:
     }
 };
 ```
+
+## 2482. Difference Between Ones and Zeros in Row and Column
+```cpp
+class Solution {
+public:
+    vector<vector<int>> onesMinusZeros(vector<vector<int>>& grid) {
+        vector<int> onesRow(grid.size());
+        vector<int> onesCol(grid[0].size());
+        vector<int> zerosRow(grid.size());
+        vector<int> zerosCol(grid[0].size());
+
+        for (int row = 0; row < grid.size(); row++) {
+            for (int col = 0; col < grid[0].size(); col++) {
+                if (grid[row][col] == 1) {
+                    onesRow[row]++;
+                    onesCol[col]++;
+                } else {
+                    zerosRow[row]++;
+                    zerosCol[col]++;
+                }
+            }
+        }
+
+        for (int row = 0; row < grid.size(); row++) {
+            for (int col = 0; col < grid[0].size(); col++) {
+                grid[row][col] = onesRow[row] + onesCol[col] - zerosRow[row] - zerosCol[col];
+            }
+        }
+
+        return grid;
+    }
+};
+```
