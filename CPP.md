@@ -4058,3 +4058,36 @@ public:
     }
 };
 ```
+
+## 2108. Find First Palindromic String in the Array
+```cpp
+class Solution {
+public:
+    string firstPalindrome(vector<string>& words) {
+        for (const auto& word : words) {
+            if (isPalindrome(word)) {
+                return word;
+            }
+        }
+
+        return "";
+    }
+
+private:
+    bool isPalindrome(const string& s) {
+        int left = 0;
+        int right = s.size() - 1;
+
+        while (left < right) {
+            if (s[left] != s[right]) {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+        
+        return true;
+    }
+};
+```
