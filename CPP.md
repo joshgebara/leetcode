@@ -3999,3 +3999,27 @@ public:
     }
 };
 ```
+
+## 1725. Number Of Rectangles That Can Form The Largest Square
+```cpp
+class Solution {
+public:
+    int countGoodRectangles(vector<vector<int>>& rectangles) {
+        int maxLen = 0;
+        int maxCount = 0;
+
+        for (const auto& r : rectangles) {
+            int currMaxLen = min(r[0], r[1]);
+            
+            if (maxLen < currMaxLen) {
+                maxLen = currMaxLen;
+                maxCount = 1;
+            } else if (maxLen == currMaxLen) {
+                maxCount++;
+            }
+        }
+
+        return maxCount;
+    }
+};
+```
