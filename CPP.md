@@ -4243,3 +4243,27 @@ public:
     }
 };
 ```
+
+## 1347. Minimum Number of Steps to Make Two Strings Anagram
+```cpp
+class Solution {
+public:
+    int minSteps(string s, string t) {
+        vector<int>count(26);
+        
+        for (const auto& c : s) {
+            count[c - 'a']++;
+        }
+
+        for (const auto& c : t) {
+            count[c - 'a']--;
+        }
+
+        int diff = 0;
+        for (int i = 0; i < 26; i++) {
+            diff += max(count[i], 0);
+        }
+        return diff;
+    }
+};
+```
