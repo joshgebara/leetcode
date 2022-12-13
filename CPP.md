@@ -4432,3 +4432,27 @@ public:
     }
 };
 ```
+
+## 2341. Maximum Number of Pairs in Array
+```cpp
+class Solution {
+public:
+    vector<int> numberOfPairs(vector<int>& nums) {
+        vector<int> counts(101);
+
+        for (int i = 0; i < nums.size(); i++) {
+            counts[nums[i]]++;
+        }
+
+        int pairs = 0;
+        int remaining = 0;
+
+        for (int i = 0; i < 101; i++) {
+            pairs += counts[i] / 2;
+            remaining += counts[i] % 2;
+        }
+
+        return {pairs, remaining};
+    }
+};
+```
