@@ -4353,3 +4353,23 @@ public:
     }
 };
 ```
+
+## 1304. Find N Unique Integers Sum up to Zero
+```cpp
+class Solution {
+public:
+    vector<int> sumZero(int n) {
+        vector<int> result;
+        for (int i = 1; i <= n / 2; i++) {
+            result.push_back(-i);
+            result.push_back(i);
+        }
+
+        if (result.size() != n) {
+            result.push_back(0);
+        }
+
+        return result;
+    }
+};
+```
