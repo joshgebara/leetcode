@@ -4404,3 +4404,31 @@ public:
     }
 };
 ```
+
+## 1941. Check if All Characters Have Equal Number of Occurrences
+```cpp
+class Solution {
+public:
+    bool areOccurrencesEqual(string s) {
+        vector<int> counts(26);
+        for (int i = 0; i < s.size(); i++) {
+            counts[s[i] - 'a']++;
+        }
+
+        int freq = 0;
+        for (int i = 0; i < counts.size(); i++) {
+            if (counts[i] > 0) {
+                if (freq == 0) {
+                    freq = counts[i];
+                }
+                
+                if (counts[i] != freq) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+};
+```
