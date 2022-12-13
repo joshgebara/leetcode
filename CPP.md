@@ -4229,3 +4229,17 @@ public:
     }
 };
 ```
+
+## 1374. Generate a String With Characters That Have Odd Counts
+```cpp
+class Solution {
+public:
+    string generateTheString(int n) {
+        if (n % 2 == 0) {
+            return std::string(n - 1, 'a') + 'b';
+        } else {
+            return std::string(n, 'a');
+        }
+    }
+};
+```
