@@ -4267,3 +4267,23 @@ public:
     }
 };
 ```
+
+## 1812. Determine Color of a Chessboard Square
+```cpp
+class Solution {
+public:
+    bool squareIsWhite(string coordinates) {
+        int row = coordinates[1] - '0';
+        int col = coordinates[0] - 'a';
+
+        // is odd, starts as black
+        if (row & 1) {
+            return col & 1;
+        }
+        // is even, starts as white
+        else {
+            return !(col & 1);
+        }
+    }
+};
+```
