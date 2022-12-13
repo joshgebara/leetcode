@@ -4390,3 +4390,17 @@ public:
 };
 ```
 
+## 1295. Find Numbers with Even Number of Digits
+```cpp
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int evenNumCount = 0;
+        for (const auto& n : nums) {
+            int digitCount = log10(n) + 1;
+            evenNumCount += digitCount % 2 == 0;
+        }
+        return evenNumCount;
+    }
+};
+```
