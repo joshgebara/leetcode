@@ -4114,3 +4114,41 @@ public:
     }
 };
 ```
+
+## 890. Find and Replace Pattern
+```cpp
+class Solution {
+private:
+    bool isMatch(string word, string pattern) {
+        unordered_map<char, char> wToP;
+        unordered_map<char, char> pToW;
+
+        for (int i = 0; i < word.size(); i++) {
+            if (wToP.count(word[i]) == 0 && pToW.count(pattern[i]) == 0) {
+                wToP[word[i]] = pattern[i];
+                pToW[pattern[i]] = word[i];
+                continue;
+            }
+
+            if (wToP[word[i]] != pattern[i] || pToW[pattern[i]] != word[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+public:
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string> result;
+
+        for (auto& word : words) {
+            if (isMatch(word, pattern)) {
+                result.push_back(word);
+            }
+        }
+
+        return result;
+    }
+};
+```
