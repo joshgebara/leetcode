@@ -4287,3 +4287,39 @@ public:
     }
 };
 ```
+
+## 1370. Increasing Decreasing String
+```cpp
+class Solution {
+public:
+    string sortString(string s) {
+        vector<int> counts(26);
+        for (const auto& c : s) {
+            counts[c - 'a']++;
+        }
+
+        string result;
+        while (result.size() != s.size()) {
+            // forward
+            for (int i = 0; i < counts.size(); i++) {
+                if (counts[i]) {
+                    result += i + 'a';
+                    counts[i]--;
+                }
+            }
+
+            if (result.size() == s.size()) break;
+
+            // reverse
+            for (int i = counts.size() - 1; i >= 0; i--) {
+                if (counts[i]) {
+                    result += i + 'a';
+                    counts[i]--;       
+                }
+            }
+        }
+
+        return result;
+    }
+};
+```
