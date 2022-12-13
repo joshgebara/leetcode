@@ -4152,3 +4152,16 @@ public:
     }
 };
 ```
+
+## 2000. Reverse Prefix of Word
+```cpp
+class Solution {
+public:
+    string reversePrefix(string word, char ch) {
+        auto index = word.find(ch);
+        // string::npos == -1, -1 + 1 = 0, reverse(0, 0) - if char not in word
+        reverse(word.begin(), word.begin() + index + 1);
+        return word;
+    }
+};
+```
