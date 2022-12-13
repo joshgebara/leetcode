@@ -4165,3 +4165,37 @@ public:
     }
 };
 ```
+
+## 728. Self Dividing Numbers
+```cpp
+class Solution {
+private:
+    bool isSelfDividing(int num) {
+        int n = num;
+        while (n) {
+            int digit = n % 10;
+            if (digit == 0) {
+                return false;
+            }
+
+            if (num % digit != 0) {
+                return false;
+            }
+
+            n /= 10;
+        }
+        return true;
+    }
+
+public:
+    vector<int> selfDividingNumbers(int left, int right) {
+        vector<int> result;
+        for (int num = left; num <= right; num++) {
+            if (isSelfDividing(num)) {
+                result.push_back(num);
+            }
+        }
+        return result;
+    }
+};
+```
