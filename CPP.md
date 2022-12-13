@@ -4199,3 +4199,33 @@ public:
     }
 };
 ```
+
+## 1436. Destination City
+```cpp
+class Solution {
+public:
+    string destCity(vector<vector<string>>& paths) {
+        unordered_map<string, int> outdegree;
+
+        for (const auto& path : paths) {
+            if (outdegree.count(path[0]) == 0) {
+                outdegree[path[0]] = 0;
+            }
+
+            if (outdegree.count(path[1]) == 0) {
+                outdegree[path[1]] = 0;
+            }
+
+            outdegree[path[0]]++;
+        }
+
+        for (const auto& [key, value] : outdegree) {
+            if (value == 0) {
+                return key;
+            }
+        }
+
+        return "";
+    }
+};
+```
