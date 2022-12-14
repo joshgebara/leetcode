@@ -4742,3 +4742,25 @@ public:
     }
 };
 ```
+
+## 1748. Sum of Unique Elements
+```cpp
+class Solution {
+public:
+    int sumOfUnique(vector<int>& nums) {
+        vector<int> counts(101);
+
+        for (const auto& n : nums) {
+            counts[n]++;
+        }
+
+        int sum = 0;
+        for (int num = 0; num < counts.size(); num++) {
+            if (counts[num] == 1) {
+                sum += num;
+            }
+        }
+        return sum;
+    }
+};
+```
