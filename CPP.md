@@ -4713,3 +4713,32 @@ public:
     }
 };
 ```
+
+## 1450. Number of Students Doing Homework at a Given Time
+```cpp
+class Solution {
+public:
+    int busyStudent(vector<int>& startTime, vector<int>& endTime, int queryTime) {
+        int count = 0;
+        for (int i = 0; i < startTime.size(); i++) {
+            if (startTime[i] <= queryTime && queryTime <= endTime[i]) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+```
+
+## 2119. A Number After a Double Reversal
+```cpp
+class Solution {
+public:
+    bool isSameAfterReversals(int num) {
+        if (num == 0) return true;
+        // if trailing zero then false
+        return (num % 10) != 0;
+    }
+};
+```
