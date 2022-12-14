@@ -4480,3 +4480,35 @@ public:
     }
 };
 ```
+
+## 2089. Find Target Indices After Sorting Array
+### Dutch Flag
+```cpp
+class Solution {
+public:
+    vector<int> targetIndices(vector<int>& nums, int target) {
+        int lessThanTarget = 0;
+        int notYetSorted = 0;
+        int greaterThanTarget = nums.size() - 1;
+
+        while (notYetSorted <= greaterThanTarget) {
+            if (nums[notYetSorted] > target) {
+                swap(nums[notYetSorted], nums[greaterThanTarget]);
+                greaterThanTarget--;
+            } else if (nums[notYetSorted] < target) {
+                swap(nums[lessThanTarget], nums[notYetSorted]);
+                lessThanTarget++;
+                notYetSorted++;
+            } else {
+                notYetSorted++;
+            }
+        }
+
+        vector<int> result;
+        for (int i = lessThanTarget; i < notYetSorted; i++) {
+            result.push_back(i);
+        }
+        return result;
+    }
+};
+```
