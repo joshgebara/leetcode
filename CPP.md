@@ -4693,3 +4693,23 @@ public:
     }
 };
 ```
+
+## 2351. First Letter to Appear Twice
+```cpp
+class Solution {
+public:
+    char repeatedCharacter(string s) {
+        int mask = 0;
+        for (const auto& c : s) {
+            int bin = 1 << (c - 'a');
+            if ((mask & bin) != 0) {
+                return c;
+            }
+
+            mask |= bin;
+        }
+
+        return 0;
+    }
+};
+```
