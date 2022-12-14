@@ -4618,3 +4618,29 @@ public:
     }
 };
 ```
+
+## 921. Minimum Add to Make Parentheses Valid
+```cpp
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        int moves = 0;
+        int balance = 0;
+        
+        for (const auto& c : s) {
+            if (c == '(') {
+                if (balance < 0) {
+                    moves += abs(balance);
+                    balance = 0;
+                }
+                balance++;
+            } else if (c == ')') {
+                balance--;
+            }
+        }
+
+        moves += abs(balance);
+        return moves;
+    }
+};
+```
