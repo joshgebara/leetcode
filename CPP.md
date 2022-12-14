@@ -4512,3 +4512,27 @@ public:
     }
 };
 ```
+
+### Count
+```cpp
+class Solution {
+public:
+    vector<int> targetIndices(vector<int>& nums, int target) {
+        int lessThanTargetCount = 0;
+        int equalToTargetCount = 0;
+
+        for (const auto& num : nums) {
+            lessThanTargetCount += num < target;
+            equalToTargetCount += num == target;
+        }
+        
+        vector<int> result;
+        for (int i = lessThanTargetCount; 
+             i < lessThanTargetCount + equalToTargetCount; 
+             i++) {
+            result.push_back(i);
+        }
+        return result;
+    }
+};
+```
