@@ -4782,3 +4782,25 @@ public:
     }
 };
 ```
+
+## 1475. Final Prices With a Special Discount in a Shop
+```cpp
+class Solution {
+public:
+    vector<int> finalPrices(vector<int>& prices) {
+        vector<int> result = prices;
+        vector<int> stack;
+        for (int i = 0; i < prices.size(); i++) {
+            while (stack.size() && prices[stack.back()] >= prices[i]) {
+                int index = stack.back();
+                stack.pop_back();
+                result[index] = prices[index] - prices[i];
+            }
+
+            stack.push_back(i);
+        }
+        
+        return result;
+    }
+};
+```
