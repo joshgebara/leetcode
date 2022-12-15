@@ -4855,3 +4855,32 @@ public:
     }
 };
 ```
+
+## 2363. Merge Similar Items
+```cpp
+class Solution {
+public:
+    vector<vector<int>> mergeSimilarItems(vector<vector<int>>& items1, vector<vector<int>>& items2) {
+        vector<int> buckets(1001);
+        for (const auto& item : items1) {
+            auto weight = item[0];
+            auto value = item[1];
+            buckets[weight] += value;
+        }
+
+        for (const auto& item : items2) {
+            auto weight = item[0];
+            auto value = item[1];
+            buckets[weight] += value;
+        }
+
+        vector<vector<int>> result;
+        for (int value = 0; value < buckets.size(); value++) {
+            auto sum = buckets[value];
+            if (sum == 0) continue;
+            result.push_back({value, buckets[value]});
+        }
+        return result;
+    }
+};
+```
