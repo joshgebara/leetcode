@@ -4884,3 +4884,29 @@ public:
     }
 };
 ```
+
+## 1351. Count Negative Numbers in a Sorted Matrix
+```cpp
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        int total = 0;
+        
+        int currRow = 0;
+        int currCol = n - 1;
+        while (currRow < m && currCol >= 0) {
+            if (grid[currRow][currCol] < 0) {
+                total += m - currRow;
+                currCol--;
+                continue;
+            }
+
+            currRow++;
+        }
+        return total;
+    }
+};
+```
