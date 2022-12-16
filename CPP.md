@@ -4910,3 +4910,32 @@ public:
     }
 };
 ```
+
+## 1051. Height Checker
+```cpp
+class Solution {
+public:
+    int heightChecker(vector<int>& heights) {
+        vector<int> buckets(101);
+        for (const auto height : heights) {
+            buckets[height]++;
+        }
+
+        vector<int> sorted;
+        for (int num = 0; num < buckets.size(); num++) {
+            while (buckets[num]--) {
+                sorted.push_back(num);
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < heights.size(); i++) {
+            if (sorted[i] != heights[i]) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+```
