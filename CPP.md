@@ -5233,3 +5233,19 @@ public:
     }
 };
 ```
+
+## 1299. Replace Elements with Greatest Element on Right Side
+```cpp
+class Solution {
+public:
+    vector<int> replaceElements(vector<int>& arr) {
+        vector<int> result(arr);
+        int maxNum = -1;
+        for (int i = arr.size() - 1; i >= 0; i--) {
+            result[i] = maxNum;
+            maxNum = max(maxNum, arr[i]);
+        }
+        return result;
+    }
+};
+```
