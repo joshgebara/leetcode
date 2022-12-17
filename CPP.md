@@ -5212,3 +5212,24 @@ public:
     }
 };
 ```
+
+## 2206. Divide Array Into Equal Pairs
+```cpp
+class Solution {
+public:
+    bool divideArray(vector<int>& nums) {
+        unordered_map<int, int> m;
+        for (const int num : nums) {
+            m[num]++;
+        }
+
+        for (const auto& [key, val] : m) {
+            if (val % 2 != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
