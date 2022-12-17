@@ -5059,3 +5059,15 @@ public:
     }
 };
 ```
+
+## 461. Hamming Distance
+### Built In
+```cpp
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        const int hamming = ;
+        return __builtin_popcount(hamming);
+    }
+};
+```
