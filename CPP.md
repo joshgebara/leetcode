@@ -5086,3 +5086,93 @@ public:
     }
 };
 ```
+
+## 419. Battleships in a Board
+```cpp
+class UnionFind {
+public:
+    UnionFind(int n): m_numOfComponents(n) {
+        for (int i = 0; i < n; i++) {
+            m_parents.push_back(i);
+            m_sizes.push_back(1);
+        }
+    }
+
+    void unionElements(int a, int b) {
+        int parentA = find(a);
+        int parentB = find(b);
+
+        if (parentA == parentB) {
+            return;
+        }
+
+        if (m_sizes[parentA] < m_sizes[parentB]) {
+            m_sizes[parentB] += m_sizes[parentA];
+            m_parents[parentA] = parentB;
+        } else {
+            m_sizes[parentA] += m_sizes[parentB];
+            m_parents[parentB] = parentA;
+        }
+
+        m_numOfComponents--;
+    }
+
+    int find(int a) {
+        int root = a;
+        while (root != m_parents[root]) {
+            root = m_parents[root];
+        }
+
+        while (a != root) {
+            auto next = m_parents[a];
+            m_parents[a] = root;
+            a = next;
+        }
+
+        return root;
+    }
+
+    int size() {
+        return m_numOfComponents;
+    }
+private:
+    int m_numOfComponents;
+    vector<int> m_parents;
+    vector<int> m_sizes;
+};
+
+class Solution {
+public:
+    int countBattleships(vector<vector<char>>& board) {
+        const int m = board.size();
+        const int n = board[0].size();
+        const vector<pair<int, int>> dirs {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        UnionFind unionFind(m * n);
+        int emptySpaces = 0;
+
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                if (board[row][col] == '.') {
+                    emptySpaces++;
+                    continue;
+                }
+
+                for (const auto& [deltaRow, deltaCol] : dirs) {
+                    const auto nextRow = deltaRow + row;
+                    const auto nextCol = deltaCol + col;
+
+                    if (nextRow < 0 || nextRow >= m || 
+                        nextCol < 0 || nextCol >= n) {
+                        continue;
+                    }
+
+                    if (board[nextRow][nextCol] == 'X') {
+                        unionFind.unionElements(row * n + col, nextRow * n + nextCol);
+                    }
+                }
+            }
+        }
+        return unionFind.size() - emptySpaces;
+    }
+};
+```
