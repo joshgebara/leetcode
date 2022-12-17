@@ -5000,3 +5000,62 @@ public:
     }
 };
 ```
+
+## 861. Score After Flipping Matrix
+```cpp
+class Solution {
+private:
+    void flipRow(vector<vector<int>>& grid, int row) {
+        for (int col = 0; col < grid[0].size(); col++) {
+            grid[row][col] ^= 1;
+        }
+    }
+
+    void flipCol(vector<vector<int>>& grid, int col) {
+        for (int row = 0; row < grid.size(); row++) {
+            grid[row][col] ^= 1;
+        }
+    }
+
+    int getNum(vector<vector<int>>& grid, int row) {
+        int bin = 0;
+        int shift = 0;
+        for (int col = grid[0].size() - 1; col >= 0; col--) {
+            bin |= (grid[row][col] << shift);
+            shift++;
+        }
+        return bin;
+    }
+
+public:
+    int matrixScore(vector<vector<int>>& grid) {
+        for (int row = 0; row < grid.size(); row++) {
+            if (grid[row][0] == 0) {
+                flipRow(grid, row);
+            }
+        }
+
+        for (int col = 1; col < grid[0].size(); col++) {
+            int zeroCount = 0;
+            int oneCount = 0;
+            for (int row = 0; row < grid.size(); row++) {
+                if (grid[row][col] == 1) {
+                    oneCount++;
+                } else {
+                    zeroCount++;
+                }
+            }
+
+            if (zeroCount > oneCount) {
+                flipCol(grid, col);
+            }
+        }
+
+        int sum = 0;
+        for (int row = 0; row < grid.size(); row++) {
+            sum += getNum(grid, row);
+        }
+        return sum;
+    }
+};
+```
