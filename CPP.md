@@ -4939,3 +4939,37 @@ public:
     }
 };
 ```
+
+## 150. Evaluate Reverse Polish Notation
+```cpp
+class Solution {
+private:
+    unordered_map<string, function<long (long, long)>> operators {
+        {"+", [](const long a, const long b) { return a + b; }},
+        {"-", [](const long a, const long b) { return a - b; }},
+        {"*", [](const long a, const long b) { return a * b; }},
+        {"/", [](const long a, const long b) { return a / b; }},
+    };
+
+public:
+    int evalRPN(vector<string>& tokens) {
+        vector<long> stack;
+        for (const auto& token : tokens) {
+            // Not an operator
+            if (operators.count(token) == 0) {
+                stack.push_back(stoi(token));
+                continue;
+            }
+
+            const long num2 = stack.back();
+            stack.pop_back();
+            const long num1 = stack.back();
+            stack.pop_back();
+
+            stack.push_back(operators[token](num1, num2));
+        }
+
+        return stack.back();
+    }
+};
+```
