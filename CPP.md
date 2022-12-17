@@ -5066,8 +5066,23 @@ public:
 class Solution {
 public:
     int hammingDistance(int x, int y) {
-        const int hamming = ;
-        return __builtin_popcount(hamming);
+        return __builtin_popcount(x ^ y);
+    }
+};
+```
+
+### Bit Manipulation
+```cpp
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        int hamming = x ^ y;
+        int count = 0;
+        while (hamming) {
+            hamming &= (hamming - 1);
+            count++;
+        }
+        return count;
     }
 };
 ```
