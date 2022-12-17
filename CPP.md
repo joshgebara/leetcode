@@ -4973,3 +4973,30 @@ public:
     }
 };
 ```
+
+## 46. Permutations
+```cpp
+class Solution {
+private: 
+    void _permute(vector<vector<int>>& result, vector<int>& nums, int index) {
+        if (index >= nums.size()) {
+            result.push_back(nums);
+            return;
+        }
+
+        for (int i = index; i < nums.size(); i++) {
+            // swap
+            swap(nums[index], nums[i]);
+            _permute(result, nums, index + 1);
+            // unswap
+            swap(nums[index], nums[i]);
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        _permute(result, nums, 0);
+        return result;   
+    }
+};
+```
