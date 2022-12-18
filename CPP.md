@@ -5411,3 +5411,27 @@ public:
     }
 };
 ```
+
+## 2405. Optimal Partition of String
+```cpp
+class Solution {
+public:
+    int partitionString(string s) {
+        int partitions = 1;
+        int seen = 0;
+        for (int i = 0; i < s.size(); i++) {
+            int bin = 1 << (s[i] - 'a');
+
+            // if seen before
+            if (seen & bin) {
+                partitions++;
+                seen = 0;
+            }
+
+            seen |= bin;
+        }
+
+        return partitions;
+    }
+};
+```
