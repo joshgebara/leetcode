@@ -5435,3 +5435,31 @@ public:
     }
 };
 ```
+
+## 1277. Count Square Submatrices with All Ones
+```cpp
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        for (int row = 1; row < matrix.size(); row++) {
+            for (int col = 1; col < matrix[0].size(); col++) {
+                if (!matrix[row][col]) {
+                    continue;
+                }
+
+                matrix[row][col] = 1 + min(matrix[row-1][col-1], 
+                                       min(matrix[row-1][col], 
+                                       matrix[row][col-1]));
+            }
+        }
+
+        int count = 0;
+        for (int row = 0; row < matrix.size(); row++) {
+            for (int col = 0; col < matrix[0].size(); col++) {
+                count += matrix[row][col];
+            }
+        }
+        return count;
+    }
+};
+```
