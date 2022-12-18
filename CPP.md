@@ -5463,3 +5463,33 @@ public:
     }
 };
 ```
+
+## 78. Subsets
+### Recursive
+```cpp
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> curr;
+        _subsets(nums, result, curr, 0);
+        return result;
+    }
+
+private:
+    void _subsets(vector<int>& nums, vector<vector<int>>& result, vector<int>& curr, int index) {
+        if (index >= nums.size()) {
+            result.push_back(curr);
+            return;
+        }
+
+        // take
+        curr.push_back(nums[index]);
+        _subsets(nums, result, curr, index + 1);
+        curr.pop_back();
+
+        // don't take
+        _subsets(nums, result, curr, index + 1);
+    }
+};
+```
