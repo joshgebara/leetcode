@@ -5249,3 +5249,27 @@ public:
     }
 };
 ```
+
+## 739. Daily Temperatures
+```cpp
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        vector<int> result(temperatures.size(), 0);
+        vector<int> stack;
+
+        for (int i = 0; i < temperatures.size(); i++) {
+            while (stack.size() && temperatures[stack.back()] < temperatures[i]) {
+                int index = stack.back();
+                stack.pop_back();
+
+                result[index] = i - index;
+            }
+
+            stack.push_back(i);
+        }
+
+        return result;      
+    }
+};
+```
