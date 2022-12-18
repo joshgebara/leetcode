@@ -5493,3 +5493,27 @@ private:
     }
 };
 ```
+
+### Iterative Bitmask
+```cpp
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+
+        int upperBound = (1 << nums.size()) - 1;
+        for (int bin = 0; bin <= upperBound; bin++) {
+            vector<int> curr;
+            for (int i = 0; i < nums.size(); i++) {
+                int mask = 1 << i;
+                if (bin & mask) {
+                    curr.push_back(nums[i]);
+                }
+            }
+            result.push_back(curr);
+        }
+
+        return result;
+    }
+};
+```
