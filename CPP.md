@@ -5348,3 +5348,66 @@ public:
     }
 };
 ```
+
+## 2326. Spiral Matrix IV
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
+        vector<vector<int>> matrix(m, std::vector<int>(n, -1));
+
+        int top = 0;
+        int bottom = m - 1;
+        int left = 0;
+        int right = n - 1;
+
+        ListNode* curr = head;
+
+        while (curr && top <= bottom) {
+            // up
+            for (int col = left; curr && col <= right; col++) {
+                matrix[top][col] = curr->val;
+                curr = curr->next;
+            }
+            if (!curr) break;
+            top++;
+            
+            // right
+            for (int row = top; curr && row <= bottom; row++) {
+                matrix[row][right] = curr->val;
+                curr = curr->next;
+            }
+            if (!curr) break;
+            right--;
+
+            // bottom
+            for (int col = right; curr && col >= left; col--) {
+                matrix[bottom][col] = curr->val;
+                curr = curr->next;
+            }
+            if (!curr) break;
+            bottom--;
+
+            // left
+            for (int row = bottom; curr && row >= top; row--) {
+                matrix[row][left] = curr->val;
+                curr = curr->next;
+            }
+            if (!curr) break;
+            left++;
+        }
+
+        return matrix;
+    }
+};
+```
