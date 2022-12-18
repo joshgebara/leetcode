@@ -5275,6 +5275,7 @@ public:
 ```
 
 ## 701. Insert into a Binary Search Tree
+### Recursive
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -5298,6 +5299,49 @@ public:
             root->right = insertIntoBST(root->right, val);
         } else {
             root->left = insertIntoBST(root->left, val);
+        }
+
+        return root;
+    }
+};
+```
+
+### Iterative
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if (!root) {
+            return new TreeNode(val);
+        }
+
+        TreeNode* prev = nullptr;
+        TreeNode* curr = root;
+        while (curr) {
+            prev = curr;
+            if (curr->val < val) {
+                curr = curr->right;
+            } else {
+                curr = curr->left;
+            }
+        }
+
+        TreeNode* node = new TreeNode(val);
+        if (prev->val < val) {
+            prev->right = node;
+        } else {
+            prev->left = node;
         }
 
         return root;
