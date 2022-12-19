@@ -5662,3 +5662,35 @@ public:
     }
 };
 ```
+
+## 2225. Find Players With Zero or One Losses
+```cpp
+class Solution {
+public:
+    vector<vector<int>> findWinners(vector<vector<int>>& matches) {
+        unordered_map<int, int> playerToLosses;
+        for (const auto& match : matches) {
+            playerToLosses[match[0]];
+            playerToLosses[match[1]]++;
+        }
+
+        vector<int> zeroLosses;
+        vector<int> oneLoss;
+
+        for (const auto& [player, losses] : playerToLosses) {
+            if (losses == 0) {
+                zeroLosses.push_back(player);
+            }
+
+            if (losses == 1) {
+                oneLoss.push_back(player);
+            }
+        }
+
+        sort(zeroLosses.begin(), zeroLosses.end());
+        sort(oneLoss.begin(), oneLoss.end());
+
+        return {zeroLosses, oneLoss};
+    }
+};
+```
