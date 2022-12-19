@@ -153,3 +153,11 @@ FROM Cinema
 WHERE id % 2 = 1 AND description <> "boring"
 ORDER BY rating DESC
 ```
+
+## 595. Big Countries
+```sql
+# Write your MySQL query statement below
+SELECT name, population, area
+FROM World
+WHERE area >= 3000000 OR population >= 25000000
+```
