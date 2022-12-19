@@ -120,3 +120,12 @@ From Views
 WHERE author_id = viewer_id
 ORDER BY author_id
 ```
+
+## 175. Combine Two Tables
+```sql
+# Write your MySQL query statement below
+SELECT firstName, lastName, city, state
+FROM Person
+LEFT JOIN Address
+USING(personId)
+```
