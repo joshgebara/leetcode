@@ -129,3 +129,18 @@ FROM Person
 LEFT JOIN Address
 USING(personId)
 ```
+
+## 608. Tree Node
+```cpp
+# Write your MySQL query statement below
+SELECT DISTINCT 
+    currNode.id, 
+    CASE
+        WHEN currNode.p_id IS NULL THEN "Root"
+        WHEN childNode.id IS NULL THEN "Leaf"
+        ELSE "Inner"
+    END AS type
+FROM Tree AS currNode
+LEFT JOIN Tree AS childNode
+ON currNode.id = childNode.p_id
+```
