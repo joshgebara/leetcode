@@ -5762,3 +5762,25 @@ private:
     }
 };
 ```
+
+## 2283. Check if Number Has Equal Digit Count and Digit Value
+```cpp
+class Solution {
+public:
+    bool digitCount(string num) {
+        vector<int> counts(10, 0);
+        for (int i = 0; i < num.size(); i++) {
+            int digit = num[i] - '0';
+            counts[digit]++;
+        }
+
+        for (int digit = 0; digit < num.size(); digit++) {
+            if (counts[digit] != num[digit] - '0') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
