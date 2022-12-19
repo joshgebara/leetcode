@@ -5545,3 +5545,36 @@ public:
     }
 };
 ```
+
+## 1742. Maximum Number of Balls in a Box
+```cpp
+class Solution {
+public:
+    int countBalls(int lowLimit, int highLimit) {
+        vector<int> buckets(46, 0);
+
+        int maxBallCount = 0;
+        for (int num = lowLimit; num <= highLimit; num++) {
+            int digitSum = getDigitSum(num);
+            buckets[digitSum]++;
+
+            maxBallCount = max(maxBallCount, buckets[digitSum]);
+        }
+
+        return maxBallCount;
+    }
+
+private:
+    int getDigitSum(int num) {
+        int sum = 0;
+
+        while (num) {
+            int digit = num % 10;
+            sum += digit;
+            num /= 10;
+        }
+
+        return sum;
+    }
+};
+```
