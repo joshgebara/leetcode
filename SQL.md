@@ -144,3 +144,12 @@ FROM Tree AS currNode
 LEFT JOIN Tree AS childNode
 ON currNode.id = childNode.p_id
 ```
+
+## 620. Not Boring Movies
+```sql
+# Write your MySQL query statement below
+SELECT *
+FROM Cinema
+WHERE id % 2 = 1 AND description <> "boring"
+ORDER BY rating DESC
+```
