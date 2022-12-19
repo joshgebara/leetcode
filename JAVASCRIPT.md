@@ -16539,14 +16539,6 @@ GROUP BY product_id
 HAVING MIN(sale_date) >= '2019-01-01' AND MAX(sale_date) <= '2019-03-31'
 ```
 
-## 620. Not Boring Movies
-```sql
-SELECT * 
-FROM cinema
-WHERE MOD(id, 2) <> 0 AND description <> 'boring'
-ORDER BY rating DESC
-```
-
 ## 1241. Number of Comments per Post
 ```sql
 SELECT S1.sub_id AS post_id, COUNT(DISTINCT S2.sub_id) AS number_of_comments
