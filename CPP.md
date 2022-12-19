@@ -5600,3 +5600,37 @@ private:
     }
 };
 ```
+
+## 1022. Sum of Root To Leaf Binary Numbers
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int sumRootToLeaf(TreeNode* root, int bin = 0) {
+        if (!root) {
+            return 0;
+        }
+
+        int nextBin = (bin << 1) | root->val;
+
+        if (!root->left && !root->right) {
+            return nextBin;
+        }
+        
+        int left = sumRootToLeaf(root->left, nextBin);
+        int right = sumRootToLeaf(root->right, nextBin);
+
+        return left + right;   
+    }
+};
+```
