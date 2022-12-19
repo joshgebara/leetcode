@@ -5694,3 +5694,37 @@ public:
     }
 };
 ```
+
+## 784. Letter Case Permutation
+```cpp
+class Solution {
+public:
+    vector<string> letterCasePermutation(string s) {
+        vector<string> result;
+
+        vector<int> alphaIndices;
+        for (int i = 0; i < s.size(); i++) {
+            if (isalpha(s[i])) {
+                alphaIndices.push_back(i);
+            }
+        }
+
+        int upperBound = (1 << alphaIndices.size()) - 1;
+        for (int bin = 0; bin <= upperBound; bin++) {
+            string curr = s;
+
+            for (int i = 0; i < alphaIndices.size(); i++) {
+                if ((1 << i) & bin) {
+                    curr[alphaIndices[i]] = toupper(curr[alphaIndices[i]]);
+                } else {
+                    curr[alphaIndices[i]] = tolower(curr[alphaIndices[i]]);
+                }
+            }
+
+            result.push_back(curr);
+        }
+
+        return result;
+    }
+};
+```
