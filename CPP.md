@@ -5784,3 +5784,34 @@ public:
     }
 };
 ```
+
+## 2255. Count Prefixes of a Given String
+```cpp
+class Solution {
+public:
+    int countPrefixes(vector<string>& words, string s) {
+        int count = 0;
+        
+        for (const auto& word : words) {
+            count += isPrefix(word, s);
+        }
+
+        return count;
+    }
+
+private:
+    bool isPrefix(const string& word, const string& s) const {
+        if (word.size() > s.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < word.size(); i++) {
+            if (word[i] != s[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
