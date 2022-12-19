@@ -5937,3 +5937,22 @@ public:
     }
 };
 ```
+
+## 2154. Keep Multiplying Found Values by Two
+```cpp
+class Solution {
+public:
+    int findFinalValue(vector<int>& nums, int original) {
+        vector<int> buckets(1001, 0);
+        for (const int num : nums) {
+            buckets[num]++;
+        }
+
+        while (original < buckets.size() && buckets[original]) {
+            original *= 2;
+        }
+
+        return original;
+    }
+};
+```
