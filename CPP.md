@@ -5634,3 +5634,31 @@ public:
     }
 };
 ```
+
+## 1207. Unique Number of Occurrences
+```cpp
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        vector<int> occurrences(2001, 0);
+        for (const int num : arr) {
+            occurrences[num + 1000]++;
+        }
+
+        set<int> unique;
+        for (const int occurrence : occurrences) {
+            if (occurrence == 0) {
+                continue;
+            }
+            
+            if (unique.count(occurrence) == 1) {
+                return false;
+            }
+
+            unique.insert(occurrence);
+        }
+
+        return true;
+    }
+};
+```
