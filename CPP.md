@@ -5578,3 +5578,25 @@ private:
     }
 };
 ```
+
+## 1880. Check if Word Equals Summation of Two Words
+```cpp
+class Solution {
+public:
+    bool isSumEqual(string firstWord, string secondWord, string targetWord) {
+        return strToNum(firstWord) + strToNum(secondWord) == strToNum(targetWord);
+    }
+
+private:
+    int strToNum(string& s) {
+        int sum = 0;
+
+        for (const char& c : s) {
+            sum *= 10;
+            sum += c - 'a';
+        }
+
+        return sum;
+    }
+};
+```
