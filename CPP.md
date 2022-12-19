@@ -5696,6 +5696,7 @@ public:
 ```
 
 ## 784. Letter Case Permutation
+### Iterative Bit Manipulation
 ```cpp
 class Solution {
 public:
@@ -5725,6 +5726,39 @@ public:
         }
 
         return result;
+    }
+};
+```
+
+### Recursive
+```cpp
+class Solution {
+public:
+    vector<string> letterCasePermutation(string s) {
+        vector<string> result;
+        string curr = s;
+        _letterCasePermutation(curr, 0, result);
+        return result;
+    }
+
+private:
+    void _letterCasePermutation(string& curr, int index, vector<string>& result) {
+        if (index >= curr.size()) {
+            result.push_back(curr);
+            return;
+        }
+
+        if (isalpha(curr[index])) {
+            curr[index] = toupper(curr[index]);
+            _letterCasePermutation(curr, index + 1, result);
+
+            curr[index] = tolower(curr[index]);
+            _letterCasePermutation(curr, index + 1, result);
+        } 
+        // digit
+        else {
+            _letterCasePermutation(curr, index + 1, result);
+        }
     }
 };
 ```
