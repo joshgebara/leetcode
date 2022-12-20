@@ -161,3 +161,12 @@ SELECT name, population, area
 FROM World
 WHERE area >= 3000000 OR population >= 25000000
 ```
+
+## 1050. Actors and Directors Who Cooperated At Least Three Times
+```sql
+# Write your MySQL query statement below
+SELECT actor_id, director_id
+FROM ActorDirector
+GROUP BY actor_id, director_id
+HAVING COUNT(*) >= 3
+```

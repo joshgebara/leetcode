@@ -16627,14 +16627,6 @@ USING(employee_id)
 GROUP BY project_id
 ```
 
-## 1050. Actors and Directors Who Cooperated At Least Three Times
-```sql
-SELECT actor_id, director_id
-FROM ActorDirector
-GROUP BY director_id, actor_id
-HAVING COUNT(*) >= 3
-```
-
 ## 613. Shortest Distance in a Line
 ```sql
 # Write your MySQL query statement below
