@@ -6092,20 +6092,18 @@ public:
 class Solution {
 public:
     int minSteps(string s, string t) {
-        vector<int> sCount(26, 0);
-        vector<int> tCount(26, 0);
-
+        vector<int> counts(26, 0);
         for (const auto c : s) {
-            sCount[c - 'a']++;
+            counts[c - 'a']++;
         }
 
         for (const auto c : t) {
-            tCount[c - 'a']++;
+            counts[c - 'a']--;
         }
 
         int steps = 0;
-        for (int i = 0; i < sCount.size(); i++) {
-            steps += abs(sCount[i] - tCount[i]);
+        for (int i = 0; i < counts.size(); i++) {
+            steps += abs(counts[i]);
         }
         return steps;
     }
