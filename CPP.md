@@ -6109,3 +6109,24 @@ public:
     }
 };
 ```
+
+## 1356. Sort Integers by The Number of 1 Bits
+```cpp
+class Solution {
+public:
+    vector<int> sortByBits(vector<int>& arr) {
+        sort(arr.begin(), arr.end(), [](const auto a, const auto b) {
+            auto aCount = __builtin_popcount(a);
+            auto bCount = __builtin_popcount(b);
+
+            if (aCount == bCount) {
+                return a < b;
+            }
+
+            return aCount < bCount;
+        });
+
+        return arr;
+    }
+};
+```
