@@ -6009,3 +6009,25 @@ public:
     }
 };
 ```
+
+## 1310. XOR Queries of a Subarray
+```cpp
+class Solution {
+public:
+    vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
+        vector<int> xorPrefix{0};
+        for (int i = 0; i < arr.size(); i++) {
+            xorPrefix.push_back(xorPrefix.back() ^ arr[i]);
+        }
+
+        vector<int> result;
+        for (const auto& query : queries) {
+            auto start = query[0];
+            auto end = query[1];
+            result.push_back(xorPrefix[end + 1] ^ xorPrefix[start]);
+        }
+
+        return result;
+    }
+};
+```
