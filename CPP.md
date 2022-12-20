@@ -6057,3 +6057,32 @@ public:
     }
 };
 ```
+
+## 1403. Minimum Subsequence in Non-Increasing Order
+```cpp
+class Solution {
+public:
+    vector<int> minSubsequence(vector<int>& nums) {
+        int totalSum = 0;
+        vector<int> counts(101, 0);
+        for (const int num : nums) {
+            totalSum += num;
+            counts[num]++;
+        }
+
+        vector<int> result;
+        int currSum = 0;
+        for (int num = counts.size() - 1; num >= 0; num--) {
+            while (counts[num]--) {
+                currSum += num;
+                result.push_back(num);
+                if (totalSum - currSum < currSum) {
+                    return result;
+                }
+            }
+        }
+
+        return result;
+    }
+};
+```
