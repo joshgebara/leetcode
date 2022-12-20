@@ -6031,3 +6031,29 @@ public:
     }
 };
 ```
+
+## 1460. Make Two Arrays Equal by Reversing Subarrays
+```cpp
+class Solution {
+public:
+    bool canBeEqual(vector<int>& target, vector<int>& arr) {
+        if (target.size() != arr.size()) {
+            return false;
+        }
+
+        vector<int> counts(1001, 0);
+        for (int i = 0; i < target.size(); i++) {
+            counts[target[i]]++;
+            counts[arr[i]]--;
+        }
+
+        for (const auto c : counts) {
+            if (c != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
