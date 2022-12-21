@@ -6165,3 +6165,30 @@ private:
     }
 };
 ```
+
+## 977. Squares of a Sorted Array
+```cpp
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        vector<int> squares(nums.size());
+        
+        int left = 0;
+        int right = nums.size() - 1;
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            int leftSquared = pow(nums[left], 2);
+            int rightSquared = pow(nums[right], 2);
+
+            if (leftSquared < rightSquared) {
+                squares[i] = rightSquared;
+                right--;
+            } else {
+                squares[i] = leftSquared;
+                left++;
+            }
+        }
+
+        return squares;
+    }
+};
+```
