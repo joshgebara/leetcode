@@ -170,3 +170,17 @@ FROM ActorDirector
 GROUP BY actor_id, director_id
 HAVING COUNT(*) >= 3
 ```
+
+## 607. Sales Person
+```cpp
+# Write your MySQL query statement below
+SELECT name
+FROM SalesPerson
+WHERE sales_id NOT IN (
+    SELECT sales_id
+    FROM Orders AS o
+    INNER JOIN Company AS c
+    USING(com_id)
+    WHERE c.name = 'RED'
+)
+```
