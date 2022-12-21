@@ -184,3 +184,18 @@ WHERE sales_id NOT IN (
     WHERE c.name = 'RED'
 )
 ```
+
+## 586. Customer Placing the Largest Number of Orders
+```sql
+# Write your MySQL query statement below
+SELECT customer_number
+FROM Orders
+GROUP BY customer_number
+HAVING COUNT(*) = (
+    SELECT COUNT(*) AS count
+    FROM Orders
+    GROUP BY customer_number
+    ORDER BY count DESC
+    LIMIT 1
+)
+```

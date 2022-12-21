@@ -16047,19 +16047,6 @@ var binaryGap = function(N) {
 };
 ```
 
-## 586. Customer Placing the Largest Number of Orders
-```sql
-SELECT customer_number 
-FROM orders
-GROUP BY customer_number
-HAVING count(order_number) = (
-	SELECT count(order_number)
-	FROM orders
-	GROUP BY customer_number
-	ORDER BY count(order_number) DESC LIMIT 1
-)
-```
-
 ## 1281. Subtract the Product and Sum of Digits of an Integer
 ```javascript
 var subtractProductAndSum = function(n) {
@@ -16590,17 +16577,6 @@ IN (SELECT player_id,
     MIN(event_date)
     FROM Activity 
     GROUP BY player_id)
-```
-
-## 607. Sales Person
-```sql
-SELECT name
-FROM salesperson
-WHERE sales_id NOT IN (SELECT sales_id
-                       FROM orders
-                       JOIN company
-                       USING(com_id)
-                       WHERE name = 'RED')
 ```
 
 ## 610. Triangle Judgement
