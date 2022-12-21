@@ -6130,3 +6130,38 @@ public:
     }
 };
 ```
+
+## 22. Generate Parentheses
+```cpp
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        string curr;
+        _generateParenthesis(result, curr, n, n);
+        return result;
+    }
+
+private:
+    void _generateParenthesis(vector<string>& result, string& curr, int open, int close) {
+        if (open > close || open < 0 || close < 0) {
+            return;
+        }
+        
+        if (open == 0 && close == 0) {
+            result.push_back(curr);
+            return;
+        }
+
+        // open
+        curr.push_back('(');
+        _generateParenthesis(result, curr, open - 1, close);
+        curr.pop_back();
+
+        // close
+        curr.push_back(')');
+        _generateParenthesis(result, curr, open, close - 1);
+        curr.pop_back();
+    }
+};
+```
