@@ -16547,13 +16547,6 @@ ON a.student_id=c.student_id AND b.subject_name=c.subject_name
 GROUP BY a.student_id,b.subject_name;
 ```
 
-## 584. Find Customer Referee
-```sql
-SELECT name
-FROM customer
-WHERE referee_id <> 2 OR referee_id IS NULL
-```
-
 ## 1294. Weather Type in Each Country
 ```sql
 SELECT country_name, 
