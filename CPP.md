@@ -6321,3 +6321,38 @@ public:
     }
 };
 ```
+
+## 986. Interval List Intersections
+```cpp
+class Solution {
+public:
+    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {
+        vector<vector<int>> result;
+        int first = 0;
+        int second = 0;
+
+        while (first < firstList.size() && second < secondList.size()) {
+            const int firstStart = firstList[first][0];
+            const int firstEnd = firstList[first][1];
+
+            const int secondStart = secondList[second][0];
+            const int secondEnd = secondList[second][1];
+            
+            const int overlapStart = max(firstStart, secondStart);
+            const int overlapEnd = min(firstEnd, secondEnd);
+
+            if (overlapStart <= overlapEnd) {
+                result.push_back({overlapStart, overlapEnd});
+            }
+
+            if (firstEnd == overlapEnd) {
+                first++;
+            } else {
+                second++;
+            }
+        }
+
+        return result;
+    }
+};
+```
