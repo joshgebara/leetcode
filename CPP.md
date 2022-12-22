@@ -6239,3 +6239,24 @@ public:
     }
 };
 ```
+
+## 1974. Minimum Time to Type Word Using Special Typewriter
+```cpp
+class Solution {
+public:
+    int minTimeToType(string word) {
+        int seconds = 0;
+        int pointer = 'a';
+        for (const auto c : word) {
+            int a = abs((c - 'a') - (pointer - 'a'));
+            int b = 26 - a;
+
+            seconds += min(a, b) + 1;
+
+            pointer = c;
+        }
+
+        return seconds;
+    }
+};
+```
