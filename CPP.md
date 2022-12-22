@@ -6291,3 +6291,33 @@ public:
     }
 };
 ```
+
+## 821. Shortest Distance to a Character
+```cpp
+class Solution {
+public:
+    vector<int> shortestToChar(string s, char c) {
+        vector<int> result(s.size());
+
+        int leftIndex = INT_MAX;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == c) {
+                leftIndex = i;
+            }
+
+            result[i] = abs(i - leftIndex);
+        }
+
+        int rightIndex = INT_MAX;
+        for (int i = s.size() - 1; i >= 0; i--) {
+            if (s[i] == c) {
+                rightIndex = i;
+            }
+
+            result[i] = min(result[i], abs(rightIndex - i));
+        }
+
+        return result;
+    }
+};
+```
