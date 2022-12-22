@@ -206,3 +206,12 @@ SELECT name
 FROM customer
 WHERE referee_id <> 2 OR referee_id IS NULL
 ```
+
+## 1729. Find Followers Count
+```sql
+# Write your MySQL query statement below
+SELECT user_id, COUNT(*) AS followers_count
+FROM Followers
+GROUP BY user_id
+ORDER BY user_id
+```
