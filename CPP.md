@@ -6218,3 +6218,24 @@ public:
     }
 };
 ```
+
+## 2124. Check if All A's Appears Before All B's
+```cpp
+class Solution {
+public:
+    bool checkString(string s) {
+        bool bSeen = false;
+        for (const auto c : s) {
+            if (c == 'b') {
+                bSeen = true;
+            }
+
+            if (c == 'a' && bSeen) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
