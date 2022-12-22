@@ -6260,3 +6260,34 @@ public:
     }
 };
 ```
+
+## 496. Next Greater Element I
+```cpp
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> greaterMap;
+        vector<int> stack;
+
+        for (const auto num : nums2) {
+            while (stack.size() && stack.back() < num) {
+                greaterMap[stack.back()] = num;
+                stack.pop_back();
+            }
+
+            stack.push_back(num);
+        }
+
+        vector<int> result(nums1.size(), -1);
+        for (int i = 0; i < nums1.size(); i++) {
+            if (greaterMap.count(nums1[i]) == 0) {
+                result[i] = -1;
+            } else {
+                result[i] = greaterMap[nums1[i]];
+            }
+        }
+
+        return result;
+    }
+};
+```
