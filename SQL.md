@@ -215,3 +215,11 @@ FROM Followers
 GROUP BY user_id
 ORDER BY user_id
 ```
+
+## 182. Duplicate Emails
+```sql
+SELECT email
+FROM Person
+GROUP BY email
+HAVING COUNT(*) > 1
+```

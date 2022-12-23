@@ -16479,14 +16479,6 @@ HAVING SUM(price) =
 )
 ```
 
-## 182. Duplicate Emails
-```sql
-SELECT Email
-FROM Person
-GROUP BY Email
-HAVING COUNT(Email) > 1
-```
-
 ## 196. Delete Duplicate Emails
 ```sql
 DELETE p1
