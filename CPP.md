@@ -6637,3 +6637,19 @@ public:
     }
 };
 ```
+
+## 136. Single Number
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int x = 0;
+        
+        for (const int num : nums) {
+            x ^= num;
+        }
+
+        return x;
+    }
+};
+```
