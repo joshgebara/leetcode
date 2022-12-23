@@ -6653,3 +6653,30 @@ public:
     }
 };
 ```
+
+## 969. Pancake Sorting
+```cpp
+class Solution {
+public:
+    vector<int> pancakeSort(vector<int>& arr) {
+        vector<int> result;
+        for (int finalI = arr.size() - 1; finalI >= 0; finalI--) {
+            // find largest that has not yet been placed
+            int largest = 0;
+            for (int i = 0; i <= finalI; i++) {
+                if (arr[largest] < arr[i]) {
+                    largest = i;
+                }
+            }
+
+            result.push_back(largest + 1);
+            result.push_back(finalI + 1);
+            
+            reverse(arr.begin(), arr.begin() + largest + 1);
+            reverse(arr.begin(), arr.begin() + finalI + 1);
+        }
+
+        return result;
+    }
+};
+```
