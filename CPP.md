@@ -6557,3 +6557,26 @@ public:
     }
 };
 ```
+
+## 2399. Check Distances Between Same Letters
+```cpp
+class Solution {
+public:
+    bool checkDistances(string s, vector<int>& distance) {
+        vector<int> firstMap(26, -1);
+        for (int i = 0; i < s.size(); i++) {
+            if (firstMap[s[i] - 'a'] == -1) {
+                firstMap[s[i] - 'a'] = i;
+                continue;
+            }
+
+            int dist = i - firstMap[s[i] - 'a'] - 1;
+            if (distance[s[i] - 'a'] != dist) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
