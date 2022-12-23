@@ -17059,28 +17059,6 @@ ON f1.follower = f2.followee
 GROUP BY f1.follower
 ```
 
-## 626. Exchange Seats
-```sql
-SELECT 
-    (CASE
-        WHEN id % 2 != 0 AND id != count THEN id + 1
-        WHEN id % 2 != 0 AND id = count THEN id
-        ELSE id - 1
-    END) as id,
-    student
-FROM seat
-JOIN (SELECT COUNT(*) AS count
-      FROM seat) AS seat_counts
-ORDER BY id ASC;
-
--- XOR
-SELECT s1.id, COALESCE(s2.student, s1.student) AS student
-FROM seat AS s1
-LEFT JOIN seat AS s2
-ON ((s1.id + 1) ^ 1) - 1 = s2.id
-ORDER BY s1.id;
-```
-
 ## 602. Friend Requests II: Who Has the Most Friends
 ```sql
 SELECT ids AS id, COUNT(*) AS num
