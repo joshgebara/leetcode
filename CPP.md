@@ -6372,3 +6372,34 @@ public:
     }
 };
 ```
+
+## 2352. Equal Row and Column Pairs
+```cpp
+class Solution {
+public:
+    int equalPairs(vector<vector<int>>& grid) {
+        unordered_map<string, int> m;
+
+        for (int row = 0; row < grid.size(); row++) {
+            string r;
+            for (int col = 0; col < grid[0].size(); col++) {
+                r += to_string(grid[row][col]);
+                r += '-';
+            }
+            m[r]++;
+        }
+
+        int count = 0;
+        for (int col = 0; col < grid[0].size(); col++) {
+            string c;
+            for (int row = 0; row < grid.size(); row++) {
+                c += to_string(grid[row][col]);
+                c += '-';
+            }
+            count += m[c];
+        }
+
+        return count;
+    }
+};
+```
