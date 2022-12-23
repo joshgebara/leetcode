@@ -6440,3 +6440,44 @@ public:
     }
 };
 ```
+
+## 893. Groups of Special-Equivalent Strings
+```cpp
+class Solution {
+public:
+    int numSpecialEquivGroups(vector<string>& words) {
+        unordered_set<string> counts;
+
+        for (const auto& word : words) {
+            string group = getGroup(word);
+            counts.insert(group);
+        }
+
+        return counts.size();
+    }
+
+private:
+    string getGroup(string word) {
+        vector<int> oddCounts(26, 0);
+        vector<int> evenCounts(26, 0);
+        for (int i = 0; i < word.size(); i++) {
+            if (i & 1) {
+                oddCounts[word[i] - 'a']++;
+            } else {
+                evenCounts[word[i] - 'a']++;
+            }
+        }
+
+        string group;
+        for (int i = 0; i < oddCounts.size(); i++) {
+            group += string(oddCounts[i], i + 'a');
+        }
+
+        for (int i = 0; i < evenCounts.size(); i++) {
+            group += string(evenCounts[i], i + 'a');
+        }
+
+        return group;
+    }
+};
+```
