@@ -6481,3 +6481,30 @@ private:
     }
 };
 ```
+
+## 883. Projection Area of 3D Shapes
+```cpp
+class Solution {
+public:
+    int projectionArea(vector<vector<int>>& grid) {
+        int area = 0;
+        for (int row = 0; row < grid.size(); row++) {
+            int maxRow = 0;
+            int maxCol = 0;
+
+            for (int col = 0; col < grid[0].size(); col++) {
+                if (grid[row][col] != 0) {
+                    area++;
+                }
+
+                maxRow = max(maxRow, grid[row][col]);
+                maxCol = max(maxCol, grid[col][row]);
+            }
+
+            area += maxRow + maxCol;
+        }
+
+        return area;
+    }
+};
+```
