@@ -6580,3 +6580,40 @@ public:
     }
 };
 ```
+
+## 1876. Substrings of Size Three with Distinct Characters
+```cpp
+class Solution {
+public:
+    int countGoodSubstrings(string s, int k = 3) {
+        int count = 0;
+
+        vector<int> charCounts(26, 0);
+        int left = 0;
+        for (int right = 0; right < s.size(); right++) {
+            charCounts[s[right] - 'a']++;
+
+            if (right < k - 1) {
+                continue;
+            }
+
+            while (right - left + 1 > k) {
+                charCounts[s[left] - 'a']--;
+                left++;
+            }
+
+            bool good = true;
+            for (int i = 0; i < charCounts.size(); i++) {
+                if (charCounts[i] > 1) {
+                    good = false;
+                    break;
+                }
+            }
+
+            count += good;
+        }
+
+        return count;
+    }
+};
+```
