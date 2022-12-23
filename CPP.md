@@ -6617,3 +6617,23 @@ public:
     }
 };
 ```
+
+## 1047. Remove All Adjacent Duplicates In String
+```cpp
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        vector<char> stack;
+        for (const char c : s) {
+            if (stack.size() && stack.back() == c) {
+                stack.pop_back();
+                continue;
+            }
+
+            stack.push_back(c);
+        }
+
+        return string(stack.begin(), stack.end());
+    }
+};
+```
