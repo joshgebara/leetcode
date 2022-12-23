@@ -6536,3 +6536,24 @@ public:
     }
 };
 ```
+
+## 349. Intersection of Two Arrays
+```cpp
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> s1(nums1.begin(), nums1.end());
+        unordered_set<int> result;
+
+        for (const int num : nums2) {
+            if (s1.count(num) == 0) {
+                continue;
+            }
+
+            result.insert(num);
+        }
+
+        return vector(result.begin(), result.end());
+    }
+};
+```
