@@ -6680,3 +6680,30 @@ public:
     }
 };
 ```
+
+## 2085. Count Common Words With One Occurrence
+```cpp
+class Solution {
+public:
+    int countWords(vector<string>& words1, vector<string>& words2) {
+        unordered_map<string, int> w1Counts;
+        for (const string& word : words1) {
+            w1Counts[word]++;
+        }
+
+        unordered_map<string, int> w2Counts;
+        for (const string& word : words2) {
+            w2Counts[word]++;
+        }
+
+        int count = 0;
+        for (const auto [key, value] : w1Counts) {
+            if (value == 1 && w2Counts[key] == 1) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+```
