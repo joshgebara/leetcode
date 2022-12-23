@@ -6403,3 +6403,40 @@ public:
     }
 };
 ```
+
+## 2487. Remove Nodes From Linked List
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNodes(ListNode* head) {
+        ListNode* dummy = new ListNode(INT_MAX);
+        dummy->next = head;
+
+        vector<ListNode*> stack { dummy };
+        
+        for (ListNode* curr = head; curr; curr = curr->next) {
+            while (stack.back()->val < curr->val) {
+                ListNode* node = stack.back();
+                delete node;
+                stack.pop_back();
+            }
+
+            stack.back()->next = curr;
+
+            stack.push_back(curr);
+        }
+
+        return dummy->next;
+    }
+};
+```
