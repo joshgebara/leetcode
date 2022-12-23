@@ -6508,3 +6508,31 @@ public:
     }
 };
 ```
+
+## 1380. Lucky Numbers in a Matrix
+```cpp
+class Solution {
+public:
+    vector<int> luckyNumbers (vector<vector<int>>& matrix) {
+        vector<int> minRows(matrix.size(), INT_MAX);
+        vector<int> maxCols(matrix[0].size(), INT_MIN);
+
+        for (int row = 0; row < matrix.size(); row++) {
+            for (int col = 0; col < matrix[0].size(); col++) {
+                minRows[row] = min(minRows[row], matrix[row][col]);
+                maxCols[col] = max(maxCols[col], matrix[row][col]);
+            }
+        }
+
+        vector<int> result;
+        for (int i = 0; i < minRows.size(); i++) {
+            for (int j = 0; j < maxCols.size(); j++) {
+                if (minRows[i] == maxCols[j]) {
+                    result.push_back(minRows[i]);
+                }
+            }
+        }
+        return result;
+    }
+};
+```
