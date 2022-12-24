@@ -6775,3 +6775,27 @@ public:
     }
 };
 ```
+
+## 451. Sort Characters By Frequency
+```cpp
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int> m;
+        for (const auto c : s) {
+            m[c]++;
+        }
+
+        vector<pair<char, int>> pairs(m.begin(), m.end());
+        sort(pairs.begin(), pairs.end(), [](const auto a, const auto b) {
+            return a.second > b.second;
+        });
+
+        string result;
+        for (const auto [key, value] : pairs) {
+            result += string(value, key);
+        }
+        return result;
+    }
+};
+```
