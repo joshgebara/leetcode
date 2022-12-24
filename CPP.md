@@ -6824,3 +6824,30 @@ public:
     }
 };
 ```
+
+## 2248. Intersection of Multiple Arrays
+```cpp
+class Solution {
+public:
+    vector<int> intersection(vector<vector<int>>& nums) {
+        vector<int> counts(1001, 0);
+
+        for (const auto arr : nums) {
+            for (const int num : arr) {
+                counts[num]++;
+            }
+        }
+
+        vector<int> result;
+        for (int num = 0; num < counts.size(); num++) {
+            if (counts[num] != nums.size()) {
+                continue;
+            }
+
+            result.push_back(num);
+        }
+
+        return result;
+    }
+};
+```
