@@ -87,26 +87,25 @@ public:
 class Solution {
 public:
     vector<string> fizzBuzz(int n) {
+        vector<pair<int, string>> rules {{15, "FizzBuzz"}, {3, "Fizz"}, {5, "Buzz"}};
         vector<string> result;
-        
-        for (auto i = 1; i <= n; ++i) {
-            string str;
-            
-            if (i % 3 == 0) {
-                str += "Fizz";
+
+        for (int i = 1; i <= n; i++) {
+            string word = "";
+            for (const auto [ruleDivisor, ruleWord] : rules) {
+                if (i % ruleDivisor == 0) {
+                    word += ruleWord;
+                    break;
+                }
             }
             
-            if (i % 5 == 0) {
-                str += "Buzz";
+            if (word == "") {
+                word += to_string(i);
             }
-            
-            if (str.empty()) {
-                str += to_string(i);
-            }
-            
-            result.push_back(str);
+
+            result.push_back(word);
         }
-        
+
         return result;
     }
 };
