@@ -6851,3 +6851,41 @@ public:
     }
 };
 ```
+
+## 1525. Number of Good Ways to Split a String
+```cpp
+class Solution {
+public:
+    int numSplits(string s) {
+        vector<int> left(26, 0);
+        vector<int> right(26, 0);
+
+        for (const char c : s) {
+            right[c - 'a']++;
+        }
+
+        int count = 0;
+        for (int i = 0; i < s.size(); i++) {
+            left[s[i] - 'a']++;
+            right[s[i] - 'a']--;
+
+            count += distinctCount(left) == distinctCount(right);
+        }
+
+        return count;
+    }
+
+private:
+    int distinctCount(vector<int>& arr) {
+        int count = 0;
+
+        for (const int a : arr) {
+            if (a != 0) {
+                count += 1;
+            }
+        }
+
+        return count;
+    }
+};
+```
