@@ -6799,3 +6799,28 @@ public:
     }
 };
 ```
+
+## 852. Peak Index in a Mountain Array
+```cpp
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& arr) {
+        // peak can't be first index (index: 0)
+        int left = 1; 
+        // peak can't be last index (index: arr.size() - 1)
+        int right = arr.size() - 2;
+
+        while (left < right) {
+            int mid = (right - left) / 2 + left;
+
+            if (arr[mid] < arr[mid + 1]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+};
+```
