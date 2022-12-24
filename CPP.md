@@ -6916,3 +6916,51 @@ public:
     }
 };
 ```
+
+## 509. Fibonacci Number
+### Recursive
+```cpp
+class Solution {
+public:
+    Solution() : memo(vector(31, INT_MIN)) {}
+
+    int fib(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        if (memo[n] != INT_MIN) {
+            return memo[n];
+        }
+
+
+        memo[n] = fib(n - 1) + fib(n - 2);
+        return memo[n];
+    }
+
+private:
+    vector<int> memo;
+};
+```
+
+### DP
+```cpp
+class Solution {
+public:
+    int fib(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        vector<int> dp(n + 1, 0);
+        dp[0] = 0;
+        dp[1] = 1;
+        
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+
+        return dp[n];
+    }
+};
+```
