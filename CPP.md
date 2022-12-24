@@ -6725,3 +6725,34 @@ public:
     }
 };
 ```
+
+## 1338. Reduce Array Size to The Half
+```cpp
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        unordered_map<int, int> counts;
+        for (const int a : arr) {
+            counts[a]++;
+        }
+
+        vector<pair<int, int>> sortedCounts(counts.begin(), counts.end());
+        sort(sortedCounts.begin(), sortedCounts.end(), [](const auto& a, const auto& b) {
+            return a.second > b.second;
+        });
+
+        int half = arr.size() / 2;
+        int setSize = 0;
+        for (const auto [key, value] : sortedCounts) {
+            half -= value;
+            setSize++;
+
+            if (half <= 0) {
+                return setSize;
+            }
+        }
+
+        return setSize;
+    }
+};
+```
