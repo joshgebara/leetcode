@@ -6889,3 +6889,37 @@ private:
     }
 };
 ```
+
+## 2215. Find the Difference of Two Arrays
+```cpp
+class Solution {
+public:
+    vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> map1;
+        for (const int num : nums1) {
+            map1[num]++;
+        }
+
+        unordered_map<int, int> map2;
+        for (const int num : nums2) {
+            map2[num]++;
+        }
+
+        vector<int> result1;
+        for (const auto [key, value] : map1) {
+            if (map2.count(key) == 0) {
+                result1.push_back(key);
+            }
+        }
+
+        vector<int> result2;
+        for (const auto [key, value] : map2) {
+            if (map1.count(key) == 0) {
+                result2.push_back(key);
+            }
+        }
+
+        return {result1, result2};
+    }
+};
+```
