@@ -6895,27 +6895,20 @@ private:
 class Solution {
 public:
     vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
-        unordered_map<int, int> map1;
-        for (const int num : nums1) {
-            map1[num]++;
-        }
-
-        unordered_map<int, int> map2;
-        for (const int num : nums2) {
-            map2[num]++;
-        }
-
+        unordered_set<int> set1(nums1.begin(), nums1.end());
+        unordered_set<int> set2(nums2.begin(), nums2.end());
+        
         vector<int> result1;
-        for (const auto [key, value] : map1) {
-            if (map2.count(key) == 0) {
-                result1.push_back(key);
+        for (const auto num : set1) {
+            if (set2.count(num) == 0) {
+                result1.push_back(num);
             }
         }
 
         vector<int> result2;
-        for (const auto [key, value] : map2) {
-            if (map1.count(key) == 0) {
-                result2.push_back(key);
+        for (const auto num : set2) {
+            if (set1.count(num) == 0) {
+                result2.push_back(num);
             }
         }
 
