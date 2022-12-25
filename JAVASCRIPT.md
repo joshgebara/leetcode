@@ -16333,23 +16333,6 @@ var getDecimalValue = function(head) {
 };
 ```
 
-## 183. Customers Who Never Order
-```sql
--- Left Join
-# Write your MySQL query statement below
-SELECT Name AS Customers
-FROM Customers
-LEFT JOIN Orders
-ON Customers.Id = Orders.CustomerId
-WHERE CustomerId IS Null;
-
--- Subqueury
-# Write your MySQL query statement below
-SELECT Name AS Customers
-FROM Customers
-WHERE Id NOT IN (SELECT DISTINCT CustomerId From Orders)
-```
-
 ## 1083. Sales Analysis II
 ```sql
 SELECT DISTINCT buyer_id

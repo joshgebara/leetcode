@@ -247,3 +247,11 @@ INNER JOIN Employee AS e2
 ON e1.managerId = e2.id
 WHERE e1.salary > e2.salary
 ```
+
+## 183. Customers Who Never Order
+```sql
+# Write your MySQL query statement below
+SELECT name AS Customers
+FROM Customers
+WHERE id NOT IN (SELECT DISTINCT customerId from Orders)
+```
