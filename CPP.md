@@ -7129,3 +7129,38 @@ private:
     }
 };
 ```
+
+## 985. Sum of Even Numbers After Queries
+```cpp
+class Solution {
+public:
+    vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+        int sum = 0;
+        for (const int num : nums) {
+            if (num % 2 == 0) {
+                sum += num;
+            }
+        }
+
+        vector<int> result;
+        for (const auto query : queries) {
+            const int value = query[0];
+            const int index = query[1];
+
+            if (nums[index] % 2 == 0) {
+                sum -= nums[index];
+            }
+
+            nums[index] += value;
+            
+            if (nums[index] % 2 == 0) {
+                sum += nums[index];
+            }
+
+            result.push_back(sum);
+        }
+
+        return result;
+    }
+};
+```
