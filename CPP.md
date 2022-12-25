@@ -7062,3 +7062,30 @@ public:
     }
 };
 ```
+
+## 2309. Greatest English Letter in Upper and Lower Case
+```cpp
+class Solution {
+public:
+    string greatestLetter(string s) {
+        vector<int> lowerCounts(26, 0);
+        vector<int> upperCounts(26, 0);
+
+        for (const char c : s) {
+            if (c == tolower(c)) {
+                lowerCounts[c - 'a']++;
+            } else {
+                upperCounts[c - 'A']++;
+            }
+        }
+
+        for (int i = lowerCounts.size() - 1; i >= 0; i--) {
+            if (lowerCounts[i] != 0 && upperCounts[i] != 0) {
+                return string(1, i + 'A');
+            }
+        }
+
+        return "";
+    }
+};
+```
