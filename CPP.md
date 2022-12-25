@@ -7089,3 +7089,43 @@ public:
     }
 };
 ```
+
+## 1002. Find Common Characters
+```cpp
+class Solution {
+public:
+    vector<string> commonChars(vector<string>& words) {
+        vector<int> count1 = getCounts(words[0]);
+        for (int i = 1; i < words.size(); i++) {
+            vector<int> count2 = getCounts(words[i]);
+            getCommon(count1, count2);
+        }
+
+        vector<string> result;
+        for (int i = 0; i < count1.size(); i++) {
+            while (count1[i]--) {
+                result.push_back(string(1, i + 'a'));
+            }
+        }
+
+        return result;
+    }
+
+private:
+    void getCommon(vector<int>& count1, vector<int>& count2) {
+        for (int i = 0; i < count1.size(); i++) {
+            count1[i] = min(count1[i], count2[i]);
+        }
+    }
+
+    vector<int> getCounts(string& word) {
+        vector<int> counts(26, 0);
+
+        for (const char c : word) {
+            counts[c - 'a']++;
+        }
+
+        return counts;
+    }
+};
+```
