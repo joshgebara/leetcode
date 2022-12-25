@@ -7032,3 +7032,33 @@ private:
     }
 };
 ```
+
+## 1636. Sort Array by Increasing Frequency
+```cpp
+class Solution {
+public:
+    vector<int> frequencySort(vector<int>& nums) {
+        vector<int> counts(201, 0);
+        for (const int num : nums) {
+            counts[num + 100]++;
+        }
+
+        vector<vector<int>> freq(201);
+        for (int i = 0; i < counts.size(); i++) {
+            int count = counts[i];
+            while (counts[i]--) {
+                freq[count].push_back(i);
+            }
+        }
+
+        vector<int> result;
+        for (int i = 0; i < freq.size(); i++) {
+            while (freq[i].size() > 0) {
+                result.push_back(freq[i].back() - 100);
+                freq[i].pop_back();
+            }
+        }
+        return result;
+    }
+};
+```
