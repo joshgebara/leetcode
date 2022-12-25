@@ -6997,3 +6997,38 @@ private:
     }
 };
 ```
+
+## 1433. Check If a String Can Break Another String
+```cpp
+class Solution {
+public:
+    bool checkIfCanBreak(string s1, string s2) {
+        sortStr(s1);
+        sortStr(s2);
+        return canBreak(s1, s2) || canBreak(s2, s1);
+    }
+
+private:
+    bool canBreak(string& s1, string s2) {
+        for (int i = 0; i < s1.size(); i++) {
+            if (s1[i] < s2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void sortStr(string& s) {
+        vector<int> count(26, 0);
+        for (const char c : s) {
+            count[c - 'a']++;
+        }
+
+        s = "";
+        for (int i = 0; i < count.size(); i++) {
+            s += string(count[i], 'a' + i);
+        }
+    }
+};
+```
