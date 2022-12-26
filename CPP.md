@@ -7382,3 +7382,23 @@ private:
     }
 };
 ```
+
+## 2441. Largest Positive Integer That Exists With Its Negative
+```cpp
+class Solution {
+public:
+    int findMaxK(vector<int>& nums) {
+       unordered_set<int> seen;
+       int maxNum = 0;
+       for (const int num : nums) {
+           if (seen.count(-1 * num)) {
+               maxNum = max(maxNum, abs(num));
+           }
+
+           seen.insert(num);
+       }
+
+       return maxNum == 0 ? -1 : maxNum;
+    }
+};
+```
