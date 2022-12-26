@@ -7262,3 +7262,40 @@ public:
     }
 };
 ```
+
+## 39. Combination Sum
+```cpp
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> curr;
+        _combinationSum(result, candidates, curr, 0, target, 0);
+        return result;   
+    }
+
+private:
+    void _combinationSum(vector<vector<int>>& result, vector<int>& candidates, vector<int>& curr, int index, int target, int sum) {
+        if (index >= candidates.size()) {
+            return;
+        }
+
+        if (sum > target) {
+            return;
+        }
+
+        if (sum == target) {
+            result.push_back(curr);
+            return;
+        }
+
+        // take
+        curr.push_back(candidates[index]);
+        _combinationSum(result, candidates, curr, index, target, sum + candidates[index]);
+        curr.pop_back();
+
+        // don't take
+        _combinationSum(result, candidates, curr, index + 1, target, sum);
+    }
+};
+```
