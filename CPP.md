@@ -7164,3 +7164,25 @@ public:
     }
 };
 ```
+
+## 1413. Minimum Value to Get Positive Step by Step Sum
+```cpp
+class Solution {
+public:
+    int minStartValue(vector<int>& nums) {
+        int minSum = INT_MAX;
+        int sum = 0;
+
+        for (const int num : nums) {
+            sum += num;
+            minSum = min(minSum, sum);
+        }
+
+        if (minSum < 1) {
+            return -1 * minSum + 1;
+        }
+        
+        return 1;
+    }
+};
+```
