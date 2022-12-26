@@ -7476,3 +7476,33 @@ public:
     }
 };
 ```
+
+## 1343. Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+```cpp
+class Solution {
+public:
+    int numOfSubarrays(vector<int>& arr, int k, int threshold) {
+        int sum = 0;
+        int count = 0;
+
+        int left = 0;
+        for (int right = 0; right < arr.size(); right++) {
+            sum += arr[right];
+
+            if (right < k - 1) {
+                continue;
+            }
+
+            int avg = sum / k;
+            if (avg >= threshold) {
+                count++;
+            }
+
+            sum -= arr[left];
+            left++;
+        }
+
+        return count;
+    }
+};
+```
