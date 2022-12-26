@@ -7402,3 +7402,44 @@ public:
     }
 };
 ```
+
+## 1160. Find Words That Can Be Formed by Characters
+```cpp
+class Solution {
+public:
+    int countCharacters(vector<string>& words, string chars) {
+        const vector<int> counts { getLetterCounts(chars) };
+
+        int count = 0;
+        for (const string word : words) {
+            if (isGood(word, counts)) {
+                count += word.size();
+            }
+        }
+
+        return count;
+    }
+
+private:
+    bool isGood(const string& word, const vector<int>& counts) {
+        const vector<int> wordCounts { getLetterCounts(word) };
+        
+        for (int i = 0; i < wordCounts.size(); i++) {
+            if (counts[i] < wordCounts[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    vector<int> getLetterCounts(const string& word) {
+        vector<int> counts(26, 0);
+        for (const char c : word) {
+            counts[c - 'a']++;
+        }
+
+        return counts;
+    }
+};
+```
