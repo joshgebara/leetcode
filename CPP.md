@@ -7299,3 +7299,34 @@ private:
     }
 };
 ```
+
+## 1700. Number of Students Unable to Eat Lunch
+```cpp
+class Solution {
+public:
+    int countStudents(vector<int>& students, vector<int>& sandwiches) {
+        int zeroCount = 0;
+        int oneCount = 0;
+
+        for (const int student : students) {
+            student == 0 ? zeroCount++ : oneCount++;
+        }
+
+        for (const int sandwich : sandwiches) {
+            if (sandwich == 0 && zeroCount > 0) {
+                zeroCount--;
+                continue;
+            }
+
+            if (sandwich == 1 && oneCount > 0) {
+                oneCount--;
+                continue;
+            }
+
+            break;
+        }
+
+        return zeroCount + oneCount;
+    }
+};
+```
