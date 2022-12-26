@@ -7330,3 +7330,55 @@ public:
     }
 };
 ```
+
+## 824. Goat Latin
+```cpp
+class Solution {
+public:
+    string toGoatLatin(string sentence) {
+        string result;
+
+        vector<string> words = splitWords(sentence);
+        for (int i = 0; i < words.size(); i++) { 
+            const string& word = words[i];
+            if (isVowel(word[0])) {
+                result += word;
+                result += "ma";
+            } else {
+                result += word.substr(1);
+                result += word[0];
+                result += "ma";
+            }
+
+            result += string(i + 1, 'a');
+            result += " ";
+        }
+
+        result.pop_back();
+        return result;
+    }
+
+private:
+    const unordered_set<char> vowels {'a','e','i','o','u'};
+
+    bool isVowel(const char c) {
+        return vowels.count(tolower(c));
+    }
+
+    vector<string> splitWords(string sentence) {
+        vector<string> result;
+        string curr;
+        for (int i = 0; i <= sentence.size(); i++) {
+            if (i >= sentence.size() || sentence[i] == ' ') {
+                result.push_back(curr);
+                curr = "";
+                continue;
+            }
+
+            curr += sentence[i];
+        }
+
+        return result;
+    }
+};
+```
