@@ -7186,3 +7186,79 @@ public:
     }
 };
 ```
+
+## 999. Available Captures for Rook
+```cpp
+class Solution {
+public:
+    int numRookCaptures(vector<vector<char>>& board) {
+        int rookRow = 0;
+        int rookCol = 0;
+
+        for (int row = 0; row < board.size(); row++) {
+            for (int col = 0; col < board[0].size(); col++) {
+                if (board[row][col] == 'R') {
+                    rookRow = row;
+                    rookCol = col;
+
+                    goto end;
+                }
+            }
+        }
+        end:
+
+
+        int capture = 0;
+
+        // up
+        for (int row = rookRow; row >= 0; row--) {
+            if (board[row][rookCol] == 'B') {
+                break;
+            }
+
+            if (board[row][rookCol] == 'p') {
+                capture++;
+                break;
+            }
+        }
+
+        // down
+        for (int row = rookRow; row < board.size(); row++) {
+            if (board[row][rookCol] == 'B') {
+                break;
+            }
+
+            if (board[row][rookCol] == 'p') {
+                capture++;
+                break;
+            }
+        }
+
+        // left
+        for (int col = rookCol; col >= 0; col--) {
+            if (board[rookRow][col] == 'B') {
+                break;
+            }
+
+            if (board[rookRow][col] == 'p') {
+                capture++;
+                break;
+            }
+        }
+
+        // right
+        for (int col = rookCol; col < board[0].size(); col++) {
+            if (board[rookRow][col] == 'B') {
+                break;
+            }
+
+            if (board[rookRow][col] == 'p') {
+                capture++;
+                break;
+            }
+        }
+
+        return capture;
+    }
+};
+```
