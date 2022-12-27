@@ -7799,3 +7799,50 @@ public:
     }
 };
 ```
+
+## 289. Game of Life
+```cpp
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        const vector<pair<int, int>> dirs {{1,0}, {0,1}, {-1,0}, {0,-1}, {-1,-1}, {-1,1}, {1,-1}, {1,1}};
+
+        for (int row = 0; row < board.size(); row++) {
+            for (int col = 0; col < board[0].size(); col++) {
+                int aliveNeighbors = 0;
+                for (const auto [deltaRow, deltaCol] : dirs) {
+                    int neighborRow = row + deltaRow;
+                    int neighborCol = col + deltaCol;
+
+                    // out of bounds
+                    if (neighborRow < 0 || neighborRow >= board.size() || neighborCol < 0 || neighborCol >= board[0].size()) {
+                        continue;
+                    }
+
+                    if ((board[neighborRow][neighborCol] & 1) == 1) {
+                        aliveNeighbors++;
+                    }
+                }
+
+                // Any live cell with two or three live neighbors lives on to the next generation.
+                if ((board[row][col] & 1) == 1 && aliveNeighbors == 2 || aliveNeighbors == 3) {
+                    board[row][col] |= 1 << 1;
+                    continue;
+                }
+
+                // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+                if ((board[row][col] & 0) == 0 && aliveNeighbors == 3) {
+                    board[row][col] |= 1 << 1;
+                    continue;
+                }
+            }
+        }
+
+        for (int row = 0; row < board.size(); row++) {
+            for (int col = 0; col < board[0].size(); col++) {
+                board[row][col] >>= 1;
+            }
+        }
+    }
+};
+```
