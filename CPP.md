@@ -7657,3 +7657,36 @@ public:
     }
 };
 ```
+
+## 216. Combination Sum III
+```cpp
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> result;
+        vector<int> curr;
+        _combinationSum3(result, curr, k, n, 1);
+        return result;
+    }
+
+private:
+    void _combinationSum3(vector<vector<int>>& result, vector<int>& curr, int digits, int sum, int currDigit) { 
+        if (digits == 0 && sum == 0) {
+            result.push_back(curr);
+            return;
+        }
+
+        if (currDigit > 9 || digits <= 0 || sum <= 0) {
+            return;
+        }
+
+        // take
+        curr.push_back(currDigit);
+        _combinationSum3(result, curr, digits - 1, sum - currDigit, currDigit + 1);
+        curr.pop_back();
+
+        // don't take
+        _combinationSum3(result, curr, digits, sum, currDigit + 1);
+    }
+};
+```
