@@ -7932,3 +7932,25 @@ private:
     enum class State { INSIDE_KEY, OUTSIDE_KEY };
 };
 ```
+
+## 739. Daily Temperatures
+```cpp
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        vector<int> result(temperatures.size(), 0);
+        vector<int> stack;
+        for (int i = 0; i < temperatures.size(); i++) {
+            while (stack.size() && temperatures[stack.back()] < temperatures[i]) {
+                int index = stack.back();
+                result[index] = i - index;
+                stack.pop_back();
+            }
+
+            stack.push_back(i);
+        }
+
+        return result;
+    }
+};
+```
