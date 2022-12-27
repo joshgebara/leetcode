@@ -7891,3 +7891,44 @@ public:
     }
 };
 ```
+
+## 1807. Evaluate the Bracket Pairs of a String
+```cpp
+class Solution {
+public:
+    string evaluate(string s, vector<vector<string>>& knowledge) {
+        unordered_map<string, string> m;
+        for (const auto k : knowledge) {
+            m[k[0]] = k[1];
+        }
+
+        string result;
+        string key;
+        State state = State::OUTSIDE_KEY;
+
+        for (int i = 0; i < s.size(); i++) {
+            if (state == State::OUTSIDE_KEY) {
+                if (s[i] == '(') {
+                    state = State::INSIDE_KEY;
+                } else {
+                    result += s[i];
+                }
+            }
+            else if (state == State::INSIDE_KEY) {
+                if (s[i] == ')') {
+                    state = State::OUTSIDE_KEY;
+                    result += m.count(key) ? m[key] : "?";
+                    key = "";
+                } else {
+                    key += s[i];
+                }
+            }
+        }
+
+        return result;
+    }
+
+private:
+    enum class State { INSIDE_KEY, OUTSIDE_KEY };
+};
+```
