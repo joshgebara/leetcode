@@ -7627,3 +7627,33 @@ public:
     }
 };
 ```
+
+## 1399. Count Largest Group
+```cpp
+class Solution {
+public:
+    int countLargestGroup(int n) {
+        vector<int> dp(n + 1, 0);
+        for (int num = 1; num <= n; num++) {
+            dp[num] = num % 10 + dp[num / 10];
+        }
+
+        vector<int> groups(37, 0);
+        int maxGroupSize = 0;
+        for (int num = 1; num <= n; num++) {
+            int sum = dp[num];
+            groups[sum]++;
+            maxGroupSize = max(maxGroupSize, groups[sum]);
+        }
+
+        int count = 0;
+        for (const int group : groups) {
+            if (group == maxGroupSize) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+```
