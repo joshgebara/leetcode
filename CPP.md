@@ -7690,3 +7690,40 @@ private:
     }
 };
 ```
+
+## 929. Unique Email Addresses
+```cpp
+class Solution {
+public:
+    int numUniqueEmails(vector<string>& emails) {
+        unordered_set<string> seen;
+
+        for (const string email : emails) {
+            string parsedEmail = parseEmail(email);
+            seen.insert(parsedEmail);
+        }
+
+        return seen.size();
+    }
+
+private:
+    string parseEmail(string email) {
+        // find @ sign index
+        int atSignIndex = 0;
+        while (atSignIndex < email.size() && email[atSignIndex] != '@') {
+            atSignIndex++;
+        }
+
+        // local name
+        string localName;
+        for (int i = 0; i < atSignIndex; i++) {
+            if (email[i] == '.') continue;
+            if (email[i] == '+') break;
+            localName += email[i];
+        }
+
+        // domain name
+        return localName + email.substr(atSignIndex);
+    }
+};
+```
