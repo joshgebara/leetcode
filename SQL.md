@@ -255,3 +255,14 @@ SELECT name AS Customers
 FROM Customers
 WHERE id NOT IN (SELECT DISTINCT customerId from Orders)
 ```
+
+## 1407. Top Travellers
+```cpp
+# Write your MySQL query statement below
+SELECT name, SUM(IFNULL(distance, 0)) AS travelled_distance
+FROM USERS AS u
+LEFT JOIN Rides AS r
+ON u.id = r.user_id
+GROUP BY u.id
+ORDER BY travelled_distance DESC, name ASC
+```

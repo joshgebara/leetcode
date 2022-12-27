@@ -30959,17 +30959,6 @@ WHERE department_id NOT IN
 (SELECT id FROM Departments)
 ```
 
-## 1407. Top Travellers
-```javascript
-# Write your MySQL query statement below
-SELECT name, SUM(IFNULL(distance, 0)) AS travelled_distance
-FROM Users AS U
-LEFT JOIN Rides AS R
-ON U.id = R.user_id
-GROUP BY U.id
-ORDER BY travelled_distance DESC, name
-```
-
 ## 1327. List the Products Ordered in a Period
 ```sql
 # Write your MySQL query statement below
