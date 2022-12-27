@@ -7571,3 +7571,33 @@ public:
     }
 };
 ```
+
+## 1779. Find Nearest Point That Has the Same X or Y Coordinate
+```cpp
+class Solution {
+public:
+    int nearestValidPoint(int x, int y, vector<vector<int>>& points) {
+        int minX = INT_MAX;
+        int minY = INT_MAX;
+        int minDist = INT_MAX;
+        int minIndex = -1;
+
+        for (int i = 0; i < points.size(); i++) {
+            int currX = points[i][0];
+            int currY = points[i][1];
+
+            if (x == currX || y == currY) {
+                int currDist = abs(x - currX) + abs(y - currY);
+                if (currDist < minDist) {
+                    minX = currX;
+                    minY = currY;
+                    minDist = currDist;
+                    minIndex = i;
+                }
+            }
+        }
+
+        return minIndex;
+    }
+};
+```
