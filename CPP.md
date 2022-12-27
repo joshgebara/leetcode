@@ -7846,3 +7846,48 @@ public:
     }
 };
 ```
+
+## 59. Spiral Matrix II
+```cpp
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> result(n, vector<int>(n, 0));
+
+        int top = 0;
+        int bottom = n - 1;
+        int left = 0;
+        int right = n - 1;
+
+        int curr = 1;
+
+        while (top <= bottom) {
+            // top
+            for (int col = left; col <= right; col++) {
+                result[top][col] = curr++;
+            }
+            top++;
+
+            // right
+            for (int row = top; row <= bottom; row++) {
+                result[row][right] = curr++;
+            }
+            right--;
+
+            // bottom
+            for (int col = right; col >= left; col--) {
+                result[bottom][col] = curr++;
+            }
+            bottom--;
+
+            // left
+            for (int row = bottom; row >= top; row--) {
+                result[row][left] = curr++;
+            }
+            left++;
+        }
+
+        return result;
+    }
+};
+```
