@@ -7543,3 +7543,31 @@ private:
     }
 };
 ```
+
+## 2319. Check if Matrix Is X-Matrix
+```cpp
+class Solution {
+public:
+    bool checkXMatrix(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                if (row == col || col == n - row - 1) {
+                    if (grid[row][col] == 0) {
+                        return false;
+                    }
+                    continue;
+                }
+
+                if (grid[row][col] != 0) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+};
+```
