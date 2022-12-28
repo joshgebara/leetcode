@@ -8239,3 +8239,14 @@ public:
     }
 };
 ```
+
+## 575. Distribute Candies
+```cpp
+class Solution {
+public:
+    int distributeCandies(vector<int>& candyType) {
+        unordered_set<int> unique(candyType.begin(), candyType.end());
+        return min(unique.size(), candyType.size() / 2);
+    }
+};
+```
