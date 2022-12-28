@@ -7954,3 +7954,42 @@ public:
     }
 };
 ```
+
+## 49. Group Anagrams
+```cpp
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> m;
+
+        for (const string str : strs) {
+            string key = getKey(str);
+            m[key].push_back(str);
+        }
+
+        vector<vector<string>> result;
+
+        for (const auto [key, value] : m) {
+            result.push_back(value);
+        }
+
+        return result;
+    }
+
+private:
+    string getKey(string str) {
+        vector<int> counts(26, 0);
+
+        for (const char c : str) {
+            counts[c - 'a']++;
+        }
+
+        string key;
+        for (int i = 0; i < counts.size(); i++) {
+            key += string(1, counts[i] + '0');
+            key += "-";
+        }
+        return key;
+    }
+};
+```
