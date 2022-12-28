@@ -7993,3 +7993,46 @@ private:
     }
 };
 ```
+
+## 2164. Sort Even and Odd Indices Independently
+```cpp
+class Solution {
+public:
+    vector<int> sortEvenOdd(vector<int>& nums) {
+        vector<int> evens(101, 0);
+        vector<int> odds(101, 0);
+        for (int i = 0; i < nums.size(); i++) {
+            if (i % 2 == 0) {
+                evens[nums[i]]++;
+            } else {
+                odds[nums[i]]++;
+            }
+        }
+
+        vector<int> result(nums.size(), 0);
+
+        int evenIndex = 0;
+        int oddIndex = 100;
+        for (int i = 0; i < result.size(); i++) {
+            if (i % 2 == 0) {
+                while (evens[evenIndex] == 0) {
+                    evenIndex++;         
+                }
+
+                evens[evenIndex]--;
+                result[i] = evenIndex;
+            } else {
+                while (odds[oddIndex] == 0) {
+                    oddIndex--;         
+                }
+
+                odds[oddIndex]--;
+                result[i] = oddIndex;
+            }
+
+        }
+
+        return result;
+    }
+};
+```
