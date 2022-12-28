@@ -8036,3 +8036,37 @@ public:
     }
 };
 ```
+
+## 647. Palindromic Substrings
+### DP
+```cpp
+// Time: O(n^2), Space O(n^2)
+class Solution {
+public:
+    int countSubstrings(string s) {
+        vector<vector<bool>> dp(s.size(), vector(s.size(), false));
+
+        int count = 0;
+        for (int length = 1; length <= s.size(); length++) {
+            for (int left = 0; left + length - 1 < s.size(); left++) {
+                int right = left + length - 1;
+                
+                if (s[left] == s[right]) {
+                    if (length <= 2) {
+                        dp[left][right] = true;    
+                    } 
+                    else {
+                        dp[left][right] = dp[left + 1][right - 1];
+                    }
+                }
+                
+                if (dp[left][right]) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+};
+```
