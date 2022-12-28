@@ -8352,3 +8352,40 @@ public:
     }
 };
 ```
+
+## 973. K Closest Points to Origin
+### Priority Queue
+```cpp
+// Time: O(n * log k), Space: O(k)
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        priority_queue<vector<int>, vector<vector<int>>, Compare> pq;
+
+        for (const auto& point : points) {
+            pq.push(point);
+
+            if (pq.size() > k) {
+                pq.pop();
+            }
+        }
+
+        vector<vector<int>> result;
+        while (pq.size()) {
+            result.push_back(pq.top());
+            pq.pop();
+        }
+
+        return result;
+    }
+
+private:
+    struct Compare {
+        bool operator()(const vector<int>& lhs, const vector<int>& rhs) {
+            auto dist1 = pow(lhs[0], 2) + pow(lhs[1], 2);
+            auto dist2 = pow(rhs[0], 2) + pow(rhs[1], 2);
+            return dist1 < dist2;
+        }
+    };
+};
+```
