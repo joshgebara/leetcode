@@ -8214,3 +8214,28 @@ private:
     }
 };
 ```
+
+## 806. Number of Lines To Write String
+```cpp
+class Solution {
+public:
+    vector<int> numberOfLines(vector<int>& widths, string s) {
+        int totalLines = 1;
+        int currLineWidth = 0;
+
+        for (int i = 0; i < s.size(); i++) {
+            int charWidth = widths[s[i] - 'a'];
+
+            if (currLineWidth + charWidth > 100) {
+                totalLines++;
+                currLineWidth = charWidth;
+                continue;
+            }
+
+            currLineWidth += charWidth;
+        }
+
+        return {totalLines, currLineWidth};
+    }
+};
+```
