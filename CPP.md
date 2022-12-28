@@ -8070,3 +8070,39 @@ public:
     }
 };
 ```
+
+### Expand From Middle
+```cpp
+// Time: O(n^2), Space: O(1)
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int count = 0;
+
+        // Odd length palindromes
+        for (int mid = 0; mid < s.size(); mid++) {
+            count += countPalindromes(s, mid, mid);
+        }
+
+        // Even length palindromes
+        for (int mid = 0; mid < s.size() - 1; mid++) {
+            count += countPalindromes(s, mid, mid + 1);
+        }
+
+        return count;
+    }
+
+private:
+    int countPalindromes(string& s, int left, int right) {
+        int count = 0;
+
+        while (left >= 0 && right < s.size() && s[left] == s[right]) {
+            count++;
+            left--;
+            right++;
+        }
+
+        return count;
+    }
+};
+```
