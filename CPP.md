@@ -8106,3 +8106,74 @@ private:
     }
 };
 ```
+
+## 669. Trim a Binary Search Tree
+```cpp
+// Time: O(n), Space: O(h)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        if (!root) {
+            return nullptr;
+        }
+        
+        if (root->val < low) {
+            return trimBST(root->right, low, high);
+        }
+
+        if (root->val > high) {
+            return trimBST(root->left, low, high);
+        }
+
+        root->left = trimBST(root->left, low, high);
+        root->right = trimBST(root->right, low, high);
+        return root;
+    }
+};
+```
+
+## 77. Combinations
+### Recursive
+```cpp
+// Time: O(n!/(n!-k!)k! * k), Space: O(n!/(n!-k!)k! * k)
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> result;
+        vector<int> curr;
+        _combine(result, curr, n, k, 1);
+        return result;
+    }
+
+private:
+    void _combine(vector<vector<int>>& result, vector<int>& curr, int n, int k, int num) {
+        if (curr.size() == k) {
+            result.push_back(curr);
+            return;
+        }
+
+        if (curr.size() > k || num > n) {
+            return;
+        }
+        
+        // take
+        curr.push_back(num);
+        _combine(result, curr, n, k, num + 1);
+        curr.pop_back();
+
+        // don't take
+        _combine(result, curr, n, k, num + 1);
+    }
+};
+```
