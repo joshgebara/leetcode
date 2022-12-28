@@ -8251,3 +8251,30 @@ public:
     }
 };
 ```
+
+## 1318. Minimum Flips to Make a OR b Equal to c
+```cpp
+// Time: O(1), Space: O(1)
+class Solution {
+public:
+    int minFlips(int a, int b, int c) {
+        int count = 0;
+        for (int i = 0; i < 32; i++) {
+            int mask = 1 << i;
+            // if bit set
+            if (c & mask) {
+                // if both bit in a and b is 0 then need to flip one
+                count += ((a & mask) == 0) && ((b & mask) == 0);
+            }
+            // if bit not set
+            else {
+                // flip a and b to zero if either is one
+                count += ((a & mask) != 0);
+                count += ((b & mask) != 0);
+            }
+        }
+
+        return count;
+    }
+};
+```
