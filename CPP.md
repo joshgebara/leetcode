@@ -8242,6 +8242,7 @@ public:
 
 ## 575. Distribute Candies
 ```cpp
+// Time: O(n), Space: O(n)
 class Solution {
 public:
     int distributeCandies(vector<int>& candyType) {
