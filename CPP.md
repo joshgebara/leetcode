@@ -8177,3 +8177,40 @@ private:
     }
 };
 ```
+
+## Iterative
+```cpp
+// Time: O(2^n) * k, Space: O(n!/(n!-k!)k! * k)
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> result;
+        int upperBound = 1 << n;
+        for (int mask = 0; mask < upperBound; mask++) {
+            if (k == getCountOnes(mask)) {
+                vector<int> combo = getCombo(mask, n);
+                result.push_back(combo);
+            }
+        }
+
+        return result;
+    }
+
+private:
+    int getCountOnes(int bin) {
+        return __builtin_popcount(bin);
+    }
+
+    vector<int> getCombo(int bin, int n) {
+        vector<int> combo;
+
+        for (int shift = 0; shift < n; shift++) {
+            if (bin & (1 << shift)) {
+                combo.push_back(shift + 1);
+            }
+        }
+
+        return combo;
+    }
+};
+```
