@@ -8278,3 +8278,53 @@ public:
     }
 };
 ```
+
+## 884. Uncommon Words from Two Sentences
+```cpp
+// Time: O(s1 + s2), Space: O(s1 + s2);
+class Solution {
+public:
+    vector<string> uncommonFromSentences(string s1, string s2) {
+        unordered_map<string, int> sMap;
+
+        vector<string> s1Words { getWords(s1) };
+        for (const string& word: s1Words) {
+            sMap[word]++;
+        }
+
+        vector<string> s2Words { getWords(s2) };
+        for (const string& word: s2Words) {
+            sMap[word]++;
+        }
+
+        vector<string> result;
+
+        for (const auto [key, value] : sMap) {
+            if (value == 1) {
+                result.push_back(key);
+            }
+        }
+
+        return result;
+    }
+
+private:
+    vector<string> getWords(const string& s) {
+        vector<string> result;
+        
+        string word;
+        for (const char c : s) {
+            if (c == ' ') {
+                result.push_back(word);
+                word = "";
+            } else {
+                word.push_back(c);
+            }
+        }
+
+        result.push_back(word);
+
+        return result;
+    }
+};
+```
