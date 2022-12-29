@@ -8666,3 +8666,30 @@ public:
     }
 };
 ```
+
+## 1582. Special Positions in a Binary Matrix
+```cpp
+class Solution {
+public:
+    int numSpecial(vector<vector<int>>& mat) {
+        vector<int> rowCounts(mat.size(), 0);
+        vector<int> colCounts(mat[0].size(), 0);
+
+        for (int row = 0; row < mat.size(); row++) {
+            for (int col = 0; col < mat[0].size(); col++) {
+                rowCounts[row] += mat[row][col];
+                colCounts[col] += mat[row][col];
+            }
+        }
+
+        int count = 0;
+        for (int row = 0; row < mat.size(); row++) {
+            for (int col = 0; col < mat[0].size(); col++) {
+                count += mat[row][col] && rowCounts[row] == 1 && colCounts[col] == 1;
+            }
+        }
+
+        return count;
+    }
+};
+```
