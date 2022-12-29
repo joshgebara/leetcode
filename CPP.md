@@ -8496,3 +8496,59 @@ public:
     }
 };
 ```
+
+### Quick Select
+```cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        quickSelect(nums.begin(), nums.begin() + k - 1, nums.end(), greater<int>());
+        return nums[k - 1];
+    }
+
+private:
+    template <class RandIt, class Compare>
+    void quickSelect(RandIt left, RandIt k, RandIt right, Compare cmp) {
+        right = right - 1;
+
+        while (left < right) {
+            // random index
+            static random_device rd;
+            static mt19937 gen(rd());
+            uniform_int_distribution<> dist(0, distance(left, right) - 1);
+
+            // swap with right
+            const auto randomIndex = left + dist(gen);
+            iter_swap(randomIndex, right - 1);
+
+            // lomuto partition
+            RandIt partitionIndex { partition(left, right, cmp) };
+
+            if (partitionIndex == k) {
+                return;
+            }
+
+            if (partitionIndex < k) {
+                left = partitionIndex + 1;
+            } else {
+                right = partitionIndex - 1;
+            }
+        }
+    }
+
+    template <class RandIt, class Compare>
+    RandIt partition(RandIt left, RandIt right, Compare cmp) {
+        RandIt partitionIndex = left - 1;
+        for (auto it { left }; it < right; it++) {
+            if (cmp(*it, *right)) {
+                partitionIndex++;
+                iter_swap(partitionIndex, it);
+            }
+        }
+
+        partitionIndex++;
+        iter_swap(partitionIndex, right);
+        return partitionIndex;
+    }
+};
+```
