@@ -8607,3 +8607,41 @@ private:
  * bool param_3 = obj->withdraw(account,money);
  */
 ```
+
+## 1249. Minimum Remove to Make Valid Parentheses
+```cpp
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        string result;
+
+        vector<int> include(s.size(), false);
+        vector<int> stack;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '(') {
+                stack.push_back(i);
+            }
+            else if (s[i] == ')') {
+                if (!stack.empty()) {
+                    int index = stack.back();
+                    stack.pop_back();
+
+                    include[index] = true;
+                    include[i] = true;
+                }
+            }
+            else {
+                include[i] = true;
+            }
+        }
+
+        for (int i = 0; i < include.size(); i++) {
+            if (include[i]) {
+                result.push_back(s[i]);
+            }
+        }
+
+        return result;
+    }
+};
+```
