@@ -8478,6 +8478,7 @@ public:
 
 ### Min Heap
 ```cpp
+// Time: O(n log k), Space: O(k)
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
