@@ -8389,3 +8389,59 @@ private:
     };
 };
 ```
+
+### Quick Select
+```cpp
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        quickSelect(points, k);
+        return vector(points.begin(), points.begin() + k);
+    }
+
+private:
+    void quickSelect(vector<vector<int>>& points, int k) {
+        int left = 0;
+        int right = points.size() - 1;
+
+        while (left < right) {
+            // get random index
+            random_device rd;
+            mt19937 gen(rd());
+            uniform_int_distribution<> distrib(left, right);
+
+            // swap with right
+            swap(points[distrib(gen)], points[right]);
+
+            // lomuto partition
+            int partitionIndex = partition(points, left, right);
+            if (partitionIndex == k) {
+                return;
+            }
+
+            if (partitionIndex < k) {
+                left = partitionIndex + 1;
+            } else {
+                right = partitionIndex - 1;
+            }
+        }
+    }
+
+    int partition(vector<vector<int>>& points, int left, int right) {
+        int partitionIndex = left - 1;
+        int partitionDist = pow(points[right][0], 2) + pow(points[right][1], 2);
+
+        for (int i = left; i < right; i++) {
+            int currDist = pow(points[i][0], 2) + pow(points[i][1], 2);
+            if (currDist <= partitionDist) {
+                partitionIndex++;
+                swap(points[i], points[partitionIndex]);
+            }
+        }
+
+        partitionIndex++;
+        swap(points[right], points[partitionIndex]);
+        return partitionIndex;
+    }
+};
+```
