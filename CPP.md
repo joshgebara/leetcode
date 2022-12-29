@@ -8552,3 +8552,58 @@ private:
     }
 };
 ```
+
+## 2043. Simple Bank System
+```cpp
+class Bank {
+public:
+    Bank(vector<long long>& balance) {
+        swap(balance, _accounts);
+    }
+    
+    bool transfer(int account1, int account2, long long money) {
+        if (!validAccount(account2)) {
+            return false;
+        }
+        
+        return withdraw(account1, money) && deposit(account2, money);
+    }
+    
+    bool deposit(int account, long long money) {
+        if (!validAccount(account)) {
+            return false;
+        }
+
+        _accounts[account - 1] += money;
+        return true;        
+    }
+    
+    bool withdraw(int account, long long money) {
+        if (!validAccount(account) || !sufficientFunds(account, money)) {
+            return false;
+        }
+
+        _accounts[account - 1] -= money;
+        return true;
+    }
+
+private:
+    vector<long long> _accounts;
+
+    inline bool validAccount(int account) {
+        return 0 <= account - 1 && account - 1 < _accounts.size();
+    }
+
+    inline bool sufficientFunds(int account, long long money) {
+        return _accounts[account - 1] >= money;
+    }
+};
+
+/**
+ * Your Bank object will be instantiated and called as such:
+ * Bank* obj = new Bank(balance);
+ * bool param_1 = obj->transfer(account1,account2,money);
+ * bool param_2 = obj->deposit(account,money);
+ * bool param_3 = obj->withdraw(account,money);
+ */
+```
