@@ -8718,3 +8718,35 @@ private:
     vector<int> powersOf3;
 };
 ```
+
+## 1414. Find the Minimum Number of Fibonacci Numbers Whose Sum Is K
+```cpp
+class Solution {
+public:
+    int findMinFibonacciNumbers(int k) {
+        vector<int> fibs {1, 1};
+        
+        // pre-comute 
+        while (true) {
+            const int next = fibs[fibs.size() - 1] + fibs[fibs.size() - 2];
+            if (next > k) {
+                break;
+            }
+
+            fibs.push_back(next);
+        }
+        
+        // Zeckendorf's theorem
+        int curr = k;
+        int count = 0;
+        for (int i = fibs.size() - 1; i >= 0 && curr >= 0; i--) {
+            while (curr - fibs[i] >= 0) {
+                curr -= fibs[i];
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+```
