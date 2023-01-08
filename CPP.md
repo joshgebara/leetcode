@@ -8693,3 +8693,28 @@ public:
     }
 };
 ```
+
+## 1780. Check if Number is a Sum of Powers of Three
+```cpp
+class Solution {
+public:
+    bool checkPowersOfThree(int n) {
+        for (int power = 0; pow(3, power) <= n; power++) {
+            powersOf3.push_back(pow(3, power));
+        }
+        
+
+        int curr = n;
+        for (int i = powersOf3.size() - 1; i >= 0 && curr > 0; i--) {
+            if (curr - powersOf3[i] >= 0) {
+                curr -= powersOf3[i];
+            }
+        }
+
+        return curr == 0;
+    }
+
+private:
+    vector<int> powersOf3;
+};
+```
