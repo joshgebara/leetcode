@@ -60577,7 +60577,7 @@ const convertToPostfix = infix => {
         }
     }
     
-    // Add final of expression
+    // Add final num of expression
     if (num !== null) postfix.push(num)
     num = null
     

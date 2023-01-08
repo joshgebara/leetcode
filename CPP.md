@@ -8750,3 +8750,24 @@ public:
     }
 };
 ```
+
+## 2138. Divide a String Into Groups of Size k
+```cpp
+class Solution {
+public:
+    vector<string> divideString(string s, int k, char fill) {
+        vector<string> result;
+        
+        for (int start = 0; start < s.size(); start += k) {
+            string group = s.substr(start, k);
+            if (group.size() < k) {
+                group += string(k - group.size(), fill);
+            }
+
+            result.push_back(group);
+        }
+
+        return result;   
+    }
+};
+```
