@@ -8775,9 +8775,45 @@ public:
 ## 872. Leaf-Similar Trees
 ### DFS
 ```cpp
-// Time: O(n + m), Space: O(h)
+// Time: O(n + m), Space: O(n + m)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        vector<int> leaves1 = getLeaves(root1);
+        vector<int> leaves2 = getLeaves(root2);
+        return leaves1 == leaves2;
+    }
 
+private:
+    vector<int> getLeaves(TreeNode* root) {
+        vector<int> leaves;
+        traverse(root, leaves);
+        return leaves;
+    }
 
+    void traverse(TreeNode* root, vector<int>& leaves) {
+        if (!root) return;
+
+        if (!root->left && !root->right) {
+            leaves.push_back(root->val);
+            return;
+        }
+
+        traverse(root->left, leaves);
+        traverse(root->right, leaves);
+    }
+};
 ```
 
 ## 997. Find the Town Judge
