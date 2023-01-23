@@ -8803,3 +8803,37 @@ public:
     }
 };
 ```
+
+## 901. Online Stock Span
+```cpp
+class StockSpanner {
+public:
+    StockSpanner() {
+    }
+    
+    int next(int price) {
+        while (stack.size() && stack.back().second <= price) {
+            stack.pop_back();
+        }
+
+        day++;
+        int span = day;
+        if (stack.size()) {
+            span = day - stack.back().first;
+        }
+
+        stack.push_back({day, price});
+        return span;
+    }
+
+private:
+    vector<pair<int, int>> stack;
+    int day = 0;
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
+```
