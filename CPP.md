@@ -8894,3 +8894,29 @@ public:
     }
 };
 ```
+
+## 191. Number of 1 Bits
+### Popcount
+```cpp
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        return __builtin_popcount(n);
+    }
+};
+```
+
+### Bit Manipulation
+```cpp
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int count = 0;
+        while (n) {
+            n &= (n - 1);
+            count++;
+        }
+        return count;
+    }
+};
+```
