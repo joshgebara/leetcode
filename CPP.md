@@ -8969,3 +8969,67 @@ private:
     }
 };
 ```
+
+## 1192. Critical Connections in a Network
+```cpp
+/*
+Time: V+E
+Space: V
+*/
+class Solution {
+private:
+    void findBridges(int vertex, vector<vector<int>>& result, vector<vector<int>>& graph, vector<int>& parent, vector<int>& id, vector<int>& lowlink, int& time)
+    {
+        id[vertex] = time;
+        lowlink[vertex] = time;
+        ++time;
+
+        for (const auto neighbor : graph[vertex])
+        {
+            if (parent[vertex] == neighbor) continue;
+
+            // if neighbor hasn't been visited
+            if (id[neighbor] == -1)
+            {
+                parent[neighbor] = vertex;
+                findBridges(neighbor, result, graph, parent, id, lowlink, time);
+                lowlink[vertex] = std::min(lowlink[vertex], lowlink[neighbor]);
+                
+                // check if bridge
+                if (id[vertex] < lowlink[neighbor])
+                {
+                    result.push_back({vertex, neighbor});    
+                }
+            }
+            else
+            {
+                lowlink[vertex] = std::min(lowlink[vertex], id[neighbor]);
+            }
+        }
+    }
+
+public:
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        // Create graph
+        vector<vector<int>> graph;
+        graph.resize(n);
+
+        for (const auto connection : connections)
+        {
+            graph[connection[0]].push_back(connection[1]);
+            graph[connection[1]].push_back(connection[0]);
+        }
+
+        // Tarjan's SCC
+        vector<vector<int>> result;
+        vector<int> parent(n, -1);
+        vector<int> id(n, -1);
+        vector<int> lowlink(n, -1);
+        int time = 0;
+        
+        findBridges(0, result, graph, parent, id, lowlink, time);
+
+        return result;    
+    }
+};
+```
