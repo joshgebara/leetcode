@@ -9033,3 +9033,141 @@ public:
     }
 };
 ```
+
+## 1568. Minimum Number of Days to Disconnect Island
+```cpp
+class Solution {
+private:
+    bool tarjan(vector<vector<int>>& graph, int vertex, vector<int>& lowlink, vector<int>& id, vector<int>& parent, int& time, int& points)
+    {
+        id[vertex] = time;
+        lowlink[vertex] = time;
+        ++time;
+
+        int childCount = 0;
+
+        for (const auto neighbor : graph[vertex])
+        {
+            if (parent[vertex] == neighbor) continue;
+
+            if (id[neighbor] == -1)
+            {
+                parent[neighbor] = vertex;
+                ++childCount;
+                tarjan(graph, neighbor, lowlink, id, parent, time, points);
+                lowlink[vertex] = min(lowlink[vertex], lowlink[neighbor]);
+
+                // child count if root
+                if (parent[vertex] == -1 && childCount > 1)
+                {
+                    ++points;
+                } 
+                
+                if (parent[vertex] != -1 && id[vertex] <= lowlink[neighbor])
+                {
+                    ++points;
+                }
+            }
+            else
+            {
+                lowlink[vertex] = min(lowlink[vertex], id[neighbor]);
+            }
+        }
+
+        return false;
+    }
+
+    int findArticulationPoints(vector<vector<int>>& graph)
+    {
+        int size = graph.size();
+        vector<int> lowlinks(size, -1);
+        vector<int> ids(size, -1);
+        vector<int> parents(size, -1);
+        int time = 0;
+        int points = 0;
+        int components = 0;
+
+        for (auto vertex = 0; vertex < graph.size(); ++vertex)
+        {
+            if (ids[vertex] == -1)
+            {
+                ++components;
+                tarjan(graph, vertex, lowlinks, ids, parents, time, points);
+            }
+                
+        }
+
+        if (components != 1) return 0;
+        if (points > 0) return 1;
+        return 2;
+    }
+
+    vector<vector<int>> buildGraph(vector<vector<int>>& grid)
+    {
+        const auto m = grid.size();
+        const auto n = grid[0].size();
+
+        int numOfOnes = 0;
+        for (auto row = 0; row < m; ++row)
+        {
+            for (auto col = 0; col < n; ++col)
+            {
+                numOfOnes += grid[row][col];
+            }
+        }
+
+        vector<vector<int>> graph;
+        graph.resize(numOfOnes);
+
+        unordered_map<int, int> vertexIds;
+        int id = 0;
+
+        const array<pair<int, int>, 4> dirs {{{1, 0}, {0, 1}}};
+        for (auto row = 0; row < m; ++row)
+        {
+            for (auto col = 0; col < n; ++col)
+            {
+                if (grid[row][col] == 0) continue;
+
+                for (const auto [deltaRow, deltaCol] : dirs) {
+                    const auto nextRow = row + deltaRow;
+                    const auto nextCol = col + deltaCol;
+
+                    if (nextRow < 0 || nextRow >= m || nextCol < 0 || 
+                        nextCol >= n || grid[nextRow][nextCol] == 0) continue;
+
+                    int v = row * n + col;
+                    int u = nextRow * n + nextCol;
+
+                    if (!vertexIds.count(v))
+                    {
+                        vertexIds[v] = id;
+                        ++id;
+                    }
+
+                    if (!vertexIds.count(u))
+                    {
+                        vertexIds[u] = id;
+                        ++id;
+                    }
+
+                    graph[vertexIds[v]].push_back(vertexIds[u]);
+                    graph[vertexIds[u]].push_back(vertexIds[v]);
+                }
+            }
+        }
+
+        return graph;
+    }
+    
+public:
+    int minDays(vector<vector<int>>& grid) {
+        if (grid.empty() || grid[0].empty()) return 0;
+
+        auto graph = buildGraph(grid);
+        if (graph.size() <= 1) return graph.size();
+
+        return findArticulationPoints(graph);
+    }
+};
+```
