@@ -9175,3 +9175,159 @@ public:
     }
 };
 ```
+
+## 1489. Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree
+```cpp
+/*
+Time: O(E^2)
+Space: O(E)
+*/
+
+class UnionFind
+{
+private:
+    vector<int> m_parents;
+    vector<int> m_sizes;
+    int m_numOfComponents;
+
+    int find(int a)
+    {
+        auto root = a;
+        while (root != m_parents[root])
+        {
+            root = m_parents[root];
+        }
+        
+        while (a != root)
+        {
+            auto next = m_parents[a];
+            m_parents[a] = root;
+            a = next;
+        }
+
+        return root;
+    }
+
+public:
+    UnionFind(int n) : m_parents(n), m_sizes(n), m_numOfComponents(n) {
+        iota(m_parents.begin(), m_parents.end(), 0);
+        fill(m_sizes.begin(), m_sizes.end(), 1);
+    }
+
+    bool join(int a, int b)
+    {
+        const auto parentA = find(a);
+        const auto parentB = find(b);
+
+        if (parentA == parentB) return false;
+
+        if (m_sizes[parentA] < m_sizes[parentB])
+        {
+            m_sizes[parentB] += m_sizes[parentA];
+            m_parents[parentA] = parentB;
+        }
+        else
+        {
+            m_sizes[parentA] += m_sizes[parentB];
+            m_parents[parentB] = parentA;
+        }
+
+        --m_numOfComponents;
+        return true;
+    }
+
+    int numOfComponents()
+    {
+        return m_numOfComponents;
+    }
+};
+
+class Solution {
+private:
+    int kruskals(int n, int skipIndex, int includeIndex, vector<vector<int>>& edges, vector<int>& sortedEdgeIndices)
+    {
+        int mstValue = 0;
+        UnionFind unionFind(n);
+
+        if (includeIndex != -1)
+        {
+            const auto edge = edges[includeIndex];
+            unionFind.join(edge[0], edge[1]);
+            mstValue += edge[2];
+        }
+
+        for (const auto index : sortedEdgeIndices)
+        {
+            if (index == skipIndex) continue;
+
+            const auto edge = edges[index];
+            if (!unionFind.join(edge[0], edge[1]))
+            {
+                continue;
+            }
+
+            mstValue += edge[2];
+        }
+        
+        if (unionFind.numOfComponents() == 1)
+        {
+            return mstValue;
+        }
+
+        // if mst doesn't connect all nodes than invalid
+        return std::numeric_limits<int>::max();
+    }
+
+    vector<int> sortEdgesByWeight(vector<vector<int>>& edges)
+    {
+        vector<vector<int>> weightBuckets;
+        weightBuckets.resize(1001);
+
+        for (auto i = 0; i < edges.size(); ++i)
+        {
+            const auto weight = edges[i][2];
+            weightBuckets[weight].push_back(i);
+        }
+
+        vector<int> sortedEdgeIndices;
+        for (auto weight = 0; weight < weightBuckets.size(); ++weight)
+        {
+            for (auto index = 0; index < weightBuckets[weight].size(); ++index)
+            {
+                sortedEdgeIndices.push_back(weightBuckets[weight][index]);
+            }
+        }
+
+        return sortedEdgeIndices;
+    }
+
+public:
+    vector<vector<int>> findCriticalAndPseudoCriticalEdges(int n, vector<vector<int>>& edges) {
+        vector<int> criticalEdgeIndices;
+        vector<int> pseudoCriticalEdgeIndices;
+
+        vector<int> sortedEdgeIndices = sortEdgesByWeight(edges);
+
+        const auto mstValue = kruskals(n, -1, -1, edges, sortedEdgeIndices);
+        for (auto index = 0; index < edges.size(); index++)
+        {
+            // exclude
+            auto currMstValue_exclude = kruskals(n, index, -1, edges, sortedEdgeIndices);
+            if (currMstValue_exclude > mstValue)
+            {
+                criticalEdgeIndices.push_back(index);
+                continue;
+            }
+
+            // include
+            const auto currMstValue_include = kruskals(n, -1, index, edges, sortedEdgeIndices);
+            if (currMstValue_include == mstValue)
+            {
+                pseudoCriticalEdgeIndices.push_back(index);
+            }
+        }
+        
+        return {criticalEdgeIndices, pseudoCriticalEdgeIndices};
+    }
+};
+```
