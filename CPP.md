@@ -9038,7 +9038,7 @@ public:
 ```cpp
 class Solution {
 private:
-    bool tarjan(vector<vector<int>>& graph, int vertex, vector<int>& lowlink, vector<int>& id, vector<int>& parent, int& time, int& points)
+    void tarjan(vector<vector<int>>& graph, int vertex, vector<int>& lowlink, vector<int>& id, vector<int>& parent, int& time, vector<bool>& points)
     {
         id[vertex] = time;
         lowlink[vertex] = time;
@@ -9060,12 +9060,12 @@ private:
                 // child count if root
                 if (parent[vertex] == -1 && childCount > 1)
                 {
-                    ++points;
+                    points[vertex] = true;
                 } 
                 
                 if (parent[vertex] != -1 && id[vertex] <= lowlink[neighbor])
                 {
-                    ++points;
+                    points[vertex] = true;
                 }
             }
             else
@@ -9073,8 +9073,6 @@ private:
                 lowlink[vertex] = min(lowlink[vertex], id[neighbor]);
             }
         }
-
-        return false;
     }
 
     int findArticulationPoints(vector<vector<int>>& graph)
@@ -9083,10 +9081,10 @@ private:
         vector<int> lowlinks(size, -1);
         vector<int> ids(size, -1);
         vector<int> parents(size, -1);
+        vector<bool> points(size, false);
         int time = 0;
-        int points = 0;
-        int components = 0;
 
+        int components = 0;
         for (auto vertex = 0; vertex < graph.size(); ++vertex)
         {
             if (ids[vertex] == -1)
@@ -9097,8 +9095,14 @@ private:
                 
         }
 
+        int numOfArticulationPoints = 0;
+        for (const auto p : points)
+        {
+            numOfArticulationPoints += p;
+        }
+
         if (components != 1) return 0;
-        if (points > 0) return 1;
+        if (numOfArticulationPoints > 0) return 1;
         return 2;
     }
 
