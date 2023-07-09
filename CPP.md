@@ -9407,3 +9407,43 @@ private:
     }
 };
 ```
+
+## 332. Reconstruct Itinerary
+```cpp
+class Solution {
+    using Graph = std::unordered_map<std::string, std::priority_queue<std::string, vector<std::string>, std::greater<std::string>>>;
+
+private:
+    void hierholzer(std::vector<std::string>& result, Graph& adjList, const std::string& node)
+    {
+        // loop through children
+        while (adjList[node].size())
+        {
+            const auto child = adjList[node].top();
+            adjList[node].pop();
+
+            hierholzer(result, adjList, child);
+        }
+
+        result.push_back(node);
+    }
+
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        Graph adjList;
+
+        for (const auto ticket : tickets)
+        {
+            const auto from = ticket[0];
+            const auto to = ticket[1];
+            adjList[from].push(to);
+        }
+
+        std::vector<std::string> stack;
+        std::vector<std::string> result;
+        hierholzer(result, adjList, "JFK");
+        std::reverse(result.begin(), result.end());
+        return result;
+    }
+};
+```
