@@ -9331,3 +9331,79 @@ public:
     }
 };
 ```
+
+## 2097. Valid Arrangement of Pairs
+```cpp
+// Time: O(E)
+// Space: O(E)
+class Solution {
+public:
+    vector<vector<int>> validArrangement(vector<vector<int>>& pairs) {
+        // build graph
+        unordered_map<int, vector<int>> graph;
+
+        // in and out degrees
+        unordered_map<int, int> degrees;
+        for (const auto& pair : pairs)
+        {
+            const auto from = pair[0];
+            const auto to = pair[1];
+            graph[from].push_back(to);
+
+            // outdegree
+            ++degrees[from];
+            // indegree
+            --degrees[to];
+        }
+
+        // if all nodes have even in and out then start anywhere
+        // if degree == 1 (1 more out than in) that is start
+        int startNode = -1;
+        for (const auto [node, degree] : degrees)
+        {
+            if (startNode == -1 || degree == 1)
+            {
+                startNode = node;
+            }
+        }
+        
+        if (startNode == -1) return {};
+
+        vector<int> path;
+        // hierholzer's algo - find euler path
+        hierholzer(path, graph, startNode);
+
+        // construct pairs from euler path
+        vector<vector<int>> result;
+        for (auto i = path.size() - 1; i > 0; --i)
+        {
+            int curr = path[i];
+            int next = path[i - 1];
+
+            result.push_back({curr, next});
+        }
+
+        return result;
+    }
+
+private:
+    void hierholzer(vector<int>& path, unordered_map<int, vector<int>>& graph, int node)
+    {
+        vector<int> stack = { node };
+        while (stack.size())
+        {
+            auto curr = stack.back();
+            while (graph[curr].size())
+            {
+                const auto child = graph[curr].back();
+                graph[curr].pop_back();
+                curr = child;
+                stack.push_back(curr);
+            }
+
+            stack.pop_back();
+            path.push_back(curr);
+        }
+    }
+};
+```
