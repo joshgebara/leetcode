@@ -9447,3 +9447,52 @@ public:
     }
 };
 ```
+
+## 382. Linked List Random Node
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* _head;
+    random_device _rd;
+    mt19937 _gen;
+public:
+    Solution(ListNode* head) : _head(head) {
+        _gen = mt19937{ _rd() };
+    }
+    
+    int getRandom() {
+        auto randomVal = -1;
+        auto k = 0;
+        auto curr = _head;
+        while (curr)
+        {
+            uniform_int_distribution dist(0, k);
+            if (dist(_gen) == 0)
+            {
+                randomVal = curr->val;
+            }
+
+            curr = curr->next;
+            ++k;
+        }
+
+        return randomVal;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(head);
+ * int param_1 = obj->getRandom();
+ */
+```
