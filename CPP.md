@@ -9496,3 +9496,42 @@ public:
  * int param_1 = obj->getRandom();
  */
 ```
+
+## 42. Trapping Rain Water
+### DP
+```cpp
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        const auto n = height.size();
+
+        std::vector<int> rightMax;
+        rightMax.reserve(n);
+
+        // calc right
+        auto currRightMax = 0;
+        for (int i = n - 1; i >= 0; --i)
+        {
+            rightMax[i] = currRightMax;
+            currRightMax = std::max(currRightMax, height[i]);
+        }
+
+        auto currLeftMax = 0;
+        auto trappedWater = 0;
+        for (int i = 0; i < n; ++i)
+        {
+            const auto boundHeight = std::min(currLeftMax, rightMax[i]);
+            const auto water = boundHeight - height[i];
+
+            if (water > 0)
+            {
+                trappedWater += water;
+            }
+
+            currLeftMax = std::max(currLeftMax, height[i]);
+        }
+
+        return trappedWater;
+    }
+};
+```
