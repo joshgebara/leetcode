@@ -9535,3 +9535,38 @@ public:
     }
 };
 ```
+
+### Two Pointer
+```cpp
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int trappedWater = 0;
+
+        int leftMax = 0;
+        int rightMax = 0;
+
+        int left = 0;
+        int right = height.size() - 1;
+
+        while (left < right)
+        {
+            leftMax = std::max(leftMax, height[left]);
+            rightMax = std::max(rightMax, height[right]);
+
+            if (leftMax <= rightMax)
+            {
+                trappedWater += leftMax - height[left];
+                ++left;
+            }
+            else
+            {
+                trappedWater += rightMax - height[right];
+                --right;
+            }
+        }
+
+        return trappedWater;
+    }
+};
+```
