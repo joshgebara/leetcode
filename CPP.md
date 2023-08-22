@@ -9570,3 +9570,28 @@ public:
     }
 };
 ```
+
+## 2275. Largest Combination With Bitwise AND Greater Than Zero
+```cpp
+class Solution {
+public:
+    int largestCombination(vector<int>& candidates) {
+      int max = 0;
+      for (auto position = 0; position < 32; ++position)
+      {
+        auto positionMask = 1 << position;
+        auto numsWithOneAtPosition = 0;
+        for (const auto candidate : candidates)
+        {
+          if (candidate & positionMask)
+          {
+            ++numsWithOneAtPosition;
+          }
+        }
+
+        max = std::max(max, numsWithOneAtPosition);
+      }
+      return max;
+    }
+};
+```
