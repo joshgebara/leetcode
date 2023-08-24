@@ -753,6 +753,28 @@ public:
 ```cpp
 class Solution {
 public:
+    bool isAnagram(const string& s, const string& t) {
+        if (s.size() != t.size()) return false;
+
+        std::array<int, 26> counts{};
+        for (auto i = 0; i < s.size(); ++i) {
+            const auto indexS = s[i] - 'a';
+            const auto indexT = t[i] - 'a';
+            ++counts[indexS];
+            --counts[indexT];
+        }
+
+        return std::all_of(counts.begin(), counts.end(), [](int count) {
+            return count == 0;
+        });
+    }
+};
+```
+
+### Follow Up
+```cpp
+class Solution {
+public:
     bool isAnagram(string s, string t) {
         if (s.size() != t.size()) {
             return false;
