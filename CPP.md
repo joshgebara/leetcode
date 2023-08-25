@@ -389,22 +389,18 @@ class Solution {
 public:
     int majorityElement(vector<int>& nums) {
         int candidate = nums[0];
-        int count = 1;
+        int votes = 1;
         
-        for (auto index = 1; index < nums.size(); ++index) {
-            if (candidate == nums[index]) {
-                ++count;
-                continue;
-            }
-            
-            --count;
-                
-            if (count == 0) {
-                candidate = nums[index];
-                count = 1;
+        for (auto i = 1; i < nums.size(); ++i)
+        {
+            candidate == nums[i] ? ++votes : --votes;
+
+            if (votes == 0) {
+                candidate = nums[i];
+                votes = 1;
             }
         }
-        
+
         return candidate;
     }
 };
