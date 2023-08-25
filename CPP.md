@@ -9782,3 +9782,36 @@ public:
     }
 };
 ```
+
+## 409. Longest Palindrome
+```cpp
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int length = 0;
+        unordered_map<char, int> counts;
+        for (const auto c : s) {
+            ++counts[c];
+        }
+
+        int oddSeen = false;
+        for (const auto [key, value] : counts)
+        {
+            if (value & 1) {
+                if (!oddSeen) {
+                    oddSeen = true;
+                    ++length;
+                }
+
+                length += value - 1;
+            }
+            else
+            {
+                length += value;
+            }
+        }
+
+        return length;
+    }
+};
+```
