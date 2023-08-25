@@ -9674,3 +9674,24 @@ public:
     }
 };
 ```
+
+## 70. Climbing Stairs
+```cpp
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n <= 0) return 0;
+        if (n == 1) return 1;
+
+        auto dp2 = 1;
+        auto dp1 = 2;       
+        for (auto step = 3; step <= n; ++step) {
+            auto dp = dp1 + dp2;
+            dp2 = dp1;
+            dp1 = dp;
+        }
+        
+        return dp1;
+    }
+};
+```
