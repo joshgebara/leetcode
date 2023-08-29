@@ -9882,3 +9882,40 @@ public:
     }
 };
 ```
+
+## 67. Add Binary
+```cpp
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        std::string output;
+
+        int aIndex = a.size() - 1;
+        int bIndex = b.size() - 1;
+        auto carry = 0;
+
+        while (carry || aIndex >= 0 || bIndex >= 0) {
+            auto aBit = 0;
+            if (aIndex >= 0) {
+                aBit = a[aIndex] - '0';
+            }
+
+            auto bBit = 0;
+            if (bIndex >= 0) {
+                bBit = b[bIndex] - '0';
+            }
+
+            const auto sum = aBit + bBit + carry;
+            char bit = (sum % 2) + '0';
+            output.push_back(bit);
+            carry = sum / 2;
+
+            --aIndex;
+            --bIndex;     
+        }
+        
+        std::reverse(std::begin(output), std::end(output));
+        return output;
+    }
+};
+```
