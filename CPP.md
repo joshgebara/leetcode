@@ -957,20 +957,19 @@ private:
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        unordered_map<char, int> map;
-        
-        for (char c : magazine) {
-            ++map[c];
+        std::array<int, 26> charCounts{};
+
+        for (const auto c : magazine) {
+            ++charCounts[c - 'a'];
         }
-        
-        for (char c : ransomNote) {
-            --map[c];
-            
-            if (map[c] < 0) {
+
+        for (const auto c : ransomNote) {
+            if (charCounts[c - 'a'] == 0) {
                 return false;
             }
+            --charCounts[c - 'a'];
         }
-        
+
         return true;
     }
 };
