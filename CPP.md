@@ -10018,3 +10018,28 @@ public:
     }
 };
 ```
+
+## 238. Product of Array Except Self
+```cpp
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int> result(nums.size());
+        vector<int> rightProducts(std::begin(nums), std::end(nums));
+
+        for (int i = rightProducts.size() - 2; i >= 0; --i) {
+            rightProducts[i] *= rightProducts[i + 1];
+        }
+
+        int leftProduct = 1;
+        for (int i = 0; i < nums.size(); ++i) {
+            const auto right = i + 1 >= nums.size() ? 1 : rightProducts[i + 1];
+            const auto product = leftProduct * right;
+            leftProduct *= nums[i];
+            result[i] = product;
+        }
+
+        return result;
+    }
+};
+```
