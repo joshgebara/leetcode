@@ -10042,3 +10042,23 @@ public:
     }
 };
 ```
+
+## 2574. Left and Right Sum Differences
+```cpp
+class Solution {
+public:
+    vector<int> leftRightDifference(vector<int>& nums) {
+        vector<int> result(nums.size());
+
+        int currLeftSum = 0;
+        int currRightSum = std::accumulate(nums.begin(), nums.end(), 0);
+        for (int i = 0; i < nums.size(); ++i) {
+            currRightSum -= nums[i];
+            result[i] = std::abs(currLeftSum - currRightSum);
+            currLeftSum += nums[i];
+        }
+
+        return result;
+    }
+};
+```
