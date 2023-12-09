@@ -3858,15 +3858,10 @@ public:
 class Solution {
 public:
     int pivotInteger(int n) {
-        // Guass Formula
-        int totalSum = n * (n + 1) / 2;
-        
-        int pivotCandidate = sqrt(totalSum);
-        if (pivotCandidate * pivotCandidate == totalSum) {
-            return pivotCandidate;
-        }
-
-        return -1;
+        // gauss summation
+        const int totalSum = n * (n + 1) / 2;
+        const int square = std::sqrt(totalSum);
+        return square * square == totalSum ? square : -1;
     }
 };
 ```
