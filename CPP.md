@@ -4043,15 +4043,15 @@ public:
 class Solution {
 public:
     int largestAltitude(vector<int>& gain) {
-        int maxAltitude = 0;
+        int highestAltitude = 0;
         int altitude = 0;
-
-        for (const auto& g : gain) {
+        
+        for (const auto g : gain) {
             altitude += g;
-            maxAltitude = max(maxAltitude, altitude);
+            highestAltitude = std::max(highestAltitude, altitude);
         }
 
-        return maxAltitude;
+        return highestAltitude;
     }
 };
 ```
