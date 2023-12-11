@@ -876,18 +876,23 @@ private:
 ## 303. Range Sum Query - Immutable
 ```cpp
 class NumArray {
+private:
+    vector<int> prefixSums;
+
 public:
-    NumArray(vector<int>& nums) {
-        for (int num : nums) {
-            prefixSums.push_back(prefixSums.back() + num);
+    NumArray(vector<int>& nums) : prefixSums(nums.begin(), nums.end()) {
+        for (auto i = 1; i < prefixSums.size(); ++i) {
+            prefixSums[i] += prefixSums[i - 1];
         }
     }
     
     int sumRange(int left, int right) {
-        return prefixSums[right + 1] - prefixSums[left];
+        if (left == 0) {
+            return prefixSums[right];
+        }
+
+        return prefixSums[right] - prefixSums[left - 1];
     }
-private:
-    vector<int> prefixSums = {0};
 };
 
 /**
