@@ -10052,3 +10052,25 @@ public:
     }
 };
 ```
+
+## 724. Find Pivot Index
+```cpp
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) {
+        int rightSum = std::accumulate(nums.begin(), nums.end(), 0);
+        int leftSum = 0;
+        for (auto i = 0; i < nums.size(); ++i) {
+            rightSum -= nums[i];
+
+            if (leftSum == rightSum) {
+                return i;
+            }
+            
+            leftSum += nums[i];
+        }
+
+        return -1;
+    }
+};
+```
