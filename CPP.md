@@ -7180,13 +7180,13 @@ public:
 class Solution {
 public:
     int minStartValue(vector<int>& nums) {
-        int minValue = 0;
-        int cumulativeSum = 0;
+        int min = 0;
+        int sum = 0;
         for (const auto num : nums) {
-            cumulativeSum += num;
-            minValue = std::min(cumulativeSum, minValue);
+            sum += num;
+            min = std::min(sum, min);
         }
-        return std::abs(minValue) + 1;
+        return -min + 1;
     }
 };
 ```
