@@ -3450,22 +3450,21 @@ public:
 class Solution {
 public:
     int garbageCollection(vector<string>& garbage, vector<int>& travel) {
-        int minutes = 0;
-        int mask = 0;
-        for (int i = garbage.size() - 1; i >= 0; i--)
-        {
-            minutes += garbage[i].size();
+        auto minutes = 0;
+        auto mask = 0;
 
-            for (const auto& c : garbage[i])
-            {
-                if (c == 'M') mask |= 1;
-                if (c == 'P') mask |= (1 << 1);
-                if (c == 'G') mask |= (1 << 2);
+        for (int house = garbage.size() - 1; house >= 0; --house) {
+            minutes += garbage[house].size();
+
+            for (const auto type : garbage[house]) {
+                const auto bitPosition = type - 'A';
+                mask |= 1 << bitPosition;
             }
 
-            int trucks = __builtin_popcount(mask);
-            if (i - 1 >= 0)
-                minutes += trucks * travel[i - 1];
+            if (house == 0) continue;
+
+            const auto trucks = __builtin_popcount(mask);
+            minutes += travel[house - 1] * trucks;
         }
 
         return minutes;
