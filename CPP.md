@@ -10073,3 +10073,37 @@ public:
     }
 };
 ```
+
+## 2955. Number of Same-End Substrings
+```
+class Solution {
+public:
+    vector<int> sameEndSubstringCount(string s, vector<vector<int>>& queries) {
+        vector<int> result;
+
+        // countOfCharsPerIndex[i] = count of chars we've seen from 0...i
+        vector<vector<int>> countOfCharsPerIndex(s.size() + 1, vector<int>(26));
+
+        for (auto strIndex = 1; strIndex <= s.size(); ++strIndex) {
+            // Copy previous counts
+            countOfCharsPerIndex[strIndex] = countOfCharsPerIndex[strIndex - 1];
+            const auto charIndex = s[strIndex - 1] - 'a';
+            ++countOfCharsPerIndex[strIndex][charIndex];
+        }
+
+        for (const auto query : queries) {
+            const auto left = query[0];
+            const auto right = query[1];
+
+            int substrings = 0;
+            for (auto c = 0; c < 26; ++c) {
+                const auto count = countOfCharsPerIndex[right + 1][c] - countOfCharsPerIndex[left][c];
+                substrings += count * (count + 1) / 2;
+            }
+
+            result.push_back(substrings);
+        }
+        return result;
+    }
+};
+```
