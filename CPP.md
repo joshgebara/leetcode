@@ -902,6 +902,29 @@ public:
  */
 ```
 
+```cpp
+class NumArray {
+private:
+    std::vector<int> prefixSums;
+
+public:
+    NumArray(vector<int>& nums) {
+        prefixSums.resize(nums.size() + 1, 0);
+        std::partial_sum(nums.begin(), nums.end(), prefixSums.begin() + 1);
+    }
+    
+    int sumRange(int left, int right) {
+        return prefixSums[right + 1] - prefixSums[left];
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(left,right);
+ */
+```
+
 ## 219. Contains Duplicate II
 ```cpp
 class Solution {
