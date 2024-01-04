@@ -10173,3 +10173,36 @@ public:
     }
 };
 ```
+
+## 2559. Count Vowel Strings in Ranges
+```cpp
+class Solution {
+private:
+    const std::unordered_set<char> vowels = {'a', 'e', 'i', 'o', 'u'};
+    bool isVowelString(std::string str) {
+        return vowels.count(str.front()) != 0 && vowels.count(str.back()) != 0;
+    }
+
+public:
+    vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
+        std::vector<int> prefixSums(words.size() + 1, 0);
+        auto writeIndex = 1;
+        for (const auto word : words) {
+            prefixSums[writeIndex] = prefixSums[writeIndex - 1] + isVowelString(word);
+            ++writeIndex;
+        }
+
+        std::vector<int> result(queries.size(), 0);
+        writeIndex = 0;
+        for (const auto query : queries) {
+            const auto left = query[0];
+            const auto right = query[1];
+
+            result[writeIndex] = prefixSums[right + 1] - prefixSums[left];
+            ++writeIndex;
+        }
+
+        return result;
+    }
+};
+```
