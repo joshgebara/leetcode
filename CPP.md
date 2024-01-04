@@ -10140,3 +10140,36 @@ public:
     }
 };
 ```
+
+## 1371. Find the Longest Substring Containing Vowels in Even Counts
+```cpp
+class Solution {
+public:
+    int findTheLongestSubstring(string s) {
+        int maxLength = 0;
+
+        std::unordered_map<int, int> bitMaskMap = {{0, -1}};
+        int bitMask = 0;
+
+        const std::unordered_set<char> vowels = {'a', 'e', 'i', 'o', 'u'};
+        for (auto right = 0; right < s.size(); ++right) {
+            if (vowels.count(s[right]) != 0) {
+                const auto bitPosition = s[right] - 'a';
+                const auto shiftedBit = 1 << bitPosition;
+                bitMask ^= shiftedBit;
+            }
+
+            if (bitMaskMap.count(bitMask) == 0) {
+                bitMaskMap[bitMask] = right;
+                continue;
+            }
+
+            const auto left = bitMaskMap[bitMask];
+            const auto distance = right - left;
+            maxLength = std::max(distance, maxLength);
+        }
+
+        return maxLength;
+    }
+};
+```
